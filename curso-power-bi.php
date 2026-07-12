@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Curso Power BI — TECH SANTOS BR</title>
-<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 10 módulos, 29 videoaulas, laboratórios práticos e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
+<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 11 módulos, 29 videoaulas, laboratórios práticos guiados e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -52,7 +52,7 @@
       </div>
       <div class="kpi-row">
         <div class="kpi-tile"><div class="kpi-num">29</div><div class="kpi-label">videoaulas práticas, passo a passo</div></div>
-        <div class="kpi-tile"><div class="kpi-num">10</div><div class="kpi-label">módulos, da modelagem aos laboratórios práticos</div></div>
+        <div class="kpi-tile"><div class="kpi-num">11</div><div class="kpi-label">módulos, da modelagem aos laboratórios práticos</div></div>
         <div class="kpi-tile"><div class="kpi-num">1</div><div class="kpi-label">apostila própria + laboratórios guiados</div></div>
         <div class="kpi-tile"><div class="kpi-num">MS</div><div class="kpi-label">instrutor certificado pela Microsoft</div></div>
       </div>
@@ -117,6 +117,7 @@
         <div class="journey-step"><span class="n">08</span><span class="t">Relatórios</span></div>
         <div class="journey-step"><span class="n">09</span><span class="t">Análise Avançada & IA</span></div>
         <div class="journey-step"><span class="n">10</span><span class="t">Dashboards & Governança</span></div>
+        <div class="journey-step"><span class="n">11</span><span class="t">Labs · Modelagem & Publicação</span></div>
         <div class="journey-step final"><span class="n">🎓</span><span class="t">Avaliação Final & Certificado</span></div>
       </div>
     </div>
@@ -155,7 +156,7 @@
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Currículo completo</p>
-        <h2>10 módulos, currículo completo</h2>
+        <h2>11 módulos, currículo completo</h2>
         <p>Estrutura baseada no cronograma oficial do curso, do primeiro conceito de modelagem até os laboratórios práticos guiados. Os módulos 01, 03 e 04 são videoaulas práticas gravadas na tela; os demais são conteúdo em texto da apostila, com referências à documentação oficial da Microsoft — aplicado passo a passo nos Laboratórios 01A e 02A, com os mesmos arquivos de exercício usados nas aulas, direto no Power BI Desktop.</p>
       </div>
 
@@ -377,6 +378,25 @@
               <li>Atualização incremental</li>
               <li>Promover e certificar conjuntos de dados</li>
               <li>Dependências de conjunto de dados e formato de dataset grande</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="module">
+          <summary>
+            <div class="module-title"><span class="module-num">11</span><h3>Laboratórios Guiados — Modelagem, DAX e Publicação</h3></div>
+            <div class="module-meta"><span>5 laboratórios guiados</span>
+              <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </summary>
+          <div class="module-body">
+            <p class="module-desc">O laboratório final: um roteiro guiado que liga tudo o que foi visto no curso, do Power Query ao relatório publicado, passando por relacionamentos, medidas DAX e a conexão do Excel com o Power BI Desktop e com o serviço.</p>
+            <ul class="topic-list">
+              <li>Laboratório 04A — Power Query no Excel e o Modelo de Dados</li>
+              <li>Laboratório 04B — Importando consultas no Power BI Desktop</li>
+              <li>Laboratório 04C — Relacionamentos, medidas DAX e primeiro relatório visual</li>
+              <li>Laboratório 05A — Publicando no serviço Power BI e Analisando no Excel</li>
+              <li>Laboratório 05B — Tabela dinâmica conectada ao Power BI com minigráficos</li>
             </ul>
           </div>
         </details>

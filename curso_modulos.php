@@ -12,7 +12,8 @@ const MODULOS_POWER_BI = [
     'relatorios' => 'Módulo 08 · Criar e Enriquecer Relatórios',
     'analise-avancada' => 'Módulo 09 · Análise Avançada & Insights de IA',
     'dashboards-governanca' => 'Módulo 10 · Dashboards, Publicação & Governança',
-    'encerramento' => 'Avaliação final (Módulo 11 · Encerramento)',
+    'labs-modelagem-publicacao' => 'Módulo 11 · Laboratórios Guiados — Modelagem, DAX e Publicação',
+    'encerramento' => 'Avaliação final (Módulo 12 · Encerramento)',
 ];
 
 function modulo_anterior(string $moduloId): ?string

@@ -626,12 +626,70 @@ const COURSE = [
     ],
   },
   {
-    id: 'encerramento', title: 'Módulo 11 · Encerramento', kind: 'reading',
+    id: 'labs-modelagem-publicacao', title: 'Módulo 11 · Laboratórios Guiados — Modelagem, DAX e Publicação', kind: 'reading',
+    lessons: [
+      {
+        id: 'lab-04a', title: 'Laboratório 04A · Power Query no Excel e o Modelo de Dados',
+        steps: [
+          { h: 'Etapa 1 · Conectar dados no Excel', p: 'Abra uma pasta de trabalho em branco no Excel e use Dados → Obter Dados → De Arquivo para conectar a uma base de clientes (CSV) e a uma base de vendas (XLSX) — a experiência do Editor do Power Query dentro do Excel é praticamente idêntica à do Power BI Desktop que você já usou nos módulos anteriores.' },
+          { h: 'Etapa 2 · Renomear consultas com nomes claros', p: 'Assim que os dados forem carregados no Editor do Power Query, renomeie cada consulta para um substantivo claro (Clientes, Vendas) em vez de manter o nome padrão do arquivo — isso facilita identificar as tabelas mais tarde no Modelo de Dados do Excel.' },
+          { h: 'Etapa 3 · Criar uma coluna a partir de um exemplo', p: 'Na consulta de Clientes, use Adicionar Coluna → Coluna de Exemplo para extrair o primeiro nome a partir de uma coluna de contato completa: digite o resultado esperado na primeira linha e deixe o Power Query detectar o padrão nas demais.' },
+          { h: 'Etapa 4 · Transformar colunas em linhas', p: 'Na consulta de Vendas, use Usar a Primeira Linha como Cabeçalho seguido de Transformar Outras Colunas em Linhas para reorganizar colunas de período (uma por mês, por exemplo) no formato longo, renomeando as colunas resultantes para algo como Data e Valor.' },
+          { h: 'Etapa 5 · Limpar valores com Substituir', p: 'Use Substituir Valores para corrigir um formato de data inconsistente (por exemplo, trocar um hífen por uma barra) antes de alterar o tipo de dado da coluna para Data.' },
+          { h: 'Etapa 6 · Carregar no Modelo de Dados do Excel', p: 'Em Fechar e Carregar Para, escolha Apenas Criar Conexão e marque Adicionar estes dados ao Modelo de Dados — isso disponibiliza as tabelas para o Power Pivot do Excel, sem duplicá-las em uma planilha.' },
+        ],
+      },
+      {
+        id: 'lab-04b', title: 'Laboratório 04B · Importando Consultas no Power BI Desktop',
+        steps: [
+          { h: 'Etapa 1 · Importar consultas existentes', p: 'Abra o Power BI Desktop e importe as mesmas consultas de Power Query que você já criou nos módulos anteriores, reaproveitando o trabalho de transformação já feito em vez de recomeçar do zero.' },
+          { h: 'Etapa 2 · Adicionar uma tabela de Datas', p: 'No Editor do Power Query, crie uma nova consulta gerando uma tabela de datas (por fórmula M ou por Nova Fonte → Intervalo de Datas) cobrindo o período dos seus dados de vendas — toda análise temporal (mês a mês, ano a ano) depende de uma tabela de datas dedicada.' },
+          { h: 'Etapa 3 · Ajustar tipos de dados', p: 'Revise cada coluna importada e corrija tipos de dados incorretos antes de aplicar as consultas — um erro comum é datas ou valores numéricos chegando como texto.' },
+          { h: 'Etapa 4 · Fechar e Aplicar', p: 'Use Fechar e Aplicar para carregar as consultas no modelo do Power BI Desktop e confira se todas as tabelas aparecem corretamente no painel de Campos.' },
+        ],
+      },
+      {
+        id: 'lab-04c', title: 'Laboratório 04C · Relacionamentos, Medidas DAX e Primeiro Relatório Visual',
+        steps: [
+          { h: 'Etapa 1 · Criar relacionamentos muitos-para-um', p: 'Na Visão de Modelo, arraste a coluna-chave da tabela de Vendas até a coluna correspondente em cada tabela de dimensão (Clientes, Datas) para criar relacionamentos muitos-para-um, formando um esquema estrela.' },
+          { h: 'Etapa 2 · Criar uma medida DAX', p: 'No painel de Campos, clique com o botão direito na tabela de Vendas e escolha Nova Medida para criar uma medida de total de vendas usando SUM, com um nome claro como [Total de Vendas].' },
+          { h: 'Etapa 3 · Criar uma segunda medida combinando outras', p: 'Crie uma segunda medida que compare a primeira com outro critério — por exemplo, [Vendas do Ano Anterior] usando CALCULATE e SAMEPERIODLASTYEAR — e formate o resultado como moeda.' },
+          { h: 'Etapa 4 · Construir um Cartão e uma Segmentação', p: 'Na tela de relatório, adicione um visual de Cartão com sua medida principal e um visual de Segmentação de Dados ligado a uma coluna da tabela de Clientes, organizando os dois lado a lado.' },
+          { h: 'Etapa 5 · Construir uma Matriz', p: 'Adicione um visual de Matriz cruzando uma dimensão (por exemplo, vendedor ou cidade) nas linhas com o período nas colunas, e suas medidas nos valores.' },
+          { h: 'Etapa 6 · Importar um visual personalizado do AppSource', p: 'Use Importar um Visual do AppSource para adicionar um visual não nativo (como um gráfico de marcadores) ao relatório, e configure-o com uma medida de valor real contra uma meta.' },
+          { h: 'Etapa 7 · Aplicar formatação condicional', p: 'Na Matriz, use Formatação Condicional → Escalas de Cor sobre uma das medidas para destacar visualmente os valores mais altos e mais baixos sem precisar ler cada número.' },
+        ],
+      },
+      {
+        id: 'lab-05a', title: 'Laboratório 05A · Publicando no Serviço Power BI e Analisando no Excel',
+        steps: [
+          { h: 'Etapa 1 · Publicar o relatório no serviço', p: 'No Power BI Desktop, use Página Inicial → Publicar para enviar o relatório a um workspace no serviço do Power BI (app.powerbi.com), escolhendo o workspace de destino.' },
+          { h: 'Etapa 2 · Instalar o recurso Analisar no Excel', p: 'No serviço, localize o conjunto de dados publicado e use a opção Analisar no Excel — na primeira vez, o navegador solicitará baixar e instalar um pequeno add-in de conexão.' },
+          { h: 'Etapa 3 · Abrir o arquivo de conexão no Excel', p: 'Abra o arquivo baixado: ele conecta automaticamente o Excel ao seu modelo publicado no Power BI, sem precisar reimportar os dados.' },
+          { h: 'Etapa 4 · Montar uma Tabela Dinâmica com medidas do Power BI', p: 'Na Lista de Campos da Tabela Dinâmica, arraste suas medidas DAX para a área de Valores e uma dimensão para Linhas, exatamente como faria com dados locais.' },
+          { h: 'Etapa 5 · Inserir um Gráfico Dinâmico', p: 'A partir da mesma Tabela Dinâmica, insira um Gráfico Dinâmico para visualizar a mesma informação, e formate cores e rótulos.' },
+          { h: 'Etapa 6 · Criar um KPI com CUBEVALUE', p: 'Em uma célula separada, use a função CUBEVALUE para trazer o valor de uma medida específica do modelo publicado diretamente para uma célula do Excel — útil para montar indicadores fora da Tabela Dinâmica.' },
+        ],
+      },
+      {
+        id: 'lab-05b', title: 'Laboratório 05B · Tabela Dinâmica Conectada ao Power BI com Minigráficos',
+        steps: [
+          { h: 'Etapa 1 · Inserir uma Tabela Dinâmica direto do Power BI', p: 'No Excel, use Inserir → Tabela Dinâmica do Power BI para conectar diretamente a um conjunto de dados publicado no serviço, sem passar pelo Analisar no Excel.' },
+          { h: 'Etapa 2 · Montar linhas e valores', p: 'Arraste uma dimensão para Linhas e suas medidas para Valores, conferindo se os totais batem com o que aparece no relatório original do Power BI.' },
+          { h: 'Etapa 3 · Adicionar Segmentações de Dados', p: 'Insira uma ou mais Segmentações de Dados conectadas à Tabela Dinâmica, posicionando-as de forma que fiquem visíveis junto da tabela.' },
+          { h: 'Etapa 4 · Criar Minigráficos', p: 'Ao lado de cada linha da Tabela Dinâmica, insira Minigráficos (Sparklines) de linha ou coluna para mostrar a tendência de cada item ao longo do tempo em um espaço mínimo.' },
+          { h: 'Etapa 5 · Formatação final', p: 'Aplique um título claro ao relatório, ajuste larguras de coluna e formatação numérica, e salve o arquivo — o resultado é um relatório Excel leve, mas conectado ao mesmo modelo de dados do Power BI.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'encerramento', title: 'Módulo 12 · Encerramento', kind: 'reading',
     lessons: [
       {
         id: 'conclusao-curso', title: 'Conclusão do curso',
         content: [
-          { h: 'Você chegou ao final do conteúdo', p: 'Percorremos o caminho completo: modelagem de dados, Power Query, otimização de modelo, DAX, construção de relatórios, análise avançada com IA, publicação e governança, e os laboratórios práticos aplicando tudo isso direto no Power BI Desktop.' },
+          { h: 'Você chegou ao final do conteúdo', p: 'Percorremos o caminho completo: modelagem de dados, Power Query, otimização de modelo, DAX, construção de relatórios, análise avançada com IA, publicação e governança — e dois blocos de laboratórios guiados aplicando tudo isso na prática, do Power Query ao relatório publicado e conectado ao Excel.' },
           { h: 'Próximo passo: avaliação final', p: 'Para receber seu certificado de conclusão, faça a avaliação final do curso — ela reúne perguntas de todos os módulos. É permitido refazer a avaliação quantas vezes precisar até atingir a nota mínima de aprovação.' },
         ],
       },
