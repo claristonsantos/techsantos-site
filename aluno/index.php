@@ -1,11 +1,17 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__ . '/../auth.php';
+$aluno = require_aluno();
+$isPowerBi = $aluno['curso_slug'] === 'power-bi';
+?>
 <!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
-<title>Área do Aluno — Curso Power BI — TECH SANTOS BR</title>
-<link rel="stylesheet" href="assets/css/style.css" />
+<title>Área do Aluno — <?= htmlspecialchars($aluno['curso_nome'], ENT_QUOTES) ?> — TECH SANTOS BR</title>
+<link rel="stylesheet" href="/assets/css/style.css" />
 <style>
   body { overflow-x: hidden; }
   .student-topbar {
@@ -18,7 +24,8 @@
   .student-brand img { width: 26px; height: 26px; border-radius: 4px; }
   .student-brand span { font-family: 'Plex Cond', sans-serif; font-weight: 700; font-size: 0.98rem; }
   .student-brand em { font-style: normal; color: var(--green-strong); }
-  .topbar-actions { display: flex; align-items: center; gap: 0.75rem; }
+  .topbar-actions { display: flex; align-items: center; gap: 0.9rem; }
+  .topbar-actions .who { font-size: 0.85rem; color: var(--ink-soft); }
   .sidebar-toggle {
     display: none; background: none; border: 1px solid var(--line); border-radius: 5px;
     width: 36px; height: 34px; align-items: center; justify-content: center; color: var(--ink); cursor: pointer;
@@ -113,24 +120,37 @@
     .sidebar-toggle { display: flex; }
     .sidebar-backdrop.open { display: block; position: fixed; inset: 57px 0 0 0; background: rgba(6,10,20,0.5); z-index: 45; }
   }
+  .empty-course { max-width: 640px; margin: 3rem auto; padding: 0 1.25rem; text-align: center; }
+  .empty-course h1 { font-size: 1.6rem; margin-bottom: 0.75rem; }
+  .empty-course p { color: var(--ink-soft); }
 </style>
 </head>
 <body>
 
 <div class="student-topbar">
   <div style="display:flex; align-items:center; gap:0.75rem;">
+    <?php if ($isPowerBi): ?>
     <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir módulos" aria-expanded="false">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
-    <a class="student-brand" href="curso-power-bi.html">
-      <img src="assets/img/logo.jpg" alt="Tech Santos BR" />
+    <?php endif; ?>
+    <a class="student-brand" href="/curso-power-bi.html">
+      <img src="/assets/img/logo.jpg" alt="Tech Santos BR" />
       <span>TECH <em>SANTOS BR</em> · Área do Aluno</span>
     </a>
   </div>
   <div class="topbar-actions">
-    <a class="btn btn-ghost on-light" href="curso-power-bi.html">Página do curso</a>
+    <span class="who">Olá, <?= htmlspecialchars(explode(' ', $aluno['nome'])[0], ENT_QUOTES) ?></span>
+    <a class="btn btn-ghost on-light" href="/logout.php">Sair</a>
   </div>
 </div>
+
+<?php if (!$isPowerBi): ?>
+  <div class="empty-course">
+    <h1><?= htmlspecialchars($aluno['curso_nome'], ENT_QUOTES) ?></h1>
+    <p>O conteúdo deste curso ainda está sendo preparado. Assim que as aulas forem publicadas, elas aparecem automaticamente aqui — nenhuma ação necessária da sua parte.</p>
+  </div>
+<?php else: ?>
 
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
@@ -147,7 +167,7 @@
 </div>
 
 <script>
-/* ===== Dados do curso ===== */
+const ALUNO_ID = <?= (int)$aluno['id'] ?>;
 const COURSE = [
   {
     id: 'modelagem', title: 'Módulo 01 · Fundamentos de Modelagem de Dados', kind: 'video',
@@ -227,8 +247,7 @@ const COURSE = [
   },
 ];
 
-/* ===== Estado ===== */
-const STORAGE_KEY = 'ts_curso_powerbi_progress_v1';
+const STORAGE_KEY = 'ts_curso_powerbi_progress_v1_aluno_' + ALUNO_ID;
 const flat = [];
 COURSE.forEach(m => m.lessons.forEach(l => flat.push({ moduleId: m.id, moduleTitle: m.title, kind: m.kind, ...l })));
 const totalLessons = flat.length;
@@ -285,7 +304,6 @@ function renderLesson(id) {
   if (lesson.kind === 'video') {
     mediaBlock = `
       <div class="player">
-        <!-- Para publicar o vídeo desta aula: troque este bloco por um <iframe> do YouTube (unlisted) ou Vimeo, mantendo a mesma div.player para preservar o layout 16:9. -->
         <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="20" height="20" ')}</div>
         <div class="caption"><span>${lesson.title}</span><span>Vídeo em preparação</span></div>
       </div>
@@ -333,7 +351,6 @@ function currentLessonId() {
 window.addEventListener('hashchange', () => renderLesson(currentLessonId()));
 renderLesson(currentLessonId());
 
-/* Sidebar drawer (mobile) */
 const sidebarEl = document.getElementById('appSidebar');
 const backdropEl = document.getElementById('sidebarBackdrop');
 const toggleBtn = document.getElementById('sidebarToggle');
@@ -342,5 +359,6 @@ function closeSidebarMobile() { sidebarEl.classList.remove('open'); backdropEl.c
 toggleBtn.addEventListener('click', () => sidebarEl.classList.contains('open') ? closeSidebarMobile() : openSidebarMobile());
 backdropEl.addEventListener('click', closeSidebarMobile);
 </script>
+<?php endif; ?>
 </body>
 </html>
