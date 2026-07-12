@@ -42,8 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $modalidade = trim((string)($_POST['modalidade'] ?? ''));
         $descricao = trim((string)($_POST['descricao'] ?? ''));
         $ativo = isset($_POST['ativo']) ? 1 : 0;
-        $proximaTurmaData = trim((string)($_POST['proxima_turma_data'] ?? '')) ?: null;
-        $vagasDisponiveis = trim((string)($_POST['vagas_disponiveis'] ?? '')) !== '' ? (int)$_POST['vagas_disponiveis'] : null;
         $precoReais = trim((string)($_POST['preco'] ?? ''));
         $precoCentavos = $precoReais !== '' ? (int)round(((float)str_replace(',', '.', $precoReais)) * 100) : null;
         $slug = slugify($nome);
@@ -57,11 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Já existe um curso com um nome muito parecido.';
             } else {
                 if ($id === 0) {
-                    $stmt = $pdo->prepare('INSERT INTO cursos (nome, slug, carga_horaria, modalidade, descricao, ativo, proxima_turma_data, vagas_disponiveis, preco_centavos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $proximaTurmaData, $vagasDisponiveis, $precoCentavos]);
+                    $stmt = $pdo->prepare('INSERT INTO cursos (nome, slug, carga_horaria, modalidade, descricao, ativo, preco_centavos) VALUES (?, ?, ?, ?, ?, ?, ?)');
+                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $precoCentavos]);
                 } else {
-                    $stmt = $pdo->prepare('UPDATE cursos SET nome=?, slug=?, carga_horaria=?, modalidade=?, descricao=?, ativo=?, proxima_turma_data=?, vagas_disponiveis=?, preco_centavos=? WHERE id=?');
-                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $proximaTurmaData, $vagasDisponiveis, $precoCentavos, $id]);
+                    $stmt = $pdo->prepare('UPDATE cursos SET nome=?, slug=?, carga_horaria=?, modalidade=?, descricao=?, ativo=?, preco_centavos=? WHERE id=?');
+                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $precoCentavos, $id]);
                 }
                 header('Location: /admin/cursos.php?msg=' . urlencode('Curso salvo com sucesso.'));
                 exit;
@@ -116,21 +114,10 @@ admin_topbar('cursos');
           <input type="text" id="modalidade" name="modalidade" placeholder="Turma fechada / In company / Individual" value="<?= htmlspecialchars($editRow['modalidade'] ?? '', ENT_QUOTES) ?>">
         </div>
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="preco">Preço (venda individual online, R$)</label>
-          <input type="text" id="preco" name="preco" placeholder="Ex.: 299,00" value="<?= isset($editRow['preco_centavos']) && $editRow['preco_centavos'] !== null ? htmlspecialchars(number_format((float)$editRow['preco_centavos'] / 100, 2, ',', ''), ENT_QUOTES) : '' ?>">
-          <span class="hint">Usado no checkout (/comprar.php). Turma fechada e in company continuam sob consulta.</span>
-        </div>
-        <div class="field">
-          <label for="vagas_disponiveis">Vagas disponíveis</label>
-          <input type="number" id="vagas_disponiveis" name="vagas_disponiveis" min="0" value="<?= htmlspecialchars($editRow['vagas_disponiveis'] ?? '', ENT_QUOTES) ?>">
-        </div>
-      </div>
       <div class="field">
-        <label for="proxima_turma_data">Próxima turma (data)</label>
-        <input type="date" id="proxima_turma_data" name="proxima_turma_data" value="<?= htmlspecialchars($editRow['proxima_turma_data'] ?? '', ENT_QUOTES) ?>">
-        <span class="hint">Aparece como banner de urgência na página do curso. Deixe em branco para ocultar.</span>
+        <label for="preco">Preço (venda individual online, R$)</label>
+        <input type="text" id="preco" name="preco" placeholder="Ex.: 299,00" value="<?= isset($editRow['preco_centavos']) && $editRow['preco_centavos'] !== null ? htmlspecialchars(number_format((float)$editRow['preco_centavos'] / 100, 2, ',', ''), ENT_QUOTES) : '' ?>">
+        <span class="hint">Usado no checkout (/comprar.php). Turma fechada e in company continuam sob consulta.</span>
       </div>
       <div class="field">
         <label for="descricao">Descrição</label>

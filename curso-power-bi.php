@@ -1,18 +1,3 @@
-<?php
-declare(strict_types=1);
-require_once __DIR__ . '/db.php';
-
-$stmt = db()->prepare("SELECT nome, carga_horaria, proxima_turma_data, vagas_disponiveis FROM cursos WHERE slug = 'power-bi'");
-$stmt->execute();
-$curso = $stmt->fetch();
-$proximaTurma = null;
-if ($curso && $curso['proxima_turma_data'] && strtotime((string)$curso['proxima_turma_data']) >= strtotime('today')) {
-    $meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-    $ts = strtotime((string)$curso['proxima_turma_data']);
-    $proximaTurma = (int)date('d', $ts) . ' de ' . $meses[(int)date('n', $ts) - 1] . ' de ' . date('Y', $ts);
-}
-$vagas = $curso['vagas_disponiveis'] ?? null;
-?>
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -53,12 +38,10 @@ $vagas = $curso['vagas_disponiveis'] ?? null;
 <main>
   <section class="hero page-hero">
     <div class="page-hero-inner">
-      <?php if ($proximaTurma): ?>
-      <div class="turma-banner">
+      <div class="ead-banner">
         <span class="dot"></span>
-        <span>Próxima turma: <strong><?= htmlspecialchars($proximaTurma, ENT_QUOTES) ?></strong><?= $vagas ? ' · <strong>' . (int)$vagas . ' vagas</strong> disponíveis' : '' ?></span>
+        <span>Curso 100% EAD — <strong>sempre disponível</strong>, sem espera de abertura de turma. Comece quando quiser, no seu ritmo.</span>
       </div>
-      <?php endif; ?>
       <p class="eyebrow on-dark">Curso completo · Modelagem, Power Query, DAX e Relatórios</p>
       <h1>Power BI, do dado bruto ao <em>indicador de negócio</em> pronto para decisão.</h1>
       <p class="lead">Curso próprio da TECH SANTOS BR, com apostila escrita pelo instrutor, videoaulas práticas gravadas passo a passo e laboratórios guiados — para quem já usa Excel e quer parar de repetir PROCV e começar a construir modelos de dados de verdade.</p>
@@ -141,29 +124,29 @@ $vagas = $curso['vagas_disponiveis'] ?? null;
   <section style="background: var(--surface-2);">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Por que aprender com a TECH SANTOS BR</p>
-        <h2>Ensinado por quem implementa Power BI para empresas reais</h2>
-        <p>A maioria dos cursos de Power BI é dada por quem nunca entregou um dashboard para um cliente pagante. Este curso é o mesmo roteiro usado nos projetos reais da TECH SANTOS BR — os alunos aprendem o processo completo, não só a ferramenta.</p>
+        <p class="eyebrow">Feito para quem está aprendendo</p>
+        <h2>Um curso desenhado para o aluno, do primeiro clique ao certificado</h2>
+        <p>Apostila própria escrita pelo instrutor, avaliação a cada módulo para garantir que o conteúdo foi realmente absorvido, e um instrutor certificado pela Microsoft disponível para tirar dúvidas — pensado para quem está aprendendo Power BI do zero.</p>
       </div>
       <div class="proof-row">
         <div class="proof-card">
-          <p class="proof-num">50+</p>
-          <p class="proof-t">projetos de BI implementados para clientes reais desde 2021</p>
+          <p class="proof-num">100% EAD</p>
+          <p class="proof-t">acesso liberado assim que a matrícula é confirmada — estude quando e onde quiser</p>
         </div>
         <div class="proof-card">
-          <p class="proof-num">Goiasa</p>
-          <p class="proof-t">painel de produtividade agrícola usado para decisão de safra em uma usina do Grupo Construcap</p>
+          <p class="proof-num">10</p>
+          <p class="proof-t">módulos em ordem lógica, do fundamento de modelagem até a avaliação final</p>
         </div>
         <div class="proof-card">
-          <p class="proof-num">Servicap</p>
-          <p class="proof-t">dashboard de carteira de clientes usado na gestão comercial de um escritório de contabilidade</p>
+          <p class="proof-num">70%</p>
+          <p class="proof-t">nota mínima em cada avaliação de módulo, garantindo que você domina o conteúdo antes de avançar</p>
         </div>
         <div class="proof-card">
-          <p class="proof-num">IA PredCare</p>
-          <p class="proof-t">central de monitoramento preditivo com 201 sensores, usada por uma indústria para evitar parada de produção</p>
+          <p class="proof-num">🎓</p>
+          <p class="proof-t">certificado de conclusão verificável, emitido ao final do curso</p>
         </div>
       </div>
-      <p class="section-foot"><a class="btn btn-ghost on-light" href="projetos.html">Ver esses projetos em detalhe →</a></p>
+      <p class="section-foot"><a class="btn btn-ghost on-light" href="/aula-gratis.php">Assistir uma aula grátis antes de decidir →</a></p>
     </div>
   </section>
 
@@ -393,7 +376,7 @@ $vagas = $curso['vagas_disponiveis'] ?? null;
       <div class="instructor-panel">
         <div class="instructor-avatar">CS</div>
         <div>
-          <p><strong style="color: var(--ink);">Clariston Santos</strong> é analista de Business Intelligence especializado em Power BI e fundador da TECH SANTOS BR. Já implementou mais de 50 projetos de BI em diversos segmentos, é instrutor certificado pela Microsoft e escreveu a apostila usada neste curso a partir da própria experiência de modelagem e implementação de dashboards para clientes reais.</p>
+          <p><strong style="color: var(--ink);">Clariston Santos</strong> é analista de Business Intelligence especializado em Power BI, fundador da TECH SANTOS BR e instrutor certificado pela Microsoft. Escreveu a apostila usada neste curso do zero, pensada para quem nunca usou Power BI, com foco em ensinar cada conceito de forma clara e progressiva até o certificado.</p>
         </div>
       </div>
     </div>
