@@ -163,6 +163,7 @@ admin_topbar('alunos');
             <td><span class="badge <?= $a['ativo'] ? 'on' : 'off' ?>"><?= $a['ativo'] ? 'Ativo' : 'Inativo' ?></span></td>
             <td class="actions">
               <a href="/admin/alunos.php?edit=<?= (int)$a['id'] ?>">Editar</a>
+              <a href="/admin/jornada.php?aluno=<?= (int)$a['id'] ?>">Jornada</a>
               <form method="post" onsubmit="return confirm('Remover este aluno? Esta ação não pode ser desfeita.');" style="display:inline">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="delete">

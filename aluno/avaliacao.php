@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
+require_once __DIR__ . '/../curso_modulos.php';
 $aluno = require_aluno();
 
 $moduloId = (string)($_GET['modulo'] ?? '');
@@ -17,6 +18,24 @@ $avaliacao = $stmt->fetch();
 if (!$avaliacao) {
     http_response_code(404);
     exit('Nenhuma avaliação encontrada para este módulo ainda.');
+}
+
+$moduloAnteriorId = modulo_anterior($moduloId);
+if ($moduloAnteriorId !== null) {
+    $prevAvalStmt = $pdo->prepare('SELECT id FROM avaliacoes WHERE curso_id = ? AND modulo_id = ? AND ativo = 1');
+    $prevAvalStmt->execute([$aluno['curso_id'], $moduloAnteriorId]);
+    $prevAvaliacaoId = $prevAvalStmt->fetchColumn();
+
+    if ($prevAvaliacaoId) {
+        $prevStmt = $pdo->prepare(
+            'SELECT 1 FROM avaliacao_tentativas WHERE avaliacao_id = ? AND aluno_id = ? AND aprovado = 1 LIMIT 1'
+        );
+        $prevStmt->execute([$prevAvaliacaoId, $aluno['id']]);
+        if (!$prevStmt->fetchColumn()) {
+            http_response_code(403);
+            exit('Conclua a avaliação do módulo anterior antes de acessar esta avaliação.');
+        }
+    }
 }
 
 $error = null;

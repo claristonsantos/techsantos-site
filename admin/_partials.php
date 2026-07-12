@@ -27,6 +27,7 @@ function admin_topbar(string $active): void
         'alunos' => ['/admin/alunos.php', 'Alunos'],
         'cursos' => ['/admin/cursos.php', 'Cursos'],
         'avaliacoes' => ['/admin/avaliacoes.php', 'Avaliações'],
+        'jornada' => ['/admin/jornada.php', 'Jornada do Aluno'],
         'certificados' => ['/admin/certificados.php', 'Certificados'],
         'pedidos' => ['/admin/pedidos.php', 'Pedidos'],
         'administradores' => ['/admin/administradores.php', 'Administradores'],

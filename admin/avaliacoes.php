@@ -1,25 +1,13 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
+require_once __DIR__ . '/../curso_modulos.php';
 require_once __DIR__ . '/_partials.php';
 require_admin();
 
 $pdo = db();
 $error = null;
 $success = null;
-
-const MODULOS_POWER_BI = [
-    'modelagem' => 'Módulo 01 · Fundamentos de Modelagem de Dados',
-    'perfil-dados' => 'Módulo 02 · Perfil dos Dados',
-    'power-query-conectar' => 'Módulo 03 · Power Query — Conectando e Importando Dados',
-    'power-query-transformar' => 'Módulo 04 · Power Query — Transformação e Limpeza de Dados',
-    'otimizacao' => 'Módulo 05 · Modelo de Dados & Otimização de Desempenho',
-    'dax' => 'Módulo 06 · Fórmulas DAX',
-    'relatorios' => 'Módulo 07 · Criar e Enriquecer Relatórios',
-    'analise-avancada' => 'Módulo 08 · Análise Avançada & Insights de IA',
-    'dashboards-governanca' => 'Módulo 09 · Dashboards, Publicação & Governança',
-    'encerramento' => 'Avaliação final (Módulo 10 · Encerramento)',
-];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();

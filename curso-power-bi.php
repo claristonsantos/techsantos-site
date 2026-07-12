@@ -40,7 +40,7 @@
     <div class="page-hero-inner">
       <div class="ead-banner">
         <span class="dot"></span>
-        <span>Curso 100% EAD — <strong>sempre disponível</strong>, sem espera de abertura de turma. Comece quando quiser, no seu ritmo.</span>
+        <span>Curso 100% EAD — <strong>matrícula aberta o ano todo</strong>, acesso imediato após a inscrição. Estude no seu ritmo.</span>
       </div>
       <p class="eyebrow on-dark">Curso completo · Modelagem, Power Query, DAX e Relatórios</p>
       <h1>Power BI, do dado bruto ao <em>indicador de negócio</em> pronto para decisão.</h1>
