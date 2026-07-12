@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Área do Aluno — Curso Power BI — TECH SANTOS BR</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<style>
+  body { overflow-x: hidden; }
+  .student-topbar {
+    position: sticky; top: 0; z-index: 30;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px);
+  }
+  .student-brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink); }
+  .student-brand img { width: 26px; height: 26px; border-radius: 4px; }
+  .student-brand span { font-family: 'Plex Cond', sans-serif; font-weight: 700; font-size: 0.98rem; }
+  .student-brand em { font-style: normal; color: var(--green-strong); }
+  .topbar-actions { display: flex; align-items: center; gap: 0.75rem; }
+  .sidebar-toggle {
+    display: none; background: none; border: 1px solid var(--line); border-radius: 5px;
+    width: 36px; height: 34px; align-items: center; justify-content: center; color: var(--ink); cursor: pointer;
+  }
+
+  .app-shell { display: grid; grid-template-columns: 310px 1fr; align-items: start; }
+  .app-sidebar { border-right: 1px solid var(--line); background: var(--surface); height: calc(100vh - 57px); position: sticky; top: 57px; overflow-y: auto; }
+  .sidebar-progress { padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--line); }
+  .sidebar-progress .label { display: flex; justify-content: space-between; font-family: 'Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 0.5rem; }
+  .sidebar-progress .bar { height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+  .sidebar-progress .bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--green), var(--green-bright)); border-radius: 3px; transition: width 0.25s ease; }
+
+  .sidebar-module { border-bottom: 1px solid var(--line); }
+  .sidebar-module-head {
+    padding: 0.85rem 1.25rem 0.5rem; font-family: 'Plex Mono', monospace; font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); display: flex; justify-content: space-between;
+  }
+  .sidebar-lesson {
+    display: flex; align-items: center; gap: 0.65rem; padding: 0.5rem 1.25rem;
+    font-size: 0.87rem; color: var(--ink-soft); cursor: pointer; border-left: 3px solid transparent;
+    background: none; width: 100%; text-align: left; font-family: 'Plex Sans', sans-serif;
+  }
+  .sidebar-lesson:hover { background: var(--surface-2); }
+  .sidebar-lesson.active { background: var(--green-soft); border-left-color: var(--green); color: var(--ink); font-weight: 600; }
+  .sidebar-lesson .check {
+    width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--line); flex: none;
+    display: flex; align-items: center; justify-content: center; color: transparent;
+  }
+  .sidebar-lesson .check svg { width: 9px; height: 9px; }
+  .sidebar-lesson.done .check { background: var(--green); border-color: var(--green); color: #08210A; }
+  .sidebar-lesson .type-icon { width: 13px; height: 13px; color: var(--ink-faint); flex: none; }
+  .sidebar-lesson .lbl { flex: 1; line-height: 1.3; }
+  .sidebar-lesson.done:not(.active) { color: var(--ink-faint); }
+
+  .app-main { padding: clamp(1.5rem, 4vw, 2.75rem) clamp(1.25rem, 4vw, 3rem); max-width: 860px; }
+  .lesson-breadcrumb { font-family: 'Plex Mono', monospace; font-size: 0.72rem; color: var(--green-strong); text-transform: uppercase; letter-spacing: 0.08em; }
+  .lesson-title { font-size: clamp(1.4rem, 1.5vw + 1rem, 2rem); margin: 0.5rem 0 1.4rem; }
+
+  .player {
+    aspect-ratio: 16 / 9; background: linear-gradient(160deg, #16294A, #0A1728);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; margin-bottom: 1.75rem; border: 1px solid var(--navy-line);
+  }
+  .player::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 64px),
+                repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 64px);
+  }
+  .player .play-btn {
+    width: 62px; height: 62px; border-radius: 50%; background: rgba(255,255,255,.1);
+    border: 1.5px solid rgba(255,255,255,.35); display: flex; align-items: center; justify-content: center; color: #fff; z-index: 1;
+  }
+  .player .play-btn svg { width: 20px; height: 20px; margin-left: 3px; }
+  .player .caption {
+    position: absolute; bottom: 0.9rem; left: 1rem; right: 1rem; z-index: 1;
+    font-family: 'Plex Mono', monospace; font-size: 0.7rem; color: var(--navy-ink-soft);
+    display: flex; justify-content: space-between; gap: 0.5rem;
+  }
+
+  .reading-card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: clamp(1.4rem, 3vw, 2rem); margin-bottom: 1.75rem; }
+  .reading-card .kicker { font-family: 'Plex Mono', monospace; font-size: 0.7rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.1rem; }
+  .reading-card h3 { font-size: 1.02rem; font-weight: 700; font-family: 'Plex Sans', sans-serif; margin: 1.4rem 0 0.55rem; }
+  .reading-card h3:first-of-type { margin-top: 0; }
+  .reading-card p { color: var(--ink-soft); font-size: 0.96rem; margin-bottom: 0.6rem; }
+
+  .lesson-desc { color: var(--ink-soft); font-size: 1rem; margin-bottom: 1.75rem; max-width: 62ch; }
+
+  .lesson-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  .lesson-nav .side { min-width: 0; }
+  .lesson-nav .side.right { text-align: right; }
+  .lesson-nav a { display: block; text-decoration: none; }
+  .lesson-nav .dir { font-family: 'Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; }
+  .lesson-nav .t { font-size: 0.9rem; color: var(--ink); font-weight: 600; margin-top: 0.15rem; }
+  .lesson-nav a:hover .t { color: var(--green-strong); }
+
+  .mark-done-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Plex Sans', sans-serif; font-weight: 600;
+    font-size: 0.86rem; padding: 0.55rem 1.1rem; border-radius: 5px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--ink); cursor: pointer; margin-bottom: 1.75rem;
+  }
+  .mark-done-btn.is-done { background: var(--green-soft); border-color: var(--green); color: var(--green-strong); }
+  .mark-done-btn svg { width: 15px; height: 15px; }
+
+  .sidebar-backdrop { display: none; }
+  @media (max-width: 900px) {
+    .app-shell { grid-template-columns: 1fr; }
+    .app-sidebar {
+      position: fixed; top: 57px; bottom: 0; left: 0; width: 300px; max-width: 85vw;
+      transform: translateX(-100%); transition: transform 0.22s ease; z-index: 50; height: auto;
+    }
+    .app-sidebar.open { transform: translateX(0); }
+    .sidebar-toggle { display: flex; }
+    .sidebar-backdrop.open { display: block; position: fixed; inset: 57px 0 0 0; background: rgba(6,10,20,0.5); z-index: 45; }
+  }
+</style>
+</head>
+<body>
+
+<div class="student-topbar">
+  <div style="display:flex; align-items:center; gap:0.75rem;">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir módulos" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a class="student-brand" href="curso-power-bi.html">
+      <img src="assets/img/logo.jpg" alt="Tech Santos BR" />
+      <span>TECH <em>SANTOS BR</em> · Área do Aluno</span>
+    </a>
+  </div>
+  <div class="topbar-actions">
+    <a class="btn btn-ghost on-light" href="curso-power-bi.html">Página do curso</a>
+  </div>
+</div>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="app-shell">
+  <aside class="app-sidebar" id="appSidebar">
+    <div class="sidebar-progress">
+      <div class="label"><span>Seu progresso</span><span id="progressCount">0/30</span></div>
+      <div class="bar"><span id="progressBar" style="width:0%"></span></div>
+    </div>
+    <nav id="sidebarNav"></nav>
+  </aside>
+
+  <main class="app-main" id="appMain"></main>
+</div>
+
+<script>
+/* ===== Dados do curso ===== */
+const COURSE = [
+  {
+    id: 'modelagem', title: 'Módulo 01 · Fundamentos de Modelagem de Dados', kind: 'video',
+    lessons: [
+      { id: 'introducao', title: 'Introdução ao curso', desc: 'Apresentação do curso, do instrutor e do caminho que vamos percorrer: da estrutura dos dados até o relatório pronto para o negócio.' },
+      { id: 'importancia-modelagem', title: 'Por que a modelagem de dados é importante', desc: 'Antes de abrir o Power BI, entenda por que identificar padrões nos dados é a principal qualidade de um bom profissional de análise — e por que uma única tabela no Excel tem limite.' },
+      { id: 'normalizacao-desnormalizacao', title: 'Normalização e desnormalização', desc: 'Normalização organiza colunas e tabelas para reduzir redundância; desnormalização faz o contrário, priorizando o entendimento do modelo. Veremos exemplos práticos dos dois processos.' },
+      { id: 'modelagem-pratica', title: 'Modelagem de dados na prática', desc: 'Como o modelo de dados vai além de uma tabela: carregar tabelas separadas, relacioná-las por chaves e entender granularidade em um cenário com múltiplas tabelas.' },
+      { id: 'esquema-estrela', title: 'Esquema estrela (Star Schema)', desc: 'A abordagem mais usada em data warehouses: separar tabelas fato (o que aconteceu) de tabelas dimensão (os atributos do que aconteceu) para um modelo rápido e sem ambiguidade.' },
+    ],
+  },
+  {
+    id: 'power-query-conectar', title: 'Módulo 02 · Power Query — Conectando e Importando Dados', kind: 'video',
+    lessons: [
+      { id: 'intro-power-query', title: 'Introdução ao Power Query', desc: 'Power Query é a ferramenta de ETL do Excel e do Power BI: extrai, transforma e carrega dados de quase qualquer fonte, substituindo horas de copiar/colar por um processo que se atualiza com um clique.' },
+      { id: 'tipos-de-dados', title: 'Tipos de dados', desc: 'Cada coluna tem um tipo — texto, número, data — que determina quais transformações e cálculos são possíveis. Aprenda a identificar e corrigir tipos de dados incorretos.' },
+      { id: 'tabela-ou-intervalo', title: 'Dados a partir de uma tabela ou intervalo', desc: 'O ponto de partida mais comum: como trazer uma tabela ou intervalo do próprio Excel para dentro do Power Query.' },
+      { id: 'importar-excel', title: 'Importando um arquivo Excel', desc: 'Como conectar o Power Query a um arquivo Excel externo e escolher quais planilhas ou tabelas importar.' },
+      { id: 'consulta-pasta', title: 'Consulta de uma pasta', desc: 'Em vez de importar arquivo por arquivo, uma consulta de pasta combina automaticamente todos os arquivos de uma pasta em uma única tabela.' },
+      { id: 'consulta-pasta-sharepoint', title: 'Consulta de uma pasta do SharePoint', desc: 'O mesmo conceito de consulta de pasta, agora conectando diretamente a uma biblioteca de documentos do SharePoint.' },
+      { id: 'criando-consulta', title: 'Criando uma consulta', desc: 'Juntando tudo: como estruturar uma consulta do zero, do conector à primeira transformação.' },
+    ],
+  },
+  {
+    id: 'power-query-transformar', title: 'Módulo 03 · Power Query — Transformação e Limpeza de Dados', kind: 'video',
+    lessons: [
+      { id: 'preenchimento-colunas', title: 'Preenchimento de colunas', desc: 'Preenche células vazias com o valor da célula anterior (ou seguinte) — essencial para tratar planilhas com células mescladas ou cabeçalhos hierárquicos.' },
+      { id: 'dividir-colunas', title: 'Dividir colunas', desc: 'Separa uma coluna em várias, usando um delimitador (como vírgula ou espaço) ou por número de caracteres.' },
+      { id: 'dividir-linhas', title: 'Dividir linhas', desc: 'O mesmo princípio da divisão de colunas, mas transformando um valor em múltiplas linhas em vez de múltiplas colunas.' },
+      { id: 'colunas-personalizadas', title: 'Colunas personalizadas', desc: 'Cria uma nova coluna a partir de uma fórmula em linguagem M, combinando ou calculando valores de outras colunas.' },
+      { id: 'coluna-exemplo', title: 'Coluna de exemplo', desc: 'Mostre ao Power Query o resultado que você quer, e ele tenta descobrir sozinho a transformação necessária a partir dos exemplos.' },
+      { id: 'mesclar-colunas', title: 'Mesclar colunas', desc: 'Combina o conteúdo de duas ou mais colunas em uma só, com um separador à sua escolha.' },
+      { id: 'classificar-filtrar', title: 'Classificar e filtrar', desc: 'Ordena e filtra linhas diretamente na consulta, antes mesmo dos dados chegarem ao modelo.' },
+      { id: 'formula-if', title: 'Fórmula IF', desc: 'A lógica condicional básica da linguagem M: se uma condição é verdadeira, retorna um valor; senão, retorna outro.' },
+      { id: 'formula-if-and', title: 'Fórmula IF e AND', desc: 'Combina múltiplas condições em um único teste lógico, retornando verdadeiro apenas quando todas são atendidas.' },
+      { id: 'formula-adddays', title: 'Fórmula AddDays', desc: 'Soma (ou subtrai) dias a uma data — útil para calcular prazos, vencimentos e janelas de tempo.' },
+      { id: 'formulas-texto', title: 'Fórmulas de texto', desc: 'Funções para manipular texto: converter maiúsculas/minúsculas, extrair trechos e capitalizar nomes próprios.' },
+      { id: 'coluna-dinamica', title: 'Coluna dinâmica (Pivot)', desc: 'Transforma valores de uma coluna em novas colunas — o mesmo conceito de uma tabela dinâmica, mas na etapa de preparação dos dados.' },
+      { id: 'transformar-colunas-linhas', title: 'Transformar colunas em linhas (Unpivot)', desc: 'O processo inverso do pivot: converte várias colunas em pares de atributo-valor, deixando a tabela no formato longo que o modelo de dados prefere.' },
+      { id: 'agrupar-por', title: 'Agrupar por', desc: 'Agrega linhas por uma ou mais colunas, calculando soma, contagem, média ou outras operações por grupo.' },
+      { id: 'acrescentar-consultas-1', title: 'Acrescentar consultas — parte 1', desc: 'Empilha duas ou mais consultas com a mesma estrutura, uma embaixo da outra — o equivalente a copiar e colar tabelas, mas atualizável.' },
+      { id: 'acrescentar-consultas-2', title: 'Acrescentar consultas — parte 2', desc: 'Continuação prática do acréscimo de consultas, agora com múltiplas fontes e ajustes de estrutura.' },
+    ],
+  },
+  {
+    id: 'dax', title: 'Módulo 04 · Modelo de Dados & Fórmulas DAX', kind: 'reading',
+    lessons: [
+      {
+        id: 'modelo-dados-dax', title: 'Modelo de Dados & Fórmulas DAX',
+        content: [
+          { h: 'O que é DAX', p: 'DAX (Data Analysis Expressions) nasceu com o Power Pivot, em 2010, e é a linguagem usada tanto no Power Pivot quanto no SSAS Tabular e no Power BI. Diferente do Excel, DAX não tem o conceito solto de "linha" e "coluna" — tudo trabalha sobre tabelas e colunas de um modelo de dados relacionado.' },
+          { h: 'Medidas implícitas x explícitas', p: 'Medidas implícitas são os cálculos automáticos que o Power BI sugere ao arrastar um campo numérico para um visual — soma, contagem, média. Medidas explícitas são escritas por você em DAX, como uma métrica de margem de lucro acumulada no ano. Arrastar e soltar é a forma mais fácil de começar; escrever suas próprias medidas é o que compensa no longo prazo.' },
+          { h: 'Contexto de filtro e contexto de linha', p: 'O contexto de filtro é definido pela seleção de linha, coluna, filtros do relatório e segmentações de dados — linhas fora do contexto de filtro não entram no cálculo. O contexto de linha é definido automaticamente em colunas calculadas, ou por funções iteradoras como SUMX e AVERAGEX, que percorrem uma tabela linha a linha.' },
+          { h: 'Operadores DAX', p: 'Os operadores aritméticos (+, -, *, /, ^) funcionam como no Excel. Os operadores de comparação (=, >, <, >=, <=, <>) retornam verdadeiro ou falso. Já os operadores de texto e lógicos (&, &&, ||, IN) concatenam valores e combinam condições — por exemplo, [Estado]="MA" && [Quantidade]>10.' },
+          { h: 'Funções essenciais', p: 'O curso cobre as principais categorias de funções DAX — matemáticas e estatísticas (SUM, AVERAGE, MAX, MIN, DIVIDE), de contagem (COUNT, COUNTA, COUNTROWS, DISTINCTCOUNT), lógicas (IF, AND, OR, SWITCH) e de texto (CONCATENATE, LEFT/MID/RIGHT, UPPER/LOWER/PROPER, SUBSTITUTE, SEARCH).' },
+          { h: 'CALCULATE, FILTER, ALL e RELATED', p: 'CALCULATE é a função mais importante do DAX — avalia uma expressão em um novo contexto de filtro. FILTER retorna uma tabela filtrada, geralmente usada dentro de outra função. ALL remove filtros de uma tabela ou coluna, e RELATED busca um valor em uma tabela relacionada, funcionando como um PROCV entre tabelas do modelo.' },
+          { h: 'Funções iteradoras (X) e inteligência de tempo', p: 'Funções como SUMX, COUNTX, AVERAGEX e RANKX percorrem uma tabela linha a linha aplicando uma expressão antes de agregar o resultado. Já as funções de inteligência de tempo — DATESYTD, DATEADD, DATESINPERIOD — calculam automaticamente comparações como acumulado no ano ou período anterior.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'visualizacoes', title: 'Módulo 05 · Visualizações, Relatórios & Power BI no Dia a Dia', kind: 'reading',
+    lessons: [
+      {
+        id: 'visualizacoes-relatorios', title: 'Visualizações, Relatórios & Power BI no Dia a Dia',
+        content: [
+          { h: 'Construindo o relatório', p: 'Depois do modelo pronto, o próximo passo é escolher o tipo de visualização certo para cada pergunta, formatar e configurar cada visual, e aplicar formatação condicional para destacar o que importa — tudo isso com segmentação de dados e filtros interativos.' },
+          { h: 'Indo além do básico', p: 'O Power BI permite importar visuais personalizados da comunidade, adicionar visuais em R ou Python, criar dicas de ferramenta personalizadas e configurar a navegação entre páginas do relatório com botões e painel de seleção.' },
+          { h: 'Explorando os dados', p: 'Recursos como drill down, análise Top N, resumo estatístico, identificação de outliers, agrupamentos e binning ajudam a ir além do relatório estático — e os principais influenciadores e a árvore de decomposição usam IA para explicar variações nos números automaticamente.' },
+          { h: 'Publicando e compartilhando', p: 'Um relatório só gera valor quando chega até quem decide — por isso o curso cobre visão mobile, gerenciamento de acesso a dashboards, alertas de dados e o recurso de Perguntas e Respostas (Q&A) em linguagem natural.' },
+          { h: 'Power BI no dia a dia (Teams e SharePoint)', p: 'Compartilhar um relatório ou visual diretamente no Microsoft Teams, pesquisar ativos do Power BI pelo SharePoint Online e até criar um relatório automaticamente a partir de uma lista do SharePoint — a integração com o resto do Office 365 é o que faz o Power BI virar hábito, não só uma ferramenta isolada.' },
+          { h: 'Excel ou Power BI?', p: 'Por fim, uma pergunta prática: quando usar Excel (aprendendo, análises pontuais, fórmulas de cubo) e quando usar Power BI (compartilhar com um público consumidor, recursos como RLS e visão mobile). A resposta raramente é "ou" — publique no serviço do Power BI e continue analisando no Excel quando precisar.' },
+        ],
+      },
+    ],
+  },
+];
+
+/* ===== Estado ===== */
+const STORAGE_KEY = 'ts_curso_powerbi_progress_v1';
+const flat = [];
+COURSE.forEach(m => m.lessons.forEach(l => flat.push({ moduleId: m.id, moduleTitle: m.title, kind: m.kind, ...l })));
+const totalLessons = flat.length;
+
+function loadProgress() {
+  try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }
+  catch (e) { return new Set(); }
+}
+function saveProgress(set) { localStorage.setItem(STORAGE_KEY, JSON.stringify([...set])); }
+let progress = loadProgress();
+
+const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>';
+const ICON_TEXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h9l3 3v13H6z"/><path d="M9 10h6M9 14h6M9 18h3"/></svg>';
+const ICON_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>';
+
+function renderSidebar(currentId) {
+  const nav = document.getElementById('sidebarNav');
+  nav.innerHTML = COURSE.map(mod => `
+    <div class="sidebar-module">
+      <div class="sidebar-module-head"><span>${mod.title}</span></div>
+      ${mod.lessons.map(l => {
+        const done = progress.has(l.id);
+        const active = l.id === currentId;
+        return `<button class="sidebar-lesson${active ? ' active' : ''}${done ? ' done' : ''}" data-lesson="${l.id}">
+          <span class="check">${done ? ICON_CHECK : ''}</span>
+          <span class="type-icon">${mod.kind === 'video' ? ICON_PLAY : ICON_TEXT}</span>
+          <span class="lbl">${l.title}</span>
+        </button>`;
+      }).join('')}
+    </div>
+  `).join('');
+  nav.querySelectorAll('.sidebar-lesson').forEach(btn => {
+    btn.addEventListener('click', () => { location.hash = btn.dataset.lesson; closeSidebarMobile(); });
+  });
+  updateProgressBar();
+}
+
+function updateProgressBar() {
+  const count = flat.filter(l => progress.has(l.id)).length;
+  document.getElementById('progressCount').textContent = `${count}/${totalLessons}`;
+  document.getElementById('progressBar').style.width = `${Math.round((count / totalLessons) * 100)}%`;
+}
+
+function renderLesson(id) {
+  let idx = flat.findIndex(l => l.id === id);
+  if (idx === -1) idx = 0;
+  const lesson = flat[idx];
+  const prev = flat[idx - 1];
+  const next = flat[idx + 1];
+  const done = progress.has(lesson.id);
+  const main = document.getElementById('appMain');
+
+  let mediaBlock;
+  if (lesson.kind === 'video') {
+    mediaBlock = `
+      <div class="player">
+        <!-- Para publicar o vídeo desta aula: troque este bloco por um <iframe> do YouTube (unlisted) ou Vimeo, mantendo a mesma div.player para preservar o layout 16:9. -->
+        <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="20" height="20" ')}</div>
+        <div class="caption"><span>${lesson.title}</span><span>Vídeo em preparação</span></div>
+      </div>
+      <p class="lesson-desc">${lesson.desc}</p>
+    `;
+  } else {
+    mediaBlock = `
+      <div class="reading-card">
+        <div class="kicker">Conteúdo em texto · leitura da apostila</div>
+        ${lesson.content.map(b => `<h3>${b.h}</h3><p>${b.p}</p>`).join('')}
+      </div>
+    `;
+  }
+
+  main.innerHTML = `
+    <p class="lesson-breadcrumb">${lesson.moduleTitle}</p>
+    <h1 class="lesson-title">${lesson.title}</h1>
+    ${mediaBlock}
+    <button class="mark-done-btn${done ? ' is-done' : ''}" id="markDoneBtn">
+      ${ICON_CHECK.replace('<svg ', '<svg width="15" height="15" ')}
+      <span>${done ? 'Aula concluída' : 'Marcar aula como concluída'}</span>
+    </button>
+    <div class="lesson-nav">
+      <div class="side">${prev ? `<a href="#${prev.id}"><span class="dir">← Anterior</span><span class="t">${prev.title}</span></a>` : ''}</div>
+      <div class="side right">${next ? `<a href="#${next.id}"><span class="dir">Próxima →</span><span class="t">${next.title}</span></a>` : ''}</div>
+    </div>
+  `;
+
+  document.getElementById('markDoneBtn').addEventListener('click', () => {
+    if (progress.has(lesson.id)) progress.delete(lesson.id); else progress.add(lesson.id);
+    saveProgress(progress);
+    renderLesson(lesson.id);
+    renderSidebar(lesson.id);
+  });
+
+  renderSidebar(lesson.id);
+  document.title = `${lesson.title} — Área do Aluno — TECH SANTOS BR`;
+}
+
+function currentLessonId() {
+  const h = location.hash.replace('#', '');
+  return flat.some(l => l.id === h) ? h : flat[0].id;
+}
+
+window.addEventListener('hashchange', () => renderLesson(currentLessonId()));
+renderLesson(currentLessonId());
+
+/* Sidebar drawer (mobile) */
+const sidebarEl = document.getElementById('appSidebar');
+const backdropEl = document.getElementById('sidebarBackdrop');
+const toggleBtn = document.getElementById('sidebarToggle');
+function openSidebarMobile() { sidebarEl.classList.add('open'); backdropEl.classList.add('open'); toggleBtn.setAttribute('aria-expanded', 'true'); }
+function closeSidebarMobile() { sidebarEl.classList.remove('open'); backdropEl.classList.remove('open'); toggleBtn.setAttribute('aria-expanded', 'false'); }
+toggleBtn.addEventListener('click', () => sidebarEl.classList.contains('open') ? closeSidebarMobile() : openSidebarMobile());
+backdropEl.addEventListener('click', closeSidebarMobile);
+</script>
+</body>
+</html>
