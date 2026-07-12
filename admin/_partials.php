@@ -29,6 +29,7 @@ function admin_topbar(string $active): void
         'avaliacoes' => ['/admin/avaliacoes.php', 'Avaliações'],
         'certificados' => ['/admin/certificados.php', 'Certificados'],
         'pedidos' => ['/admin/pedidos.php', 'Pedidos'],
+        'administradores' => ['/admin/administradores.php', 'Administradores'],
     ];
     ?>
 <div class="admin-topbar">

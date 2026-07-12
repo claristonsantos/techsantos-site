@@ -71,7 +71,58 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
 </html>
 HTML;
 
-    $boundary = uniqid('ts_', true);
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . MAIL_FROM_NAME . ' <' . MAIL_FROM . '>',
+        'Reply-To: ' . MAIL_FROM,
+        'X-Mailer: PHP/' . phpversion(),
+    ];
+
+    return @mail($toEmail, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers));
+}
+
+function send_admin_credentials_email(string $toEmail, string $toName, string $usuario, string $senha): bool
+{
+    $subject = 'Seu acesso ao Painel Administrativo — TECH SANTOS BR';
+    $primeiroNome = htmlspecialchars(explode(' ', trim($toName))[0], ENT_QUOTES);
+    $usuarioHtml = htmlspecialchars($usuario, ENT_QUOTES);
+    $senhaHtml = htmlspecialchars($senha, ENT_QUOTES);
+
+    $body = <<<HTML
+<!doctype html>
+<html lang="pt-BR">
+<body style="margin:0; padding:0; background:#F5F6F1; font-family: Arial, Helvetica, sans-serif; color:#10192B;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F5F6F1; padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" style="max-width:560px; background:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #DBDECF;">
+        <tr><td style="background:#0F2440; padding:24px 32px;">
+          <span style="color:#ffffff; font-size:18px; font-weight:bold;">TECH <span style="color:#6DC24D;">SANTOS BR</span></span>
+        </td></tr>
+        <tr><td style="padding:32px;">
+          <h1 style="font-size:20px; margin:0 0 16px;">Olá, {$primeiroNome}! Você tem acesso ao Painel Administrativo.</h1>
+          <p style="font-size:15px; line-height:1.6; color:#48546A; margin:0 0 20px;">Um administrador criou uma conta para você gerenciar alunos, cursos, avaliações e pedidos da TECH SANTOS BR.</p>
+
+          <table role="presentation" width="100%" style="background:#EBEEE3; border-radius:6px; margin-bottom:24px;">
+            <tr><td style="padding:16px 20px;">
+              <p style="margin:0 0 8px; font-size:13px; color:#48546A;">Acesse em <a href="https://techsantos.com.br/admin/login.php" style="color:#35762A;">techsantos.com.br/admin/login.php</a></p>
+              <p style="margin:0 0 4px; font-size:14px;"><strong>Usuário:</strong> {$usuarioHtml}</p>
+              <p style="margin:0; font-size:14px;"><strong>Senha provisória:</strong> {$senhaHtml}</p>
+            </td></tr>
+          </table>
+
+          <p style="font-size:13px; color:#7C8798; margin:0;">Por segurança, você vai precisar definir uma nova senha no seu primeiro acesso.</p>
+        </td></tr>
+        <tr><td style="background:#F5F6F1; padding:16px 32px; font-size:12px; color:#7C8798;">
+          TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
+HTML;
+
     $headers = [
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',

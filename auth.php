@@ -134,10 +134,10 @@ function aluno_logout(): void
 
 function admin_attempt_login(string $usuario, string $senha): bool
 {
-    $stmt = db()->prepare('SELECT id, senha_hash FROM admin_users WHERE usuario = ? LIMIT 1');
+    $stmt = db()->prepare('SELECT id, senha_hash, ativo FROM admin_users WHERE usuario = ? LIMIT 1');
     $stmt->execute([$usuario]);
     $row = $stmt->fetch();
-    if (!$row || !password_verify($senha, $row['senha_hash'])) {
+    if (!$row || !$row['ativo'] || !password_verify($senha, $row['senha_hash'])) {
         return false;
     }
     start_secure_session();
@@ -147,13 +147,26 @@ function admin_attempt_login(string $usuario, string $senha): bool
     return true;
 }
 
-function require_admin(): void
+function require_admin(bool $allowTempPassword = false): array
 {
     start_secure_session();
     if (empty($_SESSION['admin_id'])) {
         header('Location: /admin/login.php');
         exit;
     }
+    $stmt = db()->prepare('SELECT id, usuario, nome, email, senha_temporaria FROM admin_users WHERE id = ? AND ativo = 1');
+    $stmt->execute([$_SESSION['admin_id']]);
+    $admin = $stmt->fetch();
+    if (!$admin) {
+        admin_logout();
+        header('Location: /admin/login.php');
+        exit;
+    }
+    if (!$allowTempPassword && $admin['senha_temporaria']) {
+        header('Location: /admin/trocar-senha.php');
+        exit;
+    }
+    return $admin;
 }
 
 function admin_logout(): void
