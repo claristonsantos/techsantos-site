@@ -364,6 +364,47 @@ section { padding: clamp(3rem, 6.5vw, 5rem) 0; }
 .status-legend i.warn { background: #FBBF24; }
 .status-legend i.crit { background: #EF5350; }
 
+/* ---------- Course: pillars, curriculum accordion, instructor ---------- */
+.pillar-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+@media (max-width: 860px) { .pillar-row { grid-template-columns: 1fr; } }
+.pillar-card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 1.6rem 1.5rem 1.75rem; }
+.pillar-icon { width: 42px; height: 42px; margin-bottom: 1rem; color: var(--green-strong); }
+.pillar-card h3 { font-size: 1.12rem; font-weight: 700; font-family: 'Plex Sans', sans-serif; margin-bottom: 0.6rem; }
+.pillar-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+.pillar-card li { font-size: 0.9rem; color: var(--ink-soft); padding-left: 1rem; position: relative; }
+.pillar-card li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; background: var(--green); border-radius: 1px; }
+
+.curriculum-modules { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.module { background: var(--surface); }
+.module > summary {
+  cursor: pointer; list-style: none; padding: 1.15rem 1.4rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.module > summary::-webkit-details-marker { display: none; }
+.module-title { display: flex; align-items: baseline; gap: 0.8rem; }
+.module-num { font-family: 'Plex Mono', monospace; font-size: 0.78rem; color: var(--green-strong); }
+.module-title h3 { font-size: 1.05rem; font-weight: 700; font-family: 'Plex Sans', sans-serif; }
+.module-meta { display: flex; align-items: center; gap: 0.9rem; font-family: 'Plex Mono', monospace; font-size: 0.74rem; color: var(--ink-faint); white-space: nowrap; }
+.module-chevron { width: 16px; height: 16px; color: var(--ink-faint); transition: transform 0.2s ease; flex: none; }
+.module[open] .module-chevron { transform: rotate(180deg); }
+.module-body { padding: 0 1.4rem 1.4rem; }
+.module-body p.module-desc { color: var(--ink-soft); font-size: 0.92rem; margin-bottom: 1rem; max-width: 68ch; }
+.lesson-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.lesson-list li { background: var(--surface); padding: 0.65rem 0.9rem; display: flex; align-items: center; gap: 0.65rem; font-size: 0.88rem; color: var(--ink); }
+.lesson-list .play {
+  flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--green-soft); color: var(--green-strong);
+  display: flex; align-items: center; justify-content: center;
+}
+.lesson-list .play svg { width: 8px; height: 8px; }
+.topic-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1.5rem; }
+@media (max-width: 640px) { .topic-list { grid-template-columns: 1fr; } }
+.topic-list li { font-size: 0.9rem; color: var(--ink); padding-left: 1.05rem; position: relative; }
+.topic-list li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; background: var(--green); border-radius: 1px; }
+
+.instructor-panel { display: grid; grid-template-columns: auto 1fr; gap: clamp(1.5rem, 4vw, 2.5rem); align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: clamp(1.5rem, 4vw, 2.25rem); }
+@media (max-width: 700px) { .instructor-panel { grid-template-columns: 1fr; } }
+.instructor-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--navy); color: var(--green-bright); display: flex; align-items: center; justify-content: center; font-family: 'Plex Cond', sans-serif; font-weight: 700; font-size: 1.4rem; }
+.instructor-panel p { color: var(--ink-soft); font-size: 0.96rem; }
+
 /* ---------- Clients strip ---------- */
 .clients-wrap { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: clamp(2rem, 4vw, 2.75rem) 0; }
 .clients-list { display: flex; flex-wrap: wrap; gap: 0.6rem 0.7rem; }
