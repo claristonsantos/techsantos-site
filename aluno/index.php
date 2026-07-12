@@ -76,15 +76,19 @@ $isPowerBi = $aluno['curso_slug'] === 'power-bi';
 
   .player {
     aspect-ratio: 16 / 9; background: #14161A;
-    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
     position: relative; overflow: hidden; margin-bottom: 1.5rem;
   }
-  .player .play-btn {
+  .player-video { display: none; width: 100%; height: 100%; object-fit: contain; background: #000; }
+  .player-placeholder {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  }
+  .player-placeholder .play-btn {
     width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,.12);
     border: 1.5px solid rgba(255,255,255,.4); display: flex; align-items: center; justify-content: center; color: #fff;
   }
-  .player .play-btn svg { width: 18px; height: 18px; margin-left: 3px; }
-  .player .caption {
+  .player-placeholder .play-btn svg { width: 18px; height: 18px; margin-left: 3px; }
+  .player-placeholder .caption {
     position: absolute; bottom: 0.85rem; left: 1rem; right: 1rem;
     font-size: 0.72rem; color: rgba(255,255,255,.55);
     display: flex; justify-content: space-between; gap: 0.5rem;
@@ -602,8 +606,13 @@ function renderLesson(id) {
 
   const playerBlock = `
     <div class="player">
-      <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="18" height="18" ')}</div>
-      <div class="caption"><span>${lesson.title}</span><span>Vídeo em preparação</span></div>
+      <video class="player-video" controls preload="metadata" playsinline>
+        <source src="/video.php?id=${lesson.id}" type="video/mp4">
+      </video>
+      <div class="player-placeholder">
+        <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="18" height="18" ')}</div>
+        <div class="caption"><span>${lesson.title}</span><span>Vídeo em preparação</span></div>
+      </div>
     </div>
   `;
 
@@ -648,6 +657,17 @@ function renderLesson(id) {
       <div class="side right">${next ? `<a href="#${next.id}"><span class="dir">Próxima →</span><span class="t">${next.title}</span></a>` : ''}</div>
     </div>
   `;
+
+  const videoEl = main.querySelector('.player-video');
+  const placeholderEl = main.querySelector('.player-placeholder');
+  videoEl.addEventListener('loadedmetadata', () => {
+    videoEl.style.display = 'block';
+    placeholderEl.style.display = 'none';
+  });
+  videoEl.addEventListener('error', () => {
+    videoEl.style.display = 'none';
+    placeholderEl.style.display = 'flex';
+  }, true);
 
   document.getElementById('markDoneBtn').addEventListener('click', () => {
     if (progress.has(lesson.id)) progress.delete(lesson.id); else progress.add(lesson.id);
