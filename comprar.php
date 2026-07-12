@@ -17,24 +17,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim((string)($_POST['nome'] ?? ''));
     $email = trim((string)($_POST['email'] ?? ''));
     $cpf = cpf_digits((string)($_POST['cpf'] ?? ''));
+    $telefoneDigits = preg_replace('/\D/', '', (string)($_POST['telefone'] ?? '')) ?? '';
 
-    if ($nome === '' || $email === '' || $cpf === '') {
-        $error = 'Preencha nome, e-mail e CPF.';
+    if ($nome === '' || $email === '' || $cpf === '' || $telefoneDigits === '') {
+        $error = 'Preencha nome, e-mail, CPF e telefone.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'E-mail inválido.';
     } elseif (!cpf_is_valid($cpf)) {
         $error = 'CPF inválido.';
+    } elseif (strlen($telefoneDigits) < 10) {
+        $error = 'Telefone inválido. Use DDD + número, ex.: 64999998888.';
     } elseif (!$precoCentavos) {
         $error = 'Este curso ainda não tem um preço configurado para venda online. Fale conosco pelo WhatsApp.';
     } else {
-        $ins = db()->prepare('INSERT INTO pedidos (nome, email, cpf, curso_id, valor_centavos) VALUES (?, ?, ?, ?, ?)');
-        $ins->execute([$nome, $email, $cpf, $curso['id'], $precoCentavos]);
+        $ins = db()->prepare('INSERT INTO pedidos (nome, email, cpf, telefone, curso_id, valor_centavos) VALUES (?, ?, ?, ?, ?, ?)');
+        $ins->execute([$nome, $email, $cpf, $telefoneDigits, $curso['id'], $precoCentavos]);
         $pedidoId = (int)db()->lastInsertId();
 
         $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'];
         $checkout = pagbank_create_checkout(
-            ['id' => $pedidoId, 'nome' => $nome, 'email' => $email, 'cpf' => $cpf, 'valor_centavos' => $precoCentavos],
+            ['id' => $pedidoId, 'nome' => $nome, 'email' => $email, 'cpf' => $cpf, 'telefone_digits' => $telefoneDigits, 'valor_centavos' => $precoCentavos],
             $curso,
             $scheme . '://' . $host . '/pagbank-retorno.php?pedido=' . $pedidoId,
             $scheme . '://' . $host . '/pagbank-webhook.php'
@@ -108,6 +111,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <label for="cpf">CPF</label>
           <input type="text" id="cpf" name="cpf" required maxlength="14" placeholder="000.000.000-00" value="<?= htmlspecialchars($_POST['cpf'] ?? '', ENT_QUOTES) ?>">
         </div>
+      </div>
+      <div class="field">
+        <label for="telefone">Telefone (com DDD)</label>
+        <input type="tel" id="telefone" name="telefone" required maxlength="15" placeholder="(64) 99999-8888" value="<?= htmlspecialchars($_POST['telefone'] ?? '', ENT_QUOTES) ?>">
       </div>
       <button type="submit" class="btn btn-primary btn-block">Ir para o pagamento</button>
       <p class="buy-note">Você será redirecionado ao ambiente seguro do PagBank para concluir com cartão ou Pix. Seu acesso é liberado por e-mail assim que o pagamento for confirmado.</p>

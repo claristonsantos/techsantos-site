@@ -22,6 +22,11 @@ function pagbank_create_checkout(array $pedido, array $curso, string $redirectUr
             'name' => $pedido['nome'],
             'email' => $pedido['email'],
             'tax_id' => $pedido['cpf'],
+            'phone' => [
+                'country' => '55',
+                'area' => substr($pedido['telefone_digits'], 0, 2),
+                'number' => substr($pedido['telefone_digits'], 2),
+            ],
         ],
         'customer_modifiable' => false,
         'items' => [
