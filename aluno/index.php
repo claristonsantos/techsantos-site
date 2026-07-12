@@ -182,7 +182,7 @@ $isPowerBi = $aluno['curso_slug'] === 'power-bi';
 <div class="app-shell">
   <aside class="app-sidebar" id="appSidebar">
     <div class="sidebar-progress">
-      <div class="label"><span>Seu progresso</span><span id="progressCount">0/30</span></div>
+      <div class="label"><span>Seu progresso</span><span id="progressCount">0/43</span></div>
       <div class="bar"><span id="progressBar" style="width:0%"></span></div>
     </div>
     <nav id="sidebarNav"></nav>
@@ -213,10 +213,10 @@ const COURSE = [
         objetivos: ['Diferenciar dados normalizados de desnormalizados', 'Saber quando cada abordagem é preferível em um modelo de BI'],
         body: 'Bancos de dados transacionais (os sistemas que registram vendas, pedidos, notas fiscais) costumam ser altamente normalizados — cada informação existe em um único lugar, para evitar inconsistência na escrita. Modelos de BI fazem o caminho inverso quando faz sentido: desnormalizam parte dos dados para tornar a leitura e o cálculo mais rápidos e mais fáceis de entender por quem consome o relatório.',
         recursos: [{ t: 'Modelo de dados star schema', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/star-schema' }] },
-      { id: 'modelagem-pratica', title: 'Modelagem de dados na prática',
+      { id: 'modelagem-pratica', title: 'Granularidade, entidade de negócio e relacionamento',
         desc: 'Como o modelo de dados vai além de uma tabela: carregar tabelas separadas, relacioná-las por chaves e entender granularidade em um cenário com múltiplas tabelas.',
-        objetivos: ['Carregar mais de uma tabela no Power BI', 'Entender o conceito de granularidade (o nível de detalhe de cada linha)'],
-        body: 'Granularidade é uma das ideias mais importantes de modelagem: significa saber exatamente o que cada linha de uma tabela representa — um pedido, um item de pedido, um dia, um cliente. Misturar granularidades diferentes na mesma tabela é a causa mais comum de números errados em um relatório.',
+        objetivos: ['Carregar mais de uma tabela no Power BI e relacioná-las por chave', 'Entender granularidade (o nível de detalhe de cada linha) e entidade de negócio (o que cada tabela representa)'],
+        body: 'Granularidade é uma das ideias mais importantes de modelagem: significa saber exatamente o que cada linha de uma tabela representa — um pedido, um item de pedido, um dia, um cliente. Misturar granularidades diferentes na mesma tabela é a causa mais comum de números errados em um relatório. Já entidade de negócio é o conceito do mundo real que uma tabela descreve (Cliente, Produto, Pedido) — nomear e delimitar bem cada entidade é o que torna um relacionamento entre tabelas óbvio, em vez de ambíguo.',
         recursos: [{ t: 'Trabalhar com relacionamentos no Power BI Desktop', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-relationships-understand' }] },
       { id: 'esquema-estrela', title: 'Esquema estrela (Star Schema)',
         desc: 'A abordagem mais usada em data warehouses: separar tabelas fato (o que aconteceu) de tabelas dimensão (os atributos do que aconteceu) para um modelo rápido e sem ambiguidade.',
@@ -226,7 +226,20 @@ const COURSE = [
     ],
   },
   {
-    id: 'power-query-conectar', title: 'Módulo 02 · Power Query — Conectando e Importando Dados', kind: 'video',
+    id: 'perfil-dados', title: 'Módulo 02 · Perfil dos Dados', kind: 'reading',
+    lessons: [
+      {
+        id: 'perfil-dos-dados', title: 'Perfil dos Dados no Power Query',
+        content: [
+          { h: 'Por que examinar os dados antes de transformar', p: 'Antes de aplicar qualquer transformação, vale a pena parar e examinar a estrutura dos dados: quantas colunas existem, que tipo cada uma tem, e se há valores inesperados. O Power Query tem ferramentas de perfil de dados criadas exatamente para isso — elas ficam na guia Exibir do Editor do Power Query e adicionam pequenos indicadores visuais abaixo de cada coluna.', r: { t: 'Usando as ferramentas de perfil de dados', u: 'https://learn.microsoft.com/pt-br/power-query/data-profiling-tools' } },
+          { h: 'Qualidade da coluna e anomalias', p: 'Qualidade da coluna mostra, em uma barra colorida, a proporção de valores Válidos (verde), com Erro (vermelho) e Vazios (cinza) em cada coluna — a forma mais rápida de identificar anomalias sem abrir cada linha manualmente. Por padrão, o Power Query analisa apenas as primeiras 1.000 linhas; para bases maiores, é possível trocar para o perfil completo no aviso no canto inferior esquerdo do editor.' },
+          { h: 'Distribuição e estatísticas da coluna', p: 'Distribuição da coluna mostra a frequência de cada valor distinto como um mini-histograma, útil para notar concentrações ou valores repetidos demais para fazerem sentido. Perfil da coluna vai além: exibe estatísticas completas (contagem de valores distintos, valores únicos, mínimo, máximo, desvio padrão) junto com o gráfico de distribuição — a visão mais completa da "saúde" de uma coluna antes dela entrar no modelo.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'power-query-conectar', title: 'Módulo 03 · Power Query — Conectando e Importando Dados', kind: 'video',
     lessons: [
       { id: 'intro-power-query', title: 'Introdução ao Power Query',
         desc: 'Power Query é a ferramenta de ETL do Excel e do Power BI: extrai, transforma e carrega dados de quase qualquer fonte, substituindo horas de copiar/colar por um processo que se atualiza com um clique.',
@@ -266,7 +279,7 @@ const COURSE = [
     ],
   },
   {
-    id: 'power-query-transformar', title: 'Módulo 03 · Power Query — Transformação e Limpeza de Dados', kind: 'video',
+    id: 'power-query-transformar', title: 'Módulo 04 · Power Query — Transformação e Limpeza de Dados', kind: 'video',
     lessons: [
       { id: 'preenchimento-colunas', title: 'Preenchimento de colunas',
         desc: 'Preenche células vazias com o valor da célula anterior (ou seguinte) — essencial para tratar planilhas com células mescladas ou cabeçalhos hierárquicos.',
@@ -348,37 +361,156 @@ const COURSE = [
         objetivos: ['Acrescentar três ou mais consultas de uma vez', 'Ajustar nomes de colunas divergentes antes de acrescentar'],
         body: 'Na prática, fontes diferentes raramente têm nomes de coluna idênticos — uma pode ter "Cod_Cliente" e outra "CodigoCliente". Esta aula mostra como padronizar os nomes antes de acrescentar, para que o Power Query reconheça as colunas como a mesma informação.',
         recursos: [{ t: 'Acrescentar consultas', u: 'https://learn.microsoft.com/pt-br/power-query/append-queries' }] },
+      { id: 'mesclar-consultas', title: 'Mesclar consultas',
+        desc: 'Diferente de mesclar colunas, mesclar consultas une duas tabelas inteiras por uma coluna em comum — o equivalente a um PROCV avançado ou a um JOIN de banco de dados.',
+        objetivos: ['Mesclar duas tabelas por uma coluna-chave em comum', 'Escolher o tipo de junção correto (interna, externa esquerda, externa direita, completa)'],
+        body: 'Enquanto "mesclar colunas" concatena texto dentro da mesma tabela, "mesclar consultas" combina duas tabelas diferentes com base em uma chave comum — por exemplo, trazer o nome do vendedor para a tabela de vendas a partir de uma tabela de funcionários. O tipo de junção escolhido determina o que acontece com linhas sem correspondência: uma junção externa esquerda mantém todas as linhas da tabela principal mesmo sem par na segunda tabela, enquanto uma junção interna descarta linhas sem correspondência nos dois lados.',
+        recursos: [{ t: 'Visão geral de mesclar consultas', u: 'https://learn.microsoft.com/pt-br/power-query/merge-queries-overview' }] },
     ],
   },
   {
-    id: 'dax', title: 'Módulo 04 · Modelo de Dados & Fórmulas DAX', kind: 'reading',
+    id: 'otimizacao', title: 'Módulo 05 · Modelo de Dados & Otimização de Desempenho', kind: 'reading',
     lessons: [
       {
-        id: 'modelo-dados-dax', title: 'Modelo de Dados & Fórmulas DAX',
+        id: 'otimizar-modelo', title: 'Otimizando o Modelo de Dados',
         content: [
-          { h: 'O que é DAX', p: 'DAX (Data Analysis Expressions) nasceu com o Power Pivot, em 2010, e é a linguagem usada tanto no Power Pivot quanto no SSAS Tabular e no Power BI. Diferente do Excel, DAX não tem o conceito solto de "linha" e "coluna" — tudo trabalha sobre tabelas e colunas de um modelo de dados relacionado.', r: { t: 'Visão geral do DAX', u: 'https://learn.microsoft.com/pt-br/dax/dax-overview' } },
-          { h: 'Medidas implícitas x explícitas', p: 'Medidas implícitas são os cálculos automáticos que o Power BI sugere ao arrastar um campo numérico para um visual — soma, contagem, média. Medidas explícitas são escritas por você em DAX, como uma métrica de margem de lucro acumulada no ano. Arrastar e soltar é a forma mais fácil de começar; escrever suas próprias medidas é o que compensa no longo prazo.', r: { t: 'Aprenda os fundamentos de DAX no Power BI Desktop', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-quickstart-learn-dax-basics' } },
-          { h: 'Contexto de filtro e contexto de linha', p: 'O contexto de filtro é definido pela seleção de linha, coluna, filtros do relatório e segmentações de dados — linhas fora do contexto de filtro não entram no cálculo. O contexto de linha é definido automaticamente em colunas calculadas, ou por funções iteradoras como SUMX e AVERAGEX, que percorrem uma tabela linha a linha.', r: { t: 'Glossário de termos DAX', u: 'https://learn.microsoft.com/pt-br/dax/dax-glossary' } },
-          { h: 'Operadores DAX', p: 'Os operadores aritméticos (+, -, *, /, ^) funcionam como no Excel. Os operadores de comparação (=, >, <, >=, <=, <>) retornam verdadeiro ou falso. Já os operadores de texto e lógicos (&, &&, ||, IN) concatenam valores e combinam condições — por exemplo, [Estado]="MA" && [Quantidade]>10.' },
-          { h: 'Funções essenciais', p: 'O curso cobre as principais categorias de funções DAX — matemáticas e estatísticas (SUM, AVERAGE, MAX, MIN, DIVIDE), de contagem (COUNT, COUNTA, COUNTROWS, DISTINCTCOUNT), lógicas (IF, AND, OR, SWITCH) e de texto (CONCATENATE, LEFT/MID/RIGHT, UPPER/LOWER/PROPER, SUBSTITUTE, SEARCH).', r: { t: 'Referência de funções DAX (mais de 250 funções)', u: 'https://learn.microsoft.com/pt-br/dax/dax-function-reference' } },
-          { h: 'CALCULATE, FILTER, ALL e RELATED', p: 'CALCULATE é a função mais importante do DAX — avalia uma expressão em um novo contexto de filtro. FILTER retorna uma tabela filtrada, geralmente usada dentro de outra função. ALL remove filtros de uma tabela ou coluna, e RELATED busca um valor em uma tabela relacionada, funcionando como um PROCV entre tabelas do modelo.', r: { t: 'Função CALCULATE (DAX)', u: 'https://learn.microsoft.com/pt-br/dax/calculate-function-dax' } },
-          { h: 'Funções iteradoras (X) e inteligência de tempo', p: 'Funções como SUMX, COUNTX, AVERAGEX e RANKX percorrem uma tabela linha a linha aplicando uma expressão antes de agregar o resultado. Já as funções de inteligência de tempo — DATESYTD, DATEADD, DATESINPERIOD — calculam automaticamente comparações como acumulado no ano ou período anterior.', r: { t: 'Treinamento: funções de inteligência de tempo em DAX', u: 'https://learn.microsoft.com/pt-br/training/modules/dax-power-bi-time-intelligence/' } },
+          { h: 'Remover o que não é usado', p: 'O passo mais simples e mais esquecido: remover colunas e linhas que não aparecem em nenhum visual ou cálculo. Cada coluna carregada consome memória e tempo de atualização — um modelo com 40 colunas quando só 15 são usadas nos relatórios é uma escolha cara sem necessidade.', r: { t: 'Técnicas de redução de dados para modelos de importação', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/import-modeling-data-reduction' } },
+          { h: 'Encontrar medidas, relacionamentos e visuais lentos', p: 'O Performance Analyzer do Power BI Desktop grava quanto tempo cada visual, consulta e cálculo DAX levou para renderizar em uma interação — a forma mais direta de descobrir qual medida específica está deixando o relatório lento, em vez de suspeitar do arquivo inteiro.', r: { t: 'Treinamento: otimizar um modelo para desempenho', u: 'https://learn.microsoft.com/pt-br/training/modules/optimize-model-power-bi/' } },
+          { h: 'Cardinalidade e tipos de dados', p: 'Cardinalidade é o número de valores distintos em uma coluna. Colunas de alta cardinalidade (como um ID de transação único por linha) custam muito mais memória do que colunas de baixa cardinalidade (como um status com 5 opções possíveis). Trocar uma coluna de texto por um tipo inteiro, ou dividir uma coluna de data e hora em duas colunas separadas, costuma reduzir drasticamente essa cardinalidade.' },
+          { h: 'Agregações', p: 'Para modelos muito grandes, criar e gerenciar tabelas de agregação — versões pré-resumidas dos dados em um nível mais alto (por mês em vez de por dia, por exemplo) — permite que a maioria das consultas seja respondida pela tabela pequena e rápida, recorrendo à tabela detalhada apenas quando o usuário realmente precisa do nível mais fino.', r: { t: 'Guia de otimização do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/power-bi-optimization' } },
         ],
       },
     ],
   },
   {
-    id: 'visualizacoes', title: 'Módulo 05 · Visualizações, Relatórios & Power BI no Dia a Dia', kind: 'reading',
+    id: 'dax', title: 'Módulo 06 · Fórmulas DAX', kind: 'reading',
     lessons: [
       {
-        id: 'visualizacoes-relatorios', title: 'Visualizações, Relatórios & Power BI no Dia a Dia',
+        id: 'dax-sintaxe-medidas', title: 'Sintaxe, nomenclatura e organização de medidas',
         content: [
-          { h: 'Construindo o relatório', p: 'Depois do modelo pronto, o próximo passo é escolher o tipo de visualização certo para cada pergunta, formatar e configurar cada visual, e aplicar formatação condicional para destacar o que importa — tudo isso com segmentação de dados e filtros interativos.', r: { t: 'Visão geral de visualizações no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualizations-overview' } },
-          { h: 'Indo além do básico', p: 'O Power BI permite importar visuais personalizados da comunidade, adicionar visuais em R ou Python, criar dicas de ferramenta personalizadas e configurar a navegação entre páginas do relatório com botões e painel de seleção.' },
-          { h: 'Explorando os dados', p: 'Recursos como drill down, análise Top N, resumo estatístico, identificação de outliers, agrupamentos e binning ajudam a ir além do relatório estático — e os principais influenciadores e a árvore de decomposição usam IA para explicar variações nos números automaticamente.', r: { t: 'Interagir com visuais em relatórios e dashboards', u: 'https://learn.microsoft.com/pt-br/power-bi/explore-reports/end-user-visualizations' } },
-          { h: 'Publicando e compartilhando', p: 'Um relatório só gera valor quando chega até quem decide — por isso o curso cobre visão mobile, gerenciamento de acesso a dashboards, alertas de dados e o recurso de Perguntas e Respostas (Q&A) em linguagem natural.', r: { t: 'Segurança em nível de linha (RLS) no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/rls-guidance' } },
-          { h: 'Power BI no dia a dia (Teams e SharePoint)', p: 'Compartilhar um relatório ou visual diretamente no Microsoft Teams, pesquisar ativos do Power BI pelo SharePoint Online e até criar um relatório automaticamente a partir de uma lista do SharePoint — a integração com o resto do Office 365 é o que faz o Power BI virar hábito, não só uma ferramenta isolada.' },
-          { h: 'Excel ou Power BI?', p: 'Por fim, uma pergunta prática: quando usar Excel (aprendendo, análises pontuais, fórmulas de cubo) e quando usar Power BI (compartilhar com um público consumidor, recursos como RLS e visão mobile). A resposta raramente é "ou" — publique no serviço do Power BI e continue analisando no Excel quando precisar.', r: { t: 'Visão geral do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/fundamentals/power-bi-overview' } },
+          { h: 'O que é DAX', p: 'DAX (Data Analysis Expressions) nasceu com o Power Pivot, em 2010, e é a linguagem usada tanto no Power Pivot quanto no SSAS Tabular e no Power BI. Diferente do Excel, DAX não tem o conceito solto de "linha" e "coluna" — tudo trabalha sobre tabelas e colunas de um modelo de dados relacionado.', r: { t: 'Visão geral do DAX', u: 'https://learn.microsoft.com/pt-br/dax/dax-overview' } },
+          { h: 'Definição de nomes e sintaxe', p: 'Toda medida DAX começa com um nome claro (evite "Medida1" — prefira "Total de Vendas") seguido de sinal de igual e uma expressão. Boas práticas de nomenclatura incluem manter nomes de medida sem o nome da tabela na frente (diferente de colunas, que sempre usam Tabela[Coluna]) e agrupar medidas relacionadas com um prefixo em comum.' },
+          { h: 'Grupo de medidas, formatação e comentários', p: 'Organizar dezenas de medidas em pastas de exibição (grupos de medidas) evita que o painel de campos vire uma lista impossível de navegar. A formatação de número (moeda, percentual, casas decimais) deve ser definida na própria medida, não no visual, para que ela apareça correta em qualquer lugar do relatório. Comentários — usando // ou /* */ — documentam o raciocínio por trás de uma fórmula complexa para quem for dar manutenção nela depois, incluindo você mesmo, meses depois.' },
+          { h: 'Variáveis', p: 'A instrução VAR permite nomear um resultado intermediário e reutilizá-lo dentro da mesma medida, em vez de repetir a mesma sub-expressão várias vezes. Isso deixa a fórmula mais legível e, na maioria dos casos, mais rápida — o mecanismo calcula a variável uma única vez, mesmo que ela seja referenciada várias vezes depois do RETURN.' },
+          { h: 'Medidas rápidas', p: 'Para cálculos comuns (percentual do total, variação ano a ano, média móvel), o Power BI oferece "medidas rápidas": você escolhe o cálculo em um menu e o Power BI escreve o DAX por você. É um bom atalho para começar e também uma forma de aprender padrões DAX lendo o código gerado.', r: { t: 'Aprenda os fundamentos de DAX no Power BI Desktop', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-quickstart-learn-dax-basics' } },
+        ],
+      },
+      {
+        id: 'dax-contexto-modelo', title: 'O modelo de dados e os contextos do DAX',
+        content: [
+          { h: 'Por que o modelo de dados importa para o DAX', p: 'Uma medida DAX não existe isolada — o resultado dela depende inteiramente de como as tabelas estão relacionadas no modelo. A mesma fórmula de soma pode retornar números diferentes dependendo da direção e do tipo de filtro cruzado configurado nos relacionamentos entre as tabelas.' },
+          { h: 'Contexto de filtro', p: 'O contexto de filtro é o conjunto de filtros ativos no momento em que uma medida é calculada — definido pelas linhas e colunas de uma tabela ou matriz, pelos filtros do relatório, da página e do visual, e pelas segmentações de dados selecionadas. Uma mesma medida "Total de Vendas" retorna um número diferente para cada célula de uma tabela porque cada célula tem seu próprio contexto de filtro.', r: { t: 'Glossário de termos DAX', u: 'https://learn.microsoft.com/pt-br/dax/dax-glossary' } },
+          { h: 'Contexto de filtro por agregação', p: 'Quando uma medida usa CALCULATE para adicionar ou substituir um filtro (por exemplo, forçar o cálculo sempre para "Ano Atual", ignorando a seleção do usuário), ela está manipulando o contexto de filtro deliberadamente — a base de praticamente todo cálculo DAX mais avançado, como percentual do total ou comparação com período anterior.' },
+          { h: 'Contexto de linha e funções iteradoras', p: 'O contexto de linha existe quando o DAX está avaliando uma expressão linha a linha — automaticamente em colunas calculadas, ou explicitamente quando você usa uma função iteradora como SUMX. SUMX percorre uma tabela linha por linha, calcula uma expressão para cada linha e só então soma o resultado — diferente de SUM, que soma uma coluna já existente diretamente.' },
+          { h: 'Operadores DAX', p: 'Os operadores aritméticos (+, -, *, /, ^) funcionam como no Excel. Os operadores de comparação (=, >, <, >=, <=, <>) retornam verdadeiro ou falso. Já os operadores de texto e lógicos (&, &&, ||, IN) concatenam valores e combinam condições — por exemplo, [Estado]="MA" && [Quantidade]>10.' },
+        ],
+      },
+      {
+        id: 'dax-colunas-medidas-matematica', title: 'Calculated columns vs. measures & funções matemáticas',
+        content: [
+          { h: 'Colunas calculadas x medidas', p: 'Uma coluna calculada é avaliada linha a linha e armazenada fisicamente no modelo, ocupando memória — útil quando o resultado precisa ser usado como filtro, eixo de um visual ou lado de um relacionamento. Uma medida é calculada sob demanda, no momento em que o visual é renderizado, respeitando o contexto de filtro atual — a escolha certa para praticamente qualquer agregação (somas, médias, percentuais). Como regra prática: prefira medidas sempre que possível, e reserve colunas calculadas para quando o resultado realmente precisa existir linha a linha.' },
+          { h: 'Funções matemáticas e estatísticas essenciais', p: 'SUM, AVERAGE, MIN e MAX operam diretamente sobre uma coluna existente. DIVIDE faz uma divisão seguramente, retornando um valor alternativo (geralmente em branco) em vez de erro quando o denominador é zero — sempre prefira DIVIDE(a,b) a a/b em medidas de produção.', r: { t: 'Referência de funções DAX (mais de 250 funções)', u: 'https://learn.microsoft.com/pt-br/dax/dax-function-reference' } },
+          { h: 'Funções de contagem', p: 'COUNT conta valores numéricos em uma coluna; COUNTA conta qualquer valor não vazio, incluindo texto; COUNTROWS conta linhas de uma tabela inteira (mesmo sem escolher uma coluna); DISTINCTCOUNT conta valores únicos; e COUNTBLANK conta especificamente as células vazias — cada uma resolve uma pergunta ligeiramente diferente sobre o mesmo conjunto de dados.' },
+          { h: 'Funções iteradoras (X)', p: 'SUMX, AVERAGEX, MINX e MAXX aplicam uma expressão a cada linha de uma tabela antes de agregar o resultado — essenciais quando o cálculo não existe como coluna pronta, como "quantidade × preço unitário" somado por pedido, quando quantidade e preço estão em colunas diferentes.' },
+        ],
+      },
+      {
+        id: 'dax-logica-erros-texto', title: 'Combinando funções: lógica, tratamento de erros e texto',
+        content: [
+          { h: 'Combinar funções', p: 'Fórmulas DAX do mundo real raramente usam uma única função isolada — o padrão mais comum é aninhar funções, como um CALCULATE com um FILTER dentro, ou um SWITCH que decide qual medida usar. Ler uma fórmula complexa de dentro para fora (a função mais interna primeiro) costuma ser o jeito mais fácil de entendê-la.' },
+          { h: 'Tratamento de erros', p: 'IFERROR e ISERROR capturam situações como divisão por zero ou uma busca RELATED sem correspondência, permitindo retornar um valor alternativo em vez de quebrar o visual inteiro com uma mensagem de erro visível para o usuário final.' },
+          { h: 'Funções lógicas básicas', p: 'IF avalia uma condição e retorna um entre dois valores. AND e OR combinam duas condições lógicas — mas quando há mais de duas condições, SWITCH (ou a variante SWITCH(TRUE(), ...)) costuma ser mais legível do que encadear vários IF aninhados.' },
+          { h: 'Funções de texto', p: 'CONCATENATE, LEFT, MID, RIGHT, UPPER, LOWER, PROPER, SUBSTITUTE e SEARCH resolvem em DAX os mesmos problemas de padronização e extração de texto vistos no Power Query — a diferença é que aqui elas rodam dentro de uma medida ou coluna calculada, já no modelo.', r: { t: 'Referência de funções DAX (mais de 250 funções)', u: 'https://learn.microsoft.com/pt-br/dax/dax-function-reference' } },
+        ],
+      },
+      {
+        id: 'dax-calculate-filter', title: 'CALCULATE, FILTER, ALL e RELATED',
+        content: [
+          { h: 'CALCULATE: a função mais importante do DAX', p: 'CALCULATE avalia uma expressão em um contexto de filtro modificado — é a única função DAX capaz de alterar o contexto de filtro diretamente, o que a torna a base de praticamente todo cálculo de negócio não trivial: percentual do total, comparação com o ano anterior, meta versus realizado.', r: { t: 'Função CALCULATE (DAX)', u: 'https://learn.microsoft.com/pt-br/dax/calculate-function-dax' } },
+          { h: 'FILTER', p: 'FILTER retorna uma tabela contendo apenas as linhas que atendem a uma condição — não é usada sozinha, mas como argumento de dentro de CALCULATE ou de uma função iteradora, quando o filtro precisa de uma lógica mais complexa do que uma simples comparação de coluna.' },
+          { h: 'ALL', p: 'ALL remove os filtros aplicados a uma tabela ou coluna específica — útil para calcular um total geral que ignora a segmentação de dados selecionada pelo usuário, como "percentual do total geral" em vez de "percentual do total filtrado".' },
+          { h: 'RELATED', p: 'RELATED busca um valor em uma tabela relacionada a partir do lado "muitos" de um relacionamento — funciona como um PROCV automático entre tabelas do modelo, sem precisar escrever a lógica de busca manualmente.' },
+        ],
+      },
+      {
+        id: 'dax-tabelas-tempo', title: 'Funções de tabela, data/tempo e inteligência de tempo',
+        content: [
+          { h: 'Funções de tabela', p: 'Funções como ALL, VALUES, DISTINCT, SUMMARIZE e ADDCOLUMNS retornam tabelas em vez de valores únicos — usadas como argumento de outras funções ou diretamente em uma medida que precisa iterar sobre um conjunto de linhas construído dinamicamente.' },
+          { h: 'Funções de data e tempo', p: 'YEAR, MONTH, DAY, DATEDIFF e EOMONTH extraem e manipulam partes de uma data — a base para qualquer cálculo que dependa de calendário, como idade de um cliente ou dias em atraso.' },
+          { h: 'Inteligência de tempo', p: 'DATESYTD, DATEADD, DATESINPERIOD, SAMEPERIODLASTYEAR e PARALLELPERIOD automatizam comparações temporais comuns — acumulado no ano, mesmo período do ano anterior, média móvel — sem precisar reescrever a lógica de datas em cada medida. Essas funções exigem uma tabela calendário marcada corretamente no modelo para funcionar de forma confiável.', r: { t: 'Treinamento: funções de inteligência de tempo em DAX', u: 'https://learn.microsoft.com/pt-br/training/modules/dax-power-bi-time-intelligence/' } },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'relatorios', title: 'Módulo 07 · Criar e Enriquecer Relatórios', kind: 'reading',
+    lessons: [
+      {
+        id: 'construindo-visualizacoes', title: 'Construindo visualizações',
+        content: [
+          { h: 'Adicionar e escolher o visual certo', p: 'Cada tipo de visual responde melhor a um tipo de pergunta: gráfico de linhas para tendência ao longo do tempo, barras para comparar categorias, mapa para distribuição geográfica, tabela quando o número exato importa mais que o padrão visual. Escolher o visual errado é a causa mais comum de um relatório "bonito, mas difícil de entender".', r: { t: 'Visão geral de visualizações no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualizations-overview' } },
+          { h: 'Formatar e configurar', p: 'O painel de formatação controla desde cores e títulos até eixos, legendas e rótulos de dados — pequenos ajustes aqui (remover bordas desnecessárias, alinhar títulos, esconder eixos redundantes) fazem mais diferença na leitura do relatório do que a escolha do tipo de gráfico em si.' },
+          { h: 'Formatação condicional', p: 'Aplicar cor condicional a uma tabela ou a um KPI com base no valor (vermelho abaixo da meta, verde acima) transforma uma tabela de números em algo que comunica o status em menos de um segundo de leitura, sem exigir que o usuário calcule nada mentalmente.' },
+          { h: 'Segmentação de dados e filtros', p: 'Segmentações de dados (slicers) e filtros em nível de visual, página ou relatório controlam o que é exibido sem precisar de um novo relatório para cada recorte — a mesma base de dados serve dezenas de perguntas diferentes, dependendo de como o usuário filtra.' },
+          { h: 'Visuais personalizados, R e Python', p: 'Quando os visuais nativos não bastam, o AppSource oferece centenas de visuais certificados por Microsoft e parceiros para importar direto no relatório — e, para análises estatísticas mais avançadas, é possível embutir um gráfico gerado em R ou Python diretamente em uma página.', r: { t: 'Importar visuais do Power BI do AppSource ou de um arquivo', u: 'https://learn.microsoft.com/pt-br/power-bi/developer/visuals/import-visual' } },
+        ],
+      },
+      {
+        id: 'enriquecendo-relatorios', title: 'Deixando o relatório mais usável',
+        content: [
+          { h: 'Indicadores (KPIs) e cards', p: 'Um card ou um visual de KPI destaca um único número importante — faturamento do mês, meta atingida — como ponto de partida visual de uma página, antes do usuário mergulhar nos detalhes dos outros visuais.', r: { t: 'Criar um visual de cartão no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-card' } },
+          { h: 'Dicas de ferramenta personalizadas', p: 'Em vez do tooltip padrão (que só mostra os valores já visíveis no visual), uma dica de ferramenta personalizada é uma página inteira do relatório, com seus próprios visuais, exibida em miniatura quando o usuário passa o mouse sobre um ponto de dados — útil para mostrar contexto adicional sem poluir o visual principal.', r: { t: 'Criar dicas de ferramenta visuais no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-visual-tooltips' } },
+          { h: 'Interações entre visuais e painel de seleção', p: 'Por padrão, clicar em um visual filtra e realça automaticamente os demais visuais da página — esse comportamento pode ser ajustado visual a visual. O painel de seleção lista todos os objetos de uma página e permite reordenar camadas, ocultar e renomear elementos, essencial em páginas com muitos visuais sobrepostos.' },
+          { h: 'Navegação: bookmarks e botões', p: 'Marcadores (bookmarks) capturam o estado exato de uma página — filtros, segmentações, visuais ocultos — e podem ser reativados por um botão, criando navegação por abas ou histórias guiadas dentro de uma única página de relatório, sem precisar de páginas separadas para cada "vista".', r: { t: 'Criar marcadores de relatório no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-bookmarks' } },
+          { h: 'Classificação, sincronização de segmentação e drillthrough', p: 'Classificar visuais permite mudar a ordem de exibição sem alterar os dados de origem. Sincronizar segmentações de dados entre páginas evita que o usuário precise refazer o mesmo filtro em cada página. E o drillthrough leva o usuário de um resumo (por exemplo, uma linha em uma tabela de clientes) direto para uma página de detalhe filtrada automaticamente para aquele cliente específico.', r: { t: 'Usar drillthrough em relatórios do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-drillthrough' } },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'analise-avancada', title: 'Módulo 08 · Análise Avançada & Insights de IA', kind: 'reading',
+    lessons: [
+      {
+        id: 'explorando-dados', title: 'Explorando dados com filtros e análise estatística',
+        content: [
+          { h: 'Filtro Top N', p: 'Em vez de mostrar todas as categorias, um filtro Top N exibe apenas as N maiores (ou menores) por uma medida escolhida — "top 10 clientes por faturamento" em vez de uma lista de centenas de clientes onde só os primeiros importam para a decisão em questão.', r: { t: 'Filtrar dados em relatórios do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/consumer/end-user-report-filter' } },
+          { h: 'Resumo estatístico', p: 'Ao clicar com o botão direito em um ponto de dados e escolher "Analisar", o Power BI oferece um resumo estatístico rápido — média, mediana, quartis — sem precisar montar uma medida DAX específica só para uma checagem pontual durante a análise.' },
+          { h: 'Linhas de referência e o painel de análise', p: 'O painel de análise permite adicionar linhas de referência (média, mediana, um valor constante como a meta do trimestre) diretamente sobre um gráfico, dando contexto imediato sobre se um ponto está acima ou abaixo do esperado.' },
+          { h: 'Play Axis', p: 'O recurso Play Axis anima um visual ao longo de uma dimensão (tipicamente tempo), mostrando a evolução de categorias quadro a quadro — útil em apresentações para mostrar tendência de forma mais impactante do que um gráfico estático.' },
+        ],
+      },
+      {
+        id: 'insights-ia', title: 'Insights automáticos com IA',
+        content: [
+          { h: 'Q&A: perguntas em linguagem natural', p: 'O visual de Perguntas e Respostas (Q&A) permite digitar uma pergunta em português simples — "qual foi o faturamento por região em 2025" — e o Power BI monta o visual correspondente automaticamente, interpretando nomes de colunas e medidas do modelo.', r: { t: 'Criar um visual de Perguntas e Respostas em um dashboard', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/power-bi-visualization-introduction-to-q-and-a' } },
+          { h: 'Insights rápidos', p: 'Ao clicar com o botão direito em um valor e escolher "Analisar > Explicar o aumento/a diminuição", o Power BI testa automaticamente outras colunas do modelo em busca de explicações estatisticamente relevantes para a variação — um primeiro diagnóstico automático antes de investigar manualmente.' },
+          { h: 'Outliers, agrupamentos e binning', p: 'Identificar outliers (valores muito fora do padrão) evita que eles distorçam médias e conclusões. Agrupamentos (agrupar itens semelhantes manualmente, como unir vários produtos em uma categoria "Outros") e binning (agrupar valores numéricos contínuos em faixas, como faixas etárias) tornam visuais com muitas categorias ou muitos pontos mais fáceis de interpretar.' },
+          { h: 'Principais influenciadores', p: 'O visual de Principais Influenciadores usa IA para testar automaticamente quais colunas do modelo mais influenciam o aumento ou a diminuição de uma métrica escolhida — por exemplo, descobrir que "região" e "canal de venda" são os fatores que mais influenciam uma queda em vendas, sem precisar testar cada coluna manualmente.', r: { t: 'Tutorial do visual de principais influenciadores', u: 'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-influencers' } },
+          { h: 'Árvore de decomposição', p: 'A árvore de decomposição permite explorar uma métrica quebrando-a em múltiplas dimensões, em qualquer ordem, com um clique — e também tem um modo de IA que sugere automaticamente a próxima dimensão mais relevante para investigar uma variação.', r: { t: 'Criar e exibir visuais de árvore de decomposição', u: 'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-decomposition-tree' } },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'dashboards-governanca', title: 'Módulo 09 · Dashboards, Publicação & Governança', kind: 'reading',
+    lessons: [
+      {
+        id: 'criar-dashboards', title: 'Criar e configurar dashboards',
+        content: [
+          { h: 'Dashboards x relatórios', p: 'Um relatório é multipágina e interativo (filtros, segmentações, drill down); um dashboard é uma única tela de blocos (tiles) fixados a partir de um ou mais relatórios, pensada para monitoramento rápido, não para exploração profunda.', r: { t: 'Introdução aos dashboards para criadores do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/service-dashboards' } },
+          { h: 'Fixar uma página ao vivo', p: 'Fixar uma página inteira de relatório como um bloco "ao vivo" (live tile) mantém a interatividade original do relatório dentro do dashboard — diferente de fixar um único visual, que vira uma imagem estática dos dados no momento em que foi fixado.', r: { t: 'Fixar uma página de relatório inteira a um dashboard', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/service-dashboard-pin-live-tile-from-report' } },
+          { h: 'Alertas de dados', p: 'Em blocos do tipo indicador, KPI ou cartão, é possível configurar um alerta que notifica automaticamente quando um valor ultrapassa um limite definido — como um aviso automático quando o estoque de um produto cai abaixo de um número crítico.', r: { t: 'Definir alertas de dados em dashboards do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/explore-reports/end-user-alerts' } },
+          { h: 'Visão mobile, tema e Q&A no dashboard', p: 'O aplicativo mobile do Power BI reorganiza automaticamente os blocos para telas pequenas, mas vale revisar o layout mobile manualmente para dashboards críticos. Um tema visual consistente (cores, fontes) aplicado ao dashboard reforça a identidade do relatório, e a caixa de Perguntas e Respostas também pode ser adicionada diretamente ao dashboard, não só a relatórios.' },
+        ],
+      },
+      {
+        id: 'implantar-manter', title: 'Implantar e manter as entregas',
+        content: [
+          { h: 'Atualização programada', p: 'Um conjunto de dados publicado no serviço Power BI pode ser configurado para atualizar automaticamente em um horário definido, buscando os dados mais recentes da fonte sem exigir que alguém abra o arquivo manualmente. Capacidades compartilhadas permitem até 8 atualizações por dia; capacidades Premium ou Fabric, até 48.', r: { t: 'Atualização de dados no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/refresh-data' } },
+          { h: 'Segurança em nível de linha (RLS)', p: 'RLS permite que o mesmo relatório mostre dados diferentes para usuários diferentes — um gerente regional só vê os dados da própria região — através de papéis de segurança definidos no Power BI Desktop e de associações de usuário ou grupo de segurança configuradas no serviço.', r: { t: 'Segurança em nível de linha (RLS) no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/rls-guidance' } },
+          { h: 'Atualização incremental', p: 'Em vez de recarregar a tabela inteira a cada atualização, a atualização incremental recarrega apenas o período mais recente (por exemplo, os últimos 30 dias), mantendo o histórico já processado intacto — essencial para modelos grandes (acima de 1 GB) ou que levam horas para atualizar por completo.', r: { t: 'Configurar atualização incremental para modelos semânticos', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-overview' } },
+          { h: 'Promover e certificar conjuntos de dados', p: 'Endosso ajuda outros usuários a encontrar conteúdo confiável: qualquer pessoa com permissão de gravação pode "promover" um relatório que considera bom; já a "certificação" é reservada a revisores autorizados pelo administrador do Power BI e sinaliza que aquele conjunto de dados atende ao padrão de qualidade da organização.', r: { t: 'Promover e certificar conteúdo do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/collaborate-share/service-endorsement-overview' } },
+          { h: 'Dependências e formato de dataset grande', p: 'Antes de alterar ou remover um conjunto de dados compartilhado, é importante identificar quais relatórios e dashboards dependem dele — removê-lo sem verificar quebra tudo que foi construído em cima. Para modelos muito grandes, habilitar o formato de armazenamento de modelo semântico grande antes da primeira atualização no serviço evita atingir o limite padrão de tamanho.', r: { t: 'Modelos semânticos grandes no Power BI Premium', u: 'https://learn.microsoft.com/pt-br/fabric/enterprise/powerbi/service-premium-large-models' } },
         ],
       },
     ],
