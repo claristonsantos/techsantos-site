@@ -112,15 +112,26 @@ $isPowerBi = $aluno['curso_slug'] === 'power-bi';
   .resources { margin-bottom: 1.5rem; }
   .resources h2 { font-size: 0.95rem; font-weight: 700; font-family: 'Plex Sans', sans-serif; margin-bottom: 0.7rem; }
   .resources ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
-  .resources a {
-    display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink);
-    font-size: 0.9rem; padding: 0.65rem 0.9rem; border: 1px solid var(--line); border-radius: 6px;
-    transition: border-color 0.15s ease;
+  .res-card { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .res-toggle {
+    display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left;
+    background: none; border: none; cursor: pointer; color: var(--ink);
+    font-size: 0.9rem; font-family: 'Plex Sans', sans-serif; padding: 0.65rem 0.9rem;
   }
-  .resources a:hover { border-color: var(--green); color: var(--green-strong); }
-  .resources a svg.ext { width: 14px; height: 14px; margin-left: auto; color: var(--ink-faint); flex: none; }
-  .resources a svg.doc { width: 16px; height: 16px; color: var(--green-strong); flex: none; }
-  .resources .src { font-family: 'Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-faint); display: block; margin-top: 0.1rem; }
+  .res-toggle:hover { color: var(--green-strong); }
+  .res-toggle svg.doc { width: 16px; height: 16px; color: var(--green-strong); flex: none; }
+  .res-toggle svg.chev { width: 13px; height: 13px; color: var(--ink-faint); flex: none; margin-left: auto; transition: transform 0.15s ease; }
+  .res-card.open .res-toggle svg.chev { transform: rotate(90deg); }
+  .res-toggle .src { font-family: 'Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-faint); display: block; margin-top: 0.1rem; }
+  .res-body { display: none; padding: 0 0.9rem 0.9rem 2.55rem; }
+  .res-card.open .res-body { display: block; }
+  .res-body p { color: var(--ink-soft); font-size: 0.88rem; line-height: 1.6; margin-bottom: 0.6rem; }
+  .res-body a {
+    display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; color: var(--green-strong);
+    font-size: 0.82rem; font-weight: 600;
+  }
+  .res-body a:hover { text-decoration: underline; }
+  .res-body a svg.ext { width: 12px; height: 12px; }
 
   .lesson-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
   .lesson-nav .side { min-width: 0; }
@@ -589,9 +600,70 @@ function updateProgressBar() {
   document.getElementById('progressBar').style.width = `${Math.round((count / totalLessons) * 100)}%`;
 }
 
+const RESOURCE_SUMMARIES = {
+  'https://learn.microsoft.com/pt-br/dax/calculate-function-dax': 'CALCULATE avalia uma expressão dentro de um contexto de filtro modificado — é a função que permite, por exemplo, calcular "vendas do ano anterior" ou "percentual do total" substituindo ou adicionando filtros à consulta atual. Os argumentos extras (depois da expressão principal) funcionam como filtros que sobrescrevem o que já estava selecionado no relatório.',
+  'https://learn.microsoft.com/pt-br/dax/dax-function-reference': 'Índice oficial com mais de 250 funções DAX, organizadas por categoria (matemáticas, texto, data/hora, lógicas, estatísticas, de tabela). Cada função tem sua própria página com sintaxe, parâmetros, tipo de retorno e exemplos práticos de uso.',
+  'https://learn.microsoft.com/pt-br/dax/dax-glossary': 'Glossário com a definição precisa dos termos usados na documentação de DAX — contexto de filtro, contexto de linha, tabela, medida, coluna calculada e outros — útil como referência rápida quando um termo técnico aparece sem explicação em outro artigo.',
+  'https://learn.microsoft.com/pt-br/dax/dax-overview': 'Introdução oficial ao DAX (Data Analysis Expressions): de onde a linguagem veio (Power Pivot, 2010), onde é usada hoje (Power BI, Power Pivot no Excel, SSAS Tabular) e como ela difere de fórmulas de planilha — DAX sempre opera sobre tabelas e colunas de um modelo relacionado, nunca sobre células soltas.',
+  'https://learn.microsoft.com/pt-br/fabric/enterprise/powerbi/service-premium-large-models': 'Explica o formato de armazenamento de "modelo semântico grande", necessário quando um modelo Power BI ultrapassa o limite padrão de tamanho em capacidades Premium/Fabric. Precisa ser habilitado antes da primeira atualização do modelo no serviço, não depois.',
+  'https://learn.microsoft.com/pt-br/power-bi/collaborate-share/service-endorsement-overview': 'Descreve os dois níveis de "endosso" de conteúdo no Power BI: promoção (qualquer pessoa com permissão de gravação pode marcar um relatório como recomendado) e certificação (reservada a revisores autorizados pelo administrador, sinalizando que o conteúdo atende ao padrão de qualidade da organização).',
+  'https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-overview': 'Mostra como configurar a atualização incremental, que recarrega apenas o período mais recente dos dados (em vez da tabela inteira) a cada atualização — recomendada para modelos acima de 1 GB ou que levam horas para atualizar por completo, mantendo o histórico já processado intacto.',
+  'https://learn.microsoft.com/pt-br/power-bi/connect-data/refresh-data': 'Cobre os diferentes tipos de atualização de dados no Power BI: sob demanda, programada (agendada em horários fixos) e via API. Detalha os limites por tipo de capacidade — até 8 atualizações programadas por dia em capacidade compartilhada, até 48 em Premium/Fabric.',
+  'https://learn.microsoft.com/pt-br/power-bi/consumer/end-user-report-filter': 'Explica os tipos de filtro disponíveis para quem consome um relatório: filtros básicos, avançados, de intervalo relativo, por URL e o filtro Top N, que mostra apenas os N maiores ou menores valores de uma medida escolhida.',
+  'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-bookmarks': 'Um marcador (bookmark) captura o estado completo de uma página de relatório — filtros, segmentações, visuais ocultos, ordenação — e pode ser reativado por um botão depois, permitindo criar navegação por abas ou apresentações guiadas dentro de uma única página.',
+  'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-drillthrough': 'Drillthrough é a navegação que leva o usuário de um resumo (uma linha de uma tabela, por exemplo) direto para uma página de detalhe já filtrada automaticamente para aquele item específico — muito usado para investigar "por que esse cliente teve esse número".',
+  'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-visual-tooltips': 'Em vez do tooltip padrão (que só repete valores já visíveis), uma dica de ferramenta personalizada é uma página inteira do relatório exibida em miniatura ao passar o mouse sobre um ponto de dados — permite mostrar contexto extra sem poluir o visual principal.',
+  'https://learn.microsoft.com/pt-br/power-bi/create-reports/power-bi-visualization-introduction-to-q-and-a': 'O visual de Perguntas e Respostas (Q&A) interpreta uma pergunta digitada em linguagem natural e monta o gráfico correspondente automaticamente, reconhecendo os nomes de colunas e medidas do próprio modelo de dados.',
+  'https://learn.microsoft.com/pt-br/power-bi/create-reports/service-dashboard-pin-live-tile-from-report': 'Fixar uma página inteira de relatório como bloco "ao vivo" (live tile) preserva a interatividade original no dashboard — diferente de fixar um único visual, que vira uma imagem estática congelada no momento em que foi fixada.',
+  'https://learn.microsoft.com/pt-br/power-bi/create-reports/service-dashboards': 'Explica a diferença central entre relatório e dashboard: o relatório é multipágina e interativo, pensado para exploração; o dashboard é uma única tela de blocos fixados a partir de um ou mais relatórios, pensada para monitoramento rápido.',
+  'https://learn.microsoft.com/pt-br/power-bi/developer/visuals/import-visual': 'Mostra como importar visuais do AppSource (a loja oficial de visuais certificados por Microsoft e parceiros) ou de um arquivo local diretamente no painel de Visualizações do Power BI Desktop, quando os visuais nativos não cobrem uma necessidade específica.',
+  'https://learn.microsoft.com/pt-br/power-bi/explore-reports/end-user-alerts': 'Alertas de dados podem ser configurados em blocos de indicador, KPI ou cartão em um dashboard, notificando automaticamente quando um valor ultrapassa um limite definido — por exemplo, um aviso quando o estoque cai abaixo de um número crítico.',
+  'https://learn.microsoft.com/pt-br/power-bi/fundamentals/power-bi-overview': 'Visão geral oficial do que é o Power BI: o conjunto de ferramentas (Desktop, serviço online, mobile) para conectar, modelar, visualizar e compartilhar dados, e como essas peças se encaixam no fluxo de trabalho típico de um analista.',
+  'https://learn.microsoft.com/pt-br/power-bi/guidance/import-modeling-data-reduction': 'Reúne técnicas para reduzir o tamanho de um modelo em modo de importação: remover colunas não usadas, preferir tipos de dados mais compactos, resumir dados muito granulares e evitar carregar histórico além do necessário para a análise.',
+  'https://learn.microsoft.com/pt-br/power-bi/guidance/power-bi-optimization': 'Guia geral de otimização: como monitorar o desempenho do relatório para achar gargalos, priorizando consultas lentas e visuais pesados como os pontos de maior impacto na experiência do usuário final.',
+  'https://learn.microsoft.com/pt-br/power-bi/guidance/rls-guidance': 'Segurança em nível de linha (RLS) permite que o mesmo relatório mostre dados diferentes para usuários diferentes, através de papéis de segurança definidos no Desktop e associações de usuário ou grupo configuradas no serviço Power BI.',
+  'https://learn.microsoft.com/pt-br/power-bi/guidance/star-schema': 'Artigo de referência da Microsoft sobre por que o esquema estrela (tabelas fato conectadas a tabelas dimensão por chaves simples) é a arquitetura recomendada para modelos Power BI — menos ambiguidade, consultas mais rápidas, relacionamentos mais simples de manter.',
+  'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-query-overview': 'Explica o painel de consultas do Power BI Desktop: como cada consulta representa uma fonte de dados transformada, como reordenar, duplicar, referenciar e organizar consultas em grupos dentro do mesmo arquivo.',
+  'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-quickstart-learn-dax-basics': 'Um guia rápido prático para escrever as primeiras medidas DAX no Power BI Desktop, partindo de exemplos simples de soma e contagem até fórmulas com CALCULATE — pensado para quem nunca escreveu DAX antes.',
+  'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-relationships-understand': 'Detalha como o Power BI Desktop detecta e gerencia relacionamentos entre tabelas: cardinalidade (um-para-muitos, muitos-para-muitos), direção do filtro cruzado e como isso afeta o resultado de uma medida.',
+  'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-card': 'O visual de cartão exibe um único número em destaque — o ponto de partida visual de uma página antes do usuário explorar os detalhes nos demais visuais. Pode ser tornado interativo, filtrando os outros visuais ao ser selecionado.',
+  'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-decomposition-tree': 'A árvore de decomposição permite quebrar uma métrica em múltiplas dimensões, em qualquer ordem, com um clique — e tem um modo de IA que sugere automaticamente qual dimensão explorar em seguida para explicar uma variação.',
+  'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-influencers': 'O visual de Principais Influenciadores testa automaticamente, via IA, quais colunas do modelo mais influenciam o aumento ou a queda de uma métrica escolhida — útil para descobrir causas sem precisar testar cada coluna manualmente.',
+  'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualizations-overview': 'Panorama de todos os tipos de visualização nativos do Power BI, organizados por categoria (comparação, tendência, distribuição, relação, parte-do-todo), com orientação sobre qual visual usar para qual tipo de pergunta.',
+  'https://learn.microsoft.com/pt-br/power-query/append-queries': 'Acrescentar consultas empilha os dados de duas ou mais tabelas com a mesma estrutura de colunas, uma embaixo da outra — o equivalente a copiar e colar linhas de várias planilhas em uma só, mas de forma atualizável.',
+  'https://learn.microsoft.com/pt-br/power-query/data-profiling-tools': 'Descreve as três ferramentas de perfil de dados do Power Query — qualidade da coluna (barra de válido/erro/vazio), distribuição da coluna (frequência de valores) e perfil da coluna (estatísticas completas) — acessíveis na guia Exibir do editor.',
+  'https://learn.microsoft.com/pt-br/power-query/data-types': 'Explica os tipos de dados do Power Query (texto, número inteiro, decimal, data, data/hora, verdadeiro/falso) e por que definir o tipo certo logo no início da consulta evita erros de cálculo e ordenação mais adiante.',
+  'https://learn.microsoft.com/pt-br/power-query/fill-values-column': 'A operação de preenchimento propaga o último valor não vazio de uma coluna para baixo (ou para cima) até a célula seguinte com dado — essencial para tratar planilhas de origem com células mescladas ou cabeçalhos hierárquicos.',
+  'https://learn.microsoft.com/pt-br/power-query/get-data-experience': 'Visão geral de todos os conectores de dados disponíveis no Power Query — arquivos, pastas, bancos de dados, serviços online — e como a experiência de prévia e seleção funciona antes de carregar os dados na consulta.',
+  'https://learn.microsoft.com/pt-br/power-query/group-by': 'Agrupar por resume uma tabela detalhada em uma tabela agregada por uma ou mais colunas, aplicando soma, contagem, média, mínimo ou máximo sobre as demais colunas — o equivalente a um GROUP BY de SQL, feito pela interface.',
+  'https://learn.microsoft.com/pt-br/power-query/merge-queries-overview': 'Mesclar consultas combina duas tabelas diferentes com base em uma coluna-chave em comum, de forma parecida com um PROCV avançado ou um JOIN de banco de dados — o artigo detalha os seis tipos de junção disponíveis (interna, externa esquerda, externa direita, etc.).',
+  'https://learn.microsoft.com/pt-br/power-query/pivot-columns': 'Dinamizar (pivotar) uma coluna transforma seus valores distintos em novas colunas, usando uma função de agregação para preencher cada célula — o mesmo resultado de uma tabela dinâmica do Excel, mas persistido como parte da consulta.',
+  'https://learn.microsoft.com/pt-br/power-query/power-query-ui': 'Tour pela interface do Editor do Power Query: faixa de opções, painel de consultas à esquerda, prévia de dados no centro, painel de configurações à direita com a lista de passos aplicados (a receita de transformação).',
+  'https://learn.microsoft.com/pt-br/power-query/power-query-what-is-power-query': 'Explica o que é o Power Query e seu papel de ETL (extrair, transformar, carregar) dentro do Excel, Power BI e outros produtos Microsoft — cada transformação vira um passo registrado, reaplicado automaticamente a cada atualização.',
+  'https://learn.microsoft.com/pt-br/power-query/unpivot-column': 'Despivotar converte várias colunas (por exemplo, um mês por coluna) em duas colunas de atributo-valor, deixando a tabela no formato "longo" que modelos de dados relacionam e agregam corretamente.',
+  'https://learn.microsoft.com/pt-br/powerquery-m/date-functions': 'Referência de todas as funções de data da linguagem M — incluindo Date.AddDays, Date.From e Date.ToText — usadas para calcular prazos, extrair partes de uma data ou converter texto em data dentro de uma coluna personalizada.',
+  'https://learn.microsoft.com/pt-br/powerquery-m/power-query-m-function-reference': 'Índice completo com mais de 700 funções da linguagem M, a linguagem por trás de toda transformação do Power Query — organizado por categoria (texto, número, data, tabela, lista, lógica).',
+  'https://learn.microsoft.com/pt-br/powerquery-m/table-splitcolumn': 'Documentação da função Table.SplitColumn, que separa uma coluna em várias com base em um delimitador ou em um número fixo de caracteres — a função por trás da transformação "Dividir coluna" da interface.',
+  'https://learn.microsoft.com/pt-br/powerquery-m/text-functions': 'Referência das funções de texto da linguagem M — Text.Upper, Text.Lower, Text.Proper, Text.Middle e outras — usadas para padronizar capitalização, extrair trechos e limpar colunas de texto antes de carregar no modelo.',
+  'https://learn.microsoft.com/pt-br/training/modules/dax-power-bi-time-intelligence/': 'Módulo de treinamento oficial sobre funções de inteligência de tempo em DAX — acumulado no ano, mesmo período do ano anterior, média móvel — incluindo a exigência de uma tabela calendário corretamente marcada no modelo.',
+  'https://learn.microsoft.com/pt-br/training/modules/optimize-model-power-bi/': 'Módulo de treinamento sobre otimização de modelo: como revisar o desempenho de medidas, relacionamentos e visuais, usar variáveis para simplificar cálculos e reduzir a cardinalidade de colunas para economizar memória.',
+};
+
 function resourceItem(r) {
   if (!r) return '';
-  return `<li><a href="${r.u}" target="_blank" rel="noopener">${ICON_DOC}<span>${r.t}<span class="src">${MSL}</span></span>${ICON_EXT}</a></li>`;
+  const resumo = RESOURCE_SUMMARIES[r.u] || '';
+  const rid = 'res-' + Math.random().toString(36).slice(2, 9);
+  return `<li class="res-card" data-res-id="${rid}">
+    <button class="res-toggle" type="button" data-toggle-res="${rid}">
+      ${ICON_DOC}
+      <span>${r.t}<span class="src">${MSL}</span></span>
+      ${ICON_CHEV}
+    </button>
+    <div class="res-body">
+      ${resumo ? `<p>${resumo}</p>` : ''}
+      <a href="${r.u}" target="_blank" rel="noopener">Abrir artigo completo no Microsoft Learn ${ICON_EXT}</a>
+    </div>
+  </li>`;
 }
 
 function renderLesson(id) {
@@ -687,6 +759,12 @@ function currentLessonId() {
 
 window.addEventListener('hashchange', () => renderLesson(currentLessonId()));
 renderLesson(currentLessonId());
+
+document.getElementById('appMain').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-toggle-res]');
+  if (!btn) return;
+  btn.closest('.res-card').classList.toggle('open');
+});
 
 const sidebarEl = document.getElementById('appSidebar');
 const backdropEl = document.getElementById('sidebarBackdrop');
