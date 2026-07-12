@@ -145,7 +145,7 @@ header.site {
   max-width: 1140px; margin: 0 auto;
 }
 .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink); }
-.brand img { width: 28px; height: 28px; border-radius: 4px; display: block; }
+.brand img { width: 36px; height: 28px; object-fit: contain; border-radius: 4px; display: block; }
 .brand span { font-family: 'Plex Cond', sans-serif; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.01em; }
 .brand span em { font-style: normal; color: var(--green-strong); }
 nav.links { display: flex; gap: 1.65rem; font-size: 0.88rem; font-weight: 500; }

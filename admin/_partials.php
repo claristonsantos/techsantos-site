@@ -11,6 +11,8 @@ function admin_head(string $title): void
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
 <title><?= htmlspecialchars($title, ENT_QUOTES) ?> — Painel Administrativo — TECH SANTOS BR</title>
+<link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/css/style.css" />
 <link rel="stylesheet" href="/assets/css/admin.css" />
 </head>

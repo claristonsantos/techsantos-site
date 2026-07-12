@@ -11,6 +11,8 @@ $isPowerBi = $aluno['curso_slug'] === 'power-bi';
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
 <title>Área do Aluno — <?= htmlspecialchars($aluno['curso_nome'], ENT_QUOTES) ?> — TECH SANTOS BR</title>
+<link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/css/style.css" />
 <style>
   body { overflow-x: hidden; }
@@ -22,7 +24,7 @@ $isPowerBi = $aluno['curso_slug'] === 'power-bi';
     background: var(--surface);
   }
   .student-brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink); }
-  .student-brand img { width: 24px; height: 24px; border-radius: 4px; }
+  .student-brand img { width: 31px; height: 24px; object-fit: contain; border-radius: 4px; }
   .student-brand span { font-family: 'Plex Sans', sans-serif; font-weight: 700; font-size: 0.92rem; }
   .student-brand em { font-style: normal; color: var(--green-strong); }
   .topbar-actions { display: flex; align-items: center; gap: 0.9rem; }
