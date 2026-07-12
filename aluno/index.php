@@ -531,7 +531,6 @@ let progress = loadProgress();
 let openModule = COURSE[0].id;
 
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>';
-const ICON_TEXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h9l3 3v13H6z"/><path d="M9 10h6M9 14h6M9 18h3"/></svg>';
 const ICON_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>';
 const ICON_CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
 const ICON_EXT = '<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
@@ -559,7 +558,7 @@ function renderSidebar(currentId) {
           const active = l.id === currentId;
           return `<button class="sidebar-lesson${active ? ' active' : ''}${done ? ' done' : ''}" data-lesson="${l.id}">
             <span class="check">${done ? ICON_CHECK : ''}</span>
-            <span class="type-icon">${mod.kind === 'video' ? ICON_PLAY : ICON_TEXT}</span>
+            <span class="type-icon">${ICON_PLAY}</span>
             <span class="lbl">${l.title}</span>
           </button>`;
         }).join('')}
@@ -601,13 +600,17 @@ function renderLesson(id) {
   const main = document.getElementById('appMain');
   openModule = lesson.moduleId;
 
+  const playerBlock = `
+    <div class="player">
+      <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="18" height="18" ')}</div>
+      <div class="caption"><span>${lesson.title}</span><span>Vídeo em preparação</span></div>
+    </div>
+  `;
+
   let mediaBlock;
   if (lesson.kind === 'video') {
     mediaBlock = `
-      <div class="player">
-        <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="18" height="18" ')}</div>
-        <div class="caption"><span>${lesson.title}</span><span>Vídeo em preparação</span></div>
-      </div>
+      ${playerBlock}
       <div class="objectives">
         <div class="kicker">O que você vai aprender</div>
         <ul>${lesson.objetivos.map(o => `<li>${ICON_CHECK}<span>${o}</span></li>`).join('')}</ul>
@@ -625,6 +628,7 @@ function renderLesson(id) {
     `;
   } else {
     mediaBlock = `
+      ${playerBlock}
       <div class="reading-card">
         ${lesson.content.map(b => `<h3>${b.h}</h3><p>${b.p}</p>${b.r ? `<div class="res-inline resources"><ul>${resourceItem(b.r)}</ul></div>` : ''}`).join('')}
       </div>
