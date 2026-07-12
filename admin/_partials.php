@@ -26,6 +26,8 @@ function admin_topbar(string $active): void
         'index' => ['/admin/', 'Dashboard'],
         'alunos' => ['/admin/alunos.php', 'Alunos'],
         'cursos' => ['/admin/cursos.php', 'Cursos'],
+        'avaliacoes' => ['/admin/avaliacoes.php', 'Avaliações'],
+        'certificados' => ['/admin/certificados.php', 'Certificados'],
     ];
     ?>
 <div class="admin-topbar">

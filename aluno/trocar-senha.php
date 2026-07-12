@@ -1,24 +1,24 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/auth.php';
-
-if (aluno_logged_id() !== null) {
-    header('Location: /aluno/');
-    exit;
-}
+require_once __DIR__ . '/../auth.php';
+$aluno = require_aluno(true);
 
 $error = null;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
-    $email = trim((string)($_POST['email'] ?? ''));
     $senha = (string)($_POST['senha'] ?? '');
-    if ($email === '' || $senha === '') {
-        $error = 'Preencha e-mail e senha.';
-    } elseif (aluno_attempt_login($email, $senha)) {
+    $confirmar = (string)($_POST['confirmar'] ?? '');
+
+    if (strlen($senha) < 6) {
+        $error = 'A nova senha precisa ter pelo menos 6 caracteres.';
+    } elseif ($senha !== $confirmar) {
+        $error = 'As senhas não coincidem.';
+    } else {
+        $stmt = db()->prepare('UPDATE alunos SET senha_hash = ?, senha_temporaria = 0 WHERE id = ?');
+        $stmt->execute([password_hash($senha, PASSWORD_DEFAULT), $aluno['id']]);
         header('Location: /aluno/');
         exit;
-    } else {
-        $error = 'E-mail ou senha inválidos.';
     }
 }
 ?>
@@ -28,9 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
-<title>Entrar — Área do Aluno — TECH SANTOS BR</title>
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
-<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+<title>Trocar senha — Área do Aluno — TECH SANTOS BR</title>
 <link rel="stylesheet" href="/assets/css/style.css" />
 <link rel="stylesheet" href="/assets/css/admin.css" />
 </head>
@@ -41,22 +40,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <img src="/assets/img/logo.jpg" alt="Tech Santos BR" />
       <span>TECH <em>SANTOS BR</em></span>
     </a>
-    <h1>Área do Aluno</h1>
-    <p class="sub">Entre com o e-mail e a senha que você recebeu para acessar o curso.</p>
+    <h1>Defina sua senha</h1>
+    <p class="sub">Este é seu primeiro acesso. Por segurança, escolha uma senha nova antes de continuar.</p>
     <?php if ($error): ?>
       <div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div>
     <?php endif; ?>
     <form method="post" novalidate>
       <?= csrf_field() ?>
       <div class="field">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" required autocomplete="username" value="<?= htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES) ?>">
+        <label for="senha">Nova senha</label>
+        <input type="password" id="senha" name="senha" required autocomplete="new-password" minlength="6">
       </div>
       <div class="field">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" name="senha" required autocomplete="current-password">
+        <label for="confirmar">Confirmar nova senha</label>
+        <input type="password" id="confirmar" name="confirmar" required autocomplete="new-password" minlength="6">
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+      <button type="submit" class="btn btn-primary btn-block">Salvar e continuar</button>
     </form>
   </div>
 </div>

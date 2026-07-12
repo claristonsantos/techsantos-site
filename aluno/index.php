@@ -3,6 +3,24 @@ declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
 $aluno = require_aluno();
 $isPowerBi = $aluno['curso_slug'] === 'power-bi';
+
+$progressoConcluido = [];
+$avaliacoesInfo = [];
+if ($isPowerBi) {
+    $stmt = db()->prepare('SELECT licao_id FROM progresso WHERE aluno_id = ?');
+    $stmt->execute([$aluno['id']]);
+    $progressoConcluido = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    $stmt = db()->prepare(
+        'SELECT a.id, a.modulo_id,
+            (SELECT MAX(t.aprovado) FROM avaliacao_tentativas t WHERE t.avaliacao_id = a.id AND t.aluno_id = ?) AS aprovado
+         FROM avaliacoes a WHERE a.curso_id = ? AND a.ativo = 1'
+    );
+    $stmt->execute([$aluno['id'], $aluno['curso_id']]);
+    foreach ($stmt->fetchAll() as $row) {
+        $avaliacoesInfo[$row['modulo_id']] = ['id' => (int)$row['id'], 'aprovado' => (bool)$row['aprovado']];
+    }
+}
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -71,6 +89,16 @@ $isPowerBi = $aluno['curso_slug'] === 'power-bi';
   .sidebar-lesson .type-icon { width: 12px; height: 12px; color: var(--ink-faint); flex: none; }
   .sidebar-lesson .lbl { flex: 1; line-height: 1.3; }
   .sidebar-lesson.done:not(.active) { color: var(--ink-faint); }
+  .sidebar-module.locked .sidebar-module-head { color: var(--ink-faint); }
+  .locked-msg { padding: 0.5rem 1.25rem 0.85rem 1.5rem; font-size: 0.8rem; color: var(--ink-faint); line-height: 1.4; margin: 0; }
+  .sidebar-eval {
+    display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 1.25rem 0.55rem 1.5rem;
+    font-size: 0.85rem; font-weight: 600; text-decoration: none; color: var(--green-strong);
+    border-top: 1px dashed var(--line); margin-top: 0.2rem;
+  }
+  .sidebar-eval:hover { background: var(--surface-2); }
+  .sidebar-eval .type-icon { width: 13px; height: 13px; flex: none; }
+  .sidebar-eval.passed { color: var(--ink-faint); }
 
   .app-main { padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3.5rem) 5rem; max-width: 760px; }
   .lesson-breadcrumb { font-size: 0.78rem; color: var(--ink-faint); font-weight: 500; }
@@ -176,7 +204,7 @@ $isPowerBi = $aluno['curso_slug'] === 'power-bi';
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
     <?php endif; ?>
-    <a class="student-brand" href="/curso-power-bi.html">
+    <a class="student-brand" href="/curso-power-bi.php">
       <img src="/assets/img/logo.jpg" alt="Tech Santos BR" />
       <span>TECH <em>SANTOS BR</em> · Área do Aluno</span>
     </a>
@@ -210,6 +238,8 @@ $isPowerBi = $aluno['curso_slug'] === 'power-bi';
 
 <script>
 const ALUNO_ID = <?= (int)$aluno['id'] ?>;
+const SERVER_PROGRESS = <?= json_encode($progressoConcluido) ?>;
+const AVALIACOES = <?= json_encode($avaliacoesInfo, JSON_UNESCAPED_UNICODE) ?>;
 const MSL = 'learn.microsoft.com';
 const COURSE = [
   {
@@ -532,20 +562,46 @@ const COURSE = [
       },
     ],
   },
+  {
+    id: 'encerramento', title: 'Módulo 10 · Encerramento', kind: 'reading',
+    lessons: [
+      {
+        id: 'conclusao-curso', title: 'Conclusão do curso',
+        content: [
+          { h: 'Você chegou ao final do conteúdo', p: 'Percorremos o caminho completo: modelagem de dados, Power Query, otimização de modelo, DAX, construção de relatórios, análise avançada com IA e, por fim, publicação e governança. O mesmo roteiro usado nos mais de 50 projetos reais de BI da TECH SANTOS BR.' },
+          { h: 'Próximo passo: avaliação final', p: 'Para receber seu certificado de conclusão, faça a avaliação final do curso — ela reúne perguntas de todos os módulos. É permitido refazer a avaliação quantas vezes precisar até atingir a nota mínima de aprovação.' },
+        ],
+      },
+    ],
+  },
 ];
 
-const STORAGE_KEY = 'ts_curso_powerbi_progress_v1_aluno_' + ALUNO_ID;
 const flat = [];
 COURSE.forEach(m => m.lessons.forEach(l => flat.push({ moduleId: m.id, moduleTitle: m.title, kind: m.kind, ...l })));
 const totalLessons = flat.length;
 
-function loadProgress() {
-  try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }
-  catch (e) { return new Set(); }
-}
-function saveProgress(set) { localStorage.setItem(STORAGE_KEY, JSON.stringify([...set])); }
-let progress = loadProgress();
+let progress = new Set(SERVER_PROGRESS);
 let openModule = COURSE[0].id;
+
+function moduleIndex(moduleId) { return COURSE.findIndex(m => m.id === moduleId); }
+
+function moduleUnlocked(moduleId) {
+  const idx = moduleIndex(moduleId);
+  if (idx <= 0) return true;
+  const prevId = COURSE[idx - 1].id;
+  if (!(prevId in AVALIACOES)) return true;
+  return !!AVALIACOES[prevId].aprovado;
+}
+
+async function syncProgress(licaoId, action) {
+  try {
+    await fetch('/aluno/progresso.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ licao_id: licaoId, action }),
+    });
+  } catch (e) { /* best-effort; UI already reflects the change */ }
+}
 
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>';
 const ICON_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>';
@@ -555,22 +611,26 @@ const ICON_DOC = '<svg class="doc" viewBox="0 0 24 24" fill="none" stroke="curre
 
 function moduleDone(mod) { return mod.lessons.every(l => progress.has(l.id)); }
 
+const ICON_LOCK = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>';
+
 function renderSidebar(currentId) {
   const nav = document.getElementById('sidebarNav');
   nav.innerHTML = COURSE.map(mod => {
     const isOpen = mod.id === openModule;
     const doneCount = mod.lessons.filter(l => progress.has(l.id)).length;
+    const unlocked = moduleUnlocked(mod.id);
+    const aval = AVALIACOES[mod.id];
     return `
-    <div class="sidebar-module${isOpen ? ' open' : ''}" data-module="${mod.id}">
+    <div class="sidebar-module${isOpen ? ' open' : ''}${unlocked ? '' : ' locked'}" data-module="${mod.id}">
       <button class="sidebar-module-head" data-toggle="${mod.id}">
         <span>${mod.title}</span>
         <span style="display:flex;align-items:center;gap:0.5rem;">
-          <span class="count">${doneCount}/${mod.lessons.length}</span>
+          ${unlocked ? `<span class="count">${doneCount}/${mod.lessons.length}</span>` : ICON_LOCK}
           ${ICON_CHEV}
         </span>
       </button>
       <div class="sidebar-module-lessons">
-        ${mod.lessons.map(l => {
+        ${!unlocked ? `<p class="locked-msg">Conclua a avaliação do módulo anterior para desbloquear.</p>` : mod.lessons.map(l => {
           const done = progress.has(l.id);
           const active = l.id === currentId;
           return `<button class="sidebar-lesson${active ? ' active' : ''}${done ? ' done' : ''}" data-lesson="${l.id}">
@@ -579,6 +639,10 @@ function renderSidebar(currentId) {
             <span class="lbl">${l.title}</span>
           </button>`;
         }).join('')}
+        ${unlocked && aval ? `<a class="sidebar-eval${aval.aprovado ? ' passed' : ''}" href="/aluno/avaliacao.php?modulo=${mod.id}">
+          <span class="type-icon">${aval.aprovado ? ICON_CHECK : ICON_LOCK}</span>
+          <span class="lbl">${aval.aprovado ? 'Avaliação aprovada' : 'Fazer avaliação do módulo'}</span>
+        </a>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -744,8 +808,9 @@ function renderLesson(id) {
   }, true);
 
   document.getElementById('markDoneBtn').addEventListener('click', () => {
-    if (progress.has(lesson.id)) progress.delete(lesson.id); else progress.add(lesson.id);
-    saveProgress(progress);
+    const nowDone = !progress.has(lesson.id);
+    if (nowDone) progress.add(lesson.id); else progress.delete(lesson.id);
+    syncProgress(lesson.id, nowDone ? 'complete' : 'uncomplete');
     renderLesson(lesson.id);
   });
 
@@ -756,7 +821,10 @@ function renderLesson(id) {
 
 function currentLessonId() {
   const h = location.hash.replace('#', '');
-  return flat.some(l => l.id === h) ? h : flat[0].id;
+  const lesson = flat.find(l => l.id === h);
+  if (!lesson) return flat[0].id;
+  if (!moduleUnlocked(lesson.moduleId)) return flat[0].id;
+  return h;
 }
 
 window.addEventListener('hashchange', () => renderLesson(currentLessonId()));

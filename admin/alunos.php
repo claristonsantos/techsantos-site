@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/_partials.php';
+require_once __DIR__ . '/../mailer.php';
 require_admin();
 
 $pdo = db();
@@ -53,10 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($id === 0) {
                     $stmt = $pdo->prepare('INSERT INTO alunos (nome, email, cpf, senha_hash, curso_id) VALUES (?, ?, ?, ?, ?)');
                     $stmt->execute([$nome, $email, $cpf, password_hash($senha, PASSWORD_DEFAULT), $cursoId]);
-                    $success = 'Aluno cadastrado com sucesso.';
+                    $cursoStmt = $pdo->prepare('SELECT nome FROM cursos WHERE id = ?');
+                    $cursoStmt->execute([$cursoId]);
+                    $cursoNome = $cursoStmt->fetchColumn() ?: 'Power BI Completo';
+                    $emailEnviado = send_enrollment_email($email, $nome, $senha, ['nome' => $cursoNome]);
+                    $success = $emailEnviado
+                        ? 'Aluno cadastrado com sucesso. E-mail de matrícula enviado.'
+                        : 'Aluno cadastrado com sucesso, mas o envio do e-mail de matrícula falhou — confira os dados manualmente com o aluno.';
                 } else {
                     if ($senha !== '') {
-                        $stmt = $pdo->prepare('UPDATE alunos SET nome=?, email=?, cpf=?, curso_id=?, senha_hash=? WHERE id=?');
+                        $stmt = $pdo->prepare('UPDATE alunos SET nome=?, email=?, cpf=?, curso_id=?, senha_hash=?, senha_temporaria=1 WHERE id=?');
                         $stmt->execute([$nome, $email, $cpf, $cursoId, password_hash($senha, PASSWORD_DEFAULT), $id]);
                     } else {
                         $stmt = $pdo->prepare('UPDATE alunos SET nome=?, email=?, cpf=?, curso_id=? WHERE id=?');

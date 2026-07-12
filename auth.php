@@ -97,7 +97,7 @@ function aluno_logged_id(): ?int
     return isset($_SESSION['aluno_id']) ? (int)$_SESSION['aluno_id'] : null;
 }
 
-function require_aluno(): array
+function require_aluno(bool $allowTempPassword = false): array
 {
     $id = aluno_logged_id();
     if ($id === null) {
@@ -105,7 +105,7 @@ function require_aluno(): array
         exit;
     }
     $stmt = db()->prepare(
-        'SELECT a.id, a.nome, a.email, a.curso_id, c.nome AS curso_nome, c.slug AS curso_slug
+        'SELECT a.id, a.nome, a.email, a.curso_id, a.senha_temporaria, c.nome AS curso_nome, c.slug AS curso_slug
          FROM alunos a JOIN cursos c ON c.id = a.curso_id
          WHERE a.id = ? AND a.ativo = 1 LIMIT 1'
     );
@@ -114,6 +114,10 @@ function require_aluno(): array
     if (!$aluno) {
         aluno_logout();
         header('Location: /login.php');
+        exit;
+    }
+    if (!$allowTempPassword && $aluno['senha_temporaria']) {
+        header('Location: /aluno/trocar-senha.php');
         exit;
     }
     return $aluno;

@@ -42,6 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $modalidade = trim((string)($_POST['modalidade'] ?? ''));
         $descricao = trim((string)($_POST['descricao'] ?? ''));
         $ativo = isset($_POST['ativo']) ? 1 : 0;
+        $proximaTurmaData = trim((string)($_POST['proxima_turma_data'] ?? '')) ?: null;
+        $vagasDisponiveis = trim((string)($_POST['vagas_disponiveis'] ?? '')) !== '' ? (int)$_POST['vagas_disponiveis'] : null;
         $slug = slugify($nome);
 
         if ($nome === '' || $slug === '') {
@@ -53,11 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Já existe um curso com um nome muito parecido.';
             } else {
                 if ($id === 0) {
-                    $stmt = $pdo->prepare('INSERT INTO cursos (nome, slug, carga_horaria, modalidade, descricao, ativo) VALUES (?, ?, ?, ?, ?, ?)');
-                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo]);
+                    $stmt = $pdo->prepare('INSERT INTO cursos (nome, slug, carga_horaria, modalidade, descricao, ativo, proxima_turma_data, vagas_disponiveis) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $proximaTurmaData, $vagasDisponiveis]);
                 } else {
-                    $stmt = $pdo->prepare('UPDATE cursos SET nome=?, slug=?, carga_horaria=?, modalidade=?, descricao=?, ativo=? WHERE id=?');
-                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $id]);
+                    $stmt = $pdo->prepare('UPDATE cursos SET nome=?, slug=?, carga_horaria=?, modalidade=?, descricao=?, ativo=?, proxima_turma_data=?, vagas_disponiveis=? WHERE id=?');
+                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $proximaTurmaData, $vagasDisponiveis, $id]);
                 }
                 header('Location: /admin/cursos.php?msg=' . urlencode('Curso salvo com sucesso.'));
                 exit;
@@ -110,6 +112,17 @@ admin_topbar('cursos');
         <div class="field">
           <label for="modalidade">Modalidade</label>
           <input type="text" id="modalidade" name="modalidade" placeholder="Turma fechada / In company / Individual" value="<?= htmlspecialchars($editRow['modalidade'] ?? '', ENT_QUOTES) ?>">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="proxima_turma_data">Próxima turma (data)</label>
+          <input type="date" id="proxima_turma_data" name="proxima_turma_data" value="<?= htmlspecialchars($editRow['proxima_turma_data'] ?? '', ENT_QUOTES) ?>">
+          <span class="hint">Aparece como banner de urgência na página do curso. Deixe em branco para ocultar.</span>
+        </div>
+        <div class="field">
+          <label for="vagas_disponiveis">Vagas disponíveis</label>
+          <input type="number" id="vagas_disponiveis" name="vagas_disponiveis" min="0" value="<?= htmlspecialchars($editRow['vagas_disponiveis'] ?? '', ENT_QUOTES) ?>">
         </div>
       </div>
       <div class="field">

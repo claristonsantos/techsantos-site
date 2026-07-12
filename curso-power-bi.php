@@ -1,3 +1,18 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__ . '/db.php';
+
+$stmt = db()->prepare("SELECT nome, carga_horaria, proxima_turma_data, vagas_disponiveis FROM cursos WHERE slug = 'power-bi'");
+$stmt->execute();
+$curso = $stmt->fetch();
+$proximaTurma = null;
+if ($curso && $curso['proxima_turma_data'] && strtotime((string)$curso['proxima_turma_data']) >= strtotime('today')) {
+    $meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    $ts = strtotime((string)$curso['proxima_turma_data']);
+    $proximaTurma = (int)date('d', $ts) . ' de ' . $meses[(int)date('n', $ts) - 1] . ' de ' . date('Y', $ts);
+}
+$vagas = $curso['vagas_disponiveis'] ?? null;
+?>
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -22,7 +37,6 @@
       <a href="sobre.html">Sobre</a>
       <a href="servicos.html">Serviços</a>
       <a href="treinamentos.html">Treinamentos</a>
-      <a href="curso-power-bi.html" aria-current="page">Curso Power BI</a>
       <a href="projetos.html">Projetos</a>
       <a href="contato.html">Contato</a>
       <a href="/login.php">Área do Aluno</a>
@@ -39,11 +53,18 @@
 <main>
   <section class="hero page-hero">
     <div class="page-hero-inner">
+      <?php if ($proximaTurma): ?>
+      <div class="turma-banner">
+        <span class="dot"></span>
+        <span>Próxima turma: <strong><?= htmlspecialchars($proximaTurma, ENT_QUOTES) ?></strong><?= $vagas ? ' · <strong>' . (int)$vagas . ' vagas</strong> disponíveis' : '' ?></span>
+      </div>
+      <?php endif; ?>
       <p class="eyebrow on-dark">Curso completo · Modelagem, Power Query, DAX e Relatórios</p>
       <h1>Power BI, do dado bruto ao <em>indicador de negócio</em> pronto para decisão.</h1>
       <p class="lead">Curso próprio da TECH SANTOS BR, com apostila escrita pelo instrutor, videoaulas práticas gravadas passo a passo e laboratórios guiados — para quem já usa Excel e quer parar de repetir PROCV e começar a construir modelos de dados de verdade.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="https://wa.me/5564999852536" target="_blank" rel="noopener">Falar sobre a próxima turma</a>
+        <a class="btn btn-primary" href="/comprar.php">Comprar o curso</a>
+        <a class="btn btn-ghost" href="/aula-gratis.php">Assistir aula grátis</a>
         <a class="btn btn-ghost" href="#curriculo">Ver o currículo completo</a>
       </div>
       <div class="kpi-row">
@@ -94,7 +115,59 @@
     </div>
   </section>
 
-  <section id="curriculo" style="background: var(--surface-2);">
+  <section>
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">Sua jornada no curso</p>
+        <h2>Do primeiro conceito ao certificado</h2>
+        <p>Cada módulo termina com uma avaliação — 70% de aproveitamento libera o próximo. No final, uma avaliação geral e o seu certificado de conclusão.</p>
+      </div>
+      <div class="journey">
+        <div class="journey-track"></div>
+        <div class="journey-step"><span class="n">01</span><span class="t">Modelagem de Dados</span></div>
+        <div class="journey-step"><span class="n">02</span><span class="t">Perfil dos Dados</span></div>
+        <div class="journey-step"><span class="n">03</span><span class="t">Power Query · Conectar</span></div>
+        <div class="journey-step"><span class="n">04</span><span class="t">Power Query · Transformar</span></div>
+        <div class="journey-step"><span class="n">05</span><span class="t">Otimização de Modelo</span></div>
+        <div class="journey-step"><span class="n">06</span><span class="t">Fórmulas DAX</span></div>
+        <div class="journey-step"><span class="n">07</span><span class="t">Relatórios</span></div>
+        <div class="journey-step"><span class="n">08</span><span class="t">Análise Avançada & IA</span></div>
+        <div class="journey-step"><span class="n">09</span><span class="t">Dashboards & Governança</span></div>
+        <div class="journey-step final"><span class="n">🎓</span><span class="t">Avaliação Final & Certificado</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: var(--surface-2);">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Por que aprender com a TECH SANTOS BR</p>
+        <h2>Ensinado por quem implementa Power BI para empresas reais</h2>
+        <p>A maioria dos cursos de Power BI é dada por quem nunca entregou um dashboard para um cliente pagante. Este curso é o mesmo roteiro usado nos projetos reais da TECH SANTOS BR — os alunos aprendem o processo completo, não só a ferramenta.</p>
+      </div>
+      <div class="proof-row">
+        <div class="proof-card">
+          <p class="proof-num">50+</p>
+          <p class="proof-t">projetos de BI implementados para clientes reais desde 2021</p>
+        </div>
+        <div class="proof-card">
+          <p class="proof-num">Goiasa</p>
+          <p class="proof-t">painel de produtividade agrícola usado para decisão de safra em uma usina do Grupo Construcap</p>
+        </div>
+        <div class="proof-card">
+          <p class="proof-num">Servicap</p>
+          <p class="proof-t">dashboard de carteira de clientes usado na gestão comercial de um escritório de contabilidade</p>
+        </div>
+        <div class="proof-card">
+          <p class="proof-num">IA PredCare</p>
+          <p class="proof-t">central de monitoramento preditivo com 201 sensores, usada por uma indústria para evitar parada de produção</p>
+        </div>
+      </div>
+      <p class="section-foot"><a class="btn btn-ghost on-light" href="projetos.html">Ver esses projetos em detalhe →</a></p>
+    </div>
+  </section>
+
+  <section id="curriculo">
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Currículo completo</p>
