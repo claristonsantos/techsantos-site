@@ -112,11 +112,11 @@
         <div class="journey-step"><span class="n">03</span><span class="t">Power Query · Conectar</span></div>
         <div class="journey-step"><span class="n">04</span><span class="t">Power Query · Transformar</span></div>
         <div class="journey-step"><span class="n">05</span><span class="t">Otimização de Modelo</span></div>
-        <div class="journey-step"><span class="n">06</span><span class="t">Fórmulas DAX</span></div>
-        <div class="journey-step"><span class="n">07</span><span class="t">Relatórios</span></div>
-        <div class="journey-step"><span class="n">08</span><span class="t">Análise Avançada & IA</span></div>
-        <div class="journey-step"><span class="n">09</span><span class="t">Dashboards & Governança</span></div>
-        <div class="journey-step"><span class="n">10</span><span class="t">Laboratórios Práticos</span></div>
+        <div class="journey-step"><span class="n">06</span><span class="t">Laboratórios Práticos</span></div>
+        <div class="journey-step"><span class="n">07</span><span class="t">Fórmulas DAX</span></div>
+        <div class="journey-step"><span class="n">08</span><span class="t">Relatórios</span></div>
+        <div class="journey-step"><span class="n">09</span><span class="t">Análise Avançada & IA</span></div>
+        <div class="journey-step"><span class="n">10</span><span class="t">Dashboards & Governança</span></div>
         <div class="journey-step final"><span class="n">🎓</span><span class="t">Avaliação Final & Certificado</span></div>
       </div>
     </div>
@@ -269,7 +269,23 @@
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">06</span><h3>Fórmulas DAX</h3></div>
+            <div class="module-title"><span class="module-num">06</span><h3>Laboratórios Práticos de Power Query</h3></div>
+            <div class="module-meta"><span>2 laboratórios guiados</span>
+              <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </summary>
+          <div class="module-body">
+            <p class="module-desc">A prática direta: os mesmos arquivos de exercício usados nas aulas de Power Query, agora organizados em dois laboratórios guiados, passo a passo, para fazer no seu próprio Power BI Desktop antes da avaliação final.</p>
+            <ul class="topic-list">
+              <li>Laboratório 01A — Conectando e Importando Dados (4 etapas)</li>
+              <li>Laboratório 02A — Transformação e Limpeza de Dados (17 etapas)</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="module">
+          <summary>
+            <div class="module-title"><span class="module-num">07</span><h3>Fórmulas DAX</h3></div>
             <div class="module-meta"><span>Apostila + laboratório</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -300,7 +316,7 @@
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">07</span><h3>Criar e Enriquecer Relatórios</h3></div>
+            <div class="module-title"><span class="module-num">08</span><h3>Criar e Enriquecer Relatórios</h3></div>
             <div class="module-meta"><span>Apostila + laboratório</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -324,7 +340,7 @@
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">08</span><h3>Análise Avançada &amp; Insights de IA</h3></div>
+            <div class="module-title"><span class="module-num">09</span><h3>Análise Avançada &amp; Insights de IA</h3></div>
             <div class="module-meta"><span>Apostila</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -345,7 +361,7 @@
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">09</span><h3>Dashboards, Publicação &amp; Governança</h3></div>
+            <div class="module-title"><span class="module-num">10</span><h3>Dashboards, Publicação &amp; Governança</h3></div>
             <div class="module-meta"><span>Apostila</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -365,21 +381,6 @@
           </div>
         </details>
 
-        <details class="module">
-          <summary>
-            <div class="module-title"><span class="module-num">10</span><h3>Laboratórios Práticos de Power Query</h3></div>
-            <div class="module-meta"><span>2 laboratórios guiados</span>
-              <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-            </div>
-          </summary>
-          <div class="module-body">
-            <p class="module-desc">A prática direta: os mesmos arquivos de exercício usados nas aulas de Power Query, agora organizados em dois laboratórios guiados, passo a passo, para fazer no seu próprio Power BI Desktop antes da avaliação final.</p>
-            <ul class="topic-list">
-              <li>Laboratório 01A — Conectando e Importando Dados (4 etapas)</li>
-              <li>Laboratório 02A — Transformação e Limpeza de Dados (17 etapas)</li>
-            </ul>
-          </div>
-        </details>
       </div>
     </div>
   </section>

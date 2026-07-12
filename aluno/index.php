@@ -457,7 +457,43 @@ const COURSE = [
     ],
   },
   {
-    id: 'dax', title: 'Módulo 06 · Fórmulas DAX', kind: 'reading',
+    id: 'labs-power-query', title: 'Módulo 06 · Laboratórios Práticos de Power Query', kind: 'reading',
+    lessons: [
+      {
+        id: 'lab-01a', title: 'Laboratório 01A · Conectando e Importando Dados',
+        steps: [
+          { id: 'tipos-de-dados', h: 'Etapa 1 · Tipos de dados', p: 'Abra o arquivo desta etapa e importe a tabela para o Power Query (Dados → Obter Dados → Desta Pasta de Trabalho). No Editor do Power Query, identifique colunas com o tipo detectado incorretamente — datas ou números lidos como texto — e corrija o tipo pelo ícone no cabeçalho da coluna antes de carregar a consulta.', arquivo: 'Tipos de Dados.xlsx' },
+          { id: 'tabela-ou-intervalo', h: 'Etapa 2 · Tabela ou intervalo', p: 'Converta o intervalo de dados desta planilha em uma Tabela do Excel com Ctrl+T antes de conectar ao Power Query. Compare o resultado de carregar a consulta a partir do intervalo bruto e a partir da tabela nomeada, e observe como a tabela nomeada se expande automaticamente quando novas linhas são adicionadas.', arquivo: 'Tabela ou Intervalo.xlsx' },
+          { id: 'importar-excel', h: 'Etapa 3 · Importando um arquivo Excel', p: 'Use Obter Dados → Excel para conectar a este arquivo como fonte externa. Na janela de navegação, revise a prévia de cada planilha disponível antes de escolher qual carregar, praticando selecionar apenas a tabela necessária, sem trazer abas extras para o modelo.', arquivo: 'Importando um Arquivo Excel.xlsx' },
+          { id: 'consulta-pasta', h: 'Etapa 4 · Consulta de uma pasta', p: 'Este pacote traz 7 planilhas com a mesma estrutura de colunas. Salve todas em uma única pasta local e use Obter Dados → Pasta para combiná-las automaticamente em uma única tabela consolidada, sem precisar importar arquivo por arquivo.', arquivo: 'Consulta de Pasta (7 arquivos).zip' },
+        ],
+      },
+      {
+        id: 'lab-02a', title: 'Laboratório 02A · Transformação e Limpeza de Dados',
+        steps: [
+          { id: 'preenchimento-colunas', h: 'Etapa 1 · Preenchimento de colunas', p: 'Localize a coluna com células vazias resultantes de uma planilha com células mescladas. Use Transformar → Preencher → Para Baixo para replicar o último valor visto e eliminar as lacunas antes de qualquer agregação.', arquivo: 'Preenchimento de Colunas.xlsx' },
+          { id: 'dividir-colunas', h: 'Etapa 2 · Dividir colunas', p: 'Selecione a coluna indicada e use Transformar → Dividir Coluna → Por Delimitador para separá-la em duas ou mais colunas. Repita o exercício usando Por Número de Caracteres para comparar os dois métodos.', arquivo: 'Dividir Colunas.xlsx' },
+          { id: 'dividir-linhas', h: 'Etapa 3 · Dividir linhas', p: 'Nesta planilha, uma coluna traz múltiplos valores separados por vírgula em uma única célula. Use Dividir Coluna → Por Delimitador, mas escolha a opção "Linhas" em vez de "Colunas", e observe como cada valor vira sua própria linha.', arquivo: 'Dividir Linhas.xlsx' },
+          { id: 'colunas-personalizadas', h: 'Etapa 4 · Colunas personalizadas', p: 'Crie uma Coluna Personalizada (Adicionar Coluna → Coluna Personalizada) que combine ou calcule valores de duas colunas existentes usando uma fórmula M simples, como multiplicar preço por quantidade.', arquivo: 'Colunas Personalizadas.xlsx' },
+          { id: 'coluna-exemplo', h: 'Etapa 5 · Coluna de exemplo', p: 'Use Adicionar Coluna → Coluna a Partir de Exemplos e digite o resultado esperado para as primeiras linhas. Confira a fórmula M que o Power Query gerou automaticamente e valide se ela se aplica corretamente às demais linhas.', arquivo: 'Coluna de Exemplo.xlsx' },
+          { id: 'mesclar-colunas', h: 'Etapa 6 · Mesclar colunas', p: 'Selecione duas ou mais colunas de texto e use Transformar → Mesclar Colunas, escolhendo um separador (espaço, vírgula ou hífen) para reconstituir um único campo, como um endereço completo.', arquivo: 'Mesclar Colunas.xlsx' },
+          { id: 'classificar-filtrar', h: 'Etapa 7 · Classificar e filtrar', p: 'Ordene a tabela por uma ou mais colunas diretamente no Editor do Power Query e aplique um filtro de linha para remover registros antigos ou de teste antes de carregar a consulta no modelo.', arquivo: 'Classificar e Filtrar.xlsx' },
+          { id: 'formula-if', h: 'Etapa 8 · Fórmula IF', p: 'Adicione uma coluna personalizada com uma expressão "if condição then valor1 else valor2" para classificar cada linha (por exemplo, "Alto" ou "Baixo") com base em um valor numérico.', arquivo: 'Fórmula IF.xlsx' },
+          { id: 'formula-if-and', h: 'Etapa 9 · Fórmula IF e AND', p: 'Combine dois testes lógicos com "and" dentro da mesma condição, retornando verdadeiro apenas quando ambos os critérios forem atendidos ao mesmo tempo.', arquivo: 'Fórmula IF e AND.xlsx' },
+          { id: 'formula-adddays', h: 'Etapa 10 · Fórmula AddDays', p: 'Use Date.AddDays para calcular uma data de vencimento a partir de uma data de emissão, somando um número fixo de dias.', arquivo: 'Fórmula AddDays.xlsx' },
+          { id: 'formulas-texto', h: 'Etapa 11 · Fórmulas de texto', p: 'Pratique Text.Upper, Text.Lower e Text.Proper para padronizar a capitalização de uma coluna de texto digitada manualmente, eliminando duplicidades causadas por variações como "joão" e "João".', arquivo: 'Fórmulas de Texto.xlsx' },
+          { id: 'coluna-dinamica', h: 'Etapa 12 · Coluna dinâmica (Pivot)', p: 'Este pacote traz 3 planilhas. Use Transformar → Coluna Dinâmica para transformar valores de uma coluna em novos cabeçalhos, testando diferentes funções de agregação (soma, contagem) e observando o efeito da opção "Não agregar".', arquivo: 'Coluna Dinâmica - Pivot (3 arquivos).zip' },
+          { id: 'transformar-colunas-linhas', h: 'Etapa 13 · Transformar colunas em linhas (Unpivot)', p: 'Nesta planilha, os meses aparecem um por coluna. Selecione as colunas de mês e use Transformar → Dinamizar Coluna → Transformar Outras Colunas em Linhas para converter a tabela para o formato longo, ideal para um modelo de BI.', arquivo: 'Transformar Colunas em Linhas - Unpivot.xlsx' },
+          { id: 'agrupar-por', h: 'Etapa 14 · Agrupar por', p: 'Use Transformar → Agrupar Por para resumir a tabela detalhada em uma tabela por vendedor (ou outra dimensão), aplicando soma, contagem ou média sobre as demais colunas.', arquivo: 'Agrupar Por.xlsx' },
+          { id: 'acrescentar-consultas-1', h: 'Etapa 15 · Acrescentar consultas — parte 1', p: 'Este pacote traz um arquivo principal e três planilhas mensais (Jan, Fev, Mar 2008) com a mesma estrutura de colunas. Importe cada uma como consulta separada e use Página Inicial → Acrescentar Consultas para empilhá-las em uma única tabela consolidada.', arquivo: 'Acrescentar Consultas - Parte 1 (4 arquivos).zip' },
+          { id: 'acrescentar-consultas-2', h: 'Etapa 16 · Acrescentar consultas — parte 2', p: 'Este pacote traz duas planilhas com nomes de coluna divergentes representando a mesma informação. Renomeie as colunas para que coincidam antes de acrescentar as consultas, e confirme que o Power Query passa a reconhecê-las como equivalentes.', arquivo: 'Acrescentar Consultas - Parte 2 (2 arquivos).zip' },
+          { id: 'mesclar-consultas', h: 'Etapa 17 · Mesclar consultas', p: 'Este pacote traz 4 planilhas. Use Página Inicial → Mesclar Consultas para unir duas tabelas por uma coluna-chave em comum, testando os diferentes tipos de junção (interna, externa esquerda, externa direita) e observando o que acontece com linhas sem correspondência em cada caso.', arquivo: 'Mesclar Consultas (4 arquivos).zip' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'dax', title: 'Módulo 07 · Fórmulas DAX', kind: 'reading',
     lessons: [
       {
         id: 'dax-sintaxe-medidas', title: 'Sintaxe, nomenclatura e organização de medidas',
@@ -517,7 +553,7 @@ const COURSE = [
     ],
   },
   {
-    id: 'relatorios', title: 'Módulo 07 · Criar e Enriquecer Relatórios', kind: 'reading',
+    id: 'relatorios', title: 'Módulo 08 · Criar e Enriquecer Relatórios', kind: 'reading',
     lessons: [
       {
         id: 'construindo-visualizacoes', title: 'Construindo visualizações',
@@ -542,7 +578,7 @@ const COURSE = [
     ],
   },
   {
-    id: 'analise-avancada', title: 'Módulo 08 · Análise Avançada & Insights de IA', kind: 'reading',
+    id: 'analise-avancada', title: 'Módulo 09 · Análise Avançada & Insights de IA', kind: 'reading',
     lessons: [
       {
         id: 'explorando-dados', title: 'Explorando dados com filtros e análise estatística',
@@ -566,7 +602,7 @@ const COURSE = [
     ],
   },
   {
-    id: 'dashboards-governanca', title: 'Módulo 09 · Dashboards, Publicação & Governança', kind: 'reading',
+    id: 'dashboards-governanca', title: 'Módulo 10 · Dashboards, Publicação & Governança', kind: 'reading',
     lessons: [
       {
         id: 'criar-dashboards', title: 'Criar e configurar dashboards',
@@ -585,42 +621,6 @@ const COURSE = [
           { h: 'Atualização incremental', p: 'Em vez de recarregar a tabela inteira a cada atualização, a atualização incremental recarrega apenas o período mais recente (por exemplo, os últimos 30 dias), mantendo o histórico já processado intacto — essencial para modelos grandes (acima de 1 GB) ou que levam horas para atualizar por completo.', r: { t: 'Configurar atualização incremental para modelos semânticos', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-overview' } },
           { h: 'Promover e certificar conjuntos de dados', p: 'Endosso ajuda outros usuários a encontrar conteúdo confiável: qualquer pessoa com permissão de gravação pode "promover" um relatório que considera bom; já a "certificação" é reservada a revisores autorizados pelo administrador do Power BI e sinaliza que aquele conjunto de dados atende ao padrão de qualidade da organização.', r: { t: 'Promover e certificar conteúdo do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/collaborate-share/service-endorsement-overview' } },
           { h: 'Dependências e formato de dataset grande', p: 'Antes de alterar ou remover um conjunto de dados compartilhado, é importante identificar quais relatórios e dashboards dependem dele — removê-lo sem verificar quebra tudo que foi construído em cima. Para modelos muito grandes, habilitar o formato de armazenamento de modelo semântico grande antes da primeira atualização no serviço evita atingir o limite padrão de tamanho.', r: { t: 'Modelos semânticos grandes no Power BI Premium', u: 'https://learn.microsoft.com/pt-br/fabric/enterprise/powerbi/service-premium-large-models' } },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'labs-power-query', title: 'Módulo 10 · Laboratórios Práticos de Power Query', kind: 'reading',
-    lessons: [
-      {
-        id: 'lab-01a', title: 'Laboratório 01A · Conectando e Importando Dados',
-        steps: [
-          { id: 'tipos-de-dados', h: 'Etapa 1 · Tipos de dados', p: 'Abra o arquivo desta etapa e importe a tabela para o Power Query (Dados → Obter Dados → Desta Pasta de Trabalho). No Editor do Power Query, identifique colunas com o tipo detectado incorretamente — datas ou números lidos como texto — e corrija o tipo pelo ícone no cabeçalho da coluna antes de carregar a consulta.', arquivo: 'Tipos de Dados.xlsx' },
-          { id: 'tabela-ou-intervalo', h: 'Etapa 2 · Tabela ou intervalo', p: 'Converta o intervalo de dados desta planilha em uma Tabela do Excel com Ctrl+T antes de conectar ao Power Query. Compare o resultado de carregar a consulta a partir do intervalo bruto e a partir da tabela nomeada, e observe como a tabela nomeada se expande automaticamente quando novas linhas são adicionadas.', arquivo: 'Tabela ou Intervalo.xlsx' },
-          { id: 'importar-excel', h: 'Etapa 3 · Importando um arquivo Excel', p: 'Use Obter Dados → Excel para conectar a este arquivo como fonte externa. Na janela de navegação, revise a prévia de cada planilha disponível antes de escolher qual carregar, praticando selecionar apenas a tabela necessária, sem trazer abas extras para o modelo.', arquivo: 'Importando um Arquivo Excel.xlsx' },
-          { id: 'consulta-pasta', h: 'Etapa 4 · Consulta de uma pasta', p: 'Este pacote traz 7 planilhas com a mesma estrutura de colunas. Salve todas em uma única pasta local e use Obter Dados → Pasta para combiná-las automaticamente em uma única tabela consolidada, sem precisar importar arquivo por arquivo.', arquivo: 'Consulta de Pasta (7 arquivos).zip' },
-        ],
-      },
-      {
-        id: 'lab-02a', title: 'Laboratório 02A · Transformação e Limpeza de Dados',
-        steps: [
-          { id: 'preenchimento-colunas', h: 'Etapa 1 · Preenchimento de colunas', p: 'Localize a coluna com células vazias resultantes de uma planilha com células mescladas. Use Transformar → Preencher → Para Baixo para replicar o último valor visto e eliminar as lacunas antes de qualquer agregação.', arquivo: 'Preenchimento de Colunas.xlsx' },
-          { id: 'dividir-colunas', h: 'Etapa 2 · Dividir colunas', p: 'Selecione a coluna indicada e use Transformar → Dividir Coluna → Por Delimitador para separá-la em duas ou mais colunas. Repita o exercício usando Por Número de Caracteres para comparar os dois métodos.', arquivo: 'Dividir Colunas.xlsx' },
-          { id: 'dividir-linhas', h: 'Etapa 3 · Dividir linhas', p: 'Nesta planilha, uma coluna traz múltiplos valores separados por vírgula em uma única célula. Use Dividir Coluna → Por Delimitador, mas escolha a opção "Linhas" em vez de "Colunas", e observe como cada valor vira sua própria linha.', arquivo: 'Dividir Linhas.xlsx' },
-          { id: 'colunas-personalizadas', h: 'Etapa 4 · Colunas personalizadas', p: 'Crie uma Coluna Personalizada (Adicionar Coluna → Coluna Personalizada) que combine ou calcule valores de duas colunas existentes usando uma fórmula M simples, como multiplicar preço por quantidade.', arquivo: 'Colunas Personalizadas.xlsx' },
-          { id: 'coluna-exemplo', h: 'Etapa 5 · Coluna de exemplo', p: 'Use Adicionar Coluna → Coluna a Partir de Exemplos e digite o resultado esperado para as primeiras linhas. Confira a fórmula M que o Power Query gerou automaticamente e valide se ela se aplica corretamente às demais linhas.', arquivo: 'Coluna de Exemplo.xlsx' },
-          { id: 'mesclar-colunas', h: 'Etapa 6 · Mesclar colunas', p: 'Selecione duas ou mais colunas de texto e use Transformar → Mesclar Colunas, escolhendo um separador (espaço, vírgula ou hífen) para reconstituir um único campo, como um endereço completo.', arquivo: 'Mesclar Colunas.xlsx' },
-          { id: 'classificar-filtrar', h: 'Etapa 7 · Classificar e filtrar', p: 'Ordene a tabela por uma ou mais colunas diretamente no Editor do Power Query e aplique um filtro de linha para remover registros antigos ou de teste antes de carregar a consulta no modelo.', arquivo: 'Classificar e Filtrar.xlsx' },
-          { id: 'formula-if', h: 'Etapa 8 · Fórmula IF', p: 'Adicione uma coluna personalizada com uma expressão "if condição then valor1 else valor2" para classificar cada linha (por exemplo, "Alto" ou "Baixo") com base em um valor numérico.', arquivo: 'Fórmula IF.xlsx' },
-          { id: 'formula-if-and', h: 'Etapa 9 · Fórmula IF e AND', p: 'Combine dois testes lógicos com "and" dentro da mesma condição, retornando verdadeiro apenas quando ambos os critérios forem atendidos ao mesmo tempo.', arquivo: 'Fórmula IF e AND.xlsx' },
-          { id: 'formula-adddays', h: 'Etapa 10 · Fórmula AddDays', p: 'Use Date.AddDays para calcular uma data de vencimento a partir de uma data de emissão, somando um número fixo de dias.', arquivo: 'Fórmula AddDays.xlsx' },
-          { id: 'formulas-texto', h: 'Etapa 11 · Fórmulas de texto', p: 'Pratique Text.Upper, Text.Lower e Text.Proper para padronizar a capitalização de uma coluna de texto digitada manualmente, eliminando duplicidades causadas por variações como "joão" e "João".', arquivo: 'Fórmulas de Texto.xlsx' },
-          { id: 'coluna-dinamica', h: 'Etapa 12 · Coluna dinâmica (Pivot)', p: 'Este pacote traz 3 planilhas. Use Transformar → Coluna Dinâmica para transformar valores de uma coluna em novos cabeçalhos, testando diferentes funções de agregação (soma, contagem) e observando o efeito da opção "Não agregar".', arquivo: 'Coluna Dinâmica - Pivot (3 arquivos).zip' },
-          { id: 'transformar-colunas-linhas', h: 'Etapa 13 · Transformar colunas em linhas (Unpivot)', p: 'Nesta planilha, os meses aparecem um por coluna. Selecione as colunas de mês e use Transformar → Dinamizar Coluna → Transformar Outras Colunas em Linhas para converter a tabela para o formato longo, ideal para um modelo de BI.', arquivo: 'Transformar Colunas em Linhas - Unpivot.xlsx' },
-          { id: 'agrupar-por', h: 'Etapa 14 · Agrupar por', p: 'Use Transformar → Agrupar Por para resumir a tabela detalhada em uma tabela por vendedor (ou outra dimensão), aplicando soma, contagem ou média sobre as demais colunas.', arquivo: 'Agrupar Por.xlsx' },
-          { id: 'acrescentar-consultas-1', h: 'Etapa 15 · Acrescentar consultas — parte 1', p: 'Este pacote traz um arquivo principal e três planilhas mensais (Jan, Fev, Mar 2008) com a mesma estrutura de colunas. Importe cada uma como consulta separada e use Página Inicial → Acrescentar Consultas para empilhá-las em uma única tabela consolidada.', arquivo: 'Acrescentar Consultas - Parte 1 (4 arquivos).zip' },
-          { id: 'acrescentar-consultas-2', h: 'Etapa 16 · Acrescentar consultas — parte 2', p: 'Este pacote traz duas planilhas com nomes de coluna divergentes representando a mesma informação. Renomeie as colunas para que coincidam antes de acrescentar as consultas, e confirme que o Power Query passa a reconhecê-las como equivalentes.', arquivo: 'Acrescentar Consultas - Parte 2 (2 arquivos).zip' },
-          { id: 'mesclar-consultas', h: 'Etapa 17 · Mesclar consultas', p: 'Este pacote traz 4 planilhas. Use Página Inicial → Mesclar Consultas para unir duas tabelas por uma coluna-chave em comum, testando os diferentes tipos de junção (interna, externa esquerda, externa direita) e observando o que acontece com linhas sem correspondência em cada caso.', arquivo: 'Mesclar Consultas (4 arquivos).zip' },
         ],
       },
     ],

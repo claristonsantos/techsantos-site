@@ -7,11 +7,11 @@ const MODULOS_POWER_BI = [
     'power-query-conectar' => 'Módulo 03 · Power Query — Conectando e Importando Dados',
     'power-query-transformar' => 'Módulo 04 · Power Query — Transformação e Limpeza de Dados',
     'otimizacao' => 'Módulo 05 · Modelo de Dados & Otimização de Desempenho',
-    'dax' => 'Módulo 06 · Fórmulas DAX',
-    'relatorios' => 'Módulo 07 · Criar e Enriquecer Relatórios',
-    'analise-avancada' => 'Módulo 08 · Análise Avançada & Insights de IA',
-    'dashboards-governanca' => 'Módulo 09 · Dashboards, Publicação & Governança',
-    'labs-power-query' => 'Módulo 10 · Laboratórios Práticos de Power Query',
+    'labs-power-query' => 'Módulo 06 · Laboratórios Práticos de Power Query',
+    'dax' => 'Módulo 07 · Fórmulas DAX',
+    'relatorios' => 'Módulo 08 · Criar e Enriquecer Relatórios',
+    'analise-avancada' => 'Módulo 09 · Análise Avançada & Insights de IA',
+    'dashboards-governanca' => 'Módulo 10 · Dashboards, Publicação & Governança',
     'encerramento' => 'Avaliação final (Módulo 11 · Encerramento)',
 ];
 
