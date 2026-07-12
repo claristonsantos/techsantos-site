@@ -139,6 +139,12 @@ if ($isPowerBi) {
   .reading-card p { color: var(--ink-soft); font-size: 0.96rem; line-height: 1.65; margin-bottom: 0.5rem; }
   .reading-card .res-inline { margin: 0.35rem 0 0.9rem; }
 
+  .lab-step { padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
+  .lab-step:first-of-type { padding-top: 0; }
+  .lab-step:last-of-type { border-bottom: none; }
+  .lab-step h3 { margin: 0 0 0.5rem; }
+  .lab-step .lab-download { margin-top: 0.4rem; display: inline-flex; }
+
   .resources { margin-bottom: 1.5rem; }
   .resources h2 { font-size: 0.95rem; font-weight: 700; font-family: 'Plex Sans', sans-serif; margin-bottom: 0.7rem; }
   .resources ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
@@ -584,12 +590,48 @@ const COURSE = [
     ],
   },
   {
-    id: 'encerramento', title: 'Módulo 10 · Encerramento', kind: 'reading',
+    id: 'labs-power-query', title: 'Módulo 10 · Laboratórios Práticos de Power Query', kind: 'reading',
+    lessons: [
+      {
+        id: 'lab-01a', title: 'Laboratório 01A · Conectando e Importando Dados',
+        steps: [
+          { id: 'tipos-de-dados', h: 'Etapa 1 · Tipos de dados', p: 'Abra o arquivo desta etapa e importe a tabela para o Power Query (Dados → Obter Dados → Desta Pasta de Trabalho). No Editor do Power Query, identifique colunas com o tipo detectado incorretamente — datas ou números lidos como texto — e corrija o tipo pelo ícone no cabeçalho da coluna antes de carregar a consulta.', arquivo: 'Tipos de Dados.xlsx' },
+          { id: 'tabela-ou-intervalo', h: 'Etapa 2 · Tabela ou intervalo', p: 'Converta o intervalo de dados desta planilha em uma Tabela do Excel com Ctrl+T antes de conectar ao Power Query. Compare o resultado de carregar a consulta a partir do intervalo bruto e a partir da tabela nomeada, e observe como a tabela nomeada se expande automaticamente quando novas linhas são adicionadas.', arquivo: 'Tabela ou Intervalo.xlsx' },
+          { id: 'importar-excel', h: 'Etapa 3 · Importando um arquivo Excel', p: 'Use Obter Dados → Excel para conectar a este arquivo como fonte externa. Na janela de navegação, revise a prévia de cada planilha disponível antes de escolher qual carregar, praticando selecionar apenas a tabela necessária, sem trazer abas extras para o modelo.', arquivo: 'Importando um Arquivo Excel.xlsx' },
+          { id: 'consulta-pasta', h: 'Etapa 4 · Consulta de uma pasta', p: 'Este pacote traz 7 planilhas com a mesma estrutura de colunas. Salve todas em uma única pasta local e use Obter Dados → Pasta para combiná-las automaticamente em uma única tabela consolidada, sem precisar importar arquivo por arquivo.', arquivo: 'Consulta de Pasta (7 arquivos).zip' },
+        ],
+      },
+      {
+        id: 'lab-02a', title: 'Laboratório 02A · Transformação e Limpeza de Dados',
+        steps: [
+          { id: 'preenchimento-colunas', h: 'Etapa 1 · Preenchimento de colunas', p: 'Localize a coluna com células vazias resultantes de uma planilha com células mescladas. Use Transformar → Preencher → Para Baixo para replicar o último valor visto e eliminar as lacunas antes de qualquer agregação.', arquivo: 'Preenchimento de Colunas.xlsx' },
+          { id: 'dividir-colunas', h: 'Etapa 2 · Dividir colunas', p: 'Selecione a coluna indicada e use Transformar → Dividir Coluna → Por Delimitador para separá-la em duas ou mais colunas. Repita o exercício usando Por Número de Caracteres para comparar os dois métodos.', arquivo: 'Dividir Colunas.xlsx' },
+          { id: 'dividir-linhas', h: 'Etapa 3 · Dividir linhas', p: 'Nesta planilha, uma coluna traz múltiplos valores separados por vírgula em uma única célula. Use Dividir Coluna → Por Delimitador, mas escolha a opção "Linhas" em vez de "Colunas", e observe como cada valor vira sua própria linha.', arquivo: 'Dividir Linhas.xlsx' },
+          { id: 'colunas-personalizadas', h: 'Etapa 4 · Colunas personalizadas', p: 'Crie uma Coluna Personalizada (Adicionar Coluna → Coluna Personalizada) que combine ou calcule valores de duas colunas existentes usando uma fórmula M simples, como multiplicar preço por quantidade.', arquivo: 'Colunas Personalizadas.xlsx' },
+          { id: 'coluna-exemplo', h: 'Etapa 5 · Coluna de exemplo', p: 'Use Adicionar Coluna → Coluna a Partir de Exemplos e digite o resultado esperado para as primeiras linhas. Confira a fórmula M que o Power Query gerou automaticamente e valide se ela se aplica corretamente às demais linhas.', arquivo: 'Coluna de Exemplo.xlsx' },
+          { id: 'mesclar-colunas', h: 'Etapa 6 · Mesclar colunas', p: 'Selecione duas ou mais colunas de texto e use Transformar → Mesclar Colunas, escolhendo um separador (espaço, vírgula ou hífen) para reconstituir um único campo, como um endereço completo.', arquivo: 'Mesclar Colunas.xlsx' },
+          { id: 'classificar-filtrar', h: 'Etapa 7 · Classificar e filtrar', p: 'Ordene a tabela por uma ou mais colunas diretamente no Editor do Power Query e aplique um filtro de linha para remover registros antigos ou de teste antes de carregar a consulta no modelo.', arquivo: 'Classificar e Filtrar.xlsx' },
+          { id: 'formula-if', h: 'Etapa 8 · Fórmula IF', p: 'Adicione uma coluna personalizada com uma expressão "if condição then valor1 else valor2" para classificar cada linha (por exemplo, "Alto" ou "Baixo") com base em um valor numérico.', arquivo: 'Fórmula IF.xlsx' },
+          { id: 'formula-if-and', h: 'Etapa 9 · Fórmula IF e AND', p: 'Combine dois testes lógicos com "and" dentro da mesma condição, retornando verdadeiro apenas quando ambos os critérios forem atendidos ao mesmo tempo.', arquivo: 'Fórmula IF e AND.xlsx' },
+          { id: 'formula-adddays', h: 'Etapa 10 · Fórmula AddDays', p: 'Use Date.AddDays para calcular uma data de vencimento a partir de uma data de emissão, somando um número fixo de dias.', arquivo: 'Fórmula AddDays.xlsx' },
+          { id: 'formulas-texto', h: 'Etapa 11 · Fórmulas de texto', p: 'Pratique Text.Upper, Text.Lower e Text.Proper para padronizar a capitalização de uma coluna de texto digitada manualmente, eliminando duplicidades causadas por variações como "joão" e "João".', arquivo: 'Fórmulas de Texto.xlsx' },
+          { id: 'coluna-dinamica', h: 'Etapa 12 · Coluna dinâmica (Pivot)', p: 'Este pacote traz 3 planilhas. Use Transformar → Coluna Dinâmica para transformar valores de uma coluna em novos cabeçalhos, testando diferentes funções de agregação (soma, contagem) e observando o efeito da opção "Não agregar".', arquivo: 'Coluna Dinâmica - Pivot (3 arquivos).zip' },
+          { id: 'transformar-colunas-linhas', h: 'Etapa 13 · Transformar colunas em linhas (Unpivot)', p: 'Nesta planilha, os meses aparecem um por coluna. Selecione as colunas de mês e use Transformar → Dinamizar Coluna → Transformar Outras Colunas em Linhas para converter a tabela para o formato longo, ideal para um modelo de BI.', arquivo: 'Transformar Colunas em Linhas - Unpivot.xlsx' },
+          { id: 'agrupar-por', h: 'Etapa 14 · Agrupar por', p: 'Use Transformar → Agrupar Por para resumir a tabela detalhada em uma tabela por vendedor (ou outra dimensão), aplicando soma, contagem ou média sobre as demais colunas.', arquivo: 'Agrupar Por.xlsx' },
+          { id: 'acrescentar-consultas-1', h: 'Etapa 15 · Acrescentar consultas — parte 1', p: 'Este pacote traz um arquivo principal e três planilhas mensais (Jan, Fev, Mar 2008) com a mesma estrutura de colunas. Importe cada uma como consulta separada e use Página Inicial → Acrescentar Consultas para empilhá-las em uma única tabela consolidada.', arquivo: 'Acrescentar Consultas - Parte 1 (4 arquivos).zip' },
+          { id: 'acrescentar-consultas-2', h: 'Etapa 16 · Acrescentar consultas — parte 2', p: 'Este pacote traz duas planilhas com nomes de coluna divergentes representando a mesma informação. Renomeie as colunas para que coincidam antes de acrescentar as consultas, e confirme que o Power Query passa a reconhecê-las como equivalentes.', arquivo: 'Acrescentar Consultas - Parte 2 (2 arquivos).zip' },
+          { id: 'mesclar-consultas', h: 'Etapa 17 · Mesclar consultas', p: 'Este pacote traz 4 planilhas. Use Página Inicial → Mesclar Consultas para unir duas tabelas por uma coluna-chave em comum, testando os diferentes tipos de junção (interna, externa esquerda, externa direita) e observando o que acontece com linhas sem correspondência em cada caso.', arquivo: 'Mesclar Consultas (4 arquivos).zip' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'encerramento', title: 'Módulo 11 · Encerramento', kind: 'reading',
     lessons: [
       {
         id: 'conclusao-curso', title: 'Conclusão do curso',
         content: [
-          { h: 'Você chegou ao final do conteúdo', p: 'Percorremos o caminho completo: modelagem de dados, Power Query, otimização de modelo, DAX, construção de relatórios, análise avançada com IA e, por fim, publicação e governança. O mesmo roteiro usado nos mais de 50 projetos reais de BI da TECH SANTOS BR.' },
+          { h: 'Você chegou ao final do conteúdo', p: 'Percorremos o caminho completo: modelagem de dados, Power Query, otimização de modelo, DAX, construção de relatórios, análise avançada com IA, publicação e governança, e os laboratórios práticos aplicando tudo isso direto no Power BI Desktop.' },
           { h: 'Próximo passo: avaliação final', p: 'Para receber seu certificado de conclusão, faça a avaliação final do curso — ela reúne perguntas de todos os módulos. É permitido refazer a avaliação quantas vezes precisar até atingir a nota mínima de aprovação.' },
         ],
       },
@@ -798,6 +840,19 @@ function renderLesson(id) {
         <h2>Recursos oficiais Microsoft</h2>
         <ul>${lesson.recursos.map(resourceItem).join('')}</ul>
       </div>` : ''}
+    `;
+  } else if (lesson.steps) {
+    mediaBlock = `
+      ${playerBlock}
+      <div class="reading-card">
+        ${lesson.steps.map(s => `
+          <div class="lab-step">
+            <h3>${s.h}</h3>
+            <p>${s.p}</p>
+            ${s.arquivo ? `<a class="btn btn-ghost on-light lab-download" href="/exercicio.php?id=${s.id}">${ICON_DOC} Baixar ${s.arquivo}</a>` : ''}
+          </div>
+        `).join('')}
+      </div>
     `;
   } else {
     mediaBlock = `

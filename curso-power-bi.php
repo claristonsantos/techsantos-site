@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Curso Power BI — TECH SANTOS BR</title>
-<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 9 módulos, 29 videoaulas e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
+<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 10 módulos, 29 videoaulas, laboratórios práticos e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -52,7 +52,7 @@
       </div>
       <div class="kpi-row">
         <div class="kpi-tile"><div class="kpi-num">29</div><div class="kpi-label">videoaulas práticas, passo a passo</div></div>
-        <div class="kpi-tile"><div class="kpi-num">9</div><div class="kpi-label">módulos, da modelagem à governança</div></div>
+        <div class="kpi-tile"><div class="kpi-num">10</div><div class="kpi-label">módulos, da modelagem aos laboratórios práticos</div></div>
         <div class="kpi-tile"><div class="kpi-num">1</div><div class="kpi-label">apostila própria + laboratórios guiados</div></div>
         <div class="kpi-tile"><div class="kpi-num">MS</div><div class="kpi-label">instrutor certificado pela Microsoft</div></div>
       </div>
@@ -116,6 +116,7 @@
         <div class="journey-step"><span class="n">07</span><span class="t">Relatórios</span></div>
         <div class="journey-step"><span class="n">08</span><span class="t">Análise Avançada & IA</span></div>
         <div class="journey-step"><span class="n">09</span><span class="t">Dashboards & Governança</span></div>
+        <div class="journey-step"><span class="n">10</span><span class="t">Laboratórios Práticos</span></div>
         <div class="journey-step final"><span class="n">🎓</span><span class="t">Avaliação Final & Certificado</span></div>
       </div>
     </div>
@@ -154,8 +155,8 @@
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Currículo completo</p>
-        <h2>9 módulos, currículo completo</h2>
-        <p>Estrutura baseada no cronograma oficial do curso, do primeiro conceito de modelagem até a governança de conteúdo publicado. Os módulos 01, 03 e 04 são videoaulas práticas gravadas na tela; os demais são conteúdo em texto da apostila, com referências à documentação oficial da Microsoft, aplicado nos laboratórios guiados (Lab 01A e Lab 02A) direto no Power BI Desktop.</p>
+        <h2>10 módulos, currículo completo</h2>
+        <p>Estrutura baseada no cronograma oficial do curso, do primeiro conceito de modelagem até os laboratórios práticos guiados. Os módulos 01, 03 e 04 são videoaulas práticas gravadas na tela; os demais são conteúdo em texto da apostila, com referências à documentação oficial da Microsoft — aplicado passo a passo nos Laboratórios 01A e 02A, com os mesmos arquivos de exercício usados nas aulas, direto no Power BI Desktop.</p>
       </div>
 
       <div class="curriculum-modules">
@@ -350,7 +351,7 @@
             </div>
           </summary>
           <div class="module-body">
-            <p class="module-desc">O último passo: publicar, monitorar e manter o que foi construído — para que o relatório continue confiável meses depois de pronto.</p>
+            <p class="module-desc">Publicar, monitorar e manter o que foi construído — para que o relatório continue confiável meses depois de pronto.</p>
             <ul class="topic-list">
               <li>Criar dashboards e fixar páginas ao vivo</li>
               <li>Visão mobile, tema do painel e alertas de dados</li>
@@ -360,6 +361,22 @@
               <li>Atualização incremental</li>
               <li>Promover e certificar conjuntos de dados</li>
               <li>Dependências de conjunto de dados e formato de dataset grande</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="module">
+          <summary>
+            <div class="module-title"><span class="module-num">10</span><h3>Laboratórios Práticos de Power Query</h3></div>
+            <div class="module-meta"><span>2 laboratórios guiados</span>
+              <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </summary>
+          <div class="module-body">
+            <p class="module-desc">A prática direta: os mesmos arquivos de exercício usados nas aulas de Power Query, agora organizados em dois laboratórios guiados, passo a passo, para fazer no seu próprio Power BI Desktop antes da avaliação final.</p>
+            <ul class="topic-list">
+              <li>Laboratório 01A — Conectando e Importando Dados (4 etapas)</li>
+              <li>Laboratório 02A — Transformação e Limpeza de Dados (17 etapas)</li>
             </ul>
           </div>
         </details>
