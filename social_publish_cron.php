@@ -22,7 +22,11 @@ $due = $pdo->query(
 foreach ($due as $post) {
     $error = null;
     $isVideo = $post['midia_tipo'] === 'video';
-    $mediaType = strtoupper($post['tipo']) === 'FEED' ? 'FEED' : strtoupper($post['tipo']);
+    $mediaType = match ($post['tipo']) {
+        'story' => 'STORIES',
+        'reels' => 'REELS',
+        default => 'FEED',
+    };
     $containerId = meta_create_instagram_container($post['imagem_url'], $post['legenda'], $error, $mediaType, $isVideo);
 
     if ($containerId === null) {
