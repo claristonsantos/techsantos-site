@@ -30,6 +30,7 @@ function admin_topbar(string $active): void
         'jornada' => ['/admin/jornada.php', 'Jornada do Aluno'],
         'certificados' => ['/admin/certificados.php', 'Certificados'],
         'pedidos' => ['/admin/pedidos.php', 'Pedidos'],
+        'social' => ['/admin/social_posts.php', 'Redes Sociais'],
         'administradores' => ['/admin/administradores.php', 'Administradores'],
     ];
     ?>
