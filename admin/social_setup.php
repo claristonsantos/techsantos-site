@@ -7,6 +7,33 @@ require_admin();
 
 $error = null;
 $result = null;
+$igError = null;
+$igResult = null;
+
+// Instagram OAuth callback (Meta redirects back here with ?code=... or ?error=...)
+if (isset($_GET['code'])) {
+    $apiError = null;
+    $exchange = meta_instagram_exchange_code((string)$_GET['code'], $apiError);
+
+    if ($exchange === null) {
+        $igError = 'Falha ao trocar o código por um token: ' . $apiError;
+    } else {
+        $shortToken = (string)($exchange['access_token'] ?? '');
+        $longLived = meta_instagram_exchange_long_lived($shortToken, $apiError);
+
+        if ($longLived === null) {
+            $igError = 'Token curto obtido, mas falhou ao trocar por um de longa duração: ' . $apiError;
+        } else {
+            $igResult = [
+                'token' => (string)($longLived['access_token'] ?? ''),
+                'expires_in' => (int)($longLived['expires_in'] ?? 0),
+                'user_id' => (string)($exchange['user_id'] ?? ''),
+            ];
+        }
+    }
+} elseif (isset($_GET['error'])) {
+    $igError = 'Login do Instagram cancelado ou negado: ' . (string)($_GET['error_description'] ?? $_GET['error']);
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
@@ -31,14 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $result = ['long_token' => $longToken, 'pages' => []];
                 foreach ($pages as $page) {
-                    $pageId = (string)$page['id'];
-                    $pageToken = (string)$page['access_token'];
-                    $igId = meta_get_instagram_business_id($pageId, $pageToken, $apiError);
                     $result['pages'][] = [
                         'name' => $page['name'] ?? '(sem nome)',
-                        'id' => $pageId,
-                        'token' => $pageToken,
-                        'ig_id' => $igId,
+                        'id' => (string)$page['id'],
+                        'token' => (string)$page['access_token'],
                     ];
                 }
             }
@@ -52,11 +75,30 @@ admin_topbar('social');
 <main class="admin-main">
   <div class="admin-head"><h1>Configurar Meta (Facebook/Instagram)</h1></div>
 
+  <div class="buy-card" style="max-width:760px; margin-bottom:1.5rem;">
+    <h2 style="font-size:1.1rem; margin-bottom:0.75rem;">Instagram</h2>
+    <p style="color:var(--ink-soft); font-size:0.9rem; margin-bottom:1.25rem;">
+      Usa o app filho "Instagram API com Login do Instagram" (ID <code><?= htmlspecialchars(META_IG_APP_ID, ENT_QUOTES) ?></code>). Clique abaixo e autorize com a conta <code>@tech_santos_br</code> — diferente do token gerado manualmente no painel, este fluxo permite renovar por 60 dias.
+    </p>
+
+    <?php if ($igError): ?><div class="alert alert-error"><?= htmlspecialchars($igError, ENT_QUOTES) ?></div><?php endif; ?>
+
+    <?php if ($igResult): ?>
+      <div style="padding:1rem; background:var(--surface-2); border-radius:6px;">
+        <p style="font-weight:700; margin-bottom:0.5rem;">Cole em config.php:</p>
+        <pre style="background:var(--surface); padding:1rem; border-radius:6px; overflow-x:auto; font-size:0.82rem;">define('META_IG_TOKEN', '<?= htmlspecialchars($igResult['token'], ENT_QUOTES) ?>');</pre>
+        <p style="font-size:0.82rem; color:var(--ink-soft);">Instagram User ID confirmado: <code><?= htmlspecialchars($igResult['user_id'], ENT_QUOTES) ?></code></p>
+        <p style="font-size:0.8rem; color:var(--ink-faint); margin-top:0.5rem;">Válido por <?= (int)round($igResult['expires_in'] / 86400) ?> dias — depois disso, repita o login clicando no botão abaixo de novo.</p>
+      </div>
+    <?php else: ?>
+      <a class="btn btn-primary" href="<?= htmlspecialchars(meta_instagram_authorize_url(), ENT_QUOTES) ?>">Conectar com Instagram</a>
+    <?php endif; ?>
+  </div>
+
   <div class="buy-card" style="max-width:760px;">
+    <h2 style="font-size:1.1rem; margin-bottom:0.75rem;">Facebook</h2>
     <p style="color:var(--ink-soft); font-size:0.92rem; margin-bottom:1.25rem;">
-      Passo a passo: crie um app em <a href="https://developers.facebook.com/apps" target="_blank" rel="noopener">developers.facebook.com/apps</a> (tipo "Negócios"), copie o <strong>ID do Aplicativo</strong> e a <strong>Chave Secreta</strong> pra <code>config.php</code> (<code>META_APP_ID</code>/<code>META_APP_SECRET</code>). Depois abra o
-      <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener">Graph API Explorer</a>, selecione esse app, peça as permissões
-      <code>pages_manage_posts</code>, <code>pages_read_engagement</code>, <code>pages_show_list</code>, <code>instagram_basic</code>, <code>instagram_content_publish</code> e <code>business_management</code>, gere o token e cole abaixo.
+      Abra o <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener">Graph API Explorer</a>, selecione o app "TECH SANTOS BR - Redes Sociais", gere um <strong>Token de Acesso do Usuário</strong> com as permissões <code>pages_manage_posts</code>, <code>pages_read_engagement</code>, <code>pages_show_list</code> e <code>business_management</code>, e cole abaixo.
     </p>
 
     <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
@@ -73,16 +115,13 @@ admin_topbar('social');
     <?php if ($result): ?>
       <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--line);">
         <p style="font-weight:700; margin-bottom:0.75rem;">Cole em config.php:</p>
-        <pre style="background:var(--surface-2); padding:1rem; border-radius:6px; overflow-x:auto; font-size:0.82rem;">define('META_PAGE_TOKEN', '<?= htmlspecialchars($result['pages'][0]['token'] ?? '', ENT_QUOTES) ?>');</pre>
-
         <?php foreach ($result['pages'] as $page): ?>
           <div style="margin-top:1rem; padding:1rem; background:var(--surface-2); border-radius:6px;">
             <p><strong><?= htmlspecialchars($page['name'], ENT_QUOTES) ?></strong></p>
-            <p style="font-size:0.85rem; color:var(--ink-soft);">META_PAGE_ID: <code><?= htmlspecialchars($page['id'], ENT_QUOTES) ?></code></p>
-            <p style="font-size:0.85rem; color:var(--ink-soft);">META_IG_USER_ID: <code><?= htmlspecialchars($page['ig_id'] ?? '(nenhuma conta Instagram vinculada a esta Página)', ENT_QUOTES) ?></code></p>
+            <pre style="background:var(--surface); padding:1rem; border-radius:6px; overflow-x:auto; font-size:0.82rem;">define('META_PAGE_ID', '<?= htmlspecialchars($page['id'], ENT_QUOTES) ?>');
+define('META_PAGE_TOKEN', '<?= htmlspecialchars($page['token'], ENT_QUOTES) ?>');</pre>
           </div>
         <?php endforeach; ?>
-
         <p style="font-size:0.8rem; color:var(--ink-faint); margin-top:1rem;">O token da Página herdado do token de usuário de longa duração continua válido enquanto esse token de usuário não expirar (60 dias) e você continuar como admin da Página — vale repetir esse processo periodicamente.</p>
       </div>
     <?php endif; ?>

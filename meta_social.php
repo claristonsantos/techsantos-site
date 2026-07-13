@@ -10,13 +10,18 @@ function meta_graph_url(string $path): string
     return 'https://graph.facebook.com/' . META_GRAPH_VERSION . '/' . ltrim($path, '/');
 }
 
-/**
- * Low-level POST to the Graph API. Returns the decoded JSON body on success,
- * or null on failure (with $error filled in by reference).
- */
-function meta_graph_post(string $path, array $fields, ?string &$error = null): ?array
+function meta_ig_graph_url(string $path): string
 {
-    $ch = curl_init(meta_graph_url($path));
+    return 'https://graph.instagram.com/' . META_GRAPH_VERSION . '/' . ltrim($path, '/');
+}
+
+/**
+ * Low-level POST against a full URL. Returns the decoded JSON body on
+ * success, or null on failure (with $error filled in by reference).
+ */
+function meta_http_post(string $url, array $fields, ?string &$error = null): ?array
+{
+    $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST => true,
@@ -39,11 +44,11 @@ function meta_graph_post(string $path, array $fields, ?string &$error = null): ?
 }
 
 /**
- * Low-level GET to the Graph API.
+ * Low-level GET against a full URL.
  */
-function meta_graph_get(string $path, array $query, ?string &$error = null): ?array
+function meta_http_get(string $url, array $query, ?string &$error = null): ?array
 {
-    $ch = curl_init(meta_graph_url($path) . '?' . http_build_query($query));
+    $ch = curl_init($url . '?' . http_build_query($query));
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => 25,
@@ -61,6 +66,16 @@ function meta_graph_get(string $path, array $query, ?string &$error = null): ?ar
     }
 
     return $data;
+}
+
+function meta_graph_post(string $path, array $fields, ?string &$error = null): ?array
+{
+    return meta_http_post(meta_graph_url($path), $fields, $error);
+}
+
+function meta_graph_get(string $path, array $query, ?string &$error = null): ?array
+{
+    return meta_http_get(meta_graph_url($path), $query, $error);
 }
 
 /**
@@ -96,11 +111,13 @@ function meta_schedule_facebook_post(string $message, ?string $imageUrl, int $sc
  * Step 1 of Instagram publishing: creates a media container. Must be followed
  * by meta_publish_instagram_container() to actually make it go live — Instagram
  * has no native scheduling, so this pair must run at the intended publish time.
+ * Uses graph.instagram.com with META_IG_TOKEN (Instagram API with Instagram
+ * Login — a separate token from the Facebook Page token).
  */
 function meta_create_instagram_container(string $imageUrl, string $caption, ?string &$error = null): ?string
 {
-    $data = meta_graph_post(META_IG_USER_ID . '/media', [
-        'access_token' => META_PAGE_TOKEN,
+    $data = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/media'), [
+        'access_token' => META_IG_TOKEN,
         'image_url' => $imageUrl,
         'caption' => $caption,
     ], $error);
@@ -114,8 +131,8 @@ function meta_create_instagram_container(string $imageUrl, string $caption, ?str
 
 function meta_publish_instagram_container(string $containerId, ?string &$error = null): ?string
 {
-    $data = meta_graph_post(META_IG_USER_ID . '/media_publish', [
-        'access_token' => META_PAGE_TOKEN,
+    $data = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/media_publish'), [
+        'access_token' => META_IG_TOKEN,
         'creation_id' => $containerId,
     ], $error);
 
@@ -127,9 +144,9 @@ function meta_publish_instagram_container(string $containerId, ?string &$error =
 }
 
 /**
- * One-time setup helper: exchanges a short-lived user token (from the Graph
- * API Explorer) for a long-lived one, then resolves the Page access token and
- * the linked Instagram Business Account id. Used only by admin/social_setup.php.
+ * One-time setup helper: exchanges a short-lived Facebook user token (from the
+ * Graph API Explorer) for a long-lived one, then resolves the Page access token.
+ * Used only by admin/social_setup.php.
  */
 function meta_exchange_long_lived_token(string $shortLivedToken, ?string &$error = null): ?string
 {
@@ -158,16 +175,38 @@ function meta_list_pages(string $longLivedUserToken, ?string &$error = null): ?a
     return $data['data'] ?? [];
 }
 
-function meta_get_instagram_business_id(string $pageId, string $pageAccessToken, ?string &$error = null): ?string
+/**
+ * Instagram API with Instagram Login — real OAuth flow. A token minted via the
+ * App Dashboard's "generate token for tester" shortcut cannot be exchanged for
+ * a long-lived token; only a token obtained through this authorize → code →
+ * token flow can.
+ */
+function meta_instagram_authorize_url(): string
 {
-    $data = meta_graph_get($pageId, [
-        'fields' => 'instagram_business_account',
-        'access_token' => $pageAccessToken,
+    return 'https://api.instagram.com/oauth/authorize?' . http_build_query([
+        'client_id' => META_IG_APP_ID,
+        'redirect_uri' => META_IG_REDIRECT_URI,
+        'response_type' => 'code',
+        'scope' => 'instagram_business_basic,instagram_business_content_publish',
+    ]);
+}
+
+function meta_instagram_exchange_code(string $code, ?string &$error = null): ?array
+{
+    return meta_http_post('https://api.instagram.com/oauth/access_token', [
+        'client_id' => META_IG_APP_ID,
+        'client_secret' => META_IG_APP_SECRET,
+        'grant_type' => 'authorization_code',
+        'redirect_uri' => META_IG_REDIRECT_URI,
+        'code' => $code,
     ], $error);
+}
 
-    if ($data === null) {
-        return null;
-    }
-
-    return $data['instagram_business_account']['id'] ?? null;
+function meta_instagram_exchange_long_lived(string $shortLivedToken, ?string &$error = null): ?array
+{
+    return meta_http_get(meta_ig_graph_url('access_token'), [
+        'grant_type' => 'ig_exchange_token',
+        'client_secret' => META_IG_APP_SECRET,
+        'access_token' => $shortLivedToken,
+    ], $error);
 }

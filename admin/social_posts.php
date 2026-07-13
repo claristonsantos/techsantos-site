@@ -33,8 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $scheduledTs = strtotime($agendadoPara);
             if ($scheduledTs === false || $scheduledTs < time() + 600) {
                 $error = 'A data/hora precisa ser pelo menos 10 minutos no futuro.';
-            } elseif (META_PAGE_TOKEN === '') {
-                $error = 'Configure a integração primeiro em Configurar Meta.';
+            } elseif ($canal === 'facebook' && META_PAGE_TOKEN === '') {
+                $error = 'Configure a integração do Facebook primeiro em Configurar Meta.';
+            } elseif ($canal === 'instagram' && META_IG_TOKEN === '') {
+                $error = 'Configure a integração do Instagram primeiro em Configurar Meta.';
             } else {
                 $ins = $pdo->prepare(
                     'INSERT INTO social_posts (canal, legenda, imagem_url, agendado_para, status) VALUES (?, ?, ?, ?, ?)'
