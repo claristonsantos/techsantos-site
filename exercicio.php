@@ -25,6 +25,9 @@ const EXERCICIOS = [
     'acrescentar-consultas-1' => ['file' => 'acrescentar-consultas-1.zip', 'label' => 'Acrescentar-Consultas-Parte-1.zip'],
     'acrescentar-consultas-2' => ['file' => 'acrescentar-consultas-2.zip', 'label' => 'Acrescentar-Consultas-Parte-2.zip'],
     'mesclar-consultas' => ['file' => 'mesclar-consultas.zip', 'label' => 'Mesclar-Consultas.zip'],
+    'lab-04a-dados' => ['file' => 'lab-04a.zip', 'label' => 'Lab-04A-Clientes-e-Cotacoes.zip'],
+    'lab-04b-datas' => ['file' => 'lab-04b-datas.csv', 'label' => 'Lab-04B-Datas.csv'],
+    'lab-04c-escritorios' => ['file' => 'lab-04c-escritorios.xlsx', 'label' => 'Lab-04C-Escritorios.xlsx'],
 ];
 
 $id = (string)($_GET['id'] ?? '');
