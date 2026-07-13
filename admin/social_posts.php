@@ -76,7 +76,7 @@ admin_head('Redes Sociais');
 admin_topbar('social');
 ?>
 <main class="admin-main">
-  <div class="admin-head"><h1>Fila de posts — Facebook / Instagram</h1></div>
+  <div class="admin-head"><h1>Fila de posts — Facebook / Instagram</h1><a class="btn btn-ghost on-light" href="/admin/social_setup.php">Configurar Meta</a></div>
 
   <?php if (isset($msg)): ?><div class="alert alert-success"><?= htmlspecialchars($msg, ENT_QUOTES) ?></div><?php endif; ?>
   <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>

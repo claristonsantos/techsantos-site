@@ -73,7 +73,7 @@ admin_head('Configurar Meta (Facebook/Instagram)');
 admin_topbar('social');
 ?>
 <main class="admin-main">
-  <div class="admin-head"><h1>Configurar Meta (Facebook/Instagram)</h1></div>
+  <div class="admin-head"><h1>Configurar Meta (Facebook/Instagram)</h1><a class="btn btn-ghost on-light" href="/admin/social_posts.php">← Fila de posts</a></div>
 
   <div class="buy-card" style="max-width:760px; margin-bottom:1.5rem;">
     <h2 style="font-size:1.1rem; margin-bottom:0.75rem;">Instagram</h2>
