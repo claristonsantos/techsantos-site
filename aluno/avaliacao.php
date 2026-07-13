@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $acertou = $respostaId > 0 && $respostaId === $corretaId;
             if ($acertou) $acertos++;
-            $detalhes[] = ['questao_id' => $qid, 'acertou' => $acertou];
+            $detalhes[$qid] = ['resposta_id' => $respostaId, 'correta_id' => $corretaId, 'acertou' => $acertou];
         }
 
         $total = count($questaoIds);
@@ -160,7 +160,28 @@ unset($q);
 
   <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
 
-  <?php if (!$resultado || !$resultado['aprovado']): ?>
+  <?php if ($resultado && $resultado['aprovado']): ?>
+  <div class="eval-head">
+    <h1>Revisão das respostas</h1>
+    <p>Confira abaixo o que você acertou e errou nesta tentativa.</p>
+  </div>
+  <?php foreach ($questoes as $i => $q): $d = $detalhes[$q['id']] ?? null; ?>
+    <div class="q-card">
+      <span class="q-num">Questão <?= $i + 1 ?> de <?= count($questoes) ?></span>
+      <p class="q-text"><?= htmlspecialchars($q['enunciado'], ENT_QUOTES) ?></p>
+      <?php foreach ($q['alternativas'] as $a):
+        $aid = (int)$a['id'];
+        $isCorrect = $d && $aid === $d['correta_id'];
+        $isYourWrong = $d && $aid === $d['resposta_id'] && !$isCorrect;
+        $cls = $isCorrect ? 'correct' : ($isYourWrong ? 'wrong' : '');
+      ?>
+        <div class="q-opt <?= $cls ?>">
+          <span><?= htmlspecialchars($a['texto'], ENT_QUOTES) ?><?= $isCorrect ? ' ✓' : ($isYourWrong ? ' ✗ (sua resposta)' : '') ?></span>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  <?php endforeach; ?>
+  <?php elseif (!$resultado): ?>
   <div class="eval-head">
     <h1><?= htmlspecialchars($avaliacao['titulo'], ENT_QUOTES) ?></h1>
     <p>Nota mínima para aprovação: <?= (int)$avaliacao['nota_minima'] ?>%. Você pode refazer quantas vezes precisar.</p>
