@@ -16,11 +16,11 @@ function email_footer_html(): string
     $sLinked = SOCIAL_LINKEDIN;
     return <<<HTML
         <tr><td style="background:#F5F6F1; padding:16px 32px; font-size:12px; color:#7C8798;">
-          <p style="margin:0 0 10px;">TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29</p>
+          <p style="margin:0 0 12px;">TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29</p>
           <p style="margin:0;">
-            <a href="{$sInsta}" style="color:#7C8798; text-decoration:underline;">Instagram</a> ·
-            <a href="{$sFace}" style="color:#7C8798; text-decoration:underline;">Facebook</a> ·
-            <a href="{$sLinked}" style="color:#7C8798; text-decoration:underline;">LinkedIn</a>
+            <a href="{$sInsta}" style="display:inline-block; background:#0F2440; color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:14px; font-size:11px; margin:0 6px 6px 0;">Instagram</a>
+            <a href="{$sFace}" style="display:inline-block; background:#0F2440; color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:14px; font-size:11px; margin:0 6px 6px 0;">Facebook</a>
+            <a href="{$sLinked}" style="display:inline-block; background:#0F2440; color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:14px; font-size:11px; margin:0 6px 6px 0;">LinkedIn</a>
           </p>
         </td></tr>
 HTML;

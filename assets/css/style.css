@@ -513,3 +513,12 @@ footer.site { padding: 1.75rem 0 2.25rem; font-family: 'Plex Mono', monospace; f
 .footer-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
 .footer-links a { text-decoration: none; color: var(--ink-faint); }
 .footer-links a:hover { color: var(--green-strong); }
+.footer-social { display: flex; gap: 0.6rem; margin-bottom: 1.1rem; }
+.footer-social a {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--navy); color: var(--navy-ink);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.footer-social a:hover { background: var(--green-strong); transform: translateY(-2px); }
+.footer-social svg { width: 16px; height: 16px; }
