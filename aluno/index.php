@@ -662,6 +662,7 @@ const COURSE = [
               { t: 'Custos Envio', code: 'Custos Envio = SUM(fVendas[CustoEnvio])' },
               { t: 'Qt de Vendas', code: 'Qt de Vendas = COUNTROWS(fVendas)' },
             ] },
+          { h: 'Referência — modelo de dados', reference: true, p: 'Depois de montar o seu modelo, compare com o esquema estrela de referência abaixo.', img: '/assets/img/exercicio-tsbr/modelo-relacionamentos.jpg' },
           { h: 'Requisito do relatório — Nível Básico', p: 'Construa uma página de relatório que responda às perguntas da diretoria:',
             checklist: ['Qual a quantidade de vendas por tipo de embalagem do produto?', 'Como a receita e a quantidade de vendas se distribuem entre equipes e vendedores?', 'Qual a participação de cada categoria e subcategoria de produto na receita total?', 'Qual a receita total por categoria de produto?'] },
           { h: 'Resultado de referência', reference: true, p: 'Depois de construir o seu relatório, compare com o exemplo abaixo — não precisa ser idêntico, mas os principais indicadores e agrupamentos devem aparecer.', img: '/assets/img/exercicio-tsbr/relatorio-receita.png' },

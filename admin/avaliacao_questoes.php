@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'save') {
+        $questaoId = (int)($_POST['questao_id'] ?? 0);
         $enunciado = trim((string)($_POST['enunciado'] ?? ''));
         $alternativas = $_POST['alternativa'] ?? [];
         $corretaIdx = (int)($_POST['correta'] ?? -1);
@@ -39,21 +40,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Informe o enunciado e pelo menos 2 alternativas.';
         } elseif ($corretaIdx < 0 || !isset($alternativas[$corretaIdx]) || $alternativas[$corretaIdx] === '') {
             $error = 'Selecione qual alternativa é a correta.';
-        } else {
+        } elseif ($questaoId === 0) {
             $pdo->beginTransaction();
             $maxOrdem = (int)$pdo->query("SELECT COALESCE(MAX(ordem), 0) FROM avaliacao_questoes WHERE avaliacao_id = $avaliacaoId")->fetchColumn();
             $ins = $pdo->prepare('INSERT INTO avaliacao_questoes (avaliacao_id, enunciado, ordem) VALUES (?, ?, ?)');
             $ins->execute([$avaliacaoId, $enunciado, $maxOrdem + 1]);
-            $questaoId = (int)$pdo->lastInsertId();
+            $novaQuestaoId = (int)$pdo->lastInsertId();
+            $insAlt = $pdo->prepare('INSERT INTO avaliacao_alternativas (questao_id, texto, correta, ordem) VALUES (?, ?, ?, ?)');
+            foreach ($alternativas as $i => $texto) {
+                if ($texto === '') continue;
+                $insAlt->execute([$novaQuestaoId, $texto, $i === $corretaIdx ? 1 : 0, $i]);
+            }
+            $pdo->commit();
+            header('Location: /admin/avaliacao_questoes.php?id=' . $avaliacaoId . '&msg=' . urlencode('Questão adicionada.'));
+            exit;
+        } else {
+            $pdo->beginTransaction();
+            $upd = $pdo->prepare('UPDATE avaliacao_questoes SET enunciado = ? WHERE id = ? AND avaliacao_id = ?');
+            $upd->execute([$enunciado, $questaoId, $avaliacaoId]);
+            $pdo->prepare('DELETE FROM avaliacao_alternativas WHERE questao_id = ?')->execute([$questaoId]);
             $insAlt = $pdo->prepare('INSERT INTO avaliacao_alternativas (questao_id, texto, correta, ordem) VALUES (?, ?, ?, ?)');
             foreach ($alternativas as $i => $texto) {
                 if ($texto === '') continue;
                 $insAlt->execute([$questaoId, $texto, $i === $corretaIdx ? 1 : 0, $i]);
             }
             $pdo->commit();
-            header('Location: /admin/avaliacao_questoes.php?id=' . $avaliacaoId . '&msg=' . urlencode('Questão adicionada.'));
+            header('Location: /admin/avaliacao_questoes.php?id=' . $avaliacaoId . '&msg=' . urlencode('Questão atualizada.'));
             exit;
         }
+    }
+}
+
+$editQuestaoId = isset($_GET['edit']) ? (int)$_GET['edit'] : 0;
+$editQuestao = null;
+if ($editQuestaoId > 0) {
+    $stmt = $pdo->prepare('SELECT * FROM avaliacao_questoes WHERE id = ? AND avaliacao_id = ?');
+    $stmt->execute([$editQuestaoId, $avaliacaoId]);
+    $editQuestao = $stmt->fetch();
+    if ($editQuestao) {
+        $altStmt = $pdo->prepare('SELECT * FROM avaliacao_alternativas WHERE questao_id = ? ORDER BY ordem, id');
+        $altStmt->execute([$editQuestaoId]);
+        $editQuestao['alternativas'] = $altStmt->fetchAll();
     }
 }
 
@@ -84,25 +111,34 @@ admin_topbar('avaliacoes');
   <?php if ($success): ?><div class="alert alert-success"><?= htmlspecialchars($success, ENT_QUOTES) ?></div><?php endif; ?>
 
   <div class="form-card" style="max-width:680px;">
-    <h2>Adicionar questão</h2>
+    <h2><?= $editQuestao ? 'Editar questão' : 'Adicionar questão' ?></h2>
     <form method="post" novalidate>
       <?= csrf_field() ?>
       <input type="hidden" name="action" value="save">
+      <input type="hidden" name="questao_id" value="<?= (int)($editQuestao['id'] ?? 0) ?>">
       <div class="field">
         <label for="enunciado">Enunciado *</label>
-        <textarea id="enunciado" name="enunciado" rows="2" required></textarea>
+        <textarea id="enunciado" name="enunciado" rows="2" required><?= htmlspecialchars($editQuestao['enunciado'] ?? '', ENT_QUOTES) ?></textarea>
       </div>
       <div class="field">
         <label>Alternativas * (marque a correta)</label>
+        <?php
+          $existentes = $editQuestao['alternativas'] ?? [];
+          $corretaExistenteIdx = 0;
+          foreach ($existentes as $idx => $alt) { if ($alt['correta']) { $corretaExistenteIdx = $idx; break; } }
+        ?>
         <?php for ($i = 0; $i < 4; $i++): ?>
           <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;">
-            <input type="radio" name="correta" value="<?= $i ?>" <?= $i === 0 ? 'required' : '' ?> style="width:auto;">
-            <input type="text" name="alternativa[]" placeholder="Alternativa <?= $i + 1 ?><?= $i >= 2 ? ' (opcional)' : '' ?>" style="flex:1; padding:0.5rem 0.7rem; border:1px solid var(--line); border-radius:5px; background:var(--bg); color:var(--ink);">
+            <input type="radio" name="correta" value="<?= $i ?>" <?= $i === $corretaExistenteIdx ? 'checked' : '' ?> <?= $i === 0 ? 'required' : '' ?> style="width:auto;">
+            <input type="text" name="alternativa[]" placeholder="Alternativa <?= $i + 1 ?><?= $i >= 2 ? ' (opcional)' : '' ?>" value="<?= htmlspecialchars($existentes[$i]['texto'] ?? '', ENT_QUOTES) ?>" style="flex:1; padding:0.5rem 0.7rem; border:1px solid var(--line); border-radius:5px; background:var(--bg); color:var(--ink);">
           </div>
         <?php endfor; ?>
-        <p class="hint">A primeira alternativa marcada com o texto preenchido e o rádio selecionado é a correta.</p>
+        <p class="hint">A alternativa com o rádio selecionado é a correta.</p>
       </div>
-      <button type="submit" class="btn btn-primary">Adicionar questão</button>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><?= $editQuestao ? 'Salvar alterações' : 'Adicionar questão' ?></button>
+        <?php if ($editQuestao): ?><a class="btn btn-ghost on-light" href="/admin/avaliacao_questoes.php?id=<?= $avaliacaoId ?>">Cancelar</a><?php endif; ?>
+      </div>
     </form>
   </div>
 
@@ -119,12 +155,15 @@ admin_topbar('avaliacoes');
             <li style="font-size:0.88rem; padding:0.4rem 0.6rem; border-radius:4px; <?= $a['correta'] ? 'background:var(--green-soft); color:var(--green-strong); font-weight:600;' : 'color:var(--ink-soft);' ?>"><?= htmlspecialchars($a['texto'], ENT_QUOTES) ?><?= $a['correta'] ? ' ✓' : '' ?></li>
           <?php endforeach; ?>
         </ul>
-        <form method="post" onsubmit="return confirm('Remover esta questão?');">
-          <?= csrf_field() ?>
-          <input type="hidden" name="action" value="delete">
-          <input type="hidden" name="questao_id" value="<?= (int)$q['id'] ?>">
-          <button type="submit" class="danger" style="background:none;border:none;color:#C0392B;font-size:0.82rem;font-weight:600;cursor:pointer;padding:0;">Remover questão</button>
-        </form>
+        <div style="display:flex; gap:1rem; align-items:center;">
+          <a href="/admin/avaliacao_questoes.php?id=<?= $avaliacaoId ?>&edit=<?= (int)$q['id'] ?>" style="font-size:0.82rem; font-weight:600; color:var(--green-strong); text-decoration:none;">Editar questão</a>
+          <form method="post" onsubmit="return confirm('Remover esta questão?');">
+            <?= csrf_field() ?>
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="questao_id" value="<?= (int)$q['id'] ?>">
+            <button type="submit" class="danger" style="background:none;border:none;color:#C0392B;font-size:0.82rem;font-weight:600;cursor:pointer;padding:0;">Remover questão</button>
+          </form>
+        </div>
       </div>
     <?php endforeach; ?>
   </div>

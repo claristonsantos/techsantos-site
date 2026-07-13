@@ -25,7 +25,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    if ($action === 'delete') {
+        $id = (int)($_POST['id'] ?? 0);
+        if ($id === (int)$meAdmin['id']) {
+            $error = 'Você não pode remover sua própria conta.';
+        } else {
+            $totalAtivos = (int)$pdo->query('SELECT COUNT(*) FROM admin_users WHERE ativo = 1')->fetchColumn();
+            $stmt = $pdo->prepare('SELECT ativo FROM admin_users WHERE id = ?');
+            $stmt->execute([$id]);
+            $alvo = $stmt->fetch();
+            if ($alvo && (int)$alvo['ativo'] === 1 && $totalAtivos <= 1) {
+                $error = 'Não é possível remover o único administrador ativo.';
+            } else {
+                $pdo->prepare('DELETE FROM admin_users WHERE id = ?')->execute([$id]);
+                header('Location: /admin/administradores.php?msg=' . urlencode('Administrador removido.'));
+                exit;
+            }
+        }
+    }
+
     if ($action === 'save') {
+        $id = (int)($_POST['id'] ?? 0);
         $nome = trim((string)($_POST['nome'] ?? ''));
         $email = trim((string)($_POST['email'] ?? ''));
         $usuario = trim((string)($_POST['usuario'] ?? ''));
@@ -37,11 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (!preg_match('/^[a-z0-9._-]{3,60}$/', $usuario)) {
             $error = 'Usuário deve ter 3-60 caracteres: letras minúsculas, números, ponto, hífen ou underline.';
         } else {
-            $dup = $pdo->prepare('SELECT id FROM admin_users WHERE usuario = ? OR email = ?');
-            $dup->execute([$usuario, $email]);
+            $dup = $pdo->prepare('SELECT id FROM admin_users WHERE (usuario = ? OR email = ?) AND id != ?');
+            $dup->execute([$usuario, $email, $id]);
             if ($dup->fetch()) {
                 $error = 'Já existe um administrador com este usuário ou e-mail.';
-            } else {
+            } elseif ($id === 0) {
                 $senhaGerada = bin2hex(random_bytes(6));
                 $ins = $pdo->prepare('INSERT INTO admin_users (usuario, nome, email, senha_hash, senha_temporaria) VALUES (?, ?, ?, ?, 1)');
                 $ins->execute([$usuario, $nome, $email, password_hash($senhaGerada, PASSWORD_DEFAULT)]);
@@ -51,9 +71,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     : "Administrador cadastrado, mas o envio do e-mail falhou. Usuário: {$usuario} · Senha provisória: {$senhaGerada}";
                 header('Location: /admin/administradores.php?msg=' . urlencode($success));
                 exit;
+            } else {
+                $upd = $pdo->prepare('UPDATE admin_users SET usuario = ?, nome = ?, email = ? WHERE id = ?');
+                $upd->execute([$usuario, $nome, $email, $id]);
+                header('Location: /admin/administradores.php?msg=' . urlencode('Administrador atualizado.'));
+                exit;
             }
         }
     }
+}
+
+$editId = isset($_GET['edit']) ? (int)$_GET['edit'] : 0;
+$editRow = null;
+if ($editId > 0) {
+    $stmt = $pdo->prepare('SELECT * FROM admin_users WHERE id = ?');
+    $stmt->execute([$editId]);
+    $editRow = $stmt->fetch();
 }
 
 if (isset($_GET['msg']) && !$error) {
@@ -73,25 +106,29 @@ admin_topbar('administradores');
   <?php if ($success): ?><div class="alert alert-success"><?= htmlspecialchars($success, ENT_QUOTES) ?></div><?php endif; ?>
 
   <div class="form-card">
-    <h2>Cadastrar administrador</h2>
+    <h2><?= $editRow ? 'Editar administrador' : 'Cadastrar administrador' ?></h2>
     <form method="post" novalidate>
       <?= csrf_field() ?>
       <input type="hidden" name="action" value="save">
+      <input type="hidden" name="id" value="<?= (int)($editRow['id'] ?? 0) ?>">
       <div class="field">
         <label for="nome">Nome completo *</label>
-        <input type="text" id="nome" name="nome" required>
+        <input type="text" id="nome" name="nome" required value="<?= htmlspecialchars($editRow['nome'] ?? '', ENT_QUOTES) ?>">
       </div>
       <div class="field-row">
         <div class="field">
           <label for="email">E-mail *</label>
-          <input type="email" id="email" name="email" required>
+          <input type="email" id="email" name="email" required value="<?= htmlspecialchars($editRow['email'] ?? '', ENT_QUOTES) ?>">
         </div>
         <div class="field">
           <label for="usuario">Usuário de login *</label>
-          <input type="text" id="usuario" name="usuario" required placeholder="ex.: joao.silva">
+          <input type="text" id="usuario" name="usuario" required placeholder="ex.: joao.silva" value="<?= htmlspecialchars($editRow['usuario'] ?? '', ENT_QUOTES) ?>">
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Cadastrar administrador</button>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><?= $editRow ? 'Salvar alterações' : 'Cadastrar administrador' ?></button>
+        <?php if ($editRow): ?><a class="btn btn-ghost on-light" href="/admin/administradores.php">Cancelar</a><?php endif; ?>
+      </div>
     </form>
   </div>
 
@@ -107,11 +144,18 @@ admin_topbar('administradores');
             <td><span class="badge <?= $a['ativo'] ? 'on' : 'off' ?>"><?= $a['ativo'] ? 'Ativo' : 'Inativo' ?></span></td>
             <td class="actions">
               <?php if ((int)$a['id'] !== (int)$meAdmin['id']): ?>
-              <form method="post" onsubmit="return confirm('<?= $a['ativo'] ? 'Desativar' : 'Reativar' ?> este administrador?');">
+              <a href="/admin/administradores.php?edit=<?= (int)$a['id'] ?>">Editar</a>
+              <form method="post" onsubmit="return confirm('<?= $a['ativo'] ? 'Desativar' : 'Reativar' ?> este administrador?');" style="display:inline">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="toggle">
                 <input type="hidden" name="id" value="<?= (int)$a['id'] ?>">
                 <button type="submit" class="<?= $a['ativo'] ? 'danger' : '' ?>"><?= $a['ativo'] ? 'Desativar' : 'Reativar' ?></button>
+              </form>
+              <form method="post" onsubmit="return confirm('Remover permanentemente este administrador? Esta ação não pode ser desfeita.');" style="display:inline">
+                <?= csrf_field() ?>
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" value="<?= (int)$a['id'] ?>">
+                <button type="submit" class="danger">Remover</button>
               </form>
               <?php else: ?>
                 <span style="color:var(--ink-faint); font-size:0.82rem;">Você</span>

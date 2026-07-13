@@ -287,7 +287,7 @@
         <details class="module">
           <summary>
             <div class="module-title"><span class="module-num">07</span><h3>Fórmulas DAX</h3></div>
-            <div class="module-meta"><span>Apostila + laboratório</span>
+            <div class="module-meta"><span>Apostila</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
@@ -318,7 +318,7 @@
         <details class="module">
           <summary>
             <div class="module-title"><span class="module-num">08</span><h3>Criar e Enriquecer Relatórios</h3></div>
-            <div class="module-meta"><span>Apostila + laboratório</span>
+            <div class="module-meta"><span>Apostila</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
