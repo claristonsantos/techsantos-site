@@ -77,7 +77,7 @@ $precoFormatado = $precoCentavos ? number_format((int)$precoCentavos / 100, 2, '
       </div>
       <div class="pillar-row">
         <div class="pillar-card">
-          <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="24" r="4"/><circle cx="10" cy="10" r="3"/><circle cx="38" cy="10" r="3"/><circle cx="10" cy="38" r="3"/><circle cx="38" cy="38" r="3"/><path d="M13 12l8 9M35 12l-8 9M13 36l8-9M35 36l-8-9"/></svg>
+          <svg class="pillar-icon" width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="24" r="4"/><circle cx="10" cy="10" r="3"/><circle cx="38" cy="10" r="3"/><circle cx="10" cy="38" r="3"/><circle cx="38" cy="38" r="3"/><path d="M13 12l8 9M35 12l-8 9M13 36l8-9M35 36l-8-9"/></svg>
           <h3>Modelagem de Dados</h3>
           <ul>
             <li>Modelagem de dados e granularidade</li>
@@ -86,7 +86,7 @@ $precoFormatado = $precoCentavos ? number_format((int)$precoCentavos / 100, 2, '
           </ul>
         </div>
         <div class="pillar-card">
-          <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 14a4 4 0 014-4h20l8 8v16a4 4 0 01-4 4H12a4 4 0 01-4-4V14z"/><circle cx="20" cy="26" r="6"/><path d="M32 18l3 3 3-3"/></svg>
+          <svg class="pillar-icon" width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 14a4 4 0 014-4h20l8 8v16a4 4 0 01-4 4H12a4 4 0 01-4-4V14z"/><circle cx="20" cy="26" r="6"/><path d="M32 18l3 3 3-3"/></svg>
           <h3>ETL — Power Query</h3>
           <ul>
             <li>Conectar, importar e tratar dados</li>
@@ -95,7 +95,7 @@ $precoFormatado = $precoCentavos ? number_format((int)$precoCentavos / 100, 2, '
           </ul>
         </div>
         <div class="pillar-card">
-          <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="30" width="7" height="11"/><rect x="20.5" y="20" width="7" height="21"/><rect x="34" y="10" width="7" height="31"/></svg>
+          <svg class="pillar-icon" width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="30" width="7" height="11"/><rect x="20.5" y="20" width="7" height="21"/><rect x="34" y="10" width="7" height="31"/></svg>
           <h3>DAX &amp; Relatórios</h3>
           <ul>
             <li>Fórmulas DAX e medidas</li>
@@ -116,22 +116,22 @@ $precoFormatado = $precoCentavos ? number_format((int)$precoCentavos / 100, 2, '
       </div>
       <div class="persona-row">
         <div class="persona-card">
-          <span class="persona-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg></span>
+          <span class="persona-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg></span>
           <h3>Financeiro &amp; Contábil</h3>
           <p>Fecha planilhas de DRE, fluxo de caixa e conciliação todo mês na mão e quer automatizar o relatório de vez.</p>
         </div>
         <div class="persona-card">
-          <span class="persona-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></span>
+          <span class="persona-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></span>
           <h3>Coordenador de área</h3>
           <p>Precisa consolidar números de vendas, estoque ou operação de vários times num painel só, sem depender de outra pessoa pra atualizar.</p>
         </div>
         <div class="persona-card">
-          <span class="persona-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></span>
+          <span class="persona-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></span>
           <h3>Em transição de carreira</h3>
           <p>Quer entrar ou migrar pra análise de dados e precisa de um projeto real pra mostrar no portfólio ou numa entrevista.</p>
         </div>
         <div class="persona-card">
-          <span class="persona-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
+          <span class="persona-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
           <h3>Empreendedor(a)</h3>
           <p>Quer enxergar o próprio negócio em números — vendas, margem, estoque — sem depender de um analista pra montar cada relatório.</p>
         </div>
