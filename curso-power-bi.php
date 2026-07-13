@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Curso Power BI — TECH SANTOS BR</title>
-<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 11 módulos, 29 videoaulas, laboratórios práticos guiados e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
+<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 12 módulos, 29 videoaulas, laboratórios práticos guiados e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -52,7 +52,7 @@
       </div>
       <div class="kpi-row">
         <div class="kpi-tile"><div class="kpi-num">29</div><div class="kpi-label">videoaulas práticas, passo a passo</div></div>
-        <div class="kpi-tile"><div class="kpi-num">11</div><div class="kpi-label">módulos, da modelagem aos laboratórios práticos</div></div>
+        <div class="kpi-tile"><div class="kpi-num">12</div><div class="kpi-label">módulos, da modelagem aos laboratórios práticos</div></div>
         <div class="kpi-tile"><div class="kpi-num">1</div><div class="kpi-label">apostila própria + laboratórios guiados</div></div>
         <div class="kpi-tile"><div class="kpi-num">MS</div><div class="kpi-label">instrutor certificado pela Microsoft</div></div>
       </div>
@@ -136,7 +136,7 @@
           <p class="proof-t">acesso liberado assim que a matrícula é confirmada — estude quando e onde quiser</p>
         </div>
         <div class="proof-card">
-          <p class="proof-num">10</p>
+          <p class="proof-num">12</p>
           <p class="proof-t">módulos em ordem lógica, do fundamento de modelagem até a avaliação final</p>
         </div>
         <div class="proof-card">
@@ -156,7 +156,7 @@
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Currículo completo</p>
-        <h2>11 módulos, currículo completo</h2>
+        <h2>12 módulos, currículo completo</h2>
         <p>Estrutura baseada no cronograma oficial do curso, do primeiro conceito de modelagem até os laboratórios práticos guiados. Os módulos 01, 03 e 04 são videoaulas práticas gravadas na tela; os demais são conteúdo em texto da apostila, com referências à documentação oficial da Microsoft — aplicado passo a passo nos Laboratórios 01A e 02A, com os mesmos arquivos de exercício usados nas aulas, direto no Power BI Desktop.</p>
       </div>
 
