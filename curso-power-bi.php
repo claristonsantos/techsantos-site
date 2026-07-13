@@ -1,3 +1,12 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__ . '/db.php';
+
+$stmt = db()->prepare("SELECT preco_centavos FROM cursos WHERE slug = 'power-bi'");
+$stmt->execute();
+$precoCentavos = $stmt->fetchColumn();
+$precoFormatado = $precoCentavos ? number_format((int)$precoCentavos / 100, 2, ',', '.') : null;
+?>
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -93,6 +102,38 @@
             <li>Criação e formatação de relatórios</li>
             <li>Compartilhamento e publicação</li>
           </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: var(--surface-2);">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Pra quem é</p>
+        <h2>Feito pra quem lida com dados no dia a dia</h2>
+        <p>Não importa o cargo — o que importa é precisar transformar planilha em decisão. Veja se algum desses perfis é o seu.</p>
+      </div>
+      <div class="persona-row">
+        <div class="persona-card">
+          <span class="persona-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg></span>
+          <h3>Financeiro &amp; Contábil</h3>
+          <p>Fecha planilhas de DRE, fluxo de caixa e conciliação todo mês na mão e quer automatizar o relatório de vez.</p>
+        </div>
+        <div class="persona-card">
+          <span class="persona-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></span>
+          <h3>Coordenador de área</h3>
+          <p>Precisa consolidar números de vendas, estoque ou operação de vários times num painel só, sem depender de outra pessoa pra atualizar.</p>
+        </div>
+        <div class="persona-card">
+          <span class="persona-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></span>
+          <h3>Em transição de carreira</h3>
+          <p>Quer entrar ou migrar pra análise de dados e precisa de um projeto real pra mostrar no portfólio ou numa entrevista.</p>
+        </div>
+        <div class="persona-card">
+          <span class="persona-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
+          <h3>Empreendedor(a)</h3>
+          <p>Quer enxergar o próprio negócio em números — vendas, margem, estoque — sem depender de um analista pra montar cada relatório.</p>
         </div>
       </div>
     </div>
@@ -422,6 +463,60 @@
     </div>
   </section>
 
+  <section style="background: var(--surface-2);">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Dúvidas frequentes</p>
+        <h2>Perguntas que a gente mais recebe</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>Preciso já saber Power BI ou Excel avançado?</h3>
+          <p>Não. O curso começa do zero, em modelagem de dados — só ajuda se você já usa Excel no dia a dia, porque parte das comparações partem daí.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Por quanto tempo tenho acesso ao curso?</h3>
+          <p>Acesso vitalício. Depois de matriculado, o conteúdo fica disponível na Área do Aluno sem prazo de expiração.</p>
+        </div>
+        <div class="faq-item">
+          <h3>O certificado tem validade?</h3>
+          <p>O certificado de conclusão é emitido pela TECH SANTOS BR ao final do curso, sem data de expiração.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Preciso ter o Power BI instalado?</h3>
+          <p>Sim, o Power BI Desktop — é gratuito, baixado direto do site da Microsoft, e funciona em qualquer Windows.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Quais as formas de pagamento?</h3>
+          <p>Cartão de crédito (à vista ou parcelado em até 12x), débito ou Pix, direto pelo checkout do PagBank.</p>
+        </div>
+        <div class="faq-item">
+          <h3>E se eu ficar com dúvida no meio de um módulo?</h3>
+          <p>É só chamar no WhatsApp ou mandar e-mail direto pro instrutor — o mesmo que escreveu a apostila e gravou as aulas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="pricing-cta">
+        <div class="pricing-cta-inner">
+          <p class="eyebrow on-dark">Matricule-se agora</p>
+          <h2>Comece hoje, no seu ritmo</h2>
+          <p class="lead">Acesso liberado automaticamente após a confirmação do pagamento — sem esperar turma fechar.</p>
+          <?php if ($precoFormatado): ?>
+          <p class="price">R$ <?= $precoFormatado ?><small>à vista ou parcelado em até 12x no cartão · acesso vitalício</small></p>
+          <?php endif; ?>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="/comprar.php">Garantir minha vaga</a>
+            <a class="btn btn-ghost" href="/aula-gratis.php">Assistir aula grátis antes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section>
     <div class="container">
       <div class="contact-panel">
@@ -439,26 +534,51 @@
   </section>
 </main>
 
-<footer class="site">
+<footer class="site footer-wide">
   <div class="container">
-    <div class="footer-social">
-      <a href="https://www.instagram.com/tech_santos_br/" target="_blank" rel="noopener" aria-label="TECH SANTOS BR no Instagram">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-      </a>
-      <a href="https://www.facebook.com/techsantosbr/" target="_blank" rel="noopener" aria-label="TECH SANTOS BR no Facebook">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3l-.5 3H13v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
-      </a>
-      <a href="https://br.linkedin.com/company/techsantos-br" target="_blank" rel="noopener" aria-label="TECH SANTOS BR no LinkedIn">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 100 3.92 1.96 1.96 0 000-3.92zM20.44 20h-3.37v-5.6c0-1.34-.03-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.68V8.5h3.24v1.57h.05c.45-.85 1.55-1.74 3.19-1.74 3.41 0 4.04 2.24 4.04 5.16V20z"/></svg>
-      </a>
-    </div>
-    <div class="footer-row">
-      <span>© 2026 TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29 · Simples Nacional</span>
-      <div class="footer-links">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html">
+          <img src="assets/img/logo.jpg" alt="Tech Santos BR" />
+          <span>TECH <em>SANTOS BR</em></span>
+        </a>
+        <p>Consultoria e treinamento em Power BI e Excel, com mais de 50 projetos de BI implementados. Itumbiara-GO, atendimento para todo o Brasil.</p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/tech_santos_br/" target="_blank" rel="noopener" aria-label="TECH SANTOS BR no Instagram">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.facebook.com/techsantosbr/" target="_blank" rel="noopener" aria-label="TECH SANTOS BR no Facebook">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3l-.5 3H13v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+          </a>
+          <a href="https://br.linkedin.com/company/techsantos-br" target="_blank" rel="noopener" aria-label="TECH SANTOS BR no LinkedIn">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 100 3.92 1.96 1.96 0 000-3.92zM20.44 20h-3.37v-5.6c0-1.34-.03-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.68V8.5h3.24v1.57h.05c.45-.85 1.55-1.74 3.19-1.74 3.41 0 4.04 2.24 4.04 5.16V20z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Curso</h4>
+        <a href="/curso-power-bi.php">Curso completo de Power BI</a>
+        <a href="/aula-gratis.php">Assistir aula grátis</a>
+        <a href="/comprar.php">Matricule-se</a>
+        <a href="/login.php">Área do Aluno</a>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <a href="/sobre.html">Sobre</a>
+        <a href="/servicos.html">Serviços</a>
+        <a href="/treinamentos.html">Treinamentos</a>
+        <a href="/projetos.html">Projetos</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
         <a href="mailto:claristonsantos@techsantos.com.br">claristonsantos@techsantos.com.br</a>
         <a href="https://wa.me/5564992905785" target="_blank" rel="noopener">(64) 99290-5785</a>
-        <a href="/admin/login.php">Login Administrador</a>
+        <span>Itumbiara-GO</span>
       </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29 · Simples Nacional</span>
+      <a href="/admin/login.php">Login Administrador</a>
     </div>
   </div>
 </footer>

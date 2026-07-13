@@ -41,6 +41,14 @@ function pagbank_create_checkout(array $pedido, array $curso, string $redirectUr
             ['type' => 'DEBIT_CARD'],
             ['type' => 'PIX'],
         ],
+        'payment_methods_configs' => [
+            [
+                'type' => 'CREDIT_CARD',
+                'config_options' => [
+                    ['option' => 'INSTALLMENTS_LIMIT', 'value' => (string)PAGBANK_MAX_INSTALLMENTS],
+                ],
+            ],
+        ],
         'redirect_url' => $redirectUrl,
         'notification_urls' => [$notificationUrl],
     ];
