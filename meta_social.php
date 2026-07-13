@@ -108,6 +108,31 @@ function meta_schedule_facebook_post(string $message, ?string $imageUrl, int $sc
 }
 
 /**
+ * Cancels a scheduled (not-yet-published) Facebook Page post.
+ */
+function meta_delete_facebook_post(string $postId, ?string &$error = null): bool
+{
+    $ch = curl_init(meta_graph_url($postId) . '?' . http_build_query(['access_token' => META_PAGE_TOKEN]));
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+        CURLOPT_TIMEOUT => 25,
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $data = $response !== false ? json_decode($response, true) : null;
+
+    if ($httpCode < 200 || $httpCode >= 300 || !is_array($data) || empty($data['success'])) {
+        $error = $data['error']['message'] ?? ('HTTP ' . $httpCode);
+        return false;
+    }
+
+    return true;
+}
+
+/**
  * Step 1 of Instagram publishing: creates a media container. Must be followed
  * by meta_publish_instagram_container() to actually make it go live — Instagram
  * has no native scheduling, so this pair must run at the intended publish time.
