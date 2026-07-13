@@ -264,6 +264,8 @@
               <li>Identificar medidas, relacionamentos e visuais de mau desempenho</li>
               <li>Melhorar cardinalidade alterando tipos de dados</li>
               <li>Criar e gerenciar agregações</li>
+              <li>Modos de armazenamento: Import, DirectQuery, Dual e Composite</li>
+              <li>Dobra de consultas (query folding)</li>
             </ul>
           </div>
         </details>
@@ -335,6 +337,7 @@
               <li>Interações entre visuais e painel de seleção</li>
               <li>Navegação com marcadores (bookmarks) e botões</li>
               <li>Classificação, sincronização de segmentação e drillthrough</li>
+              <li>Acessibilidade: texto alternativo, ordem de tabulação e contraste</li>
             </ul>
           </div>
         </details>
@@ -370,6 +373,8 @@
           <div class="module-body">
             <p class="module-desc">Publicar, monitorar e manter o que foi construído — para que o relatório continue confiável meses depois de pronto.</p>
             <ul class="topic-list">
+              <li>Workspaces, papéis de acesso e Apps</li>
+              <li>Gateway de dados local</li>
               <li>Criar dashboards e fixar páginas ao vivo</li>
               <li>Visão mobile, tema do painel e alertas de dados</li>
               <li>Gerenciar acessos a dashboards</li>
