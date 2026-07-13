@@ -40,6 +40,7 @@ if ($moduloAnteriorId !== null) {
 
 $error = null;
 $resultado = null;
+$detalhes = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
@@ -73,6 +74,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $insStmt = $pdo->prepare('INSERT INTO avaliacao_tentativas (aluno_id, avaliacao_id, nota, aprovado) VALUES (?, ?, ?, ?)');
         $insStmt->execute([$aluno['id'], $avaliacao['id'], $nota, $aprovado ? 1 : 0]);
+        $tentativaId = (int)$pdo->lastInsertId();
+
+        $insR = $pdo->prepare('INSERT INTO avaliacao_respostas (tentativa_id, questao_id, alternativa_id) VALUES (?, ?, ?)');
+        foreach ($detalhes as $qid => $d) {
+            if ($d['resposta_id'] > 0) {
+                $insR->execute([$tentativaId, $qid, $d['resposta_id']]);
+            }
+        }
 
         $certificadoCodigo = null;
         if ($aprovado && $moduloId === 'encerramento') {
@@ -89,6 +98,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $resultado = ['nota' => $nota, 'aprovado' => $aprovado, 'acertos' => $acertos, 'total' => $total, 'detalhes' => $detalhes, 'certificado' => $certificadoCodigo];
+    }
+}
+
+if (!$resultado) {
+    $lastStmt = $pdo->prepare(
+        'SELECT id, nota FROM avaliacao_tentativas WHERE aluno_id = ? AND avaliacao_id = ? AND aprovado = 1 ORDER BY criada_em DESC LIMIT 1'
+    );
+    $lastStmt->execute([$aluno['id'], $avaliacao['id']]);
+    $lastAprovada = $lastStmt->fetch();
+
+    if ($lastAprovada) {
+        $respStmt = $pdo->prepare('SELECT questao_id, alternativa_id FROM avaliacao_respostas WHERE tentativa_id = ?');
+        $respStmt->execute([(int)$lastAprovada['id']]);
+        $respostasSalvas = [];
+        foreach ($respStmt->fetchAll() as $r) {
+            $respostasSalvas[(int)$r['questao_id']] = (int)$r['alternativa_id'];
+        }
+
+        $qIdsStmt = $pdo->prepare('SELECT id FROM avaliacao_questoes WHERE avaliacao_id = ? ORDER BY ordem, id');
+        $qIdsStmt->execute([$avaliacao['id']]);
+        $questaoIds = $qIdsStmt->fetchAll(PDO::FETCH_COLUMN);
+
+        $acertos = 0;
+        foreach ($questaoIds as $qid) {
+            $altStmt = $pdo->prepare('SELECT id, correta FROM avaliacao_alternativas WHERE questao_id = ?');
+            $altStmt->execute([$qid]);
+            $corretaId = null;
+            foreach ($altStmt->fetchAll() as $a) {
+                if ($a['correta']) { $corretaId = (int)$a['id']; break; }
+            }
+            $respostaId = $respostasSalvas[$qid] ?? 0;
+            $acertou = $respostaId > 0 && $respostaId === $corretaId;
+            if ($acertou) $acertos++;
+            $detalhes[$qid] = ['resposta_id' => $respostaId, 'correta_id' => $corretaId, 'acertou' => $acertou];
+        }
+
+        $certificadoCodigo = null;
+        if ($moduloId === 'encerramento') {
+            $cStmt = $pdo->prepare('SELECT codigo FROM certificados WHERE aluno_id = ? AND curso_id = ?');
+            $cStmt->execute([$aluno['id'], $aluno['curso_id']]);
+            $certificadoCodigo = $cStmt->fetchColumn() ?: null;
+        }
+
+        $resultado = [
+            'nota' => (float)$lastAprovada['nota'],
+            'aprovado' => true,
+            'acertos' => $acertos,
+            'total' => count($questaoIds),
+            'detalhes' => $detalhes,
+            'certificado' => $certificadoCodigo,
+        ];
     }
 }
 
