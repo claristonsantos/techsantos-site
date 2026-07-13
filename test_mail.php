@@ -16,7 +16,7 @@ if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
     exit('Informe um e-mail válido em ?to=');
 }
 
-$ok = send_enrollment_email($to, 'Teste de Entrega', 'SenhaTeste123', ['nome' => 'Power BI Completo (teste de e-mail)']);
+$ok = send_enrollment_email($to, 'Teste de Entrega', 'SenhaTeste123', ['nome' => 'Power BI Completo (teste de e-mail v2)']);
 
 header('Content-Type: text/plain; charset=utf-8');
 echo $ok ? "Enviado (mail() retornou true) para {$to}\n" : "Falhou (mail() retornou false)\n";
