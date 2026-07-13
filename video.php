@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/config.php';
 require_aluno();
 
 $id = (string)($_GET['id'] ?? '');
@@ -9,42 +10,41 @@ if (!preg_match('/^[a-z0-9-]+$/', $id)) {
     exit;
 }
 
-$path = __DIR__ . '/private-videos/' . $id . '.mp4';
-if (!is_file($path)) {
-    http_response_code(404);
-    exit;
-}
+$blobName = $id . '.mp4';
+$expiry = gmdate('Y-m-d\TH:i:s\Z', time() + 4 * 3600);
 
-$size = filesize($path);
-$start = 0;
-$end = $size - 1;
+$canonicalizedResource = '/blob/' . AZURE_STORAGE_ACCOUNT . '/' . AZURE_VIDEO_CONTAINER . '/' . $blobName;
+$stringToSign = implode("\n", [
+    'r',                // signedPermissions
+    '',                 // signedStart
+    $expiry,            // signedExpiry
+    $canonicalizedResource,
+    '',                 // signedIdentifier
+    '',                 // signedIP
+    'https',            // signedProtocol
+    '2020-12-06',       // signedVersion
+    'b',                // signedResource
+    '',                 // signedSnapshotTime
+    '',                 // signedEncryptionScope
+    '',                 // rscc
+    '',                 // rscd
+    '',                 // rsce
+    '',                 // rscl
+    '',                 // rsct
+]);
+$signature = base64_encode(hash_hmac('sha256', $stringToSign, base64_decode(AZURE_STORAGE_KEY), true));
 
-header('Content-Type: video/mp4');
-header('Accept-Ranges: bytes');
+$query = http_build_query([
+    'sv' => '2020-12-06',
+    'sr' => 'b',
+    'sp' => 'r',
+    'se' => $expiry,
+    'spr' => 'https',
+    'sig' => $signature,
+]);
+
+$sasUrl = 'https://' . AZURE_STORAGE_ACCOUNT . '.blob.core.windows.net/' . AZURE_VIDEO_CONTAINER . '/' . $blobName . '?' . $query;
+
 header('Cache-Control: private, max-age=0, no-cache');
-
-if (isset($_SERVER['HTTP_RANGE']) && preg_match('/bytes=(\d*)-(\d*)/', $_SERVER['HTTP_RANGE'], $m)) {
-    if ($m[1] !== '') {
-        $start = (int)$m[1];
-    }
-    if ($m[2] !== '') {
-        $end = min((int)$m[2], $size - 1);
-    }
-    http_response_code(206);
-    header("Content-Range: bytes $start-$end/$size");
-}
-
-$length = $end - $start + 1;
-header('Content-Length: ' . (string)$length);
-
-$fp = fopen($path, 'rb');
-fseek($fp, $start);
-$bytesSent = 0;
-$bufferSize = 8192;
-while (!feof($fp) && $bytesSent < $length) {
-    $readSize = min($bufferSize, $length - $bytesSent);
-    echo fread($fp, $readSize);
-    $bytesSent += $readSize;
-    flush();
-}
-fclose($fp);
+header('Location: ' . $sasUrl, true, 302);
+exit;
