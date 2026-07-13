@@ -4,6 +4,32 @@ declare(strict_types=1);
 const MAIL_FROM = 'contato@techsantos.com.br';
 const MAIL_FROM_NAME = 'TECH SANTOS BR';
 
+function send_html_email(string $toEmail, string $subject, string $html, string $text): bool
+{
+    $boundary = 'ts_' . bin2hex(random_bytes(16));
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-Type: multipart/alternative; boundary="' . $boundary . '"',
+        'From: ' . MAIL_FROM_NAME . ' <' . MAIL_FROM . '>',
+        'Reply-To: ' . MAIL_FROM,
+        'X-Mailer: PHP/' . phpversion(),
+    ];
+
+    $body = "This is a multi-part message in MIME format.\r\n"
+        . "--{$boundary}\r\n"
+        . "Content-Type: text/plain; charset=UTF-8\r\n"
+        . "Content-Transfer-Encoding: 8bit\r\n\r\n"
+        . $text . "\r\n\r\n"
+        . "--{$boundary}\r\n"
+        . "Content-Type: text/html; charset=UTF-8\r\n"
+        . "Content-Transfer-Encoding: 8bit\r\n\r\n"
+        . $html . "\r\n\r\n"
+        . "--{$boundary}--";
+
+    $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+    return @mail($toEmail, $encodedSubject, $body, implode("\r\n", $headers), '-f ' . MAIL_FROM);
+}
+
 function send_enrollment_email(string $toEmail, string $toName, string $senha, array $curso): bool
 {
     $subject = 'Bem-vindo(a) ao curso ' . $curso['nome'] . ' — TECH SANTOS BR';
@@ -30,7 +56,7 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
     $emailHtml = htmlspecialchars($toEmail, ENT_QUOTES);
     $senhaHtml = htmlspecialchars($senha, ENT_QUOTES);
 
-    $body = <<<HTML
+    $html = <<<HTML
 <!doctype html>
 <html lang="pt-BR">
 <body style="margin:0; padding:0; background:#F5F6F1; font-family: Arial, Helvetica, sans-serif; color:#10192B;">
@@ -71,15 +97,27 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
 </html>
 HTML;
 
-    $headers = [
-        'MIME-Version: 1.0',
-        'Content-Type: text/html; charset=UTF-8',
-        'From: ' . MAIL_FROM_NAME . ' <' . MAIL_FROM . '>',
-        'Reply-To: ' . MAIL_FROM,
-        'X-Mailer: PHP/' . phpversion(),
-    ];
+    $modulosTexto = implode("\n", array_map(fn($m) => '- ' . $m, $modulos));
+    $text = <<<TEXT
+Olá, {$primeiroNome}!
 
-    return @mail($toEmail, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers));
+Sua matrícula no curso {$curso['nome']} está confirmada.
+
+Acesse em: https://techsantos.com.br/login.php
+Usuário (e-mail): {$toEmail}
+Senha provisória: {$senha}
+
+Por segurança, você vai precisar definir uma nova senha no seu primeiro acesso.
+
+Cronograma do curso:
+{$modulosTexto}
+
+Qualquer dúvida, é só responder este e-mail ou chamar no WhatsApp: (64) 99985-2536.
+
+TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29
+TEXT;
+
+    return send_html_email($toEmail, $subject, $html, $text);
 }
 
 function send_admin_credentials_email(string $toEmail, string $toName, string $usuario, string $senha): bool
@@ -89,7 +127,7 @@ function send_admin_credentials_email(string $toEmail, string $toName, string $u
     $usuarioHtml = htmlspecialchars($usuario, ENT_QUOTES);
     $senhaHtml = htmlspecialchars($senha, ENT_QUOTES);
 
-    $body = <<<HTML
+    $html = <<<HTML
 <!doctype html>
 <html lang="pt-BR">
 <body style="margin:0; padding:0; background:#F5F6F1; font-family: Arial, Helvetica, sans-serif; color:#10192B;">
@@ -123,13 +161,19 @@ function send_admin_credentials_email(string $toEmail, string $toName, string $u
 </html>
 HTML;
 
-    $headers = [
-        'MIME-Version: 1.0',
-        'Content-Type: text/html; charset=UTF-8',
-        'From: ' . MAIL_FROM_NAME . ' <' . MAIL_FROM . '>',
-        'Reply-To: ' . MAIL_FROM,
-        'X-Mailer: PHP/' . phpversion(),
-    ];
+    $text = <<<TEXT
+Olá, {$primeiroNome}!
 
-    return @mail($toEmail, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers));
+Um administrador criou uma conta para você gerenciar alunos, cursos, avaliações e pedidos da TECH SANTOS BR.
+
+Acesse em: https://techsantos.com.br/admin/login.php
+Usuário: {$usuario}
+Senha provisória: {$senha}
+
+Por segurança, você vai precisar definir uma nova senha no seu primeiro acesso.
+
+TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29
+TEXT;
+
+    return send_html_email($toEmail, $subject, $html, $text);
 }
