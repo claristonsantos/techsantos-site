@@ -12,7 +12,7 @@ const MODULOS_POWER_BI = [
     'relatorios' => 'Módulo 08 · Criar e Enriquecer Relatórios',
     'analise-avancada' => 'Módulo 09 · Análise Avançada & Insights de IA',
     'dashboards-governanca' => 'Módulo 10 · Dashboards, Publicação & Governança',
-    'exercicio-guiado-tsbr' => 'Módulo 11 · Exercício Guiado TECH SANTOS BR — Do ETL ao Relatório Publicado',
+    'exercicio-guiado-tsbr' => 'Módulo 11 · Exercício Guiado TECH SANTOS BR — Construa Seu Relatório do Zero',
     'encerramento' => 'Avaliação final (Módulo 12 · Encerramento)',
 ];
 

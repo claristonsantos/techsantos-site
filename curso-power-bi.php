@@ -390,10 +390,10 @@
             </div>
           </summary>
           <div class="module-body">
-            <p class="module-desc">O exercício final da TECH SANTOS BR: do ETL de uma base real (Access + Excel) até um conjunto de relatórios publicados, com o mesmo roteiro, modelo de dados e medidas DAX usados internamente para treinar a equipe — nível Básico e nível Final, em progressão.</p>
+            <p class="module-desc">O estudo de caso final da TECH SANTOS BR: dados brutos reais (Access + Excel) e uma lista de perguntas de negócio para responder — sem passo a passo de cliques. Você monta o modelo, as medidas e o relatório do zero, e só depois compara com o relatório de referência da própria empresa.</p>
             <ul class="topic-list">
-              <li>Exercício Básico — ETL, modelo de dados e o Relatório Receita</li>
-              <li>Exercício Final — medidas de comparação anual e mais 3 relatórios (Qtde Vendas, Lucro, Lucro por Segmento)</li>
+              <li>Nível Básico — requisitos de modelo e o Relatório Receita</li>
+              <li>Nível Final — medidas de comparação anual e mais 3 relatórios (Qtde Vendas, Lucro, Lucro por Segmento)</li>
             </ul>
           </div>
         </details>

@@ -145,6 +145,13 @@ if ($isPowerBi) {
   .lab-step h3 { margin: 0 0 0.5rem; }
   .lab-step .lab-download { margin-top: 0.4rem; display: inline-flex; }
   .lab-step-img { display: block; max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; margin: 0.75rem 0; }
+  .lab-step.reference { background: var(--surface-2); border-radius: 8px; padding: 1.1rem 1.2rem; margin-top: 0.5rem; }
+  .lab-step .ref-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; color: var(--green-strong); margin-bottom: 0.5rem; }
+  .req-list { list-style: none; margin: 0.75rem 0; padding: 0; display: grid; gap: 0.5rem; }
+  .req-list li { display: flex; align-items: flex-start; gap: 0.55rem; font-size: 0.92rem; color: var(--ink); line-height: 1.45; }
+  .req-list li svg { width: 15px; height: 15px; color: var(--green-strong); flex: none; margin-top: 0.2rem; }
+  .res-body code { display: block; background: var(--navy); color: #d7f5d0; font-family: 'Plex Mono', monospace; font-size: 0.8rem; padding: 0.65rem 0.8rem; border-radius: 5px; white-space: pre-wrap; word-break: break-word; margin-top: 0.3rem; }
+  .hint-group { margin: 0.9rem 0 0; }
 
   .lab-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1.6rem; padding: 1.1rem; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; }
   .lab-flow-box { flex: 1 1 120px; min-width: 100px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 0.65rem 0.5rem; font-size: 0.78rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
@@ -636,29 +643,55 @@ const COURSE = [
     ],
   },
   {
-    id: 'exercicio-guiado-tsbr', title: 'Módulo 11 · Exercício Guiado TECH SANTOS BR — Do ETL ao Relatório Publicado', kind: 'reading',
+    id: 'exercicio-guiado-tsbr', title: 'Módulo 11 · Exercício Guiado TECH SANTOS BR — Construa Seu Relatório do Zero', kind: 'reading',
     lessons: [
       {
-        id: 'exercicio-basico', title: 'Exercício Guiado · Nível Básico',
-        diagram: '<div class="lab-flow"><div class="lab-flow-box">BD_Vendas.accdb<br>BD_Vendedor_Imagens.xlsx</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">ETL no Power Query</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Modelo (dCalendario + dVendedores + fVendas)</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">Relatório Receita</div></div>',
+        id: 'exercicio-basico', title: 'Estudo de Caso · Nível Básico',
+        diagram: '<div class="lab-flow"><div class="lab-flow-box">Dados brutos<br><small>Access + Excel</small></div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">Você constrói<br>o modelo e o relatório</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Compare com<br>a referência</div></div>',
         steps: [
-          { id: 'bd-vendas-accdb', h: 'Etapa 1 · Importar a base de vendas', p: 'No Power BI Desktop, use Obter Dados para conectar ao banco de dados Access BD_Vendas.accdb e importe a tabela fVendas. Adicione uma Coluna Personalizada chamada CidadeBR, concatenando a coluna Estado com ", " e a coluna Cidade, seguida de ", BR". Em seguida, exclua a coluna Cidade original — a informação já está representada dentro de CidadeBR.', arquivo: 'BD-Vendas.accdb' },
-          { id: 'bd-vendedor-imagens', h: 'Etapa 2 · Importar a tabela de vendedores', p: 'Importe a pasta de trabalho BD_Vendedor_Imagens.xlsx como uma nova consulta chamada dVendedores, com a seguinte estrutura de colunas: Vendedor (somente o nome), Equipe (equipe onde atua), Chave (chave de cada vendedor), Imagem (endereço da foto — mantenha os 3 caracteres após o ponto, referentes à extensão do arquivo) e Cargo (nível do cargo do vendedor).', arquivo: 'BD-Vendedor-Imagens.xlsx' },
-          { h: 'Etapa 3 · Criar a tabela de datas e os relacionamentos', p: 'Crie uma tabela dCalendario e confirme que os relacionamentos foram formados corretamente: fVendas → dCalendario (pela coluna DataVenda) e fVendas → dVendedores (pela coluna Chave, ligando à CHAVE de dVendedores) — o resultado é o esquema estrela abaixo.', img: '/assets/img/exercicio-tsbr/modelo-relacionamentos.jpg' },
-          { h: 'Etapa 4 · Criar as 5 medidas base e organizar o modelo', p: 'Na tabela fVendas, crie 5 novas medidas: Receita = SUM(fVendas[VlrVenda]), Lucro = SUM(fVendas[VlrLucro]), Qt Produtos Vendidos = SUM(fVendas[Quantidade]), Custos Envio = SUM(fVendas[CustoEnvio]) e Qt de Vendas = COUNTROWS(fVendas). Em seguida, oculte os campos técnicos que não serão usados diretamente nos visuais (IDPedido, VlrLucro, VlrVenda, Desconto, Quantidade, MargemProduto, CustoEnvio, PreçoUnit, ValorDesconto) e, na tabela dCalendario, ordene a coluna Mês pela coluna Mês Num.' },
-          { h: 'Etapa 5 · Construir o Relatório Receita', p: 'Monte a primeira página do relatório reproduzindo o exemplo abaixo: um gráfico de linhas (Qt de Vendas por EmbalagemProduto), um treemap (Receita e Qt de Vendas por Equipe e Vendedor), um gráfico de barras 100% empilhadas (Receita por Categoria de Produto e Sub-Categoria) e um gráfico de barras simples (Receita por Categoria de Produto).', img: '/assets/img/exercicio-tsbr/relatorio-receita.png' },
+          { id: 'bd-vendas-accdb', h: 'O desafio', p: 'Você foi contratado como analista de BI para consolidar o histórico de vendas de uma empresa e entregar o primeiro painel para a diretoria. A partir daqui, o modelo de dados, as medidas e o relatório são por sua conta — use tudo o que você já praticou nos módulos anteriores de Power Query, modelagem e DAX. Nenhum passo a passo de cliques a seguir: só o resultado que o seu relatório precisa entregar. Comece importando o banco de dados de vendas abaixo, no Power BI Desktop.', arquivo: 'BD-Vendas.accdb',
+            checklist: ['A tabela fVendas importada do banco de dados Access', 'Uma coluna CidadeBR combinando Estado + Cidade + "BR" (ex.: "GO, Itumbiara, BR")', 'A coluna Cidade original removida do modelo — a informação já está em CidadeBR'] },
+          { id: 'bd-vendedor-imagens', h: 'Cadastro da equipe de vendas', p: 'A diretoria também quer ver o desempenho por vendedor. Importe a planilha de cadastro abaixo e organize os dados em uma consulta chamada dVendedores.', arquivo: 'BD-Vendedor-Imagens.xlsx',
+            checklist: ['Coluna Vendedor com apenas o nome da pessoa', 'Coluna Equipe com a equipe de cada vendedor', 'Coluna Chave com a chave de cada vendedor', 'Coluna Imagem com o link da foto, mantendo os 3 caracteres da extensão do arquivo', 'Coluna Cargo com o nível do cargo'] },
+          { h: 'Requisitos do modelo de dados', p: 'Monte um modelo em esquema estrela: uma tabela fato (fVendas) relacionada a duas dimensões (dCalendario e dVendedores). O modelo final precisa ter:',
+            checklist: ['Relacionamento fVendas → dCalendario pela coluna DataVenda', 'Relacionamento fVendas → dVendedores pela coluna Chave / CHAVE', 'Uma medida de receita total', 'Uma medida de lucro total', 'Uma medida de quantidade de produtos vendidos', 'Uma medida de custo total de envio', 'Uma medida de quantidade de vendas (pedidos)', 'Campos técnicos não usados em nenhum visual ocultados no modelo (ex.: IDPedido, VlrLucro, VlrVenda, Desconto, Quantidade, MargemProduto, CustoEnvio, PreçoUnit, ValorDesconto)', 'A coluna Mês da tabela dCalendario ordenada pela coluna Mês Num, para não aparecer em ordem alfabética'],
+            hints: [
+              { t: 'Receita', code: 'Receita = SUM(fVendas[VlrVenda])' },
+              { t: 'Lucro', code: 'Lucro = SUM(fVendas[VlrLucro])' },
+              { t: 'Qt Produtos Vendidos', code: 'Qt Produtos Vendidos = SUM(fVendas[Quantidade])' },
+              { t: 'Custos Envio', code: 'Custos Envio = SUM(fVendas[CustoEnvio])' },
+              { t: 'Qt de Vendas', code: 'Qt de Vendas = COUNTROWS(fVendas)' },
+            ] },
+          { h: 'Requisito do relatório — Nível Básico', p: 'Construa uma página de relatório que responda às perguntas da diretoria:',
+            checklist: ['Qual a quantidade de vendas por tipo de embalagem do produto?', 'Como a receita e a quantidade de vendas se distribuem entre equipes e vendedores?', 'Qual a participação de cada categoria e subcategoria de produto na receita total?', 'Qual a receita total por categoria de produto?'] },
+          { h: 'Resultado de referência', reference: true, p: 'Depois de construir o seu relatório, compare com o exemplo abaixo — não precisa ser idêntico, mas os principais indicadores e agrupamentos devem aparecer.', img: '/assets/img/exercicio-tsbr/relatorio-receita.png' },
         ],
       },
       {
-        id: 'exercicio-final', title: 'Exercício Guiado · Nível Final',
-        diagram: '<div class="lab-flow"><div class="lab-flow-box">Modelo do Exercício Básico</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">+ Tabela Datas automatizada<br>+ 3 medidas de comparação</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">3 relatórios adicionais</div></div>',
+        id: 'exercicio-final', title: 'Estudo de Caso · Nível Final',
+        diagram: '<div class="lab-flow"><div class="lab-flow-box">Modelo do<br>Nível Básico</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">+ Medidas de<br>comparação anual</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">3 relatórios<br>adicionais</div></div>',
         steps: [
-          { id: 'dcalendario-code', h: 'Etapa 1 · Automatizar a tabela de calendário', p: 'No exercício final, gere a tabela dCalendario de forma automatizada em vez de criar manualmente: crie uma Consulta Nula, abra o Editor Avançado e cole o código M do arquivo abaixo — uma função reutilizável que gera a tabela de datas a partir de um intervalo. Alternativamente, uma consulta mais simples como Consulta1(Date.StartOfYear(List.Min(fVendas[DataVenda])), Date.EndOfYear(List.Max(fVendas[DataVenda])), 1) já cobre automaticamente o período real dos seus dados de vendas.', arquivo: 'dCalendario-CODE.txt' },
-          { h: 'Etapa 2 · Medidas de comparação com o ano anterior', p: 'Além das 5 medidas do exercício básico, crie mais 3 medidas na tabela fVendas: Lucro LY = CALCULATE([Lucro], SAMEPERIODLASTYEAR(dCalendario[Date])) — o lucro do mesmo período no ano anterior; % TxCres. Anual do Lucro = IF([Lucro LY]=0, 0, DIVIDE([Lucro],[Lucro LY],0)-1) — a variação percentual ano a ano; e % Lucro Vendas = DIVIDE([Lucro], CALCULATE([Lucro], ALL(fVendas)), 0) — a participação do período no lucro total.' },
-          { h: 'Etapa 3 · Relatório Qtde Vendas', p: 'Construa uma página com um gráfico de colunas (Qt de Vendas por Ano), um gráfico de rosca (Qt de Vendas por Região) e uma tabela de detalhes por vendedor com a foto, nome, quantidade de vendas, receita e lucro de cada um.', img: '/assets/img/exercicio-tsbr/relatorio-qtde-vendas.jpg' },
-          { h: 'Etapa 4 · Relatório Lucro', p: 'Construa uma página com um mapa de bolhas (Receita por Cidade) usando o campo CidadeBR, segmentações por Ano e por Região, e um gráfico de barras (Lucro por Segmento de Cliente).', img: '/assets/img/exercicio-tsbr/relatorio-lucro.jpg' },
-          { h: 'Etapa 5 · Relatório Lucro por Segmento Cliente', p: 'Construa a página final com uma segmentação de dados (campo SegmentoCliente, orientação horizontal e responsiva) e um gráfico de dispersão: Detalhes = SegmentoCliente, Legenda = Categoria de Produto, Eixo X = Lucro, Eixo Y = Qt de Vendas (iniciando em -500), Tamanho = % Lucro Vendas e Eixo de Reprodução = Mês. Adicione duas linhas constantes vermelhas, uma no Eixo X e outra no Eixo Y, ambas iniciando em 0 — além de uma tabela (Ano, Lucro, Lucro LY) e um gráfico de barras empilhadas (Ano no eixo, Tx Cresc. Anual no valor, saturação de cor por Lucro e dica de ferramenta com Qt de Vendas).', img: '/assets/img/exercicio-tsbr/relatorio-lucro-segmento.png' },
-          { id: 'exercicio-final-solucao', h: 'Etapa 6 · Conferir com a solução completa', p: 'Baixe o arquivo .pbix com a solução completa do exercício final para conferir seu resultado ou usar como referência caso fique travado em alguma etapa.', arquivo: 'Exercicio-Final-Solucao.pbix' },
+          { id: 'dcalendario-code', h: 'Automatize a tabela de calendário', p: 'No nível final, a tabela dCalendario não pode ficar fixa — ela precisa se atualizar sozinha conforme novos dados de vendas chegarem. Duas formas de resolver isso: colar o código M reutilizável abaixo em uma Consulta Nula (Editor Avançado), ou escrever uma expressão mais simples usando Date.StartOfYear(List.Min(fVendas[DataVenda])) e Date.EndOfYear(List.Max(fVendas[DataVenda])) como limites do período.', arquivo: 'dCalendario-CODE.txt' },
+          { h: 'Medidas de comparação com o ano anterior', p: 'A diretoria agora quer entender a evolução do negócio, não só o resultado do período. Crie 3 novas medidas que respondam:',
+            checklist: ['Qual foi o lucro no mesmo período do ano anterior?', 'Qual a taxa de crescimento do lucro em relação ao ano anterior?', 'Qual a participação percentual de cada período no lucro total?'],
+            hints: [
+              { t: 'Lucro LY', code: 'Lucro LY = CALCULATE([Lucro], SAMEPERIODLASTYEAR(dCalendario[Date]))' },
+              { t: '% TxCres. Anual do Lucro', code: '% TxCres. Anual do Lucro = IF([Lucro LY]=0, 0, DIVIDE([Lucro],[Lucro LY],0)-1)' },
+              { t: '% Lucro Vendas', code: '% Lucro Vendas = DIVIDE([Lucro], CALCULATE([Lucro], ALL(fVendas)), 0)' },
+            ] },
+          { h: 'Requisito do relatório — Qtde Vendas', p: 'Construa uma página que responda:',
+            checklist: ['Como a quantidade de vendas evoluiu ano a ano?', 'Como a quantidade de vendas se distribui entre as regiões do Brasil?', 'Quem são os vendedores com melhor desempenho — com nome, foto, quantidade de vendas, receita e lucro?'] },
+          { h: 'Requisito do relatório — Lucro', p: 'Construa uma página que responda:',
+            checklist: ['Onde estão concentradas as maiores receitas no mapa do Brasil? (use a coluna CidadeBR)', 'Como o lucro se distribui por segmento de cliente?', 'É possível filtrar essa análise por ano e por região?'] },
+          { h: 'Requisito do relatório — Lucro por Segmento Cliente', p: 'Construa a página final, cruzando lucro, quantidade de vendas e crescimento por segmento de cliente. Ela precisa responder:',
+            checklist: ['Como lucro e quantidade de vendas se relacionam, segmentados por categoria de produto e por segmento de cliente?', 'Qual segmento cresce mais rápido, ano a ano?', 'Qual foi o lucro de cada ano comparado ao ano anterior, lado a lado?'],
+            hints: [
+              { t: 'Configuração do gráfico de dispersão (se travar)', code: 'Detalhes: SegmentoCliente\nLegenda: Categoria de Produto\nEixo X: Lucro (linha constante vermelha em 0)\nEixo Y: Qt de Vendas, iniciando em -500 (linha constante vermelha em 0)\nTamanho: % Lucro Vendas\nEixo de Reprodução: Mês' },
+            ] },
+          { h: 'Referência — Relatório Qtde Vendas', reference: true, p: 'Compare com o exemplo abaixo.', img: '/assets/img/exercicio-tsbr/relatorio-qtde-vendas.jpg' },
+          { h: 'Referência — Relatório Lucro', reference: true, p: 'Compare com o exemplo abaixo.', img: '/assets/img/exercicio-tsbr/relatorio-lucro.jpg' },
+          { h: 'Referência — Relatório Lucro por Segmento Cliente', reference: true, p: 'Compare com o exemplo abaixo.', img: '/assets/img/exercicio-tsbr/relatorio-lucro-segmento.png' },
+          { id: 'exercicio-final-solucao', h: 'Solução completa', p: 'Se quiser conferir o arquivo inteiro pronto — modelo, medidas e as 4 páginas de relatório — baixe a solução completa abaixo.', arquivo: 'Exercicio-Final-Solucao.pbix' },
         ],
       },
     ],
@@ -833,6 +866,21 @@ function resourceItem(r) {
   </li>`;
 }
 
+function hintItem(hint) {
+  if (!hint) return '';
+  const rid = 'hint-' + Math.random().toString(36).slice(2, 9);
+  return `<li class="res-card" data-res-id="${rid}">
+    <button class="res-toggle" type="button" data-toggle-res="${rid}">
+      ${ICON_DOC}
+      <span>${hint.t}<span class="src">DICA · VER FÓRMULA</span></span>
+      ${ICON_CHEV}
+    </button>
+    <div class="res-body">
+      <code>${hint.code}</code>
+    </div>
+  </li>`;
+}
+
 function renderLesson(id) {
   let idx = flat.findIndex(l => l.id === id);
   if (idx === -1) idx = 0;
@@ -885,9 +933,12 @@ function renderLesson(id) {
       ${lesson.diagram || ''}
       <div class="reading-card">
         ${lesson.steps.map(s => `
-          <div class="lab-step">
+          <div class="lab-step${s.reference ? ' reference' : ''}">
+            ${s.reference ? `<div class="ref-badge">${ICON_CHECK} Resultado de referência — confira depois de construir o seu</div>` : ''}
             <h3>${s.h}</h3>
             <p>${s.p}</p>
+            ${s.checklist ? `<ul class="req-list">${s.checklist.map(item => `<li>${ICON_CHECK}<span>${item}</span></li>`).join('')}</ul>` : ''}
+            ${s.hints ? `<div class="hint-group resources"><ul>${s.hints.map(hintItem).join('')}</ul></div>` : ''}
             ${s.img ? `<img class="lab-step-img" src="${s.img}" alt="${s.h}" loading="lazy">` : ''}
             ${s.arquivo ? `<a class="btn btn-ghost on-light lab-download" href="/exercicio.php?id=${s.id}">${ICON_DOC} Baixar ${s.arquivo}</a>` : ''}
           </div>
