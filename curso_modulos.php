@@ -25,3 +25,13 @@ function modulo_anterior(string $moduloId): ?string
     }
     return $ids[$idx - 1];
 }
+
+function modulo_seguinte(string $moduloId): ?string
+{
+    $ids = array_keys(MODULOS_POWER_BI);
+    $idx = array_search($moduloId, $ids, true);
+    if ($idx === false || $idx === count($ids) - 1) {
+        return null;
+    }
+    return $ids[$idx + 1];
+}

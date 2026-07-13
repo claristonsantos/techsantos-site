@@ -263,6 +263,7 @@ if ($isPowerBi) {
 const ALUNO_ID = <?= (int)$aluno['id'] ?>;
 const SERVER_PROGRESS = <?= json_encode($progressoConcluido) ?>;
 const AVALIACOES = <?= json_encode($avaliacoesInfo, JSON_UNESCAPED_UNICODE) ?>;
+const RESUME_MODULE = <?= json_encode(preg_match('/^[a-z0-9-]+$/', (string)($_GET['modulo'] ?? '')) ? $_GET['modulo'] : null) ?>;
 const MSL = 'learn.microsoft.com';
 const COURSE = [
   {
@@ -1020,7 +1021,13 @@ function renderLesson(id) {
 function currentLessonId() {
   const h = location.hash.replace('#', '');
   const lesson = flat.find(l => l.id === h);
-  if (!lesson) return flat[0].id;
+  if (!lesson) {
+    if (RESUME_MODULE) {
+      const mod = COURSE.find(m => m.id === RESUME_MODULE);
+      if (mod && mod.lessons.length && moduleUnlocked(mod.id)) return mod.lessons[0].id;
+    }
+    return flat[0].id;
+  }
   if (!moduleUnlocked(lesson.moduleId)) return flat[0].id;
   return h;
 }

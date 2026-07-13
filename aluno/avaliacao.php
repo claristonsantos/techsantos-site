@@ -151,7 +151,8 @@ unset($q);
       <?php if ($resultado['aprovado'] && $resultado['certificado']): ?>
         <p style="margin-top:1rem;"><a class="btn btn-primary" href="/certificado.php?codigo=<?= urlencode($resultado['certificado']) ?>">Ver meu certificado</a></p>
       <?php elseif ($resultado['aprovado']): ?>
-        <p style="margin-top:1rem;"><a class="btn btn-primary" href="/aluno/">Continuar o curso</a></p>
+        <?php $moduloSeguinteId = modulo_seguinte($moduloId); ?>
+        <p style="margin-top:1rem;"><a class="btn btn-primary" href="/aluno/<?= $moduloSeguinteId ? '?modulo=' . urlencode($moduloSeguinteId) : '' ?>">Continuar o curso</a></p>
       <?php else: ?>
         <p style="margin-top:1rem;"><a class="btn btn-ghost on-light" href="/aluno/avaliacao.php?modulo=<?= urlencode($moduloId) ?>">Tentar novamente</a></p>
       <?php endif; ?>
