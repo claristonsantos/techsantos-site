@@ -54,7 +54,7 @@
     <p>9 módulos, do primeiro conceito de modelagem até relatórios publicados — com avaliações por módulo e certificado de conclusão.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="/comprar.php">Comprar o curso</a>
-      <a class="btn btn-ghost" href="https://wa.me/5564999852536" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="btn btn-ghost" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a>
     </div>
   </div>
 </div>

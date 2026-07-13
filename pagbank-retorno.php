@@ -39,7 +39,7 @@ $pago = $pedido && $pedido['status'] === 'pago';
     <div class="ret-icon pending"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
     <h1>Confirmando seu pagamento…</h1>
     <p>Isso pode levar alguns instantes, especialmente no Pix. Assim que confirmarmos, você recebe um e-mail com seu acesso. Se preferir, fale com a gente pelo WhatsApp.</p>
-    <p style="margin-top:1.5rem;"><a class="btn btn-ghost on-light" href="https://wa.me/5564999852536" target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+    <p style="margin-top:1.5rem;"><a class="btn btn-ghost on-light" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a></p>
   <?php endif; ?>
 </div>
 </body>

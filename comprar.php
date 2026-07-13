@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <div class="buy-alt">
-      <a href="https://wa.me/5564999852536?text=<?= $whatsMsg ?>" target="_blank" rel="noopener">Prefere falar antes? WhatsApp →</a>
+      <a href="https://wa.me/5564992905785?text=<?= $whatsMsg ?>" target="_blank" rel="noopener">Prefere falar antes? WhatsApp →</a>
       <a href="mailto:contato@techsantos.com.br?subject=Matr%C3%ADcula%20<?= rawurlencode($nomeCurso) ?>">Turma fechada / in company →</a>
     </div>
   </div>

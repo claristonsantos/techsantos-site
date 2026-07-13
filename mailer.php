@@ -3,6 +3,28 @@ declare(strict_types=1);
 
 const MAIL_FROM = 'contato@techsantos.com.br';
 const MAIL_FROM_NAME = 'TECH SANTOS BR';
+const WHATSAPP_LINK = 'https://wa.me/5564992905785';
+const WHATSAPP_DISPLAY = '(64) 99290-5785';
+const SOCIAL_INSTAGRAM = 'https://www.instagram.com/tech_santos_br/';
+const SOCIAL_FACEBOOK = 'https://www.facebook.com/techsantosbr/';
+const SOCIAL_LINKEDIN = 'https://br.linkedin.com/company/techsantos-br';
+
+function email_footer_html(): string
+{
+    $sInsta = SOCIAL_INSTAGRAM;
+    $sFace = SOCIAL_FACEBOOK;
+    $sLinked = SOCIAL_LINKEDIN;
+    return <<<HTML
+        <tr><td style="background:#F5F6F1; padding:16px 32px; font-size:12px; color:#7C8798;">
+          <p style="margin:0 0 10px;">TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29</p>
+          <p style="margin:0;">
+            <a href="{$sInsta}" style="color:#7C8798; text-decoration:underline;">Instagram</a> ·
+            <a href="{$sFace}" style="color:#7C8798; text-decoration:underline;">Facebook</a> ·
+            <a href="{$sLinked}" style="color:#7C8798; text-decoration:underline;">LinkedIn</a>
+          </p>
+        </td></tr>
+HTML;
+}
 
 function send_html_email(string $toEmail, string $subject, string $html, string $text): bool
 {
@@ -32,7 +54,7 @@ function send_html_email(string $toEmail, string $subject, string $html, string 
 
 function send_enrollment_email(string $toEmail, string $toName, string $senha, array $curso): bool
 {
-    $subject = 'Bem-vindo(a) ao curso ' . $curso['nome'] . ' — TECH SANTOS BR';
+    $subject = 'Sua vaga no curso ' . $curso['nome'] . ' está garantida — TECH SANTOS BR';
 
     $modulos = [
         'Módulo 01 — Fundamentos de Modelagem de Dados',
@@ -40,11 +62,13 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
         'Módulo 03 — Power Query: Conectando e Importando Dados',
         'Módulo 04 — Power Query: Transformação e Limpeza de Dados',
         'Módulo 05 — Modelo de Dados & Otimização de Desempenho',
-        'Módulo 06 — Fórmulas DAX',
-        'Módulo 07 — Criar e Enriquecer Relatórios',
-        'Módulo 08 — Análise Avançada & Insights de IA',
-        'Módulo 09 — Dashboards, Publicação & Governança',
-        'Módulo 10 — Encerramento & Avaliação Final',
+        'Módulo 06 — Laboratórios Práticos de Power Query',
+        'Módulo 07 — Fórmulas DAX',
+        'Módulo 08 — Criar e Enriquecer Relatórios',
+        'Módulo 09 — Análise Avançada & Insights de IA',
+        'Módulo 10 — Dashboards, Publicação & Governança',
+        'Módulo 11 — Exercício Guiado TECH SANTOS BR',
+        'Módulo 12 — Encerramento & Avaliação Final',
     ];
     $modulosHtml = '';
     foreach ($modulos as $m) {
@@ -52,9 +76,15 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
     }
 
     $primeiroNome = htmlspecialchars(explode(' ', trim($toName))[0], ENT_QUOTES);
-    $nomeCompleto = htmlspecialchars($toName, ENT_QUOTES);
     $emailHtml = htmlspecialchars($toEmail, ENT_QUOTES);
     $senhaHtml = htmlspecialchars($senha, ENT_QUOTES);
+    $cursoHtml = htmlspecialchars($curso['nome'], ENT_QUOTES);
+    $sInsta = SOCIAL_INSTAGRAM;
+    $sFace = SOCIAL_FACEBOOK;
+    $sLinked = SOCIAL_LINKEDIN;
+    $waLink = WHATSAPP_LINK;
+    $waDisplay = WHATSAPP_DISPLAY;
+    $footerHtml = email_footer_html();
 
     $html = <<<HTML
 <!doctype html>
@@ -67,8 +97,8 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
           <span style="color:#ffffff; font-size:18px; font-weight:bold;">TECH <span style="color:#6DC24D;">SANTOS BR</span></span>
         </td></tr>
         <tr><td style="padding:32px;">
-          <h1 style="font-size:20px; margin:0 0 16px;">Olá, {$primeiroNome}! Sua matrícula está confirmada.</h1>
-          <p style="font-size:15px; line-height:1.6; color:#48546A; margin:0 0 20px;">Você foi matriculado(a) no curso <strong>{$curso['nome']}</strong>. Abaixo estão seus dados de acesso e o cronograma completo do curso.</p>
+          <h1 style="font-size:20px; margin:0 0 16px;">Oi, {$primeiroNome}! Sua vaga já está garantida</h1>
+          <p style="font-size:15px; line-height:1.6; color:#48546A; margin:0 0 20px;">Que bom ter você com a gente! Você garantiu sua vaga no curso <strong>{$cursoHtml}</strong>. Abaixo estão seus dados de acesso e tudo o que vem por aí.</p>
 
           <table role="presentation" width="100%" style="background:#EBEEE3; border-radius:6px; margin-bottom:24px;">
             <tr><td style="padding:16px 20px;">
@@ -78,18 +108,16 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
             </td></tr>
           </table>
 
-          <p style="font-size:13px; color:#7C8798; margin:0 0 24px;">Por segurança, você vai precisar definir uma nova senha no seu primeiro acesso.</p>
+          <p style="font-size:13px; color:#7C8798; margin:0 0 24px;">Por segurança, é só criar uma senha nova assim que você entrar pela primeira vez.</p>
 
-          <h2 style="font-size:16px; margin:0 0 12px;">Cronograma do curso</h2>
+          <h2 style="font-size:16px; margin:0 0 12px;">O que você vai ver no curso</h2>
           <ul style="font-size:14px; color:#48546A; line-height:1.5; padding-left:20px; margin:0 0 24px;">
             {$modulosHtml}
           </ul>
 
-          <p style="font-size:14px; color:#48546A; margin:0;">Qualquer dúvida, é só responder este e-mail ou chamar no WhatsApp: (64) 99985-2536.</p>
+          <p style="font-size:14px; color:#48546A; margin:0;">Qualquer dúvida é só responder este e-mail ou chamar a gente no <a href="{$waLink}" style="color:#35762A;">WhatsApp ({$waDisplay})</a> — estamos por aqui!</p>
         </td></tr>
-        <tr><td style="background:#F5F6F1; padding:16px 32px; font-size:12px; color:#7C8798;">
-          TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29
-        </td></tr>
+{$footerHtml}
       </table>
     </td></tr>
   </table>
@@ -99,22 +127,25 @@ HTML;
 
     $modulosTexto = implode("\n", array_map(fn($m) => '- ' . $m, $modulos));
     $text = <<<TEXT
-Olá, {$primeiroNome}!
+Oi, {$primeiroNome}!
 
-Sua matrícula no curso {$curso['nome']} está confirmada.
+Que bom ter você com a gente! Sua vaga no curso {$curso['nome']} já está garantida — aqui vão seus dados de acesso e tudo o que vem por aí.
 
 Acesse em: https://techsantos.com.br/login.php
 Usuário (e-mail): {$toEmail}
 Senha provisória: {$senha}
 
-Por segurança, você vai precisar definir uma nova senha no seu primeiro acesso.
+Por segurança, é só criar uma senha nova assim que você entrar pela primeira vez.
 
-Cronograma do curso:
+O que você vai ver no curso:
 {$modulosTexto}
 
-Qualquer dúvida, é só responder este e-mail ou chamar no WhatsApp: (64) 99985-2536.
+Qualquer dúvida é só responder este e-mail ou chamar a gente no WhatsApp {$waDisplay} ({$waLink}) — estamos por aqui!
 
 TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29
+Instagram: {$sInsta}
+Facebook: {$sFace}
+LinkedIn: {$sLinked}
 TEXT;
 
     return send_html_email($toEmail, $subject, $html, $text);
@@ -126,6 +157,10 @@ function send_admin_credentials_email(string $toEmail, string $toName, string $u
     $primeiroNome = htmlspecialchars(explode(' ', trim($toName))[0], ENT_QUOTES);
     $usuarioHtml = htmlspecialchars($usuario, ENT_QUOTES);
     $senhaHtml = htmlspecialchars($senha, ENT_QUOTES);
+    $sInsta = SOCIAL_INSTAGRAM;
+    $sFace = SOCIAL_FACEBOOK;
+    $sLinked = SOCIAL_LINKEDIN;
+    $footerHtml = email_footer_html();
 
     $html = <<<HTML
 <!doctype html>
@@ -151,9 +186,7 @@ function send_admin_credentials_email(string $toEmail, string $toName, string $u
 
           <p style="font-size:13px; color:#7C8798; margin:0;">Por segurança, você vai precisar definir uma nova senha no seu primeiro acesso.</p>
         </td></tr>
-        <tr><td style="background:#F5F6F1; padding:16px 32px; font-size:12px; color:#7C8798;">
-          TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29
-        </td></tr>
+{$footerHtml}
       </table>
     </td></tr>
   </table>
@@ -173,6 +206,9 @@ Senha provisória: {$senha}
 Por segurança, você vai precisar definir uma nova senha no seu primeiro acesso.
 
 TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29
+Instagram: {$sInsta}
+Facebook: {$sFace}
+LinkedIn: {$sLinked}
 TEXT;
 
     return send_html_email($toEmail, $subject, $html, $text);
