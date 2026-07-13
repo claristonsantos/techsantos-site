@@ -45,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (!filter_var($imagemUrl, FILTER_VALIDATE_URL)) {
             $error = 'A imagem precisa ser uma URL pública (ex.: um link de assets/img/ do próprio site).';
         } else {
-            $scheduledTs = strtotime($agendadoPara);
+            // O campo datetime-local é preenchido pelo admin em horário de Brasília (UTC-3, sem horário de verão).
+            $scheduledTs = strtotime($agendadoPara . ' -03:00');
             if ($scheduledTs === false || $scheduledTs < time() + 600) {
                 $error = 'A data/hora precisa ser pelo menos 10 minutos no futuro.';
             } elseif ($canal === 'facebook' && META_PAGE_TOKEN === '') {
@@ -150,9 +151,9 @@ admin_topbar('social');
           </select>
         </div>
         <div class="field">
-          <label for="agendado_para">Data/hora</label>
+          <label for="agendado_para">Data/hora (horário de Brasília)</label>
           <input type="datetime-local" id="agendado_para" name="agendado_para" required
-                 value="<?= $editRow ? date('Y-m-d\TH:i', strtotime($editRow['agendado_para'])) : '' ?>">
+                 value="<?= $editRow ? date('Y-m-d\TH:i', strtotime($editRow['agendado_para'] . ' UTC') - 10800) : '' ?>">
         </div>
       </div>
       <div class="field">
@@ -171,7 +172,7 @@ admin_topbar('social');
 
   <div class="table-wrap">
     <table class="data-table">
-      <thead><tr><th>Prévia</th><th>Data</th><th>Canal</th><th>Legenda</th><th>Status</th><th></th></tr></thead>
+      <thead><tr><th>Prévia</th><th>Data (Brasília)</th><th>Canal</th><th>Legenda</th><th>Status</th><th></th></tr></thead>
       <tbody>
         <?php if (!$posts): ?>
           <tr class="empty-row"><td colspan="6">Nenhum post na fila ainda.</td></tr>
@@ -187,7 +188,7 @@ admin_topbar('social');
                 <img src="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>" alt="">
               </button>
             </td>
-            <td><?= date('d/m/Y H:i', strtotime($p['agendado_para'])) ?></td>
+            <td><?= date('d/m/Y H:i', strtotime($p['agendado_para'] . ' UTC') - 10800) ?></td>
             <td><?= htmlspecialchars($p['canal'], ENT_QUOTES) ?></td>
             <td>
               <?= htmlspecialchars(mb_strimwidth($p['legenda'], 0, 60, '…'), ENT_QUOTES) ?>
