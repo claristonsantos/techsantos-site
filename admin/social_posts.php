@@ -112,6 +112,23 @@ $posts = $pdo->query('SELECT * FROM social_posts ORDER BY agendado_para DESC LIM
 admin_head('Redes Sociais');
 admin_topbar('social');
 ?>
+<style>
+  .post-preview-thumb { border: none; background: none; padding: 0; cursor: pointer; display: block; }
+  .post-preview-thumb img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; display: block; }
+  dialog#previewDialog { border: none; border-radius: 10px; padding: 0; max-width: 420px; width: 92vw; }
+  dialog#previewDialog::backdrop { background: rgba(10, 21, 36, 0.6); }
+  .post-card { background: var(--surface); }
+  .post-card-head { display: flex; align-items: center; gap: 0.7rem; padding: 0.9rem 1rem; }
+  .post-card-avatar {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--navy); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-family: 'Plex Cond', sans-serif; font-weight: 700; flex: none;
+  }
+  .post-card-head .name { font-weight: 700; font-size: 0.92rem; color: var(--ink); }
+  .post-card-head .chan { font-size: 0.76rem; color: var(--ink-faint); }
+  .post-card img.post-card-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+  .post-card-caption { padding: 0.9rem 1rem 1.1rem; font-size: 0.88rem; color: var(--ink); white-space: pre-wrap; line-height: 1.5; }
+  .post-card-close { position: absolute; top: 0.6rem; right: 0.7rem; background: rgba(0,0,0,0.45); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 1rem; line-height: 1; }
+</style>
 <main class="admin-main">
   <div class="admin-head"><h1>Fila de posts — Facebook / Instagram</h1><a class="btn btn-ghost on-light" href="/admin/social_setup.php">Configurar Meta</a></div>
 
@@ -161,17 +178,22 @@ admin_topbar('social');
         <?php endif; ?>
         <?php foreach ($posts as $p): ?>
           <tr>
-            <td><img src="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>" alt="" style="width:64px; height:64px; object-fit:cover; border-radius:4px; display:block;"></td>
+            <td>
+              <button type="button" class="post-preview-thumb"
+                      data-imagem="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>"
+                      data-legenda="<?= htmlspecialchars($p['legenda'], ENT_QUOTES) ?>"
+                      data-canal="<?= htmlspecialchars($p['canal'], ENT_QUOTES) ?>"
+                      onclick="openPostPreview(this)" title="Ver preview do post">
+                <img src="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>" alt="">
+              </button>
+            </td>
             <td><?= date('d/m/Y H:i', strtotime($p['agendado_para'])) ?></td>
             <td><?= htmlspecialchars($p['canal'], ENT_QUOTES) ?></td>
             <td>
-              <details>
-                <summary style="cursor:pointer;"><?= htmlspecialchars(mb_strimwidth($p['legenda'], 0, 60, '…'), ENT_QUOTES) ?></summary>
-                <p style="margin-top:0.5rem; white-space:pre-wrap; color:var(--ink-soft); font-size:0.85rem;"><?= htmlspecialchars($p['legenda'], ENT_QUOTES) ?></p>
-                <?php if ($p['status'] === 'erro' && $p['erro_msg']): ?>
-                  <p style="margin-top:0.5rem; color:#C0392B; font-size:0.8rem;">Erro: <?= htmlspecialchars($p['erro_msg'], ENT_QUOTES) ?></p>
-                <?php endif; ?>
-              </details>
+              <?= htmlspecialchars(mb_strimwidth($p['legenda'], 0, 60, '…'), ENT_QUOTES) ?>
+              <?php if ($p['status'] === 'erro' && $p['erro_msg']): ?>
+                <p style="margin-top:0.3rem; color:#C0392B; font-size:0.78rem;">Erro: <?= htmlspecialchars($p['erro_msg'], ENT_QUOTES) ?></p>
+              <?php endif; ?>
             </td>
             <td><span class="badge <?= in_array($p['status'], ['publicado', 'agendado_meta'], true) ? 'on' : ($p['status'] === 'erro' ? 'off' : '') ?>"><?= htmlspecialchars($p['status'], ENT_QUOTES) ?></span></td>
             <td class="actions">
@@ -190,5 +212,28 @@ admin_topbar('social');
       </tbody>
     </table>
   </div>
+
+  <dialog id="previewDialog">
+    <div class="post-card" style="position:relative;">
+      <button type="button" class="post-card-close" onclick="document.getElementById('previewDialog').close()">✕</button>
+      <div class="post-card-head">
+        <span class="post-card-avatar">TS</span>
+        <div>
+          <div class="name">TECH SANTOS BR</div>
+          <div class="chan" id="previewChan"></div>
+        </div>
+      </div>
+      <img class="post-card-img" id="previewImg" src="" alt="">
+      <div class="post-card-caption" id="previewCaption"></div>
+    </div>
+  </dialog>
+  <script>
+    function openPostPreview(btn) {
+      document.getElementById('previewImg').src = btn.dataset.imagem;
+      document.getElementById('previewCaption').textContent = btn.dataset.legenda;
+      document.getElementById('previewChan').textContent = btn.dataset.canal === 'facebook' ? 'Facebook' : 'Instagram';
+      document.getElementById('previewDialog').showModal();
+    }
+  </script>
 </main>
 <?php admin_foot(); ?>
