@@ -144,6 +144,7 @@ if ($isPowerBi) {
   .lab-step:last-of-type { border-bottom: none; }
   .lab-step h3 { margin: 0 0 0.5rem; }
   .lab-step .lab-download { margin-top: 0.4rem; display: inline-flex; }
+  .lab-step-img { display: block; max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; margin: 0.75rem 0; }
 
   .lab-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1.6rem; padding: 1.1rem; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; }
   .lab-flow-box { flex: 1 1 120px; min-width: 100px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 0.65rem 0.5rem; font-size: 0.78rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
@@ -635,64 +636,29 @@ const COURSE = [
     ],
   },
   {
-    id: 'labs-modelagem-publicacao', title: 'Módulo 11 · Laboratórios Guiados — Modelagem, DAX e Publicação', kind: 'reading',
+    id: 'exercicio-guiado-tsbr', title: 'Módulo 11 · Exercício Guiado TECH SANTOS BR — Do ETL ao Relatório Publicado', kind: 'reading',
     lessons: [
       {
-        id: 'lab-04a', title: 'Laboratório 04A · Power Query no Excel e o Modelo de Dados',
-        diagram: '<div class="lab-flow"><div class="lab-flow-box">Clientes.csv<br>Cotações.xlsx</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Editor do Power Query<br><small>(no Excel)</small></div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">Modelo de Dados<br>do Excel</div></div>',
+        id: 'exercicio-basico', title: 'Exercício Guiado · Nível Básico',
+        diagram: '<div class="lab-flow"><div class="lab-flow-box">BD_Vendas.accdb<br>BD_Vendedor_Imagens.xlsx</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">ETL no Power Query</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Modelo (dCalendario + dVendedores + fVendas)</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">Relatório Receita</div></div>',
         steps: [
-          { id: 'lab-04a-dados', h: 'Etapa 1 · Conectar dados no Excel', p: 'Abra uma pasta de trabalho em branco no Excel e use Dados → Obter Dados → De Arquivo para conectar à base de clientes (CSV) e à base de vendas (XLSX) abaixo — a experiência do Editor do Power Query dentro do Excel é praticamente idêntica à do Power BI Desktop que você já usou nos módulos anteriores.', arquivo: 'Lab 04A - Clientes e Cotações.zip' },
-          { h: 'Etapa 2 · Renomear consultas com nomes claros', p: 'Assim que os dados forem carregados no Editor do Power Query, renomeie cada consulta para um substantivo claro (Clientes, Vendas) em vez de manter o nome padrão do arquivo — isso facilita identificar as tabelas mais tarde no Modelo de Dados do Excel.' },
-          { h: 'Etapa 3 · Criar uma coluna a partir de um exemplo', p: 'Na consulta de Clientes, use Adicionar Coluna → Coluna de Exemplo para extrair o primeiro nome a partir de uma coluna de contato completa: digite o resultado esperado na primeira linha e deixe o Power Query detectar o padrão nas demais.' },
-          { h: 'Etapa 4 · Transformar colunas em linhas', p: 'Na consulta de Vendas, use Usar a Primeira Linha como Cabeçalho seguido de Transformar Outras Colunas em Linhas para reorganizar colunas de período (uma por mês, por exemplo) no formato longo, renomeando as colunas resultantes para algo como Data e Valor.' },
-          { h: 'Etapa 5 · Limpar valores com Substituir', p: 'Use Substituir Valores para corrigir um formato de data inconsistente (por exemplo, trocar um hífen por uma barra) antes de alterar o tipo de dado da coluna para Data.' },
-          { h: 'Etapa 6 · Carregar no Modelo de Dados do Excel', p: 'Em Fechar e Carregar Para, escolha Apenas Criar Conexão e marque Adicionar estes dados ao Modelo de Dados — isso disponibiliza as tabelas para o Power Pivot do Excel, sem duplicá-las em uma planilha.' },
+          { id: 'bd-vendas-accdb', h: 'Etapa 1 · Importar a base de vendas', p: 'No Power BI Desktop, use Obter Dados para conectar ao banco de dados Access BD_Vendas.accdb e importe a tabela fVendas. Adicione uma Coluna Personalizada chamada CidadeBR, concatenando a coluna Estado com ", " e a coluna Cidade, seguida de ", BR". Em seguida, exclua a coluna Cidade original — a informação já está representada dentro de CidadeBR.', arquivo: 'BD-Vendas.accdb' },
+          { id: 'bd-vendedor-imagens', h: 'Etapa 2 · Importar a tabela de vendedores', p: 'Importe a pasta de trabalho BD_Vendedor_Imagens.xlsx como uma nova consulta chamada dVendedores, com a seguinte estrutura de colunas: Vendedor (somente o nome), Equipe (equipe onde atua), Chave (chave de cada vendedor), Imagem (endereço da foto — mantenha os 3 caracteres após o ponto, referentes à extensão do arquivo) e Cargo (nível do cargo do vendedor).', arquivo: 'BD-Vendedor-Imagens.xlsx' },
+          { h: 'Etapa 3 · Criar a tabela de datas e os relacionamentos', p: 'Crie uma tabela dCalendario e confirme que os relacionamentos foram formados corretamente: fVendas → dCalendario (pela coluna DataVenda) e fVendas → dVendedores (pela coluna Chave, ligando à CHAVE de dVendedores) — o resultado é o esquema estrela abaixo.', img: '/assets/img/exercicio-tsbr/modelo-relacionamentos.jpg' },
+          { h: 'Etapa 4 · Criar as 5 medidas base e organizar o modelo', p: 'Na tabela fVendas, crie 5 novas medidas: Receita = SUM(fVendas[VlrVenda]), Lucro = SUM(fVendas[VlrLucro]), Qt Produtos Vendidos = SUM(fVendas[Quantidade]), Custos Envio = SUM(fVendas[CustoEnvio]) e Qt de Vendas = COUNTROWS(fVendas). Em seguida, oculte os campos técnicos que não serão usados diretamente nos visuais (IDPedido, VlrLucro, VlrVenda, Desconto, Quantidade, MargemProduto, CustoEnvio, PreçoUnit, ValorDesconto) e, na tabela dCalendario, ordene a coluna Mês pela coluna Mês Num.' },
+          { h: 'Etapa 5 · Construir o Relatório Receita', p: 'Monte a primeira página do relatório reproduzindo o exemplo abaixo: um gráfico de linhas (Qt de Vendas por EmbalagemProduto), um treemap (Receita e Qt de Vendas por Equipe e Vendedor), um gráfico de barras 100% empilhadas (Receita por Categoria de Produto e Sub-Categoria) e um gráfico de barras simples (Receita por Categoria de Produto).', img: '/assets/img/exercicio-tsbr/relatorio-receita.png' },
         ],
       },
       {
-        id: 'lab-04b', title: 'Laboratório 04B · Importando Consultas no Power BI Desktop',
-        diagram: '<div class="lab-flow"><div class="lab-flow-box">Consultas do Excel</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Power BI Desktop<br><small>Obter Dados</small></div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">+ Tabela Datas</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">Fechar e Aplicar</div></div>',
+        id: 'exercicio-final', title: 'Exercício Guiado · Nível Final',
+        diagram: '<div class="lab-flow"><div class="lab-flow-box">Modelo do Exercício Básico</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">+ Tabela Datas automatizada<br>+ 3 medidas de comparação</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">3 relatórios adicionais</div></div>',
         steps: [
-          { h: 'Etapa 1 · Importar consultas existentes', p: 'Abra o Power BI Desktop e importe as mesmas consultas de Power Query que você já criou nos módulos anteriores, reaproveitando o trabalho de transformação já feito em vez de recomeçar do zero.' },
-          { id: 'lab-04b-datas', h: 'Etapa 2 · Adicionar uma tabela de Datas', p: 'Importe a tabela de datas abaixo (ou gere a sua pela fórmula M / Nova Fonte → Intervalo de Datas) cobrindo o período dos seus dados de vendas — toda análise temporal (mês a mês, ano a ano) depende de uma tabela de datas dedicada.', arquivo: 'Lab 04B - Datas.csv' },
-          { h: 'Etapa 3 · Ajustar tipos de dados', p: 'Revise cada coluna importada e corrija tipos de dados incorretos antes de aplicar as consultas — um erro comum é datas ou valores numéricos chegando como texto.' },
-          { h: 'Etapa 4 · Fechar e Aplicar', p: 'Use Fechar e Aplicar para carregar as consultas no modelo do Power BI Desktop e confira se todas as tabelas aparecem corretamente no painel de Campos.' },
-        ],
-      },
-      {
-        id: 'lab-04c', title: 'Laboratório 04C · Relacionamentos, Medidas DAX e Primeiro Relatório Visual',
-        diagram: '<div class="lab-star"><div class="lab-star-fact">Vendas (tabela fato)</div><div class="lab-star-dims"><span>Clientes</span><span>Datas</span><span>Escritórios</span></div><div style="font-size:0.78rem;color:var(--ink-soft);">Relacionamentos muitos-para-um → esquema estrela</div></div>',
-        steps: [
-          { id: 'lab-04c-escritorios', h: 'Etapa 1 · Criar relacionamentos muitos-para-um', p: 'Importe também a tabela de escritórios abaixo. Na Visão de Modelo, arraste a coluna-chave da tabela de Vendas até a coluna correspondente em cada tabela de dimensão (Clientes, Datas, Escritórios) para criar relacionamentos muitos-para-um, formando um esquema estrela.', arquivo: 'Lab 04C - Escritórios.xlsx' },
-          { h: 'Etapa 2 · Criar uma medida DAX', p: 'No painel de Campos, clique com o botão direito na tabela de Vendas e escolha Nova Medida para criar uma medida de total de vendas usando SUM, com um nome claro como [Total de Vendas].' },
-          { h: 'Etapa 3 · Criar uma segunda medida combinando outras', p: 'Crie uma segunda medida que compare a primeira com outro critério — por exemplo, [Vendas do Ano Anterior] usando CALCULATE e SAMEPERIODLASTYEAR — e formate o resultado como moeda.' },
-          { h: 'Etapa 4 · Construir um Cartão e uma Segmentação', p: 'Na tela de relatório, adicione um visual de Cartão com sua medida principal e um visual de Segmentação de Dados ligado a uma coluna da tabela de Clientes, organizando os dois lado a lado.' },
-          { h: 'Etapa 5 · Construir uma Matriz', p: 'Adicione um visual de Matriz cruzando uma dimensão (por exemplo, vendedor ou cidade) nas linhas com o período nas colunas, e suas medidas nos valores.' },
-          { h: 'Etapa 6 · Importar um visual personalizado do AppSource', p: 'Use Importar um Visual do AppSource para adicionar um visual não nativo (como um gráfico de marcadores) ao relatório, e configure-o com uma medida de valor real contra uma meta.' },
-          { h: 'Etapa 7 · Aplicar formatação condicional', p: 'Na Matriz, use Formatação Condicional → Escalas de Cor sobre uma das medidas para destacar visualmente os valores mais altos e mais baixos sem precisar ler cada número.' },
-        ],
-      },
-      {
-        id: 'lab-05a', title: 'Laboratório 05A · Publicando no Serviço Power BI e Analisando no Excel',
-        diagram: '<div class="lab-flow"><div class="lab-flow-box">Power BI Desktop</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Publicar<br><small>Serviço Power BI</small></div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Analisar no Excel</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">Tabela/Gráfico Dinâmico<br>+ CUBEVALUE</div></div>',
-        steps: [
-          { h: 'Etapa 1 · Publicar o relatório no serviço', p: 'No Power BI Desktop, use Página Inicial → Publicar para enviar o relatório a um workspace no serviço do Power BI (app.powerbi.com), escolhendo o workspace de destino.' },
-          { h: 'Etapa 2 · Instalar o recurso Analisar no Excel', p: 'No serviço, localize o conjunto de dados publicado e use a opção Analisar no Excel — na primeira vez, o navegador solicitará baixar e instalar um pequeno add-in de conexão.' },
-          { h: 'Etapa 3 · Abrir o arquivo de conexão no Excel', p: 'Abra o arquivo baixado: ele conecta automaticamente o Excel ao seu modelo publicado no Power BI, sem precisar reimportar os dados.' },
-          { h: 'Etapa 4 · Montar uma Tabela Dinâmica com medidas do Power BI', p: 'Na Lista de Campos da Tabela Dinâmica, arraste suas medidas DAX para a área de Valores e uma dimensão para Linhas, exatamente como faria com dados locais.' },
-          { h: 'Etapa 5 · Inserir um Gráfico Dinâmico', p: 'A partir da mesma Tabela Dinâmica, insira um Gráfico Dinâmico para visualizar a mesma informação, e formate cores e rótulos.' },
-          { h: 'Etapa 6 · Criar um KPI com CUBEVALUE', p: 'Em uma célula separada, use a função CUBEVALUE para trazer o valor de uma medida específica do modelo publicado diretamente para uma célula do Excel — útil para montar indicadores fora da Tabela Dinâmica.' },
-        ],
-      },
-      {
-        id: 'lab-05b', title: 'Laboratório 05B · Tabela Dinâmica Conectada ao Power BI com Minigráficos',
-        diagram: '<div class="lab-flow"><div class="lab-flow-box">Dataset publicado<br>no Serviço Power BI</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Excel<br><small>Tabela Dinâmica do Power BI</small></div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">Segmentações<br>+ Minigráficos</div></div>',
-        steps: [
-          { h: 'Etapa 1 · Inserir uma Tabela Dinâmica direto do Power BI', p: 'No Excel, use Inserir → Tabela Dinâmica do Power BI para conectar diretamente a um conjunto de dados publicado no serviço, sem passar pelo Analisar no Excel.' },
-          { h: 'Etapa 2 · Montar linhas e valores', p: 'Arraste uma dimensão para Linhas e suas medidas para Valores, conferindo se os totais batem com o que aparece no relatório original do Power BI.' },
-          { h: 'Etapa 3 · Adicionar Segmentações de Dados', p: 'Insira uma ou mais Segmentações de Dados conectadas à Tabela Dinâmica, posicionando-as de forma que fiquem visíveis junto da tabela.' },
-          { h: 'Etapa 4 · Criar Minigráficos', p: 'Ao lado de cada linha da Tabela Dinâmica, insira Minigráficos (Sparklines) de linha ou coluna para mostrar a tendência de cada item ao longo do tempo em um espaço mínimo.' },
-          { h: 'Etapa 5 · Formatação final', p: 'Aplique um título claro ao relatório, ajuste larguras de coluna e formatação numérica, e salve o arquivo — o resultado é um relatório Excel leve, mas conectado ao mesmo modelo de dados do Power BI.' },
+          { id: 'dcalendario-code', h: 'Etapa 1 · Automatizar a tabela de calendário', p: 'No exercício final, gere a tabela dCalendario de forma automatizada em vez de criar manualmente: crie uma Consulta Nula, abra o Editor Avançado e cole o código M do arquivo abaixo — uma função reutilizável que gera a tabela de datas a partir de um intervalo. Alternativamente, uma consulta mais simples como Consulta1(Date.StartOfYear(List.Min(fVendas[DataVenda])), Date.EndOfYear(List.Max(fVendas[DataVenda])), 1) já cobre automaticamente o período real dos seus dados de vendas.', arquivo: 'dCalendario-CODE.txt' },
+          { h: 'Etapa 2 · Medidas de comparação com o ano anterior', p: 'Além das 5 medidas do exercício básico, crie mais 3 medidas na tabela fVendas: Lucro LY = CALCULATE([Lucro], SAMEPERIODLASTYEAR(dCalendario[Date])) — o lucro do mesmo período no ano anterior; % TxCres. Anual do Lucro = IF([Lucro LY]=0, 0, DIVIDE([Lucro],[Lucro LY],0)-1) — a variação percentual ano a ano; e % Lucro Vendas = DIVIDE([Lucro], CALCULATE([Lucro], ALL(fVendas)), 0) — a participação do período no lucro total.' },
+          { h: 'Etapa 3 · Relatório Qtde Vendas', p: 'Construa uma página com um gráfico de colunas (Qt de Vendas por Ano), um gráfico de rosca (Qt de Vendas por Região) e uma tabela de detalhes por vendedor com a foto, nome, quantidade de vendas, receita e lucro de cada um.', img: '/assets/img/exercicio-tsbr/relatorio-qtde-vendas.jpg' },
+          { h: 'Etapa 4 · Relatório Lucro', p: 'Construa uma página com um mapa de bolhas (Receita por Cidade) usando o campo CidadeBR, segmentações por Ano e por Região, e um gráfico de barras (Lucro por Segmento de Cliente).', img: '/assets/img/exercicio-tsbr/relatorio-lucro.jpg' },
+          { h: 'Etapa 5 · Relatório Lucro por Segmento Cliente', p: 'Construa a página final com uma segmentação de dados (campo SegmentoCliente, orientação horizontal e responsiva) e um gráfico de dispersão: Detalhes = SegmentoCliente, Legenda = Categoria de Produto, Eixo X = Lucro, Eixo Y = Qt de Vendas (iniciando em -500), Tamanho = % Lucro Vendas e Eixo de Reprodução = Mês. Adicione duas linhas constantes vermelhas, uma no Eixo X e outra no Eixo Y, ambas iniciando em 0 — além de uma tabela (Ano, Lucro, Lucro LY) e um gráfico de barras empilhadas (Ano no eixo, Tx Cresc. Anual no valor, saturação de cor por Lucro e dica de ferramenta com Qt de Vendas).', img: '/assets/img/exercicio-tsbr/relatorio-lucro-segmento.png' },
+          { id: 'exercicio-final-solucao', h: 'Etapa 6 · Conferir com a solução completa', p: 'Baixe o arquivo .pbix com a solução completa do exercício final para conferir seu resultado ou usar como referência caso fique travado em alguma etapa.', arquivo: 'Exercicio-Final-Solucao.pbix' },
         ],
       },
     ],
@@ -922,6 +888,7 @@ function renderLesson(id) {
           <div class="lab-step">
             <h3>${s.h}</h3>
             <p>${s.p}</p>
+            ${s.img ? `<img class="lab-step-img" src="${s.img}" alt="${s.h}" loading="lazy">` : ''}
             ${s.arquivo ? `<a class="btn btn-ghost on-light lab-download" href="/exercicio.php?id=${s.id}">${ICON_DOC} Baixar ${s.arquivo}</a>` : ''}
           </div>
         `).join('')}

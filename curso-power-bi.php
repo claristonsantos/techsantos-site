@@ -117,7 +117,7 @@
         <div class="journey-step"><span class="n">08</span><span class="t">Relatórios</span></div>
         <div class="journey-step"><span class="n">09</span><span class="t">Análise Avançada & IA</span></div>
         <div class="journey-step"><span class="n">10</span><span class="t">Dashboards & Governança</span></div>
-        <div class="journey-step"><span class="n">11</span><span class="t">Labs · Modelagem & Publicação</span></div>
+        <div class="journey-step"><span class="n">11</span><span class="t">Exercício Guiado TECH SANTOS BR</span></div>
         <div class="journey-step final"><span class="n">🎓</span><span class="t">Avaliação Final & Certificado</span></div>
       </div>
     </div>
@@ -384,19 +384,16 @@
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">11</span><h3>Laboratórios Guiados — Modelagem, DAX e Publicação</h3></div>
-            <div class="module-meta"><span>5 laboratórios guiados</span>
+            <div class="module-title"><span class="module-num">11</span><h3>Exercício Guiado TECH SANTOS BR</h3></div>
+            <div class="module-meta"><span>2 exercícios guiados</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
           <div class="module-body">
-            <p class="module-desc">O laboratório final: um roteiro guiado que liga tudo o que foi visto no curso, do Power Query ao relatório publicado, passando por relacionamentos, medidas DAX e a conexão do Excel com o Power BI Desktop e com o serviço.</p>
+            <p class="module-desc">O exercício final da TECH SANTOS BR: do ETL de uma base real (Access + Excel) até um conjunto de relatórios publicados, com o mesmo roteiro, modelo de dados e medidas DAX usados internamente para treinar a equipe — nível Básico e nível Final, em progressão.</p>
             <ul class="topic-list">
-              <li>Laboratório 04A — Power Query no Excel e o Modelo de Dados</li>
-              <li>Laboratório 04B — Importando consultas no Power BI Desktop</li>
-              <li>Laboratório 04C — Relacionamentos, medidas DAX e primeiro relatório visual</li>
-              <li>Laboratório 05A — Publicando no serviço Power BI e Analisando no Excel</li>
-              <li>Laboratório 05B — Tabela dinâmica conectada ao Power BI com minigráficos</li>
+              <li>Exercício Básico — ETL, modelo de dados e o Relatório Receita</li>
+              <li>Exercício Final — medidas de comparação anual e mais 3 relatórios (Qtde Vendas, Lucro, Lucro por Segmento)</li>
             </ul>
           </div>
         </details>

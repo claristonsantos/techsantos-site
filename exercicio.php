@@ -25,9 +25,10 @@ const EXERCICIOS = [
     'acrescentar-consultas-1' => ['file' => 'acrescentar-consultas-1.zip', 'label' => 'Acrescentar-Consultas-Parte-1.zip'],
     'acrescentar-consultas-2' => ['file' => 'acrescentar-consultas-2.zip', 'label' => 'Acrescentar-Consultas-Parte-2.zip'],
     'mesclar-consultas' => ['file' => 'mesclar-consultas.zip', 'label' => 'Mesclar-Consultas.zip'],
-    'lab-04a-dados' => ['file' => 'lab-04a.zip', 'label' => 'Lab-04A-Clientes-e-Cotacoes.zip'],
-    'lab-04b-datas' => ['file' => 'lab-04b-datas.csv', 'label' => 'Lab-04B-Datas.csv'],
-    'lab-04c-escritorios' => ['file' => 'lab-04c-escritorios.xlsx', 'label' => 'Lab-04C-Escritorios.xlsx'],
+    'bd-vendas-accdb' => ['file' => 'BD_Vendas.accdb', 'label' => 'BD-Vendas.accdb'],
+    'bd-vendedor-imagens' => ['file' => 'BD_Vendedor_Imagens.xlsx', 'label' => 'BD-Vendedor-Imagens.xlsx'],
+    'dcalendario-code' => ['file' => 'dCalendario_CODE.txt', 'label' => 'dCalendario-CODE.txt'],
+    'exercicio-final-solucao' => ['file' => 'Exercicio-Final-Solucao.pbix', 'label' => 'Exercicio-Final-Solucao.pbix'],
 ];
 
 $id = (string)($_GET['id'] ?? '');
@@ -44,9 +45,14 @@ if (!is_file($path)) {
 }
 
 $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-$mime = $ext === 'zip'
-    ? 'application/zip'
-    : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+$mimes = [
+    'zip' => 'application/zip',
+    'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'accdb' => 'application/msaccess',
+    'txt' => 'text/plain',
+    'pbix' => 'application/octet-stream',
+];
+$mime = $mimes[$ext] ?? 'application/octet-stream';
 
 header('Content-Type: ' . $mime);
 header('Content-Disposition: attachment; filename="' . $info['label'] . '"');
