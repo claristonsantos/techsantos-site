@@ -172,10 +172,10 @@
             <p class="module-desc">Antes de abrir o Power BI, você aprende a enxergar a estrutura por trás dos dados: por que uma única tabela no Excel tem limite, e como granularidade, normalização e o esquema estrela resolvem isso.</p>
             <ul class="lesson-list">
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Introdução ao curso</li>
-              <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Por que a modelagem de dados é importante</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Normalização e desnormalização</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Modelagem de dados na prática</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Esquema estrela (Star Schema)</li>
+              <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Porque a Modelagem de Dados é Útil</li>
             </ul>
           </div>
         </details>
@@ -208,13 +208,13 @@
           <div class="module-body">
             <p class="module-desc">O Power Query é a ferramenta de ETL do Excel e do Power BI: extrai, transforma e carrega dados de quase qualquer fonte. Aqui você conecta suas primeiras fontes e cria as primeiras consultas.</p>
             <ul class="lesson-list">
+              <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Criando uma consulta</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Introdução ao Power Query</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Tipos de dados</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Dados a partir de uma tabela ou intervalo</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Importando um arquivo Excel</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Consulta de uma pasta</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Consulta de uma pasta do SharePoint</li>
-              <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Criando uma consulta</li>
             </ul>
           </div>
         </details>
