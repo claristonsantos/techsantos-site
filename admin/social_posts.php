@@ -119,7 +119,7 @@ admin_topbar('social');
 ?>
 <style>
   .post-preview-thumb { border: none; background: none; padding: 0; cursor: pointer; display: block; }
-  .post-preview-thumb img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; display: block; }
+  .post-preview-thumb img, .post-preview-thumb video { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; display: block; background: var(--navy); }
   dialog#previewDialog { border: none; border-radius: 10px; padding: 0; max-width: 420px; width: 92vw; }
   dialog#previewDialog::backdrop { background: rgba(10, 21, 36, 0.6); }
   .post-card { background: var(--surface); }
@@ -130,7 +130,7 @@ admin_topbar('social');
   }
   .post-card-head .name { font-weight: 700; font-size: 0.92rem; color: var(--ink); }
   .post-card-head .chan { font-size: 0.76rem; color: var(--ink-faint); }
-  .post-card img.post-card-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+  .post-card img.post-card-img, .post-card video.post-card-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: var(--navy); }
   .post-card-caption { padding: 0.9rem 1rem 1.1rem; font-size: 0.88rem; color: var(--ink); white-space: pre-wrap; line-height: 1.5; }
   .post-card-close { position: absolute; top: 0.6rem; right: 0.7rem; background: rgba(0,0,0,0.45); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 1rem; line-height: 1; }
 </style>
@@ -205,8 +205,13 @@ admin_topbar('social');
                       data-imagem="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>"
                       data-legenda="<?= htmlspecialchars($p['legenda'], ENT_QUOTES) ?>"
                       data-canal="<?= htmlspecialchars($p['canal'], ENT_QUOTES) ?>"
+                      data-midia="<?= htmlspecialchars($p['midia_tipo'] ?? 'imagem', ENT_QUOTES) ?>"
                       onclick="openPostPreview(this)" title="Ver preview do post">
-                <img src="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>" alt="">
+                <?php if (($p['midia_tipo'] ?? 'imagem') === 'video'): ?>
+                  <video src="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>" muted preload="metadata"></video>
+                <?php else: ?>
+                  <img src="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>" alt="">
+                <?php endif; ?>
               </button>
             </td>
             <td><?= date('d/m/Y H:i', strtotime($p['agendado_para'] . ' UTC') - 10800) ?></td>
@@ -238,7 +243,7 @@ admin_topbar('social');
 
   <dialog id="previewDialog">
     <div class="post-card" style="position:relative;">
-      <button type="button" class="post-card-close" onclick="document.getElementById('previewDialog').close()">✕</button>
+      <button type="button" class="post-card-close" onclick="document.getElementById('previewVideo').pause(); document.getElementById('previewDialog').close()">✕</button>
       <div class="post-card-head">
         <span class="post-card-avatar">TS</span>
         <div>
@@ -247,12 +252,29 @@ admin_topbar('social');
         </div>
       </div>
       <img class="post-card-img" id="previewImg" src="" alt="">
+      <video class="post-card-img" id="previewVideo" controls style="display:none"></video>
       <div class="post-card-caption" id="previewCaption"></div>
     </div>
   </dialog>
   <script>
     function openPostPreview(btn) {
-      document.getElementById('previewImg').src = btn.dataset.imagem;
+      var isVideo = btn.dataset.midia === 'video';
+      var img = document.getElementById('previewImg');
+      var video = document.getElementById('previewVideo');
+
+      if (isVideo) {
+        video.src = btn.dataset.imagem;
+        video.style.display = '';
+        img.style.display = 'none';
+        img.src = '';
+      } else {
+        video.pause();
+        video.src = '';
+        video.style.display = 'none';
+        img.style.display = '';
+        img.src = btn.dataset.imagem;
+      }
+
       document.getElementById('previewCaption').textContent = btn.dataset.legenda;
       document.getElementById('previewChan').textContent = btn.dataset.canal === 'facebook' ? 'Facebook' : 'Instagram';
       document.getElementById('previewDialog').showModal();
