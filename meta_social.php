@@ -108,6 +108,20 @@ function meta_schedule_facebook_post(string $message, ?string $imageUrl, int $sc
 }
 
 /**
+ * Sets (or replaces) the Page's fixed call-to-action button (next to
+ * Like/Follow). $type is a Meta CTA type such as 'LEARN_MORE' or 'SIGN_UP'.
+ */
+function meta_set_page_cta(string $type, string $link, ?string &$error = null): bool
+{
+    $data = meta_graph_post(META_PAGE_ID, [
+        'access_token' => META_PAGE_TOKEN,
+        'call_to_action' => json_encode(['type' => $type, 'value' => ['link' => $link]]),
+    ], $error);
+
+    return $data !== null && !empty($data['success']);
+}
+
+/**
  * Cancels a scheduled (not-yet-published) Facebook Page post.
  */
 function meta_delete_facebook_post(string $postId, ?string &$error = null): bool
@@ -138,14 +152,31 @@ function meta_delete_facebook_post(string $postId, ?string &$error = null): bool
  * has no native scheduling, so this pair must run at the intended publish time.
  * Uses graph.instagram.com with META_IG_TOKEN (Instagram API with Instagram
  * Login — a separate token from the Facebook Page token).
+ *
+ * $mediaType: 'FEED' (default, image), 'STORIES' (image or video), or 'REELS'
+ * (video only). Video containers process asynchronously — poll
+ * meta_get_instagram_container_status() until FINISHED before publishing.
  */
-function meta_create_instagram_container(string $imageUrl, string $caption, ?string &$error = null): ?string
+function meta_create_instagram_container(string $mediaUrl, string $caption, ?string &$error = null, string $mediaType = 'FEED', bool $isVideo = false): ?string
 {
-    $data = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/media'), [
+    $fields = [
         'access_token' => META_IG_TOKEN,
-        'image_url' => $imageUrl,
         'caption' => $caption,
-    ], $error);
+    ];
+
+    if ($isVideo) {
+        $fields['video_url'] = $mediaUrl;
+    } else {
+        $fields['image_url'] = $mediaUrl;
+    }
+
+    if ($mediaType === 'STORIES') {
+        $fields['media_type'] = 'STORIES';
+    } elseif ($mediaType === 'REELS') {
+        $fields['media_type'] = 'REELS';
+    }
+
+    $data = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/media'), $fields, $error);
 
     if ($data === null) {
         return null;
@@ -166,6 +197,67 @@ function meta_publish_instagram_container(string $containerId, ?string &$error =
     }
 
     return (string)($data['id'] ?? '');
+}
+
+/**
+ * Polls a video-based Instagram container's processing status. Only relevant
+ * for STORIES-with-video and REELS — image containers publish immediately.
+ * Returns one of IN_PROGRESS / FINISHED / ERROR / EXPIRED, or null on API failure.
+ */
+function meta_get_instagram_container_status(string $containerId, ?string &$error = null): ?string
+{
+    $data = meta_http_get(meta_ig_graph_url($containerId), [
+        'access_token' => META_IG_TOKEN,
+        'fields' => 'status_code',
+    ], $error);
+
+    if ($data === null) {
+        return null;
+    }
+
+    return (string)($data['status_code'] ?? '');
+}
+
+/**
+ * Sends a private reply to a Facebook Page comment (Messenger "Private Replies").
+ * Only works within Meta's messaging window after the comment was posted.
+ */
+function meta_send_facebook_private_reply(string $commentId, string $message, ?string &$error = null): bool
+{
+    $data = meta_graph_post('me/messages', [
+        'access_token' => META_PAGE_TOKEN,
+        'recipient' => json_encode(['comment_id' => $commentId]),
+        'message' => json_encode(['text' => $message]),
+    ], $error);
+
+    return $data !== null && isset($data['message_id']);
+}
+
+/**
+ * Sends a private reply to an Instagram comment.
+ */
+function meta_send_instagram_private_reply(string $commentId, string $message, ?string &$error = null): bool
+{
+    $data = meta_http_post(meta_ig_graph_url($commentId . '/private_replies'), [
+        'access_token' => META_IG_TOKEN,
+        'message' => $message,
+    ], $error);
+
+    return $data !== null;
+}
+
+/**
+ * Verifies a Meta webhook's X-Hub-Signature-256 header against the raw request
+ * body using the given app secret. Always use hash_equals (timing-safe).
+ */
+function meta_verify_webhook_signature(string $rawBody, string $signatureHeader, string $secret): bool
+{
+    if (!str_starts_with($signatureHeader, 'sha256=')) {
+        return false;
+    }
+
+    $expected = 'sha256=' . hash_hmac('sha256', $rawBody, $secret);
+    return hash_equals($expected, $signatureHeader);
 }
 
 /**

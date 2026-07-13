@@ -31,6 +31,7 @@ function admin_topbar(string $active): void
         'certificados' => ['/admin/certificados.php', 'Certificados'],
         'pedidos' => ['/admin/pedidos.php', 'Pedidos'],
         'social' => ['/admin/social_posts.php', 'Redes Sociais'],
+        'social_auto_reply' => ['/admin/social_auto_reply.php', 'Auto-resposta'],
         'administradores' => ['/admin/administradores.php', 'Administradores'],
     ];
     ?>

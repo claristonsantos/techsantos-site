@@ -40,6 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imagemUrl = trim((string)($_POST['imagem_url'] ?? ''));
         $agendadoPara = (string)($_POST['agendado_para'] ?? '');
 
+        // Facebook nesta rodada continua feed-only (imagem). Tipo/mídia só valem pro Instagram.
+        $tipo = $canal === 'instagram' && in_array($_POST['tipo'] ?? '', ['feed', 'story', 'reels'], true) ? (string)$_POST['tipo'] : 'feed';
+        $midiaTipo = $tipo === 'reels' ? 'video' : ($tipo === 'story' && ($_POST['midia_tipo'] ?? '') === 'video' ? 'video' : 'imagem');
+
         if (!in_array($canal, ['facebook', 'instagram'], true) || $legenda === '' || $imagemUrl === '' || $agendadoPara === '') {
             $error = 'Preencha canal, legenda, imagem e data/hora.';
         } elseif (!filter_var($imagemUrl, FILTER_VALIDATE_URL)) {
@@ -70,22 +74,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 $ins = $pdo->prepare(
-                    'INSERT INTO social_posts (canal, legenda, imagem_url, agendado_para, status) VALUES (?, ?, ?, ?, ?)'
+                    'INSERT INTO social_posts (canal, tipo, midia_tipo, legenda, imagem_url, agendado_para, status) VALUES (?, ?, ?, ?, ?, ?, ?)'
                 );
 
                 if ($canal === 'facebook') {
                     $apiError = null;
                     $postId = meta_schedule_facebook_post($legenda, $imagemUrl, $scheduledTs, $apiError);
                     if ($postId === null) {
-                        $ins->execute(['facebook', $legenda, $imagemUrl, date('Y-m-d H:i:s', $scheduledTs), 'erro']);
+                        $ins->execute(['facebook', $tipo, $midiaTipo, $legenda, $imagemUrl, date('Y-m-d H:i:s', $scheduledTs), 'erro']);
                         $error = 'Falha ao agendar no Facebook: ' . $apiError;
                     } else {
-                        $ins->execute(['facebook', $legenda, $imagemUrl, date('Y-m-d H:i:s', $scheduledTs), 'agendado_meta']);
+                        $ins->execute(['facebook', $tipo, $midiaTipo, $legenda, $imagemUrl, date('Y-m-d H:i:s', $scheduledTs), 'agendado_meta']);
                         $pdo->prepare('UPDATE social_posts SET meta_post_id = ? WHERE id = ?')->execute([$postId, $pdo->lastInsertId()]);
                     }
                 } else {
                     // Instagram has no native scheduling — queued here, published later by social_publish_cron.php
-                    $ins->execute(['instagram', $legenda, $imagemUrl, date('Y-m-d H:i:s', $scheduledTs), 'pendente']);
+                    $ins->execute(['instagram', $tipo, $midiaTipo, $legenda, $imagemUrl, date('Y-m-d H:i:s', $scheduledTs), 'pendente']);
                 }
 
                 if (!$error) {
@@ -145,7 +149,7 @@ admin_topbar('social');
       <div class="field-row">
         <div class="field">
           <label for="canal">Canal</label>
-          <select id="canal" name="canal" required>
+          <select id="canal" name="canal" required onchange="toggleTipoField()">
             <option value="facebook" <?= ($editRow['canal'] ?? '') === 'facebook' ? 'selected' : '' ?>>Facebook</option>
             <option value="instagram" <?= ($editRow['canal'] ?? '') === 'instagram' ? 'selected' : '' ?>>Instagram</option>
           </select>
@@ -156,8 +160,25 @@ admin_topbar('social');
                  value="<?= $editRow ? date('Y-m-d\TH:i', strtotime($editRow['agendado_para'] . ' UTC') - 10800) : '' ?>">
         </div>
       </div>
+      <div class="field-row" id="tipoFieldRow">
+        <div class="field">
+          <label for="tipo">Tipo (só Instagram)</label>
+          <select id="tipo" name="tipo" onchange="toggleMidiaField()">
+            <option value="feed" <?= ($editRow['tipo'] ?? 'feed') === 'feed' ? 'selected' : '' ?>>Feed</option>
+            <option value="story" <?= ($editRow['tipo'] ?? '') === 'story' ? 'selected' : '' ?>>Story</option>
+            <option value="reels" <?= ($editRow['tipo'] ?? '') === 'reels' ? 'selected' : '' ?>>Reels</option>
+          </select>
+        </div>
+        <div class="field" id="midiaFieldWrap">
+          <label for="midia_tipo">Mídia (só Story)</label>
+          <select id="midia_tipo" name="midia_tipo">
+            <option value="imagem" <?= ($editRow['midia_tipo'] ?? 'imagem') === 'imagem' ? 'selected' : '' ?>>Imagem</option>
+            <option value="video" <?= ($editRow['midia_tipo'] ?? '') === 'video' ? 'selected' : '' ?>>Vídeo</option>
+          </select>
+        </div>
+      </div>
       <div class="field">
-        <label for="imagem_url">URL da imagem (pública)</label>
+        <label for="imagem_url">URL da imagem ou vídeo (pública)</label>
         <input type="url" id="imagem_url" name="imagem_url" placeholder="https://techsantos.com.br/assets/img/promo-curso-1.jpg" required
                value="<?= $editRow ? htmlspecialchars($editRow['imagem_url'], ENT_QUOTES) : '' ?>">
       </div>
@@ -172,10 +193,10 @@ admin_topbar('social');
 
   <div class="table-wrap">
     <table class="data-table">
-      <thead><tr><th>Prévia</th><th>Data (Brasília)</th><th>Canal</th><th>Legenda</th><th>Status</th><th></th></tr></thead>
+      <thead><tr><th>Prévia</th><th>Data (Brasília)</th><th>Canal</th><th>Tipo</th><th>Legenda</th><th>Status</th><th></th></tr></thead>
       <tbody>
         <?php if (!$posts): ?>
-          <tr class="empty-row"><td colspan="6">Nenhum post na fila ainda.</td></tr>
+          <tr class="empty-row"><td colspan="7">Nenhum post na fila ainda.</td></tr>
         <?php endif; ?>
         <?php foreach ($posts as $p): ?>
           <tr>
@@ -190,6 +211,7 @@ admin_topbar('social');
             </td>
             <td><?= date('d/m/Y H:i', strtotime($p['agendado_para'] . ' UTC') - 10800) ?></td>
             <td><?= htmlspecialchars($p['canal'], ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($p['tipo'] ?? 'feed', ENT_QUOTES) ?><?= ($p['midia_tipo'] ?? '') === 'video' ? ' (vídeo)' : '' ?></td>
             <td>
               <?= htmlspecialchars(mb_strimwidth($p['legenda'], 0, 60, '…'), ENT_QUOTES) ?>
               <?php if ($p['status'] === 'erro' && $p['erro_msg']): ?>
@@ -235,6 +257,27 @@ admin_topbar('social');
       document.getElementById('previewChan').textContent = btn.dataset.canal === 'facebook' ? 'Facebook' : 'Instagram';
       document.getElementById('previewDialog').showModal();
     }
+
+    function toggleTipoField() {
+      var isInstagram = document.getElementById('canal').value === 'instagram';
+      document.getElementById('tipoFieldRow').style.display = isInstagram ? '' : 'none';
+      if (!isInstagram) {
+        document.getElementById('tipo').value = 'feed';
+      }
+      toggleMidiaField();
+    }
+
+    function toggleMidiaField() {
+      var isStory = document.getElementById('tipo').value === 'story';
+      document.getElementById('midiaFieldWrap').style.display = isStory ? '' : 'none';
+      if (document.getElementById('tipo').value === 'reels') {
+        document.getElementById('midia_tipo').value = 'video';
+      } else if (document.getElementById('tipo').value === 'feed') {
+        document.getElementById('midia_tipo').value = 'imagem';
+      }
+    }
+
+    toggleTipoField();
   </script>
 </main>
 <?php admin_foot(); ?>
