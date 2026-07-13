@@ -108,20 +108,6 @@ function meta_schedule_facebook_post(string $message, ?string $imageUrl, int $sc
 }
 
 /**
- * Sets (or replaces) the Page's fixed call-to-action button (next to
- * Like/Follow). $type is a Meta CTA type such as 'LEARN_MORE' or 'SIGN_UP'.
- */
-function meta_set_page_cta(string $type, string $link, ?string &$error = null): bool
-{
-    $data = meta_graph_post(META_PAGE_ID, [
-        'access_token' => META_PAGE_TOKEN,
-        'call_to_action' => json_encode(['type' => $type, 'value' => ['link' => $link]]),
-    ], $error);
-
-    return $data !== null && !empty($data['success']);
-}
-
-/**
  * Cancels a scheduled (not-yet-published) Facebook Page post.
  */
 function meta_delete_facebook_post(string $postId, ?string &$error = null): bool
