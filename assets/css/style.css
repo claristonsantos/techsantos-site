@@ -337,6 +337,7 @@ section { padding: clamp(3rem, 6.5vw, 5rem) 0; }
   gap: 0.85rem;
   aspect-ratio: auto;
 }
+.frame.dash .tag { position: static; align-self: flex-start; }
 .dash-head { display: flex; align-items: center; justify-content: space-between; }
 .dash-head .dash-title {
   display: flex; align-items: center; gap: 0.45rem;
