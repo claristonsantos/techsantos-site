@@ -158,8 +158,8 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <div class="journey-step"><span class="n">02</span><span class="t">Perfil dos Dados</span></div>
         <div class="journey-step"><span class="n">03</span><span class="t">Power Query · Conectar</span></div>
         <div class="journey-step"><span class="n">04</span><span class="t">Power Query · Transformar</span></div>
-        <div class="journey-step"><span class="n">05</span><span class="t">Otimização de Modelo</span></div>
-        <div class="journey-step"><span class="n">06</span><span class="t">Laboratórios Práticos</span></div>
+        <div class="journey-step"><span class="n">05</span><span class="t">Laboratórios Práticos</span></div>
+        <div class="journey-step"><span class="n">06</span><span class="t">Otimização de Modelo</span></div>
         <div class="journey-step"><span class="n">07</span><span class="t">Fórmulas DAX</span></div>
         <div class="journey-step"><span class="n">08</span><span class="t">Relatórios</span></div>
         <div class="journey-step"><span class="n">09</span><span class="t">Análise Avançada & IA</span></div>
@@ -300,15 +300,17 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <details class="module">
           <summary>
             <div class="module-title"><span class="module-num">05</span><h3>Laboratórios Práticos de Power Query</h3></div>
-            <div class="module-meta"><span>2 estudos de caso</span>
+            <div class="module-meta"><span>1 desafio completo</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
           <div class="module-body">
-            <p class="module-desc">A prática direta, no formato estudo de caso: você recebe o cenário e o que o resultado final precisa satisfazer — nada de passo a passo de clique. Os mesmos arquivos de exercício das aulas de Power Query, agora com desafios reais pra resolver no seu próprio Power BI Desktop antes da avaliação final.</p>
+            <p class="module-desc">A prática direta, no formato estudo de caso: você recebe 12 planilhas de vendas de um ano inteiro, bagunçadas do jeito que chegam na vida real, e o que o resultado final precisa satisfazer — nada de passo a passo de clique. Um desafio único que encadeia todas as técnicas de Power Query vistas até aqui, do import de pasta até separar fato e dimensões, pronto pra resolver no seu próprio Power BI Desktop antes da avaliação final.</p>
             <ul class="topic-list">
-              <li>Estudo de caso 1 — Conectando e Importando Dados (4 desafios)</li>
-              <li>Estudo de caso 2 — Transformação e Limpeza de Dados (17 desafios)</li>
+              <li>Importar e combinar 12 arquivos mensais de uma pasta</li>
+              <li>Corrigir tipos de dados e padronizar texto digitado à mão</li>
+              <li>Calcular uma coluna nova a partir de outras já existentes</li>
+              <li>Separar a base única em 1 tabela fato e 3 tabelas de dimensão</li>
             </ul>
           </div>
         </details>
