@@ -14,6 +14,8 @@ PRONUNCIATION_FIXES = [
     (r"\bPROCV\b", "PROC Vê"),
     (r"\bPROCX\b", "PROC Xis"),
     (r"\bDAX\b", "Dáks"),
+    (r"\bdashboards\b", "déshibórdis"),
+    (r"\bdashboard\b", "déshibórdi"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
