@@ -89,6 +89,32 @@ foreach ($processing as $post) {
     }
 }
 
-if (!$due && !$processing) {
+// Phase 3: Facebook posts scheduled via Meta's own native scheduler (held and
+// auto-published by Meta at scheduled_publish_time, with no action needed on
+// our side) — poll to confirm they actually went live, since nothing else
+// ever reports that back to us and the row would otherwise stay
+// 'agendado_meta' forever even after the post is really published.
+$fbScheduled = $pdo->query(
+    "SELECT * FROM social_posts WHERE canal = 'facebook' AND status = 'agendado_meta' AND meta_post_id IS NOT NULL AND agendado_para <= NOW()"
+)->fetchAll();
+
+foreach ($fbScheduled as $post) {
+    $error = null;
+    $data = meta_graph_get($post['meta_post_id'], ['fields' => 'is_published'], $error);
+
+    if ($data === null) {
+        echo "post {$post['id']}: falha ao checar status no Facebook — {$error}\n";
+        continue;
+    }
+
+    if (!empty($data['is_published'])) {
+        $pdo->prepare("UPDATE social_posts SET status = 'publicado' WHERE id = ?")->execute([$post['id']]);
+        echo "post {$post['id']}: confirmado publicado no Facebook\n";
+    } else {
+        echo "post {$post['id']}: ainda não publicado no Facebook (aguardando)\n";
+    }
+}
+
+if (!$due && !$processing && !$fbScheduled) {
     echo "nada pendente\n";
 }
