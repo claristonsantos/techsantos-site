@@ -11,10 +11,12 @@ require_once __DIR__ . '/meta_social.php';
 
 $pdo = db();
 
-// Phase 1: pending posts whose time has come — create the container. Image
-// containers (feed/story) publish immediately, same as before. Video
-// containers (reels/story-video) process asynchronously on Meta's side, so we
-// just record the container id and move to 'processando'.
+// Phase 1: pending posts whose time has come — create the container and move
+// to 'processando'. Every container (image or video) is published only in
+// Phase 2, after polling confirms Meta's side is actually done with it —
+// publishing an image container right away is racy: Meta may not have
+// finished fetching image_url yet, which fails with "Media ID is not
+// available" even though the container itself was created successfully.
 $due = $pdo->query(
     "SELECT * FROM social_posts WHERE canal = 'instagram' AND status = 'pendente' AND agendado_para <= NOW()"
 )->fetchAll();
@@ -36,26 +38,13 @@ foreach ($due as $post) {
         continue;
     }
 
-    if (!$isVideo) {
-        $mediaId = meta_publish_instagram_container($containerId, $error);
-        if ($mediaId === null) {
-            $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
-                ->execute([$error, $post['id']]);
-            echo "post {$post['id']}: falha ao publicar — {$error}\n";
-            continue;
-        }
-        $pdo->prepare("UPDATE social_posts SET status = 'publicado', meta_post_id = ? WHERE id = ?")
-            ->execute([$mediaId, $post['id']]);
-        echo "post {$post['id']}: publicado ({$mediaId})\n";
-    } else {
-        $pdo->prepare("UPDATE social_posts SET status = 'processando', meta_container_id = ? WHERE id = ?")
-            ->execute([$containerId, $post['id']]);
-        echo "post {$post['id']}: container de vídeo criado, aguardando processamento ({$containerId})\n";
-    }
+    $pdo->prepare("UPDATE social_posts SET status = 'processando', meta_container_id = ? WHERE id = ?")
+        ->execute([$containerId, $post['id']]);
+    echo "post {$post['id']}: container criado, aguardando processamento ({$containerId})\n";
 }
 
-// Phase 2: posts whose video container is still processing — poll and publish
-// once Meta finishes.
+// Phase 2: posts whose container is still processing — poll and publish once
+// Meta finishes (applies to image and video containers alike).
 $processing = $pdo->query(
     "SELECT * FROM social_posts WHERE canal = 'instagram' AND status = 'processando' AND meta_container_id IS NOT NULL"
 )->fetchAll();

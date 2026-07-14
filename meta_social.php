@@ -140,8 +140,9 @@ function meta_delete_facebook_post(string $postId, ?string &$error = null): bool
  * Login — a separate token from the Facebook Page token).
  *
  * $mediaType: 'FEED' (default, image), 'STORIES' (image or video), or 'REELS'
- * (video only). Video containers process asynchronously — poll
- * meta_get_instagram_container_status() until FINISHED before publishing.
+ * (video only). Poll meta_get_instagram_container_status() until FINISHED
+ * before publishing — this matters for video, but also for images, since
+ * Meta may not have finished fetching image_url immediately after creation.
  */
 function meta_create_instagram_container(string $mediaUrl, string $caption, ?string &$error = null, string $mediaType = 'FEED', bool $isVideo = false): ?string
 {
@@ -186,8 +187,10 @@ function meta_publish_instagram_container(string $containerId, ?string &$error =
 }
 
 /**
- * Polls a video-based Instagram container's processing status. Only relevant
- * for STORIES-with-video and REELS — image containers publish immediately.
+ * Polls an Instagram media container's processing status. Used for every
+ * container (image or video) before publishing — Meta may still be fetching
+ * image_url/video_url right after container creation, and publishing too
+ * early fails with "Media ID is not available".
  * Returns one of IN_PROGRESS / FINISHED / ERROR / EXPIRED, or null on API failure.
  */
 function meta_get_instagram_container_status(string $containerId, ?string &$error = null): ?string
