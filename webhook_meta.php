@@ -25,10 +25,15 @@ if (!is_array($data)) {
 }
 
 $object = (string)($data['object'] ?? '');
-$secret = $object === 'instagram' ? META_IG_APP_SECRET : META_APP_SECRET;
 $signature = $_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '';
 
-if (!meta_verify_webhook_signature($raw, $signature, $secret)) {
+// Try both app secrets: Meta may have consolidated the old child IG app's
+// webhook subscription into the main app, so the signing secret for
+// object=instagram payloads is no longer reliably META_IG_APP_SECRET.
+$validSignature = meta_verify_webhook_signature($raw, $signature, META_APP_SECRET)
+    || meta_verify_webhook_signature($raw, $signature, META_IG_APP_SECRET);
+
+if (!$validSignature) {
     http_response_code(403);
     exit('invalid signature');
 }
