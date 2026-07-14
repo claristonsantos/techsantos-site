@@ -300,7 +300,10 @@ const COURSE = [
     id: 'perfil-dados', title: 'Módulo 02 · Perfil dos Dados', kind: 'reading',
     lessons: [
       {
-        id: 'perfil-dos-dados', title: 'Perfil dos Dados no Power Query',
+        id: 'perfil-dos-dados', title: 'Perfil dos Dados no Power Query', kind: 'video',
+        desc: 'Como usar as ferramentas de perfil de dados do Power Query pra inspecionar suas colunas antes de começar a transformar.',
+        objetivos: ['Ativar e interpretar as ferramentas de perfil de dados do Power Query', 'Identificar anomalias e entender a distribuição de cada coluna antes de tratá-la'],
+        body: 'Antes de qualquer transformação, vale examinar a estrutura dos dados — quantas colunas existem, que tipo cada uma tem, se há valores inesperados. É exatamente pra isso que existem as ferramentas de perfil de dados do Power Query.',
         content: [
           { h: 'Por que examinar os dados antes de transformar', p: 'Antes de aplicar qualquer transformação, vale a pena parar e examinar a estrutura dos dados: quantas colunas existem, que tipo cada uma tem, e se há valores inesperados. O Power Query tem ferramentas de perfil de dados criadas exatamente para isso — elas ficam na guia Exibir do Editor do Power Query e adicionam pequenos indicadores visuais abaixo de cada coluna.', r: { t: 'Usando as ferramentas de perfil de dados', u: 'https://learn.microsoft.com/pt-br/power-query/data-profiling-tools' } },
           { h: 'Qualidade da coluna e anomalias', p: 'Qualidade da coluna mostra, em uma barra colorida, a proporção de valores Válidos (verde), com Erro (vermelho) e Vazios (cinza) em cada coluna — a forma mais rápida de identificar anomalias sem abrir cada linha manualmente. Por padrão, o Power Query analisa apenas as primeiras 1.000 linhas; para bases maiores, é possível trocar para o perfil completo no aviso no canto inferior esquerdo do editor.' },
@@ -488,7 +491,10 @@ const COURSE = [
     id: 'otimizacao', title: 'Módulo 06 · Modelo de Dados & Otimização de Desempenho', kind: 'reading',
     lessons: [
       {
-        id: 'otimizar-modelo', title: 'Otimizando o Modelo de Dados',
+        id: 'otimizar-modelo', title: 'Otimizando o Modelo de Dados', kind: 'video',
+        desc: 'As técnicas que fazem um modelo carregar e atualizar mais rápido, sem mudar o que o relatório mostra.',
+        objetivos: ['Identificar e remover o que não é usado no modelo', 'Usar o Performance Analyzer para achar o que está deixando o relatório lento', 'Reduzir cardinalidade e considerar agregações em modelos grandes'],
+        body: 'Um modelo tecnicamente correto ainda pode ser lento. Este vídeo cobre as técnicas que fazem um relatório carregar rápido mesmo com muitos dados.',
         content: [
           { h: 'Remover o que não é usado', p: 'O passo mais simples e mais esquecido: remover colunas e linhas que não aparecem em nenhum visual ou cálculo. Cada coluna carregada consome memória e tempo de atualização — um modelo com 40 colunas quando só 15 são usadas nos relatórios é uma escolha cara sem necessidade.', r: { t: 'Técnicas de redução de dados para modelos de importação', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/import-modeling-data-reduction' } },
           { h: 'Encontrar medidas, relacionamentos e visuais lentos', p: 'O Performance Analyzer do Power BI Desktop grava quanto tempo cada visual, consulta e cálculo DAX levou para renderizar em uma interação — a forma mais direta de descobrir qual medida específica está deixando o relatório lento, em vez de suspeitar do arquivo inteiro.', r: { t: 'Treinamento: otimizar um modelo para desempenho', u: 'https://learn.microsoft.com/pt-br/training/modules/optimize-model-power-bi/' } },
@@ -497,7 +503,10 @@ const COURSE = [
         ],
       },
       {
-        id: 'modos-armazenamento', title: 'Modos de armazenamento e dobra de consultas',
+        id: 'modos-armazenamento', title: 'Modos de armazenamento e dobra de consultas', kind: 'video',
+        desc: 'Import, DirectQuery, Dual e Composite — o que cada modo de armazenamento troca em velocidade por atualidade dos dados.',
+        objetivos: ['Escolher o modo de armazenamento certo para cada cenário', 'Entender quando a dobra de consultas (query folding) acontece — e quando ela quebra'],
+        body: 'O modo de armazenamento define de onde o Power BI busca os dados toda vez que um visual precisa deles — e essa escolha tem consequências diretas em velocidade e atualidade dos dados.',
         content: [
           { h: 'Import, DirectQuery, Dual e Composite: qual escolher', p: 'O modo de armazenamento define de onde o Power BI busca os dados toda vez que um visual precisa deles. Import copia os dados para dentro do arquivo .pbix — é o modo mais rápido e o que a maioria dos modelos deste curso usa, mas exige atualização programada para manter os dados em dia. DirectQuery não copia nada: cada interação no relatório dispara uma consulta ao vivo na fonte, garantindo dados sempre atuais, ao custo de depender inteiramente da performance do banco de origem. Dual permite que uma tabela funcione como Import ou DirectQuery dependendo do contexto da consulta — útil para tabelas de dimensão pequenas usadas junto com fatos em DirectQuery. Um modelo composto (composite model) combina tabelas em modos diferentes no mesmo arquivo, o que dá flexibilidade mas exige atenção redobrada aos relacionamentos entre fontes com modos distintos.', r: { t: 'Modos de armazenamento no Power BI Desktop', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-storage-mode' } },
           { h: 'Quando usar DirectQuery', p: 'DirectQuery faz sentido quando os dados de origem mudam com muita frequência (a cada minuto, por exemplo) e o relatório precisa refletir isso em tempo real, ou quando o volume de dados é grande demais para importar. A contrapartida é clara: cada clique do usuário gera uma consulta na fonte, então a velocidade do relatório passa a depender diretamente de quão bem o banco de origem responde — e nem toda transformação do Power Query "dobra" (se traduz) em uma consulta que o DirectQuery consegue empurrar para a fonte.' },
@@ -510,7 +519,10 @@ const COURSE = [
     id: 'dax', title: 'Módulo 07 · Fórmulas DAX', kind: 'reading',
     lessons: [
       {
-        id: 'dax-sintaxe-medidas', title: 'Sintaxe, nomenclatura e organização de medidas',
+        id: 'dax-sintaxe-medidas', title: 'Sintaxe, nomenclatura e organização de medidas', kind: 'video',
+        desc: 'Como escrever, nomear e organizar medidas DAX de um jeito que continua fazendo sentido meses depois.',
+        objetivos: ['Escrever uma medida DAX com sintaxe e nomenclatura corretas', 'Organizar medidas em grupos e usar variáveis (VAR) para simplificar fórmulas'],
+        body: 'DAX é a linguagem por trás de toda medida no Power BI. Antes de entrar nas fórmulas mais avançadas, vale fixar a sintaxe e os hábitos de organização que separam um modelo fácil de manter de um cheio de "Medida1", "Medida2".',
         content: [
           { h: 'O que é DAX', p: 'DAX (Data Analysis Expressions) nasceu com o Power Pivot, em 2010, e é a linguagem usada tanto no Power Pivot quanto no SSAS Tabular e no Power BI. Diferente do Excel, DAX não tem o conceito solto de "linha" e "coluna" — tudo trabalha sobre tabelas e colunas de um modelo de dados relacionado.', r: { t: 'Visão geral do DAX', u: 'https://learn.microsoft.com/pt-br/dax/dax-overview' } },
           { h: 'Definição de nomes e sintaxe', p: 'Toda medida DAX começa com um nome claro (evite "Medida1" — prefira "Total de Vendas") seguido de sinal de igual e uma expressão. Boas práticas de nomenclatura incluem manter nomes de medida sem o nome da tabela na frente (diferente de colunas, que sempre usam Tabela[Coluna]) e agrupar medidas relacionadas com um prefixo em comum.' },
@@ -520,7 +532,10 @@ const COURSE = [
         ],
       },
       {
-        id: 'dax-contexto-modelo', title: 'O modelo de dados e os contextos do DAX',
+        id: 'dax-contexto-modelo', title: 'O modelo de dados e os contextos do DAX', kind: 'video',
+        desc: 'Por que a mesma medida DAX pode retornar números diferentes dependendo de onde ela é usada no relatório.',
+        objetivos: ['Diferenciar contexto de linha de contexto de filtro', 'Entender como CALCULATE manipula o contexto de filtro'],
+        body: 'Uma medida DAX não existe isolada — o resultado dela depende de como as tabelas estão relacionadas no modelo e de qual contexto está ativo no momento do cálculo. Entender contexto é o que separa quem só copia fórmulas prontas de quem sabe por que uma medida deu um número inesperado.',
         content: [
           { h: 'Por que o modelo de dados importa para o DAX', p: 'Uma medida DAX não existe isolada — o resultado dela depende inteiramente de como as tabelas estão relacionadas no modelo. A mesma fórmula de soma pode retornar números diferentes dependendo da direção e do tipo de filtro cruzado configurado nos relacionamentos entre as tabelas.' },
           { h: 'Contexto de filtro', p: 'O contexto de filtro é o conjunto de filtros ativos no momento em que uma medida é calculada — definido pelas linhas e colunas de uma tabela ou matriz, pelos filtros do relatório, da página e do visual, e pelas segmentações de dados selecionadas. Uma mesma medida "Total de Vendas" retorna um número diferente para cada célula de uma tabela porque cada célula tem seu próprio contexto de filtro.', r: { t: 'Glossário de termos DAX', u: 'https://learn.microsoft.com/pt-br/dax/dax-glossary' } },
@@ -530,7 +545,10 @@ const COURSE = [
         ],
       },
       {
-        id: 'dax-colunas-medidas-matematica', title: 'Calculated columns vs. measures & funções matemáticas',
+        id: 'dax-colunas-medidas-matematica', title: 'Calculated columns vs. measures & funções matemáticas', kind: 'video',
+        desc: 'Quando usar coluna calculada em vez de medida, e as funções matemáticas e iteradoras mais usadas do DAX.',
+        objetivos: ['Decidir entre coluna calculada e medida para cada cenário', 'Usar DIVIDE e as funções iteradoras (X) corretamente'],
+        body: 'Coluna calculada e medida parecem a mesma coisa pra quem está começando, mas se comportam de formas muito diferentes — e escolher errado custa memória e desempenho no modelo.',
         content: [
           { h: 'Colunas calculadas x medidas', p: 'Uma coluna calculada é avaliada linha a linha e armazenada fisicamente no modelo, ocupando memória — útil quando o resultado precisa ser usado como filtro, eixo de um visual ou lado de um relacionamento. Uma medida é calculada sob demanda, no momento em que o visual é renderizado, respeitando o contexto de filtro atual — a escolha certa para praticamente qualquer agregação (somas, médias, percentuais). Como regra prática: prefira medidas sempre que possível, e reserve colunas calculadas para quando o resultado realmente precisa existir linha a linha.' },
           { h: 'Funções matemáticas e estatísticas essenciais', p: 'SUM, AVERAGE, MIN e MAX operam diretamente sobre uma coluna existente. DIVIDE faz uma divisão seguramente, retornando um valor alternativo (geralmente em branco) em vez de erro quando o denominador é zero — sempre prefira DIVIDE(a,b) a a/b em medidas de produção.', r: { t: 'Referência de funções DAX (mais de 250 funções)', u: 'https://learn.microsoft.com/pt-br/dax/dax-function-reference' } },
@@ -931,6 +949,10 @@ function renderLesson(id) {
         <p>${lesson.desc}</p>
         <p>${lesson.body}</p>
       </div>
+      ${lesson.content ? `
+      <div class="reading-card">
+        ${lesson.content.map(b => `<h3>${b.h}</h3><p>${b.p}</p>${b.r ? `<div class="res-inline resources"><ul>${resourceItem(b.r)}</ul></div>` : ''}`).join('')}
+      </div>` : ''}
       ${lesson.arquivo ? `
       <div class="resources">
         <h2>Arquivo de exercício</h2>
