@@ -299,7 +299,23 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">05</span><h3>Modelo de Dados &amp; Otimização de Desempenho</h3></div>
+            <div class="module-title"><span class="module-num">05</span><h3>Laboratórios Práticos de Power Query</h3></div>
+            <div class="module-meta"><span>2 laboratórios guiados</span>
+              <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </summary>
+          <div class="module-body">
+            <p class="module-desc">A prática direta: os mesmos arquivos de exercício usados nas aulas de Power Query, agora organizados em dois laboratórios guiados, passo a passo, para fazer no seu próprio Power BI Desktop antes da avaliação final.</p>
+            <ul class="topic-list">
+              <li>Laboratório 01A — Conectando e Importando Dados (4 etapas)</li>
+              <li>Laboratório 02A — Transformação e Limpeza de Dados (17 etapas)</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="module">
+          <summary>
+            <div class="module-title"><span class="module-num">06</span><h3>Modelo de Dados &amp; Otimização de Desempenho</h3></div>
             <div class="module-meta"><span>Apostila</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -313,22 +329,6 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
               <li>Criar e gerenciar agregações</li>
               <li>Modos de armazenamento: Import, DirectQuery, Dual e Composite</li>
               <li>Dobra de consultas (query folding)</li>
-            </ul>
-          </div>
-        </details>
-
-        <details class="module">
-          <summary>
-            <div class="module-title"><span class="module-num">06</span><h3>Laboratórios Práticos de Power Query</h3></div>
-            <div class="module-meta"><span>2 laboratórios guiados</span>
-              <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-            </div>
-          </summary>
-          <div class="module-body">
-            <p class="module-desc">A prática direta: os mesmos arquivos de exercício usados nas aulas de Power Query, agora organizados em dois laboratórios guiados, passo a passo, para fazer no seu próprio Power BI Desktop antes da avaliação final.</p>
-            <ul class="topic-list">
-              <li>Laboratório 01A — Conectando e Importando Dados (4 etapas)</li>
-              <li>Laboratório 02A — Transformação e Limpeza de Dados (17 etapas)</li>
             </ul>
           </div>
         </details>

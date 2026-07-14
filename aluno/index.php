@@ -461,29 +461,7 @@ const COURSE = [
     ],
   },
   {
-    id: 'otimizacao', title: 'Módulo 05 · Modelo de Dados & Otimização de Desempenho', kind: 'reading',
-    lessons: [
-      {
-        id: 'otimizar-modelo', title: 'Otimizando o Modelo de Dados',
-        content: [
-          { h: 'Remover o que não é usado', p: 'O passo mais simples e mais esquecido: remover colunas e linhas que não aparecem em nenhum visual ou cálculo. Cada coluna carregada consome memória e tempo de atualização — um modelo com 40 colunas quando só 15 são usadas nos relatórios é uma escolha cara sem necessidade.', r: { t: 'Técnicas de redução de dados para modelos de importação', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/import-modeling-data-reduction' } },
-          { h: 'Encontrar medidas, relacionamentos e visuais lentos', p: 'O Performance Analyzer do Power BI Desktop grava quanto tempo cada visual, consulta e cálculo DAX levou para renderizar em uma interação — a forma mais direta de descobrir qual medida específica está deixando o relatório lento, em vez de suspeitar do arquivo inteiro.', r: { t: 'Treinamento: otimizar um modelo para desempenho', u: 'https://learn.microsoft.com/pt-br/training/modules/optimize-model-power-bi/' } },
-          { h: 'Cardinalidade e tipos de dados', p: 'Cardinalidade é o número de valores distintos em uma coluna. Colunas de alta cardinalidade (como um ID de transação único por linha) custam muito mais memória do que colunas de baixa cardinalidade (como um status com 5 opções possíveis). Trocar uma coluna de texto por um tipo inteiro, ou dividir uma coluna de data e hora em duas colunas separadas, costuma reduzir drasticamente essa cardinalidade.' },
-          { h: 'Agregações', p: 'Para modelos muito grandes, criar e gerenciar tabelas de agregação — versões pré-resumidas dos dados em um nível mais alto (por mês em vez de por dia, por exemplo) — permite que a maioria das consultas seja respondida pela tabela pequena e rápida, recorrendo à tabela detalhada apenas quando o usuário realmente precisa do nível mais fino.', r: { t: 'Guia de otimização do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/power-bi-optimization' } },
-        ],
-      },
-      {
-        id: 'modos-armazenamento', title: 'Modos de armazenamento e dobra de consultas',
-        content: [
-          { h: 'Import, DirectQuery, Dual e Composite: qual escolher', p: 'O modo de armazenamento define de onde o Power BI busca os dados toda vez que um visual precisa deles. Import copia os dados para dentro do arquivo .pbix — é o modo mais rápido e o que a maioria dos modelos deste curso usa, mas exige atualização programada para manter os dados em dia. DirectQuery não copia nada: cada interação no relatório dispara uma consulta ao vivo na fonte, garantindo dados sempre atuais, ao custo de depender inteiramente da performance do banco de origem. Dual permite que uma tabela funcione como Import ou DirectQuery dependendo do contexto da consulta — útil para tabelas de dimensão pequenas usadas junto com fatos em DirectQuery. Um modelo composto (composite model) combina tabelas em modos diferentes no mesmo arquivo, o que dá flexibilidade mas exige atenção redobrada aos relacionamentos entre fontes com modos distintos.', r: { t: 'Modos de armazenamento no Power BI Desktop', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-storage-mode' } },
-          { h: 'Quando usar DirectQuery', p: 'DirectQuery faz sentido quando os dados de origem mudam com muita frequência (a cada minuto, por exemplo) e o relatório precisa refletir isso em tempo real, ou quando o volume de dados é grande demais para importar. A contrapartida é clara: cada clique do usuário gera uma consulta na fonte, então a velocidade do relatório passa a depender diretamente de quão bem o banco de origem responde — e nem toda transformação do Power Query "dobra" (se traduz) em uma consulta que o DirectQuery consegue empurrar para a fonte.' },
-          { h: 'Dobra de consultas (query folding)', p: 'Dobra de consultas é quando o Power Query consegue traduzir os passos de uma consulta (filtrar, agrupar, ordenar) em uma única instrução executada na própria fonte de dados, em vez de baixar tudo e processar depois no computador local. Isso é o que torna o Power Query rápido contra bancos de dados grandes. Alguns passos quebram a dobra — uma coluna personalizada com uma fórmula M complexa, por exemplo, geralmente não consegue ser traduzida de volta para SQL. Para verificar se uma consulta ainda está dobrando, clique com o botão direito em um passo do Editor do Power Query: se a opção "Exibir consulta nativa" estiver disponível, a dobra continua ativa até aquele ponto.', r: { t: 'Dobra de consultas no Power Query', u: 'https://learn.microsoft.com/pt-br/power-query/query-folding-basics' } },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'labs-power-query', title: 'Módulo 06 · Laboratórios Práticos de Power Query', kind: 'reading',
+    id: 'labs-power-query', title: 'Módulo 05 · Laboratórios Práticos de Power Query', kind: 'reading',
     lessons: [
       {
         id: 'lab-01a', title: 'Laboratório 01A · Conectando e Importando Dados',
@@ -514,6 +492,28 @@ const COURSE = [
           { id: 'acrescentar-consultas-1', h: 'Etapa 15 · Acrescentar consultas — parte 1', p: 'Este pacote traz um arquivo principal e três planilhas mensais (Jan, Fev, Mar 2008) com a mesma estrutura de colunas. Importe cada uma como consulta separada e use Página Inicial → Acrescentar Consultas para empilhá-las em uma única tabela consolidada.', arquivo: 'Acrescentar Consultas - Parte 1 (4 arquivos).zip' },
           { id: 'acrescentar-consultas-2', h: 'Etapa 16 · Acrescentar consultas — parte 2', p: 'Este pacote traz duas planilhas com nomes de coluna divergentes representando a mesma informação. Renomeie as colunas para que coincidam antes de acrescentar as consultas, e confirme que o Power Query passa a reconhecê-las como equivalentes.', arquivo: 'Acrescentar Consultas - Parte 2 (2 arquivos).zip' },
           { id: 'mesclar-consultas', h: 'Etapa 17 · Mesclar consultas', p: 'Este pacote traz 4 planilhas. Use Página Inicial → Mesclar Consultas para unir duas tabelas por uma coluna-chave em comum, testando os diferentes tipos de junção (interna, externa esquerda, externa direita) e observando o que acontece com linhas sem correspondência em cada caso.', arquivo: 'Mesclar Consultas (4 arquivos).zip' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'otimizacao', title: 'Módulo 06 · Modelo de Dados & Otimização de Desempenho', kind: 'reading',
+    lessons: [
+      {
+        id: 'otimizar-modelo', title: 'Otimizando o Modelo de Dados',
+        content: [
+          { h: 'Remover o que não é usado', p: 'O passo mais simples e mais esquecido: remover colunas e linhas que não aparecem em nenhum visual ou cálculo. Cada coluna carregada consome memória e tempo de atualização — um modelo com 40 colunas quando só 15 são usadas nos relatórios é uma escolha cara sem necessidade.', r: { t: 'Técnicas de redução de dados para modelos de importação', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/import-modeling-data-reduction' } },
+          { h: 'Encontrar medidas, relacionamentos e visuais lentos', p: 'O Performance Analyzer do Power BI Desktop grava quanto tempo cada visual, consulta e cálculo DAX levou para renderizar em uma interação — a forma mais direta de descobrir qual medida específica está deixando o relatório lento, em vez de suspeitar do arquivo inteiro.', r: { t: 'Treinamento: otimizar um modelo para desempenho', u: 'https://learn.microsoft.com/pt-br/training/modules/optimize-model-power-bi/' } },
+          { h: 'Cardinalidade e tipos de dados', p: 'Cardinalidade é o número de valores distintos em uma coluna. Colunas de alta cardinalidade (como um ID de transação único por linha) custam muito mais memória do que colunas de baixa cardinalidade (como um status com 5 opções possíveis). Trocar uma coluna de texto por um tipo inteiro, ou dividir uma coluna de data e hora em duas colunas separadas, costuma reduzir drasticamente essa cardinalidade.' },
+          { h: 'Agregações', p: 'Para modelos muito grandes, criar e gerenciar tabelas de agregação — versões pré-resumidas dos dados em um nível mais alto (por mês em vez de por dia, por exemplo) — permite que a maioria das consultas seja respondida pela tabela pequena e rápida, recorrendo à tabela detalhada apenas quando o usuário realmente precisa do nível mais fino.', r: { t: 'Guia de otimização do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/power-bi-optimization' } },
+        ],
+      },
+      {
+        id: 'modos-armazenamento', title: 'Modos de armazenamento e dobra de consultas',
+        content: [
+          { h: 'Import, DirectQuery, Dual e Composite: qual escolher', p: 'O modo de armazenamento define de onde o Power BI busca os dados toda vez que um visual precisa deles. Import copia os dados para dentro do arquivo .pbix — é o modo mais rápido e o que a maioria dos modelos deste curso usa, mas exige atualização programada para manter os dados em dia. DirectQuery não copia nada: cada interação no relatório dispara uma consulta ao vivo na fonte, garantindo dados sempre atuais, ao custo de depender inteiramente da performance do banco de origem. Dual permite que uma tabela funcione como Import ou DirectQuery dependendo do contexto da consulta — útil para tabelas de dimensão pequenas usadas junto com fatos em DirectQuery. Um modelo composto (composite model) combina tabelas em modos diferentes no mesmo arquivo, o que dá flexibilidade mas exige atenção redobrada aos relacionamentos entre fontes com modos distintos.', r: { t: 'Modos de armazenamento no Power BI Desktop', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-storage-mode' } },
+          { h: 'Quando usar DirectQuery', p: 'DirectQuery faz sentido quando os dados de origem mudam com muita frequência (a cada minuto, por exemplo) e o relatório precisa refletir isso em tempo real, ou quando o volume de dados é grande demais para importar. A contrapartida é clara: cada clique do usuário gera uma consulta na fonte, então a velocidade do relatório passa a depender diretamente de quão bem o banco de origem responde — e nem toda transformação do Power Query "dobra" (se traduz) em uma consulta que o DirectQuery consegue empurrar para a fonte.' },
+          { h: 'Dobra de consultas (query folding)', p: 'Dobra de consultas é quando o Power Query consegue traduzir os passos de uma consulta (filtrar, agrupar, ordenar) em uma única instrução executada na própria fonte de dados, em vez de baixar tudo e processar depois no computador local. Isso é o que torna o Power Query rápido contra bancos de dados grandes. Alguns passos quebram a dobra — uma coluna personalizada com uma fórmula M complexa, por exemplo, geralmente não consegue ser traduzida de volta para SQL. Para verificar se uma consulta ainda está dobrando, clique com o botão direito em um passo do Editor do Power Query: se a opção "Exibir consulta nativa" estiver disponível, a dobra continua ativa até aquele ponto.', r: { t: 'Dobra de consultas no Power Query', u: 'https://learn.microsoft.com/pt-br/power-query/query-folding-basics' } },
         ],
       },
     ],
