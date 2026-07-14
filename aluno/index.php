@@ -944,7 +944,6 @@ function renderLesson(id) {
     `;
   } else if (lesson.steps) {
     mediaBlock = `
-      ${playerBlock}
       ${lesson.diagram || ''}
       <div class="reading-card">
         ${lesson.steps.map(s => `
@@ -962,7 +961,6 @@ function renderLesson(id) {
     `;
   } else {
     mediaBlock = `
-      ${playerBlock}
       <div class="reading-card">
         ${lesson.content.map(b => `<h3>${b.h}</h3><p>${b.p}</p>${b.r ? `<div class="res-inline resources"><ul>${resourceItem(b.r)}</ul></div>` : ''}`).join('')}
       </div>
@@ -985,14 +983,16 @@ function renderLesson(id) {
 
   const videoEl = main.querySelector('.player-video');
   const placeholderEl = main.querySelector('.player-placeholder');
-  videoEl.addEventListener('loadedmetadata', () => {
-    videoEl.style.display = 'block';
-    placeholderEl.style.display = 'none';
-  });
-  videoEl.addEventListener('error', () => {
-    videoEl.style.display = 'none';
-    placeholderEl.style.display = 'flex';
-  }, true);
+  if (videoEl && placeholderEl) {
+    videoEl.addEventListener('loadedmetadata', () => {
+      videoEl.style.display = 'block';
+      placeholderEl.style.display = 'none';
+    });
+    videoEl.addEventListener('error', () => {
+      videoEl.style.display = 'none';
+      placeholderEl.style.display = 'flex';
+    }, true);
+  }
 
   document.getElementById('markDoneBtn').addEventListener('click', () => {
     const nowDone = !progress.has(lesson.id);
