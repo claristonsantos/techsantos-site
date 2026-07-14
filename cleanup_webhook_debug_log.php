@@ -10,11 +10,12 @@ if (!hash_equals(SETUP_KEY, $key)) {
 }
 
 $path = __DIR__ . '/webhook_debug.log';
-header('Content-Type: text/plain; charset=utf-8');
-
-if (!file_exists($path)) {
-    echo "Nenhuma requisição registrada ainda.\n";
-    exit;
+$removed = false;
+if (file_exists($path)) {
+    $removed = @unlink($path);
 }
 
-echo file_get_contents($path);
+header('Content-Type: text/plain; charset=utf-8');
+echo $removed ? "webhook_debug.log removido.\n" : "Nada para remover.\n";
+
+@unlink(__FILE__);

@@ -6,18 +6,6 @@ require_once __DIR__ . '/meta_social.php';
 
 $rawInput = file_get_contents('php://input') ?: '';
 
-// TEMP DEBUG (2026-07-14): log every hit while diagnosing why Instagram
-// comment events aren't arriving. Remove this block once resolved.
-file_put_contents(
-    __DIR__ . '/webhook_debug.log',
-    '[' . gmdate('Y-m-d H:i:s') . '] ' . ($_SERVER['REQUEST_METHOD'] ?? '?')
-        . ' qs=' . ($_SERVER['QUERY_STRING'] ?? '')
-        . ' sig=' . ($_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '(none)')
-        . ' body=' . substr($rawInput, 0, 2000)
-        . "\n",
-    FILE_APPEND
-);
-
 // Verification handshake: Meta calls this with hub.mode/hub.verify_token/hub.challenge
 // (dots become underscores in $_GET) when the webhook is first configured.
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
