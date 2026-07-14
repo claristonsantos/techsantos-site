@@ -89,7 +89,7 @@ $fbScheduled = $pdo->query(
 
 foreach ($fbScheduled as $post) {
     $error = null;
-    $data = meta_graph_get($post['meta_post_id'], ['fields' => 'is_published'], $error);
+    $data = meta_graph_get($post['meta_post_id'], ['fields' => 'is_published', 'access_token' => META_PAGE_TOKEN], $error);
 
     if ($data === null) {
         echo "post {$post['id']}: falha ao checar status no Facebook — {$error}\n";
