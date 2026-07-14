@@ -300,15 +300,15 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <details class="module">
           <summary>
             <div class="module-title"><span class="module-num">05</span><h3>Laboratórios Práticos de Power Query</h3></div>
-            <div class="module-meta"><span>2 laboratórios guiados</span>
+            <div class="module-meta"><span>2 estudos de caso</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
           <div class="module-body">
-            <p class="module-desc">A prática direta: os mesmos arquivos de exercício usados nas aulas de Power Query, agora organizados em dois laboratórios guiados, passo a passo, para fazer no seu próprio Power BI Desktop antes da avaliação final.</p>
+            <p class="module-desc">A prática direta, no formato estudo de caso: você recebe o cenário e o que o resultado final precisa satisfazer — nada de passo a passo de clique. Os mesmos arquivos de exercício das aulas de Power Query, agora com desafios reais pra resolver no seu próprio Power BI Desktop antes da avaliação final.</p>
             <ul class="topic-list">
-              <li>Laboratório 01A — Conectando e Importando Dados (4 etapas)</li>
-              <li>Laboratório 02A — Transformação e Limpeza de Dados (17 etapas)</li>
+              <li>Estudo de caso 1 — Conectando e Importando Dados (4 desafios)</li>
+              <li>Estudo de caso 2 — Transformação e Limpeza de Dados (17 desafios)</li>
             </ul>
           </div>
         </details>
