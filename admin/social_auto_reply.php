@@ -60,7 +60,9 @@ admin_topbar('social_auto_reply');
 <main class="admin-main">
   <div class="admin-head"><h1>Auto-resposta de comentários</h1></div>
   <p style="color:var(--ink-soft); max-width:70ch; margin-bottom:1.5rem;">
-    Quando alguém comenta uma das palavras-chave abaixo num post do Facebook ou Instagram, o site responde automaticamente no privado com a mensagem configurada. Depende do webhook estar assinado no painel da Meta — ver <code>CONTINUACAO-2026-07-12.md</code>.
+    Quando alguém comenta uma das palavras-chave abaixo num post do Facebook ou Instagram, o site responde automaticamente no privado com a mensagem configurada.
+    <strong>Facebook:</strong> funcionando (confirmado com comentário real em 13/07/2026).
+    <strong>Instagram:</strong> webhook assinado no painel da Meta, mas os comentários reais ainda não estão chegando — provavelmente depende da Verificação de Empresa do app (em andamento). Enquanto isso não for concluído, só o Facebook responde de verdade.
   </p>
 
   <?php if (isset($msg)): ?><div class="alert alert-success"><?= htmlspecialchars($msg, ENT_QUOTES) ?></div><?php endif; ?>
