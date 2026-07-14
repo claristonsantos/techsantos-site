@@ -17,6 +17,12 @@ $precoFormatado = $precoCentavos ? number_format((int)$precoCentavos / 100, 2, '
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
+<?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
+<?php if ($precoCentavos): ?>
+<script>
+fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', value: <?= json_encode(round($precoCentavos / 100, 2)) ?>});
+</script>
+<?php endif; ?>
 </head>
 <body>
 

@@ -8,6 +8,7 @@
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
+<?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
 <style>
   .preview-shell { max-width: 780px; margin: 0 auto; padding: clamp(1.5rem, 4vw, 3rem) 1.25rem 5rem; }
   .preview-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }

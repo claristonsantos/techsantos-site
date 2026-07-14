@@ -63,6 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
 <link rel="stylesheet" href="assets/css/admin.css" />
+<?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
+<?php if ($precoCentavos): ?>
+<script>
+fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 100, 2)) ?>, currency: 'BRL', content_name: 'Curso Power BI'});
+</script>
+<?php endif; ?>
 <style>
   .buy-shell { max-width: 640px; margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) 1.25rem 5rem; }
   .buy-top a { font-size: 0.85rem; color: var(--ink-soft); text-decoration: none; }

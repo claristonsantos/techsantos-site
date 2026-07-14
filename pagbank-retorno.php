@@ -19,6 +19,12 @@ $pago = $pedido && $pedido['status'] === 'pago';
 <title>Pagamento — TECH SANTOS BR</title>
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
+<?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
+<?php if ($pago): ?>
+<script>
+fbq('track', 'Purchase', {value: <?= json_encode(round($pedido['valor_centavos'] / 100, 2)) ?>, currency: 'BRL', content_name: <?= json_encode($pedido['curso_nome']) ?>}, {eventID: 'pedido_<?= (int)$pedido['id'] ?>'});
+</script>
+<?php endif; ?>
 <style>
   .ret-shell { max-width: 520px; margin: 0 auto; padding: clamp(3rem, 8vw, 6rem) 1.25rem; text-align: center; }
   .ret-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
