@@ -31,6 +31,7 @@ const EXERCICIOS = [
     'exercicio-final-solucao' => ['file' => 'Exercicio-Final-Solucao.pbix', 'label' => 'Exercicio-Final-Solucao.pbix'],
     'vendas-2025-12-meses' => ['file' => 'vendas-2025-12-meses.zip', 'label' => 'Vendas-2025-12-Meses.zip'],
     'dashboard-comercial-bases' => ['file' => 'dashboard-comercial-bases.zip', 'label' => 'Dashboard-Comercial-Bases.zip'],
+    'dashboard-comercial-solucao' => ['file' => 'dashboard-comercial-solucao.pbix', 'label' => 'Dashboard-Comercial-Solucao.pbix'],
 ];
 
 $id = (string)($_GET['id'] ?? '');
