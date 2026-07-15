@@ -557,7 +557,10 @@ const COURSE = [
         ],
       },
       {
-        id: 'dax-logica-erros-texto', title: 'Combinando funções: lógica, tratamento de erros e texto',
+        id: 'dax-logica-erros-texto', title: 'Combinando funções: lógica, tratamento de erros e texto', kind: 'video',
+        desc: 'Como combinar funções DAX na prática, tratar erros sem quebrar o visual, e as funções de texto mais usadas em medidas e colunas calculadas.',
+        objetivos: ['Ler e escrever fórmulas DAX com funções aninhadas', 'Tratar erros com IFERROR/ISERROR e usar SWITCH em vez de IFs encadeados'],
+        body: 'Fórmulas DAX do mundo real raramente usam uma única função isolada — este vídeo mostra como combinar, tratar erro e trabalhar texto dentro de uma medida.',
         content: [
           { h: 'Combinar funções', p: 'Fórmulas DAX do mundo real raramente usam uma única função isolada — o padrão mais comum é aninhar funções, como um CALCULATE com um FILTER dentro, ou um SWITCH que decide qual medida usar. Ler uma fórmula complexa de dentro para fora (a função mais interna primeiro) costuma ser o jeito mais fácil de entendê-la.' },
           { h: 'Tratamento de erros', p: 'IFERROR e ISERROR capturam situações como divisão por zero ou uma busca RELATED sem correspondência, permitindo retornar um valor alternativo em vez de quebrar o visual inteiro com uma mensagem de erro visível para o usuário final.' },
@@ -566,7 +569,10 @@ const COURSE = [
         ],
       },
       {
-        id: 'dax-calculate-filter', title: 'CALCULATE, FILTER, ALL e RELATED',
+        id: 'dax-calculate-filter', title: 'CALCULATE, FILTER, ALL e RELATED', kind: 'video',
+        desc: 'CALCULATE é a função mais importante do DAX — este vídeo mostra ela na prática, junto de FILTER, ALL e RELATED.',
+        objetivos: ['Usar CALCULATE para modificar o contexto de filtro', 'Combinar FILTER, ALL e RELATED em cálculos de negócio reais'],
+        body: 'CALCULATE é a única função DAX capaz de alterar o contexto de filtro diretamente — a base de quase todo cálculo de negócio não trivial. Este vídeo mostra ela em ação, ao lado de FILTER, ALL e RELATED.',
         content: [
           { h: 'CALCULATE: a função mais importante do DAX', p: 'CALCULATE avalia uma expressão em um contexto de filtro modificado — é a única função DAX capaz de alterar o contexto de filtro diretamente, o que a torna a base de praticamente todo cálculo de negócio não trivial: percentual do total, comparação com o ano anterior, meta versus realizado.', r: { t: 'Função CALCULATE (DAX)', u: 'https://learn.microsoft.com/pt-br/dax/calculate-function-dax' } },
           { h: 'FILTER', p: 'FILTER retorna uma tabela contendo apenas as linhas que atendem a uma condição — não é usada sozinha, mas como argumento de dentro de CALCULATE ou de uma função iteradora, quando o filtro precisa de uma lógica mais complexa do que uma simples comparação de coluna.' },
@@ -575,7 +581,10 @@ const COURSE = [
         ],
       },
       {
-        id: 'dax-tabelas-tempo', title: 'Funções de tabela, data/tempo e inteligência de tempo',
+        id: 'dax-tabelas-tempo', title: 'Funções de tabela, data/tempo e inteligência de tempo', kind: 'video',
+        desc: 'Funções de tabela, data/tempo e inteligência de tempo — os blocos que fazem seu relatório comparar períodos automaticamente.',
+        objetivos: ['Usar funções de tabela (VALUES, DISTINCT, SUMMARIZE) dentro de medidas', 'Aplicar inteligência de tempo (YTD, mesmo período do ano anterior) com uma tabela calendário marcada'],
+        body: 'Para fechar o módulo de DAX, este vídeo cobre funções que retornam tabelas, manipulam datas, e automatizam comparações temporais — o que faz um relatório responder sozinho perguntas como "quanto vendemos até agora este ano" ou "como estamos versus o ano passado".',
         content: [
           { h: 'Funções de tabela', p: 'Funções como ALL, VALUES, DISTINCT, SUMMARIZE e ADDCOLUMNS retornam tabelas em vez de valores únicos — usadas como argumento de outras funções ou diretamente em uma medida que precisa iterar sobre um conjunto de linhas construído dinamicamente.' },
           { h: 'Funções de data e tempo', p: 'YEAR, MONTH, DAY, DATEDIFF e EOMONTH extraem e manipulam partes de uma data — a base para qualquer cálculo que dependa de calendário, como idade de um cliente ou dias em atraso.' },
