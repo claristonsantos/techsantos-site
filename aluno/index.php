@@ -712,6 +712,7 @@ const COURSE = [
               'Gráfico de Colunas (visual do par acima) — EIXO: Mês Abrev. · VALOR: Lucro Total e Lucro Extra',
               '2 Cartões finais — Qtd. Vendas · Receita Total',
             ] },
+          { h: 'Página "Simulação" — o outro estado dos bookmarks', p: 'A mesma página, agora com "Mapa" e "Lucro Extra" selecionados em vez de "Tabela" e "Previsão" — assim dá pra ver os 4 visuais que ficam por trás dos botões, não só os 2 que aparecem por padrão. Repare também na grade de imagens à esquerda: com a categoria "Computers" selecionada no slicer, ela mostra os ícones reais daquela categoria — a grade muda junto com o filtro.', img: '/assets/img/lab-dax-dataviz/pagina-simulacao-alt.png' },
         ],
       },
     ],
