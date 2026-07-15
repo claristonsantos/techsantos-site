@@ -30,6 +30,7 @@ const EXERCICIOS = [
     'dcalendario-code' => ['file' => 'dCalendario_CODE.txt', 'label' => 'dCalendario-CODE.txt'],
     'exercicio-final-solucao' => ['file' => 'Exercicio-Final-Solucao.pbix', 'label' => 'Exercicio-Final-Solucao.pbix'],
     'vendas-2025-12-meses' => ['file' => 'vendas-2025-12-meses.zip', 'label' => 'Vendas-2025-12-Meses.zip'],
+    'dashboard-comercial-bases' => ['file' => 'dashboard-comercial-bases.zip', 'label' => 'Dashboard-Comercial-Bases.zip'],
 ];
 
 $id = (string)($_GET['id'] ?? '');

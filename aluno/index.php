@@ -627,9 +627,20 @@ const COURSE = [
         diagram: '<div class="lab-flow"><div class="lab-flow-box">Modelo +<br><small>medidas prontas</small></div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">Você constrói<br>5 páginas</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Relatório<br>comercial completo</div></div>',
         steps: [
           { h: 'O desafio', p: 'Você é a pessoa de dados de uma rede de varejo com lojas em vários países. A diretoria comercial quer um relatório único que responda três perguntas ao longo do ano: quanto vendemos, quanto lucramos, e o que aconteceria se mudássemos o preço. Você recebe as bases brutas — vendas de três anos, cadastro de clientes, lojas, produtos e localidades — e precisa entregar um modelo e um relatório de 5 páginas prontos para a diretoria usar sozinha, sem sua ajuda. Esse laboratório junta tudo que você viu até aqui: modelagem, Power Query, DAX e construção de relatório.' },
-          { h: 'Antes de começar', p: 'Confira se o seu modelo tem tudo pronto antes de montar as páginas — cada item abaixo usa uma técnica de um módulo anterior.',
+          { id: 'dashboard-comercial-bases', h: 'As bases de dados', p: 'Você recebe 8 arquivos: um cadastro de clientes, um de lojas, um de produtos, um de localidades, um de subcategorias, e uma pasta "Vendas" com 3 arquivos — um por ano (2017, 2018 e 2019). Conecte pela pasta, não abrindo cada arquivo manualmente — mesma técnica do Módulo 03.', arquivo: 'Dashboard Comercial - Bases (8 arquivos).zip',
+            checklist: [
+              'Cliente.xlsx — Id Cliente, Id Localidade, Nome Completo, Data de Nacimento, Estado Civil, Sexo, Renda Anual, Qtd. Filhos, Ocupação',
+              'Loja.xlsx — Id Loja, Tipo Loja, Nome Loja',
+              'Produto.xlsx — Id Produto, Nome Produto, Id Subcategoria, Fabricante, Marca, Cor, Custo Unit., Preço Unit.',
+              'Localidade.xlsx — Id Localidade, Continente, Cidade, Estado, País',
+              'Produto Subcategoria.xlsx (aba "Subcategoria") — Id Subcategoria, Categoria, Subcategoria, Imagem, Id Imagem',
+              'Vendas\\2017.xlsx, 2018.xlsx, 2019.xlsx — Data Venda, Id Loja, Id Produto, Id Cliente, Nº Ordem Serviço, Qtd. Vendida, Qtd. Devolvida',
+              'Todas as colunas de tipo texto na origem — confira e corrija o tipo de cada uma depois de importar (datas, números e IDs não vêm prontos)',
+            ] },
+          { h: 'Antes de montar as páginas', p: 'Confira se o seu modelo tem tudo pronto — cada item abaixo usa uma técnica de um módulo anterior.',
             checklist: [
               'Esquema estrela com fVendas ligada a dCalendario, dCliente, dLoja, dProduto e dSubcategoria (dCliente ligada a dLocalidade, dProduto ligado a dSubcategoria)',
+              'dCalendario criada por DAX (CALENDAR, cobrindo 2017 a 2019) e marcada como tabela de datas — não vem de arquivo',
               'Colunas calculadas de Ano, Mês, Nome do Mês e Mês Abrev. em dCalendario, e de Idade e Faixa de Idade em dCliente',
               'Um parâmetro What-if de 0% a 50% (passo de 1%) para simular aumento de preço',
               'Medidas de receita, custo e lucro (total e médio) a partir de quantidade vendida × preço/custo unitário',
