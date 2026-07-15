@@ -65,10 +65,11 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
         'Módulo 06 — Modelo de Dados & Otimização de Desempenho',
         'Módulo 07 — Fórmulas DAX',
         'Módulo 08 — Criar e Enriquecer Relatórios',
-        'Módulo 09 — Análise Avançada & Insights de IA',
-        'Módulo 10 — Dashboards, Publicação & Governança',
-        'Módulo 11 — Exercício Guiado TECH SANTOS BR',
-        'Módulo 12 — Encerramento & Avaliação Final',
+        'Módulo 09 — Laboratório Prático: DAX e DataViz',
+        'Módulo 10 — Análise Avançada & Insights de IA',
+        'Módulo 11 — Dashboards, Publicação & Governança',
+        'Módulo 12 — Exercício Guiado TECH SANTOS BR',
+        'Módulo 13 — Encerramento & Avaliação Final',
     ];
     $modulosHtml = '';
     foreach ($modulos as $m) {

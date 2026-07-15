@@ -620,7 +620,79 @@ const COURSE = [
     ],
   },
   {
-    id: 'analise-avancada', title: 'Módulo 09 · Análise Avançada & Insights de IA', kind: 'reading',
+    id: 'lab-dax-dataviz', title: 'Módulo 09 · Laboratório Prático — DAX e DataViz', kind: 'reading',
+    lessons: [
+      {
+        id: 'lab-dashboard-comercial', title: 'Laboratório · Dashboard Comercial',
+        diagram: '<div class="lab-flow"><div class="lab-flow-box">Modelo +<br><small>medidas prontas</small></div><div class="lab-flow-arrow">→</div><div class="lab-flow-box accent">Você constrói<br>5 páginas</div><div class="lab-flow-arrow">→</div><div class="lab-flow-box">Relatório<br>comercial completo</div></div>',
+        steps: [
+          { h: 'O desafio', p: 'Você é a pessoa de dados de uma rede de varejo com lojas em vários países. A diretoria comercial quer um relatório único que responda três perguntas ao longo do ano: quanto vendemos, quanto lucramos, e o que aconteceria se mudássemos o preço. Você recebe as bases brutas — vendas de três anos, cadastro de clientes, lojas, produtos e localidades — e precisa entregar um modelo e um relatório de 5 páginas prontos para a diretoria usar sozinha, sem sua ajuda. Esse laboratório junta tudo que você viu até aqui: modelagem, Power Query, DAX e construção de relatório.' },
+          { h: 'Antes de começar', p: 'Confira se o seu modelo tem tudo pronto antes de montar as páginas — cada item abaixo usa uma técnica de um módulo anterior.',
+            checklist: [
+              'Esquema estrela com fVendas ligada a dCalendario, dCliente, dLoja, dProduto e dSubcategoria (dCliente ligada a dLocalidade, dProduto ligado a dSubcategoria)',
+              'Colunas calculadas de Ano, Mês, Nome do Mês e Mês Abrev. em dCalendario, e de Idade e Faixa de Idade em dCliente',
+              'Um parâmetro What-if de 0% a 50% (passo de 1%) para simular aumento de preço',
+              'Medidas de receita, custo e lucro (total e médio) a partir de quantidade vendida × preço/custo unitário',
+              'Medidas de quantidade vendida, devolvida e de clientes distintos, e os percentuais de margem e de devolução',
+              'Para cada métrica base, a versão "ano anterior" (CALCULATE + DATEADD) e a variação percentual ano a ano',
+              'Receita e custo acumulados no ano (DATESYTD)',
+              'As medidas de simulação: nova receita usando o parâmetro de aumento, e o lucro extra que isso representa',
+            ] },
+          { h: 'Página "Capa"', p: 'A porta de entrada do relatório — só navegação, sem nenhum dado.', img: '/assets/img/lab-dax-dataviz/pagina-capa.png',
+            checklist: [
+              'Botões de ação navegando para as outras 4 páginas',
+              'Nenhum visual de dado ou medida nessa página',
+            ] },
+          { h: 'Página "Geral"', p: 'O que essa página precisa responder em 5 segundos de leitura: quanto vendemos, para quantos clientes, com que margem, e como isso está distribuído geograficamente e ao longo do ano.', img: '/assets/img/lab-dax-dataviz/pagina-geral.png',
+            checklist: [
+              'Segmentação de dados — VALORES: Ano',
+              '4 Cartões (múltiplas linhas) — Receita Total · Qtd. Vendas · Qtd. Devolvida · Qtd. Clientes',
+              'Tabela dinâmica de comparação anual — VALORES: % YoY Receita, % YoY Vendas, % YoY Devolvida, % YoY Clientes',
+              '4 Cartões do ano anterior — Receita Total LY · Qtd. Vendida LY · Qtd. Devolvida LY · Qtd. Clientes LY',
+              'Gráfico de Barras Clusterizado — EIXO: Continente, País, Estado, Cidade (hierarquia de dLocalidade) · VALOR: Qtd. Clientes',
+              'Gráfico Combinado (Linha + Coluna) — EIXO: Mês Abrev. · VALOR (coluna): Receita Total · VALOR eixo secundário (linha): Lucro Total',
+              'Cartão — Lucro Médio',
+              'Gráfico de Área — EIXO: Mês · DICAS DE FERRAMENTA: Nome do Mês · VALOR: Lucro Médio',
+              'Cartão — % Margem Lucro Médio',
+              'Gráfico de Rosca — VALOR: % Margem Lucro Médio e sua parte complementar (a fatia "resto")',
+              'Gráfico Cascata — EIXO: Mês Abrev. · VALOR: Qtd. Vendas',
+              'Medidor — VALOR: % Devoluções',
+            ] },
+          { h: 'Página "Análise Temporal"', p: 'Foco só no tempo. Precisa mostrar a evolução mensal de pelo menos 4 métricas diferentes, a comparação lado a lado entre receita e custo por mês, o lucro comparado ao do ano anterior numa tabela, e o acumulado do ano crescendo mês a mês.', img: '/assets/img/lab-dax-dataviz/pagina-temporal.png',
+            checklist: [
+              'Segmentação de dados — VALORES: Ano',
+              '4 Cartões — Receita Total · Custo Total · Lucro Total · % Margem Lucro',
+              '4 Gráficos de Linhas (um por métrica) — EIXO: Mês · DICAS DE FERRAMENTA: Nome do Mês · VALOR: Lucro Total / % Margem Lucro / Lucro Médio / Custo Total',
+              'Gráfico de Colunas — EIXO: Mês/Ano · VALOR: Receita Total e Custo Total (negativo, para o efeito espelho acima/abaixo do eixo)',
+              'Tabela dinâmica — LINHAS: hierarquia de datas (Ano, Mês, Dia) · VALORES: Lucro Total, Lucro Total LY, % YoY Lucro',
+              'Gráfico de Área — EIXO: Mês/Ano · VALOR: Receita Total Acumulada e Custo Total Acumulado',
+            ] },
+          { h: 'Página "Clientes"', p: 'Precisa responder onde estão os clientes e que perfil eles têm.', img: '/assets/img/lab-dax-dataviz/pagina-clientes.png',
+            checklist: [
+              'Segmentações de dados — Nome do Mês · Ano · Continente',
+              '3 Cartões — Lucro Total · Receita Total · % YoY Receita',
+              'Tabela dinâmica — LINHAS: Continente, País, Estado, Nome Completo do cliente · VALORES: Qtd. Vendas, Receita Total, Lucro Total, % YoY Receita, % YoY Lucro',
+              'Mapa — LOCALIZAÇÃO: Continente, País, Estado, Cidade · TAMANHO: Qtd. Vendas',
+              'Gráfico de Barras Clusterizado — EIXO: Subcategoria · VALOR: Qtd. Vendas',
+              'Gráfico TreeMap — GRUPO: Faixa de Idade · VALORES: Qtd. Vendas',
+            ] },
+          { h: 'Página "Simulação"', p: 'A página que usa o parâmetro What-if. Precisa deixar claro, sem o usuário precisar calcular nada, qual seria a nova receita com o aumento escolhido, quanto disso é lucro extra, e como essa receita extra se distribui geograficamente.', img: '/assets/img/lab-dax-dataviz/pagina-simulacao.png',
+            checklist: [
+              'Segmentações de dados — Categoria (dSubcategoria) · Ano · o parâmetro Aumento Preço Unit.',
+              '5 Cartões — Nova Receita · Lucro Extra · Categoria selecionada · Receita Total · Aumento % Lucro',
+              'Grade de imagens dos ícones de categoria — IMAGEURL: dImagem[Imagem]',
+              'Gráfico de Linhas — EIXO: hierarquia de datas · VALOR: Nova Receita',
+              'Gráfico de Colunas — EIXO: Mês Abrev. · VALOR: Lucro Total e Lucro Extra',
+              'Tabela dinâmica — LINHAS: País, Nome Completo · VALORES: Receita Total, Nova Receita, Lucro Extra',
+              'Mapa — LOCALIZAÇÃO: Continente, País, Estado · TAMANHO: Nova Receita · DICAS DE FERRAMENTA: Receita Extra',
+              '2 Cartões finais — Qtd. Vendas · Receita Total',
+            ] },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'analise-avancada', title: 'Módulo 10 · Análise Avançada & Insights de IA', kind: 'reading',
     lessons: [
       {
         id: 'explorando-dados', title: 'Explorando dados com filtros e análise estatística',
@@ -644,7 +716,7 @@ const COURSE = [
     ],
   },
   {
-    id: 'dashboards-governanca', title: 'Módulo 10 · Dashboards, Publicação & Governança', kind: 'reading',
+    id: 'dashboards-governanca', title: 'Módulo 11 · Dashboards, Publicação & Governança', kind: 'reading',
     lessons: [
       {
         id: 'workspaces-apps', title: 'Workspaces e Apps: organizando e distribuindo conteúdo',
@@ -677,7 +749,7 @@ const COURSE = [
     ],
   },
   {
-    id: 'exercicio-guiado-tsbr', title: 'Módulo 11 · Exercício Guiado TECH SANTOS BR — Construa Seu Relatório do Zero', kind: 'reading',
+    id: 'exercicio-guiado-tsbr', title: 'Módulo 12 · Exercício Guiado TECH SANTOS BR — Construa Seu Relatório do Zero', kind: 'reading',
     lessons: [
       {
         id: 'exercicio-basico', title: 'Estudo de Caso · Nível Básico',
@@ -732,7 +804,7 @@ const COURSE = [
     ],
   },
   {
-    id: 'encerramento', title: 'Módulo 12 · Encerramento', kind: 'reading',
+    id: 'encerramento', title: 'Módulo 13 · Encerramento', kind: 'reading',
     lessons: [
       {
         id: 'conclusao-curso', title: 'Conclusão do curso',

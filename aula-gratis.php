@@ -52,7 +52,7 @@
 
   <div class="preview-cta">
     <h2>Gostou? O curso completo tem mais 49 aulas como essa.</h2>
-    <p>12 módulos, do primeiro conceito de modelagem até relatórios publicados — com avaliações por módulo e certificado de conclusão.</p>
+    <p>13 módulos, do primeiro conceito de modelagem até relatórios publicados — com avaliações por módulo e certificado de conclusão.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="/comprar.php">Comprar o curso</a>
       <a class="btn btn-ghost" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a>

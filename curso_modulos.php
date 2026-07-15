@@ -10,10 +10,11 @@ const MODULOS_POWER_BI = [
     'otimizacao' => 'Módulo 06 · Modelo de Dados & Otimização de Desempenho',
     'dax' => 'Módulo 07 · Fórmulas DAX',
     'relatorios' => 'Módulo 08 · Criar e Enriquecer Relatórios',
-    'analise-avancada' => 'Módulo 09 · Análise Avançada & Insights de IA',
-    'dashboards-governanca' => 'Módulo 10 · Dashboards, Publicação & Governança',
-    'exercicio-guiado-tsbr' => 'Módulo 11 · Exercício Guiado TECH SANTOS BR — Construa Seu Relatório do Zero',
-    'encerramento' => 'Avaliação final (Módulo 12 · Encerramento)',
+    'lab-dax-dataviz' => 'Módulo 09 · Laboratório Prático — DAX e DataViz',
+    'analise-avancada' => 'Módulo 10 · Análise Avançada & Insights de IA',
+    'dashboards-governanca' => 'Módulo 11 · Dashboards, Publicação & Governança',
+    'exercicio-guiado-tsbr' => 'Módulo 12 · Exercício Guiado TECH SANTOS BR — Construa Seu Relatório do Zero',
+    'encerramento' => 'Avaliação final (Módulo 13 · Encerramento)',
 ];
 
 function modulo_anterior(string $moduloId): ?string

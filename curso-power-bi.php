@@ -13,7 +13,7 @@ $precoFormatado = $precoCentavos ? number_format((int)$precoCentavos / 100, 2, '
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Curso Power BI — TECH SANTOS BR</title>
-<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 12 módulos, 29 videoaulas, laboratórios práticos guiados e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
+<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 13 módulos, 29 videoaulas, laboratórios práticos guiados e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -162,9 +162,10 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <div class="journey-step"><span class="n">06</span><span class="t">Otimização de Modelo</span></div>
         <div class="journey-step"><span class="n">07</span><span class="t">Fórmulas DAX</span></div>
         <div class="journey-step"><span class="n">08</span><span class="t">Relatórios</span></div>
-        <div class="journey-step"><span class="n">09</span><span class="t">Análise Avançada & IA</span></div>
-        <div class="journey-step"><span class="n">10</span><span class="t">Dashboards & Governança</span></div>
-        <div class="journey-step"><span class="n">11</span><span class="t">Exercício Guiado TECH SANTOS BR</span></div>
+        <div class="journey-step"><span class="n">09</span><span class="t">Laboratório DAX & DataViz</span></div>
+        <div class="journey-step"><span class="n">10</span><span class="t">Análise Avançada & IA</span></div>
+        <div class="journey-step"><span class="n">11</span><span class="t">Dashboards & Governança</span></div>
+        <div class="journey-step"><span class="n">12</span><span class="t">Exercício Guiado TECH SANTOS BR</span></div>
         <div class="journey-step final"><span class="n">🎓</span><span class="t">Avaliação Final & Certificado</span></div>
       </div>
     </div>
@@ -203,7 +204,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Currículo completo</p>
-        <h2>12 módulos, currículo completo</h2>
+        <h2>13 módulos, currículo completo</h2>
         <p>Estrutura baseada no cronograma oficial do curso, do primeiro conceito de modelagem até os laboratórios práticos guiados. Os módulos 01, 03 e 04 são videoaulas práticas gravadas na tela; os demais são conteúdo em texto da apostila, com referências à documentação oficial da Microsoft — aplicado passo a passo nos Laboratórios 01A e 02A, com os mesmos arquivos de exercício usados nas aulas, direto no Power BI Desktop.</p>
       </div>
 
@@ -393,7 +394,25 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">09</span><h3>Análise Avançada &amp; Insights de IA</h3></div>
+            <div class="module-title"><span class="module-num">09</span><h3>Laboratório Prático — DAX e DataViz</h3></div>
+            <div class="module-meta"><span>1 laboratório guiado</span>
+              <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </summary>
+          <div class="module-body">
+            <p class="module-desc">Modelagem, Power Query, DAX e construção de relatório, tudo junto num único desafio: você recebe um modelo com as medidas já definidas por requisito (não a fórmula pronta) e reconstrói, página por página, um dashboard comercial completo — com KPIs, comparação ano a ano, mapa, segmentação de clientes e uma página de simulação "e se aumentássemos o preço?" usando parâmetro What-if.</p>
+            <ul class="topic-list">
+              <li>Modelo em esquema estrela com 5 dimensões + parâmetro What-if</li>
+              <li>Grupos de medidas: base, percentuais, comparação ano anterior, acumulado, simulação</li>
+              <li>5 páginas de relatório reconstruídas a partir de referência visual real</li>
+              <li>Cada visual especificado por seus campos (eixo, valores, legenda, dicas de ferramenta)</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="module">
+          <summary>
+            <div class="module-title"><span class="module-num">10</span><h3>Análise Avançada &amp; Insights de IA</h3></div>
             <div class="module-meta"><span>Apostila</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -414,7 +433,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">10</span><h3>Dashboards, Publicação &amp; Governança</h3></div>
+            <div class="module-title"><span class="module-num">11</span><h3>Dashboards, Publicação &amp; Governança</h3></div>
             <div class="module-meta"><span>Apostila</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -438,7 +457,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">11</span><h3>Exercício Guiado TECH SANTOS BR</h3></div>
+            <div class="module-title"><span class="module-num">12</span><h3>Exercício Guiado TECH SANTOS BR</h3></div>
             <div class="module-meta"><span>2 exercícios guiados</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
