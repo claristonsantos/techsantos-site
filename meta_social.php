@@ -227,9 +227,14 @@ function meta_send_facebook_private_reply(string $commentId, string $message, ?s
  */
 function meta_send_instagram_private_reply(string $commentId, string $message, ?string &$error = null): bool
 {
-    $data = meta_http_post(meta_ig_graph_url($commentId . '/private_replies'), [
+    // Instagram API with Instagram Login sends private replies through the unified
+    // messaging endpoint (POST /{ig-user-id}/messages), not the legacy
+    // /{comment-id}/private_replies edge — the comment being replied to is identified
+    // via the recipient.comment_id field in the body, both JSON-encoded as strings.
+    $data = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/messages'), [
         'access_token' => META_IG_TOKEN,
-        'message' => $message,
+        'recipient' => json_encode(['comment_id' => $commentId]),
+        'message' => json_encode(['text' => $message]),
     ], $error);
 
     return $data !== null;

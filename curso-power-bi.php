@@ -13,7 +13,7 @@ $precoFormatado = $precoCentavos ? number_format((int)$precoCentavos / 100, 2, '
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Curso Power BI — TECH SANTOS BR</title>
-<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 13 módulos, 29 videoaulas, laboratórios práticos guiados e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
+<meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 13 módulos, 46 videoaulas (mais de 7 horas de vídeo), laboratórios práticos guiados e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -66,10 +66,42 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <a class="btn btn-ghost" href="#curriculo">Ver o currículo completo</a>
       </div>
       <div class="kpi-row">
-        <div class="kpi-tile"><div class="kpi-num">29</div><div class="kpi-label">videoaulas práticas, passo a passo</div></div>
-        <div class="kpi-tile"><div class="kpi-num">12</div><div class="kpi-label">módulos, da modelagem aos laboratórios práticos</div></div>
+        <div class="kpi-tile"><div class="kpi-num">46</div><div class="kpi-label">videoaulas práticas, mais de 7 horas de conteúdo</div></div>
+        <div class="kpi-tile"><div class="kpi-num">13</div><div class="kpi-label">módulos, da modelagem aos laboratórios práticos</div></div>
         <div class="kpi-tile"><div class="kpi-num">1</div><div class="kpi-label">apostila própria + laboratórios guiados</div></div>
         <div class="kpi-tile"><div class="kpi-num">MS</div><div class="kpi-label">instrutor certificado pela Microsoft</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Avaliações</p>
+        <h2>O que dizem os alunos</h2>
+      </div>
+      <div class="testimonial-stat yt">
+        <span>▶️ Canal no YouTube com mais de 22 mil visualizações em tutoriais de Power BI</span>
+        <a href="https://www.youtube.com/@claristonsantos8129?sub_confirmation=1" target="_blank" rel="noopener">Inscreva-se no canal →</a>
+      </div>
+      <div class="testimonial-stat">
+        <span class="stars">★★★★★</span>
+        <span><span class="num">5.0</span> · 46 avaliações reais · 50+ alunos</span>
+        <a href="https://www.superprof.com.br/power-dax-linguagem-criacao-automacao-relatorios-com-integracao-share-point-one-drive-outros-banco.html" target="_blank" rel="noopener">Ver todas as avaliações no Superprof →</a>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p>"Amei a aula de Power BI do professor Clariston! Ele me ensinou de forma clara e objetiva e demonstrou dominar o assunto, além de ser muito atencioso. Super indico!"</p>
+          <span class="who">Thamirys</span>
+        </div>
+        <div class="testimonial-card">
+          <p>"Ótimo professor que realmente entende de Power BI. Aulas conceituais e práticas para a melhor fixação do conteúdo lecionado. Nota 10!"</p>
+          <span class="who">Leandro</span>
+        </div>
+        <div class="testimonial-card">
+          <p>"O Clariston é um professor extraordinário, tem conhecimento do assunto, tem didática, ensina quantas vezes for necessário até você aprender! Muito mais que professor, ele é um mestre!"</p>
+          <span class="who">Joice</span>
+        </div>
       </div>
     </div>
   </section>
@@ -162,11 +194,11 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <div class="journey-step"><span class="n">06</span><span class="t">Otimização de Modelo</span></div>
         <div class="journey-step"><span class="n">07</span><span class="t">Fórmulas DAX</span></div>
         <div class="journey-step"><span class="n">08</span><span class="t">Relatórios</span></div>
-        <div class="journey-step"><span class="n">09</span><span class="t">Laboratório DAX & DataViz</span></div>
-        <div class="journey-step"><span class="n">10</span><span class="t">Análise Avançada & IA</span></div>
+        <div class="journey-step"><span class="n">09</span><span class="t">Análise Avançada & IA</span></div>
+        <div class="journey-step"><span class="n">10</span><span class="t">Laboratório DAX & DataViz</span></div>
         <div class="journey-step"><span class="n">11</span><span class="t">Dashboards & Governança</span></div>
-        <div class="journey-step"><span class="n">12</span><span class="t">Exercício Guiado TECH SANTOS BR</span></div>
-        <div class="journey-step final"><span class="n">🎓</span><span class="t">Avaliação Final & Certificado</span></div>
+        <div class="journey-step"><span class="n">12</span><span class="t">Estudo de Caso Final</span></div>
+        <div class="journey-step final"><span class="n">🎓</span><span class="t">Encerramento & Avaliação Final</span></div>
       </div>
     </div>
   </section>
@@ -205,20 +237,21 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
       <div class="section-head">
         <p class="eyebrow">Currículo completo</p>
         <h2>13 módulos, currículo completo</h2>
-        <p>Estrutura baseada no cronograma oficial do curso, do primeiro conceito de modelagem até os laboratórios práticos guiados. Os módulos 01, 03 e 04 são videoaulas práticas gravadas na tela; os demais são conteúdo em texto da apostila, com referências à documentação oficial da Microsoft — aplicado passo a passo nos Laboratórios 01A e 02A, com os mesmos arquivos de exercício usados nas aulas, direto no Power BI Desktop.</p>
+        <p>Estrutura baseada no cronograma oficial do curso, do primeiro conceito de modelagem até os laboratórios práticos guiados. A maior parte do curso é videoaula prática gravada na tela; alguns módulos são conteúdo em texto da apostila com referências à documentação oficial da Microsoft, e três módulos são laboratórios e estudos de caso — você aplica tudo sozinho, direto no Power BI Desktop, e só depois compara com a referência.</p>
       </div>
 
       <div class="curriculum-modules">
         <details class="module" open>
           <summary>
             <div class="module-title"><span class="module-num">01</span><h3>Fundamentos de Modelagem de Dados</h3></div>
-            <div class="module-meta"><span>5 videoaulas</span>
+            <div class="module-meta"><span>6 videoaulas</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
           <div class="module-body">
             <p class="module-desc">Antes de abrir o Power BI, você aprende a enxergar a estrutura por trás dos dados: por que uma única tabela no Excel tem limite, e como granularidade, normalização e o esquema estrela resolvem isso.</p>
             <ul class="lesson-list">
+              <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Apresentação do curso</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Introdução ao curso</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Normalização e desnormalização</li>
               <li><span class="play"><svg viewBox="0 0 8 8" fill="currentColor"><path d="M0 0l8 4-8 4z"/></svg></span>Modelagem de dados na prática</li>
@@ -231,7 +264,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <details class="module">
           <summary>
             <div class="module-title"><span class="module-num">02</span><h3>Perfil dos Dados</h3></div>
-            <div class="module-meta"><span>Apostila</span>
+            <div class="module-meta"><span>1 videoaula</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
@@ -319,7 +352,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <details class="module">
           <summary>
             <div class="module-title"><span class="module-num">06</span><h3>Modelo de Dados &amp; Otimização de Desempenho</h3></div>
-            <div class="module-meta"><span>Apostila</span>
+            <div class="module-meta"><span>2 videoaulas</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
@@ -339,7 +372,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <details class="module">
           <summary>
             <div class="module-title"><span class="module-num">07</span><h3>Fórmulas DAX</h3></div>
-            <div class="module-meta"><span>Apostila</span>
+            <div class="module-meta"><span>6 videoaulas</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
@@ -370,7 +403,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <details class="module">
           <summary>
             <div class="module-title"><span class="module-num">08</span><h3>Criar e Enriquecer Relatórios</h3></div>
-            <div class="module-meta"><span>Apostila</span>
+            <div class="module-meta"><span>2 videoaulas</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
@@ -394,26 +427,8 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">09</span><h3>Laboratório Prático — DAX e DataViz</h3></div>
-            <div class="module-meta"><span>1 laboratório guiado</span>
-              <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-            </div>
-          </summary>
-          <div class="module-body">
-            <p class="module-desc">Modelagem, Power Query, DAX e construção de relatório, tudo junto num único desafio: você recebe um modelo com as medidas já definidas por requisito (não a fórmula pronta) e reconstrói, página por página, um dashboard comercial completo — com KPIs, comparação ano a ano, mapa, segmentação de clientes e uma página de simulação "e se aumentássemos o preço?" usando parâmetro What-if.</p>
-            <ul class="topic-list">
-              <li>Modelo em esquema estrela com 5 dimensões + parâmetro What-if</li>
-              <li>Grupos de medidas: base, percentuais, comparação ano anterior, acumulado, simulação</li>
-              <li>5 páginas de relatório reconstruídas a partir de referência visual real</li>
-              <li>Cada visual especificado por seus campos (eixo, valores, legenda, dicas de ferramenta)</li>
-            </ul>
-          </div>
-        </details>
-
-        <details class="module">
-          <summary>
-            <div class="module-title"><span class="module-num">10</span><h3>Análise Avançada &amp; Insights de IA</h3></div>
-            <div class="module-meta"><span>Apostila</span>
+            <div class="module-title"><span class="module-num">09</span><h3>Análise Avançada &amp; Insights de IA</h3></div>
+            <div class="module-meta"><span>2 videoaulas</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
@@ -433,8 +448,26 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
 
         <details class="module">
           <summary>
+            <div class="module-title"><span class="module-num">10</span><h3>Laboratório Prático — DAX e DataViz</h3></div>
+            <div class="module-meta"><span>1 laboratório guiado</span>
+              <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </summary>
+          <div class="module-body">
+            <p class="module-desc">Modelagem, Power Query, DAX, construção de relatório e os recursos de análise avançada do módulo anterior, tudo junto num único desafio: você recebe um modelo com as medidas já definidas por requisito (não a fórmula pronta) e reconstrói, página por página, um dashboard comercial completo — com KPIs, comparação ano a ano, mapa, segmentação de clientes e uma página de simulação "e se aumentássemos o preço?" usando parâmetro What-if.</p>
+            <ul class="topic-list">
+              <li>Modelo em esquema estrela com 5 dimensões + parâmetro What-if</li>
+              <li>Grupos de medidas: base, percentuais, comparação ano anterior, acumulado, simulação</li>
+              <li>5 páginas de relatório reconstruídas a partir de referência visual real</li>
+              <li>Cada visual especificado por seus campos (eixo, valores, legenda, dicas de ferramenta)</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="module">
+          <summary>
             <div class="module-title"><span class="module-num">11</span><h3>Dashboards, Publicação &amp; Governança</h3></div>
-            <div class="module-meta"><span>Apostila</span>
+            <div class="module-meta"><span>3 videoaulas</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
           </summary>
@@ -457,7 +490,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
 
         <details class="module">
           <summary>
-            <div class="module-title"><span class="module-num">12</span><h3>Exercício Guiado TECH SANTOS BR</h3></div>
+            <div class="module-title"><span class="module-num">12</span><h3>Estudo de Caso Final — Construa Seu Relatório do Zero</h3></div>
             <div class="module-meta"><span>2 exercícios guiados</span>
               <svg class="module-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
@@ -490,6 +523,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
     </div>
   </section>
 
+
   <section style="background: var(--surface-2);">
     <div class="container">
       <div class="section-head">
@@ -515,7 +549,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         </div>
         <div class="faq-item">
           <h3>Quais as formas de pagamento?</h3>
-          <p>Cartão de crédito (à vista ou parcelado em até 12x), débito ou Pix, direto pelo checkout do PagBank.</p>
+          <p>Cartão de crédito (à vista ou parcelado em até 12x) ou Pix, direto pelo checkout do Mercado Pago.</p>
         </div>
         <div class="faq-item">
           <h3>E se eu ficar com dúvida no meio de um módulo?</h3>

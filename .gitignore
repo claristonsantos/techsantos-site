@@ -1,3 +1,4 @@
 config.php
 private-videos/*.mp4
 assets/videos-preview/*.mp4
+tools/__pycache__/

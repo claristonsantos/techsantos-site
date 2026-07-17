@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/auth.php';
-require_once __DIR__ . '/pagbank.php';
+require_once __DIR__ . '/mercadopago.php';
 
 $stmt = db()->prepare("SELECT id, nome, carga_horaria, descricao, modalidade, preco_centavos FROM cursos WHERE slug = 'power-bi'");
 $stmt->execute();
@@ -16,15 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
     $nome = trim((string)($_POST['nome'] ?? ''));
     $email = trim((string)($_POST['email'] ?? ''));
-    $cpf = cpf_digits((string)($_POST['cpf'] ?? ''));
+    $cpf = '';
     $telefoneDigits = preg_replace('/\D/', '', (string)($_POST['telefone'] ?? '')) ?? '';
 
-    if ($nome === '' || $email === '' || $cpf === '' || $telefoneDigits === '') {
-        $error = 'Preencha nome, e-mail, CPF e telefone.';
+    if ($nome === '' || $email === '' || $telefoneDigits === '') {
+        $error = 'Preencha nome, e-mail e telefone.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'E-mail inválido.';
-    } elseif (!cpf_is_valid($cpf)) {
-        $error = 'CPF inválido.';
     } elseif (strlen($telefoneDigits) < 10) {
         $error = 'Telefone inválido. Use DDD + número, ex.: 64999998888.';
     } elseif (!$precoCentavos) {
@@ -36,18 +34,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'];
-        $checkout = pagbank_create_checkout(
+        $checkout = mercadopago_create_preference(
             ['id' => $pedidoId, 'nome' => $nome, 'email' => $email, 'cpf' => $cpf, 'telefone_digits' => $telefoneDigits, 'valor_centavos' => $precoCentavos],
             $curso,
             $scheme . '://' . $host . '/pagbank-retorno.php?pedido=' . $pedidoId,
-            $scheme . '://' . $host . '/pagbank-webhook.php'
+            $scheme . '://' . $host . '/mercadopago-webhook.php'
         );
 
         if ($checkout === null) {
             $error = 'Não foi possível iniciar o pagamento agora. Tente novamente em instantes ou fale conosco pelo WhatsApp.';
         } else {
-            db()->prepare('UPDATE pedidos SET pagbank_checkout_id = ? WHERE id = ?')->execute([$checkout['id'], $pedidoId]);
-            header('Location: ' . $checkout['pay_url']);
+            db()->prepare('UPDATE pedidos SET mercadopago_preference_id = ? WHERE id = ?')->execute([$checkout['id'], $pedidoId]);
+            header('Location: ' . $checkout['checkout_url']);
             exit;
         }
     }
@@ -83,6 +81,18 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
   .buy-alt a { font-size: 0.85rem; color: var(--ink-soft); text-decoration: none; }
   .buy-alt a:hover { color: var(--green-strong); }
   .buy-note { font-size: 0.78rem; color: var(--ink-faint); margin-top: 1rem; }
+  .buy-guarantee { display: flex; gap: 0.75rem; align-items: flex-start; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--ink-soft); }
+  .buy-guarantee svg { width: 22px; height: 22px; color: var(--green-strong); flex: none; margin-top: 0.1rem; }
+
+  .buy-social { background: var(--surface-2); border-radius: 8px; padding: 1.1rem 1.3rem; margin-bottom: 1.75rem; }
+  .buy-social-stat { display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; flex-wrap: wrap; }
+  .buy-social-stat.yt { margin-bottom: 0.9rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--line); }
+  .buy-social-stat .stars { color: #E3A008; letter-spacing: 1px; font-size: 0.95rem; }
+  .buy-social-stat a { font-weight: 500; color: var(--green-strong); text-decoration: none; font-size: 0.78rem; margin-left: auto; }
+  .buy-social-stat a:hover { text-decoration: underline; }
+  .buy-testimonials { display: grid; gap: 0.8rem; }
+  .buy-testimonial { font-size: 0.86rem; color: var(--ink-soft); line-height: 1.5; }
+  .buy-testimonial strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -94,10 +104,27 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
       <p class="buy-price">R$ <?= $precoFormatado ?> <small>à vista, ou parcelado em até 12x no cartão</small></p>
     <?php endif; ?>
     <ul class="buy-includes">
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg><span>13 módulos, 29 videoaulas práticas + apostila com referências oficiais Microsoft</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg><span>13 módulos, 46 videoaulas práticas (mais de 7 horas) + apostila com referências oficiais Microsoft</span></li>
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg><span>Avaliações por módulo e avaliação final com certificado de conclusão</span></li>
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg><span>Acesso liberado automaticamente após a confirmação do pagamento</span></li>
     </ul>
+
+    <div class="buy-social">
+      <div class="buy-social-stat yt">
+        <span>▶️ Canal no YouTube com mais de 22 mil visualizações em tutoriais de Power BI</span>
+        <a href="https://www.youtube.com/@claristonsantos8129?sub_confirmation=1" target="_blank" rel="noopener">Inscreva-se no canal →</a>
+      </div>
+      <div class="buy-social-stat">
+        <span class="stars">★★★★★</span>
+        <span>5.0 · 46 avaliações reais de alunos · 50+ alunos</span>
+        <a href="https://www.superprof.com.br/power-dax-linguagem-criacao-automacao-relatorios-com-integracao-share-point-one-drive-outros-banco.html" target="_blank" rel="noopener">Ver todas no Superprof →</a>
+      </div>
+      <div class="buy-testimonials">
+        <p class="buy-testimonial">"Amei a aula de Power BI do professor Clariston! Ele me ensinou de forma clara e objetiva e demonstrou dominar o assunto, além de ser muito atencioso. Super indico!" <strong>— Thamirys</strong></p>
+        <p class="buy-testimonial">"Ótimo professor que realmente entende de Power BI. Aulas conceituais e práticas para a melhor fixação do conteúdo lecionado. Nota 10!" <strong>— Leandro</strong></p>
+        <p class="buy-testimonial">"O Clariston é um professor extraordinário, tem conhecimento do assunto, tem didática, ensina quantas vezes for necessário até você aprender! Se você realmente deseja aprender, o Clariston é o professor certo!" <strong>— Joice</strong></p>
+      </div>
+    </div>
 
     <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
 
@@ -108,24 +135,23 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
         <label for="nome">Nome completo</label>
         <input type="text" id="nome" name="nome" required value="<?= htmlspecialchars($_POST['nome'] ?? '', ENT_QUOTES) ?>">
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES) ?>">
-        </div>
-        <div class="field">
-          <label for="cpf">CPF</label>
-          <input type="text" id="cpf" name="cpf" required maxlength="14" placeholder="000.000.000-00" value="<?= htmlspecialchars($_POST['cpf'] ?? '', ENT_QUOTES) ?>">
-        </div>
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES) ?>">
       </div>
       <div class="field">
         <label for="telefone">Telefone (com DDD)</label>
         <input type="tel" id="telefone" name="telefone" required maxlength="15" placeholder="(64) 99999-8888" value="<?= htmlspecialchars($_POST['telefone'] ?? '', ENT_QUOTES) ?>">
       </div>
       <button type="submit" class="btn btn-primary btn-block">Ir para o pagamento</button>
-      <p class="buy-note">Você será redirecionado ao ambiente seguro do PagBank para concluir com cartão ou Pix. Seu acesso é liberado por e-mail assim que o pagamento for confirmado.</p>
+      <p class="buy-note">Você será redirecionado ao ambiente seguro do Mercado Pago para concluir com cartão ou Pix (o CPF é pedido lá, na hora do pagamento). Seu acesso é liberado por e-mail assim que o pagamento for confirmado.</p>
     </form>
     <?php endif; ?>
+
+    <div class="buy-guarantee">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+      <span><strong>Garantia:</strong> mediante solicitação, se você assistiu menos de 20% do curso e não gostou, devolvemos 100% do valor.</span>
+    </div>
 
     <div class="buy-alt">
       <a href="https://wa.me/5564992905785?text=<?= $whatsMsg ?>" target="_blank" rel="noopener">Prefere falar antes? WhatsApp →</a>
@@ -133,18 +159,6 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
     </div>
   </div>
 </div>
-<script>
-  const cpfInput = document.getElementById('cpf');
-  if (cpfInput) {
-    cpfInput.addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '').slice(0, 11);
-      if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
-      else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
-      else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
-      this.value = v;
-    });
-  }
-</script>
 <footer class="site footer-compact">
   <div class="container">
     <div class="footer-social">
