@@ -119,6 +119,24 @@ declare(strict_types=1);
   .preview-cta p { color: var(--navy-ink-soft); font-size: 0.95rem; margin-bottom: 1.5rem; max-width: 50ch; margin-left: auto; margin-right: auto; }
   .preview-cta .hero-cta { justify-content: center; margin-top: 0; }
 
+  .whats-capture {
+    display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap;
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 0.9rem 1.1rem; margin-bottom: 1.5rem;
+  }
+  .whats-capture .txt { flex: 1; min-width: 220px; }
+  .whats-capture .txt strong { display: block; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.15rem; }
+  .whats-capture .txt span { font-size: 0.8rem; color: var(--ink-soft); }
+  .whats-capture form { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .whats-capture input[type="tel"] {
+    font-family: 'Plex Sans', sans-serif; font-size: 0.88rem; padding: 0.55rem 0.75rem;
+    border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); width: 170px;
+  }
+  .whats-capture .dismiss {
+    font-size: 0.78rem; color: var(--ink-faint); background: none; border: none; cursor: pointer; text-decoration: underline;
+  }
+  .whats-capture.done { color: var(--green-strong); font-weight: 600; }
+
   .sidebar-backdrop { display: none; }
   @media (max-width: 900px) {
     .app-shell { grid-template-columns: 1fr; }
@@ -182,6 +200,63 @@ const ICON_LOCK = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" s
 
 function isFree(lessonId) { return FREE_LESSON_IDS.includes(lessonId); }
 
+const WHATS_DONE_KEY = 'ts_whats_lead_done';
+
+function whatsCaptureHtml() {
+  if (localStorage.getItem(WHATS_DONE_KEY)) return '';
+  return `
+    <div class="whats-capture" id="whatsCapture">
+      <div class="txt">
+        <strong>Quer receber mais dicas de Power BI no WhatsApp?</strong>
+        <span>Sem spam — só dica curta de vez em quando.</span>
+      </div>
+      <form id="whatsCaptureForm">
+        <input type="tel" id="whatsCaptureInput" placeholder="(DDD) 9xxxx-xxxx" required>
+        <button class="btn btn-primary" type="submit" style="font-size:0.85rem;padding:0.55rem 1rem;">Quero receber</button>
+        <button class="dismiss" type="button" id="whatsCaptureDismiss">Agora não</button>
+      </form>
+    </div>
+  `;
+}
+
+function wireWhatsCapture() {
+  const form = document.getElementById('whatsCaptureForm');
+  const dismissBtn = document.getElementById('whatsCaptureDismiss');
+  const card = document.getElementById('whatsCapture');
+  if (!form || !card) return;
+
+  dismissBtn.addEventListener('click', () => {
+    localStorage.setItem(WHATS_DONE_KEY, '1');
+    card.remove();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('whatsCaptureInput');
+    const telefone = input.value.trim();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    try {
+      const res = await fetch('/capturar_whatsapp_lead.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ telefone, origem: 'aula-gratis' }),
+      });
+      if (res.ok) {
+        localStorage.setItem(WHATS_DONE_KEY, '1');
+        card.classList.add('done');
+        card.innerHTML = '<div class="txt"><strong>Combinado! ✓</strong><span>Você vai receber as próximas dicas por lá.</span></div>';
+      } else {
+        submitBtn.disabled = false;
+        input.setCustomValidity('Confere o número e tenta de novo.');
+        input.reportValidity();
+      }
+    } catch {
+      submitBtn.disabled = false;
+    }
+  });
+}
+
 function renderSidebar(currentId) {
   const nav = document.getElementById('sidebarNav');
   nav.innerHTML = COURSE.map(mod => {
@@ -234,6 +309,7 @@ function renderLesson(id) {
   let mediaBlock;
   if (isFree(lesson.id)) {
     mediaBlock = `
+      ${whatsCaptureHtml()}
       <div class="player">
         <video class="player-video" controls preload="metadata" playsinline>
           <source src="/assets/videos-preview/${lesson.id}.mp4" type="video/mp4">
@@ -277,7 +353,7 @@ function renderLesson(id) {
       <p>13 módulos, do primeiro conceito de modelagem até relatórios publicados — com avaliações por módulo e certificado de conclusão.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="/comprar.php">Comprar o curso</a>
-        <a class="btn btn-ghost" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a>
+        <a class="btn btn-ghost" href="https://wa.me/5564992905785?text=${encodeURIComponent('Olá! Assisti a aula grátis do curso de Power BI e tenho uma dúvida antes de comprar.')}" target="_blank" rel="noopener">Falar no WhatsApp</a>
       </div>
     </div>
   `;
@@ -290,6 +366,7 @@ function renderLesson(id) {
       placeholderEl.style.display = 'none';
     });
   }
+  wireWhatsCapture();
 
   renderSidebar(lesson.id);
   document.title = `${lesson.title} — Prévia gratuita — TECH SANTOS BR`;

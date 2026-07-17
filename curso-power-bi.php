@@ -6,6 +6,7 @@ $stmt = db()->prepare("SELECT preco_centavos FROM cursos WHERE slug = 'power-bi'
 $stmt->execute();
 $precoCentavos = $stmt->fetchColumn();
 $precoFormatado = $precoCentavos ? number_format((int)$precoCentavos / 100, 2, ',', '.') : null;
+$whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Power BI e tenho uma dúvida antes de comprar.');
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -42,7 +43,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
       <a href="/login.php">Área do Aluno</a>
     </nav>
     <div class="nav-actions">
-      <a class="btn btn-primary desktop-only" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="btn btn-primary desktop-only" href="https://wa.me/5564992905785?text=<?= $whatsMsg ?>" target="_blank" rel="noopener">Falar no WhatsApp</a>
       <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -586,7 +587,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
           <h2>Fale sobre a próxima turma</h2>
           <p class="lead">Turmas em grupo fechado, in company ou aulas individuais. Conte seu nível atual em Excel/Power BI e o formato que prefere, e retornamos com data e valores da próxima turma.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+            <a class="btn btn-primary" href="https://wa.me/5564992905785?text=<?= rawurlencode('Olá! Quero saber sobre turma fechada / in company / aulas individuais de Power BI.') ?>" target="_blank" rel="noopener">Chamar no WhatsApp</a>
             <a class="btn btn-ghost" href="mailto:claristonsantos@techsantos.com.br">Enviar e-mail</a>
           </div>
         </div>
