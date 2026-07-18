@@ -20,6 +20,7 @@ $pago = $pedido && $pedido['status'] === 'pago';
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
 <?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
+<?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($pago): ?>
 <script>
 fbq('track', 'Purchase', {value: <?= json_encode(round($pedido['valor_centavos'] / 100, 2)) ?>, currency: 'BRL', content_name: <?= json_encode($pedido['curso_nome']) ?>}, {eventID: 'pedido_<?= (int)$pedido['id'] ?>'});

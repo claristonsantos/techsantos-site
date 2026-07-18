@@ -45,7 +45,14 @@ if (($payment['status'] ?? '') !== 'approved') {
 // (necessário depois pra emissão do certificado).
 $cpfDoPagamento = $payment['payer']['identification']['number'] ?? null;
 
-marcar_pedido_pago((int)$m[1], $cpfDoPagamento);
+$pedidoId = (int)$m[1];
+marcar_pedido_pago($pedidoId, $cpfDoPagamento);
+
+$stmt = db()->prepare('SELECT p.email, p.telefone, p.valor_centavos, c.nome AS curso_nome FROM pedidos p JOIN cursos c ON c.id = p.curso_id WHERE p.id = ?');
+$stmt->execute([$pedidoId]);
+if ($pedido = $stmt->fetch()) {
+    meta_capi_send_purchase($pedidoId, $pedido['email'], $pedido['telefone'], $pedido['valor_centavos'] / 100, $pedido['curso_nome']);
+}
 
 http_response_code(200);
 echo 'ok';

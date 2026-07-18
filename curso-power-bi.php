@@ -19,6 +19,7 @@ $whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Power BI e ten
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
 <?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
+<?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($precoCentavos): ?>
 <script>
 fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', value: <?= json_encode(round($precoCentavos / 100, 2)) ?>});
@@ -39,6 +40,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
       <a href="servicos.html">Serviços</a>
       <a href="treinamentos.html">Treinamentos</a>
       <a href="projetos.html">Projetos</a>
+      <a href="blog/index.php">Blog</a>
       <a href="contato.html">Contato</a>
       <a href="/login.php">Área do Aluno</a>
     </nav>
@@ -630,6 +632,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <a href="/servicos.html">Serviços</a>
         <a href="/treinamentos.html">Treinamentos</a>
         <a href="/projetos.html">Projetos</a>
+        <a href="/blog/">Blog</a>
       </div>
       <div class="footer-col">
         <h4>Contato</h4>

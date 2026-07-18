@@ -12,6 +12,7 @@ declare(strict_types=1);
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/css/style.css" />
 <?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
+<?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <style>
   body { overflow-x: hidden; }
 

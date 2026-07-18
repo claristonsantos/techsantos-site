@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <link rel="stylesheet" href="assets/css/style.css" />
 <link rel="stylesheet" href="assets/css/admin.css" />
 <?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
+<?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($precoCentavos): ?>
 <script>
 fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 100, 2)) ?>, currency: 'BRL', content_name: 'Curso Power BI'});
