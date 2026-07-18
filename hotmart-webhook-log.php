@@ -7,10 +7,12 @@ declare(strict_types=1);
 // banco de dados. Apagar depois que confirmarmos o formato.
 
 $raw = file_get_contents('php://input') ?: '';
+$headers = function_exists('getallheaders') ? getallheaders() : [];
 $linha = sprintf(
-    "[%s] GET=%s BODY=%s\n\n",
+    "[%s] GET=%s HEADERS=%s BODY=%s\n\n",
     date('Y-m-d H:i:s'),
     json_encode($_GET, JSON_UNESCAPED_UNICODE),
+    json_encode($headers, JSON_UNESCAPED_UNICODE),
     $raw
 );
 file_put_contents(__DIR__ . '/hotmart-webhook-log.txt', $linha, FILE_APPEND | LOCK_EX);
