@@ -3,6 +3,13 @@ declare(strict_types=1);
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/mercadopago.php';
 
+// Precisa iniciar a sessão AQUI, antes de qualquer saída de HTML — o
+// formulário só chama csrf_field() lá embaixo, no meio do body, e a essa
+// altura os headers HTTP já foram enviados, então o Set-Cookie da sessão
+// seria descartado silenciosamente (sem erro nenhum, só sem cookie no
+// navegador) e todo POST cairia em "Sessão expirada".
+csrf_token();
+
 $stmt = db()->prepare("SELECT id, nome, carga_horaria, descricao, modalidade, preco_centavos FROM cursos WHERE slug = 'power-bi'");
 $stmt->execute();
 $curso = $stmt->fetch();
