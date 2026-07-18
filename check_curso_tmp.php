@@ -10,9 +10,14 @@ if (!hash_equals(SETUP_KEY, $key)) {
 
 header('Content-Type: text/plain; charset=utf-8');
 try {
-    $stmt = db()->query("SELECT id, nome, slug, preco_centavos FROM cursos WHERE slug = 'power-bi'");
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    echo $row ? implode(' | ', $row) . "\n" : "curso power-bi NAO ENCONTRADO\n";
+    $stmt = db()->query("SELECT id, nome, slug, preco_centavos FROM cursos");
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!$rows) {
+        echo "TABELA cursos VAZIA\n";
+    }
+    foreach ($rows as $row) {
+        echo implode(' | ', $row) . "\n";
+    }
 } catch (Throwable $e) {
     echo "ERRO: " . $e->getMessage() . "\n";
 }
