@@ -2,7 +2,6 @@
 declare(strict_types=1);
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/mercadopago.php';
-require_once __DIR__ . '/pedidos.php';
 
 function hotmart_hottok_recebido(): string
 {
@@ -46,7 +45,7 @@ if ($transaction === '' || $email === '') {
 $pdo = db();
 
 // A Hotmart reenvia a mesma notificação até 5x em caso de falha — evita
-// criar o pedido/aluno duplicado se a transação já foi processada.
+// duplicar o pedido se a transação já foi processada.
 $dup = $pdo->prepare('SELECT id FROM pedidos WHERE hotmart_transaction = ?');
 $dup->execute([$transaction]);
 if ($dup->fetch()) {
@@ -68,11 +67,12 @@ if (!$curso || $valor <= 0) {
     exit('curso ou valor invalido');
 }
 
-$ins = $pdo->prepare('INSERT INTO pedidos (nome, email, cpf, telefone, curso_id, valor_centavos, hotmart_transaction) VALUES (?, ?, ?, ?, ?, ?, ?)');
+// O curso já é entregue pela própria Hotmart (Área de Membros de lá) — não
+// criamos aluno nem mandamos e-mail de acesso ao site. Só registramos o
+// pedido (pra aparecer em Pedidos no admin) e mandamos o Purchase pro Meta.
+$ins = $pdo->prepare("INSERT INTO pedidos (nome, email, cpf, telefone, curso_id, valor_centavos, status, hotmart_transaction, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, 'pago', ?, NOW())");
 $ins->execute([$nome, $email, $cpf, $telefone, $curso['id'], (int)round($valor * 100), $transaction]);
 $pedidoId = (int)$pdo->lastInsertId();
-
-marcar_pedido_pago($pedidoId, $cpf !== '' ? $cpf : null);
 
 meta_capi_send_purchase($pedidoId, $email, $telefone, $valor, $curso['nome']);
 
