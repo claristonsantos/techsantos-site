@@ -35,8 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!$precoCentavos) {
         $error = 'Este curso ainda não tem um preço configurado para venda online. Fale conosco pelo WhatsApp.';
     } else {
-        $ins = db()->prepare('INSERT INTO pedidos (nome, email, cpf, telefone, curso_id, valor_centavos) VALUES (?, ?, ?, ?, ?, ?)');
-        $ins->execute([$nome, $email, $cpf, $telefoneDigits, $curso['id'], $precoCentavos]);
+        // O cookie _ga tem o formato GA1.1.<client_id parte1>.<parte2> — as
+        // duas últimas partes juntas são o client_id que o GA4 usa pra ligar
+        // esse pedido de volta à sessão/canal que trouxe o visitante.
+        $ga4ClientId = null;
+        if (isset($_COOKIE['_ga']) && preg_match('/^GA\d\.\d\.(\d+\.\d+)$/', $_COOKIE['_ga'], $mGa)) {
+            $ga4ClientId = $mGa[1];
+        }
+
+        $ins = db()->prepare('INSERT INTO pedidos (nome, email, cpf, telefone, curso_id, valor_centavos, ga4_client_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
+        $ins->execute([$nome, $email, $cpf, $telefoneDigits, $curso['id'], $precoCentavos, $ga4ClientId]);
         $pedidoId = (int)db()->lastInsertId();
 
         $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
@@ -64,6 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Matricule-se — <?= htmlspecialchars($nomeCurso, ENT_QUOTES) ?> — TECH SANTOS BR</title>
+<meta name="description" content="Matricule-se no curso completo de <?= htmlspecialchars($nomeCurso, ENT_QUOTES) ?> da TECH SANTOS BR — acesso imediato, modalidade EAD." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/comprar.php" />
+<meta property="og:title" content="Matricule-se — <?= htmlspecialchars($nomeCurso, ENT_QUOTES) ?> — TECH SANTOS BR" />
+<meta property="og:description" content="Matricule-se no curso completo de <?= htmlspecialchars($nomeCurso, ENT_QUOTES) ?> da TECH SANTOS BR — acesso imediato, modalidade EAD." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta property="og:image:width" content="1080" />
+<meta property="og:image:height" content="1080" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />

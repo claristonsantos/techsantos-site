@@ -75,6 +75,10 @@ $ins->execute([$nome, $email, $cpf, $telefone, $curso['id'], (int)round($valor *
 $pedidoId = (int)$pdo->lastInsertId();
 
 meta_capi_send_purchase($pedidoId, $email, $telefone, $valor, $curso['nome']);
+// Sem cookie _ga aqui — o checkout roda inteiro dentro do domínio da Hotmart,
+// então ga4_send_purchase() cai no client_id aleatório de fallback e a venda
+// aparece no GA4 sem atribuição de canal (melhor que não aparecer nenhuma).
+ga4_send_purchase($pedidoId, null, $valor, $curso['nome']);
 
 http_response_code(200);
 echo 'ok';

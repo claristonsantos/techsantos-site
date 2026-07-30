@@ -138,6 +138,61 @@ function meta_capi_send_purchase(int $pedidoId, string $email, string $telefoneD
 }
 
 /**
+ * Sends a server-side "purchase" event to GA4 via the Measurement Protocol.
+ * GA4 has no client-side purchase event anywhere on the site — without this,
+ * every sale is invisible in GA4 regardless of channel, making blended ROAS
+ * impossible to compute. $ga4ClientId should be the real visitor's _ga cookie
+ * id (captured at checkout, see comprar.php) so the sale attributes back to
+ * the session/channel that drove it; when unavailable (e.g. Hotmart's own
+ * checkout, outside our domain) a random id is used as a fallback — the
+ * purchase still counts, but shows up unattributed ("(not set)") in GA4.
+ */
+function ga4_send_purchase(int $pedidoId, ?string $ga4ClientId, float $valor, string $cursoNome): void
+{
+    if (GA4_API_SECRET === '') {
+        return;
+    }
+
+    $clientId = $ga4ClientId !== null && $ga4ClientId !== '' ? $ga4ClientId : bin2hex(random_bytes(8)) . '.' . time();
+
+    $body = [
+        'client_id' => $clientId,
+        'events' => [[
+            'name' => 'purchase',
+            'params' => [
+                'transaction_id' => 'pedido_' . $pedidoId,
+                'value' => $valor,
+                'currency' => 'BRL',
+                'items' => [[
+                    'item_name' => $cursoNome,
+                    'price' => $valor,
+                    'quantity' => 1,
+                ]],
+            ],
+        ]],
+    ];
+
+    $url = 'https://www.google-analytics.com/mp/collect?measurement_id=' . GA4_MEASUREMENT_ID . '&api_secret=' . GA4_API_SECRET;
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => json_encode($body, JSON_UNESCAPED_UNICODE),
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        CURLOPT_TIMEOUT => 10,
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    // GA4 Measurement Protocol returns 204 with an empty body even for most
+    // malformed events — it does not fail loudly. Log unexpected codes only.
+    if ($httpCode < 200 || $httpCode >= 300) {
+        error_log('GA4 Measurement Protocol purchase failed: HTTP ' . $httpCode . ' body=' . (string)$response);
+    }
+}
+
+/**
  * Fetches a payment's current state directly from the Mercado Pago API.
  * Webhook notifications only carry an id — the actual status must always be
  * re-confirmed server-to-server against our own token, never trusted from
