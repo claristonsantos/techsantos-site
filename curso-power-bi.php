@@ -15,6 +15,15 @@ $whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Power BI e ten
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Curso Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 13 módulos, 46 videoaulas (mais de 7 horas de vídeo), laboratórios práticos guiados e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/curso-power-bi.php" />
+<meta property="og:title" content="Curso Power BI — TECH SANTOS BR" />
+<meta property="og:description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 13 módulos, 46 videoaulas, laboratórios práticos guiados e certificado, com Clariston Santos." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta property="og:image:width" content="1080" />
+<meta property="og:image:height" content="1080" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />

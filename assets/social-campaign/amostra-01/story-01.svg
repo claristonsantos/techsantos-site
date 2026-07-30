@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#071321"/><stop offset="1" stop-color="#16324F"/></linearGradient></defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/><rect x="70" y="90" width="940" height="8" rx="4" fill="#6DC24D"/>
+  <g font-family="Arial, sans-serif">
+    <text x="80" y="190" fill="#6DC24D" font-size="30" font-weight="700" letter-spacing="4">TECH SANTOS BR</text>
+    <text x="80" y="555" fill="#EAF0EC" font-size="92" font-weight="800">Você ainda</text>
+    <text x="80" y="658" fill="#EAF0EC" font-size="92" font-weight="800">monta relatório</text>
+    <text x="80" y="761" fill="#6DC24D" font-size="92" font-weight="800">na mão?</text>
+    <text x="80" y="875" fill="#AEC0D6" font-size="40">Copiar, colar, conferir...</text><text x="80" y="929" fill="#AEC0D6" font-size="40">e repetir tudo no mês seguinte.</text>
+    <rect x="80" y="1090" width="920" height="250" rx="34" fill="#101E33" stroke="#2A4665" stroke-width="3"/>
+    <text x="540" y="1190" fill="#EAF0EC" font-size="46" font-weight="700" text-anchor="middle">Quanto tempo isso tira</text>
+    <text x="540" y="1251" fill="#EAF0EC" font-size="46" font-weight="700" text-anchor="middle">da sua semana?</text>
+    <text x="540" y="1311" fill="#6DC24D" font-size="32" text-anchor="middle">Continue para ver outro caminho →</text>
+    <text x="80" y="1700" fill="#AEC0D6" font-size="28">STORY 1 DE 3</text>
+  </g>
+</svg>

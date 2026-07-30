@@ -8,6 +8,15 @@ declare(strict_types=1);
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>3 aulas grátis — Curso Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Assista de graça às 3 primeiras aulas do curso completo de Power BI da TECH SANTOS BR, dentro da mesma área do aluno que você usa depois de se matricular." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/aula-gratis.php" />
+<meta property="og:title" content="3 aulas grátis — Curso Power BI — TECH SANTOS BR" />
+<meta property="og:description" content="Assista de graça às 3 primeiras aulas do curso completo de Power BI da TECH SANTOS BR." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta property="og:image:width" content="1080" />
+<meta property="og:image:height" content="1080" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/css/style.css" />

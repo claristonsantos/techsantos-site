@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0F2440"/><stop offset="1" stop-color="#071321"/></linearGradient><clipPath id="img"><rect x="80" y="390" width="920" height="700" rx="32"/></clipPath><filter id="shadow"><feDropShadow dx="0" dy="20" stdDeviation="28" flood-opacity=".4"/></filter></defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/><rect x="70" y="90" width="940" height="8" rx="4" fill="#6DC24D"/>
+  <g font-family="Arial, sans-serif">
+    <text x="80" y="190" fill="#6DC24D" font-size="30" font-weight="700" letter-spacing="4">UM RESULTADO QUE VOCÊ CONSTRÓI</text>
+    <text x="80" y="285" fill="#EAF0EC" font-size="70" font-weight="800">Transforme dados</text><text x="80" y="365" fill="#EAF0EC" font-size="70" font-weight="800">em visão de negócio.</text>
+  </g>
+  <g filter="url(#shadow)"><rect x="80" y="390" width="920" height="700" rx="32" fill="#fff" stroke="#6DC24D" stroke-width="5"/><image href="../../img/ad-dashboard-resultado.png" x="80" y="390" width="920" height="920" preserveAspectRatio="xMidYMin slice" clip-path="url(#img)"/></g>
+  <g font-family="Arial, sans-serif">
+    <circle cx="104" cy="1200" r="11" fill="#6DC24D"/><text x="140" y="1214" fill="#EAF0EC" font-size="38">Importe e trate os dados</text>
+    <circle cx="104" cy="1280" r="11" fill="#6DC24D"/><text x="140" y="1294" fill="#EAF0EC" font-size="38">Crie um modelo confiável</text>
+    <circle cx="104" cy="1360" r="11" fill="#6DC24D"/><text x="140" y="1374" fill="#EAF0EC" font-size="38">Monte dashboards profissionais</text>
+    <rect x="80" y="1490" width="920" height="126" rx="63" fill="#6DC24D"/><text x="540" y="1570" fill="#071321" font-size="42" font-weight="800" text-anchor="middle">DO ZERO, PASSO A PASSO</text>
+    <text x="80" y="1700" fill="#AEC0D6" font-size="28">STORY 2 DE 3</text>
+  </g>
+</svg>

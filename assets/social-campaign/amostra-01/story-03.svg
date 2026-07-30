@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#071321"/><stop offset="1" stop-color="#0F2440"/></linearGradient><clipPath id="cert"><rect x="80" y="310" width="920" height="690" rx="30"/></clipPath></defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/><rect x="70" y="90" width="940" height="8" rx="4" fill="#6DC24D"/>
+  <g font-family="Arial, sans-serif"><text x="80" y="190" fill="#6DC24D" font-size="30" font-weight="700" letter-spacing="4">CURSO COMPLETO DE POWER BI</text><text x="80" y="270" fill="#EAF0EC" font-size="58" font-weight="800">Aprenda. Pratique.</text><text x="610" y="270" fill="#6DC24D" font-size="58" font-weight="800">Comprove.</text></g>
+  <rect x="80" y="310" width="920" height="690" rx="30" fill="#fff" stroke="#6DC24D" stroke-width="5"/><image href="../../img/ad-certificado-real.png" x="80" y="310" width="920" height="1090" preserveAspectRatio="xMidYMin slice" clip-path="url(#cert)"/>
+  <g font-family="Arial, sans-serif">
+    <text x="80" y="1115" fill="#EAF0EC" font-size="48" font-weight="800">13 módulos • 46 videoaulas</text>
+    <text x="80" y="1180" fill="#AEC0D6" font-size="36">Acesso imediato e certificado de conclusão.</text>
+    <rect x="80" y="1325" width="920" height="160" rx="80" fill="#6DC24D"/><text x="540" y="1404" fill="#071321" font-size="44" font-weight="800" text-anchor="middle">ASSISTA À AULA GRÁTIS</text><text x="540" y="1450" fill="#16324F" font-size="25" font-weight="700" text-anchor="middle">Toque no link e conheça por dentro</text>
+    <text x="540" y="1588" fill="#EAF0EC" font-size="36" font-weight="700" text-anchor="middle">techsantos.com.br/aula-gratis.php</text>
+    <text x="80" y="1700" fill="#AEC0D6" font-size="28">STORY 3 DE 3</text>
+  </g>
+</svg>

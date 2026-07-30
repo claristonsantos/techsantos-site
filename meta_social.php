@@ -44,6 +44,46 @@ function meta_http_post(string $url, array $fields, ?string &$error = null): ?ar
 }
 
 /**
+ * POST to Meta's resumable-upload endpoints (rupload.facebook.com), which
+ * take the access token via an Authorization header and other parameters
+ * (like file_url) as headers too — NOT as POST body fields the way every
+ * other Graph API call in this file works. Sending them as body fields
+ * fails with a misleading "NotAuthorizedError: User not authorized to
+ * perform this request" even though the token itself is valid — confirmed
+ * empirically 2026-07-23 while debugging the first real Facebook Story
+ * publish attempt.
+ */
+function meta_http_post_upload(string $url, string $accessToken, array $headers, ?string &$error = null): ?array
+{
+    $headerLines = ['Authorization: OAuth ' . $accessToken];
+    foreach ($headers as $key => $value) {
+        $headerLines[] = "{$key}: {$value}";
+    }
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => '',
+        CURLOPT_HTTPHEADER => $headerLines,
+        CURLOPT_TIMEOUT => 60,
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
+    curl_close($ch);
+
+    $data = $response !== false ? json_decode($response, true) : null;
+
+    if ($response === false || $httpCode < 200 || $httpCode >= 300 || !is_array($data)) {
+        $error = $curlError ?: ($data['debug_info']['message'] ?? $data['error']['message'] ?? ('HTTP ' . $httpCode));
+        return null;
+    }
+
+    return $data;
+}
+
+/**
  * Low-level GET against a full URL.
  */
 function meta_http_get(string $url, array $query, ?string &$error = null): ?array
@@ -82,8 +122,16 @@ function meta_graph_get(string $path, array $query, ?string &$error = null): ?ar
  * Schedules a Facebook Page post. Meta holds and publishes it automatically
  * at $scheduledUnixTime — no cron needed on our side for Facebook.
  * Returns the scheduled post id on success, or null (with $error set) on failure.
+ *
+ * When $linkUrl is given, this always posts via /feed with a real `link`
+ * field — Meta scrapes that URL's own OG tags to build a clickable preview
+ * card (title/description/image), which is what makes the link tappable at
+ * all; a plain-text URL inside `message` is never clickable on Facebook.
+ * $imageUrl is ignored in that case (a /feed link post can't be paired with
+ * a separate custom photo through this simple form — the card's image
+ * always comes from the destination page itself).
  */
-function meta_schedule_facebook_post(string $message, ?string $imageUrl, int $scheduledUnixTime, ?string &$error = null): ?string
+function meta_schedule_facebook_post(string $message, ?string $imageUrl, int $scheduledUnixTime, ?string &$error = null, ?string $linkUrl = null): ?string
 {
     $fields = [
         'access_token' => META_PAGE_TOKEN,
@@ -91,7 +139,11 @@ function meta_schedule_facebook_post(string $message, ?string $imageUrl, int $sc
         'scheduled_publish_time' => (string)$scheduledUnixTime,
     ];
 
-    if ($imageUrl) {
+    if ($linkUrl) {
+        $fields['message'] = $message;
+        $fields['link'] = $linkUrl;
+        $data = meta_graph_post(META_PAGE_ID . '/feed', $fields, $error);
+    } elseif ($imageUrl) {
         $fields['url'] = $imageUrl;
         $fields['caption'] = $message;
         $data = meta_graph_post(META_PAGE_ID . '/photos', $fields, $error);
@@ -130,6 +182,167 @@ function meta_delete_facebook_post(string $postId, ?string &$error = null): bool
     }
 
     return true;
+}
+
+/**
+ * Publishes a Facebook Page Story from a public image or video URL. Two
+ * distinct Graph API flows depending on media type — this is a separate
+ * feature from meta_schedule_facebook_post() (which only ever targets the
+ * Page feed): Stories use their own /photo_stories and /video_stories edges.
+ * Facebook Stories have no native scheduling (same as Instagram), so this
+ * must be called right when the story should go live, not ahead of time.
+ * Returns the story-post id on success, or null (with $error set) on failure.
+ */
+function meta_publish_facebook_story(string $mediaUrl, bool $isVideo, ?string &$error = null): ?string
+{
+    if ($isVideo) {
+        return meta_publish_facebook_video_story($mediaUrl, $error);
+    }
+    return meta_publish_facebook_photo_story($mediaUrl, $error);
+}
+
+function meta_publish_facebook_photo_story(string $imageUrl, ?string &$error = null): ?string
+{
+    // Photo Stories need a photo already uploaded (but unpublished to the
+    // feed) first, then a second call turns that photo into a story.
+    $photo = meta_graph_post(META_PAGE_ID . '/photos', [
+        'access_token' => META_PAGE_TOKEN,
+        'url' => $imageUrl,
+        'published' => 'false',
+    ], $error);
+
+    if ($photo === null || empty($photo['id'])) {
+        return null;
+    }
+
+    $story = meta_graph_post(META_PAGE_ID . '/photo_stories', [
+        'access_token' => META_PAGE_TOKEN,
+        'photo_id' => (string)$photo['id'],
+    ], $error);
+
+    if ($story === null) {
+        return null;
+    }
+
+    return (string)($story['post_id'] ?? $story['id'] ?? '');
+}
+
+function meta_publish_facebook_video_story(string $videoUrl, ?string &$error = null): ?string
+{
+    $start = meta_graph_post(META_PAGE_ID . '/video_stories', [
+        'access_token' => META_PAGE_TOKEN,
+        'upload_phase' => 'start',
+    ], $error);
+
+    if ($start === null || empty($start['video_id']) || empty($start['upload_url'])) {
+        $error = $error ?: 'Resposta de início de upload sem video_id/upload_url.';
+        return null;
+    }
+
+    $videoId = (string)$start['video_id'];
+
+    // The upload step hands the remote video URL to Meta's upload endpoint —
+    // Meta fetches the bytes itself, we never download/re-upload the file.
+    // Auth + file_url go via headers here, not POST fields (see
+    // meta_http_post_upload's doc comment for why).
+    $uploaded = meta_http_post_upload($start['upload_url'], META_PAGE_TOKEN, [
+        'file_url' => $videoUrl,
+    ], $error);
+
+    if ($uploaded === null) {
+        return null;
+    }
+
+    $finish = meta_graph_post(META_PAGE_ID . '/video_stories', [
+        'access_token' => META_PAGE_TOKEN,
+        'upload_phase' => 'finish',
+        'video_id' => $videoId,
+    ], $error);
+
+    if ($finish === null) {
+        return null;
+    }
+
+    return (string)($finish['post_id'] ?? $finish['id'] ?? $videoId);
+}
+
+/**
+ * Publishes an Instagram carousel post (2-10 images, Meta's hard cap — not
+ * a limitation of this code). Unlike the single image/video container flow
+ * below, this runs synchronously start-to-finish in one call rather than
+ * across multiple cron passes: creates every child container, polls each to
+ * FINISHED, creates the CAROUSEL parent container referencing all children,
+ * polls that, then publishes. Safe to do inline because carousel image
+ * children normally reach FINISHED within a couple seconds — nothing like
+ * video transcoding time. Returns the published media id, or null (with
+ * $error set) on failure.
+ */
+function meta_publish_instagram_carousel(array $imageUrls, string $caption, ?string &$error = null): ?string
+{
+    if (count($imageUrls) < 2 || count($imageUrls) > 10) {
+        $error = 'Carrossel precisa ter entre 2 e 10 imagens — limite do próprio Instagram.';
+        return null;
+    }
+
+    $childIds = [];
+    foreach ($imageUrls as $url) {
+        $data = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/media'), [
+            'access_token' => META_IG_TOKEN,
+            'image_url' => $url,
+            'is_carousel_item' => 'true',
+        ], $error);
+        if ($data === null || empty($data['id'])) {
+            return null;
+        }
+        $childIds[] = (string)$data['id'];
+    }
+
+    foreach ($childIds as $childId) {
+        if (!meta_wait_instagram_container_finished($childId, $error)) {
+            return null;
+        }
+    }
+
+    $parent = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/media'), [
+        'access_token' => META_IG_TOKEN,
+        'media_type' => 'CAROUSEL',
+        'children' => implode(',', $childIds),
+        'caption' => $caption,
+    ], $error);
+    if ($parent === null || empty($parent['id'])) {
+        return null;
+    }
+    $parentId = (string)$parent['id'];
+
+    if (!meta_wait_instagram_container_finished($parentId, $error)) {
+        return null;
+    }
+
+    return meta_publish_instagram_container($parentId, $error);
+}
+
+/**
+ * Polls a container (child or parent) until FINISHED, up to 30s. Shared by
+ * the carousel flow above — regular single-media containers are polled by
+ * social_publish_cron.php across cron ticks instead, since video can take
+ * much longer than 30s to process.
+ */
+function meta_wait_instagram_container_finished(string $containerId, ?string &$error = null): bool
+{
+    $deadline = microtime(true) + 30;
+    while (microtime(true) < $deadline) {
+        $status = meta_get_instagram_container_status($containerId, $error);
+        if ($status === 'FINISHED') {
+            return true;
+        }
+        if ($status === 'ERROR' || $status === 'EXPIRED') {
+            $error = "Container {$containerId}: {$status}";
+            return false;
+        }
+        usleep(800000);
+    }
+    $error = "Container {$containerId}: timeout aguardando FINISHED";
+    return false;
 }
 
 /**

@@ -38,16 +38,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $canal = (string)($_POST['canal'] ?? '');
         $legenda = trim((string)($_POST['legenda'] ?? ''));
         $imagemUrl = trim((string)($_POST['imagem_url'] ?? ''));
+        $linkUrl = $canal === 'facebook' ? trim((string)($_POST['link_url'] ?? '')) : '';
         $agendadoPara = (string)($_POST['agendado_para'] ?? '');
 
-        // Facebook nesta rodada continua feed-only (imagem). Tipo/mídia só valem pro Instagram.
+        // Facebook nesta rodada continua feed-only (imagem ou link). Tipo/mídia só valem pro Instagram.
         $tipo = $canal === 'instagram' && in_array($_POST['tipo'] ?? '', ['feed', 'story', 'reels'], true) ? (string)$_POST['tipo'] : 'feed';
         $midiaTipo = $tipo === 'reels' ? 'video' : ($tipo === 'story' && ($_POST['midia_tipo'] ?? '') === 'video' ? 'video' : 'imagem');
 
-        if (!in_array($canal, ['facebook', 'instagram'], true) || $legenda === '' || $imagemUrl === '' || $agendadoPara === '') {
-            $error = 'Preencha canal, legenda, imagem e data/hora.';
-        } elseif (!filter_var($imagemUrl, FILTER_VALIDATE_URL)) {
+        // Com link preenchido, o Facebook usa a própria página de destino como
+        // preview (card clicável) — a imagem enviada por nós fica dispensável
+        // só nesse caso específico (ver meta_schedule_facebook_post()).
+        $imagemDispensavel = $canal === 'facebook' && $linkUrl !== '';
+
+        if (!in_array($canal, ['facebook', 'instagram'], true) || $legenda === '' || (!$imagemDispensavel && $imagemUrl === '') || $agendadoPara === '') {
+            $error = 'Preencha canal, legenda, imagem (ou link, no Facebook) e data/hora.';
+        } elseif ($imagemUrl !== '' && !filter_var($imagemUrl, FILTER_VALIDATE_URL)) {
             $error = 'A imagem precisa ser uma URL pública (ex.: um link de assets/img/ do próprio site).';
+        } elseif ($linkUrl !== '' && !filter_var($linkUrl, FILTER_VALIDATE_URL)) {
+            $error = 'O link precisa ser uma URL pública válida.';
         } else {
             // O campo datetime-local é preenchido pelo admin em horário de Brasília (UTC-3, sem horário de verão).
             $scheduledTs = strtotime($agendadoPara . ' -03:00');
@@ -74,22 +82,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 $ins = $pdo->prepare(
-                    'INSERT INTO social_posts (canal, tipo, midia_tipo, legenda, imagem_url, agendado_para, status) VALUES (?, ?, ?, ?, ?, ?, ?)'
+                    'INSERT INTO social_posts (canal, tipo, midia_tipo, legenda, imagem_url, link_url, agendado_para, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
                 );
+                $linkUrlOrNull = $linkUrl !== '' ? $linkUrl : null;
 
                 if ($canal === 'facebook') {
                     $apiError = null;
-                    $postId = meta_schedule_facebook_post($legenda, $imagemUrl, $scheduledTs, $apiError);
+                    $postId = meta_schedule_facebook_post($legenda, $imagemUrl ?: null, $scheduledTs, $apiError, $linkUrlOrNull);
                     if ($postId === null) {
-                        $ins->execute(['facebook', $tipo, $midiaTipo, $legenda, $imagemUrl, date('Y-m-d H:i:s', $scheduledTs), 'erro']);
+                        $ins->execute(['facebook', $tipo, $midiaTipo, $legenda, $imagemUrl, $linkUrlOrNull, date('Y-m-d H:i:s', $scheduledTs), 'erro']);
                         $error = 'Falha ao agendar no Facebook: ' . $apiError;
                     } else {
-                        $ins->execute(['facebook', $tipo, $midiaTipo, $legenda, $imagemUrl, date('Y-m-d H:i:s', $scheduledTs), 'agendado_meta']);
+                        $ins->execute(['facebook', $tipo, $midiaTipo, $legenda, $imagemUrl, $linkUrlOrNull, date('Y-m-d H:i:s', $scheduledTs), 'agendado_meta']);
                         $pdo->prepare('UPDATE social_posts SET meta_post_id = ? WHERE id = ?')->execute([$postId, $pdo->lastInsertId()]);
                     }
                 } else {
                     // Instagram has no native scheduling — queued here, published later by social_publish_cron.php
-                    $ins->execute(['instagram', $tipo, $midiaTipo, $legenda, $imagemUrl, date('Y-m-d H:i:s', $scheduledTs), 'pendente']);
+                    $ins->execute(['instagram', $tipo, $midiaTipo, $legenda, $imagemUrl, null, date('Y-m-d H:i:s', $scheduledTs), 'pendente']);
                 }
 
                 if (!$error) {
@@ -182,6 +191,11 @@ admin_topbar('social');
         <input type="url" id="imagem_url" name="imagem_url" placeholder="https://techsantos.com.br/assets/img/promo-curso-1.jpg" required
                value="<?= $editRow ? htmlspecialchars($editRow['imagem_url'], ENT_QUOTES) : '' ?>">
       </div>
+      <div class="field" id="linkFieldWrap">
+        <label for="link_url">Link (só Facebook — gera card clicável, substitui a imagem no preview)</label>
+        <input type="url" id="link_url" name="link_url" placeholder="https://techsantos.com.br/curso-power-bi.php" oninput="toggleImagemRequired()"
+               value="<?= $editRow ? htmlspecialchars($editRow['link_url'] ?? '', ENT_QUOTES) : '' ?>">
+      </div>
       <div class="field">
         <label for="legenda">Legenda</label>
         <textarea id="legenda" name="legenda" rows="4" required><?= $editRow ? htmlspecialchars($editRow['legenda'], ENT_QUOTES) : '' ?></textarea>
@@ -219,11 +233,22 @@ admin_topbar('social');
             <td><?= htmlspecialchars($p['tipo'] ?? 'feed', ENT_QUOTES) ?><?= ($p['midia_tipo'] ?? '') === 'video' ? ' (vídeo)' : '' ?></td>
             <td>
               <?= htmlspecialchars(mb_strimwidth($p['legenda'], 0, 60, '…'), ENT_QUOTES) ?>
+              <?php if (!empty($p['link_url'])): ?>
+                <p style="margin-top:0.3rem; font-size:0.78rem; color:var(--ink-faint);">Link: <?= htmlspecialchars(mb_strimwidth($p['link_url'], 0, 50, '…'), ENT_QUOTES) ?></p>
+              <?php endif; ?>
               <?php if ($p['status'] === 'erro' && $p['erro_msg']): ?>
                 <p style="margin-top:0.3rem; color:#C0392B; font-size:0.78rem;">Erro: <?= htmlspecialchars($p['erro_msg'], ENT_QUOTES) ?></p>
               <?php endif; ?>
             </td>
-            <td><span class="badge <?= in_array($p['status'], ['publicado', 'agendado_meta'], true) ? 'on' : ($p['status'] === 'erro' ? 'off' : '') ?>"><?= htmlspecialchars($p['status'], ENT_QUOTES) ?></span></td>
+            <td>
+              <span class="badge <?= in_array($p['status'], ['publicado', 'agendado_meta'], true) ? 'on' : ($p['status'] === 'erro' ? 'off' : '') ?>"><?= htmlspecialchars($p['status'], ENT_QUOTES) ?></span>
+              <?php if (($p['tipo'] ?? '') === 'story' && ($p['fb_story_status'] ?? 'nenhum') !== 'nenhum'): ?>
+                <p style="margin-top:0.3rem; font-size:0.76rem; color:<?= $p['fb_story_status'] === 'publicado' ? 'var(--ink-faint)' : '#C0392B' ?>;">
+                  FB Story: <?= $p['fb_story_status'] === 'publicado' ? 'replicado ✓' : 'falhou' ?>
+                  <?php if ($p['fb_story_status'] === 'erro' && $p['fb_story_erro']): ?> — <?= htmlspecialchars($p['fb_story_erro'], ENT_QUOTES) ?><?php endif; ?>
+                </p>
+              <?php endif; ?>
+            </td>
             <td class="actions">
               <?php if (in_array($p['status'], ['pendente', 'erro', 'agendado_meta'], true)): ?>
                 <a href="/admin/social_posts.php?edit=<?= (int)$p['id'] ?>">Editar</a>
@@ -283,10 +308,20 @@ admin_topbar('social');
     function toggleTipoField() {
       var isInstagram = document.getElementById('canal').value === 'instagram';
       document.getElementById('tipoFieldRow').style.display = isInstagram ? '' : 'none';
-      if (!isInstagram) {
+      document.getElementById('linkFieldWrap').style.display = isInstagram ? 'none' : '';
+      if (isInstagram) {
+        document.getElementById('link_url').value = '';
+      } else {
         document.getElementById('tipo').value = 'feed';
       }
       toggleMidiaField();
+      toggleImagemRequired();
+    }
+
+    function toggleImagemRequired() {
+      var isFacebook = document.getElementById('canal').value === 'facebook';
+      var hasLink = document.getElementById('link_url').value.trim() !== '';
+      document.getElementById('imagem_url').required = !(isFacebook && hasLink);
     }
 
     function toggleMidiaField() {
