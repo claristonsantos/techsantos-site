@@ -15,6 +15,8 @@ foreach ($article['faqs'] as $faq) {
         'acceptedAnswer' => ['@type' => 'Answer', 'text' => $faq['answer']],
     ];
 }
+$articleUrl = 'https://techsantos.com.br/blog/' . $article['slug'] . '.php';
+$videoUrl = 'https://media.techsantos.com.br/reels/' . $article['video'];
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -24,6 +26,14 @@ foreach ($article['faqs'] as $faq) {
 <title><?= $esc($article['title']) ?> — TECH SANTOS BR</title>
 <meta name="description" content="<?= $esc($article['description']) ?>" />
 <link rel="canonical" href="https://techsantos.com.br/blog/<?= $esc($article['slug']) ?>.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="<?= $esc($articleUrl) ?>" />
+<meta property="og:title" content="<?= $esc($article['title']) ?>" />
+<meta property="og:description" content="<?= $esc($article['description']) ?>" />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="author" content="Clariston Santos" />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/css/style.css" />
@@ -31,8 +41,35 @@ foreach ($article['faqs'] as $faq) {
 <?php require_once __DIR__ . '/../inc/google-analytics.php'; ?>
 <script type="application/ld+json"><?= json_encode([
     '@context' => 'https://schema.org',
-    '@type' => 'FAQPage',
-    'mainEntity' => $faqSchema,
+    '@graph' => [
+        [
+            '@type' => 'BlogPosting',
+            'headline' => $article['title'],
+            'description' => $article['description'],
+            'image' => 'https://techsantos.com.br/assets/img/promo-curso-1.jpg',
+            'datePublished' => '2026-08-10',
+            'dateModified' => '2026-08-10',
+            'mainEntityOfPage' => $articleUrl,
+            'author' => ['@type' => 'Person', 'name' => 'Clariston Santos'],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'TECH SANTOS BR',
+                'logo' => ['@type' => 'ImageObject', 'url' => 'https://techsantos.com.br/assets/img/logo.jpg'],
+            ],
+        ],
+        [
+            '@type' => 'VideoObject',
+            'name' => $article['title'],
+            'description' => $article['description'],
+            'thumbnailUrl' => ['https://techsantos.com.br/assets/img/promo-curso-1.jpg'],
+            'uploadDate' => '2026-08-10',
+            'contentUrl' => $videoUrl,
+        ],
+        [
+            '@type' => 'FAQPage',
+            'mainEntity' => $faqSchema,
+        ],
+    ],
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
 </head>
 <body>

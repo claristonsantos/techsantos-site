@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/tooltip-personalizado-power-bi.php" />
 <title>Tooltip personalizado no Power BI: mais detalhe sem poluir o relatório — TECH SANTOS BR</title>
 <meta name="description" content="Cansou de lotar o relatório de gráfico só pra mostrar um detalhe a mais? Veja como criar Tooltip Personalizado no Power BI passo a passo." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

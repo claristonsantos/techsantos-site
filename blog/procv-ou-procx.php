@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/procv-ou-procx.php" />
 <title>PROCV ou PROCX: qual usar no Excel em 2026? — TECH SANTOS BR</title>
 <meta name="description" content="PROCX substituiu o PROCV no Excel 2021 e no Microsoft 365, mas o PROCV ainda é necessário no Excel 2016/2019. Veja quando usar cada um, com exemplos." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

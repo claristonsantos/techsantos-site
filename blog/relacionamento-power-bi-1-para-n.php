@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/relacionamento-power-bi-1-para-n.php" />
 <title>Relacionamento no Power BI: por que sempre 1 pra muitos — TECH SANTOS BR</title>
 <meta name="description" content="Modelo travando ou contando duplicado no Power BI? Confira o relacionamento: a tabela de dimensão precisa ter valor único, ligada à fato em 1:N." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

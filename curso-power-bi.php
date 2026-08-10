@@ -13,6 +13,10 @@ $whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Power BI e ten
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/curso-power-bi.php" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Course","name":"Curso Completo de Power BI","description":"Curso de Power BI com modelagem de dados, Power Query, DAX, relatórios e laboratórios práticos guiados.","provider":{"@type":"Organization","name":"TECH SANTOS BR","url":"https://techsantos.com.br/"},"inLanguage":"pt-BR","url":"https://techsantos.com.br/curso-power-bi.php"}
+</script>
 <title>Curso Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Curso completo de Power BI: modelagem de dados, Power Query, DAX, relatórios, análise avançada e governança. 13 módulos, 46 videoaulas (mais de 7 horas de vídeo), laboratórios práticos guiados e conteúdo com referências oficiais Microsoft, com Clariston Santos." />
 <meta property="og:type" content="website" />

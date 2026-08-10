@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/import-ou-directquery-power-bi.php" />
 <title>Import ou DirectQuery no Power BI: qual escolher? — TECH SANTOS BR</title>
 <meta name="description" content="Import copia os dados pro arquivo — mais rápido, mas precisa de atualização. DirectQuery consulta a fonte em tempo real — mais lento, sempre atual." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

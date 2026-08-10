@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/saldo-nao-soma-power-bi.php" />
 <title>Por que somar saldo dá número errado no Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Somar o saldo de uma conta mês a mês costuma dar número errado no Power BI. O motivo é o tipo de fato: instantâneo (snapshot) não soma como evento. Veja a diferença." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

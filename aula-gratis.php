@@ -6,6 +6,10 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/aula-gratis.php" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"3 aulas grátis — Curso Power BI","description":"Assista gratuitamente às três primeiras aulas do curso completo de Power BI da TECH SANTOS BR.","url":"https://techsantos.com.br/aula-gratis.php","inLanguage":"pt-BR","isPartOf":{"@type":"WebSite","url":"https://techsantos.com.br/"}}
+</script>
 <title>3 aulas grátis — Curso Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Assista de graça às 3 primeiras aulas do curso completo de Power BI da TECH SANTOS BR, dentro da mesma área do aluno que você usa depois de se matricular." />
 <meta property="og:type" content="website" />

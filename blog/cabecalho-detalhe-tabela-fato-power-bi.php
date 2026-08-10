@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/cabecalho-detalhe-tabela-fato-power-bi.php" />
 <title>Cabeçalho e item de pedido são duas tabelas fato — TECH SANTOS BR</title>
 <meta name="description" content="Pedido (cabeçalho) e item do pedido (detalhe) têm granularidades diferentes e não devem virar uma tabela fato só. Veja como modelar cabeçalho x detalhe no Power BI." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

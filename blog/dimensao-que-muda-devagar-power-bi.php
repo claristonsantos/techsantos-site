@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/dimensao-que-muda-devagar-power-bi.php" />
 <title>Dimensão que muda devagar (SCD) no Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Cliente mudou de gerente e o relatório do mês passado ficou errado? Isso tem nome: dimensão que muda devagar. Veja como decidir entre sobrescrever ou guardar histórico." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

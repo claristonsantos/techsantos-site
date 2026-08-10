@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/granularidade-power-bi.php" />
 <title>Power BI lento? Pode ser granularidade errada — TECH SANTOS BR</title>
 <meta name="description" content="Modelo pesado e relatório lento no Power BI nem sempre é falta de RAM. Veja o que é granularidade de uma tabela fato e como uma linha redundante pesa o modelo à toa." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/tabela-dinamica-excel.php" />
 <title>Tabela Dinâmica no Excel: como resumir dados sem fórmula — TECH SANTOS BR</title>
 <meta name="description" content="A Tabela Dinâmica resume, soma e agrupa milhares de linhas sem fórmula — só arrastando campos. Veja como montar a sua e evitar os erros mais comuns." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

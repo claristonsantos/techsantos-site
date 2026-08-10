@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/validacao-de-dados-excel.php" />
 <title>Validação de Dados no Excel: como travar o que a pessoa digita — TECH SANTOS BR</title>
 <meta name="description" content="Validação de Dados trava a célula numa lista de opções e evita erro de digitação em planilha compartilhada. Veja como configurar passo a passo." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

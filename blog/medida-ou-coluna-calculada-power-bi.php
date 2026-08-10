@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/medida-ou-coluna-calculada-power-bi.php" />
 <title>Medida ou coluna calculada no Power BI: qual usar? — TECH SANTOS BR</title>
 <meta name="description" content="Coluna calculada ocupa espaço linha por linha; medida calcula na hora, só quando o gráfico pede. Veja quando usar cada uma no Power BI e por quê." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

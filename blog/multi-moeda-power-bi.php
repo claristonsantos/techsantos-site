@@ -6,6 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/multi-moeda-power-bi.php" />
 <title>Relatório em dólar não bate? Modelagem multi-moeda no Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Não existe uma fórmula universal de conversão de moeda no Power BI. Veja os 3 cenários de modelagem multi-moeda e qual abordagem usar em cada um." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

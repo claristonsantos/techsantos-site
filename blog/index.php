@@ -133,6 +133,17 @@ $posts = [
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://techsantos.com.br/blog/" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/" />
+<meta property="og:title" content="Blog de Excel e Power BI — TECH SANTOS BR" />
+<meta property="og:description" content="Tutoriais práticos de Excel, Power BI, DAX, modelagem de dados e dashboards." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Blog","name":"Blog de Excel e Power BI — TECH SANTOS BR","url":"https://techsantos.com.br/blog/","inLanguage":"pt-BR","publisher":{"@type":"Organization","name":"TECH SANTOS BR","url":"https://techsantos.com.br/"}}
+</script>
 <title>Blog — Excel e Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Artigos práticos de Excel e Power BI: fórmulas, modelagem de dados, DAX e dashboards, direto de quem ensina o curso completo." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
