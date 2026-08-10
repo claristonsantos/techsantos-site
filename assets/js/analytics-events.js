@@ -13,7 +13,7 @@
   }
   const path = window.location.pathname.toLowerCase();
   const course = { currency: 'BRL', items: [{ item_id: 'power-bi', item_name: 'Curso Power BI', item_category: 'Curso online' }] };
-  if (path.endsWith('/curso-power-bi.php')) once('course_view', 'view_item', course, 'ViewContent', true);
+  if (path.endsWith('/curso-power-bi.php')) once('course_view', 'view_item', course);
   if (path.endsWith('/aula-gratis.php')) once('free_preview_view', 'free_preview_viewed', { content_name: '3 aulas grátis — Curso Power BI' }, 'ViewContent', true);
   if (path.endsWith('/comprar.php')) once('checkout_view', 'begin_checkout', course);
   document.addEventListener('click', function (event) {

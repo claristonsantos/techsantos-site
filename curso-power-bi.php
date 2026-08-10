@@ -73,8 +73,8 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
       <h1>Power BI, do dado bruto ao <em>indicador de negócio</em> pronto para decisão.</h1>
       <p class="lead">Curso próprio da TECH SANTOS BR, com apostila escrita pelo instrutor, videoaulas práticas gravadas passo a passo e laboratórios guiados — para quem já usa Excel e quer parar de repetir PROCV e começar a construir modelos de dados de verdade.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="/comprar.php">Comprar o curso</a>
-        <a class="btn btn-ghost" href="/aula-gratis.php">Assistir aula grátis</a>
+        <a class="btn btn-primary" href="/aula-gratis.php">Assistir 3 aulas grátis</a>
+        <a class="btn btn-ghost" href="/comprar.php">Comprar o curso</a>
         <a class="btn btn-ghost" href="#curriculo">Ver o currículo completo</a>
       </div>
       <div class="kpi-row">

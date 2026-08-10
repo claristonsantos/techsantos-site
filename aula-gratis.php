@@ -211,6 +211,18 @@ const ICON_LOCK = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" s
 function isFree(lessonId) { return FREE_LESSON_IDS.includes(lessonId); }
 
 const WHATS_DONE_KEY = 'ts_whats_lead_done';
+function leadAttribution() {
+  const params = new URLSearchParams(window.location.search);
+  const safe = (name, fallback) => (params.get(name) || fallback).toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 60);
+  const source = safe('utm_source', 'direct');
+  const medium = safe('utm_medium', 'none');
+  const campaign = safe('utm_campaign', 'none');
+  const content = safe('utm_content', 'none');
+  return {
+    origin: ['aula-gratis', source, medium, campaign, content].join('|').slice(0, 100),
+    source, medium, campaign, content
+  };
+}
 
 function whatsCaptureHtml() {
   if (localStorage.getItem(WHATS_DONE_KEY)) return '';
@@ -247,16 +259,20 @@ function wireWhatsCapture() {
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
     try {
+      const attribution = leadAttribution();
       const res = await fetch('/capturar_whatsapp_lead.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ telefone, origem: 'aula-gratis' }),
+        body: JSON.stringify({ telefone, origem: attribution.origin }),
       });
       if (res.ok) {
         if (typeof window.techSantosTrack === 'function') {
           window.techSantosTrack('generate_lead', {
             method: 'whatsapp',
-            lead_source: 'aula_gratis'
+            lead_source: attribution.source,
+            campaign_medium: attribution.medium,
+            campaign_name: attribution.campaign,
+            campaign_content: attribution.content
           }, 'Lead', true);
         }
         localStorage.setItem(WHATS_DONE_KEY, '1');
