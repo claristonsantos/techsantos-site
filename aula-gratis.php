@@ -253,6 +253,12 @@ function wireWhatsCapture() {
         body: JSON.stringify({ telefone, origem: 'aula-gratis' }),
       });
       if (res.ok) {
+        if (typeof window.techSantosTrack === 'function') {
+          window.techSantosTrack('generate_lead', {
+            method: 'whatsapp',
+            lead_source: 'aula_gratis'
+          }, 'Lead', true);
+        }
         localStorage.setItem(WHATS_DONE_KEY, '1');
         card.classList.add('done');
         card.innerHTML = '<div class="txt"><strong>Combinado! ✓</strong><span>Você vai receber as próximas dicas por lá.</span></div>';
@@ -371,6 +377,39 @@ function renderLesson(id) {
   const videoEl = main.querySelector('.player-video');
   const placeholderEl = main.querySelector('.player-placeholder');
   if (videoEl && placeholderEl) {
+    const progressSent = new Set();
+    const lessonParams = () => ({
+      lesson_id: lesson.id,
+      lesson_title: lesson.title,
+      content_type: 'free_lesson'
+    });
+    videoEl.addEventListener('play', () => {
+      if (progressSent.has('start')) return;
+      progressSent.add('start');
+      if (typeof window.techSantosTrack === 'function') {
+        window.techSantosTrack('video_start', lessonParams(), 'FreeLessonStarted', false);
+      }
+    });
+    videoEl.addEventListener('timeupdate', () => {
+      if (!videoEl.duration) return;
+      const percent = Math.floor((videoEl.currentTime / videoEl.duration) * 100);
+      [25, 75].forEach((milestone) => {
+        const key = String(milestone);
+        if (percent >= milestone && !progressSent.has(key)) {
+          progressSent.add(key);
+          if (typeof window.techSantosTrack === 'function') {
+            window.techSantosTrack('video_progress', { ...lessonParams(), video_percent: milestone });
+          }
+        }
+      });
+    });
+    videoEl.addEventListener('ended', () => {
+      if (progressSent.has('complete')) return;
+      progressSent.add('complete');
+      if (typeof window.techSantosTrack === 'function') {
+        window.techSantosTrack('video_complete', lessonParams(), 'FreeLessonCompleted', false);
+      }
+    });
     videoEl.addEventListener('loadedmetadata', () => {
       videoEl.style.display = 'block';
       placeholderEl.style.display = 'none';

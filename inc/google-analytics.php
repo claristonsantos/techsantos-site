@@ -7,3 +7,4 @@
 
   gtag('config', 'G-QD3YFBCMC6');
 </script>
+<script defer src="/assets/js/analytics-events.js"></script>
