@@ -86,7 +86,7 @@ declare(strict_types=1);
     <h2>Como funciona a função SOMASE</h2>
     <p>SOMASE soma valores em um intervalo que atende a critérios especificados — por exemplo, a fórmula <code>=SOMASE(B2:B5;"Pedro";C2:C5)</code> soma só os valores em C2:C5 onde a célula correspondente em B2:B5 é igual a "Pedro" (Microsoft Support). Repare na ordem dos argumentos: primeiro o intervalo que vai ser comparado ao critério, depois o critério em si, e só por último o intervalo que efetivamente vai ser somado.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-excel-somase.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-excel-somase.mp4" type="video/mp4">
     </video>
     <p>Esse terceiro argumento é opcional: se você omitir, o Excel soma o próprio intervalo do critério. Na prática, quase sempre vale escrever os três argumentos explicitamente — deixa a fórmula mais fácil de revisar meses depois.</p>
 

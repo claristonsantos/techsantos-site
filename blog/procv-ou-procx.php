@@ -91,7 +91,7 @@ declare(strict_types=1);
     <p>A função XLOOKUP (PROCX na versão em português) pode pesquisar um intervalo e retornar o item correspondente à primeira correspondência que encontrar, inclusive buscando em qualquer direção — para cima, para baixo, para a esquerda ou para a direita (Microsoft Support, página oficial da função XLOOKUP). Isso sozinho já elimina boa parte dos truques que professores de Excel ensinam há anos só pra contornar a limitação direcional do PROCV.</p>
     <p>Outro ganho prático: se não encontrar uma correspondência exata, o PROCX pode retornar a correspondência mais próxima (aproximada) sem precisar de um quarto argumento configurado errado por engano — um erro comum de quem está aprendendo PROCV, que esquece de fixar a busca como exata e acaba trazendo valores incorretos silenciosamente.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-excel-procx.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-excel-procx.mp4" type="video/mp4">
     </video>
 
     <h2>Quando ainda preciso usar o PROCV?</h2>

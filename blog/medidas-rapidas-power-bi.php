@@ -86,7 +86,7 @@ declare(strict_types=1);
     <h2>Como criar uma Medida Rápida no Power BI Desktop</h2>
     <p>Pra criar uma medida rápida no Power BI Desktop, clique com o botão direito ou selecione as reticências ao lado de qualquer item no painel de Campos e escolha Nova medida rápida no menu (Microsoft Learn). Ao selecionar essa opção, a janela de Medidas Rápidas se abre, permitindo escolher o cálculo desejado e os campos sobre os quais ele vai rodar.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-powerbi-medidas-rapidas.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-powerbi-medidas-rapidas.mp4" type="video/mp4">
     </video>
     <p>A lista de cálculos disponíveis cobre os pedidos mais comuns num relatório: percentual do total, diferença em relação ao período anterior, valor acumulado, média móvel, e outros. Você escolhe o tipo, arrasta o campo de valor e o campo de categoria, e o Power BI monta a medida sozinho.</p>
 

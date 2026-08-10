@@ -86,7 +86,7 @@ declare(strict_types=1);
     <h2>O que é Validação de Dados e pra que ela serve?</h2>
     <p>A Validação de Dados restringe o tipo de dado ou os valores que os usuários podem inserir numa célula, e um dos usos mais comuns é criar uma lista suspensa (Microsoft Support). Em vez de confiar que todo mundo vai lembrar de digitar exatamente "Concluído" e não "concluido" ou "OK", você limita as opções disponíveis — o erro de digitação simplesmente deixa de ser possível.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-excel-validacao-dados.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-excel-validacao-dados.mp4" type="video/mp4">
     </video>
 
     <h2>Como criar uma lista suspensa com Validação de Dados</h2>

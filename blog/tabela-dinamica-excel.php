@@ -90,7 +90,7 @@ declare(strict_types=1);
     <h2>Como criar uma Tabela Dinâmica passo a passo</h2>
     <p>Primeiro, os dados de origem precisam estar organizados em colunas com uma única linha de cabeçalho, sem linhas ou colunas em branco no meio (Microsoft Support) — essa exigência é a causa mais comum de Tabela Dinâmica "faltando dados". Com a base pronta, clique em qualquer célula dela, vá em Inserir → Tabela Dinâmica, confirme o intervalo e escolha se quer criar em uma planilha nova ou na mesma.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-excel-tabela-dinamica.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-excel-tabela-dinamica.mp4" type="video/mp4">
     </video>
     <p>Depois é só arrastar os campos: o que você quer agrupar (tipo vendedor ou mês) vai em Linhas ou Colunas, e o que você quer somar ou contar (tipo valor da venda) vai em Valores. Quer filtrar por um recorte específico, tipo só um ano? Arraste esse campo pra área de Filtros.</p>
 

@@ -1,0 +1,2 @@
+RedirectMatch 301 ^/assets/social-video/(.+)$ https://media.techsantos.com.br/reels/$1
+RedirectMatch 301 ^/assets/videos-preview/(.+)$ https://media.techsantos.com.br/previews/$1

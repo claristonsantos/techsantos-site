@@ -86,7 +86,7 @@ declare(strict_types=1);
     <h2>O que muda entre Import e DirectQuery na prática?</h2>
     <p>Em modo Import, o Power BI Desktop importa dados de uma fonte de dados de origem pra dentro do próprio Power BI Desktop — esse é o modo de conectividade padrão pra a maioria das fontes de dados no Power BI Desktop (Microsoft Learn). Já em DirectQuery, em vez de consultar dados importados que compõem um modelo semântico, o Power BI consulta diretamente a fonte de dados subjacente pra qualquer campo de dados usado no relatório (Microsoft Learn). Ou seja: Import faz uma cópia local; DirectQuery nunca copia nada, sempre pergunta pra fonte.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-powerbi-import.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-powerbi-import.mp4" type="video/mp4">
     </video>
 
     <h2>Vantagens e limitações do modo Import</h2>

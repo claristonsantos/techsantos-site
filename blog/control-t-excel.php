@@ -86,7 +86,7 @@ declare(strict_types=1);
     <h2>O que o Control T realmente faz no Excel?</h2>
     <p>Selecione uma célula dentro do intervalo de dados e pressione Control T (ou Control L) pra abrir a caixa de diálogo Criar Tabela — é o mesmo resultado de ir na guia Página Inicial e clicar em Formatar como Tabela, só que sem passar pelo menu (Microsoft Support). O Excel detecta sozinho onde o intervalo começa e termina, pergunta se a primeira linha é cabeçalho, e pronto: o intervalo virou uma Tabela de verdade, não só uma formatação visual.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-excel-ctrlt.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-excel-ctrlt.mp4" type="video/mp4">
     </video>
 
     <h2>Por que a fórmula passa a copiar sozinha?</h2>

@@ -86,7 +86,7 @@ declare(strict_types=1);
     <h2>O que é Tooltip Personalizado no Power BI?</h2>
     <p>Você pode criar tooltips de relatório visualmente ricos no Power BI, que aparecem ao passar o mouse sobre visuais, baseados em páginas de relatório que você cria no Power BI Desktop e no serviço do Power BI — permitindo incluir visuais, imagens e outros elementos que fornecem insights detalhados aos usuários (Microsoft Learn). Em vez de um tooltip de texto simples, você projeta uma página de relatório inteira, com o mesmo nível de controle visual de qualquer outra página.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-powerbi-tooltip.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-powerbi-tooltip.mp4" type="video/mp4">
     </video>
 
     <h2>Como criar um tooltip personalizado passo a passo</h2>

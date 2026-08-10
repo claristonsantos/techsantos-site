@@ -322,7 +322,7 @@ function renderLesson(id) {
       ${whatsCaptureHtml()}
       <div class="player">
         <video class="player-video" controls preload="metadata" playsinline>
-          <source src="/assets/videos-preview/${lesson.id}.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/previews/${lesson.id}.mp4" type="video/mp4">
         </video>
         <div class="player-placeholder">
           <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="18" height="18" ')}</div>

@@ -86,7 +86,7 @@ declare(strict_types=1);
     <h2>Qual a diferença real entre medida e coluna calculada?</h2>
     <p>Quando uma coluna calculada contém uma fórmula DAX válida, os valores são calculados para cada linha assim que a fórmula é inserida e ficam armazenados no modelo de dados em memória — já os valores calculados por uma medida são avaliados dinamicamente sempre que o usuário adiciona a medida a um visual, mudando conforme o contexto que o próprio usuário define (Microsoft Learn). Essa diferença de <em>quando</em> o cálculo acontece é a raiz de tudo que muda entre as duas.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-powerbi-medida-coluna.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-powerbi-medida-coluna.mp4" type="video/mp4">
     </video>
 
     <h2>Por que coluna calculada deixa o arquivo mais pesado</h2>

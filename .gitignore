@@ -1,7 +1,10 @@
 config.php
 private-videos/*.mp4
 assets/videos-preview/*.mp4
+assets/social-video/*.mp4
 tools/__pycache__/
 client_secret_*.json
 tools/youtube_token.json
 node_modules/
+deploy-media-*.zip
+deploy-media-*.manifest.csv

@@ -86,7 +86,7 @@ declare(strict_types=1);
     <h2>Por que o Power BI trava com relacionamento errado?</h2>
     <p>As opções de cardinalidade um-para-muitos e muitos-para-um são essencialmente a mesma coisa e também as mais comuns — numa relação um-para-muitos, a coluna de uma tabela tem só uma instância de determinado valor, enquanto a tabela relacionada pode ter mais de uma instância do mesmo valor (Microsoft Learn). Quando essa regra não é respeitada — os dois lados têm valor repetido — o Power BI ainda deixa você criar o relacionamento, mas o resultado dos cálculos passa a multiplicar linhas sem avisar.</p>
     <video controls preload="metadata" playsinline>
-      <source src="/assets/social-video/dica-powerbi-relacionamentos.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/reels/dica-powerbi-relacionamentos.mp4" type="video/mp4">
     </video>
 
     <h2>O que é esquema estrela e por que ele evita o problema</h2>
