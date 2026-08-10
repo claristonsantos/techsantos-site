@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/tabela-dinamica-excel.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/tabela-dinamica-excel.php" />
+<meta property="og:title" content="Tabela Dinâmica no Excel: como resumir dados sem fórmula — TECH SANTOS BR" />
+<meta property="og:description" content="A Tabela Dinâmica resume, soma e agrupa milhares de linhas sem fórmula — só arrastando campos. Veja como montar a sua e evitar os erros mais comuns." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>Tabela Dinâmica no Excel: como resumir dados sem fórmula — TECH SANTOS BR</title>
 <meta name="description" content="A Tabela Dinâmica resume, soma e agrupa milhares de linhas sem fórmula — só arrastando campos. Veja como montar a sua e evitar os erros mais comuns." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

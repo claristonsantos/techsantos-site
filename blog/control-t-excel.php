@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/control-t-excel.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/control-t-excel.php" />
+<meta property="og:title" content="Control T no Excel: pra que serve e por que usar sempre — TECH SANTOS BR" />
+<meta property="og:description" content="Control T transforma um intervalo em Tabela do Excel: fórmula copia sozinha, filtro já vem pronto e cabeçalho trava ao rolar. Veja como e quando usar." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>Control T no Excel: pra que serve e por que usar sempre — TECH SANTOS BR</title>
 <meta name="description" content="Control T transforma um intervalo em Tabela do Excel: fórmula copia sozinha, filtro já vem pronto e cabeçalho trava ao rolar. Veja como e quando usar." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

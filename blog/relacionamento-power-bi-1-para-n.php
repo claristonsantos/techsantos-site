@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/relacionamento-power-bi-1-para-n.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/relacionamento-power-bi-1-para-n.php" />
+<meta property="og:title" content="Relacionamento no Power BI: por que sempre 1 pra muitos — TECH SANTOS BR" />
+<meta property="og:description" content="Modelo travando ou contando duplicado no Power BI? Confira o relacionamento: a tabela de dimensão precisa ter valor único, ligada à fato em 1:N." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>Relacionamento no Power BI: por que sempre 1 pra muitos — TECH SANTOS BR</title>
 <meta name="description" content="Modelo travando ou contando duplicado no Power BI? Confira o relacionamento: a tabela de dimensão precisa ter valor único, ligada à fato em 1:N." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/validacao-de-dados-excel.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/validacao-de-dados-excel.php" />
+<meta property="og:title" content="Validação de Dados no Excel: como travar o que a pessoa digita — TECH SANTOS BR" />
+<meta property="og:description" content="Validação de Dados trava a célula numa lista de opções e evita erro de digitação em planilha compartilhada. Veja como configurar passo a passo." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>Validação de Dados no Excel: como travar o que a pessoa digita — TECH SANTOS BR</title>
 <meta name="description" content="Validação de Dados trava a célula numa lista de opções e evita erro de digitação em planilha compartilhada. Veja como configurar passo a passo." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

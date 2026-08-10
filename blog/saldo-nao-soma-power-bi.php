@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/saldo-nao-soma-power-bi.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/saldo-nao-soma-power-bi.php" />
+<meta property="og:title" content="Por que somar saldo dá número errado no Power BI — TECH SANTOS BR" />
+<meta property="og:description" content="Somar o saldo de uma conta mês a mês costuma dar número errado no Power BI. O motivo é o tipo de fato: instantâneo (snapshot) não soma como evento. Veja a diferença." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>Por que somar saldo dá número errado no Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Somar o saldo de uma conta mês a mês costuma dar número errado no Power BI. O motivo é o tipo de fato: instantâneo (snapshot) não soma como evento. Veja a diferença." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

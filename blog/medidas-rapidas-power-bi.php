@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/medidas-rapidas-power-bi.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/medidas-rapidas-power-bi.php" />
+<meta property="og:title" content="Medida Rápida no Power BI: como criar DAX sem escrever do zero — TECH SANTOS BR" />
+<meta property="og:description" content="Travou na hora de escrever uma fórmula DAX? A Medida Rápida monta o cálculo pronto pra você estudar. Veja como usar e quando vale escrever na mão." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>Medida Rápida no Power BI: como criar DAX sem escrever do zero — TECH SANTOS BR</title>
 <meta name="description" content="Travou na hora de escrever uma fórmula DAX? A Medida Rápida monta o cálculo pronto pra você estudar. Veja como usar e quando vale escrever na mão." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

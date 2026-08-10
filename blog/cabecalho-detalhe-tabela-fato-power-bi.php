@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/cabecalho-detalhe-tabela-fato-power-bi.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/cabecalho-detalhe-tabela-fato-power-bi.php" />
+<meta property="og:title" content="Cabeçalho e item de pedido são duas tabelas fato — TECH SANTOS BR" />
+<meta property="og:description" content="Pedido (cabeçalho) e item do pedido (detalhe) têm granularidades diferentes e não devem virar uma tabela fato só. Veja como modelar cabeçalho x detalhe no Power BI." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>Cabeçalho e item de pedido são duas tabelas fato — TECH SANTOS BR</title>
 <meta name="description" content="Pedido (cabeçalho) e item do pedido (detalhe) têm granularidades diferentes e não devem virar uma tabela fato só. Veja como modelar cabeçalho x detalhe no Power BI." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

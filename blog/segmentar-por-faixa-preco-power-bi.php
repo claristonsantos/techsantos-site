@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/segmentar-por-faixa-preco-power-bi.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/segmentar-por-faixa-preco-power-bi.php" />
+<meta property="og:title" content="Agrupar por faixa de preço no Power BI — TECH SANTOS BR" />
+<meta property="og:description" content="Preço exato não agrupa nada sozinho. Veja como criar uma tabela de faixas de preço e relacionar por intervalo pra segmentar vendas no Power BI." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>Agrupar por faixa de preço no Power BI — TECH SANTOS BR</title>
 <meta name="description" content="Preço exato não agrupa nada sozinho. Veja como criar uma tabela de faixas de preço e relacionar por intervalo pra segmentar vendas no Power BI." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/granularidade-power-bi.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/granularidade-power-bi.php" />
+<meta property="og:title" content="Power BI lento? Pode ser granularidade errada — TECH SANTOS BR" />
+<meta property="og:description" content="Modelo pesado e relatório lento no Power BI nem sempre é falta de RAM. Veja o que é granularidade de uma tabela fato e como uma linha redundante pesa o modelo à toa." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>Power BI lento? Pode ser granularidade errada — TECH SANTOS BR</title>
 <meta name="description" content="Modelo pesado e relatório lento no Power BI nem sempre é falta de RAM. Veja o que é granularidade de uma tabela fato e como uma linha redundante pesa o modelo à toa." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />

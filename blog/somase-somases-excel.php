@@ -7,6 +7,13 @@ declare(strict_types=1);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/blog/somase-somases-excel.php" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://techsantos.com.br/blog/somase-somases-excel.php" />
+<meta property="og:title" content="SOMASE e SOMASES no Excel: como somar só o que interessa — TECH SANTOS BR" />
+<meta property="og:description" content="SOMASE soma um intervalo só na parte que bate com um critério; SOMASES faz o mesmo com várias condições. Veja a sintaxe e exemplos práticos." />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>SOMASE e SOMASES no Excel: como somar só o que interessa — TECH SANTOS BR</title>
 <meta name="description" content="SOMASE soma um intervalo só na parte que bate com um critério; SOMASES faz o mesmo com várias condições. Veja a sintaxe e exemplos práticos." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
