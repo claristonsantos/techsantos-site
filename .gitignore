@@ -8,3 +8,4 @@ tools/youtube_token.json
 node_modules/
 deploy-media-*.zip
 deploy-media-*.manifest.csv
+seed_dicas_excel_novas10.php
