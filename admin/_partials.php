@@ -24,6 +24,7 @@ function admin_topbar(string $active): void
 {
     $items = [
         'index' => ['/admin/', 'Dashboard'],
+        'metricas' => ['/admin/metricas.php', 'Métricas'],
         'alunos' => ['/admin/alunos.php', 'Alunos'],
         'cursos' => ['/admin/cursos.php', 'Cursos'],
         'avaliacoes' => ['/admin/avaliacoes.php', 'Avaliações'],
