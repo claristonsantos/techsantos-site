@@ -4,6 +4,16 @@ declare(strict_types=1);
 // Lista de posts publicados — array simples, sem banco. Pra adicionar um
 // post novo: cria o arquivo blog/<slug>.php e adiciona uma entrada aqui.
 $posts = [
+    ['slug'=>'preenchimento-relampago-excel','eyebrow'=>'Excel','title'=>'Preenchimento Rel?mpago no Excel: separe e combine dados com Ctrl+E','excerpt'=>'Separe nomes, combine textos e padronize dados em segundos, sem criar f?rmulas.','date'=>'2026-08-10'],
+    ['slug'=>'formatacao-condicional-linha-inteira-excel','eyebrow'=>'Excel','title'=>'Como destacar uma linha inteira com Formata??o Condicional no Excel','excerpt'=>'Use uma regra baseada em f?rmula para colorir o registro completo quando uma condi??o for atendida.','date'=>'2026-08-10'],
+    ['slug'=>'f4-excel-repetir-comando-travar-referencia','eyebrow'=>'Excel','title'=>'F4 no Excel: repetir a ?ltima a??o e travar refer?ncias em f?rmulas','excerpt'=>'Conhe?a os dois usos do F4: repetir comandos e alternar refer?ncias relativas, absolutas e mistas.','date'=>'2026-08-10'],
+    ['slug'=>'remover-duplicados-excel','eyebrow'=>'Excel','title'=>'Como remover dados duplicados no Excel sem apagar registros errados','excerpt'=>'Escolha as colunas que identificam a duplicidade e limpe a base sem excluir registros v?lidos.','date'=>'2026-08-10'],
+    ['slug'=>'selecionar-linha-coluna-excel-atalho','eyebrow'=>'Excel','title'=>'Como selecionar linhas e colunas inteiras no Excel sem usar o mouse','excerpt'=>'Use Ctrl+Espa?o e Shift+Espa?o para selecionar colunas e linhas inteiras pelo teclado.','date'=>'2026-08-10'],
+    ['slug'=>'funcao-seerro-excel','eyebrow'=>'Excel','title'=>'Fun??o SEERRO no Excel: como tratar erros sem esconder problemas','excerpt'=>'Trate #N/D, #DIV/0! e outros erros com mensagens claras sem mascarar defeitos da planilha.','date'=>'2026-08-10'],
+    ['slug'=>'quebrar-linha-celula-excel-alt-enter','eyebrow'=>'Excel','title'=>'Alt+Enter no Excel: como quebrar linha dentro da mesma c?lula','excerpt'=>'Organize endere?os, observa??es e descri??es em v?rias linhas sem sair da mesma c?lula.','date'=>'2026-08-10'],
+    ['slug'=>'nomear-intervalos-excel','eyebrow'=>'Excel','title'=>'Como nomear intervalos no Excel e deixar f?rmulas mais f?ceis','excerpt'=>'Troque refer?ncias dif?ceis por nomes claros e deixe suas f?rmulas mais f?ceis de manter.','date'=>'2026-08-10'],
+    ['slug'=>'congelar-paineis-excel','eyebrow'=>'Excel','title'=>'Como congelar linhas e colunas no Excel do jeito certo','excerpt'=>'Mantenha cabe?alhos e colunas importantes vis?veis enquanto navega por planilhas grandes.','date'=>'2026-08-10'],
+    ['slug'=>'transpor-linhas-colunas-excel','eyebrow'=>'Excel','title'=>'Como transpor linhas e colunas no Excel sem redigitar dados','excerpt'=>'Transforme linhas em colunas e entenda quando usar Colar Transpor ou a fun??o TRANSPOR.','date'=>'2026-08-10'],
     [
         'slug' => 'multi-moeda-power-bi',
         'eyebrow' => 'Power BI',
