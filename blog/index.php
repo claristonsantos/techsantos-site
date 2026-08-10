@@ -5,6 +5,48 @@ declare(strict_types=1);
 // post novo: cria o arquivo blog/<slug>.php e adiciona uma entrada aqui.
 $posts = [
     [
+        'slug' => 'multi-moeda-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Relatório em dólar não bate? Modelagem multi-moeda no Power BI',
+        'excerpt' => 'Não existe uma fórmula universal de conversão de moeda. Veja os 3 cenários de modelagem multi-moeda e qual abordagem usar em cada um.',
+        'date' => '2026-08-03',
+    ],
+    [
+        'slug' => 'segmentar-por-faixa-preco-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Como agrupar vendas por faixa de preço no Power BI',
+        'excerpt' => 'Preço exato não agrupa nada sozinho. Veja como criar uma tabela de faixas de preço e relacionar por intervalo pra segmentar vendas.',
+        'date' => '2026-08-03',
+    ],
+    [
+        'slug' => 'dimensao-que-muda-devagar-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Gerente mudou e o relatório antigo quebrou? É dimensão que muda devagar',
+        'excerpt' => 'Cliente mudou de gerente e o relatório do mês passado ficou errado? Isso tem nome: dimensão que muda devagar (SCD). Veja quando sobrescrever ou guardar histórico.',
+        'date' => '2026-08-03',
+    ],
+    [
+        'slug' => 'cabecalho-detalhe-tabela-fato-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Cabeçalho e item de pedido são duas tabelas fato, não uma',
+        'excerpt' => 'Pedido (cabeçalho) e item do pedido (detalhe) têm granularidades diferentes e não devem virar uma tabela fato só. Veja como modelar certo.',
+        'date' => '2026-08-03',
+    ],
+    [
+        'slug' => 'granularidade-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Power BI lento? Pode ser granularidade errada, não falta de RAM',
+        'excerpt' => 'Linha redundante deixa o modelo pesado à toa. Veja o que é granularidade de uma tabela fato e como pré-agregar sem perder informação.',
+        'date' => '2026-08-03',
+    ],
+    [
+        'slug' => 'saldo-nao-soma-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Por que somar saldo dá número errado no Power BI',
+        'excerpt' => 'Somar o saldo de uma conta mês a mês costuma dar número errado. O motivo é o tipo de fato: instantâneo (snapshot) não soma como evento.',
+        'date' => '2026-08-03',
+    ],
+    [
         'slug' => 'import-ou-directquery-power-bi',
         'eyebrow' => 'Power BI',
         'title' => 'Import ou DirectQuery no Power BI: qual escolher?',
