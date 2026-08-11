@@ -224,7 +224,8 @@ function meta_schedule_facebook_reel(string $description, string $videoUrl, int 
         return null;
     }
 
-    $start = meta_graph_post(META_PAGE_ID . '/video_reels', [
+    $reelsEndpoint = 'https://graph.facebook.com/v25.0/' . META_PAGE_ID . '/video_reels';
+    $start = meta_http_post($reelsEndpoint, [
         'access_token' => META_PAGE_TOKEN,
         'upload_phase' => 'start',
     ], $error);
@@ -254,7 +255,7 @@ function meta_schedule_facebook_reel(string $description, string $videoUrl, int 
         return null;
     }
 
-    $finish = meta_graph_post(META_PAGE_ID . '/video_reels', [
+    $finish = meta_http_post($reelsEndpoint, [
         'access_token' => META_PAGE_TOKEN,
         'upload_phase' => 'finish',
         'video_id' => $videoId,
@@ -268,8 +269,9 @@ function meta_schedule_facebook_reel(string $description, string $videoUrl, int 
         return null;
     }
 
-    return $videoId;
+    return (string)($finish['post_id'] ?? $videoId);
 }
+
 /**
  * Cancels a scheduled (not-yet-published) Facebook Page post.
  */
