@@ -160,6 +160,57 @@ function meta_schedule_facebook_post(string $message, ?string $imageUrl, int $sc
 }
 
 /**
+ * Uploads a public MP4 and schedules it as a Facebook Page Reel using the
+ * official start -> hosted-file upload -> finish flow.
+ */
+function meta_schedule_facebook_reel(string $description, string $videoUrl, int $scheduledUnixTime, ?string &$error = null): ?string
+{
+    if ($scheduledUnixTime < time() + 600) {
+        $error = 'O Reel precisa ser agendado com pelo menos 10 minutos de antecedência.';
+        return null;
+    }
+    if ($scheduledUnixTime > time() + (29 * 86400)) {
+        $error = 'O Facebook permite agendar Reels com no máximo 29 dias de antecedência.';
+        return null;
+    }
+
+    $start = meta_graph_post(META_PAGE_ID . '/video_reels', [
+        'access_token' => META_PAGE_TOKEN,
+        'upload_phase' => 'start',
+    ], $error);
+
+    if ($start === null || empty($start['video_id']) || empty($start['upload_url'])) {
+        $error = $error ?: 'Resposta de início do Reel sem video_id/upload_url.';
+        return null;
+    }
+
+    $videoId = (string)$start['video_id'];
+    $uploaded = meta_http_post_upload((string)$start['upload_url'], META_PAGE_TOKEN, [
+        'file_url' => $videoUrl,
+    ], $error);
+
+    if ($uploaded === null || empty($uploaded['success'])) {
+        $error = $error ?: 'O Facebook não confirmou o upload do Reel.';
+        return null;
+    }
+
+    $finish = meta_graph_post(META_PAGE_ID . '/video_reels', [
+        'access_token' => META_PAGE_TOKEN,
+        'upload_phase' => 'finish',
+        'video_id' => $videoId,
+        'video_state' => 'SCHEDULED',
+        'scheduled_publish_time' => (string)$scheduledUnixTime,
+        'description' => $description,
+    ], $error);
+
+    if ($finish === null || empty($finish['success'])) {
+        $error = $error ?: 'O Facebook não confirmou o agendamento do Reel.';
+        return null;
+    }
+
+    return $videoId;
+}
+/**
  * Cancels a scheduled (not-yet-published) Facebook Page post.
  */
 function meta_delete_facebook_post(string $postId, ?string &$error = null): bool

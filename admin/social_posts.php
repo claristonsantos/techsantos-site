@@ -38,17 +38,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $canal = (string)($_POST['canal'] ?? '');
         $legenda = trim((string)($_POST['legenda'] ?? ''));
         $imagemUrl = trim((string)($_POST['imagem_url'] ?? ''));
-        $linkUrl = $canal === 'facebook' ? trim((string)($_POST['link_url'] ?? '')) : '';
+        $allowedTypes = $canal === 'facebook' ? ['feed', 'reels'] : ['feed', 'story', 'reels'];
+        $requestedType = (string)($_POST['tipo'] ?? 'feed');
+        $tipo = in_array($requestedType, $allowedTypes, true) ? $requestedType : 'feed';
+        $linkUrl = $canal === 'facebook' && $tipo === 'feed' ? trim((string)($_POST['link_url'] ?? '')) : '';
         $agendadoPara = (string)($_POST['agendado_para'] ?? '');
-
-        // Facebook nesta rodada continua feed-only (imagem ou link). Tipo/mídia só valem pro Instagram.
-        $tipo = $canal === 'instagram' && in_array($_POST['tipo'] ?? '', ['feed', 'story', 'reels'], true) ? (string)$_POST['tipo'] : 'feed';
         $midiaTipo = $tipo === 'reels' ? 'video' : ($tipo === 'story' && ($_POST['midia_tipo'] ?? '') === 'video' ? 'video' : 'imagem');
 
         // Com link preenchido, o Facebook usa a própria página de destino como
         // preview (card clicável) — a imagem enviada por nós fica dispensável
         // só nesse caso específico (ver meta_schedule_facebook_post()).
-        $imagemDispensavel = $canal === 'facebook' && $linkUrl !== '';
+        $imagemDispensavel = $canal === 'facebook' && $tipo === 'feed' && $linkUrl !== '';
 
         if (!in_array($canal, ['facebook', 'instagram'], true) || $legenda === '' || (!$imagemDispensavel && $imagemUrl === '') || $agendadoPara === '') {
             $error = 'Preencha canal, legenda, imagem (ou link, no Facebook) e data/hora.';
@@ -88,7 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if ($canal === 'facebook') {
                     $apiError = null;
-                    $postId = meta_schedule_facebook_post($legenda, $imagemUrl ?: null, $scheduledTs, $apiError, $linkUrlOrNull);
+                    $postId = $tipo === 'reels'
+                        ? meta_schedule_facebook_reel($legenda, $imagemUrl, $scheduledTs, $apiError)
+                        : meta_schedule_facebook_post($legenda, $imagemUrl ?: null, $scheduledTs, $apiError, $linkUrlOrNull);
                     if ($postId === null) {
                         $ins->execute(['facebook', $tipo, $midiaTipo, $legenda, $imagemUrl, $linkUrlOrNull, date('Y-m-d H:i:s', $scheduledTs), 'erro']);
                         $error = 'Falha ao agendar no Facebook: ' . $apiError;
@@ -171,7 +173,7 @@ admin_topbar('social');
       </div>
       <div class="field-row" id="tipoFieldRow">
         <div class="field">
-          <label for="tipo">Tipo (só Instagram)</label>
+          <label for="tipo">Tipo</label>
           <select id="tipo" name="tipo" onchange="toggleMidiaField()">
             <option value="feed" <?= ($editRow['tipo'] ?? 'feed') === 'feed' ? 'selected' : '' ?>>Feed</option>
             <option value="story" <?= ($editRow['tipo'] ?? '') === 'story' ? 'selected' : '' ?>>Story</option>
@@ -192,7 +194,7 @@ admin_topbar('social');
                value="<?= $editRow ? htmlspecialchars($editRow['imagem_url'], ENT_QUOTES) : '' ?>">
       </div>
       <div class="field" id="linkFieldWrap">
-        <label for="link_url">Link (só Facebook — gera card clicável, substitui a imagem no preview)</label>
+        <label for="link_url">Link (só Facebook Feed — gera card clicável, substitui a imagem no preview)</label>
         <input type="url" id="link_url" name="link_url" placeholder="https://techsantos.com.br/curso-power-bi.php" oninput="toggleImagemRequired()"
                value="<?= $editRow ? htmlspecialchars($editRow['link_url'] ?? '', ENT_QUOTES) : '' ?>">
       </div>
@@ -307,31 +309,41 @@ admin_topbar('social');
 
     function toggleTipoField() {
       var isInstagram = document.getElementById('canal').value === 'instagram';
-      document.getElementById('tipoFieldRow').style.display = isInstagram ? '' : 'none';
-      document.getElementById('linkFieldWrap').style.display = isInstagram ? 'none' : '';
-      if (isInstagram) {
+      var tipo = document.getElementById('tipo');
+      var storyOption = tipo.querySelector('option[value="story"]');
+      storyOption.hidden = !isInstagram;
+      if (!isInstagram && tipo.value === 'story') {
+        tipo.value = 'feed';
+      }
+      document.getElementById('tipoFieldRow').style.display = '';
+      document.getElementById('linkFieldWrap').style.display = !isInstagram && tipo.value === 'feed' ? '' : 'none';
+      if (isInstagram || tipo.value !== 'feed') {
         document.getElementById('link_url').value = '';
-      } else {
-        document.getElementById('tipo').value = 'feed';
       }
       toggleMidiaField();
       toggleImagemRequired();
     }
 
     function toggleImagemRequired() {
-      var isFacebook = document.getElementById('canal').value === 'facebook';
+      var isFacebookFeed = document.getElementById('canal').value === 'facebook' && document.getElementById('tipo').value === 'feed';
       var hasLink = document.getElementById('link_url').value.trim() !== '';
-      document.getElementById('imagem_url').required = !(isFacebook && hasLink);
+      document.getElementById('imagem_url').required = !(isFacebookFeed && hasLink);
     }
 
     function toggleMidiaField() {
       var isStory = document.getElementById('tipo').value === 'story';
+      var isFacebookFeed = document.getElementById('canal').value === 'facebook' && document.getElementById('tipo').value === 'feed';
       document.getElementById('midiaFieldWrap').style.display = isStory ? '' : 'none';
+      document.getElementById('linkFieldWrap').style.display = isFacebookFeed ? '' : 'none';
       if (document.getElementById('tipo').value === 'reels') {
         document.getElementById('midia_tipo').value = 'video';
       } else if (document.getElementById('tipo').value === 'feed') {
         document.getElementById('midia_tipo').value = 'imagem';
       }
+      if (!isFacebookFeed) {
+        document.getElementById('link_url').value = '';
+      }
+      toggleImagemRequired();
     }
 
     toggleTipoField();
