@@ -1,2 +1,12 @@
+RewriteEngine On
+
+# Uma unica versao publica para evitar duplicidade de indexacao.
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} ^www\.techsantos\.com\.br$ [NC]
+RewriteRule ^ https://techsantos.com.br%{REQUEST_URI} [R=301,L]
+
+# A home canonica nao inclui index.html.
+RewriteCond %{THE_REQUEST} \s/+index\.html(?:[?\s]) [NC]
+RewriteRule ^index\.html$ https://techsantos.com.br/ [R=301,L]
 RedirectMatch 301 ^/assets/social-video/(.+)$ https://media.techsantos.com.br/reels/$1
 RedirectMatch 301 ^/assets/videos-preview/(.+)$ https://media.techsantos.com.br/previews/$1

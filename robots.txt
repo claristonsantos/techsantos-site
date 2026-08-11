@@ -1,4 +1,8 @@
 User-agent: *
-Disallow: /area-do-aluno.html
+Disallow: /admin/
+Disallow: /aluno/
+Disallow: /private-videos/
+Disallow: /exercicios/
+Disallow: /media-host/
 
 Sitemap: https://techsantos.com.br/sitemap.xml

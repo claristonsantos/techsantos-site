@@ -47,3 +47,18 @@ Manter como diagnóstico de conteúdo:
 - `utm_content`: identificação da peça, por exemplo `reel_seerro_hook_a`
 
 Não enviar nome, telefone, e-mail ou CPF em eventos do navegador.
+## Persistência de atribuição
+
+- As UTMs válidas da página de entrada são guardadas durante a sessão e como último toque conhecido por até 90 dias.
+- Os parâmetros `campaign_source`, `campaign_medium`, `campaign_name`, `campaign_content`, `campaign_term` e `campaign_landing_page` acompanham os eventos personalizados.
+- A origem persistida é reutilizada no cadastro do telefone da aula gratuita, mesmo quando o visitante navega por outras páginas antes de converter.
+- A compra aprovada continua vinculada ao GA4 pelo `ga4_client_id` salvo no pedido.
+- Nenhum nome, telefone, e-mail ou CPF é armazenado na atribuição do navegador ou enviado como propriedade de campanha.
+
+### Leitura recomendada do funil
+
+1. `free_preview_viewed` por `campaign_source` e `campaign_content`.
+2. `video_start` e `video_complete` por conteúdo de origem.
+3. `generate_lead` ou `begin_checkout` por campanha.
+4. `purchase` para receita confirmada.
+5. `contact` separado entre páginas de curso e consultoria por `page_path`.

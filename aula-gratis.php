@@ -217,11 +217,12 @@ function isFree(lessonId) { return FREE_LESSON_IDS.includes(lessonId); }
 const WHATS_DONE_KEY = 'ts_whats_lead_done';
 function leadAttribution() {
   const params = new URLSearchParams(window.location.search);
-  const safe = (name, fallback) => (params.get(name) || fallback).toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 60);
-  const source = safe('utm_source', 'direct');
-  const medium = safe('utm_medium', 'none');
-  const campaign = safe('utm_campaign', 'none');
-  const content = safe('utm_content', 'none');
+  const stored = typeof window.techSantosAttribution === 'function' ? window.techSantosAttribution() : {};
+  const safeValue = (value, fallback) => (value || fallback).toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 60);
+  const source = safeValue(params.get('utm_source') || stored.campaign_source, 'direct');
+  const medium = safeValue(params.get('utm_medium') || stored.campaign_medium, 'none');
+  const campaign = safeValue(params.get('utm_campaign') || stored.campaign_name, 'none');
+  const content = safeValue(params.get('utm_content') || stored.campaign_content, 'none');
   return {
     origin: ['aula-gratis', source, medium, campaign, content].join('|').slice(0, 100),
     source, medium, campaign, content
