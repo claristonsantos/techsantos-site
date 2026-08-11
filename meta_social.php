@@ -84,6 +84,56 @@ function meta_http_post_upload(string $url, string $accessToken, array $headers,
 }
 
 /**
+ * Fallback for CDNs that reject Meta's crawler while still allowing our own
+ * server to fetch the file. Downloads the public MP4 into memory, then sends
+ * its raw bytes with the offset/file_size headers required by rupload.
+ */
+function meta_http_post_upload_bytes(string $uploadUrl, string $accessToken, string $mediaUrl, ?string &$error = null): ?array
+{
+    $download = curl_init($mediaUrl);
+    curl_setopt_array($download, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT => 90,
+        CURLOPT_USERAGENT => 'TechSantos-MediaUploader/1.0',
+    ]);
+    $bytes = curl_exec($download);
+    $downloadCode = curl_getinfo($download, CURLINFO_HTTP_CODE);
+    $downloadError = curl_error($download);
+    curl_close($download);
+
+    if ($bytes === false || $downloadCode < 200 || $downloadCode >= 300 || $bytes === '') {
+        $error = $downloadError ?: ('Falha ao baixar o vídeo: HTTP ' . $downloadCode);
+        return null;
+    }
+
+    $ch = curl_init($uploadUrl);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $bytes,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: OAuth ' . $accessToken,
+            'Content-Type: application/octet-stream',
+            'offset: 0',
+            'file_size: ' . strlen($bytes),
+        ],
+        CURLOPT_TIMEOUT => 180,
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
+    curl_close($ch);
+
+    $data = $response !== false ? json_decode($response, true) : null;
+    if ($response === false || $httpCode < 200 || $httpCode >= 300 || !is_array($data)) {
+        $error = $curlError ?: ($data['debug_info']['message'] ?? $data['error']['message'] ?? ('HTTP ' . $httpCode));
+        return null;
+    }
+
+    return $data;
+}
+/**
  * Low-level GET against a full URL.
  */
 function meta_http_get(string $url, array $query, ?string &$error = null): ?array
@@ -189,8 +239,18 @@ function meta_schedule_facebook_reel(string $description, string $videoUrl, int 
         'file_url' => $videoUrl,
     ], $error);
 
-    if ($uploaded === null || empty($uploaded['success'])) {
-        $error = $error ?: 'O Facebook não confirmou o upload do Reel.';
+    if ($uploaded === null) {
+        $urlUploadError = $error;
+        $error = null;
+        $uploaded = meta_http_post_upload_bytes((string)$start['upload_url'], META_PAGE_TOKEN, $videoUrl, $error);
+        if ($uploaded === null) {
+            $error = 'Upload por URL falhou: ' . $urlUploadError . ' | Upload direto falhou: ' . $error;
+            return null;
+        }
+    }
+
+    if (empty($uploaded['success'])) {
+        $error = 'O Facebook não confirmou o upload do Reel.';
         return null;
     }
 
