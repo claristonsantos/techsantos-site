@@ -26,7 +26,8 @@ Atualizada em 10/08/2026.
 - Inclusões devem ser idempotentes, verificando `imagem_url` para impedir duplicação.
 - YouTube Shorts: upload e agendamento direto pela API do YouTube.
 - TikTok: depende do Metricool; o site não possui publicação automática para TikTok.
-- Facebook Reels: não utiliza atualmente o mesmo agendador do Instagram.
+- Stories do Instagram são replicados automaticamente para a Página do Facebook após a publicação; não criar um segundo agendamento de Story no Facebook.
+- Facebook Reels: integrado ao painel do site pela Video Reels API v25.0, com agendamento nativo da Meta. Feed permanece no fluxo anterior.
 - Utilitários temporários de produção usam `SETUP_KEY`, executam uma vez e são removidos depois. Nunca registrar a chave.
 
 ## Série Microsoft Fabric aprovada
@@ -60,6 +61,14 @@ Termos cuja pronúncia foi revisada: Microsoft Fabric, Power BI, OneLake, worksp
 - ID 164 — Data Factory — 21/08/2026, 10h BRT — `pendente`.
 - ID 165 — Pipelines — 24/08/2026, 10h BRT — `pendente`.
 
+## Facebook Reels agendado
+
+- ID 166 — OneLake — `post_id 1718586190275611` — 14/08/2026, 10h BRT — `agendado_meta`.
+- ID 167 — Lakehouse ou Warehouse — `post_id 1718586600275570` — 17/08/2026, 10h BRT — `agendado_meta`.
+- ID 168 — Data Factory — `post_id 1718586706942226` — 21/08/2026, 10h BRT — `agendado_meta`.
+- ID 169 — Pipelines — `post_id 1718586793608884` — 24/08/2026, 10h BRT — `agendado_meta`.
+
+Observação técnica: o CDN da Hostinger respondeu HTTP 429 quando a Meta tentou buscar os MP4. Para este lote, os arquivos locais foram enviados diretamente ao servidor de upload da Meta. A integração usa v25.0 somente para Facebook Reels, sem alterar feed, Instagram ou Stories.
 ## YouTube Shorts agendado
 
 - OneLake — ID `LtLuK8m4q4o` — 14/08/2026, 10h BRT.
