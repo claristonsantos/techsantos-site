@@ -152,6 +152,12 @@ declare(strict_types=1);
   .whats-capture.done { color: var(--green-strong); font-weight: 600; }
 
   .sidebar-backdrop { display: none; }
+  @media (max-width: 560px) {
+    .student-topbar { padding-inline: 0.75rem; }
+    .topbar-actions { gap: 0.4rem; }
+    .topbar-actions .btn-ghost { display: none; }
+    .topbar-actions .btn-primary { padding: 0.55rem 0.75rem; font-size: 0.8rem; }
+  }
   @media (max-width: 900px) {
     .app-shell { grid-template-columns: 1fr; }
     .app-sidebar {

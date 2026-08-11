@@ -156,12 +156,12 @@ $posts = [
 
 <header class="site">
   <div class="nav-row">
-    <a class="brand" href="/index.html">
+    <a class="brand" href="/">
       <img src="/assets/img/logo.jpg" alt="Tech Santos BR" />
       <span>TECH <em>SANTOS BR</em></span>
     </a>
     <nav class="links">
-      <a href="/index.html">Home</a>
+      <a href="/">Home</a>
       <a href="/curso-power-bi.php">Curso</a>
       <a href="/blog/" aria-current="page">Blog</a>
       <a href="/contato.html">Contato</a>
@@ -221,7 +221,7 @@ $posts = [
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a class="brand" href="/index.html">
+        <a class="brand" href="/">
           <img src="/assets/img/logo.jpg" alt="Tech Santos BR" />
           <span>TECH <em>SANTOS BR</em></span>
         </a>

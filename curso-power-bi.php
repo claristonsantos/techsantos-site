@@ -43,12 +43,12 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
 
 <header class="site">
   <div class="nav-row">
-    <a class="brand" href="index.html">
+    <a class="brand" href="/">
       <img src="assets/img/logo.jpg" alt="Tech Santos BR" />
       <span>TECH <em>SANTOS BR</em></span>
     </a>
     <nav class="links">
-      <a href="index.html">Home</a>
+      <a href="/">Home</a>
       <a href="sobre.html">Sobre</a>
       <a href="servicos.html">Serviços</a>
       <a href="treinamentos.html">Treinamentos</a>
@@ -615,7 +615,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a class="brand" href="index.html">
+        <a class="brand" href="/">
           <img src="assets/img/logo.jpg" alt="Tech Santos BR" />
           <span>TECH <em>SANTOS BR</em></span>
         </a>

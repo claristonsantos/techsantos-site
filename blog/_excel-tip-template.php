@@ -75,9 +75,9 @@ $videoUrl = 'https://media.techsantos.com.br/reels/' . $article['video'];
 <body>
 <header class="site">
   <div class="nav-row">
-    <a class="brand" href="/index.html"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a>
+    <a class="brand" href="/"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a>
     <nav class="links">
-      <a href="/index.html">Home</a><a href="/curso-power-bi.php">Curso</a><a href="/blog/" aria-current="page">Blog</a><a href="/contato.html">Contato</a><a href="/login.php">Área do Aluno</a>
+      <a href="/">Home</a><a href="/curso-power-bi.php">Curso</a><a href="/blog/" aria-current="page">Blog</a><a href="/contato.html">Contato</a><a href="/login.php">Área do Aluno</a>
     </nav>
     <div class="nav-actions">
       <a class="btn btn-primary desktop-only" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a>
@@ -119,7 +119,7 @@ $videoUrl = 'https://media.techsantos.com.br/reels/' . $article['video'];
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a class="brand" href="/index.html"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a>
+        <a class="brand" href="/"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a>
         <p>Consultoria e treinamento em Power BI e Excel, com mais de 50 projetos de BI implementados. Itumbiara-GO, atendimento para todo o Brasil.</p>
         <div class="footer-social">
           <a href="https://www.instagram.com/tech_santos_br/" target="_blank" rel="noopener" aria-label="TECH SANTOS BR no Instagram"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
