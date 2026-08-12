@@ -10,41 +10,60 @@ if (!preg_match('/^[a-z0-9-]+$/', $id)) {
     exit;
 }
 
-$blobName = $id . '.mp4';
-$expiry = gmdate('Y-m-d\TH:i:s\Z', time() + 4 * 3600);
+// Fora do public_html de propósito: todo deploy do site é wipe+replace
+// total dessa pasta, então os vídeos ficariam apagados a cada deploy se
+// estivessem dentro dela.
+$path = __DIR__ . '/../private-videos/' . $id . '.mp4';
+if (!is_file($path)) {
+    http_response_code(404);
+    exit;
+}
 
-$canonicalizedResource = '/blob/' . AZURE_STORAGE_ACCOUNT . '/' . AZURE_VIDEO_CONTAINER . '/' . $blobName;
-$stringToSign = implode("\n", [
-    'r',                // signedPermissions
-    '',                 // signedStart
-    $expiry,            // signedExpiry
-    $canonicalizedResource,
-    '',                 // signedIdentifier
-    '',                 // signedIP
-    'https',            // signedProtocol
-    '2020-12-06',       // signedVersion
-    'b',                // signedResource
-    '',                 // signedSnapshotTime
-    '',                 // signedEncryptionScope
-    '',                 // rscc
-    '',                 // rscd
-    '',                 // rsce
-    '',                 // rscl
-    '',                 // rsct
-]);
-$signature = base64_encode(hash_hmac('sha256', $stringToSign, base64_decode(AZURE_STORAGE_KEY), true));
+$size = filesize($path);
+$start = 0;
+$end = $size - 1;
 
-$query = http_build_query([
-    'sv' => '2020-12-06',
-    'sr' => 'b',
-    'sp' => 'r',
-    'se' => $expiry,
-    'spr' => 'https',
-    'sig' => $signature,
-]);
-
-$sasUrl = 'https://' . AZURE_STORAGE_ACCOUNT . '.blob.core.windows.net/' . AZURE_VIDEO_CONTAINER . '/' . $blobName . '?' . $query;
-
+header('Content-Type: video/mp4');
+header('Accept-Ranges: bytes');
 header('Cache-Control: private, max-age=0, no-cache');
-header('Location: ' . $sasUrl, true, 302);
-exit;
+
+// Suporte a Range é obrigatório aqui: sem ele, o player não consegue
+// avançar/retroceder no vídeo (o navegador pede um trecho específico de
+// bytes ao arrastar a barra, não o arquivo inteiro de novo).
+$range = $_SERVER['HTTP_RANGE'] ?? '';
+if ($range !== '' && preg_match('/bytes=(\d*)-(\d*)/', $range, $m)) {
+    if ($m[1] !== '') {
+        $start = (int)$m[1];
+    }
+    if ($m[2] !== '') {
+        $end = min((int)$m[2], $size - 1);
+    }
+    if ($start > $end || $start >= $size) {
+        http_response_code(416);
+        header("Content-Range: bytes */{$size}");
+        exit;
+    }
+    http_response_code(206);
+    header("Content-Range: bytes {$start}-{$end}/{$size}");
+} else {
+    http_response_code(200);
+}
+
+$length = $end - $start + 1;
+header("Content-Length: {$length}");
+
+$fh = fopen($path, 'rb');
+if ($fh === false) {
+    http_response_code(500);
+    exit;
+}
+fseek($fh, $start);
+$remaining = $length;
+$chunk = 8192;
+while ($remaining > 0 && !feof($fh)) {
+    $read = (int)min($chunk, $remaining);
+    echo fread($fh, $read);
+    flush();
+    $remaining -= $read;
+}
+fclose($fh);
