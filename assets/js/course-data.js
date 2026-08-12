@@ -612,3 +612,147 @@ const COURSE = [
     ],
   },
 ];
+
+// Aulas textuais de consolidação — complementam os vídeos sem alterar seus IDs.
+function inserirLeituraDepois(moduloId, depoisDeId, aula) {
+  const modulo = COURSE.find(m => m.id === moduloId);
+  if (!modulo || modulo.lessons.some(l => l.id === aula.id)) return;
+  const indice = modulo.lessons.findIndex(l => l.id === depoisDeId);
+  modulo.lessons.splice(indice >= 0 ? indice + 1 : modulo.lessons.length, 0, { kind: 'reading', ...aula });
+}
+
+[
+  ['modelagem', 'introducao', {
+    id: 'checklist-projeto-power-bi', title: 'Checklist antes de iniciar um projeto Power BI',
+    desc: 'Transforme um pedido genérico de dashboard em um projeto com objetivo, público, indicadores, fontes e critérios de sucesso definidos.',
+    objetivos: ['Identificar as perguntas essenciais antes de abrir o Power BI', 'Registrar requisitos que possam ser validados com o cliente'],
+    body: 'Um relatório começa pela decisão que precisa apoiar, não pelo gráfico. Antes de importar dados, alinhe problema, público, indicadores, fontes, atualização, segurança e definição de pronto.',
+    content: [
+      { h: '1. Problema e decisão', p: 'Escreva em uma frase qual problema será resolvido e quais decisões o usuário tomará. “Acompanhar vendas” é amplo; “identificar regiões abaixo da meta até o quinto dia útil” é verificável.' },
+      { h: '2. Público e uso', p: 'Liste quem consulta, quem edita e quem aprova. Registre dispositivo principal, frequência de uso, nível de detalhe e necessidade de exportação.' },
+      { h: '3. Dados e atualização', p: 'Mapeie cada fonte, responsável, período histórico, granularidade, chave, qualidade esperada e frequência de atualização. Confirme também credenciais, gateway e restrições de acesso.' },
+      { h: '4. Indicadores e aceite', p: 'Para cada KPI, documente nome, fórmula de negócio, filtros, unidade, meta e fonte de conferência. O projeto está pronto quando os números conciliam com a origem e as perguntas prioritárias podem ser respondidas.' }
+    ]
+  }],
+  ['modelagem', 'modelagem-pratica', {
+    id: 'granularidade-sem-duplicidade', title: 'Granularidade: como evitar números duplicados',
+    desc: 'Aprenda a declarar o que cada linha representa e impedir duplicações ao combinar pedidos, itens, clientes e produtos.',
+    objetivos: ['Definir a granularidade de uma tabela em uma frase', 'Reconhecer junções que multiplicam linhas e valores'],
+    body: 'Granularidade é o nível de detalhe de uma linha. Misturar tabelas sem entender esse nível pode multiplicar valores sem apresentar erro técnico.',
+    content: [
+      { h: 'Pedido não é item de pedido', p: 'Uma tabela de pedidos pode ter uma linha por pedido; a de itens possui várias linhas para o mesmo pedido. Ao copiar o valor total do pedido para cada item, o total será repetido.' },
+      { h: 'Teste da chave', p: 'Pergunte quais colunas identificam uma linha de forma única. Conte linhas e valores distintos dessa chave. Se os números forem diferentes, existem duplicidades ou a chave está incompleta.' },
+      { h: 'Checklist', p: 'Declare “uma linha representa...”; confirme a chave; compare contagens antes e depois de mesclar; valide totais; mantenha medidas na tabela cuja granularidade corresponde ao cálculo.' }
+    ]
+  }],
+  ['modelagem', 'esquema-estrela', {
+    id: 'relacionamentos-cardinalidade-filtros', title: 'Relacionamentos: cardinalidade e direção de filtro',
+    desc: 'Entenda um-para-muitos, muitos-para-muitos, direção de filtro, relacionamentos ativos e ambiguidades.',
+    objetivos: ['Configurar relacionamentos coerentes com o esquema estrela', 'Evitar filtros bidirecionais e muitos-para-muitos sem necessidade'],
+    body: 'O relacionamento determina como um filtro percorre o modelo. Uma configuração aparentemente conveniente pode gerar ambiguidade, lentidão ou totais incorretos.',
+    content: [
+      { h: 'Cardinalidade', p: 'No padrão mais comum, a dimensão possui uma chave única no lado “um” e a fato repete essa chave no lado “muitos”. Se ambos os lados repetem valores, investigue a modelagem antes de escolher muitos-para-muitos.' },
+      { h: 'Direção de filtro', p: 'Prefira filtro em uma direção, da dimensão para a fato. Use bidirecional somente quando o requisito estiver claro e o caminho de filtro tiver sido testado.' },
+      { h: 'Ativo, inativo e ambiguidade', p: 'Uma tabela pode ter mais de uma data relacionada à dimensão calendário, mas somente uma relação fica ativa. Medidas específicas podem ativar outra relação com USERELATIONSHIP. Evite múltiplos caminhos ativos entre as mesmas tabelas.', r: { t: 'Relacionamentos de modelo no Power BI Desktop', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-relationships-understand' } }
+    ]
+  }],
+  ['perfil-dados', 'perfil-dos-dados', {
+    id: 'checklist-qualidade-dados', title: 'Checklist de qualidade dos dados',
+    desc: 'Uma rotina de inspeção para encontrar vazios, erros, duplicidades, chaves inválidas e valores fora do esperado.',
+    objetivos: ['Executar uma verificação de qualidade antes da transformação', 'Definir como tratar e documentar cada anomalia'],
+    body: 'Dados tecnicamente válidos ainda podem estar errados para o negócio. Qualidade exige perfil técnico, regras de negócio e reconciliação com a fonte.',
+    content: [
+      { h: 'Integridade estrutural', p: 'Confira nomes e tipos de coluna, valores vazios, erros, duplicidades, chaves sem correspondência e alterações inesperadas no esquema da fonte.' },
+      { h: 'Regras de negócio', p: 'Procure datas futuras indevidas, quantidades negativas, percentuais fora do intervalo, códigos inexistentes e variações de grafia que representam a mesma categoria.' },
+      { h: 'Reconciliação', p: 'Compare contagem de registros, soma dos principais valores e período mínimo/máximo com a origem. Registre a regra aplicada, a quantidade afetada e quem aprovou o tratamento.', r: { t: 'Ferramentas de perfil de dados do Power Query', u: 'https://learn.microsoft.com/pt-br/power-query/data-profiling-tools' } }
+    ]
+  }],
+  ['power-query-transformar', 'mesclar-consultas', {
+    id: 'boas-praticas-power-query', title: 'Boas práticas no Power Query',
+    desc: 'Organize consultas e etapas para obter atualização confiável, manutenção simples e melhor desempenho.',
+    objetivos: ['Estruturar consultas em camadas reutilizáveis', 'Reduzir processamento e facilitar diagnóstico de erros'],
+    body: 'Uma consulta que funciona hoje também precisa ser compreensível e atualizável daqui a seis meses.',
+    content: [
+      { h: 'Organização', p: 'Use nomes descritivos para consultas, etapas e parâmetros. Separe consultas de origem/staging das tabelas finais e desabilite o carregamento das auxiliares.' },
+      { h: 'Desempenho', p: 'Filtre linhas e remova colunas cedo, evite etapas repetidas e preserve query folding quando a fonte permitir. Só aplique operações caras depois de reduzir o volume.' },
+      { h: 'Confiabilidade', p: 'Defina tipos explicitamente, trate erros de forma consciente, evite caminhos locais fixos e documente regras de negócio importantes no nome ou na descrição da etapa.', r: { t: 'Práticas recomendadas do Power Query', u: 'https://learn.microsoft.com/pt-br/power-query/best-practices' } }
+    ]
+  }],
+  ['otimizacao', 'modos-armazenamento', {
+    id: 'modelo-semantico-profissional', title: 'Modelo semântico profissional',
+    desc: 'Prepare um modelo fácil de usar por outras pessoas: nomes, formatos, hierarquias, medidas, pastas e documentação.',
+    objetivos: ['Organizar o modelo para consumo de negócio', 'Reduzir erros de uso e facilitar manutenção'],
+    body: 'O modelo semântico é a camada que traduz tabelas técnicas em conceitos de negócio confiáveis.',
+    content: [
+      { h: 'Limpeza para o usuário', p: 'Oculte chaves técnicas e colunas que não devem ser usadas diretamente. Aplique nomes claros, formatos, categorias de dados, ordenação por coluna e hierarquias úteis.' },
+      { h: 'Medidas organizadas', p: 'Centralize medidas, use pastas de exibição e descrições. Prefira medidas explícitas e nomes que indiquem unidade ou finalidade quando necessário.' },
+      { h: 'Contrato de negócio', p: 'Documente definição, fórmula, origem, filtros e responsável por cada indicador crítico. O usuário deve conseguir montar uma análise sem conhecer a estrutura física das fontes.', r: { t: 'Configurar um modelo semântico', u: 'https://learn.microsoft.com/pt-br/training/modules/configure-power-bi-data-model/' } }
+    ]
+  }],
+  ['dax', 'dax-contexto-modelo', {
+    id: 'contextos-dax', title: 'Contexto de linha, filtro e transição de contexto',
+    desc: 'A base conceitual para entender por que a mesma medida muda de resultado em cada linha de um visual.',
+    objetivos: ['Diferenciar contexto de linha e contexto de filtro', 'Entender a transição realizada por CALCULATE'],
+    body: 'DAX não calcula apenas uma fórmula: calcula uma fórmula dentro de um contexto. Dominar contextos reduz tentativa e erro.',
+    content: [
+      { h: 'Contexto de linha', p: 'Existe quando uma expressão percorre linhas, como em uma coluna calculada ou função iteradora. A expressão enxerga os valores da linha atual.' },
+      { h: 'Contexto de filtro', p: 'É o conjunto de filtros ativos vindos de segmentações, linhas e colunas do visual, filtros de página e relações do modelo. Medidas são avaliadas nesse contexto.' },
+      { h: 'Transição de contexto', p: 'CALCULATE pode transformar o contexto de linha existente em contexto de filtro e também adicionar, substituir ou remover filtros. Analise sempre quais filtros estavam ativos antes e quais permanecem depois.', r: { t: 'Modificar o contexto de filtro em modelos semânticos', u: 'https://learn.microsoft.com/pt-br/training/paths/dax-power-bi-modify-filter/' } }
+    ]
+  }],
+  ['dax', 'dax-calculate-filter', {
+    id: 'padroes-medidas-dax', title: 'Padrões essenciais de medidas DAX',
+    desc: 'Um repertório de medidas reutilizáveis para faturamento, ticket, participação, meta, acumulado e comparação temporal.',
+    objetivos: ['Escolher um padrão de cálculo conforme a pergunta', 'Construir medidas a partir de medidas-base reutilizáveis'],
+    body: 'Medidas profissionais formam uma árvore: cálculos-base alimentam indicadores derivados, evitando repetição de lógica.',
+    content: [
+      { h: 'Medidas-base', p: 'Comece com Soma, Quantidade, Contagem distinta e Custo. Depois derive Ticket Médio com DIVIDE, Margem, Lucro e Meta versus Realizado.' },
+      { h: 'Participação e ranking', p: 'Para participação, divida o valor no contexto atual pelo total com o filtro de categoria removido. Para ranking, use RANKX sobre o conjunto correto e defina como tratar empates.' },
+      { h: 'Tempo e acumulado', p: 'Construa ano anterior, variação absoluta, variação percentual e acumulado usando uma tabela calendário marcada e contínua. Valide períodos incompletos antes de comparar.', r: { t: 'Criar cálculos DAX em modelos semânticos', u: 'https://learn.microsoft.com/pt-br/training/modules/create-dax-calculations-power-bi-desktop/' } }
+    ]
+  }],
+  ['dax', 'dax-tabelas-tempo', {
+    id: 'validar-medidas-dax', title: 'Como validar uma medida DAX',
+    desc: 'Um processo prático para verificar totais, filtros, granularidade e resultados inesperados antes da publicação.',
+    objetivos: ['Testar medidas de forma isolada', 'Rastrear diferenças entre o Power BI e a fonte'],
+    body: 'Uma fórmula sem erro de sintaxe não é necessariamente uma fórmula correta. Validação compara resultado, contexto e regra de negócio.',
+    content: [
+      { h: 'Comece pequeno', p: 'Coloque a medida em uma tabela junto com as chaves e dimensões relevantes. Filtre um único período ou entidade e calcule manualmente uma amostra.' },
+      { h: 'Adicione contexto gradualmente', p: 'Teste total geral, categoria, data e combinações. Observe quando o resultado muda de maneira inesperada e verifique relações, granularidade e filtros removidos.' },
+      { h: 'Registre evidências', p: 'Compare com relatório oficial ou consulta de origem, documente diferenças aceitáveis e mantenha cenários de teste para indicadores críticos.' }
+    ]
+  }],
+  ['relatorios', 'construindo-visualizacoes', {
+    id: 'escolher-grafico-correto', title: 'Como escolher o gráfico correto',
+    desc: 'Associe a pergunta de negócio ao visual adequado e evite gráficos que distorcem ou escondem a informação.',
+    objetivos: ['Escolher visuais pela tarefa analítica', 'Reconhecer quando uma tabela comunica melhor que um gráfico'],
+    body: 'O melhor visual é o que reduz o esforço para responder à pergunta, não o que parece mais sofisticado.',
+    content: [
+      { h: 'Pergunta primeiro', p: 'Use barras para comparar categorias, linhas para evolução temporal, dispersão para relação entre variáveis e histograma para distribuição. Cartões servem para poucos indicadores prioritários.' },
+      { h: 'Composição e detalhe', p: 'Barras empilhadas ajudam a comparar composição quando há poucas séries. Pizza exige poucas categorias e diferenças claras. Tabelas são melhores para valores exatos e consulta detalhada.' },
+      { h: 'Evite distorções', p: 'Mantenha escalas coerentes, não corte eixos de barras sem justificativa, limite cores, ordene categorias e remova elementos que não ajudam na leitura.', r: { t: 'Visualizações no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-types-for-reports-and-q-and-a' } }
+    ]
+  }],
+  ['relatorios', 'enriquecendo-relatorios', {
+    id: 'storytelling-hierarquia-visual', title: 'Storytelling e hierarquia visual',
+    desc: 'Organize páginas para conduzir o usuário do resultado principal até a causa e a ação necessária.',
+    objetivos: ['Criar uma ordem de leitura clara', 'Usar títulos, espaço, cor e contexto para destacar decisões'],
+    body: 'Storytelling em BI não significa enfeitar dados; significa organizar evidências para que a mensagem principal seja percebida rapidamente.',
+    content: [
+      { h: 'Uma página, uma finalidade', p: 'Defina a pergunta principal da página. Coloque contexto e filtros no topo, indicadores prioritários em destaque e análises explicativas na sequência.' },
+      { h: 'Hierarquia', p: 'Use tamanho, posição, contraste e espaço para indicar importância. Alinhe elementos em uma grade e mantenha padrões de navegação, cores e formatação entre páginas.' },
+      { h: 'Títulos que explicam', p: 'Prefira títulos orientados à leitura, como “Margem caiu apesar do aumento de vendas”, quando a análise for fixa. Inclua meta, período ou comparação para dar contexto ao número.' }
+    ]
+  }],
+  ['dashboards-governanca', 'implantar-manter', {
+    id: 'checklist-publicacao-profissional', title: 'Checklist de publicação profissional',
+    desc: 'Valide dados, segurança, atualização, experiência e responsabilidades antes de disponibilizar o relatório.',
+    objetivos: ['Executar uma revisão pré-publicação', 'Reduzir falhas de atualização, acesso e interpretação'],
+    body: 'Publicar não é apenas clicar em um botão. Uma entrega profissional verifica conteúdo, operação, segurança e suporte.',
+    content: [
+      { h: 'Dados e experiência', p: 'Reconcilie KPIs, teste filtros, interações, drillthrough, tooltips, navegação, acessibilidade, desempenho e layout mobile. Confira mensagens para estados vazios.' },
+      { h: 'Operação e segurança', p: 'Valide credenciais, gateway, atualização agendada, alertas, RLS e permissões do workspace/App. Teste com uma conta que tenha o mesmo perfil do usuário final.' },
+      { h: 'Governança', p: 'Defina proprietário técnico e de negócio, público, canal de suporte, periodicidade de revisão e procedimento para mudanças. Registre fontes e indicadores críticos.', r: { t: 'Publicar do Power BI Desktop no serviço', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-upload-desktop-files' } }
+    ]
+  }]
+].forEach(([modulo, depois, aula]) => inserirLeituraDepois(modulo, depois, aula));
