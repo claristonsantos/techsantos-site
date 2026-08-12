@@ -33,12 +33,14 @@ $alunosInativos7d = 0;
 if (admin_table_exists($pdo, 'aluno_atividade')) {
     $alunosInativos7d = (int)$pdo->query("SELECT COUNT(*) FROM alunos a LEFT JOIN aluno_atividade aa ON aa.aluno_id = a.id WHERE a.ativo = 1 AND COALESCE(aa.ultimo_acesso, a.created_at) < DATE_SUB(NOW(), INTERVAL 7 DAY)")->fetchColumn();
 }
+$aulasNovas = admin_table_exists($pdo, 'aulas_particulares_leads') ? (int)$pdo->query("SELECT COUNT(*) FROM aulas_particulares_leads WHERE status = 'novo'" )->fetchColumn() : 0;
 $ultimosPedidos = admin_table_exists($pdo, 'pedidos') ? $pdo->query("SELECT p.id,p.nome,p.valor_centavos,p.status,p.email_status,p.criado_em,c.nome AS curso_nome FROM pedidos p JOIN cursos c ON c.id=p.curso_id ORDER BY p.criado_em DESC LIMIT 6")->fetchAll() : [];
 
 $pendencias = [
     ['label' => 'E-mails de acesso com falha', 'count' => $emailsFalha, 'href' => '/admin/pedidos.php', 'tone' => 'danger'],
     ['label' => 'Posts com erro', 'count' => $postsErro, 'href' => '/admin/social_posts.php', 'tone' => 'danger'],
     ['label' => 'Pedidos pendentes há até 7 dias', 'count' => $pedidosPendentes, 'href' => '/admin/pedidos.php', 'tone' => 'warning'],
+    ['label' => 'Novas solicitações de aula', 'count' => $aulasNovas, 'href' => '/admin/aulas_particulares.php?status=novo', 'tone' => 'warning'],
     ['label' => 'Alunos ativos sem CPF', 'count' => $alunosSemCpf, 'href' => '/admin/alunos.php', 'tone' => 'warning'],
     ['label' => 'Alunos sem acesso há 7 dias', 'count' => $alunosInativos7d, 'href' => '/admin/jornada.php', 'tone' => 'neutral'],
 ];
@@ -73,6 +75,7 @@ admin_topbar('index');
     <section class="admin-panel admin-shortcuts-panel">
       <div class="admin-panel-head"><div><span class="admin-panel-kicker">Acesso rápido</span><h2>Ações frequentes</h2></div></div>
       <div class="admin-shortcut-grid">
+        <a href="/admin/aulas_particulares.php"><?= admin_icon('lessons') ?><span><strong>Aulas particulares</strong><small>Leads, agenda e valores</small></span></a>
         <a href="/admin/pedidos.php"><?= admin_icon('orders') ?><span><strong>Conferir pedidos</strong><small>Pagamentos e acessos</small></span></a>
         <a href="/admin/jornada.php"><?= admin_icon('journey') ?><span><strong>Ver jornada</strong><small>Progresso dos alunos</small></span></a>
         <a href="/admin/avaliacoes.php"><?= admin_icon('assessment') ?><span><strong>Avaliações</strong><small>Questões e resultados</small></span></a>

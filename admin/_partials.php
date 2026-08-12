@@ -26,6 +26,7 @@ function admin_icon(string $name): string
         'dashboard' => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
         'metrics' => '<path d="M4 19V9M10 19V5M16 19v-7M22 19V3"/>',
         'orders' => '<path d="M3 6h18l-2 9H6L3 3H1"/><circle cx="8" cy="20" r="1"/><circle cx="17" cy="20" r="1"/>',
+        'lessons' => '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="m9 15 2 2 4-4"/>',
         'students' => '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
         'certificate' => '<circle cx="12" cy="8" r="5"/><path d="m8.5 12-1 9 4.5-2 4.5 2-1-9"/>',
         'course' => '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 5.5v14"/>',
@@ -49,6 +50,7 @@ function admin_topbar(string $active): void
         ],
         'Vendas e alunos' => [
             'pedidos' => ['/admin/pedidos.php', 'Pedidos', 'orders'],
+            'aulas_particulares' => ['/admin/aulas_particulares.php', 'Aulas particulares', 'lessons'],
             'alunos' => ['/admin/alunos.php', 'Alunos', 'students'],
             'certificados' => ['/admin/certificados.php', 'Certificados', 'certificate'],
         ],
