@@ -44,22 +44,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ativo = isset($_POST['ativo']) ? 1 : 0;
         $precoReais = trim((string)($_POST['preco'] ?? ''));
         $precoCentavos = $precoReais !== '' ? (int)round(((float)str_replace(',', '.', $precoReais)) * 100) : null;
-        $slug = slugify($nome);
-
-        if ($nome === '' || $slug === '') {
+        // O slug é usado como referência fixa em vários lugares (checkout,
+        // webhooks) — só é gerado na criação. Editar um curso existente
+        // (ex.: só mudar o preço) NUNCA muda o slug, mesmo que o nome mude,
+        // pra não quebrar essas referências silenciosamente.
+        if ($nome === '' || ($id === 0 && slugify($nome) === '')) {
             $error = 'Informe o nome do curso.';
         } else {
+            $slug = slugify($nome);
             $dupStmt = $pdo->prepare('SELECT id FROM cursos WHERE slug = ? AND id != ?');
             $dupStmt->execute([$slug, $id]);
-            if ($dupStmt->fetch()) {
+            if ($id === 0 && $dupStmt->fetch()) {
                 $error = 'Já existe um curso com um nome muito parecido.';
             } else {
                 if ($id === 0) {
                     $stmt = $pdo->prepare('INSERT INTO cursos (nome, slug, carga_horaria, modalidade, descricao, ativo, preco_centavos) VALUES (?, ?, ?, ?, ?, ?, ?)');
                     $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $precoCentavos]);
                 } else {
-                    $stmt = $pdo->prepare('UPDATE cursos SET nome=?, slug=?, carga_horaria=?, modalidade=?, descricao=?, ativo=?, preco_centavos=? WHERE id=?');
-                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $precoCentavos, $id]);
+                    $stmt = $pdo->prepare('UPDATE cursos SET nome=?, carga_horaria=?, modalidade=?, descricao=?, ativo=?, preco_centavos=? WHERE id=?');
+                    $stmt->execute([$nome, $cargaHoraria, $modalidade, $descricao, $ativo, $precoCentavos, $id]);
                 }
                 header('Location: /admin/cursos.php?msg=' . urlencode('Curso salvo com sucesso.'));
                 exit;
