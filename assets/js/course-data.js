@@ -756,3 +756,57 @@ function inserirLeituraDepois(moduloId, depoisDeId, aula) {
     ]
   }]
 ].forEach(([modulo, depois, aula]) => inserirLeituraDepois(modulo, depois, aula));
+// Diagramas oficiais Microsoft Learn usados como apoio visual nas leituras.
+function adicionarImagemAula(aulaId, bloco) {
+  for (const modulo of COURSE) {
+    const aula = modulo.lessons.find(l => l.id === aulaId);
+    if (!aula) continue;
+    aula.content = aula.content || [];
+    if (!aula.content.some(c => c.img && c.img.src === bloco.img.src)) aula.content.push(bloco);
+    return;
+  }
+}
+
+adicionarImagemAula('granularidade-sem-duplicidade', {
+  h: 'Visualize a estrutura antes de combinar',
+  p: 'O diagrama ajuda a perceber que dimensões possuem chaves únicas e que a tabela fato repete essas chaves em outra granularidade.',
+  img: {
+    src: '/assets/img/course-ms/esquema-estrela.svg',
+    alt: 'Diagrama oficial Microsoft de um esquema estrela com tabela fato ao centro e dimensões ao redor',
+    caption: 'Exemplo de esquema estrela: dimensões filtram a tabela fato central.',
+    source: 'https://learn.microsoft.com/pt-br/power-bi/guidance/star-schema'
+  }
+});
+
+adicionarImagemAula('relacionamentos-cardinalidade-filtros', {
+  h: 'Cardinalidade na exibição de modelo',
+  p: 'Os símbolos 1 e asterisco indicam, respectivamente, o lado com valores únicos e o lado que pode repetir a chave.',
+  img: {
+    src: '/assets/img/course-ms/relacionamento-cardinalidade.png',
+    alt: 'Captura oficial Microsoft mostrando indicadores um e muitos em um relacionamento do Power BI',
+    caption: 'Indicadores de cardinalidade em uma relação um-para-muitos.',
+    source: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-relationships-understand'
+  }
+});
+
+adicionarImagemAula('relacionamentos-cardinalidade-filtros', {
+  h: 'Direção de propagação do filtro',
+  p: 'A seta na linha mostra para onde o filtro se propaga. Em esquema estrela, prefira normalmente a dimensão filtrando a fato.',
+  img: {
+    src: '/assets/img/course-ms/direcao-filtro.png',
+    alt: 'Captura oficial Microsoft destacando a seta de direção de filtro entre duas tabelas',
+    caption: 'A seta indica a direção de filtro do relacionamento.',
+    source: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-relationships-understand'
+  }
+});
+
+adicionarImagemAula('modelo-semantico-profissional', {
+  h: 'Do modelo normalizado ao modelo analítico',
+  p: 'Fontes operacionais podem chegar altamente normalizadas. Para análise, organize entidades e fatos de forma compreensível, evitando levar a complexidade da origem diretamente ao usuário.',
+  img: {
+    src: '/assets/img/course-ms/dados-normalizados.svg',
+    alt: 'Diagrama oficial Microsoft mostrando tabelas de dados normalizadas e seus relacionamentos',
+    caption: 'Exemplo de estrutura normalizada encontrada em sistemas de origem.',
+    source: 'https://learn.microsoft.com/pt-br/power-bi/guidance/star-schema'
+  }
+});

@@ -162,6 +162,10 @@ if ($isPowerBi) {
   .lab-star-dims { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
   .lab-star-dims span { background: var(--surface); border: 1px solid var(--green-bright); color: var(--green-strong); border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 0.78rem; font-weight: 600; }
 
+  .lesson-figure { margin: 1.25rem 0; padding: 1rem; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+  .lesson-figure img { display: block; width: 100%; height: auto; max-height: 520px; object-fit: contain; }
+  .lesson-figure figcaption { margin-top: .75rem; color: var(--ink-soft); font-size: .78rem; line-height: 1.45; }
+  .lesson-figure figcaption a { color: var(--green-strong); }
   .resources { margin-bottom: 1.5rem; }
   .resources h2 { font-size: 0.95rem; font-weight: 700; font-family: 'Plex Sans', sans-serif; margin-bottom: 0.7rem; }
   .resources ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
@@ -266,7 +270,7 @@ const AVALIACOES = <?= json_encode($avaliacoesInfo, JSON_UNESCAPED_UNICODE) ?>;
 const RESUME_MODULE = <?= json_encode(preg_match('/^[a-z0-9-]+$/', (string)($_GET['modulo'] ?? '')) ? $_GET['modulo'] : null) ?>;
 const MSL = 'learn.microsoft.com';
 </script>
-<script src="/assets/js/course-data.js?v=20260812-63"></script>
+<script src="/assets/js/course-data.js?v=20260812-63-img1"></script>
 <script>
 
 const flat = [];
@@ -415,6 +419,17 @@ const RESOURCE_SUMMARIES = {
   'https://learn.microsoft.com/pt-br/training/modules/optimize-model-power-bi/': 'Módulo de treinamento sobre otimização de modelo: como revisar o desempenho de medidas, relacionamentos e visuais, usar variáveis para simplificar cálculos e reduzir a cardinalidade de colunas para economizar memória.',
 };
 
+function contentBlock(b) {
+  if (!b) return '';
+  const texto = `${b.h ? `<h3>${b.h}</h3>` : ''}${b.p ? `<p>${b.p}</p>` : ''}`;
+  const figura = b.img ? `<figure class="lesson-figure">
+    <img src="${b.img.src}" alt="${b.img.alt || ''}" loading="lazy" decoding="async">
+    <figcaption>${b.img.caption || ''}${b.img.source ? ` · <a href="${b.img.source}" target="_blank" rel="noopener">Fonte: Microsoft Learn</a>` : ''}</figcaption>
+  </figure>` : '';
+  const recurso = b.r ? `<div class="res-inline resources"><ul>${resourceItem(b.r)}</ul></div>` : '';
+  return texto + figura + recurso;
+}
+
 function resourceItem(r) {
   if (!r) return '';
   const resumo = RESOURCE_SUMMARIES[r.u] || '';
@@ -484,7 +499,7 @@ function renderLesson(id) {
       </div>
       ${lesson.content ? `
       <div class="reading-card">
-        ${lesson.content.map(b => `<h3>${b.h}</h3><p>${b.p}</p>${b.r ? `<div class="res-inline resources"><ul>${resourceItem(b.r)}</ul></div>` : ''}`).join('')}
+        ${lesson.content.map(contentBlock).join('')}
       </div>` : ''}
       ${lesson.arquivo ? `
       <div class="resources">
@@ -517,7 +532,7 @@ function renderLesson(id) {
   } else {
     mediaBlock = `
       <div class="reading-card">
-        ${lesson.content.map(b => `<h3>${b.h}</h3><p>${b.p}</p>${b.r ? `<div class="res-inline resources"><ul>${resourceItem(b.r)}</ul></div>` : ''}`).join('')}
+        ${lesson.content.map(contentBlock).join('')}
       </div>
     `;
   }
