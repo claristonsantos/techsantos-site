@@ -18,13 +18,13 @@ function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?stri
             $pdo->commit();
             return ['status'=>'ja_processado','pedido_id'=>$pedidoId,'aluno_id'=>(int)$pedido['aluno_id']];
         }
-        $cpf = $pedido['cpf'] ?: ($cpfDoPagamento ?? '');
-        if ($cpf !== $pedido['cpf']) $pdo->prepare('UPDATE pedidos SET cpf = ? WHERE id = ?')->execute([$cpf, $pedidoId]);
-        $dup = $pdo->prepare("SELECT id FROM alunos WHERE email = ? OR (cpf != '' AND cpf = ?)");
+        $cpf = preg_replace('/\D/', '', (string)($pedido['cpf'] ?: ($cpfDoPagamento ?? ''))) ?: null;
+        if ($cpf !== ($pedido['cpf'] ?: null)) $pdo->prepare('UPDATE pedidos SET cpf = ? WHERE id = ?')->execute([$cpf, $pedidoId]);
+        $dup = $pdo->prepare("SELECT id FROM alunos WHERE email = ? OR (cpf IS NOT NULL AND cpf != '' AND cpf = ?)");
         $dup->execute([$pedido['email'], $cpf]); $existing = $dup->fetch();
         if ($existing) {
             $alunoId = (int)$existing['id'];
-            $pdo->prepare("UPDATE alunos SET curso_id = ?, ativo = 1, cpf = IF(cpf = '', ?, cpf) WHERE id = ?")->execute([$pedido['curso_id'], $cpf, $alunoId]);
+            $pdo->prepare("UPDATE alunos SET curso_id = ?, ativo = 1, cpf = IF(cpf IS NULL OR cpf = '', ?, cpf) WHERE id = ?")->execute([$pedido['curso_id'], $cpf, $alunoId]);
         } else {
             $senhaGerada = bin2hex(random_bytes(5));
             $pdo->prepare('INSERT INTO alunos (nome,email,cpf,senha_hash,curso_id,senha_temporaria) VALUES (?,?,?,?,?,1)')->execute([$pedido['nome'],$pedido['email'],$cpf,password_hash($senhaGerada,PASSWORD_DEFAULT),$pedido['curso_id']]);

@@ -106,7 +106,7 @@ function require_aluno(bool $allowTempPassword = false): array
         exit;
     }
     $stmt = db()->prepare(
-        'SELECT a.id, a.nome, a.email, a.curso_id, a.senha_temporaria, c.nome AS curso_nome, c.slug AS curso_slug
+        'SELECT a.id, a.nome, a.email, a.cpf, a.curso_id, a.senha_temporaria, c.nome AS curso_nome, c.slug AS curso_slug
          FROM alunos a JOIN cursos c ON c.id = a.curso_id
          WHERE a.id = ? AND a.ativo = 1 LIMIT 1'
     );
@@ -117,7 +117,10 @@ function require_aluno(bool $allowTempPassword = false): array
         header('Location: /login.php');
         exit;
     }
-    if (!$allowTempPassword && $aluno['senha_temporaria']) {
+    // CPF é exigido pra emissão do certificado; nem sempre vem do Mercado
+    // Pago no momento do pagamento (depende do método usado), então também
+    // pedimos aqui, na mesma tela do primeiro acesso.
+    if (!$allowTempPassword && ($aluno['senha_temporaria'] || empty($aluno['cpf']))) {
         header('Location: /aluno/trocar-senha.php');
         exit;
     }
