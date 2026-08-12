@@ -14,7 +14,7 @@ function admin_head(string $title): void
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/css/style.css" />
-<link rel="stylesheet" href="/assets/css/admin.css" />
+<link rel="stylesheet" href="/assets/css/admin.css?v=20260812-admin4" />
 </head>
 <body class="admin-body">
     <?php
@@ -125,7 +125,7 @@ function admin_pagination(int $page, int $pages, int $total): void
 function admin_foot(): void
 {
     ?>
-<script src="/assets/js/admin-shell.js?v=20260812"></script>
+<script src="/assets/js/admin-shell.js?v=20260812-admin4"></script>
 </body>
 </html>
     <?php
