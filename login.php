@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Área do Aluno</h1>
     <p class="sub">Entre com o e-mail e a senha que você recebeu para acessar o curso.</p>
     <?php if ($error): ?>
-      <div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div>
+      <div class="alert alert-error" role="alert" tabindex="-1"><?= htmlspecialchars($error, ENT_QUOTES) ?></div>
     <?php endif; ?>
     <form method="post" novalidate>
       <?= csrf_field() ?>
@@ -54,12 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <div class="field">
         <label for="senha">Senha</label>
-        <input type="password" id="senha" name="senha" required autocomplete="current-password">
+        <div class="password-field">
+          <input type="password" id="senha" name="senha" required autocomplete="current-password">
+          <button type="button" class="password-toggle" data-password-toggle="senha" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+        </div>
       </div>
       <button type="submit" class="btn btn-primary btn-block">Entrar</button>
     </form>
     <p style="text-align:center;margin-top:1rem;"><a href="/esqueci-senha.php">Esqueci minha senha</a></p>
   </div>
 </div>
+<script src="/assets/js/password-toggle.js?v=20260812"></script>
 </body>
 </html>

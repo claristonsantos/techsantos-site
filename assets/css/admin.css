@@ -22,6 +22,11 @@
   border: 1px solid var(--line); border-radius: 5px; background: var(--bg); color: var(--ink); width: 100%;
 }
 .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--green); outline-offset: -1px; }
+.password-field { position: relative; }
+.password-field input { width: 100%; min-height: 48px; padding-right: 5rem; }
+.password-toggle { position:absolute; top:2px; right:2px; min-width:70px; height:44px; border:0; border-left:1px solid var(--line); border-radius:0 5px 5px 0; background:var(--surface-2); color:var(--green-strong); cursor:pointer; font:600 .75rem 'Plex Sans',sans-serif; }
+.password-toggle:focus-visible { outline:3px solid var(--green-bright); outline-offset:2px; }
+
 .field .hint { font-size: 0.76rem; color: var(--ink-faint); }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } }

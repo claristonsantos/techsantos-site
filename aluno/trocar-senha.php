@@ -78,18 +78,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php endif; ?>
     </p>
     <?php if ($error): ?>
-      <div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div>
+      <div class="alert alert-error" role="alert" tabindex="-1"><?= htmlspecialchars($error, ENT_QUOTES) ?></div>
     <?php endif; ?>
     <form method="post" novalidate>
       <?= csrf_field() ?>
       <?php if ($precisaSenha): ?>
       <div class="field">
         <label for="senha">Nova senha</label>
-        <input type="password" id="senha" name="senha" required autocomplete="new-password" minlength="6">
+        <div class="password-field"><input type="password" id="senha" name="senha" required autocomplete="new-password" minlength="6"><button type="button" class="password-toggle" data-password-toggle="senha" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button></div>
       </div>
       <div class="field">
         <label for="confirmar">Confirmar nova senha</label>
-        <input type="password" id="confirmar" name="confirmar" required autocomplete="new-password" minlength="6">
+        <div class="password-field"><input type="password" id="confirmar" name="confirmar" required autocomplete="new-password" minlength="6"><button type="button" class="password-toggle" data-password-toggle="confirmar" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button></div>
       </div>
       <?php endif; ?>
       <?php if ($precisaCpf): ?>
@@ -103,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
   </div>
 </div>
+<script src="/assets/js/password-toggle.js?v=20260812"></script>
 <script>
 var cpfInput = document.getElementById('cpf');
 if (cpfInput) {

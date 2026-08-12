@@ -196,8 +196,9 @@ $historicoTentativas = $historyStmt->fetchAll();
   .q-card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 1.4rem 1.5rem; margin-bottom: 1.25rem; }
   .q-card .q-num { font-family: 'Plex Mono', monospace; font-size: 0.72rem; color: var(--green-strong); margin-bottom: 0.5rem; display: block; }
   .q-card .q-text { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
-  .q-opt { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.6rem 0.7rem; border-radius: 6px; cursor: pointer; }
+  .q-opt { display: flex; min-height:48px; align-items: flex-start; gap: 0.65rem; padding: 0.6rem 0.7rem; border-radius: 6px; cursor: pointer; }
   .q-opt:hover { background: var(--surface-2); }
+  .q-opt:focus-within { outline:3px solid var(--green-bright); outline-offset:2px; }
   .q-opt input { margin-top: 0.2rem; }
   .q-opt span { font-size: 0.92rem; color: var(--ink); line-height: 1.4; }
   .q-opt.correct { background: var(--green-soft); }
@@ -209,7 +210,7 @@ $historicoTentativas = $historyStmt->fetchAll();
   .result-card.pass .score { color: var(--green-strong); }
   .result-card h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
   .result-card p { color: var(--ink-soft); font-size: 0.92rem; }
-  .attempt-history { margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--line); }
+  .attempt-history { margin-top:2rem; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-top:1.5rem; border-top:1px solid var(--line); }
   .attempt-history h2 { font-size:1.05rem; margin-bottom:.75rem; }
   .attempt-table { width:100%; border-collapse:collapse; font-size:.86rem; }
   .attempt-table th, .attempt-table td { text-align:left; padding:.7rem .55rem; border-bottom:1px solid var(--line); }
@@ -247,7 +248,7 @@ window.techSantosTrack?.(<?= $resultado ? json_encode($resultado['aprovado'] ? '
     </div>
   <?php endif; ?>
 
-  <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
+  <?php if ($error): ?><div class="alert alert-error" role="alert" tabindex="-1"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
 
   <?php if ($resultado): ?>
   <div class="eval-head">
@@ -296,7 +297,7 @@ window.techSantosTrack?.(<?= $resultado ? json_encode($resultado['aprovado'] ? '
   <?php if ($historicoTentativas): ?>
   <section class="attempt-history">
     <h2>Histórico de tentativas</h2>
-    <table class="attempt-table"><thead><tr><th>Tentativa</th><th>Data</th><th>Nota</th><th>Resultado</th></tr></thead><tbody>
+    <table class="attempt-table" style="min-width:520px"><thead><tr><th>Tentativa</th><th>Data</th><th>Nota</th><th>Resultado</th></tr></thead><tbody>
     <?php foreach ($historicoTentativas as $i => $tentativa): ?>
       <tr><td>#<?= count($historicoTentativas) - $i ?></td><td><?= date('d/m/Y H:i', strtotime($tentativa['criada_em'])) ?></td><td><?= number_format((float)$tentativa['nota'], 0) ?>%</td><td><span class="attempt-status <?= $tentativa['aprovado'] ? 'pass' : 'fail' ?>"><?= $tentativa['aprovado'] ? 'Aprovado' : 'Revisar' ?></span></td></tr>
     <?php endforeach; ?>

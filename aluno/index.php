@@ -51,17 +51,25 @@ if ($isPowerBi) {
   .topbar-actions .who { font-size: 0.85rem; color: var(--ink-soft); }
   .sidebar-toggle {
     display: none; background: none; border: 1px solid var(--line); border-radius: 5px;
-    width: 36px; height: 34px; align-items: center; justify-content: center; color: var(--ink); cursor: pointer;
+    width: 44px; height: 44px; align-items: center; justify-content: center; color: var(--ink); cursor: pointer;
   }
 
+  .skip-link { position: fixed; left: 1rem; top: -5rem; z-index: 100; padding: .7rem 1rem; border-radius: 6px; background: var(--green); color: #08210a; font-weight: 700; text-decoration: none; }
+  .skip-link:focus { top: 1rem; }
+  :where(a, button, input):focus-visible { outline: 3px solid var(--green-bright); outline-offset: 3px; }
+
   .app-shell { display: grid; grid-template-columns: 340px 1fr; align-items: start; }
-  .app-sidebar { border-right: 1px solid var(--line); background: var(--surface); height: calc(100vh - 53px); position: sticky; top: 53px; overflow-y: auto; }
+  .app-sidebar { border-right: 1px solid var(--line); background: var(--surface); height: calc(100vh - 53px); position: sticky; top: 53px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--ink-faint) transparent; }
+  .app-sidebar::-webkit-scrollbar { width: 8px; }
+  .app-sidebar::-webkit-scrollbar-track { background: transparent; }
+  .app-sidebar::-webkit-scrollbar-thumb { background: var(--ink-faint); border-radius: 8px; }
   .sidebar-progress { padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); }
   .sidebar-progress .label { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 0.5rem; font-weight: 600; }
   .sidebar-progress .label span:last-child { font-family: 'Plex Mono', monospace; color: var(--ink-faint); font-weight: 400; }
   .sidebar-progress .bar { height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
   .sidebar-progress .bar > span { display: block; height: 100%; background: var(--green); border-radius: 3px; transition: width 0.25s ease; }
-  .sidebar-home { display:flex; align-items:center; gap:.55rem; width:calc(100% - 1.5rem); margin:.75rem; padding:.7rem .8rem; border:1px solid var(--line); border-radius:6px; background:var(--surface-2); color:var(--ink); font:600 .8rem 'Plex Sans',sans-serif; cursor:pointer; }
+  .sidebar-home { display:flex; align-items:center; min-height:44px; gap:.55rem; width:calc(100% - 1.5rem); margin:.75rem; padding:.7rem .8rem; border:1px solid var(--line); border-radius:6px; background:var(--surface-2); color:var(--ink); font:600 .8rem 'Plex Sans',sans-serif; cursor:pointer; }
+  .sidebar-home svg { width:17px; height:17px; flex:none; }
   .sidebar-home:hover, .sidebar-home.active { border-color:var(--green); color:var(--green-strong); }
   .dashboard { max-width:980px; margin:0 auto; padding:clamp(1.5rem,4vw,3rem); }
   .dashboard-hero { padding:clamp(1.4rem,4vw,2.25rem); border:1px solid var(--line); border-radius:12px; background:linear-gradient(135deg,var(--surface),var(--surface-2)); }
@@ -81,7 +89,7 @@ if ($isPowerBi) {
 
   .sidebar-module { border-bottom: 1px solid var(--line); }
   .sidebar-module-head {
-    padding: 0.9rem 1.25rem; font-size: 0.83rem; font-weight: 600; color: var(--ink);
+    min-height: 48px; padding: 0.9rem 1.25rem; font-size: 0.83rem; font-weight: 600; color: var(--ink);
     display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
     cursor: pointer; background: none; border: none; width: 100%; text-align: left; font-family: 'Plex Sans', sans-serif;
   }
@@ -93,7 +101,7 @@ if ($isPowerBi) {
   .sidebar-module.open .sidebar-module-lessons { display: block; }
 
   .sidebar-lesson {
-    display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 1.25rem 0.45rem 1.5rem;
+    display: flex; align-items: center; gap: 0.6rem; min-height: 46px; padding: 0.62rem 1.25rem 0.62rem 1.5rem;
     font-size: 0.85rem; color: var(--ink-soft); cursor: pointer; border-left: 2px solid transparent;
     background: none; width: 100%; text-align: left; font-family: 'Plex Sans', sans-serif;
   }
@@ -111,7 +119,7 @@ if ($isPowerBi) {
   .sidebar-module.locked .sidebar-module-head { color: var(--ink-faint); }
   .locked-msg { padding: 0.5rem 1.25rem 0.85rem 1.5rem; font-size: 0.8rem; color: var(--ink-faint); line-height: 1.4; margin: 0; }
   .sidebar-eval {
-    display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 1.25rem 0.55rem 1.5rem;
+    display: flex; align-items: center; gap: 0.6rem; min-height: 46px; padding: 0.65rem 1.25rem 0.65rem 1.5rem;
     font-size: 0.85rem; font-weight: 600; text-decoration: none; color: var(--green-strong);
     border-top: 1px dashed var(--line); margin-top: 0.2rem;
   }
@@ -119,7 +127,8 @@ if ($isPowerBi) {
   .sidebar-eval .type-icon { width: 13px; height: 13px; flex: none; }
   .sidebar-eval.passed { color: var(--ink-faint); }
 
-  .app-main { padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3.5rem) 5rem; max-width: 760px; }
+  .app-main { width:100%; max-width:1040px; margin:0 auto; padding:clamp(1.5rem,4vw,3rem) clamp(1.25rem,4vw,3.5rem) 5rem; }
+  .lesson-shell { max-width:880px; margin:0 auto; }
   .lesson-breadcrumb { font-size: 0.78rem; color: var(--ink-faint); font-weight: 500; }
   .lesson-title { font-size: clamp(1.35rem, 1.2vw + 1rem, 1.85rem); margin: 0.4rem 0 1.5rem; font-family: 'Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0; }
 
@@ -157,6 +166,13 @@ if ($isPowerBi) {
   .reading-card h3:first-of-type { margin-top: 0; }
   .reading-card p { color: var(--ink-soft); font-size: 0.96rem; line-height: 1.65; margin-bottom: 0.5rem; }
   .reading-card .res-inline { margin: 0.35rem 0 0.9rem; }
+  .lesson-meta { display:flex; flex-wrap:wrap; gap:.5rem; margin:-.8rem 0 1.35rem; color:var(--ink-faint); font-size:.76rem; }
+  .lesson-meta span { display:inline-flex; align-items:center; min-height:28px; padding:.25rem .55rem; border:1px solid var(--line); border-radius:999px; background:var(--surface); }
+  .lesson-toc { margin:0 0 1.4rem; padding:1rem 1.1rem; border:1px solid var(--line); border-left:3px solid var(--green); border-radius:7px; background:var(--surface-2); }
+  .lesson-toc strong { display:block; margin-bottom:.45rem; font-size:.82rem; }
+  .lesson-toc ol { margin:0; padding-left:1.15rem; color:var(--ink-soft); font-size:.83rem; }
+  .lesson-toc a { color:inherit; text-decoration:none; }
+  .lesson-toc a:hover { color:var(--green-strong); text-decoration:underline; }
 
   .lab-step { padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
   .lab-step:first-of-type { padding-top: 0; }
@@ -222,13 +238,15 @@ if ($isPowerBi) {
     font-size: 0.85rem; padding: 0.55rem 1.1rem; border-radius: 5px; border: 1px solid var(--line); background: var(--surface);
     color: var(--ink); cursor: pointer; margin-bottom: 2rem;
   }
+  .mark-done-btn.is-primary { min-height:48px; background:var(--green); border-color:var(--green); color:#08210a; font-weight:700; padding:.75rem 1.25rem; box-shadow:0 8px 24px rgba(94,203,82,.16); }
+  .mark-done-btn.is-primary:hover { background:var(--green-bright); }
   .mark-done-btn.is-done { background: var(--green-soft); border-color: var(--green); color: var(--green-strong); }
   .mark-done-btn svg { width: 14px; height: 14px; }
   .lesson-support { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.1rem; margin:0 0 1.25rem; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
   .lesson-support strong { display:block; font-size:.88rem; margin-bottom:.2rem; }
   .lesson-support span { color:var(--ink-soft); font-size:.78rem; }
   .lesson-support a { flex:none; text-decoration:none; font-size:.8rem; font-weight:700; color:var(--green-strong); border:1px solid var(--green); border-radius:5px; padding:.5rem .8rem; }
-  @media (max-width: 560px) { .lesson-support { align-items:flex-start; flex-direction:column; } }
+  @media (max-width: 560px) { .lesson-support { align-items:flex-start; flex-direction:column; } .topbar-actions .who { display:none; } .student-brand span { font-size:.78rem; } .app-main { padding-inline:1rem; } .lesson-nav .t { font-size:.8rem; } }
 
   .sidebar-backdrop { display: none; }
   @media (max-width: 900px) {
@@ -247,6 +265,8 @@ if ($isPowerBi) {
 </style>
 </head>
 <body>
+
+<a class="skip-link" href="#appMain">Pular para o conteúdo</a>
 
 <div class="student-topbar">
   <div style="display:flex; align-items:center; gap:0.75rem;">
@@ -281,11 +301,11 @@ if ($isPowerBi) {
       <div class="label"><span>Seu progresso</span><span id="progressCount">0/63</span></div>
       <div class="bar"><span id="progressBar" style="width:0%"></span></div>
     </div>
-    <button class="sidebar-home" id="dashboardBtn" type="button">⌂ Visão geral do curso</button>
+    <button class="sidebar-home" id="dashboardBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-6h5v6"/></svg><span>Visão geral do curso</span></button>
     <nav id="sidebarNav"></nav>
   </aside>
 
-  <main class="app-main" id="appMain"></main>
+  <main class="app-main" id="appMain" tabindex="-1"></main>
 </div>
 
 <script>
@@ -361,7 +381,7 @@ function renderSidebar(currentId) {
         ${!unlocked ? `<p class="locked-msg">Conclua a avaliação do módulo anterior para desbloquear.</p>` : mod.lessons.map(l => {
           const done = progress.has(l.id);
           const active = l.id === currentId;
-          return `<button class="sidebar-lesson${active ? ' active' : ''}${done ? ' done' : ''}" data-lesson="${l.id}">
+          return `<button class="sidebar-lesson${active ? ' active' : ''}${done ? ' done' : ''}" data-lesson="${l.id}"${active ? ' aria-current="page"' : ''}>
             <span class="check">${done ? ICON_CHECK : ''}</span>
             <span class="type-icon">${ICON_PLAY}</span>
             <span class="lbl">${l.title}</span>
@@ -451,9 +471,9 @@ const RESOURCE_SUMMARIES = {
   'https://learn.microsoft.com/pt-br/training/modules/optimize-model-power-bi/': 'Módulo de treinamento sobre otimização de modelo: como revisar o desempenho de medidas, relacionamentos e visuais, usar variáveis para simplificar cálculos e reduzir a cardinalidade de colunas para economizar memória.',
 };
 
-function contentBlock(b) {
+function contentBlock(b, index = 0, lessonId = 'aula') {
   if (!b) return '';
-  const texto = `${b.h ? `<h3>${b.h}</h3>` : ''}${b.p ? `<p>${b.p}</p>` : ''}${b.items ? `<ul class="req-list">${b.items.map(item => `<li>${ICON_CHECK}<span>${item}</span></li>`).join('')}</ul>` : ''}`;
+  const texto = `${b.h ? `<h3 id="${lessonId}-sec-${index}">${b.h}</h3>` : ''}${b.p ? `<p>${b.p}</p>` : ''}${b.items ? `<ul class="req-list">${b.items.map(item => `<li>${ICON_CHECK}<span>${item}</span></li>`).join('')}</ul>` : ''}`;
   const figura = b.img ? `<figure class="lesson-figure">
     <img src="${b.img.src}" alt="${b.img.alt || ''}" loading="lazy" decoding="async">
     <figcaption>${b.img.caption || ''}${b.img.source ? ` · <a href="${b.img.source}" target="_blank" rel="noopener">Fonte: Microsoft Learn</a>` : ''}</figcaption>
@@ -502,6 +522,7 @@ function renderLesson(id) {
   const prev = flat[idx - 1];
   const next = flat[idx + 1];
   const done = progress.has(lesson.id);
+  const module = COURSE.find(m => m.id === lesson.moduleId);
   const main = document.getElementById('appMain');
   openModule = lesson.moduleId;
 
@@ -537,7 +558,7 @@ function renderLesson(id) {
       </div>
       ${lesson.content ? `
       <div class="reading-card">
-        ${lesson.content.map(contentBlock).join('')}
+        ${lesson.content.map((block, i) => contentBlock(block, i, lesson.id)).join('')}
       </div>` : ''}
       ${lesson.arquivo ? `
       <div class="resources">
@@ -570,26 +591,35 @@ function renderLesson(id) {
   } else {
     mediaBlock = `
       <div class="reading-card">
-        ${lesson.content.map(contentBlock).join('')}
+        ${lesson.content.map((block, i) => contentBlock(block, i, lesson.id)).join('')}
       </div>
     `;
   }
 
   const supportUrl = 'https://wa.me/5564992905785?text=' + encodeURIComponent(`Olá! Estou com uma dúvida na aula “${lesson.title}”, do ${lesson.moduleTitle}.`);
 
-  main.innerHTML = `
+  const readingBlocks = Array.isArray(lesson.content) ? lesson.content : [];
+  const readingText = readingBlocks.map(block => [block.h, block.p, ...(block.items || [])].filter(Boolean).join(' ')).join(' ');
+  const readingMinutes = Math.max(1, Math.ceil(readingText.trim().split(/\s+/).filter(Boolean).length / 180));
+  const lessonType = lesson.steps ? 'Laboratório' : (lesson.kind === 'video' ? 'Videoaula' : 'Leitura');
+  const tocItems = readingBlocks.map((block, i) => block.h ? `<li><a href="#${lesson.id}-sec-${i}">${block.h}</a></li>` : '').filter(Boolean);
+  const lessonToc = lesson.kind !== 'video' && tocItems.length > 2 ? `<nav class="lesson-toc" aria-label="Nesta aula"><strong>Nesta aula</strong><ol>${tocItems.join('')}</ol></nav>` : '';
+
+  main.innerHTML = `<div class="lesson-shell">
     <p class="lesson-breadcrumb">${lesson.moduleTitle}</p>
     <h1 class="lesson-title">${lesson.title}</h1>
+    <div class="lesson-meta"><span>${lessonType}</span>${lesson.steps ? '<span>Atividade prática</span>' : (lesson.kind !== 'video' ? `<span>${readingMinutes} min de leitura</span>` : '')}<span>${done ? 'Concluída' : 'Pendente'}</span></div>
+    ${lessonToc}
     ${mediaBlock}
     <div class="lesson-support"><div><strong>Ficou com dúvida nesta aula?</strong><span>Envie a aula e o módulo automaticamente para o suporte.</span></div><a href="${supportUrl}" target="_blank" rel="noopener">Tirar dúvida</a></div>
-    <button class="mark-done-btn${done ? ' is-done' : ''}" id="markDoneBtn">
+    <button class="mark-done-btn${done ? ' is-done' : ' is-primary'}" id="markDoneBtn">
       ${ICON_CHECK.replace('<svg ', '<svg width="14" height="14" ')}
-      <span>${done ? 'Aula concluída' : 'Marcar aula como concluída'}</span>
+      <span>${done ? 'Aula concluída' : (next ? 'Concluir e continuar' : 'Concluir aula')}</span>
     </button>
     <div class="lesson-nav">
       <div class="side">${prev ? `<a href="#${prev.id}"><span class="dir">← Anterior</span><span class="t">${prev.title}</span></a>` : ''}</div>
       <div class="side right">${next ? `<a href="#${next.id}"><span class="dir">Próxima →</span><span class="t">${next.title}</span></a>` : ''}</div>
-    </div>
+    </div></div>
   `;
 
   const videoEl = main.querySelector('.player-video');
@@ -614,8 +644,14 @@ function renderLesson(id) {
     try {
       await syncProgress(lesson.id, wasDone ? 'uncomplete' : 'complete');
       if (wasDone) progress.delete(lesson.id); else progress.add(lesson.id);
-      window.techSantosTrack?.(wasDone ? 'lesson_uncompleted' : 'lesson_completed', { course_id: 'power-bi', module_id: module.id, lesson_id: lesson.id, completed_lessons: progress.size });
-      renderLesson(lesson.id);
+      window.techSantosTrack?.(wasDone ? 'lesson_uncompleted' : 'lesson_completed', { course_id: 'power-bi', module_id: lesson.moduleId, lesson_id: lesson.id, completed_lessons: progress.size });
+      if (!wasDone && moduleDone(module) && AVALIACOES[module.id] && !AVALIACOES[module.id].aprovado) {
+        location.href = '/aluno/avaliacao.php?modulo=' + encodeURIComponent(module.id);
+      } else if (!wasDone && next && moduleUnlocked(next.moduleId)) {
+        location.hash = next.id;
+      } else {
+        renderLesson(lesson.id);
+      }
     } catch (error) {
       button.disabled = false;
       button.querySelector('span').textContent = 'Não foi possível salvar. Tente novamente.';
@@ -629,6 +665,7 @@ function renderLesson(id) {
   }
   document.title = `${lesson.title} — Área do Aluno — TECH SANTOS BR`;
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  main.focus({ preventScroll: true });
 }
 
 function renderDashboard() {
@@ -712,10 +749,11 @@ document.getElementById('appMain').addEventListener('click', (e) => {
 const sidebarEl = document.getElementById('appSidebar');
 const backdropEl = document.getElementById('sidebarBackdrop');
 const toggleBtn = document.getElementById('sidebarToggle');
-function openSidebarMobile() { sidebarEl.classList.add('open'); backdropEl.classList.add('open'); toggleBtn.setAttribute('aria-expanded', 'true'); }
-function closeSidebarMobile() { sidebarEl.classList.remove('open'); backdropEl.classList.remove('open'); toggleBtn.setAttribute('aria-expanded', 'false'); }
+function openSidebarMobile() { sidebarEl.classList.add('open'); backdropEl.classList.add('open'); toggleBtn.setAttribute('aria-expanded', 'true'); sidebarEl.querySelector('button, a')?.focus(); }
+function closeSidebarMobile(restoreFocus = false) { sidebarEl.classList.remove('open'); backdropEl.classList.remove('open'); toggleBtn.setAttribute('aria-expanded', 'false'); if (restoreFocus) toggleBtn.focus(); }
 toggleBtn.addEventListener('click', () => sidebarEl.classList.contains('open') ? closeSidebarMobile() : openSidebarMobile());
 backdropEl.addEventListener('click', closeSidebarMobile);
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && sidebarEl.classList.contains('open')) closeSidebarMobile(true); });
 </script>
 <?php endif; ?>
 </body>
