@@ -4,16 +4,23 @@ declare(strict_types=1);
 // Lista de posts publicados — array simples, sem banco. Pra adicionar um
 // post novo: cria o arquivo blog/<slug>.php e adiciona uma entrada aqui.
 $posts = [
-    ['slug'=>'preenchimento-relampago-excel','eyebrow'=>'Excel','title'=>'Preenchimento Rel?mpago no Excel: separe e combine dados com Ctrl+E','excerpt'=>'Separe nomes, combine textos e padronize dados em segundos, sem criar f?rmulas.','date'=>'2026-08-10'],
-    ['slug'=>'formatacao-condicional-linha-inteira-excel','eyebrow'=>'Excel','title'=>'Como destacar uma linha inteira com Formata??o Condicional no Excel','excerpt'=>'Use uma regra baseada em f?rmula para colorir o registro completo quando uma condi??o for atendida.','date'=>'2026-08-10'],
-    ['slug'=>'f4-excel-repetir-comando-travar-referencia','eyebrow'=>'Excel','title'=>'F4 no Excel: repetir a ?ltima a??o e travar refer?ncias em f?rmulas','excerpt'=>'Conhe?a os dois usos do F4: repetir comandos e alternar refer?ncias relativas, absolutas e mistas.','date'=>'2026-08-10'],
-    ['slug'=>'remover-duplicados-excel','eyebrow'=>'Excel','title'=>'Como remover dados duplicados no Excel sem apagar registros errados','excerpt'=>'Escolha as colunas que identificam a duplicidade e limpe a base sem excluir registros v?lidos.','date'=>'2026-08-10'],
-    ['slug'=>'selecionar-linha-coluna-excel-atalho','eyebrow'=>'Excel','title'=>'Como selecionar linhas e colunas inteiras no Excel sem usar o mouse','excerpt'=>'Use Ctrl+Espa?o e Shift+Espa?o para selecionar colunas e linhas inteiras pelo teclado.','date'=>'2026-08-10'],
-    ['slug'=>'funcao-seerro-excel','eyebrow'=>'Excel','title'=>'Fun??o SEERRO no Excel: como tratar erros sem esconder problemas','excerpt'=>'Trate #N/D, #DIV/0! e outros erros com mensagens claras sem mascarar defeitos da planilha.','date'=>'2026-08-10'],
-    ['slug'=>'quebrar-linha-celula-excel-alt-enter','eyebrow'=>'Excel','title'=>'Alt+Enter no Excel: como quebrar linha dentro da mesma c?lula','excerpt'=>'Organize endere?os, observa??es e descri??es em v?rias linhas sem sair da mesma c?lula.','date'=>'2026-08-10'],
-    ['slug'=>'nomear-intervalos-excel','eyebrow'=>'Excel','title'=>'Como nomear intervalos no Excel e deixar f?rmulas mais f?ceis','excerpt'=>'Troque refer?ncias dif?ceis por nomes claros e deixe suas f?rmulas mais f?ceis de manter.','date'=>'2026-08-10'],
-    ['slug'=>'congelar-paineis-excel','eyebrow'=>'Excel','title'=>'Como congelar linhas e colunas no Excel do jeito certo','excerpt'=>'Mantenha cabe?alhos e colunas importantes vis?veis enquanto navega por planilhas grandes.','date'=>'2026-08-10'],
-    ['slug'=>'transpor-linhas-colunas-excel','eyebrow'=>'Excel','title'=>'Como transpor linhas e colunas no Excel sem redigitar dados','excerpt'=>'Transforme linhas em colunas e entenda quando usar Colar Transpor ou a fun??o TRANSPOR.','date'=>'2026-08-10'],
+    [
+        'slug' => 'microsoft-fabric-guia',
+        'eyebrow' => 'Microsoft Fabric',
+        'title' => 'Microsoft Fabric: guia para quem já usa Power BI',
+        'excerpt' => 'Entenda OneLake, Lakehouse, Dataflow Gen2, pipelines e como o Power BI se conecta à plataforma de dados da Microsoft.',
+        'date' => '2026-08-12',
+    ],
+    ['slug'=>'preenchimento-relampago-excel','eyebrow'=>'Excel','title'=>'Preenchimento Relâmpago no Excel: separe e combine dados com Ctrl+E','excerpt'=>'Separe nomes, combine textos e padronize dados em segundos, sem criar fórmulas.','date'=>'2026-08-10'],
+    ['slug'=>'formatacao-condicional-linha-inteira-excel','eyebrow'=>'Excel','title'=>'Como destacar uma linha inteira com Formatação Condicional no Excel','excerpt'=>'Use uma regra baseada em fórmula para colorir o registro completo quando uma condição for atendida.','date'=>'2026-08-10'],
+    ['slug'=>'f4-excel-repetir-comando-travar-referencia','eyebrow'=>'Excel','title'=>'F4 no Excel: repetir a última ação e travar referências em fórmulas','excerpt'=>'Conheça os dois usos do F4: repetir comandos e alternar referências relativas, absolutas e mistas.','date'=>'2026-08-10'],
+    ['slug'=>'remover-duplicados-excel','eyebrow'=>'Excel','title'=>'Como remover dados duplicados no Excel sem apagar registros errados','excerpt'=>'Escolha as colunas que identificam a duplicidade e limpe a base sem excluir registros válidos.','date'=>'2026-08-10'],
+    ['slug'=>'selecionar-linha-coluna-excel-atalho','eyebrow'=>'Excel','title'=>'Como selecionar linhas e colunas inteiras no Excel sem usar o mouse','excerpt'=>'Use Ctrl+Espaço e Shift+Espaço para selecionar colunas e linhas inteiras pelo teclado.','date'=>'2026-08-10'],
+    ['slug'=>'funcao-seerro-excel','eyebrow'=>'Excel','title'=>'Função SEERRO no Excel: como tratar erros sem esconder problemas','excerpt'=>'Trate #N/D, #DIV/0! e outros erros com mensagens claras sem mascarar defeitos da planilha.','date'=>'2026-08-10'],
+    ['slug'=>'quebrar-linha-celula-excel-alt-enter','eyebrow'=>'Excel','title'=>'Alt+Enter no Excel: como quebrar linha dentro da mesma célula','excerpt'=>'Organize endereços, observações e descrições em várias linhas sem sair da mesma célula.','date'=>'2026-08-10'],
+    ['slug'=>'nomear-intervalos-excel','eyebrow'=>'Excel','title'=>'Como nomear intervalos no Excel e deixar fórmulas mais fáceis','excerpt'=>'Troque referências difáceis por nomes claros e deixe suas fórmulas mais fáceis de manter.','date'=>'2026-08-10'],
+    ['slug'=>'congelar-paineis-excel','eyebrow'=>'Excel','title'=>'Como congelar linhas e colunas no Excel do jeito certo','excerpt'=>'Mantenha cabeçalhos e colunas importantes visíveis enquanto navega por planilhas grandes.','date'=>'2026-08-10'],
+    ['slug'=>'transpor-linhas-colunas-excel','eyebrow'=>'Excel','title'=>'Como transpor linhas e colunas no Excel sem redigitar dados','excerpt'=>'Transforme linhas em colunas e entenda quando usar Colar Transpor ou a função TRANSPOR.','date'=>'2026-08-10'],
     [
         'slug' => 'multi-moeda-power-bi',
         'eyebrow' => 'Power BI',
@@ -137,15 +144,15 @@ $posts = [
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="pt_BR" />
 <meta property="og:url" content="https://techsantos.com.br/blog/" />
-<meta property="og:title" content="Blog de Excel e Power BI — TECH SANTOS BR" />
-<meta property="og:description" content="Tutoriais práticos de Excel, Power BI, DAX, modelagem de dados e dashboards." />
+<meta property="og:title" content="Blog de Excel, Power BI e Microsoft Fabric — TECH SANTOS BR" />
+<meta property="og:description" content="Tutoriais práticos de Excel, Power BI, Microsoft Fabric, DAX, modelagem de dados e dashboards." />
 <meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Blog","name":"Blog de Excel e Power BI — TECH SANTOS BR","url":"https://techsantos.com.br/blog/","inLanguage":"pt-BR","publisher":{"@type":"Organization","name":"TECH SANTOS BR","url":"https://techsantos.com.br/"}}
+{"@context":"https://schema.org","@type":"Blog","name":"Blog de Excel, Power BI e Microsoft Fabric — TECH SANTOS BR","url":"https://techsantos.com.br/blog/","inLanguage":"pt-BR","publisher":{"@type":"Organization","name":"TECH SANTOS BR","url":"https://techsantos.com.br/"}}
 </script>
-<title>Blog — Excel e Power BI — TECH SANTOS BR</title>
-<meta name="description" content="Artigos práticos de Excel e Power BI: fórmulas, modelagem de dados, DAX e dashboards, direto de quem ensina o curso completo." />
+<title>Blog — Excel, Power BI e Microsoft Fabric — TECH SANTOS BR</title>
+<meta name="description" content="Artigos práticos de Excel, Power BI e Microsoft Fabric: fórmulas, modelagem de dados, Dataflow Gen2, pipelines, DAX e dashboards." />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/css/style.css" />
@@ -180,8 +187,8 @@ $posts = [
   <section class="page-hero">
     <div class="page-hero-inner">
       <p class="eyebrow on-dark">Blog</p>
-      <h1>Excel e Power BI, direto ao ponto</h1>
-      <p class="lead">Artigos práticos respondendo as dúvidas reais de quem trabalha com dados — sem enrolação, direto de quem também ensina o curso completo.</p>
+      <h1>Excel, Power BI e Microsoft Fabric, direto ao ponto</h1>
+      <p class="lead">Artigos práticos para quem trabalha com dados: da planilha ao modelo semântico, do Power Query aos pipelines no Fabric.</p>
     </div>
   </section>
 

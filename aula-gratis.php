@@ -138,6 +138,8 @@ declare(strict_types=1);
     background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px;
     padding: 0.9rem 1.1rem; margin-bottom: 1.5rem;
   }
+  .whats-capture.is-deferred { display: none; }
+  .whats-capture.is-visible { display: flex; animation: capture-in .22s ease-out; }
   .whats-capture .txt { flex: 1; min-width: 220px; }
   .whats-capture .txt strong { display: block; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.15rem; }
   .whats-capture .txt span { font-size: 0.8rem; color: var(--ink-soft); }
@@ -150,6 +152,7 @@ declare(strict_types=1);
     font-size: 0.78rem; color: var(--ink-faint); background: none; border: none; cursor: pointer; text-decoration: underline;
   }
   .whats-capture.done { color: var(--green-strong); font-weight: 600; }
+  @keyframes capture-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
   .sidebar-backdrop { display: none; }
   @media (max-width: 560px) {
@@ -238,18 +241,23 @@ function leadAttribution() {
 function whatsCaptureHtml() {
   if (localStorage.getItem(WHATS_DONE_KEY)) return '';
   return `
-    <div class="whats-capture" id="whatsCapture">
+    <div class="whats-capture is-deferred" id="whatsCapture" aria-live="polite">
       <div class="txt">
-        <strong>Quer receber mais dicas de Power BI no WhatsApp?</strong>
-        <span>Sem spam — só dica curta de vez em quando.</span>
+        <strong>Quer continuar aprendendo depois destas aulas?</strong>
+        <span>Deixe seu WhatsApp para receber resumos práticos e as próximas dicas de Power BI.</span>
       </div>
       <form id="whatsCaptureForm">
-        <input type="tel" id="whatsCaptureInput" placeholder="(DDD) 9xxxx-xxxx" required>
-        <button class="btn btn-primary" type="submit" style="font-size:0.85rem;padding:0.55rem 1rem;">Quero receber</button>
+        <input type="tel" id="whatsCaptureInput" aria-label="WhatsApp com DDD" placeholder="(DDD) 9xxxx-xxxx" required>
+        <button class="btn btn-primary" type="submit" style="font-size:0.85rem;padding:0.55rem 1rem;">Receber no WhatsApp</button>
         <button class="dismiss" type="button" id="whatsCaptureDismiss">Agora não</button>
       </form>
     </div>
   `;
+}
+
+function revealWhatsCapture() {
+  const card = document.getElementById('whatsCapture');
+  if (card) card.classList.add('is-visible');
 }
 
 function wireWhatsCapture() {
@@ -288,7 +296,7 @@ function wireWhatsCapture() {
         }
         localStorage.setItem(WHATS_DONE_KEY, '1');
         card.classList.add('done');
-        card.innerHTML = '<div class="txt"><strong>Combinado! ✓</strong><span>Você vai receber as próximas dicas por lá.</span></div>';
+        card.innerHTML = '<div class="txt"><strong>Contato salvo! ✓</strong><span>Vamos usar este número para enviar conteúdos da TECH SANTOS BR.</span></div>';
       } else {
         submitBtn.disabled = false;
         input.setCustomValidity('Confere o número e tenta de novo.');
@@ -352,7 +360,6 @@ function renderLesson(id) {
   let mediaBlock;
   if (isFree(lesson.id)) {
     mediaBlock = `
-      ${whatsCaptureHtml()}
       <div class="player">
         <video class="player-video" controls preload="metadata" playsinline>
           <source src="https://media.techsantos.com.br/previews/${lesson.id}.mp4" type="video/mp4">
@@ -372,6 +379,7 @@ function renderLesson(id) {
         <p>${lesson.desc}</p>
         ${lesson.body ? `<p>${lesson.body}</p>` : ''}
       </div>
+      ${whatsCaptureHtml()}
     `;
   } else {
     mediaBlock = `
@@ -420,7 +428,7 @@ function renderLesson(id) {
     videoEl.addEventListener('timeupdate', () => {
       if (!videoEl.duration) return;
       const percent = Math.floor((videoEl.currentTime / videoEl.duration) * 100);
-      [25, 75].forEach((milestone) => {
+      [25, 50, 75].forEach((milestone) => {
         const key = String(milestone);
         if (percent >= milestone && !progressSent.has(key)) {
           progressSent.add(key);
@@ -429,6 +437,7 @@ function renderLesson(id) {
           }
         }
       });
+      if (percent >= 50) revealWhatsCapture();
     });
     videoEl.addEventListener('ended', () => {
       if (progressSent.has('complete')) return;
@@ -436,6 +445,7 @@ function renderLesson(id) {
       if (typeof window.techSantosTrack === 'function') {
         window.techSantosTrack('video_complete', lessonParams(), 'FreeLessonCompleted', false);
       }
+      revealWhatsCapture();
     });
     videoEl.addEventListener('loadedmetadata', () => {
       videoEl.style.display = 'block';
