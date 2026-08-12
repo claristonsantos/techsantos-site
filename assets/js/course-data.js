@@ -810,3 +810,91 @@ adicionarImagemAula('modelo-semantico-profissional', {
     source: 'https://learn.microsoft.com/pt-br/power-bi/guidance/star-schema'
   }
 });
+// Conteúdo aprofundado das 12 leituras complementares.
+function complementarAula(aulaId, blocos) {
+  for (const modulo of COURSE) {
+    const aula = modulo.lessons.find(l => l.id === aulaId);
+    if (!aula) continue;
+    aula.content = aula.content || [];
+    const novos = blocos.filter(b => !aula.content.some(atual => atual.h === b.h));
+    aula.content.push(...novos);
+    return;
+  }
+}
+
+complementarAula('checklist-projeto-power-bi', [
+  { h: 'Exemplo de requisito bem definido', p: 'Pedido inicial: “preciso de um dashboard de vendas”. Requisito tratado: “até o quinto dia útil, o gerente comercial precisa identificar faturamento, margem, ticket médio e vendedores abaixo da meta, comparando mês atual, mês anterior e mesmo mês do ano anterior, com atualização diária às 7h”. A segunda versão define usuário, decisão, indicadores, comparações e atualização.' },
+  { h: 'Perguntas para a reunião inicial', items: ['Qual decisão será tomada com este relatório?', 'Quais são os cinco indicadores indispensáveis e como cada um é calculado hoje?', 'Qual sistema é a fonte oficial quando houver divergência?', 'Cada linha da fonte representa pedido, item, cliente ou outro evento?', 'Quem pode visualizar todos os dados e quem deve ver somente sua região?', 'Qual atraso de atualização é aceitável?', 'Como o responsável confirmará que a primeira versão está correta?'] },
+  { h: 'Documento mínimo do projeto', p: 'Registre escopo incluído e excluído, responsáveis, fontes, dicionário dos KPIs, protótipo das páginas, regras de segurança, rotina de atualização e critérios de aceite. Esse documento reduz retrabalho porque transforma opiniões em decisões registradas.' }
+]);
+
+complementarAula('granularidade-sem-duplicidade', [
+  { h: 'Exemplo: pedidos e itens', p: 'A tabela Pedidos tem uma linha por pedido: pedido 100, total R$ 300. A tabela Itens possui três linhas para o pedido 100. Se as tabelas forem mescladas e o total de R$ 300 for repetido nas três linhas, uma soma produzirá R$ 900. O valor de item deve estar na granularidade item; o total do pedido deve ser calculado ou mantido em uma tabela de pedidos sem repetição.' },
+  { h: 'Como descobrir a granularidade', items: ['Escreva: “cada linha representa...”.', 'Identifique a menor chave que torna a linha única.', 'Compare COUNTROWS com DISTINCTCOUNT da chave.', 'Verifique se a mesma chave aparece porque existem itens, parcelas, datas ou versões.', 'Após mesclar consultas, compare linhas e totais antes e depois.', 'Não remova duplicidades antes de entender por que elas existem.'] },
+  { h: 'Granularidades diferentes podem coexistir', p: 'Vendas diárias e metas mensais não devem ser ligadas diretamente apenas pela data. Uma opção é manter duas tabelas fato e usar dimensões conformadas, como Data, Produto e Região, respeitando o nível mensal da meta. Forçar as duas para o mesmo nível pode criar valores artificiais.' }
+]);
+
+complementarAula('relacionamentos-cardinalidade-filtros', [
+  { h: 'Um para muitos (1:*)', p: 'É o relacionamento padrão de um esquema estrela. O lado 1 contém valores únicos; o lado * pode repetir a chave. Exemplo: dProduto possui um registro por ProdutoID, enquanto fVendas possui várias vendas para o mesmo ProdutoID. Ao selecionar uma categoria em dProduto, o filtro chega às linhas correspondentes de fVendas.' },
+  { h: 'Muitos para um (*:1)', p: 'É o mesmo relacionamento observado no sentido inverso. Se você criar a relação partindo de fVendas para dProduto, a interface pode mostrar *:1. Não é outro comportamento: a tabela fato continua no lado muitos e a dimensão no lado um. O importante é confirmar qual coluna é única.' },
+  { h: 'Um para um (1:1)', p: 'As duas colunas relacionadas são únicas. Exemplo possível: uma tabela Cliente e uma extensão ClientePreferencias com exatamente uma linha por cliente. É pouco comum em modelos analíticos; frequentemente indica que as duas tabelas poderiam ser combinadas. Mantenha separado somente quando houver motivo de segurança, origem ou ciclo de atualização.' },
+  { h: 'Muitos para muitos (*:*)', p: 'Os dois lados repetem a chave. Exemplo: um vendedor atende várias regiões e uma região possui vários vendedores. Relacionar diretamente tabelas repetidas pode produzir resultados ambíguos. A solução mais segura costuma ser uma tabela ponte com uma linha única para cada combinação Vendedor–Região.' },
+  { h: 'Direção de filtro', p: 'Em um esquema estrela, use normalmente direção única: dimensão → fato. Assim dProduto filtra fVendas, mas fVendas não altera automaticamente a lista de produtos. A direção “Ambos” pode ser necessária em cenários específicos, porém aumenta o risco de caminhos ambíguos e impacto de desempenho.' },
+  { h: 'Relacionamento ativo e inativo', p: 'Uma venda pode ter DataPedido e DataEntrega ligadas à mesma dCalendario. Apenas uma relação fica ativa, geralmente DataPedido. Para calcular por DataEntrega, mantenha a segunda relação inativa e ative-a dentro da medida com USERELATIONSHIP.' },
+  { h: 'Diagnóstico de relacionamento', items: ['Confirme que os tipos de dados das duas colunas são iguais.', 'Verifique duplicidades no lado 1.', 'Procure chaves vazias ou sem correspondência.', 'Evite relacionar tabelas fato diretamente.', 'Prefira direção única antes de testar bidirecional.', 'Use uma tabela simples com campos das duas tabelas para validar a propagação.', 'Se o total duplicar, revise granularidade antes da fórmula DAX.'] }
+]);
+
+complementarAula('checklist-qualidade-dados', [
+  { h: 'Perfil técnico versus regra de negócio', p: 'Um valor 999 pode ser tecnicamente um número válido, mas ser impossível como quantidade vendida. Por isso a qualidade combina testes de tipo, nulidade e unicidade com limites e regras fornecidos pelo negócio.' },
+  { h: 'Matriz de tratamento', items: ['Vazio permitido: manter e documentar.', 'Vazio obrigatório: corrigir na fonte ou classificar como desconhecido.', 'Erro de conversão: isolar registros e investigar padrão.', 'Duplicidade real: remover somente após definir a chave.', 'Chave sem dimensão: criar membro “Não identificado” e acompanhar a origem.', 'Valor fora da faixa: não substituir silenciosamente; registrar a decisão.'] },
+  { h: 'Evidência de reconciliação', p: 'Antes de publicar, registre contagem de linhas, soma de faturamento, quantidade de pedidos, período mínimo/máximo e horário de extração. Repita depois das transformações. Diferenças precisam ser explicadas por filtros ou regras conhecidas.' }
+]);
+
+complementarAula('boas-praticas-power-query', [
+  { h: 'Arquitetura de consultas', p: 'Uma estrutura simples usa três camadas: Origem/Staging, sem regras complexas; Transformação, com limpeza e padronização; Saída, com as tabelas fato e dimensão carregadas no modelo. Consultas auxiliares devem ter carregamento desabilitado.' },
+  { h: 'Ordem das transformações', items: ['Conecte e selecione a entidade correta.', 'Filtre linhas desnecessárias o mais cedo possível.', 'Remova colunas sem uso.', 'Defina tipos de dados conscientemente.', 'Padronize valores e trate erros.', 'Mescle ou acrescente somente após reduzir o volume.', 'Renomeie colunas para o vocabulário do negócio.', 'Valide linhas e totais antes de carregar.'] },
+  { h: 'Query folding', p: 'Quando existe dobra de consulta, o Power Query envia transformações para a fonte, como SQL Server, em vez de processar tudo localmente. Verifique “Exibir consulta nativa” quando disponível. Uma etapa que interrompe a dobra muito cedo pode aumentar drasticamente tempo e memória.' }
+]);
+
+complementarAula('modelo-semantico-profissional', [
+  { h: 'O que o usuário deve enxergar', p: 'O usuário deve encontrar campos como Produto, Cliente, Data, Faturamento e Margem, não nomes técnicos como SK_PRODUCT, COD_CLI ou VL_TOT_LIQ. Chaves, colunas auxiliares e campos usados apenas para ordenação devem ficar ocultos.' },
+  { h: 'Padrão de medidas', items: ['Use medidas explícitas para indicadores importantes.', 'Crie medidas-base antes das derivadas.', 'Aplique formato, unidade e casas decimais.', 'Adicione descrição com regra e fonte.', 'Organize por pastas: Vendas, Custos, Margem, Tempo e Metas.', 'Evite nomes vagos como “Total 2” ou “Medida Final”.'] },
+  { h: 'Exemplo de documentação', p: 'Margem % = DIVIDE([Lucro], [Faturamento]). Fonte: itens faturados. Exclui pedidos cancelados. Respeita filtros de data de faturamento. Responsável pela regra: Controladoria. Essa descrição evita interpretações diferentes do mesmo indicador.' }
+]);
+
+complementarAula('contextos-dax', [
+  { h: 'Exemplo de contexto de filtro', p: 'A medida [Faturamento] = SUM(fVendas[Valor]) mostra R$ 1 milhão em um cartão sem filtros. Em uma matriz por região, a mesma medida é recalculada para cada região porque cada linha cria um contexto de filtro diferente.' },
+  { h: 'Exemplo de contexto de linha', p: 'Na coluna calculada fVendas[ValorItem] = fVendas[Quantidade] * fVendas[PrecoUnitario], DAX percorre cada linha e usa os valores daquela linha. Uma medida não possui esse contexto automaticamente.' },
+  { h: 'CALCULATE na prática', p: 'CALCULATE([Faturamento], dProduto[Categoria] = “Acessórios”) mantém os filtros existentes, mas adiciona ou substitui o filtro de Categoria. Para compreender o resultado, liste os filtros antes e depois da função.' },
+  { h: 'Perguntas de diagnóstico', items: ['A expressão está em medida, coluna ou iterador?', 'Quais filtros vêm do visual?', 'Quais filtros chegam pelos relacionamentos?', 'CALCULATE adiciona, substitui ou remove qual filtro?', 'O total está sendo calculado novamente ou somando as linhas visíveis?'] }
+]);
+
+complementarAula('padroes-medidas-dax', [
+  { h: 'Árvore de medidas', p: 'Crie [Faturamento] e [Quantidade] como medidas-base. Depois crie [Ticket Médio] = DIVIDE([Faturamento], [Pedidos]), [Lucro] = [Faturamento] - [Custo] e [Margem %] = DIVIDE([Lucro], [Faturamento]). Assim uma mudança na regra-base se propaga para as derivadas.' },
+  { h: 'Padrões recomendados', items: ['Total: SUM sobre a coluna aditiva correta.', 'Contagem de entidades: DISTINCTCOUNT da chave.', 'Média segura: DIVIDE entre medidas, quando a regra exigir média ponderada.', 'Participação: valor atual dividido pelo total com filtro específico removido.', 'Meta: realizado menos meta e percentual de atingimento.', 'Tempo: período anterior, variação absoluta, variação percentual e acumulado.', 'Ranking: RANKX sobre a dimensão e conjunto de comparação corretos.'] },
+  { h: 'Atenção aos totais', p: 'Medidas de percentual, média, preço ou estoque podem ser não aditivas. O total correto precisa recalcular a regra no contexto total; somar percentuais ou médias das linhas geralmente produz um resultado incorreto.' }
+]);
+
+complementarAula('validar-medidas-dax', [
+  { h: 'Roteiro de teste', items: ['Escolha um único pedido ou cliente conhecido.', 'Calcule manualmente o resultado esperado.', 'Teste a medida em um cartão sem dimensão.', 'Adicione uma dimensão de cada vez.', 'Teste com e sem segmentações.', 'Confira total, subtotal e linha.', 'Compare com a fonte usando o mesmo período e status.', 'Registre o caso validado.'] },
+  { h: 'Erros mais comuns', p: 'Diferenças normalmente vêm de granularidade incorreta, relacionamento ausente, data errada, filtro de status diferente, chave sem correspondência, uso de coluna em vez de medida ou remoção excessiva de filtros com ALL.' },
+  { h: 'Exemplo de investigação', p: 'Se o faturamento total está correto, mas repete em todas as categorias, verifique se dProduto filtra fVendas. Se muda por categoria, mas o total está duplicado, investigue granularidade e junções. Se apenas um período diverge, revise calendário, data ativa e filtros de status.' }
+]);
+
+complementarAula('escolher-grafico-correto', [
+  { h: 'Mapa rápido de decisão', items: ['Comparar categorias: barras horizontais ou colunas.', 'Evolução no tempo: linha.', 'Meta versus realizado: barra com referência ou KPI.', 'Distribuição: histograma ou box plot certificado.', 'Relação entre variáveis: dispersão.', 'Composição com poucas categorias: barra empilhada.', 'Localização: mapa somente quando a geografia for relevante.', 'Valores exatos e detalhados: tabela ou matriz.'] },
+  { h: 'Exemplo de escolha', p: 'Para responder “quais vendedores estão abaixo da meta?”, uma barra ordenada com linha de meta comunica melhor que uma pizza. Para “como o faturamento evoluiu nos últimos 12 meses?”, use linha; uma tabela obriga o usuário a comparar números mentalmente.' },
+  { h: 'Sinais de excesso', p: 'Muitos visuais, cores, cartões e segmentações competem pela atenção. Se uma página precisa de explicação longa para ser entendida, reduza elementos, agrupe filtros e separe perguntas em páginas com objetivos diferentes.' }
+]);
+
+complementarAula('storytelling-hierarquia-visual', [
+  { h: 'Estrutura de uma página executiva', items: ['Título com período e pergunta central.', 'Filtros essenciais em área consistente.', 'Três a cinco KPIs prioritários.', 'Tendência temporal.', 'Quebra principal que explica o resultado.', 'Destaque de exceções ou riscos.', 'Caminho para o detalhe via drillthrough.'] },
+  { h: 'Exemplo de narrativa', p: 'Comece com “Margem caiu 3,2 pontos no mês”. Em seguida mostre evolução, depois a quebra por categoria e região, e por fim os produtos responsáveis. A página conduz do efeito à causa em vez de apresentar gráficos desconectados.' },
+  { h: 'Uso de cor', p: 'Use cor forte para o que exige atenção e tons neutros para contexto. Verde e vermelho precisam de texto, ícone ou rótulo adicional para acessibilidade. Mantenha o mesmo significado de cor em todas as páginas.' }
+]);
+
+complementarAula('checklist-publicacao-profissional', [
+  { h: 'Teste funcional', items: ['Validar filtros, interações e botão de limpar.', 'Testar drillthrough, tooltips, marcadores e navegação.', 'Conferir visual em resoluções diferentes e no layout mobile.', 'Verificar estados sem dados e mensagens de erro.', 'Executar Performance Analyzer nas páginas críticas.', 'Confirmar que exportação não expõe campos indevidos.'] },
+  { h: 'Teste de atualização e segurança', items: ['Atualizar no Desktop antes de publicar.', 'Configurar credenciais e gateway.', 'Executar uma atualização manual no serviço.', 'Conferir histórico e duração.', 'Testar RLS como cada função.', 'Publicar App para o público correto.', 'Evitar permissões de edição para consumidores.'] },
+  { h: 'Operação após a entrega', p: 'Defina quem recebe alertas de falha, quem aprova mudanças, frequência de revisão, prazo de suporte e localização da documentação. Uma solução sem proprietário tende a ficar desatualizada mesmo que o relatório esteja tecnicamente correto.' }
+]);

@@ -270,7 +270,8 @@ const AVALIACOES = <?= json_encode($avaliacoesInfo, JSON_UNESCAPED_UNICODE) ?>;
 const RESUME_MODULE = <?= json_encode(preg_match('/^[a-z0-9-]+$/', (string)($_GET['modulo'] ?? '')) ? $_GET['modulo'] : null) ?>;
 const MSL = 'learn.microsoft.com';
 </script>
-<script src="/assets/js/course-data.js?v=20260812-63-img1"></script>
+<script src="/assets/js/course-data.js?v=20260812-63-detalhado1"></script>
+<script src="/assets/js/course-details.js?v=20260812-1"></script>
 <script>
 
 const flat = [];
@@ -421,7 +422,7 @@ const RESOURCE_SUMMARIES = {
 
 function contentBlock(b) {
   if (!b) return '';
-  const texto = `${b.h ? `<h3>${b.h}</h3>` : ''}${b.p ? `<p>${b.p}</p>` : ''}`;
+  const texto = `${b.h ? `<h3>${b.h}</h3>` : ''}${b.p ? `<p>${b.p}</p>` : ''}${b.items ? `<ul class="req-list">${b.items.map(item => `<li>${ICON_CHECK}<span>${item}</span></li>`).join('')}</ul>` : ''}`;
   const figura = b.img ? `<figure class="lesson-figure">
     <img src="${b.img.src}" alt="${b.img.alt || ''}" loading="lazy" decoding="async">
     <figcaption>${b.img.caption || ''}${b.img.source ? ` · <a href="${b.img.source}" target="_blank" rel="noopener">Fonte: Microsoft Learn</a>` : ''}</figcaption>
