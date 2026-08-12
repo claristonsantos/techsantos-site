@@ -270,8 +270,9 @@ const AVALIACOES = <?= json_encode($avaliacoesInfo, JSON_UNESCAPED_UNICODE) ?>;
 const RESUME_MODULE = <?= json_encode(preg_match('/^[a-z0-9-]+$/', (string)($_GET['modulo'] ?? '')) ? $_GET['modulo'] : null) ?>;
 const MSL = 'learn.microsoft.com';
 </script>
-<script src="/assets/js/course-data.js?v=20260812-63-detalhado1"></script>
-<script src="/assets/js/course-details.js?v=20260812-1"></script>
+<script src="/assets/js/course-data.js?v=20260812-63-detalhado2"></script>
+<script src="/assets/js/course-details.js?v=20260812-2"></script>
+<script src="/assets/js/course-official-gaps.js?v=20260812-2"></script>
 <script>
 
 const flat = [];
@@ -488,6 +489,11 @@ function renderLesson(id) {
   let mediaBlock;
   if (lesson.kind === 'video') {
     mediaBlock = `
+      ${lesson.apostila ? `
+      <div class="resources apostila-download">
+        <h2>Material de apoio do curso</h2>
+        <a class="btn btn-ghost on-light" href="/apostila.php">${ICON_DOC} Baixar apostila completa</a>
+      </div>` : ''}
       ${playerBlock}
       <div class="objectives">
         <div class="kicker">O que você vai aprender</div>
