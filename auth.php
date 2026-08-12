@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/aluno_atividade.php';
 
 function start_secure_session(): void
 {
@@ -120,6 +121,7 @@ function require_aluno(bool $allowTempPassword = false): array
         header('Location: /aluno/trocar-senha.php');
         exit;
     }
+    registrar_acesso_aluno((int)$aluno['id']);
     return $aluno;
 }
 

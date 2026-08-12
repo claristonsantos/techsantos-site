@@ -352,3 +352,25 @@ TEXT;
 
     return send_html_email($toEmail, $subject, $html, $text);
 }
+
+function send_password_reset_email(string $toEmail, string $toName, string $token): bool
+{
+    $url = 'https://techsantos.com.br/redefinir-senha.php?token=' . rawurlencode($token);
+    $nome = htmlspecialchars(explode(' ', trim($toName))[0] ?: 'Aluno', ENT_QUOTES);
+    $safeUrl = htmlspecialchars($url, ENT_QUOTES);
+    $subject = 'Redefinição de senha — Área do Aluno';
+    $html = '<!doctype html><html><body style="margin:0;background:#f4f6f8;font-family:Arial,sans-serif;color:#15243b"><table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:28px"><table width="100%" style="max-width:600px;background:#fff;border-radius:12px;overflow:hidden"><tr><td style="background:#0f2440;color:#fff;padding:24px 32px"><strong>TECH SANTOS BR</strong></td></tr><tr><td style="padding:32px"><h1 style="font-size:24px">Olá, ' . $nome . '.</h1><p>Recebemos uma solicitação para redefinir a senha da sua Área do Aluno.</p><p style="margin:28px 0"><a href="' . $safeUrl . '" style="background:#75df4b;color:#10213a;text-decoration:none;font-weight:bold;padding:13px 20px;border-radius:8px">Criar nova senha</a></p><p>O link expira em 30 minutos e só pode ser usado uma vez. Se você não fez a solicitação, ignore este e-mail.</p></td></tr>' . email_footer_html() . '</table></td></tr></table></body></html>';
+    $text = "Olá, {$toName}.\n\nCrie uma nova senha usando o link abaixo (válido por 30 minutos):\n{$url}\n\nSe você não fez a solicitação, ignore este e-mail.";
+    return send_html_email($toEmail, $subject, $html, $text);
+}
+
+function send_student_reengagement_email(string $toEmail, string $toName, int $completedLessons, int $inactiveDays): bool
+{
+    $firstName = htmlspecialchars(explode(' ', trim($toName))[0] ?: 'Aluno', ENT_QUOTES);
+    $completed = max(0, min(63, $completedLessons));
+    $percent = (int)round($completed / 63 * 100);
+    $subject = $completed ? 'Continue seu curso de Power BI de onde parou' : 'Seu primeiro resultado em Power BI está a 20 minutos';
+    $html = '<!doctype html><html><body style="margin:0;background:#f4f6f8;font-family:Arial,sans-serif;color:#15243b"><table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:28px"><table width="100%" style="max-width:600px;background:#fff;border-radius:12px;overflow:hidden"><tr><td style="background:#0f2440;color:#fff;padding:24px 32px"><strong>TECH SANTOS BR</strong></td></tr><tr><td style="padding:32px"><h1 style="font-size:23px">Olá, ' . $firstName . '.</h1><p>Seu progresso está salvo: <strong>' . $completed . ' de 63 aulas (' . $percent . '%)</strong>.</p><p>Ao entrar, a área do aluno mostra exatamente a próxima aula ou avaliação recomendada. Você não precisa procurar onde parou.</p><p style="margin:28px 0"><a href="https://techsantos.com.br/aluno/" style="background:#75df4b;color:#10213a;text-decoration:none;font-weight:bold;padding:13px 20px;border-radius:8px">Retomar meu curso</a></p><p style="font-size:13px;color:#667085">Este lembrete corresponde à faixa de ' . $inactiveDays . ' dias de inatividade e não será repetido nesta faixa.</p></td></tr>' . email_footer_html() . '</table></td></tr></table></body></html>';
+    $text = "Olá, {$toName}.\n\nSeu progresso está salvo: {$completed} de 63 aulas ({$percent}%).\nRetome exatamente de onde parou: https://techsantos.com.br/aluno/";
+    return send_html_email($toEmail, $subject, $html, $text);
+}

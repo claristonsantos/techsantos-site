@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/../curso_modulos.php';
+require_once __DIR__ . '/../curso_licoes.php';
 $aluno = require_aluno();
 
 $moduloId = (string)($_GET['modulo'] ?? '');
@@ -18,6 +19,13 @@ $avaliacao = $stmt->fetch();
 if (!$avaliacao) {
     http_response_code(404);
     exit('Nenhuma avaliação encontrada para este módulo ainda.');
+}
+
+$licoesPendentes = licoes_pendentes_modulo($pdo, (int)$aluno['id'], $moduloId);
+if ($licoesPendentes) {
+    http_response_code(403);
+    $quantidade = count($licoesPendentes);
+    exit('Conclua ' . $quantidade . ' aula(s) pendente(s) deste módulo antes de acessar a avaliação.');
 }
 
 $moduloAnteriorId = modulo_anterior($moduloId);
@@ -161,6 +169,10 @@ foreach ($questoes as &$q) {
     $q['alternativas'] = $altStmt->fetchAll();
 }
 unset($q);
+
+$historyStmt = $pdo->prepare('SELECT nota, aprovado, criada_em FROM avaliacao_tentativas WHERE aluno_id = ? AND avaliacao_id = ? ORDER BY criada_em DESC, id DESC');
+$historyStmt->execute([$aluno['id'], $avaliacao['id']]);
+$historicoTentativas = $historyStmt->fetchAll();
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -172,6 +184,8 @@ unset($q);
 <title><?= htmlspecialchars($avaliacao['titulo'], ENT_QUOTES) ?> — Área do Aluno — TECH SANTOS BR</title>
 <link rel="stylesheet" href="/assets/css/style.css" />
 <link rel="stylesheet" href="/assets/css/admin.css" />
+<?php require_once __DIR__ . '/../inc/google-analytics.php'; ?>
+<script src="/assets/js/analytics-events.js?v=20260812-student1"></script>
 <style>
   .eval-shell { max-width: 720px; margin: 0 auto; padding: clamp(1.5rem, 4vw, 3rem) 1.25rem 5rem; }
   .eval-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
@@ -195,9 +209,23 @@ unset($q);
   .result-card.pass .score { color: var(--green-strong); }
   .result-card h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
   .result-card p { color: var(--ink-soft); font-size: 0.92rem; }
+  .attempt-history { margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--line); }
+  .attempt-history h2 { font-size:1.05rem; margin-bottom:.75rem; }
+  .attempt-table { width:100%; border-collapse:collapse; font-size:.86rem; }
+  .attempt-table th, .attempt-table td { text-align:left; padding:.7rem .55rem; border-bottom:1px solid var(--line); }
+  .attempt-table th { color:var(--ink-soft); font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; }
+  .attempt-status { font-weight:700; }
+  .attempt-status.pass { color:var(--green-strong); }
+  .attempt-status.fail { color:#b33b32; }
 </style>
 </head>
 <body>
+<script>
+window.techSantosTrack?.(<?= $resultado ? json_encode($resultado['aprovado'] ? 'assessment_passed' : 'assessment_failed') : json_encode('assessment_viewed') ?>, {
+  course_id: 'power-bi', module_id: <?= json_encode($moduloId) ?>,
+  <?php if ($resultado): ?>score: <?= json_encode($resultado['nota']) ?>, passed: <?= $resultado['aprovado'] ? 'true' : 'false' ?><?php endif; ?>
+});
+</script>
 <div class="eval-shell">
   <div class="eval-top">
     <a href="/aluno/">← Voltar para o curso</a>
@@ -221,10 +249,10 @@ unset($q);
 
   <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
 
-  <?php if ($resultado && $resultado['aprovado']): ?>
+  <?php if ($resultado): ?>
   <div class="eval-head">
     <h1>Revisão das respostas</h1>
-    <p>Confira abaixo o que você acertou e errou nesta tentativa.</p>
+    <p><?= $resultado['aprovado'] ? 'Confira abaixo o que você acertou e errou nesta tentativa.' : 'Revise as marcações em vermelho antes de tentar novamente. A resposta correta aparece em verde.' ?></p>
   </div>
   <?php foreach ($questoes as $i => $q): $d = $detalhes[$q['id']] ?? null; ?>
     <div class="q-card">
@@ -263,6 +291,17 @@ unset($q);
     <?php endforeach; ?>
     <button type="submit" class="btn btn-primary btn-block">Enviar respostas</button>
   </form>
+  <?php endif; ?>
+
+  <?php if ($historicoTentativas): ?>
+  <section class="attempt-history">
+    <h2>Histórico de tentativas</h2>
+    <table class="attempt-table"><thead><tr><th>Tentativa</th><th>Data</th><th>Nota</th><th>Resultado</th></tr></thead><tbody>
+    <?php foreach ($historicoTentativas as $i => $tentativa): ?>
+      <tr><td>#<?= count($historicoTentativas) - $i ?></td><td><?= date('d/m/Y H:i', strtotime($tentativa['criada_em'])) ?></td><td><?= number_format((float)$tentativa['nota'], 0) ?>%</td><td><span class="attempt-status <?= $tentativa['aprovado'] ? 'pass' : 'fail' ?>"><?= $tentativa['aprovado'] ? 'Aprovado' : 'Revisar' ?></span></td></tr>
+    <?php endforeach; ?>
+    </tbody></table>
+  </section>
   <?php endif; ?>
 </div>
 </body>

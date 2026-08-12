@@ -32,6 +32,8 @@ if ($isPowerBi) {
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/css/style.css" />
+<?php require_once __DIR__ . '/../inc/google-analytics.php'; ?>
+<script src="/assets/js/analytics-events.js?v=20260812-student1"></script>
 <style>
   body { overflow-x: hidden; }
 
@@ -59,6 +61,23 @@ if ($isPowerBi) {
   .sidebar-progress .label span:last-child { font-family: 'Plex Mono', monospace; color: var(--ink-faint); font-weight: 400; }
   .sidebar-progress .bar { height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
   .sidebar-progress .bar > span { display: block; height: 100%; background: var(--green); border-radius: 3px; transition: width 0.25s ease; }
+  .sidebar-home { display:flex; align-items:center; gap:.55rem; width:calc(100% - 1.5rem); margin:.75rem; padding:.7rem .8rem; border:1px solid var(--line); border-radius:6px; background:var(--surface-2); color:var(--ink); font:600 .8rem 'Plex Sans',sans-serif; cursor:pointer; }
+  .sidebar-home:hover, .sidebar-home.active { border-color:var(--green); color:var(--green-strong); }
+  .dashboard { max-width:980px; margin:0 auto; padding:clamp(1.5rem,4vw,3rem); }
+  .dashboard-hero { padding:clamp(1.4rem,4vw,2.25rem); border:1px solid var(--line); border-radius:12px; background:linear-gradient(135deg,var(--surface),var(--surface-2)); }
+  .dashboard-eyebrow { color:var(--green-strong); font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .dashboard h1 { font-size:clamp(1.7rem,4vw,2.5rem); margin:.4rem 0 .65rem; }
+  .dashboard-hero p { color:var(--ink-soft); max-width:680px; }
+  .dashboard-actions { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.25rem; }
+  .dashboard-actions a { text-decoration:none; }
+  .dashboard-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1rem; }
+  .dashboard-card { padding:1.2rem; border:1px solid var(--line); border-radius:9px; background:var(--surface); }
+  .dashboard-card .value { display:block; margin:.35rem 0; font:700 1.65rem 'Plex Sans',sans-serif; color:var(--ink); }
+  .dashboard-card .label { color:var(--ink-soft); font-size:.78rem; }
+  .dashboard-next { margin-top:1rem; padding:1.25rem; border:1px solid var(--line); border-left:4px solid var(--green); border-radius:8px; background:var(--surface); }
+  .dashboard-next h2 { font-size:1rem; margin:0 0 .4rem; }
+  .dashboard-next p { color:var(--ink-soft); margin:0; }
+  @media(max-width:700px){.dashboard-grid{grid-template-columns:1fr}.dashboard-actions .btn{width:100%;justify-content:center}}
 
   .sidebar-module { border-bottom: 1px solid var(--line); }
   .sidebar-module-head {
@@ -205,6 +224,11 @@ if ($isPowerBi) {
   }
   .mark-done-btn.is-done { background: var(--green-soft); border-color: var(--green); color: var(--green-strong); }
   .mark-done-btn svg { width: 14px; height: 14px; }
+  .lesson-support { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.1rem; margin:0 0 1.25rem; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
+  .lesson-support strong { display:block; font-size:.88rem; margin-bottom:.2rem; }
+  .lesson-support span { color:var(--ink-soft); font-size:.78rem; }
+  .lesson-support a { flex:none; text-decoration:none; font-size:.8rem; font-weight:700; color:var(--green-strong); border:1px solid var(--green); border-radius:5px; padding:.5rem .8rem; }
+  @media (max-width: 560px) { .lesson-support { align-items:flex-start; flex-direction:column; } }
 
   .sidebar-backdrop { display: none; }
   @media (max-width: 900px) {
@@ -254,9 +278,10 @@ if ($isPowerBi) {
 <div class="app-shell">
   <aside class="app-sidebar" id="appSidebar">
     <div class="sidebar-progress">
-      <div class="label"><span>Seu progresso</span><span id="progressCount">0/43</span></div>
+      <div class="label"><span>Seu progresso</span><span id="progressCount">0/63</span></div>
       <div class="bar"><span id="progressBar" style="width:0%"></span></div>
     </div>
+    <button class="sidebar-home" id="dashboardBtn" type="button">⌂ Visão geral do curso</button>
     <nav id="sidebarNav"></nav>
   </aside>
 
@@ -270,8 +295,8 @@ const AVALIACOES = <?= json_encode($avaliacoesInfo, JSON_UNESCAPED_UNICODE) ?>;
 const RESUME_MODULE = <?= json_encode(preg_match('/^[a-z0-9-]+$/', (string)($_GET['modulo'] ?? '')) ? $_GET['modulo'] : null) ?>;
 const MSL = 'learn.microsoft.com';
 </script>
-<script src="/assets/js/course-data.js?v=20260812-63-detalhado2"></script>
-<script src="/assets/js/course-details.js?v=20260812-2"></script>
+<script src="/assets/js/course-data.js?v=20260812-63-detalhado3"></script>
+<script src="/assets/js/course-details.js?v=20260812-3"></script>
 <script src="/assets/js/course-official-gaps.js?v=20260812-2"></script>
 <script>
 
@@ -281,6 +306,8 @@ const totalLessons = flat.length;
 
 let progress = new Set(SERVER_PROGRESS);
 let openModule = COURSE[0].id;
+const trackedLessons = new Set();
+window.techSantosTrack?.('course_opened', { course_id: 'power-bi', total_lessons: totalLessons, completed_lessons: progress.size });
 
 function moduleIndex(moduleId) { return COURSE.findIndex(m => m.id === moduleId); }
 
@@ -293,13 +320,15 @@ function moduleUnlocked(moduleId) {
 }
 
 async function syncProgress(licaoId, action) {
-  try {
-    await fetch('/aluno/progresso.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ licao_id: licaoId, action }),
-    });
-  } catch (e) { /* best-effort; UI already reflects the change */ }
+  const response = await fetch('/aluno/progresso.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ licao_id: licaoId, action }),
+  });
+  if (!response.ok) throw new Error('Falha ao salvar o progresso');
+  const result = await response.json();
+  if (!result.ok) throw new Error('Resposta inválida ao salvar o progresso');
+  return true;
 }
 
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>';
@@ -338,10 +367,11 @@ function renderSidebar(currentId) {
             <span class="lbl">${l.title}</span>
           </button>`;
         }).join('')}
-        ${unlocked && aval ? `<a class="sidebar-eval${aval.aprovado ? ' passed' : ''}" href="/aluno/avaliacao.php?modulo=${mod.id}">
+        ${unlocked && aval && moduleDone(mod) ? `<a class="sidebar-eval${aval.aprovado ? ' passed' : ''}" href="/aluno/avaliacao.php?modulo=${mod.id}">
           <span class="type-icon">${aval.aprovado ? ICON_CHECK : ICON_LOCK}</span>
           <span class="lbl">${aval.aprovado ? 'Avaliação aprovada' : 'Fazer avaliação do módulo'}</span>
         </a>` : ''}
+        ${unlocked && aval && !moduleDone(mod) ? `<p class="locked-msg">Conclua as ${mod.lessons.filter(l => !progress.has(l.id)).length} aula(s) pendente(s) para liberar a avaliação.</p>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -465,6 +495,7 @@ function hintItem(hint) {
 }
 
 function renderLesson(id) {
+  document.getElementById('dashboardBtn')?.classList.remove('active');
   let idx = flat.findIndex(l => l.id === id);
   if (idx === -1) idx = 0;
   const lesson = flat[idx];
@@ -544,10 +575,13 @@ function renderLesson(id) {
     `;
   }
 
+  const supportUrl = 'https://wa.me/5564992905785?text=' + encodeURIComponent(`Olá! Estou com uma dúvida na aula “${lesson.title}”, do ${lesson.moduleTitle}.`);
+
   main.innerHTML = `
     <p class="lesson-breadcrumb">${lesson.moduleTitle}</p>
     <h1 class="lesson-title">${lesson.title}</h1>
     ${mediaBlock}
+    <div class="lesson-support"><div><strong>Ficou com dúvida nesta aula?</strong><span>Envie a aula e o módulo automaticamente para o suporte.</span></div><a href="${supportUrl}" target="_blank" rel="noopener">Tirar dúvida</a></div>
     <button class="mark-done-btn${done ? ' is-done' : ''}" id="markDoneBtn">
       ${ICON_CHECK.replace('<svg ', '<svg width="14" height="14" ')}
       <span>${done ? 'Aula concluída' : 'Marcar aula como concluída'}</span>
@@ -571,16 +605,76 @@ function renderLesson(id) {
     }, true);
   }
 
-  document.getElementById('markDoneBtn').addEventListener('click', () => {
-    const nowDone = !progress.has(lesson.id);
-    if (nowDone) progress.add(lesson.id); else progress.delete(lesson.id);
-    syncProgress(lesson.id, nowDone ? 'complete' : 'uncomplete');
-    renderLesson(lesson.id);
+  document.getElementById('markDoneBtn').addEventListener('click', async () => {
+    const button = document.getElementById('markDoneBtn');
+    const wasDone = progress.has(lesson.id);
+    if (wasDone && !window.confirm('Deseja realmente desmarcar esta aula como concluída?')) return;
+    button.disabled = true;
+    button.querySelector('span').textContent = 'Salvando progresso...';
+    try {
+      await syncProgress(lesson.id, wasDone ? 'uncomplete' : 'complete');
+      if (wasDone) progress.delete(lesson.id); else progress.add(lesson.id);
+      window.techSantosTrack?.(wasDone ? 'lesson_uncompleted' : 'lesson_completed', { course_id: 'power-bi', module_id: module.id, lesson_id: lesson.id, completed_lessons: progress.size });
+      renderLesson(lesson.id);
+    } catch (error) {
+      button.disabled = false;
+      button.querySelector('span').textContent = 'Não foi possível salvar. Tente novamente.';
+    }
   });
 
   renderSidebar(lesson.id);
+  if (!trackedLessons.has(lesson.id)) {
+    trackedLessons.add(lesson.id);
+    window.techSantosTrack?.('lesson_viewed', { course_id: 'power-bi', module_id: module.id, lesson_id: lesson.id, lesson_type: lesson.kind || 'video' });
+  }
   document.title = `${lesson.title} — Área do Aluno — TECH SANTOS BR`;
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+}
+
+function renderDashboard() {
+  const step = resumeStep();
+  const completedModules = COURSE.filter(moduleDone).length;
+  const approvedAssessments = Object.values(AVALIACOES).filter(a => a.aprovado).length;
+  const percentage = totalLessons ? Math.round(progress.size / totalLessons * 100) : 0;
+  let nextTitle = 'Curso concluído';
+  let nextDescription = 'Revise as aulas e acesse seu certificado.';
+  let nextUrl = '#'+flat[flat.length - 1].id;
+  let nextLabel = 'Revisar última aula';
+  if (step?.type === 'lesson') {
+    const nextLesson = flat.find(l => l.id === step.id);
+    nextTitle = nextLesson?.title || 'Continuar o curso';
+    nextDescription = nextLesson?.moduleTitle || '';
+    nextUrl = '#'+step.id;
+    nextLabel = progress.size ? 'Continuar de onde parei' : 'Começar o curso';
+  } else if (step?.type === 'evaluation') {
+    const nextModule = COURSE.find(m => m.id === step.moduleId);
+    nextTitle = 'Avaliação disponível';
+    nextDescription = nextModule?.title || '';
+    nextUrl = '/aluno/avaliacao.php?modulo='+encodeURIComponent(step.moduleId);
+    nextLabel = 'Fazer avaliação';
+  }
+  document.getElementById('appMain').innerHTML = `<section class="dashboard">
+    <div class="dashboard-hero"><span class="dashboard-eyebrow">Minha jornada</span><h1>Olá, <?= htmlspecialchars(explode(' ', trim($aluno['nome']))[0], ENT_QUOTES) ?>.</h1><p>Acompanhe seu avanço e retome exatamente do ponto recomendado.</p><div class="dashboard-actions"><a class="btn btn-primary" href="${nextUrl}">${nextLabel}</a><a class="btn btn-ghost on-light" href="/apostila.php">${ICON_DOC} Baixar apostila</a></div></div>
+    <div class="dashboard-grid"><div class="dashboard-card"><span class="label">Progresso geral</span><span class="value">${percentage}%</span><span class="label">${progress.size} de ${totalLessons} aulas</span></div><div class="dashboard-card"><span class="label">Módulos concluídos</span><span class="value">${completedModules}/${COURSE.length}</span><span class="label">Conclusão de todas as aulas</span></div><div class="dashboard-card"><span class="label">Avaliações aprovadas</span><span class="value">${approvedAssessments}</span><span class="label">Avance no seu ritmo</span></div></div>
+    <div class="dashboard-next"><h2>Seu próximo passo</h2><p><strong>${nextTitle}</strong><br>${nextDescription}</p></div>
+    ${!progress.has('modelagem-pratica') ? `<div class="dashboard-next"><h2>Primeira entrega prática</h2><p>Monte seu primeiro modelo em 20 minutos e valide um relacionamento 1:*.</p><div class="dashboard-actions"><a class="btn btn-ghost on-light" href="#modelagem-pratica">Abrir laboratório rápido</a></div></div>` : ''}
+  </section>`;
+  document.getElementById('dashboardBtn').classList.add('active');
+  renderSidebar(null);
+  updateProgressBar();
+  document.title = 'Minha jornada — Área do Aluno — TECH SANTOS BR';
+  window.techSantosTrack?.('student_dashboard_viewed', { course_id:'power-bi', completed_lessons:progress.size, progress_percent:percentage });
+}
+
+function resumeStep() {
+  for (const mod of COURSE) {
+    if (!moduleUnlocked(mod.id)) break;
+    const pendingLesson = mod.lessons.find(lesson => !progress.has(lesson.id));
+    if (pendingLesson) return { type: 'lesson', id: pendingLesson.id };
+    const evaluation = AVALIACOES[mod.id];
+    if (evaluation && !evaluation.aprovado) return { type: 'evaluation', moduleId: mod.id };
+  }
+  return { type: 'lesson', id: flat[flat.length - 1].id };
 }
 
 function currentLessonId() {
@@ -591,14 +685,23 @@ function currentLessonId() {
       const mod = COURSE.find(m => m.id === RESUME_MODULE);
       if (mod && mod.lessons.length && moduleUnlocked(mod.id)) return mod.lessons[0].id;
     }
-    return flat[0].id;
+    const step = resumeStep();
+    return step.type === 'lesson' ? step.id : flat[0].id;
   }
-  if (!moduleUnlocked(lesson.moduleId)) return flat[0].id;
+  if (!moduleUnlocked(lesson.moduleId)) {
+    const step = resumeStep();
+    return step.type === 'lesson' ? step.id : flat[0].id;
+  }
   return h;
 }
 
-window.addEventListener('hashchange', () => renderLesson(currentLessonId()));
-renderLesson(currentLessonId());
+window.addEventListener('hashchange', () => location.hash === '#inicio' ? renderDashboard() : renderLesson(currentLessonId()));
+if (location.hash && location.hash !== '#inicio') renderLesson(currentLessonId());
+else renderDashboard();
+document.getElementById('dashboardBtn').addEventListener('click', () => {
+  if (location.hash === '#inicio' || !location.hash) renderDashboard();
+  else location.hash = 'inicio';
+});
 
 document.getElementById('appMain').addEventListener('click', (e) => {
   const btn = e.target.closest('[data-toggle-res]');

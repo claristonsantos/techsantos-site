@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <button type="submit" class="btn btn-primary btn-block">Entrar</button>
     </form>
+    <p style="text-align:center;margin-top:1rem;"><a href="/esqueci-senha.php">Esqueci minha senha</a></p>
   </div>
 </div>
 </body>
