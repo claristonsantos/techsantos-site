@@ -266,7 +266,7 @@ const AVALIACOES = <?= json_encode($avaliacoesInfo, JSON_UNESCAPED_UNICODE) ?>;
 const RESUME_MODULE = <?= json_encode(preg_match('/^[a-z0-9-]+$/', (string)($_GET['modulo'] ?? '')) ? $_GET['modulo'] : null) ?>;
 const MSL = 'learn.microsoft.com';
 </script>
-<script src="/assets/js/course-data.js"></script>
+<script src="/assets/js/course-data.js?v=20260812-63"></script>
 <script>
 
 const flat = [];
