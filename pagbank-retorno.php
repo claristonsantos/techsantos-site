@@ -46,7 +46,16 @@ fbq('track', 'Purchase', {value: <?= json_encode(round($pedido['valor_centavos']
     <div class="ret-icon pending"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
     <h1>Confirmando seu pagamento…</h1>
     <p>Isso pode levar alguns instantes, especialmente no Pix. Assim que confirmarmos, você recebe um e-mail com seu acesso. Se preferir, fale com a gente pelo WhatsApp.</p>
-    <p style="margin-top:1.5rem;"><a class="btn btn-ghost on-light" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+    <p id="status-atualizacao" style="font-size:.82rem;margin-top:1rem;">Esta página verifica a confirmação automaticamente.</p>
+    <p style="margin-top:1.5rem;"><button class="btn btn-primary" type="button" onclick="location.reload()">Verificar novamente</button> <a class="btn btn-ghost on-light" href="https://wa.me/5564992905785?text=Ol%C3%A1%21%20Meu%20pagamento%20est%C3%A1%20em%20confirma%C3%A7%C3%A3o." target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+    <script>
+      var tentativas=0, limite=12;
+      var timer=setInterval(function(){
+        tentativas++;
+        if(tentativas>=limite){clearInterval(timer);document.getElementById('status-atualizacao').textContent='A confirmação ainda não chegou. Use “Verificar novamente” ou fale conosco.';return;}
+        location.reload();
+      },5000);
+    </script>
   <?php endif; ?>
 </div>
 </body>

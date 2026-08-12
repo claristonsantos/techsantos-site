@@ -43,8 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ga4ClientId = $mGa[1];
         }
 
-        $ins = db()->prepare('INSERT INTO pedidos (nome, email, cpf, telefone, curso_id, valor_centavos, ga4_client_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
-        $ins->execute([$nome, $email, $cpf, $telefoneDigits, $curso['id'], $precoCentavos, $ga4ClientId]);
+        $utm = [];
+        foreach (['utm_source','utm_medium','utm_campaign','utm_content','utm_term','landing_page'] as $field) {
+            $utm[$field] = mb_substr(trim((string)($_POST[$field] ?? '')), 0, $field === 'landing_page' ? 255 : 150);
+        }
+        $ins = db()->prepare('INSERT INTO pedidos (nome,email,cpf,telefone,curso_id,valor_centavos,ga4_client_id,utm_source,utm_medium,utm_campaign,utm_content,utm_term,landing_page) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+        $ins->execute([$nome,$email,$cpf,$telefoneDigits,$curso['id'],$precoCentavos,$ga4ClientId,$utm['utm_source'] ?: null,$utm['utm_medium'] ?: null,$utm['utm_campaign'] ?: null,$utm['utm_content'] ?: null,$utm['utm_term'] ?: null,$utm['landing_page'] ?: null]);
         $pedidoId = (int)db()->lastInsertId();
 
         $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
@@ -123,7 +127,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
 </head>
 <body>
 <div class="buy-shell">
-  <div class="buy-top"><a href="/curso-power-bi.php">← Voltar para o curso</a></div>
+  <div class="buy-top"><a href="/index.html">← Voltar para o site</a></div>
   <div class="buy-card">
     <h1>Matricule-se no <?= htmlspecialchars($nomeCurso, ENT_QUOTES) ?></h1>
     <?php if ($precoFormatado): ?>
@@ -157,6 +161,9 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
     <?php if ($precoCentavos): ?>
     <form method="post" novalidate>
       <?= csrf_field() ?>
+      <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium">
+      <input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content">
+      <input type="hidden" name="utm_term"><input type="hidden" name="landing_page">
       <div class="field">
         <label for="nome">Nome completo</label>
         <input type="text" id="nome" name="nome" required value="<?= htmlspecialchars($_POST['nome'] ?? '', ENT_QUOTES) ?>">
@@ -203,5 +210,13 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
     </div>
   </div>
 </footer>
+<script src="/assets/js/analytics-events.js"></script>
+<script>
+(function(){
+  var a=typeof window.techSantosAttribution==='function'?window.techSantosAttribution():{};
+  var map={campaign_source:'utm_source',campaign_medium:'utm_medium',campaign_name:'utm_campaign',campaign_content:'utm_content',campaign_term:'utm_term',campaign_landing_page:'landing_page'};
+  Object.keys(map).forEach(function(k){var el=document.querySelector('[name="'+map[k]+'"]');if(el&&a[k])el.value=a[k];});
+})();
+</script>
 </body>
 </html>

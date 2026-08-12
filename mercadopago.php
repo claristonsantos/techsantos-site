@@ -218,3 +218,15 @@ function mercadopago_get_payment(string $paymentId): ?array
     $data = json_decode($response, true);
     return is_array($data) ? $data : null;
 }
+
+/** Localiza um pagamento aprovado pela referência interna do pedido. */
+function mercadopago_search_approved_payment(string $externalReference): ?array
+{
+    $url='https://api.mercadopago.com/v1/payments/search?'.http_build_query(['external_reference'=>$externalReference,'sort'=>'date_created','criteria'=>'desc']);
+    $ch=curl_init($url); curl_setopt_array($ch,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_HTTPHEADER=>['Authorization: Bearer '.MERCADOPAGO_ACCESS_TOKEN],CURLOPT_TIMEOUT=>20]);
+    $response=curl_exec($ch); $code=curl_getinfo($ch,CURLINFO_HTTP_CODE); curl_close($ch);
+    if($response===false || $code<200 || $code>=300)return null;
+    $data=json_decode($response,true);
+    foreach(($data['results']??[]) as $payment){if(($payment['status']??'')==='approved')return $payment;}
+    return null;
+}
