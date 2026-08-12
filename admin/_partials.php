@@ -95,6 +95,33 @@ function admin_topbar(string $active): void
     <?php
 }
 
+function admin_page_url(array $changes = []): string
+{
+    $query = array_merge($_GET, $changes);
+    foreach ($query as $key => $value) {
+        if ($value === null || $value === '') unset($query[$key]);
+    }
+    $path = strtok($_SERVER['REQUEST_URI'] ?? '', '?') ?: ($_SERVER['PHP_SELF'] ?? '/admin/');
+    return $path . ($query ? '?' . http_build_query($query) : '');
+}
+
+function admin_pagination(int $page, int $pages, int $total): void
+{
+    if ($pages <= 1) return;
+    $start = max(1, $page - 2);
+    $end = min($pages, $page + 2);
+    ?>
+    <nav class="admin-pagination" aria-label="Paginação">
+      <span><?= $total ?> registro(s)</span>
+      <div>
+        <?php if ($page > 1): ?><a href="<?= htmlspecialchars(admin_page_url(['pagina' => $page - 1]), ENT_QUOTES) ?>">Anterior</a><?php endif; ?>
+        <?php for ($i = $start; $i <= $end; $i++): ?><a href="<?= htmlspecialchars(admin_page_url(['pagina' => $i]), ENT_QUOTES) ?>" <?= $i === $page ? 'aria-current="page"' : '' ?>><?= $i ?></a><?php endfor; ?>
+        <?php if ($page < $pages): ?><a href="<?= htmlspecialchars(admin_page_url(['pagina' => $page + 1]), ENT_QUOTES) ?>">Próxima</a><?php endif; ?>
+      </div>
+    </nav>
+    <?php
+}
+
 function admin_foot(): void
 {
     ?>

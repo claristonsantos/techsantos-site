@@ -123,7 +123,21 @@ if (isset($_GET['msg']) && !$error) {
     $msg = (string)$_GET['msg'];
 }
 
-$posts = $pdo->query('SELECT * FROM social_posts ORDER BY agendado_para DESC LIMIT 200')->fetchAll();
+$busca = trim((string)($_GET['busca'] ?? ''));
+$canalFiltro = in_array(($_GET['canal_filtro'] ?? ''), ['facebook','instagram'], true) ? (string)$_GET['canal_filtro'] : '';
+$statusFiltro = in_array(($_GET['status_filtro'] ?? ''), ['pendente','processando','agendado_meta','publicado','erro'], true) ? (string)$_GET['status_filtro'] : '';
+$tipoFiltro = in_array(($_GET['tipo_filtro'] ?? ''), ['feed','story','reels'], true) ? (string)$_GET['tipo_filtro'] : '';
+$pagina = max(1, (int)($_GET['pagina'] ?? 1)); $porPagina = 25;
+$where=[]; $params=[];
+if($busca!==''){ $where[]='legenda LIKE ?'; $params[]='%'.$busca.'%'; }
+if($canalFiltro!==''){ $where[]='canal=?'; $params[]=$canalFiltro; }
+if($statusFiltro!==''){ $where[]='status=?'; $params[]=$statusFiltro; }
+if($tipoFiltro!==''){ $where[]='tipo=?'; $params[]=$tipoFiltro; }
+$whereSql=$where?' WHERE '.implode(' AND ',$where):'';
+$count=$pdo->prepare('SELECT COUNT(*) FROM social_posts'.$whereSql); $count->execute($params); $totalPosts=(int)$count->fetchColumn();
+$paginas=max(1,(int)ceil($totalPosts/$porPagina)); $pagina=min($pagina,$paginas); $offset=($pagina-1)*$porPagina;
+$stmt=$pdo->prepare('SELECT * FROM social_posts'.$whereSql.' ORDER BY agendado_para DESC LIMIT '.$porPagina.' OFFSET '.$offset); $stmt->execute($params); $posts=$stmt->fetchAll();
+$showForm = $editRow || isset($_GET['novo']) || $error;
 
 admin_head('Redes Sociais');
 admin_topbar('social');
@@ -143,16 +157,17 @@ admin_topbar('social');
   .post-card-head .chan { font-size: 0.76rem; color: var(--ink-faint); }
   .post-card img.post-card-img, .post-card video.post-card-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: var(--navy); }
   .post-card-caption { padding: 0.9rem 1rem 1.1rem; font-size: 0.88rem; color: var(--ink); white-space: pre-wrap; line-height: 1.5; }
-  .post-card-close { position: absolute; top: 0.6rem; right: 0.7rem; background: rgba(0,0,0,0.45); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 1rem; line-height: 1; }
+  .post-card-close { position:absolute; top:.6rem; right:.7rem; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.55); color:#fff; border:0; border-radius:50%; cursor:pointer; }
+  .post-card-close svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; }
 </style>
 <main class="admin-main">
-  <div class="admin-head"><h1>Fila de posts — Facebook / Instagram</h1><a class="btn btn-ghost on-light" href="/admin/social_setup.php">Configurar Meta</a></div>
+  <div class="admin-head"><div><span class="admin-eyebrow">Marketing</span><h1>Fila de publicações</h1><p>Agende e acompanhe Facebook e Instagram em um só lugar.</p></div><div class="admin-head-actions"><?php if (!$showForm): ?><a class="btn btn-primary" href="/admin/social_posts.php?novo=1">Agendar post</a><?php endif; ?><a class="btn btn-ghost on-light" href="/admin/social_setup.php">Configurar Meta</a></div></div>
 
-  <?php if (isset($msg)): ?><div class="alert alert-success"><?= htmlspecialchars($msg, ENT_QUOTES) ?></div><?php endif; ?>
-  <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
+  <?php if (isset($msg)): ?><div class="alert alert-success" role="status"><?= htmlspecialchars($msg, ENT_QUOTES) ?></div><?php endif; ?>
+  <?php if ($error): ?><div class="alert alert-error" role="alert"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
 
+  <?php if ($showForm): ?><section class="admin-form-section"><div class="admin-form-section-head"><h2><?= $editRow ? 'Editar post' : 'Agendar novo post' ?></h2><a href="/admin/social_posts.php">Fechar formulário</a></div>
   <div class="buy-card" style="max-width:760px; margin-bottom:2rem;">
-    <h2 style="font-size:1.05rem; margin-bottom:1rem;"><?= $editRow ? 'Editar post' : 'Novo post' ?></h2>
     <form method="post" novalidate>
       <?= csrf_field() ?>
       <input type="hidden" name="action" value="save">
@@ -205,7 +220,16 @@ admin_topbar('social');
       <button type="submit" class="btn btn-primary"><?= $editRow ? 'Salvar alterações' : 'Agendar' ?></button>
       <?php if ($editRow): ?><a class="btn btn-ghost on-light" href="/admin/social_posts.php">Cancelar edição</a><?php endif; ?>
     </form>
-  </div>
+  </div></section><?php endif; ?>
+
+  <form class="admin-filter-bar" method="get" aria-label="Filtros de publicações">
+    <div class="field"><label for="busca">Buscar na legenda</label><input type="search" id="busca" name="busca" placeholder="Palavra ou campanha" value="<?= htmlspecialchars($busca, ENT_QUOTES) ?>"></div>
+    <div class="field"><label for="canal_filtro">Canal</label><select id="canal_filtro" name="canal_filtro"><option value="">Todos</option><option value="facebook" <?= $canalFiltro==='facebook'?'selected':'' ?>>Facebook</option><option value="instagram" <?= $canalFiltro==='instagram'?'selected':'' ?>>Instagram</option></select></div>
+    <div class="field"><label for="tipo_filtro">Tipo</label><select id="tipo_filtro" name="tipo_filtro"><option value="">Todos</option><?php foreach(['feed'=>'Feed','story'=>'Story','reels'=>'Reels'] as $v=>$l): ?><option value="<?= $v ?>" <?= $tipoFiltro===$v?'selected':'' ?>><?= $l ?></option><?php endforeach; ?></select></div>
+    <div class="field"><label for="status_filtro">Status</label><select id="status_filtro" name="status_filtro"><option value="">Todos</option><?php foreach(['pendente'=>'Pendente','processando'=>'Processando','agendado_meta'=>'Agendado','publicado'=>'Publicado','erro'=>'Erro'] as $v=>$l): ?><option value="<?= $v ?>" <?= $statusFiltro===$v?'selected':'' ?>><?= $l ?></option><?php endforeach; ?></select></div>
+    <div class="admin-filter-actions"><button class="btn btn-primary" type="submit">Filtrar</button><a class="btn btn-ghost on-light" href="/admin/social_posts.php">Limpar</a></div>
+  </form>
+  <div class="admin-list-head"><div><h2>Publicações</h2><span><?= $totalPosts ?> resultado(s)</span></div></div>
 
   <div class="table-wrap">
     <table class="data-table">
@@ -226,7 +250,7 @@ admin_topbar('social');
                 <?php if (($p['midia_tipo'] ?? 'imagem') === 'video'): ?>
                   <video src="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>" muted preload="metadata"></video>
                 <?php else: ?>
-                  <img src="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>" alt="">
+                  <img src="<?= htmlspecialchars($p['imagem_url'], ENT_QUOTES) ?>" alt="Prévia da publicação" loading="lazy">
                 <?php endif; ?>
               </button>
             </td>
@@ -243,7 +267,7 @@ admin_topbar('social');
               <?php endif; ?>
             </td>
             <td>
-              <span class="badge <?= in_array($p['status'], ['publicado', 'agendado_meta'], true) ? 'on' : ($p['status'] === 'erro' ? 'off' : '') ?>"><?= htmlspecialchars($p['status'], ENT_QUOTES) ?></span>
+              <span class="admin-status status-<?= $p['status'] === 'publicado' ? 'success' : ($p['status'] === 'erro' ? 'danger' : ($p['status'] === 'processando' ? 'warning' : 'neutral')) ?>"><?= htmlspecialchars($p['status'], ENT_QUOTES) ?></span>
               <?php if (($p['tipo'] ?? '') === 'story' && ($p['fb_story_status'] ?? 'nenhum') !== 'nenhum'): ?>
                 <p style="margin-top:0.3rem; font-size:0.76rem; color:<?= $p['fb_story_status'] === 'publicado' ? 'var(--ink-faint)' : '#C0392B' ?>;">
                   FB Story: <?= $p['fb_story_status'] === 'publicado' ? 'replicado ✓' : 'falhou' ?>
@@ -251,7 +275,7 @@ admin_topbar('social');
                 </p>
               <?php endif; ?>
             </td>
-            <td class="actions">
+            <td><div class="admin-table-actions">
               <?php if (in_array($p['status'], ['pendente', 'erro', 'agendado_meta'], true)): ?>
                 <a href="/admin/social_posts.php?edit=<?= (int)$p['id'] ?>">Editar</a>
                 <form method="post" onsubmit="return confirm('Remover este post<?= $p['status'] === 'agendado_meta' ? ' (também cancela no Facebook)' : '' ?>?');" style="display:inline">
@@ -261,16 +285,17 @@ admin_topbar('social');
                   <button type="submit" class="danger">Remover</button>
                 </form>
               <?php endif; ?>
-            </td>
+            </div></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
   </div>
+  <?php admin_pagination($pagina,$paginas,$totalPosts); ?>
 
   <dialog id="previewDialog">
     <div class="post-card" style="position:relative;">
-      <button type="button" class="post-card-close" onclick="document.getElementById('previewVideo').pause(); document.getElementById('previewDialog').close()">✕</button>
+      <button type="button" class="post-card-close" aria-label="Fechar prévia" onclick="document.getElementById('previewVideo').pause(); document.getElementById('previewDialog').close()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
       <div class="post-card-head">
         <span class="post-card-avatar">TS</span>
         <div>
@@ -346,7 +371,7 @@ admin_topbar('social');
       toggleImagemRequired();
     }
 
-    toggleTipoField();
+    if (document.getElementById('canal')) toggleTipoField();
   </script>
 </main>
 <?php admin_foot(); ?>

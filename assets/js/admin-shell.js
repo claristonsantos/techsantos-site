@@ -32,4 +32,13 @@
   window.addEventListener('resize', function () {
     if (window.innerWidth > 820 && sidebar.classList.contains('open')) closeMenu(false);
   });
+
+  document.addEventListener('submit', function (event) {
+    var button = event.submitter;
+    if (!button || button.disabled) return;
+    button.disabled = true;
+    button.setAttribute('aria-busy', 'true');
+    if (!button.dataset.originalLabel) button.dataset.originalLabel = button.textContent.trim();
+    button.textContent = 'Processando…';
+  });
 })();
