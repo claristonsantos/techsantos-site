@@ -1,0 +1,14 @@
+{
+  "name": "tech-santos-power-bi-motion",
+  "private": true,
+  "scripts": {
+    "render:meta-aulas": "remotion render src/index.jsx"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/media": "^4.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.0"
+  }
+}
