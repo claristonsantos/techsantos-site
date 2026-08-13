@@ -48,11 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dataHour = trim((string)($_POST['data_aula_hora'] ?? ''));
     $dataRaw = $dataDate !== '' && $dataHour !== '' ? $dataDate . ' ' . $dataHour . ':00' : '';
     $dataAula = null;
-    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dataDate) && preg_match('/^\d{2}$/', $dataHour)) {
-        $candidate = DateTimeImmutable::createFromFormat('!Y-m-d H:i:s', $dataRaw, new DateTimeZone('America/Sao_Paulo'));
-        if ($candidate) {
-            $day = (int)$candidate->format('N'); $hour = (int)$candidate->format('H');
-            if (($day >= 1 && $day <= 5 && $hour >= 18 && $hour <= 21) || ($day === 6 && $hour >= 8 && $hour <= 12)) $dataAula = $candidate->format('Y-m-d H:i:s');
+    if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $dataDate, $dateParts) && preg_match('/^\d{2}$/', $dataHour)) {
+        $year=(int)$dateParts[1]; $month=(int)$dateParts[2]; $dayOfMonth=(int)$dateParts[3]; $hour=(int)$dataHour;
+        if (checkdate($month,$dayOfMonth,$year)) {
+            $dayOfWeek=(int)date('N',strtotime($dataDate.' 12:00:00'));
+            $allowed=($dayOfWeek>=1&&$dayOfWeek<=5&&$hour>=18&&$hour<=21)||($dayOfWeek===6&&$hour>=8&&$hour<=12);
+            if($allowed)$dataAula=sprintf('%04d-%02d-%02d %02d:00:00',$year,$month,$dayOfMonth,$hour);
         }
     }
     $observacoes = mb_substr(trim((string)($_POST['observacoes'] ?? '')), 0, 3000);
@@ -64,9 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('UPDATE aulas_particulares_leads SET status=?,data_aula=?,horas=?,valor_centavos=?,observacoes=?,link_reuniao=?,atualizado_em=NOW() WHERE id=?');
         $stmt->execute([$statusToSave,$dataAula,$horas,$valorCentavos,$observacoes ?: null,$linkReuniao ?: null,$id]);
         if ($isSending) {
-            if (!$dataAula || !$horas || !$valorCentavos || !$linkReuniao || !$observacoes) {
-                header('Location: /admin/aulas_particulares.php?editar='.$id.'&proposta=dados'); exit;
-            }
+            $missing=[];
+            if(!$dataAula)$missing[]='data ou hora';
+            if(!$horas)$missing[]='quantidade';
+            if(!$valorCentavos)$missing[]='valor';
+            if(!$linkReuniao)$missing[]='link da reunião';
+            if(!$observacoes)$missing[]='mensagem do e-mail';
+            if($missing){header('Location: /admin/aulas_particulares.php?editar='.$id.'&proposta=dados&faltando='.rawurlencode(implode(', ',$missing)));exit;}
             $stmt=$pdo->prepare('SELECT * FROM aulas_particulares_leads WHERE id=?'); $stmt->execute([$id]); $lead=$stmt->fetch();
             $payment = aulas_create_payment($lead);
             if (!$payment) { header('Location: /admin/aulas_particulares.php?editar='.$id.'&proposta=pagamento'); exit; }
@@ -119,7 +124,7 @@ admin_head('Aulas particulares'); admin_topbar('aulas_particulares');
 <main class="admin-main" id="adminContent" tabindex="-1">
   <div class="admin-head"><div><span class="admin-eyebrow">Vendas</span><h1>Aulas particulares</h1><p>Conduza cada solicitação do primeiro contato até a aula realizada.</p></div><div class="admin-head-actions"><a class="btn btn-ghost on-light" href="/aulas-particulares-power-bi.php" target="_blank">Ver página pública</a></div></div>
   <?php if($message): ?><div class="alert <?= $messageOk?'alert-success':'alert-error' ?>" role="status"><?= htmlspecialchars($message,ENT_QUOTES) ?></div><?php endif; ?>
-  <?php if(($_GET['proposta']??'')==='enviada'): ?><div class="alert alert-success" role="status">Proposta enviada por e-mail e link de pagamento gerado.</div><?php elseif(($_GET['proposta']??'')==='dados'): ?><div class="alert alert-error" role="alert">Preencha data, hora, quantidade, link da reunião e mensagem do e-mail.</div><?php elseif(($_GET['proposta']??'')==='pagamento'): ?><div class="alert alert-error" role="alert">Não foi possível gerar o link de pagamento. Verifique a integração do Mercado Pago.</div><?php elseif(($_GET['proposta']??'')==='email'): ?><div class="alert alert-error" role="alert">O pagamento foi preparado, mas o e-mail não pôde ser enviado. Tente novamente.</div><?php endif; ?>
+  <?php if(($_GET['proposta']??'')==='enviada'): ?><div class="alert alert-success" role="status">Proposta enviada por e-mail e link de pagamento gerado.</div><?php elseif(($_GET['proposta']??'')==='dados'): ?><div class="alert alert-error" role="alert">Verifique os seguintes campos: <?= htmlspecialchars((string)($_GET['faltando']??'dados da proposta'),ENT_QUOTES) ?>.</div><?php elseif(($_GET['proposta']??'')==='pagamento'): ?><div class="alert alert-error" role="alert">Não foi possível gerar o link de pagamento. Verifique a integração do Mercado Pago.</div><?php elseif(($_GET['proposta']??'')==='email'): ?><div class="alert alert-error" role="alert">O pagamento foi preparado, mas o e-mail não pôde ser enviado. Tente novamente.</div><?php endif; ?>
   <section class="admin-kpi-grid" aria-label="Solicitações por etapa">
     <?php foreach(['novo','contatado','agendado','pago'] as $key): ?><a class="admin-kpi-card<?= $key==='novo'&&$counts[$key]?' is-featured':'' ?>" href="?status=<?= $key ?>"><span class="admin-kpi-label"><?= $statusLabels[$key] ?></span><strong><?= $counts[$key] ?></strong><small>Ver solicitações</small></a><?php endforeach; ?>
   </section>
