@@ -35,15 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'send_
  csrf_check(); $id=(int)($_POST['id']??0); $stmt=$pdo->prepare('SELECT * FROM aulas_particulares_leads WHERE id=?'); $stmt->execute([$id]); $lead=$stmt->fetch();
  if($lead&&$lead['data_aula']&&$lead['horas']&&$lead['valor_centavos']&&$lead['link_reuniao']){$payment=!empty($lead['pagamento_link'])?['id'=>(string)$lead['mercadopago_preference_id'],'url'=>(string)$lead['pagamento_link']]:aulas_create_payment($lead);if($payment){$lead['pagamento_link']=$payment['url'];if(aulas_send_proposal($lead)){$pdo->prepare("UPDATE aulas_particulares_leads SET pagamento_link=?,mercadopago_preference_id=?,proposta_enviada_em=NOW(),email_ultimo_erro=NULL,status='agendado' WHERE id=?")->execute([$payment['url'],$payment['id'],$id]);header('Location: /admin/aulas_particulares.php?editar='.$id.'&proposta=enviada');exit;}$pdo->prepare('UPDATE aulas_particulares_leads SET email_ultimo_erro=? WHERE id=?')->execute(['Falha ao enviar proposta',$id]);}}
  header('Location: /admin/aulas_particulares.php?editar='.$id.'&proposta=erro');exit;
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_pricing') {
-    csrf_check();
-    $avulsaInput = max(1, (float)str_replace(',', '.', (string)($_POST['avulsa'] ?? '0')));
-    $pacoteHorasInput = max(0.5, (float)str_replace(',', '.', (string)($_POST['pacote_horas'] ?? '0')));
-    $pacoteInput = max(1, (float)str_replace(',', '.', (string)($_POST['pacote_valor'] ?? '0')));
-    $mentoriaInput = max(1, (float)str_replace(',', '.', (string)($_POST['mentoria'] ?? '0')));
-    $stmt=$pdo->prepare('UPDATE aulas_particulares_config SET avulsa_centavos=?,pacote_horas=?,pacote_centavos=?,mentoria_centavos=? WHERE id=1');
-    $stmt->execute([(int)round($avulsaInput*100),$pacoteHorasInput,(int)round($pacoteInput*100),(int)round($mentoriaInput*100)]);
-    header('Location: /admin/aulas_particulares.php?precos=salvos'); exit;
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
     $id = (int)($_POST['id'] ?? 0);
@@ -113,17 +104,8 @@ function lesson_whatsapp(array $lead, array $pricing): string {
 admin_head('Aulas particulares'); admin_topbar('aulas_particulares');
 ?>
 <main class="admin-main" id="adminContent" tabindex="-1">
-  <div class="admin-head"><div><span class="admin-eyebrow">Vendas e alunos</span><h1>Aulas particulares</h1><p>Conduza cada solicitação do primeiro contato até a aula realizada.</p></div><div class="admin-head-actions"><a class="btn btn-ghost on-light" href="/aulas-particulares-power-bi.php" target="_blank">Ver página pública</a></div></div>
-  <?php if(isset($_GET['precos'])): ?><div class="alert alert-success" role="status">Valores atualizados na página pública e nos cálculos.</div><?php endif; ?>
-  <section class="admin-form-section"><div class="form-card"><div class="admin-form-section-head"><h2>Valores e pacote</h2></div>
-    <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="save_pricing">
-      <div class="field"><label for="avulsa">Aula avulsa · valor por hora</label><input id="avulsa" name="avulsa" type="number" min="1" step="0.01" required value="<?= number_format((int)$pricing['avulsa_centavos']/100,2,'.','') ?>"></div>
-      <div class="field"><label for="pacote_horas">Pacote · quantidade de horas</label><input id="pacote_horas" name="pacote_horas" type="number" min="0.5" step="0.5" required value="<?= htmlspecialchars((string)(float)$pricing['pacote_horas'],ENT_QUOTES) ?>"></div>
-      <div class="field"><label for="pacote_valor">Pacote · valor total</label><input id="pacote_valor" name="pacote_valor" type="number" min="1" step="0.01" required value="<?= number_format((int)$pricing['pacote_centavos']/100,2,'.','') ?>"></div>
-      <div class="field"><label for="mentoria">Mentoria · valor por hora</label><input id="mentoria" name="mentoria" type="number" min="1" step="0.01" required value="<?= number_format((int)$pricing['mentoria_centavos']/100,2,'.','') ?>"></div>
-      <div class="form-actions"><button class="btn btn-primary" type="submit">Salvar valores</button></div>
-    </form>
-  </div></section>  <?php if($message): ?><div class="alert <?= $messageOk?'alert-success':'alert-error' ?>" role="status"><?= htmlspecialchars($message,ENT_QUOTES) ?></div><?php endif; ?>
+  <div class="admin-head"><div><span class="admin-eyebrow">Vendas</span><h1>Aulas particulares</h1><p>Conduza cada solicitação do primeiro contato até a aula realizada.</p></div><div class="admin-head-actions"><a class="btn btn-ghost on-light" href="/aulas-particulares-power-bi.php" target="_blank">Ver página pública</a></div></div>
+  <?php if($message): ?><div class="alert <?= $messageOk?'alert-success':'alert-error' ?>" role="status"><?= htmlspecialchars($message,ENT_QUOTES) ?></div><?php endif; ?>
   <section class="admin-kpi-grid" aria-label="Solicitações por etapa">
     <?php foreach(['novo','contatado','agendado','pago'] as $key): ?><a class="admin-kpi-card<?= $key==='novo'&&$counts[$key]?' is-featured':'' ?>" href="?status=<?= $key ?>"><span class="admin-kpi-label"><?= $statusLabels[$key] ?></span><strong><?= $counts[$key] ?></strong><small>Ver solicitações</small></a><?php endforeach; ?>
   </section>

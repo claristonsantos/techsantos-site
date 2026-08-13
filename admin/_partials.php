@@ -50,10 +50,11 @@ function admin_topbar(string $active): void
         ],
         'Vendas' => [
             'pedidos' => ['/admin/pedidos.php', 'Pedidos', 'orders'],
+            'aulas_particulares' => ['/admin/aulas_particulares.php', 'Aulas particulares', 'lessons'],
             'certificados' => ['/admin/certificados.php', 'Certificados', 'certificate'],
         ],
         'Cadastros' => [
-            'aulas_particulares' => ['/admin/aulas_particulares.php', 'Aulas particulares', 'lessons'],
+            'aulas_particulares_cadastro' => ['/admin/aulas_particulares_cadastro.php', 'Cadastro das aulas', 'lessons'],
             'cursos' => ['/admin/cursos.php', 'Cursos', 'course'],
             'avaliacoes' => ['/admin/avaliacoes.php', 'Avaliações', 'assessment'],
             'alunos' => ['/admin/alunos.php', 'Alunos', 'students'],
