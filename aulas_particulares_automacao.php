@@ -41,15 +41,15 @@ function aulas_create_payment(array $lead): ?array
 
 function aulas_send_proposal(array $lead): bool
 {
-    $date=$lead['data_aula']?date('d/m/Y \à\s H:i',strtotime($lead['data_aula'])):'A combinar';$hours=number_format((float)$lead['horas'],1,',','.');$value=aulas_money((int)$lead['valor_centavos']);$first=htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES);
-    $content="<p>Olá, {$first}.</p><p>Sua proposta está pronta:</p><ul><li><strong>Formato:</strong> ".htmlspecialchars($lead['interesse'],ENT_QUOTES)."</li><li><strong>Data:</strong> {$date}</li><li><strong>Duração:</strong> {$hours} hora(s)</li><li><strong>Valor:</strong> {$value}</li></ul><p>A reserva será confirmada automaticamente após a aprovação do pagamento.</p>";
+    $date=$lead['data_aula']?date('d/m/Y \à\s H\h',strtotime($lead['data_aula'])):'A combinar';$hours=number_format((float)$lead['horas'],1,',','.');$value=aulas_money((int)$lead['valor_centavos']);$first=htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES);
+    $custom=trim((string)($lead['observacoes']??''));$intro=$custom!==''?'<div style="line-height:1.65">'.nl2br(htmlspecialchars($custom,ENT_QUOTES)).'</div>':"<p>Olá, {$first}.</p><p>Sua proposta está pronta.</p>";$content=$intro."<hr style=\"border:0;border-top:1px solid #dbdecf;margin:22px 0\"><ul><li><strong>Formato:</strong> ".htmlspecialchars($lead['interesse'],ENT_QUOTES)."</li><li><strong>Data:</strong> {$date}</li><li><strong>Duração:</strong> {$hours} hora(s)</li><li><strong>Valor:</strong> {$value}</li></ul><p>A reserva será confirmada automaticamente após a aprovação do pagamento.</p>";
     $html=aulas_email_frame('Proposta e reserva da aula',$content,'Realizar pagamento',(string)$lead['pagamento_link']);
     return send_html_email($lead['email'],'Proposta da sua aula — TECH SANTOS BR',$html,"Proposta: {$lead['interesse']}; data {$date}; duração {$hours}h; valor {$value}. Pagamento: {$lead['pagamento_link']}");
 }
 
 function aulas_send_paid(array $lead): bool
 {
-    $date=$lead['data_aula']?date('d/m/Y \à\s H:i',strtotime($lead['data_aula'])):'a combinar';$meeting=$lead['link_reuniao']?:'';$content='<p>Olá, '.htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES).'.</p><p>Pagamento aprovado e aula confirmada para <strong>'.$date.'</strong>.</p>';
+    $date=$lead['data_aula']?date('d/m/Y \à\s H\h',strtotime($lead['data_aula'])):'a combinar';$meeting=$lead['link_reuniao']?:'';$content='<p>Olá, '.htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES).'.</p><p>Pagamento aprovado e aula confirmada para <strong>'.$date.'</strong>.</p>';
     if($meeting!=='')$content.='<p>Use o botão abaixo no horário combinado para entrar na aula.</p>';
     $html=aulas_email_frame('Pagamento aprovado. Aula confirmada.',$content,$meeting!==''?'Entrar na aula':'',$meeting);
     return send_html_email($lead['email'],'Aula confirmada — TECH SANTOS BR',$html,"Pagamento aprovado. Aula confirmada para {$date}.".($meeting!==''?" Link: {$meeting}":''));
@@ -57,7 +57,7 @@ function aulas_send_paid(array $lead): bool
 
 function aulas_send_reminder(array $lead,string $window): bool
 {
-    $date=date('d/m/Y \à\s H:i',strtotime($lead['data_aula']));$label=$window==='24h'?'amanhã':'em aproximadamente 1 hora';$meeting=$lead['link_reuniao']?:'';$html=aulas_email_frame('Lembrete da sua aula','<p>Sua aula será <strong>'.$label.'</strong>, em '.$date.'.</p><p>Separe seus arquivos e dúvidas para aproveitarmos o encontro.</p>',$meeting!==''?'Entrar na aula':'',$meeting);
+    $date=date('d/m/Y \à\s H\h',strtotime($lead['data_aula']));$label=$window==='24h'?'amanhã':'em aproximadamente 1 hora';$meeting=$lead['link_reuniao']?:'';$html=aulas_email_frame('Lembrete da sua aula','<p>Sua aula será <strong>'.$label.'</strong>, em '.$date.'.</p><p>Separe seus arquivos e dúvidas para aproveitarmos o encontro.</p>',$meeting!==''?'Entrar na aula':'',$meeting);
     return send_html_email($lead['email'],'Lembrete da aula — TECH SANTOS BR',$html,"Sua aula será {$label}, em {$date}.".($meeting!==''?" Link: {$meeting}":''));
 }
 

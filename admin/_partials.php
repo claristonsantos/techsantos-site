@@ -48,15 +48,17 @@ function admin_topbar(string $active): void
             'index' => ['/admin/', 'Dashboard', 'dashboard'],
             'metricas' => ['/admin/metricas.php', 'Métricas', 'metrics'],
         ],
-        'Vendas e alunos' => [
+        'Vendas' => [
             'pedidos' => ['/admin/pedidos.php', 'Pedidos', 'orders'],
-            'aulas_particulares' => ['/admin/aulas_particulares.php', 'Aulas particulares', 'lessons'],
-            'alunos' => ['/admin/alunos.php', 'Alunos', 'students'],
             'certificados' => ['/admin/certificados.php', 'Certificados', 'certificate'],
         ],
-        'Curso' => [
+        'Cadastros' => [
+            'aulas_particulares' => ['/admin/aulas_particulares.php', 'Aulas particulares', 'lessons'],
             'cursos' => ['/admin/cursos.php', 'Cursos', 'course'],
             'avaliacoes' => ['/admin/avaliacoes.php', 'Avaliações', 'assessment'],
+            'alunos' => ['/admin/alunos.php', 'Alunos', 'students'],
+        ],
+        'Curso' => [
             'jornada' => ['/admin/jornada.php', 'Jornada do aluno', 'journey'],
         ],
         'Marketing' => [
