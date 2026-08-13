@@ -93,20 +93,23 @@ function send_html_email(string $toEmail, string $subject, string $html, string 
         'MIME-Version: 1.0',
         'Content-Type: multipart/alternative; boundary="' . $boundary . '"',
         'Reply-To: ' . MAIL_FROM,
-        'X-Mailer: PHP/' . phpversion(),
+        'Date: ' . date(DATE_RFC2822),
+        'Message-ID: <' . bin2hex(random_bytes(16)) . '.' . time() . '@techsantos.com.br>',
+        'X-Mailer: TECH-SANTOS-BR',
     ];
 
+    $textEncoded = rtrim(chunk_split(base64_encode($text), 76, "\r\n"));
+    $htmlEncoded = rtrim(chunk_split(base64_encode($html), 76, "\r\n"));
     $body = "This is a multi-part message in MIME format.\r\n"
         . "--{$boundary}\r\n"
         . "Content-Type: text/plain; charset=UTF-8\r\n"
-        . "Content-Transfer-Encoding: 8bit\r\n\r\n"
-        . $text . "\r\n\r\n"
+        . "Content-Transfer-Encoding: base64\r\n\r\n"
+        . $textEncoded . "\r\n\r\n"
         . "--{$boundary}\r\n"
         . "Content-Type: text/html; charset=UTF-8\r\n"
-        . "Content-Transfer-Encoding: 8bit\r\n\r\n"
-        . $html . "\r\n\r\n"
+        . "Content-Transfer-Encoding: base64\r\n\r\n"
+        . $htmlEncoded . "\r\n\r\n"
         . "--{$boundary}--";
-
     $message = implode("\r\n", $headers) . "\r\n\r\n" . $body;
     // dot-stuffing per RFC 5321: a lone leading "." on a line must be escaped
     $message = preg_replace('/^\./m', '..', $message);

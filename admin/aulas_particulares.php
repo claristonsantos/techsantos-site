@@ -59,9 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $linkReuniao = mb_substr(trim((string)($_POST['link_reuniao'] ?? '')),0,500);
     if ($linkReuniao !== '' && !filter_var($linkReuniao,FILTER_VALIDATE_URL)) $linkReuniao = '';
     if ($id > 0) {
+        $isSending = ($_POST['action'] ?? '') === 'save_and_send';
+        $statusToSave = $isSending ? 'contatado' : $statusUpdate;
         $stmt = $pdo->prepare('UPDATE aulas_particulares_leads SET status=?,data_aula=?,horas=?,valor_centavos=?,observacoes=?,link_reuniao=?,atualizado_em=NOW() WHERE id=?');
-        $stmt->execute([$statusUpdate,$dataAula,$horas,$valorCentavos,$observacoes ?: null,$linkReuniao ?: null,$id]);
-        if (($_POST['action'] ?? '') === 'save_and_send') {
+        $stmt->execute([$statusToSave,$dataAula,$horas,$valorCentavos,$observacoes ?: null,$linkReuniao ?: null,$id]);
+        if ($isSending) {
             if (!$dataAula || !$horas || !$valorCentavos || !$linkReuniao || !$observacoes) {
                 header('Location: /admin/aulas_particulares.php?editar='.$id.'&proposta=dados'); exit;
             }
@@ -130,7 +132,7 @@ admin_head('Aulas particulares'); admin_topbar('aulas_particulares');
   <section class="admin-form-section"><div class="form-card"><div class="admin-form-section-head"><h2>Atualizar solicitação #<?= (int)$selected['id'] ?></h2><a href="/admin/aulas_particulares.php">Fechar</a></div>
     <p><strong><?= htmlspecialchars($selected['nome'],ENT_QUOTES) ?></strong><br><span style="color:var(--ink-soft)"><?= htmlspecialchars($selected['interesse'],ENT_QUOTES) ?> · <?= htmlspecialchars($selected['nivel'] ?: 'Nível não informado',ENT_QUOTES) ?></span></p>
     <p style="margin:.8rem 0 1.2rem;color:var(--ink-soft)"><?= nl2br(htmlspecialchars($selected['tema'],ENT_QUOTES)) ?></p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem;margin:0 0 1.2rem;padding:1rem;background:var(--surface-2);border:1px solid var(--line);border-radius:7px"><div><small style="display:block;color:var(--ink-faint)">HORÁRIO SOLICITADO</small><strong><?= htmlspecialchars($selected['disponibilidade'] ?: 'Não informado',ENT_QUOTES) ?></strong></div><div><small style="display:block;color:var(--ink-faint)">CONTATO</small><strong><?= htmlspecialchars($selected['email'],ENT_QUOTES) ?></strong><br><span><?= htmlspecialchars($selected['telefone'],ENT_QUOTES) ?></span></div></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem;margin:0 0 1.2rem;padding:1rem;background:var(--surface-2);border:1px solid var(--line);border-radius:7px"><div><small style="display:block;color:var(--ink-faint)">HORÁRIO SOLICITADO</small><strong><?= htmlspecialchars($selected['disponibilidade'] ?: 'Não informado',ENT_QUOTES) ?></strong></div><div><small style="display:block;color:var(--ink-faint)">CONTATO</small><strong><?= htmlspecialchars($selected['email'],ENT_QUOTES) ?></strong><br><span><?= htmlspecialchars($selected['telefone'],ENT_QUOTES) ?></span></div></div><?php if(!empty($selected['email_ultimo_erro'])): ?><div class="alert alert-error" role="alert"><strong>Última falha de envio:</strong> <?= htmlspecialchars($selected['email_ultimo_erro'],ENT_QUOTES) ?></div><?php endif; ?>
     <div class="form-actions" style="margin-bottom:1rem"><button class="btn btn-primary" type="button" id="acceptRequestedTime">Aceitar horário solicitado</button><button class="btn btn-ghost on-light" type="button" id="suggestAnotherTime">Sugerir outro horário</button></div><small id="scheduleDecisionHelp" style="display:block;margin:-.5rem 0 1rem;color:var(--ink-soft)">Escolha uma opção, complete a duração e o link da reunião e salve a atualização.</small>
     <form method="post"><?= csrf_field() ?><input type="hidden" name="id" value="<?= (int)$selected['id'] ?>">
       <div class="field"><label for="edit_status">Etapa</label><select id="edit_status" name="status"><?php foreach($statusLabels as $key=>$label): ?><option value="<?= $key ?>" <?= $selected['status']===$key?'selected':'' ?>><?= $label ?></option><?php endforeach; ?></select></div>
