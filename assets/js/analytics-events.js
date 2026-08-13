@@ -63,10 +63,10 @@
   const attribution = captureAttribution();
   window.techSantosAttribution = function () { return { ...attribution }; };
 
-  window.techSantosTrack = function (eventName, params, metaEventName, metaStandard) {
+  window.techSantosTrack = function (eventName, params, metaEventName, metaStandard, metaOptions) {
     const eventParams = clean({ ...attribution, ...(params || {}) });
     if (typeof window.gtag === 'function') window.gtag('event', eventName, eventParams);
-    if (typeof window.fbq === 'function' && metaEventName) window.fbq(metaStandard ? 'track' : 'trackCustom', metaEventName, eventParams);
+    if (typeof window.fbq === 'function' && metaEventName) window.fbq(metaStandard ? 'track' : 'trackCustom', metaEventName, eventParams, metaOptions || {});
   };
 
   function once(key, eventName, params, metaEventName, metaStandard) {

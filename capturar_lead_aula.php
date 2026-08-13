@@ -5,14 +5,14 @@ require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
 require_once __DIR__ . '/aulas_particulares_automacao.php';
 
-function lesson_lead_response(bool $ok, string $message, int $status = 200): never
+function lesson_lead_response(bool $ok, string $message, int $status = 200, array $data = []): never
 {
     http_response_code($status);
     $json = str_contains(strtolower((string)($_SERVER['HTTP_ACCEPT'] ?? '')), 'application/json')
         || strtolower((string)($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '')) === 'xmlhttprequest';
     if ($json) {
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['ok' => $ok, 'message' => $message], JSON_UNESCAPED_UNICODE);
+        echo json_encode(['ok' => $ok, 'message' => $message] + $data, JSON_UNESCAPED_UNICODE);
     } else {
         header('Location: /aulas-particulares-power-bi.php?' . ($ok ? 'enviado=1' : 'erro=1') . '#agendar');
     }
@@ -146,5 +146,12 @@ try {
     error_log('Aviso de lead de aula #' . $leadId . ': ' . $e->getMessage());
 }
 
-lesson_lead_response(true, 'Solicitação recebida. Vamos avaliar seu objetivo e retornar com a melhor opção.');
+$eventId = 'aula_lead_' . $leadId;
+try {
+    meta_capi_send_lesson_event('Lead',$leadId,$email,$telefone,$interesse,null,[
+        'fbp'=>(string)($_COOKIE['_fbp']??''),'fbc'=>(string)($_COOKIE['_fbc']??''),
+        'client_ip_address'=>(string)($_SERVER['REMOTE_ADDR']??''),'client_user_agent'=>(string)($_SERVER['HTTP_USER_AGENT']??''),
+    ]);
+} catch (Throwable $e) { error_log('Meta CAPI lead aula '.$leadId.': '.$e->getMessage()); }
+lesson_lead_response(true, 'Solicitação recebida. Vamos avaliar seu objetivo e retornar com a melhor opção.', 200, ['lead_id'=>$leadId,'event_id'=>$eventId]);
 

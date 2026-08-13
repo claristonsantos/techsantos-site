@@ -138,6 +138,36 @@ function meta_capi_send_purchase(int $pedidoId, string $email, string $telefoneD
 }
 
 /**
+ * Sends Lead and Purchase events for private lessons to Meta CAPI.
+ * Email and phone are normalized and SHA-256 hashed before transmission.
+ */
+function meta_capi_send_lesson_event(string $eventName, int $leadId, string $email, string $telefone, string $interesse, ?float $valor = null, array $requestContext = []): bool
+{
+    if (META_CAPI_ACCESS_TOKEN === '') return false;
+    $emailNormalized = strtolower(trim($email));
+    $phoneDigits = preg_replace('/\D/', '', $telefone) ?? '';
+    if ($phoneDigits !== '' && !str_starts_with($phoneDigits, '55')) $phoneDigits = '55' . $phoneDigits;
+    $userData = ['em' => [hash('sha256', $emailNormalized)]];
+    if ($phoneDigits !== '') $userData['ph'] = [hash('sha256', $phoneDigits)];
+    foreach (['fbp','fbc','client_ip_address','client_user_agent'] as $key) {
+        if (!empty($requestContext[$key])) $userData[$key] = (string)$requestContext[$key];
+    }
+    $eventKey = $eventName === 'Purchase' ? 'purchase' : 'lead';
+    $customData = ['content_name'=>$interesse,'content_category'=>'Aulas particulares'];
+    if ($valor !== null) $customData += ['value'=>$valor,'currency'=>'BRL'];
+    $body = ['data'=>[[]],'access_token'=>META_CAPI_ACCESS_TOKEN];
+    $body['data'][0] = [
+        'event_name'=>$eventName,'event_time'=>time(),'event_id'=>'aula_'.$eventKey.'_'.$leadId,
+        'action_source'=>'website','event_source_url'=>'https://techsantos.com.br/aulas-particulares-power-bi.php',
+        'user_data'=>$userData,'custom_data'=>$customData,
+    ];
+    $ch=curl_init('https://graph.facebook.com/v23.0/'.META_PIXEL_ID.'/events');
+    curl_setopt_array($ch,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_POST=>true,CURLOPT_POSTFIELDS=>json_encode($body,JSON_UNESCAPED_UNICODE),CURLOPT_HTTPHEADER=>['Content-Type: application/json'],CURLOPT_TIMEOUT=>10]);
+    $response=curl_exec($ch);$httpCode=curl_getinfo($ch,CURLINFO_HTTP_CODE);curl_close($ch);
+    if($httpCode<200||$httpCode>=300){error_log('Meta CAPI aula '.$eventName.' failed: HTTP '.$httpCode.' body='.(string)$response);return false;}
+    return true;
+}
+/**
  * Sends a server-side "purchase" event to GA4 via the Measurement Protocol.
  * GA4 has no client-side purchase event anywhere on the site — without this,
  * every sale is invisible in GA4 regardless of channel, making blended ROAS

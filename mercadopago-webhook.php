@@ -21,7 +21,9 @@ try {
         $aulaId=(int)$m[1]; aulas_automation_ensure(db());
         $stmt=db()->prepare('SELECT * FROM aulas_particulares_leads WHERE id=?');$stmt->execute([$aulaId]);$lead=$stmt->fetch();
         if(!$lead){http_response_code(200);exit('aula not found');}
+        $wasPaid=in_array((string)$lead['status'],['pago','realizado'],true);
         db()->prepare("UPDATE aulas_particulares_leads SET status='pago',mercadopago_payment_id=?,atualizado_em=NOW() WHERE id=?")->execute([(string)$paymentId,$aulaId]);
+        if(!$wasPaid){try{meta_capi_send_lesson_event('Purchase',$aulaId,(string)$lead['email'],(string)$lead['telefone'],(string)$lead['interesse'],((int)$lead['valor_centavos'])/100);}catch(Throwable $e){error_log('Meta CAPI purchase aula '.$aulaId.': '.$e->getMessage());}}
         $lead['status']='pago';$lead['mercadopago_payment_id']=(string)$paymentId;
         if(empty($lead['confirmacao_enviada_em'])){
             if(aulas_send_paid($lead))db()->prepare('UPDATE aulas_particulares_leads SET confirmacao_enviada_em=NOW(),email_ultimo_erro=NULL WHERE id=?')->execute([$aulaId]);
