@@ -48,7 +48,9 @@ $telefone = preg_replace('/\D/', '', $clean('telefone', 30)) ?? '';
 $nivel = $clean('nivel', 60);
 $interesse = $clean('interesse', 80);
 $tema = $clean('tema', 1500);
-$disponibilidade = $clean('disponibilidade', 300);
+$dataPreferida = $clean('data_preferida', 10);
+$horaPreferida = $clean('hora_preferida', 2);
+$disponibilidade = $dataPreferida !== '' && $horaPreferida !== '' ? $dataPreferida . 'T' . $horaPreferida . ':00' : '';
 $consentimento = (string)($data['consentimento'] ?? '') === '1';
 
 if ($nome === '' || $email === '' || $telefone === '' || $interesse === '' || $tema === '') {
@@ -71,8 +73,8 @@ if (!$horarioValido || $horarioPreferido <= new DateTimeImmutable('now', $timezo
 }
 $diaSemana = (int)$horarioPreferido->format('N');
 $minutos = ((int)$horarioPreferido->format('H') * 60) + (int)$horarioPreferido->format('i');
-$permitido = ($diaSemana >= 1 && $diaSemana <= 5 && $minutos >= 18 * 60 && $minutos <= 21 * 60)
-    || ($diaSemana === 6 && $minutos >= 8 * 60 && $minutos <= 12 * 60);
+$permitido = ($diaSemana >= 1 && $diaSemana <= 5 && $minutos >= 18 * 60 && $minutos <= 21 * 60 && (int)$horarioPreferido->format('i') === 0)
+    || ($diaSemana === 6 && $minutos >= 8 * 60 && $minutos <= 12 * 60 && (int)$horarioPreferido->format('i') === 0);
 if (!$permitido) {
     lesson_lead_response(false, 'Escolha de segunda a sexta das 18h às 21h ou sábado das 8h às 12h.', 422);
 }
