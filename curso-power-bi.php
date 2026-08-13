@@ -52,6 +52,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
       <a href="sobre.html">Sobre</a>
       <a href="servicos.html">Serviços</a>
       <a href="treinamentos.html">Treinamentos</a>
+      <a href="/aulas-particulares-power-bi.php">Aulas</a>
       <a href="projetos.html">Projetos</a>
       <a href="blog/index.php">Blog</a>
       <a href="contato.html">Contato</a>
