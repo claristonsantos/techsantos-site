@@ -59,7 +59,6 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
       <a href="/login.php">Área do Aluno</a>
     </nav>
     <div class="nav-actions">
-      <a class="btn btn-primary desktop-only" href="https://wa.me/5564992905785?text=<?= $whatsMsg ?>" target="_blank" rel="noopener">Falar no WhatsApp</a>
       <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
