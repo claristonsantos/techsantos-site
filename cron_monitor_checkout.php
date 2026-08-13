@@ -11,6 +11,9 @@ require_once __DIR__ . '/mailer.php';
 
 const MONITOR_TEST_EMAIL = 'monitor.checkout@techsantos-interno.invalid';
 const MONITOR_ALERT_TO = 'claristonsantos@hotmail.com';
+// CPF matematicamente valido reservado ao teste sintetico. O pedido criado
+// pelo monitor e removido ao final da execucao e nunca vira matricula.
+const MONITOR_TEST_CPF = '52998224725';
 
 /**
  * Simula uma compra real de ponta a ponta (abre comprar.php, extrai o token
@@ -52,6 +55,7 @@ function checar_checkout(): array
         'csrf' => $token,
         'nome' => 'Monitor Automatico',
         'email' => MONITOR_TEST_EMAIL,
+        'cpf' => MONITOR_TEST_CPF,
         'telefone' => '64999999999',
     ]);
 
@@ -73,7 +77,7 @@ function checar_checkout(): array
 
     if ($httpCode !== 302 || !preg_match('/Location:\s*(\S+)/i', $postResponse, $loc) || !str_contains($loc[1], 'mercadopago.com.br')) {
         $trecho = strip_tags(substr($postResponse, 0, 500));
-        return [false, "Checkout não redirecionou pro Mercado Pago (HTTP {$httpCode}). Resposta: " . trim($trecho)];
+        return [false, "Checkout não redirecionou pro Mercado Pago (HTTP {$httpCode}). O formulário pode ter rejeitado algum campo ou a criação da preferência pode ter falhado. Resposta: " . trim($trecho)];
     }
 
     return [true, 'ok'];
