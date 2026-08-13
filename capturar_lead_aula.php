@@ -60,6 +60,23 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 if (strlen($telefone) < 10 || strlen($telefone) > 13) {
     lesson_lead_response(false, 'Informe um WhatsApp com DDD.', 422);
 }
+if ($disponibilidade === '') {
+    lesson_lead_response(false, 'Escolha uma data e um horário para a aula.', 422);
+}
+$timezone = new DateTimeZone('America/Sao_Paulo');
+$horarioPreferido = DateTimeImmutable::createFromFormat('!Y-m-d\TH:i', $disponibilidade, $timezone);
+$horarioValido = $horarioPreferido && $horarioPreferido->format('Y-m-d\TH:i') === $disponibilidade;
+if (!$horarioValido || $horarioPreferido <= new DateTimeImmutable('now', $timezone)) {
+    lesson_lead_response(false, 'Escolha uma data e um horário futuros.', 422);
+}
+$diaSemana = (int)$horarioPreferido->format('N');
+$minutos = ((int)$horarioPreferido->format('H') * 60) + (int)$horarioPreferido->format('i');
+$permitido = ($diaSemana >= 1 && $diaSemana <= 5 && $minutos >= 18 * 60 && $minutos <= 21 * 60)
+    || ($diaSemana === 6 && $minutos >= 8 * 60 && $minutos <= 12 * 60);
+if (!$permitido) {
+    lesson_lead_response(false, 'Escolha de segunda a sexta das 18h às 21h ou sábado das 8h às 12h.', 422);
+}
+$disponibilidade = $horarioPreferido->format('d/m/Y \à\s H:i');
 if (!$consentimento) {
     lesson_lead_response(false, 'Confirme o uso dos dados para receber o retorno.', 422);
 }
