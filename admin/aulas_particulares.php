@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/../aulas_particulares_config.php';
+require_once __DIR__ . '/../aulas_particulares_automacao.php';
 require_once __DIR__ . '/_partials.php';
 require_admin();
 csrf_token();
@@ -13,6 +14,7 @@ if (!$tableExists) {
     $pdo->exec("CREATE TABLE aulas_particulares_leads (id INT AUTO_INCREMENT PRIMARY KEY,nome VARCHAR(120) NOT NULL,email VARCHAR(190) NOT NULL,telefone VARCHAR(30) NOT NULL,nivel VARCHAR(60) NULL,interesse VARCHAR(80) NOT NULL,tema TEXT NOT NULL,disponibilidade VARCHAR(300) NULL,utm_source VARCHAR(150) NULL,utm_medium VARCHAR(150) NULL,utm_campaign VARCHAR(150) NULL,utm_content VARCHAR(150) NULL,utm_term VARCHAR(150) NULL,landing_page VARCHAR(255) NULL,ip_hash CHAR(64) NULL,status VARCHAR(30) NOT NULL DEFAULT 'novo',criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,INDEX idx_aulas_criado (criado_em),INDEX idx_aulas_status (status)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 }
 
+aulas_automation_ensure($pdo);
 $columns = [];
 foreach ($pdo->query("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'aulas_particulares_leads'") as $column) $columns[$column['COLUMN_NAME']] = true;
 $requiredColumns = [
@@ -29,7 +31,11 @@ foreach ($requiredColumns as $name => $definition) {
 $statusLabels = ['novo'=>'Novo','contatado'=>'Contatado','agendado'=>'Agendado','pago'=>'Pago','realizado'=>'Realizado','cancelado'=>'Cancelado'];
 $statusTone = ['novo'=>'warning','contatado'=>'neutral','agendado'=>'neutral','pago'=>'success','realizado'=>'success','cancelado'=>'danger'];
 $message = null; $messageOk = false;
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_pricing') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'send_proposal') {
+ csrf_check(); $id=(int)($_POST['id']??0); $stmt=$pdo->prepare('SELECT * FROM aulas_particulares_leads WHERE id=?'); $stmt->execute([$id]); $lead=$stmt->fetch();
+ if($lead&&$lead['data_aula']&&$lead['horas']&&$lead['valor_centavos']&&$lead['link_reuniao']){$payment=!empty($lead['pagamento_link'])?['id'=>(string)$lead['mercadopago_preference_id'],'url'=>(string)$lead['pagamento_link']]:aulas_create_payment($lead);if($payment){$lead['pagamento_link']=$payment['url'];if(aulas_send_proposal($lead)){$pdo->prepare("UPDATE aulas_particulares_leads SET pagamento_link=?,mercadopago_preference_id=?,proposta_enviada_em=NOW(),email_ultimo_erro=NULL,status='agendado' WHERE id=?")->execute([$payment['url'],$payment['id'],$id]);header('Location: /admin/aulas_particulares.php?editar='.$id.'&proposta=enviada');exit;}$pdo->prepare('UPDATE aulas_particulares_leads SET email_ultimo_erro=? WHERE id=?')->execute(['Falha ao enviar proposta',$id]);}}
+ header('Location: /admin/aulas_particulares.php?editar='.$id.'&proposta=erro');exit;
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_pricing') {
     csrf_check();
     $avulsaInput = max(1, (float)str_replace(',', '.', (string)($_POST['avulsa'] ?? '0')));
     $pacoteHorasInput = max(0.5, (float)str_replace(',', '.', (string)($_POST['pacote_horas'] ?? '0')));
@@ -54,9 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_
     $dataRaw = trim((string)($_POST['data_aula'] ?? ''));
     $dataAula = $dataRaw !== '' ? date('Y-m-d H:i:s', strtotime($dataRaw)) : null;
     $observacoes = mb_substr(trim((string)($_POST['observacoes'] ?? '')), 0, 3000);
+    $linkReuniao = mb_substr(trim((string)($_POST['link_reuniao'] ?? '')),0,500);
+    if ($linkReuniao !== '' && !filter_var($linkReuniao,FILTER_VALIDATE_URL)) $linkReuniao = '';
     if ($id > 0) {
-        $stmt = $pdo->prepare('UPDATE aulas_particulares_leads SET status=?,data_aula=?,horas=?,valor_centavos=?,observacoes=?,atualizado_em=NOW() WHERE id=?');
-        $stmt->execute([$statusUpdate,$dataAula,$horas,$valorCentavos,$observacoes ?: null,$id]);
+        $stmt = $pdo->prepare('UPDATE aulas_particulares_leads SET status=?,data_aula=?,horas=?,valor_centavos=?,observacoes=?,link_reuniao=?,atualizado_em=NOW() WHERE id=?');
+        $stmt->execute([$statusUpdate,$dataAula,$horas,$valorCentavos,$observacoes ?: null,$linkReuniao ?: null,$id]);
         $message = 'Solicitação atualizada.'; $messageOk = true;
     }
 }
@@ -115,8 +123,12 @@ admin_head('Aulas particulares'); admin_topbar('aulas_particulares');
       <div class="field"><label for="edit_status">Etapa</label><select id="edit_status" name="status"><?php foreach($statusLabels as $key=>$label): ?><option value="<?= $key ?>" <?= $selected['status']===$key?'selected':'' ?>><?= $label ?></option><?php endforeach; ?></select></div>
       <div class="field"><label for="data_aula">Data e hora</label><input id="data_aula" name="data_aula" type="datetime-local" value="<?= $selected['data_aula']?date('Y-m-d\TH:i',strtotime($selected['data_aula'])):'' ?>"></div>
       <div class="field"><label for="horas">Quantidade de horas</label><input id="horas" name="horas" type="number" min="0.5" max="100" step="0.5" value="<?= $selected['horas']!==null?htmlspecialchars((string)(float)$selected['horas'],ENT_QUOTES):'' ?>"><small id="lessonValue" style="color:var(--green-strong)"><?= $selected['valor_centavos']?'Valor: '.aulas_money((int)$selected['valor_centavos']):($selected['interesse']==='Pacote de aulas'?'Pacote: '.aulas_money((int)$pricing['pacote_centavos']).' por '.number_format((float)$pricing['pacote_horas'],1,',','.').' horas':($selected['interesse']==='Mentoria de projeto'?aulas_money((int)$pricing['mentoria_centavos']).' por hora':aulas_money((int)$pricing['avulsa_centavos']).' por hora')) ?></small></div>
-      <div class="field"><label for="observacoes">Observações internas</label><textarea id="observacoes" name="observacoes" rows="4"><?= htmlspecialchars($selected['observacoes']??'',ENT_QUOTES) ?></textarea></div>
+      <div class="field"><label for="link_reuniao">Link da reunião</label><input id="link_reuniao" name="link_reuniao" type="url" value="<?= htmlspecialchars($selected['link_reuniao']??'',ENT_QUOTES) ?>" placeholder="https://meet.google.com/..."></div><div class="field"><label for="observacoes">Observações internas</label><textarea id="observacoes" name="observacoes" rows="4"><?= htmlspecialchars($selected['observacoes']??'',ENT_QUOTES) ?></textarea></div>
       <div class="form-actions"><button class="btn btn-primary" type="submit">Salvar atualização</button><a class="btn btn-ghost on-light" href="<?= htmlspecialchars(lesson_whatsapp($selected,$pricing),ENT_QUOTES) ?>" target="_blank" rel="noopener">Abrir WhatsApp</a></div>
+    </form>
+    <form method="post" style="margin-top:12px"><?= csrf_field() ?><input type="hidden" name="action" value="send_proposal"><input type="hidden" name="id" value="<?= (int)$selected['id'] ?>">
+      <button class="btn btn-primary" type="submit" <?= (!$selected['data_aula']||!$selected['valor_centavos']||!$selected['link_reuniao'])?'disabled title="Salve primeiro a data, duração, valor e link da reunião"':'' ?>>Enviar proposta e link de pagamento</button>
+      <?php if(!empty($selected['proposta_enviada_em'])): ?><small>Última proposta: <?= date('d/m/Y H:i',strtotime($selected['proposta_enviada_em'])) ?></small><?php endif; ?>
     </form>
   </div></section>
   <?php endif; ?>

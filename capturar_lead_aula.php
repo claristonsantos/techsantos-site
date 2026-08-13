@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
+require_once __DIR__ . '/aulas_particulares_automacao.php';
 
 function lesson_lead_response(bool $ok, string $message, int $status = 200): never
 {
@@ -116,6 +117,9 @@ $html = '<h1 style="font-size:20px">Novo interesse em aula particular</h1>'
 $text = "Novo interesse em aula particular #{$leadId}\nNome: {$nome}\nE-mail: {$email}\nTelefone: {$telefone}\nNível: {$nivel}\nFormato: {$interesse}\nObjetivo: {$tema}\nDisponibilidade: {$disponibilidade}";
 
 try {
+    if (!aulas_send_received(['nome'=>$nome,'email'=>$email,'interesse'=>$interesse,'tema'=>$tema])) {
+        error_log('Falha ao confirmar recebimento da aula #' . $leadId);
+    }
     if (!send_html_email(MAIL_FROM, $subject, $html, $text)) {
         error_log('Falha SMTP ao avisar sobre lead de aula #' . $leadId);
     }
