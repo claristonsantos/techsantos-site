@@ -11,7 +11,7 @@ function aulas_automation_ensure(PDO $pdo): void
     foreach($pdo->query("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='aulas_particulares_leads'") as $row)$existing[$row['COLUMN_NAME']]=true;
     $columns=[
         'link_reuniao'=>'VARCHAR(500) NULL','pagamento_link'=>'TEXT NULL','mercadopago_preference_id'=>'VARCHAR(190) NULL','mercadopago_payment_id'=>'VARCHAR(190) NULL',
-        'proposta_enviada_em'=>'DATETIME NULL','confirmacao_enviada_em'=>'DATETIME NULL','lembrete_24h_em'=>'DATETIME NULL','lembrete_1h_em'=>'DATETIME NULL','email_ultimo_erro'=>'TEXT NULL'
+        'proposta_enviada_em'=>'DATETIME NULL','agendamento_enviado_em'=>'DATETIME NULL','cobranca_enviada_em'=>'DATETIME NULL','confirmacao_enviada_em'=>'DATETIME NULL','lembrete_24h_em'=>'DATETIME NULL','lembrete_1h_em'=>'DATETIME NULL','email_ultimo_erro'=>'TEXT NULL'
     ];
     foreach($columns as $name=>$definition)if(!isset($existing[$name]))$pdo->exec("ALTER TABLE aulas_particulares_leads ADD COLUMN {$name} {$definition}");
 }
@@ -47,12 +47,31 @@ function aulas_send_proposal(array $lead): bool
     return send_html_email($lead['email'],'Proposta da sua aula — TECH SANTOS BR',$html,"Proposta: {$lead['interesse']}; data {$date}; duração {$hours}h; valor {$value}. Pagamento: {$lead['pagamento_link']}");
 }
 
+function aulas_send_scheduled(array $lead): bool
+{
+    $date=$lead['data_aula']?date('d/m/Y \à\s H\h',strtotime($lead['data_aula'])):'a combinar';$meeting=(string)($lead['link_reuniao']??'');$first=htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES);
+    $custom=trim((string)($lead['observacoes']??''));$intro=$custom!==''?'<div style="line-height:1.65">'.nl2br(htmlspecialchars($custom,ENT_QUOTES)).'</div>':"<p>Olá, {$first}.</p>";$content=$intro.'<hr style="border:0;border-top:1px solid #dbdecf;margin:22px 0"><p>Sua aula está confirmada para <strong>'.$date.'</strong>.</p><p>O pagamento será combinado separadamente. Use o botão abaixo no horário agendado para entrar na aula.</p>';
+    $html=aulas_email_frame('Aula confirmada',$content,'Entrar na aula',$meeting);
+    return send_html_email($lead['email'],'Aula confirmada — TECH SANTOS BR',$html,"Sua aula está confirmada para {$date}. Link: {$meeting}. O pagamento será combinado separadamente.");
+}
+
+function aulas_send_payment_request(array $lead): bool
+{
+    $hours=number_format((float)$lead['horas'],1,',','.');$value=aulas_money((int)$lead['valor_centavos']);$first=htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES);
+    $content="<p>Olá, {$first}.</p><p>Segue a cobrança referente à sua aula.</p><ul><li><strong>Duração:</strong> {$hours} hora(s)</li><li><strong>Valor:</strong> {$value}</li></ul><p>Use o botão abaixo para realizar o pagamento.</p>";
+    $html=aulas_email_frame('Pagamento da sua aula',$content,'Realizar pagamento',(string)$lead['pagamento_link']);
+    return send_html_email($lead['email'],'Pagamento da sua aula — TECH SANTOS BR',$html,"Pagamento da aula: duração {$hours}h; valor {$value}. Link: {$lead['pagamento_link']}");
+}
 function aulas_send_paid(array $lead): bool
 {
-    $date=$lead['data_aula']?date('d/m/Y \à\s H\h',strtotime($lead['data_aula'])):'a combinar';$meeting=$lead['link_reuniao']?:'';$content='<p>Olá, '.htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES).'.</p><p>Pagamento aprovado e aula confirmada para <strong>'.$date.'</strong>.</p>';
+    $date=$lead['data_aula']?date('d/m/Y \à\s H\h',strtotime($lead['data_aula'])):'a combinar';$meeting=$lead['link_reuniao']?:'';$lessonFinished=!empty($lead['data_aula'])&&strtotime($lead['data_aula'])<time();$content='<p>Olá, '.htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES).'.</p><p>'.($lessonFinished?'Pagamento aprovado. Obrigado!':'Pagamento aprovado e aula confirmada para <strong>'.$date.'</strong>.').'</p>';
+    if($lessonFinished)$meeting='';
     if($meeting!=='')$content.='<p>Use o botão abaixo no horário combinado para entrar na aula.</p>';
-    $html=aulas_email_frame('Pagamento aprovado. Aula confirmada.',$content,$meeting!==''?'Entrar na aula':'',$meeting);
-    return send_html_email($lead['email'],'Aula confirmada — TECH SANTOS BR',$html,"Pagamento aprovado. Aula confirmada para {$date}.".($meeting!==''?" Link: {$meeting}":''));
+    $title=$lessonFinished?'Pagamento aprovado':'Pagamento aprovado. Aula confirmada.';
+    $subject=$lessonFinished?'Pagamento da aula aprovado — TECH SANTOS BR':'Aula confirmada — TECH SANTOS BR';
+    $text=$lessonFinished?'Pagamento da sua aula aprovado. Obrigado!':"Pagamento aprovado. Aula confirmada para {$date}.".($meeting!==''?" Link: {$meeting}":'');
+    $html=aulas_email_frame($title,$content,$meeting!==''?'Entrar na aula':'',$meeting);
+    return send_html_email($lead['email'],$subject,$html,$text);
 }
 
 function aulas_send_reminder(array $lead,string $window): bool
