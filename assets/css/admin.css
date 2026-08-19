@@ -87,7 +87,7 @@
 .empty-row td { padding:2rem 1rem; color:var(--ink-faint); text-align:center; }
 .form-card { max-width:560px; margin-bottom:2.5rem; padding:clamp(1.5rem,4vw,2rem); border:1px solid var(--line); border-radius:7px; background:var(--surface); }
 .form-card h2 { margin-bottom:1.25rem; font-size:1.15rem; }
-.form-actions { display:flex; align-items:center; gap:.75rem; margin-top:.25rem; }
+.form-actions { display:flex; flex-wrap:wrap; align-items:center; gap:.75rem; margin-top:.25rem; }
 .gen-pw-btn { margin-top:.3rem; padding:.35rem 0; border:0; background:none; color:var(--green-strong); cursor:pointer; font-size:.78rem; text-align:left; }
 
 /* Dashboard operacional */
