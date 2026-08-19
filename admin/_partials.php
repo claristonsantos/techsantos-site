@@ -67,6 +67,7 @@ function admin_topbar(string $active): void
             'social_auto_reply' => ['/admin/social_auto_reply.php', 'Auto-resposta', 'reply'],
         ],
         'Configurações' => [
+            'google_calendar' => ['/admin/google_calendar_setup.php', 'Google Calendar', 'lessons'],
             'administradores' => ['/admin/administradores.php', 'Administradores', 'admin'],
         ],
     ];

@@ -11,7 +11,7 @@ function aulas_automation_ensure(PDO $pdo): void
     foreach($pdo->query("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='aulas_particulares_leads'") as $row)$existing[$row['COLUMN_NAME']]=true;
     $columns=[
         'link_reuniao'=>'VARCHAR(500) NULL','pagamento_link'=>'TEXT NULL','mercadopago_preference_id'=>'VARCHAR(190) NULL','mercadopago_payment_id'=>'VARCHAR(190) NULL',
-        'proposta_enviada_em'=>'DATETIME NULL','agendamento_enviado_em'=>'DATETIME NULL','cobranca_enviada_em'=>'DATETIME NULL','confirmacao_enviada_em'=>'DATETIME NULL','lembrete_24h_em'=>'DATETIME NULL','lembrete_1h_em'=>'DATETIME NULL','email_ultimo_erro'=>'TEXT NULL'
+        'proposta_enviada_em'=>'DATETIME NULL','agendamento_enviado_em'=>'DATETIME NULL','cobranca_enviada_em'=>'DATETIME NULL','confirmacao_enviada_em'=>'DATETIME NULL','lembrete_24h_em'=>'DATETIME NULL','lembrete_1h_em'=>'DATETIME NULL','email_ultimo_erro'=>'TEXT NULL','google_calendar_event_id'=>'VARCHAR(190) NULL'
     ];
     foreach($columns as $name=>$definition)if(!isset($existing[$name]))$pdo->exec("ALTER TABLE aulas_particulares_leads ADD COLUMN {$name} {$definition}");
 }
