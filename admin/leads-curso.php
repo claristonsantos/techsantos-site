@@ -3,20 +3,12 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/_partials.php';
+require_once __DIR__ . '/../lead_pipeline.php';
 require_admin();
 csrf_token();
 
 $pdo = db();
-$pdo->exec("CREATE TABLE IF NOT EXISTS whatsapp_lead_pipeline (
-    lead_id INT NOT NULL PRIMARY KEY,
-    status VARCHAR(30) NOT NULL DEFAULT 'novo',
-    ultimo_contato_em DATETIME NULL,
-    proxima_acao_em DATETIME NULL,
-    observacoes TEXT NULL,
-    atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX idx_whatsapp_pipeline_status (status),
-    INDEX idx_whatsapp_pipeline_proxima (proxima_acao_em)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+lead_pipeline_backfill_purchases($pdo);
 
 $statusLabels = [
     'novo' => 'Novo',

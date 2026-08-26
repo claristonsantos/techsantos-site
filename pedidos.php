@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
+require_once __DIR__ . '/lead_pipeline.php';
 
 function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?string $paymentId = null): array
 {
@@ -16,6 +17,8 @@ function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?stri
                 $pdo->prepare('UPDATE pedidos SET mercadopago_payment_id = ?, webhook_processado_em = NOW() WHERE id = ?')->execute([$paymentId, $pedidoId]);
             }
             $pdo->commit();
+            try { lead_pipeline_mark_purchase($pdo, (string)$pedido['telefone']); }
+            catch (Throwable $pipelineError) { error_log('Pipeline lead pedido ' . $pedidoId . ': ' . $pipelineError->getMessage()); }
             return ['status'=>'ja_processado','pedido_id'=>$pedidoId,'aluno_id'=>(int)$pedido['aluno_id']];
         }
         $cpf = preg_replace('/\D/', '', (string)($pedido['cpf'] ?: ($cpfDoPagamento ?? ''))) ?: null;
@@ -37,6 +40,8 @@ function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?stri
         try { $pdo->prepare('UPDATE pedidos SET webhook_ultimo_erro=?, atualizado_em=NOW() WHERE id=?')->execute([mb_substr($e->getMessage(),0,1000),$pedidoId]); } catch (Throwable $ignored) {}
         throw $e;
     }
+    try { lead_pipeline_mark_purchase($pdo, (string)$pedido['telefone']); }
+    catch (Throwable $pipelineError) { error_log('Pipeline lead pedido ' . $pedidoId . ': ' . $pipelineError->getMessage()); }
     if ($senhaGerada !== null) {
         $cursoStmt=$pdo->prepare('SELECT nome FROM cursos WHERE id=?'); $cursoStmt->execute([$pedido['curso_id']]);
         $cursoNome=$cursoStmt->fetchColumn() ?: 'Power BI Completo';
