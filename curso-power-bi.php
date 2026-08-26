@@ -74,13 +74,20 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <span>Curso 100% EAD — <strong>matrícula aberta o ano todo</strong>, acesso imediato após a inscrição. Estude no seu ritmo.</span>
       </div>
       <p class="eyebrow on-dark">Curso completo · Modelagem, Power Query, DAX e Relatórios</p>
-      <h1>Power BI, do dado bruto ao <em>indicador de negócio</em> pronto para decisão.</h1>
-      <p class="lead">Curso próprio da TECH SANTOS BR, com apostila escrita pelo instrutor, videoaulas práticas gravadas passo a passo e laboratórios guiados — para quem já usa Excel e quer parar de repetir PROCV e começar a construir modelos de dados de verdade.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="/aula-gratis.php">Assistir 3 aulas grátis</a>
-        <a class="btn btn-ghost" href="/comprar.php">Comprar o curso</a>
-        <a class="btn btn-ghost" href="#curriculo">Ver o currículo completo</a>
+      <h1>Saia das planilhas repetitivas e construa <em>dashboards de Power BI</em> prontos para apresentar.</h1>
+      <p class="lead">Aprenda modelagem, Power Query, DAX e relatórios em projetos práticos — para quem já usa Excel no trabalho e quer transformar dados brutos em decisões.</p>
+      <?php if ($precoFormatado): ?>
+      <div class="hero-offer" aria-label="Oferta do curso">
+        <strong>R$ <?= $precoFormatado ?></strong>
+        <span>à vista · cartão em até 12x ou Pix · acesso vitalício</span>
       </div>
+      <?php endif; ?>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="/comprar.php" data-course-cta="hero_buy">Começar agora<?= $precoFormatado ? ' por R$ ' . $precoFormatado : '' ?></a>
+        <a class="btn btn-ghost" href="/aula-gratis.php" data-course-cta="hero_preview">Assistir 3 aulas grátis</a>
+        <a class="btn btn-ghost" href="#curriculo" data-course-cta="hero_curriculum">Ver o currículo</a>
+      </div>
+      <p class="hero-assurance">Acesso imediato após a confirmação · suporte direto com o instrutor · garantia de satisfação</p>
       <div class="kpi-row">
         <div class="kpi-tile"><div class="kpi-num">46</div><div class="kpi-label">videoaulas práticas, mais de 7 horas de conteúdo</div></div>
         <div class="kpi-tile"><div class="kpi-num">13</div><div class="kpi-label">módulos, da modelagem aos laboratórios práticos</div></div>
@@ -586,8 +593,8 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
           <p class="price">R$ <?= $precoFormatado ?><small>à vista ou parcelado em até 12x no cartão · acesso vitalício</small></p>
           <?php endif; ?>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="/comprar.php">Garantir minha vaga</a>
-            <a class="btn btn-ghost" href="/aula-gratis.php">Assistir aula grátis antes</a>
+            <a class="btn btn-primary" href="/comprar.php" data-course-cta="final_buy">Começar agora</a>
+            <a class="btn btn-ghost" href="/aula-gratis.php" data-course-cta="final_preview">Assistir aula grátis antes</a>
           </div>
         </div>
       </div>

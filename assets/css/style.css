@@ -216,6 +216,10 @@ nav.links a[aria-current="page"] { color: var(--ink); border-color: var(--green)
 .hero.page-hero .page-hero-inner { padding: clamp(3.5rem, 8vw, 6rem) clamp(1.25rem, 4vw, 2.5rem) clamp(2.5rem, 6vw, 4rem); }
 .hero h1 { font-size: clamp(2.35rem, 3.4vw + 1.2rem, 3.85rem); max-width: 15ch; }
 .hero-cta { display: flex; gap: 0.9rem; margin-top: 2rem; flex-wrap: wrap; }
+.hero-offer { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.35rem; }
+.hero-offer strong { font-family: 'Plex Cond', sans-serif; font-size: clamp(2rem, 2.2vw + 1rem, 2.8rem); color: var(--green-bright); line-height: 1; }
+.hero-offer span { color: var(--navy-ink-soft); font-size: 0.88rem; }
+.hero-assurance { margin-top: 0.85rem; color: var(--navy-ink-soft); font-size: 0.8rem; }
 
 .audience-paths {
   display: grid;

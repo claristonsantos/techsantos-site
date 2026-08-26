@@ -226,7 +226,7 @@ TEXT;
     return send_html_email($toEmail, $subject, $html, $text);
 }
 
-function send_abandoned_cart_email(string $toEmail, string $toName, array $curso, float $valorReais): bool
+function send_abandoned_cart_email(string $toEmail, string $toName, array $curso, float $valorReais, int $pedidoId = 0, string $preferenceId = ''): bool
 {
     $subject = 'Sua matrícula no ' . $curso['nome'] . ' ficou pendente — TECH SANTOS BR';
 
@@ -239,6 +239,10 @@ function send_abandoned_cart_email(string $toEmail, string $toName, array $curso
     $waLink = WHATSAPP_LINK;
     $waDisplay = WHATSAPP_DISPLAY;
     $checkoutUrl = 'https://techsantos.com.br/comprar.php';
+    if ($pedidoId > 0 && $preferenceId !== '' && defined('MERCADOPAGO_ACCESS_TOKEN')) {
+        $token = hash_hmac('sha256', $pedidoId . '|' . $preferenceId, MERCADOPAGO_ACCESS_TOKEN);
+        $checkoutUrl = 'https://techsantos.com.br/retomar-pagamento.php?pedido=' . $pedidoId . '&token=' . rawurlencode($token);
+    }
     $footerHtml = email_footer_html();
 
     $html = <<<HTML

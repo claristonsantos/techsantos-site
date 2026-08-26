@@ -84,6 +84,36 @@ function mercadopago_create_preference(array $pedido, array $curso, string $back
     return ['id' => $data['id'], 'checkout_url' => $checkoutUrl];
 }
 
+/** Returns the checkout URL for an existing preference, or null on failure. */
+function mercadopago_get_preference_checkout_url(string $preferenceId): ?string
+{
+    if ($preferenceId === '') return null;
+    $ch = curl_init('https://api.mercadopago.com/checkout/preferences/' . rawurlencode($preferenceId));
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . MERCADOPAGO_ACCESS_TOKEN, 'Accept: application/json'],
+        CURLOPT_CONNECTTIMEOUT => 5,
+        CURLOPT_TIMEOUT => 10,
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
+    curl_close($ch);
+    if ($response === false || $httpCode < 200 || $httpCode >= 300) {
+        error_log('MercadoPago get_preference failed: HTTP ' . $httpCode . ' ' . $curlError);
+        return null;
+    }
+    $data = json_decode($response, true);
+    if (!is_array($data)) return null;
+    $checkoutUrl = MERCADOPAGO_ENV === 'production' ? ($data['init_point'] ?? null) : ($data['sandbox_init_point'] ?? $data['init_point'] ?? null);
+    return is_string($checkoutUrl) && $checkoutUrl !== '' ? $checkoutUrl : null;
+}
+
+function mercadopago_resume_token(int $pedidoId, string $preferenceId): string
+{
+    return hash_hmac('sha256', $pedidoId . '|' . $preferenceId, MERCADOPAGO_ACCESS_TOKEN);
+}
+
 /**
  * Sends a server-side Purchase event to Meta's Conversions API. Uses the
  * same event_id the browser pixel fires in pagbank-retorno.php (pedido_<id>)

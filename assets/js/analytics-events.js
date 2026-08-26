@@ -85,6 +85,15 @@
     const link = event.target.closest('a[href]');
     if (!link) return;
     const href = link.getAttribute('href') || '';
+    const courseCta = link.getAttribute('data-course-cta');
+    if (courseCta) {
+      window.techSantosTrack('course_cta_click', {
+        cta_position: courseCta,
+        link_url: link.href,
+        link_text: (link.textContent || '').trim().slice(0, 100),
+        page_path: path
+      });
+    }
     if (/^(https?:\/\/)?(wa\.me|api\.whatsapp\.com)\//i.test(href)) {
       window.techSantosTrack('contact', {
         method: 'whatsapp',

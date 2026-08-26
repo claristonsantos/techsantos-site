@@ -34,7 +34,9 @@ foreach ($pendentes as $p) {
         $p['email'],
         $p['nome'],
         ['nome' => $p['curso_nome']],
-        $p['valor_centavos'] / 100
+        $p['valor_centavos'] / 100,
+        (int)$p['id'],
+        (string)($p['mercadopago_preference_id'] ?? '')
     );
 
     if ($enviado) {
