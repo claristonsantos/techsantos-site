@@ -77,6 +77,15 @@ $paidOrders = $hasOrders
 $previousPaidOrders = $hasOrders
     ? metrics_count($pdo, "SELECT COUNT(*) FROM pedidos WHERE status = 'pago' AND criado_em >= ? AND criado_em < ?", $previousParams)
     : 0;
+$pendingOrders = $hasOrders
+    ? metrics_count($pdo, "SELECT COUNT(*) FROM pedidos WHERE status = 'pendente' AND criado_em >= ? AND criado_em < ?", $currentParams)
+    : 0;
+$remindedOrders = $hasOrders
+    ? metrics_count($pdo, 'SELECT COUNT(*) FROM pedidos WHERE lembrete_enviado = 1 AND criado_em >= ? AND criado_em < ?', $currentParams)
+    : 0;
+$recoveredOrders = $hasOrders
+    ? metrics_count($pdo, "SELECT COUNT(*) FROM pedidos WHERE lembrete_enviado = 1 AND status = 'pago' AND criado_em >= ? AND criado_em < ?", $currentParams)
+    : 0;
 
 $revenueCents = 0;
 if ($hasOrders) {
@@ -98,6 +107,8 @@ $failedPosts = $hasSocial
     : 0;
 
 $leadToSaleRate = $leads > 0 ? ($paidOrders / $leads) * 100 : 0.0;
+$checkoutConversionRate = $orders > 0 ? ($paidOrders / $orders) * 100 : 0.0;
+$averageTicketCents = $paidOrders > 0 ? (int)round($revenueCents / $paidOrders) : 0;
 
 $daily = [];
 for ($offset = 0; $offset < 28; $offset++) {
@@ -138,6 +149,22 @@ if ($hasLeads) {
         $sourceCounts[$source] = ($sourceCounts[$source] ?? 0) + 1;
     }
     arsort($sourceCounts);
+}
+
+$orderSources = [];
+if ($hasOrders) {
+    $stmt = $pdo->prepare(
+        "SELECT COALESCE(NULLIF(LOWER(utm_source), ''), 'direct') AS origem,
+                COUNT(*) AS checkouts,
+                SUM(CASE WHEN status = 'pago' THEN 1 ELSE 0 END) AS vendas,
+                SUM(CASE WHEN status = 'pago' THEN valor_centavos ELSE 0 END) AS receita_centavos
+         FROM pedidos
+         WHERE criado_em >= ? AND criado_em < ?
+         GROUP BY origem
+         ORDER BY vendas DESC, checkouts DESC"
+    );
+    $stmt->execute($currentParams);
+    $orderSources = $stmt->fetchAll();
 }
 
 $socialByChannel = [];
@@ -215,11 +242,17 @@ admin_topbar('metricas');
 
   <div class="stat-row">
     <div class="stat-tile"><div class="num"><?= metrics_money($revenueCents) ?></div><div class="lbl">Receita aprovada no período</div></div>
-    <div class="stat-tile"><div class="num"><?= number_format($leadToSaleRate, 1, ',', '.') ?>%</div><div class="lbl">Relação direcional entre leads e vendas</div></div>
-    <div class="stat-tile"><div class="num"><?= $publishedPosts ?></div><div class="lbl">Publicações concluídas</div><div class="metrics-delta"><?= $scheduledPosts ?> futuras · <?= $failedPosts ?> com erro</div></div>
+    <div class="stat-tile"><div class="num"><?= number_format($checkoutConversionRate, 1, ',', '.') ?>%</div><div class="lbl">Conversão de checkout em compra</div></div>
+    <div class="stat-tile"><div class="num"><?= metrics_money($averageTicketCents) ?></div><div class="lbl">Ticket médio aprovado</div></div>
   </div>
 
-  <div class="metrics-warning">A relação entre leads e vendas é apenas direcional: os pedidos ainda não armazenam a mesma UTM do lead. Não use esse percentual como atribuição por canal.</div>
+  <div class="stat-row">
+    <div class="stat-tile"><div class="num"><?= $pendingOrders ?></div><div class="lbl">Checkouts ainda pendentes</div></div>
+    <div class="stat-tile"><div class="num"><?= $recoveredOrders ?></div><div class="lbl">Compras após lembrete</div><div class="metrics-delta"><?= $remindedOrders ?> lembrete(s) enviado(s)</div></div>
+    <div class="stat-tile"><div class="num"><?= number_format($leadToSaleRate, 1, ',', '.') ?>%</div><div class="lbl">Relação direcional entre leads e vendas</div></div>
+  </div>
+
+  <div class="metrics-warning">A atribuição por origem usa a UTM salva no checkout. “direct” reúne visitas sem UTM. Compras após lembrete indicam pedidos pagos depois do envio, mas não provam causalidade.</div>
 
   <div class="metrics-grid">
     <section class="metrics-card">
@@ -258,6 +291,32 @@ admin_topbar('metricas');
       <?php endif; ?>
     </section>
   </div>
+
+  <section class="metrics-card" style="margin-bottom:2rem">
+    <h2>Checkouts e vendas por origem</h2>
+    <p class="sub">UTM registrada quando o comprador envia o formulário de matrícula.</p>
+    <div class="table-wrap" style="margin-bottom:0">
+      <table class="data-table">
+        <thead><tr><th>Origem</th><th>Checkouts</th><th>Compras</th><th>Conversão</th><th>Receita</th></tr></thead>
+        <tbody>
+          <?php if (!$orderSources): ?>
+            <tr class="empty-row"><td colspan="5">Nenhum checkout registrado no período.</td></tr>
+          <?php else: ?>
+            <?php foreach ($orderSources as $source): ?>
+              <?php $sourceRate = (int)$source['checkouts'] > 0 ? ((int)$source['vendas'] / (int)$source['checkouts']) * 100 : 0; ?>
+              <tr>
+                <td><strong><?= htmlspecialchars((string)$source['origem'], ENT_QUOTES) ?></strong></td>
+                <td><?= (int)$source['checkouts'] ?></td>
+                <td><?= (int)$source['vendas'] ?></td>
+                <td><?= number_format($sourceRate, 1, ',', '.') ?>%</td>
+                <td><?= metrics_money((int)$source['receita_centavos']) ?></td>
+              </tr>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <section class="metrics-card" style="margin-bottom:2rem">
     <h2>Operação das redes sociais</h2>
