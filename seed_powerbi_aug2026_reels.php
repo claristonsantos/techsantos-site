@@ -19,7 +19,7 @@ $fbExists=$pdo->prepare("SELECT id FROM social_posts WHERE canal='facebook' AND 
 $fbInsert=$pdo->prepare("INSERT INTO social_posts (canal,tipo,midia_tipo,legenda,imagem_url,link_url,agendado_para,status,meta_post_id) VALUES ('facebook','reels','video',?,?,?,?,'agendado_meta',?)");
 $out=[];
 foreach($posts as $p){
- $url='https://media.techsantos.com.br/powerbi-ago2026/'.$p['file'];
+ $url='https://media.techsantos.com.br/reels/'.$p['file'];
  $link='https://techsantos.com.br/blog/novidades-power-bi-agosto-2026.php?utm_source=meta&utm_medium=organic_social&utm_campaign=powerbi_agosto_2026&utm_content='.rawurlencode(pathinfo($p['file'],PATHINFO_FILENAME));
  $headers=@get_headers($url,true); $status=is_array($headers)?(string)($headers[0]??''):''; $type=is_array($headers)?(string)($headers['Content-Type']??$headers['content-type']??''):'';
  if(!str_contains($status,'200')||!str_contains(strtolower($type),'video/mp4')){$out[]="MIDIA|ERRO|{$p['file']}|{$status}|{$type}";continue;}
