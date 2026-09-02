@@ -5,6 +5,20 @@ declare(strict_types=1);
 // post novo: cria o arquivo blog/<slug>.php e adiciona uma entrada aqui.
 $posts = [
     [
+        'slug' => 'novidades-power-bi-agosto-2026',
+        'eyebrow' => 'Power BI',
+        'title' => '5 novidades do Power BI em agosto de 2026 que valem testar',
+        'excerpt' => 'Copilot, atualização seletiva, imagens do OneLake, valor central na rosca e matriz expansível explicados na prática.',
+        'date' => '2026-09-02',
+    ],
+    [
+        'slug' => 'pipeline-dados-vs-pipeline-implantacao-microsoft-fabric',
+        'eyebrow' => 'Microsoft Fabric',
+        'title' => 'Pipeline de dados ou pipeline de implantação no Microsoft Fabric?',
+        'excerpt' => 'Um executa e movimenta dados. O outro promove conteúdo entre desenvolvimento, teste e produção. Compare os dois recursos.',
+        'date' => '2026-08-27',
+    ],
+    [
         'slug' => 'microsoft-fabric-guia',
         'eyebrow' => 'Microsoft Fabric',
         'title' => 'Microsoft Fabric: guia para quem já usa Power BI',
@@ -18,7 +32,7 @@ $posts = [
     ['slug'=>'selecionar-linha-coluna-excel-atalho','eyebrow'=>'Excel','title'=>'Como selecionar linhas e colunas inteiras no Excel sem usar o mouse','excerpt'=>'Use Ctrl+Espaço e Shift+Espaço para selecionar colunas e linhas inteiras pelo teclado.','date'=>'2026-08-10'],
     ['slug'=>'funcao-seerro-excel','eyebrow'=>'Excel','title'=>'Função SEERRO no Excel: como tratar erros sem esconder problemas','excerpt'=>'Trate #N/D, #DIV/0! e outros erros com mensagens claras sem mascarar defeitos da planilha.','date'=>'2026-08-10'],
     ['slug'=>'quebrar-linha-celula-excel-alt-enter','eyebrow'=>'Excel','title'=>'Alt+Enter no Excel: como quebrar linha dentro da mesma célula','excerpt'=>'Organize endereços, observações e descrições em várias linhas sem sair da mesma célula.','date'=>'2026-08-10'],
-    ['slug'=>'nomear-intervalos-excel','eyebrow'=>'Excel','title'=>'Como nomear intervalos no Excel e deixar fórmulas mais fáceis','excerpt'=>'Troque referências difáceis por nomes claros e deixe suas fórmulas mais fáceis de manter.','date'=>'2026-08-10'],
+    ['slug'=>'nomear-intervalos-excel','eyebrow'=>'Excel','title'=>'Como nomear intervalos no Excel e deixar fórmulas mais fáceis','excerpt'=>'Troque referências difíceis por nomes claros e deixe suas fórmulas mais fáceis de manter.','date'=>'2026-08-10'],
     ['slug'=>'congelar-paineis-excel','eyebrow'=>'Excel','title'=>'Como congelar linhas e colunas no Excel do jeito certo','excerpt'=>'Mantenha cabeçalhos e colunas importantes visíveis enquanto navega por planilhas grandes.','date'=>'2026-08-10'],
     ['slug'=>'transpor-linhas-colunas-excel','eyebrow'=>'Excel','title'=>'Como transpor linhas e colunas no Excel sem redigitar dados','excerpt'=>'Transforme linhas em colunas e entenda quando usar Colar Transpor ou a função TRANSPOR.','date'=>'2026-08-10'],
     [
