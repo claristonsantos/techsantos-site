@@ -19,3 +19,4 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=<?= META_PIXEL_ID ?>&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<script src="/assets/js/tiktok-pixel.js"></script>
