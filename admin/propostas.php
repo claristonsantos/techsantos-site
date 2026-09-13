@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $escopo = trim((string)($_POST['escopo'] ?? ''));
         $objetivo = trim((string)($_POST['objetivo'] ?? ''));
         $premissas = trim((string)($_POST['premissas'] ?? ''));
-        $moeda = trim((string)($_POST['moeda'] ?? 'USD')) ?: 'USD';
+        $moeda = 'USD'; // sempre em dólar — a conversão pra real é calculada na hora de exibir a proposta
         $status = trim((string)($_POST['status'] ?? 'rascunho')) ?: 'rascunho';
         $itens = proposta_itens_from_post();
 
@@ -103,6 +103,9 @@ if (isset($_GET['msg']) && !$error) {
 }
 
 $propostas = $pdo->query('SELECT * FROM propostas ORDER BY created_at DESC')->fetchAll();
+
+require_once __DIR__ . '/../inc/cotacao_dolar.php';
+$cotacao = $propostas ? cotacao_dolar_bcb($pdo) : ['valor' => 0.0, 'data' => null];
 
 $statusLabels = ['rascunho' => 'Rascunho', 'enviada' => 'Enviada', 'aprovada' => 'Aprovada', 'recusada' => 'Recusada'];
 
@@ -156,24 +159,14 @@ admin_topbar('propostas');
           <input type="text" id="formato" name="formato" placeholder="Ex.: Excel, Power BI, Python" value="<?= htmlspecialchars($editRow['formato'] ?? '', ENT_QUOTES) ?>">
         </div>
         <div class="field">
-          <label for="moeda">Moeda</label>
-          <select id="moeda" name="moeda">
-            <?php foreach (['USD', 'BRL', 'EUR', 'AOA'] as $m): ?>
-              <option value="<?= $m ?>" <?= (($editRow['moeda'] ?? 'USD') === $m) ? 'selected' : '' ?>><?= $m ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-      </div>
-
-      <div class="field-row">
-        <div class="field">
           <label for="versao">Versão</label>
           <input type="text" id="versao" name="versao" value="<?= htmlspecialchars($editRow['versao'] ?? '1', ENT_QUOTES) ?>">
         </div>
-        <div class="field">
-          <label for="autor">Autor</label>
-          <input type="text" id="autor" name="autor" value="<?= htmlspecialchars($editRow['autor'] ?? 'Clariston Santos', ENT_QUOTES) ?>">
-        </div>
+      </div>
+
+      <div class="field">
+        <label for="autor">Autor</label>
+        <input type="text" id="autor" name="autor" value="<?= htmlspecialchars($editRow['autor'] ?? 'Clariston Santos', ENT_QUOTES) ?>">
       </div>
 
       <div class="field">
@@ -195,9 +188,10 @@ admin_topbar('propostas');
 
       <div class="field">
         <label>Itens do orçamento</label>
-        <div class="table-wrap" style="margin-bottom:0.75rem;">
+        <span class="hint">Valores sempre em dólar — a proposta converte pra real automaticamente com a cotação PTAX do Banco Central.</span>
+        <div class="table-wrap" style="margin:0.5rem 0 0.75rem;">
           <table class="data-table" id="itensTable">
-            <thead><tr><th>Descrição</th><th style="width:110px">Horas</th><th style="width:130px">Valor/hora</th><th style="width:44px"></th></tr></thead>
+            <thead><tr><th>Descrição</th><th style="width:110px">Horas</th><th style="width:140px">Valor/hora (US$)</th><th style="width:44px"></th></tr></thead>
             <tbody>
               <?php
               $itensIniciais = $editRow['itens'] ?? [['descricao' => '', 'horas' => '', 'valor_hora' => '']];
@@ -244,7 +238,7 @@ admin_topbar('propostas');
           <tr>
             <td><?= htmlspecialchars($p['cliente'], ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($p['projeto'], ENT_QUOTES) ?></td>
-            <td><?= htmlspecialchars($p['moeda'], ENT_QUOTES) ?> <?= number_format($total, 2, ',', '.') ?></td>
+            <td>$<?= number_format($total, 2, ',', '.') ?><?php if ($cotacao['valor'] > 0): ?><br><small>R$ <?= number_format($total * $cotacao['valor'], 2, ',', '.') ?></small><?php endif; ?></td>
             <td><span class="admin-status status-<?= $p['status'] === 'aprovada' ? 'success' : ($p['status'] === 'recusada' ? 'danger' : 'neutral') ?>"><?= htmlspecialchars($statusLabels[$p['status']] ?? $p['status'], ENT_QUOTES) ?></span></td>
             <td><?= date('d/m/Y', strtotime($p['created_at'])) ?></td>
             <td class="admin-table-actions">

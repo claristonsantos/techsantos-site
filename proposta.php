@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/inc/cotacao_dolar.php';
 
 $token = (string)($_GET['token'] ?? '');
 $proposta = null;
@@ -13,21 +14,26 @@ if (preg_match('/^[a-f0-9]{32}$/', $token)) {
     }
 }
 
-$moedaSimbolo = ['USD' => '$', 'BRL' => 'R$', 'EUR' => '€', 'AOA' => 'Kz'];
-
-function fmt_valor(float $v, string $moeda, array $simbolos): string
+function fmt_usd(float $v): string
 {
-    $num = number_format($v, 2, ',', '.');
-    $sig = $simbolos[$moeda] ?? $moeda;
-    return $moeda === 'USD' ? "{$num} {$moeda}" : "{$sig} {$num}";
+    return '$' . number_format($v, 2, ',', '.') . ' USD';
+}
+
+function fmt_brl(float $v): string
+{
+    return 'R$ ' . number_format($v, 2, ',', '.');
 }
 
 $total = 0.0;
+$cotacao = ['valor' => 0.0, 'data' => null];
 if ($proposta) {
     foreach ($proposta['itens'] as $item) {
         $total += ((float)($item['horas'] ?? 0)) * ((float)($item['valor_hora'] ?? 0));
     }
+    $cotacao = cotacao_dolar_bcb(db());
 }
+$temCotacao = $cotacao['valor'] > 0;
+$totalBRL = $total * $cotacao['valor'];
 $premissasList = $proposta ? array_values(array_filter(array_map('trim', explode("\n", (string)$proposta['premissas'])))) : [];
 ?>
 <!doctype html>
@@ -147,19 +153,26 @@ $premissasList = $proposta ? array_values(array_filter(array_map('trim', explode
       <div class="box-head">Orçamento</div>
     </div>
     <table class="orc">
-      <thead><tr><th>Descrição</th><th>Quantidade de Horas</th><th>Valor Hora</th><th>Total</th></tr></thead>
+      <thead><tr><th>Descrição</th><th>Quantidade de Horas</th><th>Valor Hora</th><th>Total (US$)</th><?php if ($temCotacao): ?><th>Total (R$)</th><?php endif; ?></tr></thead>
       <tbody>
         <?php foreach ($proposta['itens'] as $item): $itemTotal = ((float)$item['horas']) * ((float)$item['valor_hora']); ?>
           <tr>
             <td><strong><?= htmlspecialchars($item['descricao'], ENT_QUOTES) ?></strong></td>
             <td><?= htmlspecialchars((string)$item['horas'], ENT_QUOTES) ?></td>
-            <td><?= fmt_valor((float)$item['valor_hora'], $proposta['moeda'], $moedaSimbolo) ?> / hora</td>
-            <td><?= fmt_valor($itemTotal, $proposta['moeda'], $moedaSimbolo) ?></td>
+            <td><?= fmt_usd((float)$item['valor_hora']) ?> / hora</td>
+            <td><?= fmt_usd($itemTotal) ?></td>
+            <?php if ($temCotacao): ?><td><?= fmt_brl($itemTotal * $cotacao['valor']) ?></td><?php endif; ?>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
-    <div class="total-bar"><span>Total Geral:</span><span><?= fmt_valor($total, $proposta['moeda'], $moedaSimbolo) ?></span></div>
+    <div class="total-bar">
+      <span>Total Geral:</span>
+      <span><?= fmt_usd($total) ?><?php if ($temCotacao): ?> &nbsp;·&nbsp; <?= fmt_brl($totalBRL) ?><?php endif; ?></span>
+    </div>
+    <?php if ($temCotacao): ?>
+      <p style="font-size:0.72rem; color:var(--ink-soft); margin:-1.2rem 0 1.6rem;">Conversão pela cotação PTAX de venda do Banco Central, referente a <?= date('d/m/Y', strtotime($cotacao['data'])) ?>: US$ 1,00 = R$ <?= number_format($cotacao['valor'], 4, ',', '.') ?>.</p>
+    <?php endif; ?>
 
     <div class="sheet-footer">
       <div class="bar">TECH SANTOS BR – SOLUÇÕES EM BI E AULAS PARTICULARES</div>
