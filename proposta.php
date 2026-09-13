@@ -176,7 +176,7 @@ $premissasList = $proposta ? array_values(array_filter(array_map('trim', explode
 
     <div class="sheet-footer">
       <div class="bar">TECH SANTOS BR – SOLUÇÕES EM BI E AULAS PARTICULARES</div>
-      <p class="addr">Rua Ademar Ferrugem n° 1865 Ap 401 b, Catalão GO · Telefone: 64-992905785 · Email: claristonsantos@techsantos.com.br · www.techsantos.com.br</p>
+      <p class="addr">Rua Carlos Eduardo de Souza Machado, 410 — Jardim Morumbi, Itumbiara-GO, CEP 75524-710 · Telefone: (64) 99290-5785 · Email: claristonsantos@techsantos.com.br · www.techsantos.com.br</p>
     </div>
   </div>
 <?php else: ?>
