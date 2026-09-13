@@ -35,6 +35,7 @@ function admin_icon(string $name): string
         'social' => '<path d="M18 8a3 3 0 1 0-3-3M6 14a3 3 0 1 0 3 3"/><path d="m8.6 15.5 6.8-4M8.6 8.5l6.8 4"/>',
         'reply' => '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 9h8M8 13h5"/>',
         'admin' => '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/><path d="m18 5 1 1 2-2"/>',
+        'proposal' => '<path d="M14 3v5h5"/><path d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M8 13h8M8 17h5"/>',
         'logout' => '<path d="M10 17l5-5-5-5M15 12H3"/><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>',
     ];
     $path = $paths[$name] ?? $paths['dashboard'];
@@ -53,6 +54,7 @@ function admin_topbar(string $active): void
             'leads_curso' => ['/admin/leads-curso.php', 'Leads do curso', 'reply'],
             'aulas_particulares' => ['/admin/aulas_particulares.php', 'Aulas particulares', 'lessons'],
             'certificados' => ['/admin/certificados.php', 'Certificados', 'certificate'],
+            'propostas' => ['/admin/propostas.php', 'Propostas comerciais', 'proposal'],
         ],
         'Cadastros' => [
             'aulas_particulares_cadastro' => ['/admin/aulas_particulares_cadastro.php', 'Cadastro das aulas', 'lessons'],
