@@ -123,7 +123,7 @@ $premissasList = $proposta ? array_values(array_filter(array_map('trim', explode
         <?php if ($proposta['formato'] !== ''): ?>
           <span class="opt">( X ) <?= htmlspecialchars($proposta['formato'], ENT_QUOTES) ?></span>
         <?php endif; ?>
-        <span class="opt">( <?= $proposta['natureza'] === 'desenvolvimento' ? 'X' : ' ' ?> ) Desenvolvimento, ( <?= $proposta['natureza'] === 'orcamento' ? 'X' : ' ' ?> ) Orçamento</span>
+        <span class="opt">( <?= $proposta['natureza'] === 'desenvolvimento' ? 'X' : ' ' ?> ) Desenvolvimento, ( <?= $proposta['natureza'] === 'orcamento' ? 'X' : ' ' ?> ) Orçamento, ( <?= $proposta['natureza'] === 'suporte' ? 'X' : ' ' ?> ) Suporte</span>
       </div>
     </div>
 

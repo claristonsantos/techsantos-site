@@ -51,7 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $projeto = trim((string)($_POST['projeto'] ?? ''));
         $tipo = ($_POST['tipo'] ?? 'novo') === 'alteracao' ? 'alteracao' : 'novo';
         $formato = trim((string)($_POST['formato'] ?? ''));
-        $natureza = ($_POST['natureza'] ?? 'orcamento') === 'desenvolvimento' ? 'desenvolvimento' : 'orcamento';
+        $naturezaPost = (string)($_POST['natureza'] ?? 'orcamento');
+        $natureza = in_array($naturezaPost, ['desenvolvimento', 'suporte'], true) ? $naturezaPost : 'orcamento';
         $versao = trim((string)($_POST['versao'] ?? '1')) ?: '1';
         $autor = trim((string)($_POST['autor'] ?? '')) ?: 'Clariston Santos';
         $resumo = trim((string)($_POST['resumo'] ?? ''));
@@ -149,6 +150,7 @@ admin_topbar('propostas');
           <select id="natureza" name="natureza">
             <option value="orcamento" <?= (($editRow['natureza'] ?? 'orcamento') === 'orcamento') ? 'selected' : '' ?>>Orçamento</option>
             <option value="desenvolvimento" <?= (($editRow['natureza'] ?? '') === 'desenvolvimento') ? 'selected' : '' ?>>Desenvolvimento</option>
+            <option value="suporte" <?= (($editRow['natureza'] ?? '') === 'suporte') ? 'selected' : '' ?>>Suporte</option>
           </select>
         </div>
       </div>
