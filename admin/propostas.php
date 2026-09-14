@@ -296,10 +296,16 @@ admin_topbar('propostas');
       </select>
     </div>
     <div class="admin-filter-actions">
-      <button type="submit" class="btn btn-primary">Gerar relatório</button>
+      <button type="submit" class="btn btn-primary">Filtrar</button>
       <?php if ($fCliente !== '' || $fStatus !== ''): ?><a class="btn btn-ghost on-light" href="/admin/propostas.php">Limpar</a><?php endif; ?>
     </div>
   </form>
+
+  <?php if ($fCliente !== ''): ?>
+    <p style="margin:-0.5rem 0 1.5rem;">
+      <a class="btn btn-primary" href="/admin/relatorio-propostas.php?<?= http_build_query(array_filter(['f_cliente' => $fCliente, 'f_status' => $fStatus])) ?>" target="_blank">Gerar PDF do relatório para <?= htmlspecialchars($fCliente, ENT_QUOTES) ?></a>
+    </p>
+  <?php endif; ?>
 
   <?php if ($fCliente !== '' || $fStatus !== ''): ?>
   <div class="stat-row" style="margin-bottom:1.25rem;">
