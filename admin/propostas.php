@@ -51,6 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'save') {
         $id = (int)($_POST['id'] ?? 0);
         $cliente = trim((string)($_POST['cliente'] ?? ''));
+        $contatoNome = trim((string)($_POST['contato_nome'] ?? ''));
+        $contatoDocumento = trim((string)($_POST['contato_documento'] ?? ''));
+        $contatoEmail = trim((string)($_POST['contato_email'] ?? ''));
         $projeto = trim((string)($_POST['projeto'] ?? ''));
         $tipo = ($_POST['tipo'] ?? 'novo') === 'alteracao' ? 'alteracao' : 'novo';
         $formato = trim((string)($_POST['formato'] ?? ''));
@@ -76,15 +79,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($id === 0) {
                 $token = bin2hex(random_bytes(16));
                 $stmt = $pdo->prepare(
-                    'INSERT INTO propostas (token, cliente, projeto, tipo, formato, natureza, versao, autor, resumo, escopo, objetivo, premissas, moeda, itens, status)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                    'INSERT INTO propostas (token, cliente, contato_nome, contato_documento, contato_email, projeto, tipo, formato, natureza, versao, autor, resumo, escopo, objetivo, premissas, moeda, itens, status)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
                 );
-                $stmt->execute([$token, $cliente, $projeto, $tipo, $formato, $natureza, $versao, $autor, $resumo, $escopo, $objetivo, $premissas, $moeda, $itensJson, $status]);
+                $stmt->execute([$token, $cliente, $contatoNome ?: null, $contatoDocumento ?: null, $contatoEmail ?: null, $projeto, $tipo, $formato, $natureza, $versao, $autor, $resumo, $escopo, $objetivo, $premissas, $moeda, $itensJson, $status]);
             } else {
                 $stmt = $pdo->prepare(
-                    'UPDATE propostas SET cliente=?, projeto=?, tipo=?, formato=?, natureza=?, versao=?, autor=?, resumo=?, escopo=?, objetivo=?, premissas=?, moeda=?, itens=?, status=? WHERE id=?'
+                    'UPDATE propostas SET cliente=?, contato_nome=?, contato_documento=?, contato_email=?, projeto=?, tipo=?, formato=?, natureza=?, versao=?, autor=?, resumo=?, escopo=?, objetivo=?, premissas=?, moeda=?, itens=?, status=? WHERE id=?'
                 );
-                $stmt->execute([$cliente, $projeto, $tipo, $formato, $natureza, $versao, $autor, $resumo, $escopo, $objetivo, $premissas, $moeda, $itensJson, $status, $id]);
+                $stmt->execute([$cliente, $contatoNome ?: null, $contatoDocumento ?: null, $contatoEmail ?: null, $projeto, $tipo, $formato, $natureza, $versao, $autor, $resumo, $escopo, $objetivo, $premissas, $moeda, $itensJson, $status, $id]);
             }
             header('Location: /admin/propostas.php?msg=' . urlencode('Proposta salva com sucesso.'));
             exit;
@@ -153,6 +156,18 @@ foreach ($propostas as $p) {
 
 $clientesLista = $pdo->query('SELECT DISTINCT cliente FROM propostas ORDER BY cliente')->fetchAll(PDO::FETCH_COLUMN);
 
+function admin_table_exists_propostas(PDO $pdo, string $table): bool
+{
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?');
+    $stmt->execute([$table]);
+    return (bool)$stmt->fetchColumn();
+}
+
+$contatosAlunos = $pdo->query("SELECT nome, email, cpf AS documento FROM alunos WHERE nome != '' ORDER BY nome")->fetchAll();
+$contatosAulas = admin_table_exists_propostas($pdo, 'aulas_particulares_leads')
+    ? $pdo->query("SELECT DISTINCT nome, email, '' AS documento FROM aulas_particulares_leads WHERE nome != '' ORDER BY nome")->fetchAll()
+    : [];
+
 admin_head('Propostas');
 admin_topbar('propostas');
 ?>
@@ -169,6 +184,28 @@ admin_topbar('propostas');
       <input type="hidden" name="action" value="save">
       <input type="hidden" name="id" value="<?= (int)($editRow['id'] ?? 0) ?>">
 
+      <div class="field">
+        <label for="contatoPicker">Preencher a partir de um cadastro existente (opcional)</label>
+        <select id="contatoPicker">
+          <option value="">— selecionar —</option>
+          <?php if ($contatosAlunos): ?>
+          <optgroup label="Alunos (cursos)">
+            <?php foreach ($contatosAlunos as $c): ?>
+              <option value="<?= htmlspecialchars($c['nome'], ENT_QUOTES) ?>" data-email="<?= htmlspecialchars($c['email'] ?? '', ENT_QUOTES) ?>" data-doc="<?= htmlspecialchars($c['documento'] ?? '', ENT_QUOTES) ?>"><?= htmlspecialchars($c['nome'], ENT_QUOTES) ?></option>
+            <?php endforeach; ?>
+          </optgroup>
+          <?php endif; ?>
+          <?php if ($contatosAulas): ?>
+          <optgroup label="Aulas particulares">
+            <?php foreach ($contatosAulas as $c): ?>
+              <option value="<?= htmlspecialchars($c['nome'], ENT_QUOTES) ?>" data-email="<?= htmlspecialchars($c['email'] ?? '', ENT_QUOTES) ?>" data-doc=""><?= htmlspecialchars($c['nome'], ENT_QUOTES) ?></option>
+            <?php endforeach; ?>
+          </optgroup>
+          <?php endif; ?>
+        </select>
+        <span class="hint">Preenche cliente, nome do contato e e-mail abaixo — pode editar depois.</span>
+      </div>
+
       <div class="field-row">
         <div class="field">
           <label for="cliente">Cliente *</label>
@@ -178,6 +215,21 @@ admin_topbar('propostas');
           <label for="projeto">Nome do projeto *</label>
           <input type="text" id="projeto" name="projeto" required value="<?= htmlspecialchars($editRow['projeto'] ?? '', ENT_QUOTES) ?>">
         </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="contato_nome">Nome do contato (opcional)</label>
+          <input type="text" id="contato_nome" name="contato_nome" value="<?= htmlspecialchars($editRow['contato_nome'] ?? '', ENT_QUOTES) ?>">
+        </div>
+        <div class="field">
+          <label for="contato_documento">CNPJ ou CPF (opcional)</label>
+          <input type="text" id="contato_documento" name="contato_documento" placeholder="00.000.000/0000-00" value="<?= htmlspecialchars($editRow['contato_documento'] ?? '', ENT_QUOTES) ?>">
+        </div>
+      </div>
+      <div class="field">
+        <label for="contato_email">E-mail (opcional)</label>
+        <input type="email" id="contato_email" name="contato_email" value="<?= htmlspecialchars($editRow['contato_email'] ?? '', ENT_QUOTES) ?>">
       </div>
 
       <div class="field-row">
@@ -362,6 +414,14 @@ admin_topbar('propostas');
   </div>
 </main>
 <script>
+document.getElementById('contatoPicker').addEventListener('change', function () {
+  var opt = this.selectedOptions[0];
+  if (!opt || !opt.value) return;
+  document.getElementById('cliente').value = opt.value;
+  document.getElementById('contato_nome').value = opt.value;
+  document.getElementById('contato_email').value = opt.dataset.email || '';
+  if (opt.dataset.doc) document.getElementById('contato_documento').value = opt.dataset.doc;
+});
 document.getElementById('addItemBtn').addEventListener('click', function () {
   var tbody = document.querySelector('#itensTable tbody');
   var tr = document.createElement('tr');

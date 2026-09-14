@@ -115,6 +115,9 @@ $premissasList = $proposta ? array_values(array_filter(array_map('trim', explode
       <div class="box-body">
         <p><strong>Cliente:</strong> <?= htmlspecialchars($proposta['cliente'], ENT_QUOTES) ?></p>
         <p><strong>Nome do Projeto:</strong> <?= htmlspecialchars($proposta['projeto'], ENT_QUOTES) ?></p>
+        <?php if (!empty($proposta['contato_nome'])): ?><p><strong>Contato:</strong> <?= htmlspecialchars($proposta['contato_nome'], ENT_QUOTES) ?></p><?php endif; ?>
+        <?php if (!empty($proposta['contato_documento'])): ?><p><strong>CNPJ/CPF:</strong> <?= htmlspecialchars($proposta['contato_documento'], ENT_QUOTES) ?></p><?php endif; ?>
+        <?php if (!empty($proposta['contato_email'])): ?><p><strong>E-mail:</strong> <?= htmlspecialchars($proposta['contato_email'], ENT_QUOTES) ?></p><?php endif; ?>
       </div>
       <div class="ctx-check">
         <span class="opt">( <?= $proposta['tipo'] === 'alteracao' ? 'X' : ' ' ?> ) Alteração, ( <?= $proposta['tipo'] === 'novo' ? 'X' : ' ' ?> ) Novo</span>
