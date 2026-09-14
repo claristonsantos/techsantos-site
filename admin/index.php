@@ -49,6 +49,60 @@ require_once __DIR__ . '/../inc/cotacao_dolar.php';
 $cotacaoDash = $propostasPagasUSD > 0 ? cotacao_dolar_bcb($pdo) : ['valor' => 0.0, 'data' => null];
 $propostasPagasBRL = $propostasPagasUSD * $cotacaoDash['valor'];
 
+$atividades = [];
+foreach ($ultimosPedidos as $pedido) {
+    $atividades[] = [
+        'data' => $pedido['criado_em'],
+        'tipo' => 'Curso',
+        'cliente' => $pedido['nome'],
+        'detalhe' => $pedido['curso_nome'],
+        'valor' => admin_money((int)$pedido['valor_centavos']),
+        'status_label' => $pedido['status'],
+        'tone' => $pedido['status'] === 'pago' ? 'success' : ($pedido['status'] === 'cancelado' ? 'danger' : 'warning'),
+        'href' => '/admin/pedidos.php',
+    ];
+}
+if (admin_table_exists($pdo, 'aulas_particulares_leads')) {
+    $aulaStatusLabels = ['novo' => 'Novo', 'contatado' => 'Contatado', 'agendado' => 'Agendado', 'pago' => 'Pago', 'realizado' => 'Realizado', 'cancelado' => 'Cancelado'];
+    $aulaStatusTone = ['novo' => 'warning', 'contatado' => 'neutral', 'agendado' => 'neutral', 'pago' => 'success', 'realizado' => 'success', 'cancelado' => 'danger'];
+    $ultimasAulas = $pdo->query("SELECT id, nome, interesse, status, valor_centavos, criado_em FROM aulas_particulares_leads ORDER BY criado_em DESC LIMIT 6")->fetchAll();
+    foreach ($ultimasAulas as $aula) {
+        $atividades[] = [
+            'data' => $aula['criado_em'],
+            'tipo' => 'Aula',
+            'cliente' => $aula['nome'],
+            'detalhe' => $aula['interesse'],
+            'valor' => $aula['valor_centavos'] ? admin_money((int)$aula['valor_centavos']) : '—',
+            'status_label' => $aulaStatusLabels[$aula['status']] ?? $aula['status'],
+            'tone' => $aulaStatusTone[$aula['status']] ?? 'neutral',
+            'href' => '/admin/aulas_particulares.php',
+        ];
+    }
+}
+if (admin_table_exists($pdo, 'propostas')) {
+    $propStatusLabels = ['rascunho' => 'Rascunho', 'enviada' => 'Enviada', 'aguardando_pagamento' => 'Aguardando pagamento', 'pago' => 'Pago', 'aprovada' => 'Aprovada', 'recusada' => 'Recusada'];
+    $propStatusTone = ['rascunho' => 'neutral', 'enviada' => 'neutral', 'aguardando_pagamento' => 'warning', 'pago' => 'success', 'aprovada' => 'success', 'recusada' => 'danger'];
+    $ultimasPropostas = $pdo->query("SELECT id, cliente, projeto, status, itens, created_at FROM propostas ORDER BY created_at DESC LIMIT 6")->fetchAll();
+    foreach ($ultimasPropostas as $prop) {
+        $usd = 0.0;
+        foreach (json_decode((string)$prop['itens'], true) ?: [] as $item) {
+            $usd += ((float)($item['horas'] ?? 0)) * ((float)($item['valor_hora'] ?? 0));
+        }
+        $atividades[] = [
+            'data' => $prop['created_at'],
+            'tipo' => 'Proposta',
+            'cliente' => $prop['cliente'],
+            'detalhe' => $prop['projeto'],
+            'valor' => '$' . number_format($usd, 2, ',', '.'),
+            'status_label' => $propStatusLabels[$prop['status']] ?? $prop['status'],
+            'tone' => $propStatusTone[$prop['status']] ?? 'neutral',
+            'href' => '/admin/propostas.php',
+        ];
+    }
+}
+usort($atividades, fn($a, $b) => strtotime($b['data']) <=> strtotime($a['data']));
+$atividades = array_slice($atividades, 0, 8);
+
 $pendencias = [
     ['label' => 'E-mails de acesso com falha', 'count' => $emailsFalha, 'href' => '/admin/pedidos.php', 'tone' => 'danger'],
     ['label' => 'Posts com erro', 'count' => $postsErro, 'href' => '/admin/social_posts.php', 'tone' => 'danger'],
@@ -99,14 +153,21 @@ admin_topbar('index');
   </div>
 
   <section class="admin-panel admin-recent-panel">
-    <div class="admin-panel-head"><div><span class="admin-panel-kicker">Atividade recente</span><h2>Últimos pedidos</h2></div><a href="/admin/pedidos.php">Ver todos</a></div>
-    <?php if ($ultimosPedidos): ?>
-      <div class="table-wrap admin-table-compact"><table class="data-table"><thead><tr><th>Data</th><th>Cliente</th><th>Curso</th><th>Valor</th><th>Pagamento</th><th>Acesso</th></tr></thead><tbody>
-      <?php foreach ($ultimosPedidos as $pedido): ?>
-        <tr><td><?= date('d/m H:i', strtotime($pedido['criado_em'])) ?></td><td><strong><?= htmlspecialchars($pedido['nome'], ENT_QUOTES) ?></strong><small>#<?= (int)$pedido['id'] ?></small></td><td><?= htmlspecialchars($pedido['curso_nome'], ENT_QUOTES) ?></td><td><?= admin_money((int)$pedido['valor_centavos']) ?></td><td><span class="admin-status status-<?= $pedido['status'] === 'pago' ? 'success' : ($pedido['status'] === 'cancelado' ? 'danger' : 'warning') ?>"><?= htmlspecialchars($pedido['status'], ENT_QUOTES) ?></span></td><td><span class="admin-status status-<?= $pedido['email_status'] === 'enviado' ? 'success' : ($pedido['email_status'] === 'falha' ? 'danger' : 'neutral') ?>"><?= htmlspecialchars($pedido['email_status'] ?: 'pendente', ENT_QUOTES) ?></span></td></tr>
+    <div class="admin-panel-head"><div><span class="admin-panel-kicker">Atividade recente</span><h2>Cursos, aulas e propostas</h2></div></div>
+    <?php if ($atividades): ?>
+      <div class="table-wrap admin-table-compact"><table class="data-table"><thead><tr><th>Data</th><th>Tipo</th><th>Cliente</th><th>Detalhe</th><th>Valor</th><th>Status</th></tr></thead><tbody>
+      <?php foreach ($atividades as $item): ?>
+        <tr>
+          <td><?= date('d/m H:i', strtotime($item['data'])) ?></td>
+          <td><a href="<?= $item['href'] ?>"><?= htmlspecialchars($item['tipo'], ENT_QUOTES) ?></a></td>
+          <td><strong><?= htmlspecialchars($item['cliente'], ENT_QUOTES) ?></strong></td>
+          <td><?= htmlspecialchars($item['detalhe'], ENT_QUOTES) ?></td>
+          <td><?= htmlspecialchars($item['valor'], ENT_QUOTES) ?></td>
+          <td><span class="admin-status status-<?= $item['tone'] ?>"><?= htmlspecialchars($item['status_label'], ENT_QUOTES) ?></span></td>
+        </tr>
       <?php endforeach; ?>
       </tbody></table></div>
-    <?php else: ?><div class="admin-empty-state"><strong>Nenhum pedido registrado</strong><span>Os pedidos aparecerão aqui assim que o checkout for utilizado.</span></div><?php endif; ?>
+    <?php else: ?><div class="admin-empty-state"><strong>Nenhuma atividade registrada</strong><span>Pedidos, aulas e propostas aparecerão aqui.</span></div><?php endif; ?>
   </section>
 </main>
 <?php admin_foot(); ?>
