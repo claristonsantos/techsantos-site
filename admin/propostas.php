@@ -45,6 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    if ($action === 'set_status') {
+        $id = (int)($_POST['id'] ?? 0);
+        $statusValidos = ['rascunho', 'enviada', 'aguardando_pagamento', 'pago', 'aprovada', 'recusada'];
+        $novoStatus = (string)($_POST['status'] ?? '');
+        if (in_array($novoStatus, $statusValidos, true)) {
+            $pdo->prepare('UPDATE propostas SET status = ? WHERE id = ?')->execute([$novoStatus, $id]);
+        }
+        header('Location: /admin/propostas.php?' . http_build_query(array_filter(['f_cliente' => $_POST['f_cliente'] ?? '', 'f_status' => $_POST['f_status'] ?? ''])) . '&msg=' . urlencode('Status atualizado.'));
+        exit;
+    }
+
     if ($action === 'save') {
         $id = (int)($_POST['id'] ?? 0);
         $cliente = trim((string)($_POST['cliente'] ?? ''));
@@ -103,12 +114,49 @@ if (isset($_GET['msg']) && !$error) {
     $success = $_GET['msg'];
 }
 
-$propostas = $pdo->query('SELECT * FROM propostas ORDER BY created_at DESC')->fetchAll();
+$fCliente = trim((string)($_GET['f_cliente'] ?? ''));
+$fStatus = trim((string)($_GET['f_status'] ?? ''));
+
+$sql = 'SELECT * FROM propostas WHERE 1=1';
+$params = [];
+if ($fCliente !== '') {
+    $sql .= ' AND cliente LIKE ?';
+    $params[] = '%' . $fCliente . '%';
+}
+if ($fStatus !== '') {
+    $sql .= ' AND status = ?';
+    $params[] = $fStatus;
+}
+$sql .= ' ORDER BY created_at DESC';
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$propostas = $stmt->fetchAll();
 
 require_once __DIR__ . '/../inc/cotacao_dolar.php';
-$cotacao = $propostas ? cotacao_dolar_bcb($pdo) : ['valor' => 0.0, 'data' => null];
+$cotacao = $pdo->query('SELECT COUNT(*) FROM propostas')->fetchColumn() > 0 ? cotacao_dolar_bcb($pdo) : ['valor' => 0.0, 'data' => null];
 
-$statusLabels = ['rascunho' => 'Rascunho', 'enviada' => 'Enviada', 'aprovada' => 'Aprovada', 'recusada' => 'Recusada'];
+$statusLabels = [
+    'rascunho' => 'Rascunho',
+    'enviada' => 'Enviada',
+    'aguardando_pagamento' => 'Aguardando pagamento',
+    'pago' => 'Pago',
+    'aprovada' => 'Aprovada',
+    'recusada' => 'Recusada',
+];
+$statusTone = [
+    'rascunho' => 'neutral',
+    'enviada' => 'neutral',
+    'aguardando_pagamento' => 'warning',
+    'pago' => 'success',
+    'aprovada' => 'success',
+    'recusada' => 'danger',
+];
+
+$totalUsdFiltrado = 0.0;
+foreach ($propostas as $p) {
+    $totalUsdFiltrado += proposta_total(json_decode($p['itens'], true) ?: []);
+}
+$totalBrlFiltrado = $totalUsdFiltrado * $cotacao['valor'];
 
 admin_head('Propostas');
 admin_topbar('propostas');
@@ -228,12 +276,38 @@ admin_topbar('propostas');
     </form>
   </div>
 
+  <form method="get" class="admin-filter-bar" style="grid-template-columns:2fr 1fr auto;">
+    <div class="field">
+      <label for="f_cliente">Cliente</label>
+      <input type="text" id="f_cliente" name="f_cliente" placeholder="Buscar por cliente" value="<?= htmlspecialchars($fCliente, ENT_QUOTES) ?>">
+    </div>
+    <div class="field">
+      <label for="f_status">Status</label>
+      <select id="f_status" name="f_status">
+        <option value="">Todos</option>
+        <?php foreach ($statusLabels as $val => $label): ?>
+          <option value="<?= $val ?>" <?= $fStatus === $val ? 'selected' : '' ?>><?= $label ?></option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+    <div class="admin-filter-actions">
+      <button type="submit" class="btn btn-primary">Gerar relatório</button>
+      <?php if ($fCliente !== '' || $fStatus !== ''): ?><a class="btn btn-ghost on-light" href="/admin/propostas.php">Limpar</a><?php endif; ?>
+    </div>
+  </form>
+
+  <?php if ($fCliente !== '' || $fStatus !== ''): ?>
+  <p class="admin-status-filter-summary">
+    <?= count($propostas) ?> proposta(s) · Total $<?= number_format($totalUsdFiltrado, 2, ',', '.') ?><?php if ($cotacao['valor'] > 0): ?> · R$ <?= number_format($totalBrlFiltrado, 2, ',', '.') ?><?php endif; ?>
+  </p>
+  <?php endif; ?>
+
   <div class="table-wrap">
     <table class="data-table">
       <thead><tr><th>Cliente</th><th>Projeto</th><th>Total</th><th>Status</th><th>Criada em</th><th>Ações</th></tr></thead>
       <tbody>
         <?php if (!$propostas): ?>
-          <tr class="empty-row"><td colspan="6">Nenhuma proposta cadastrada ainda.</td></tr>
+          <tr class="empty-row"><td colspan="6">Nenhuma proposta encontrada.</td></tr>
         <?php endif; ?>
         <?php foreach ($propostas as $p): ?>
           <?php $itens = json_decode($p['itens'], true) ?: []; $total = proposta_total($itens); ?>
@@ -241,7 +315,20 @@ admin_topbar('propostas');
             <td><?= htmlspecialchars($p['cliente'], ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($p['projeto'], ENT_QUOTES) ?></td>
             <td>$<?= number_format($total, 2, ',', '.') ?><?php if ($cotacao['valor'] > 0): ?><br><small>R$ <?= number_format($total * $cotacao['valor'], 2, ',', '.') ?></small><?php endif; ?></td>
-            <td><span class="admin-status status-<?= $p['status'] === 'aprovada' ? 'success' : ($p['status'] === 'recusada' ? 'danger' : 'neutral') ?>"><?= htmlspecialchars($statusLabels[$p['status']] ?? $p['status'], ENT_QUOTES) ?></span></td>
+            <td>
+              <form method="post" style="display:inline">
+                <?= csrf_field() ?>
+                <input type="hidden" name="action" value="set_status">
+                <input type="hidden" name="id" value="<?= (int)$p['id'] ?>">
+                <input type="hidden" name="f_cliente" value="<?= htmlspecialchars($fCliente, ENT_QUOTES) ?>">
+                <input type="hidden" name="f_status" value="<?= htmlspecialchars($fStatus, ENT_QUOTES) ?>">
+                <select name="status" class="admin-status status-<?= $statusTone[$p['status']] ?? 'neutral' ?>" onchange="this.form.submit()" style="border:0; cursor:pointer;">
+                  <?php foreach ($statusLabels as $val => $label): ?>
+                    <option value="<?= $val ?>" <?= $p['status'] === $val ? 'selected' : '' ?>><?= $label ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </form>
+            </td>
             <td><?= date('d/m/Y', strtotime($p['created_at'])) ?></td>
             <td class="admin-table-actions">
               <a href="/admin/propostas.php?edit=<?= (int)$p['id'] ?>">Editar</a>
