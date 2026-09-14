@@ -26,3 +26,35 @@ function proposta_total_em_brl(float $totalNativo, string $moeda, float $cotacao
 {
     return $moeda === 'BRL' ? $totalNativo : $totalNativo * $cotacaoValor;
 }
+
+// Curso e aulas particulares pedem outro vocabulário no formulário e no PDF
+// (ementa/carga horária em vez de escopo técnico de projeto de BI) — pesquisa
+// rápida em modelos de proposta de treinamento/aula particular confirmou os
+// campos padrão do setor: conteúdo programático, público-alvo, modalidade.
+function proposta_natureza_labels(string $natureza): array
+{
+    $mapas = [
+        'curso' => [
+            'formato' => 'Modalidade do curso',
+            'formato_placeholder' => 'Ex.: Online ao vivo, gravado, presencial',
+            'escopo' => 'Conteúdo programático / Ementa',
+            'objetivo' => 'Público-alvo e pré-requisitos',
+            'item_placeholder' => 'Ex.: Curso completo de Power BI',
+        ],
+        'aulas' => [
+            'formato' => 'Modalidade das aulas',
+            'formato_placeholder' => 'Ex.: Online, individual, pacote de horas',
+            'escopo' => 'Temas e objetivos das aulas',
+            'objetivo' => 'Frequência e duração combinada',
+            'item_placeholder' => 'Ex.: Aula particular de Power BI',
+        ],
+    ];
+    $default = [
+        'formato' => 'Formato / tecnologia',
+        'formato_placeholder' => 'Ex.: Excel, Power BI, Python',
+        'escopo' => 'Escopo',
+        'objetivo' => 'Objetivo',
+        'item_placeholder' => 'Ex.: ETL - tratamento dos dados',
+    ];
+    return $mapas[$natureza] ?? $default;
+}

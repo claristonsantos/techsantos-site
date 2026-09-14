@@ -185,6 +185,18 @@ admin_topbar('propostas');
       <input type="hidden" name="id" value="<?= (int)($editRow['id'] ?? 0) ?>">
 
       <div class="field">
+        <label for="natureza">Natureza da proposta</label>
+        <select id="natureza" name="natureza">
+          <option value="orcamento" <?= (($editRow['natureza'] ?? 'orcamento') === 'orcamento') ? 'selected' : '' ?>>Orçamento (consultoria/BI)</option>
+          <option value="desenvolvimento" <?= (($editRow['natureza'] ?? '') === 'desenvolvimento') ? 'selected' : '' ?>>Desenvolvimento (consultoria/BI)</option>
+          <option value="suporte" <?= (($editRow['natureza'] ?? '') === 'suporte') ? 'selected' : '' ?>>Suporte (consultoria/BI)</option>
+          <option value="curso" <?= (($editRow['natureza'] ?? '') === 'curso') ? 'selected' : '' ?>>Curso</option>
+          <option value="aulas" <?= (($editRow['natureza'] ?? '') === 'aulas') ? 'selected' : '' ?>>Aulas particulares</option>
+        </select>
+        <span class="hint">Define o vocabulário do formulário e do PDF — curso e aulas usam campos de conteúdo programático/modalidade em vez de escopo técnico.</span>
+      </div>
+
+      <div class="field">
         <label for="contatoPicker">Preencher a partir de um cadastro existente (opcional)</label>
         <select id="contatoPicker">
           <option value="">— selecionar —</option>
@@ -241,34 +253,23 @@ admin_topbar('propostas');
           </select>
         </div>
         <div class="field">
-          <label for="natureza">Natureza</label>
-          <select id="natureza" name="natureza">
-            <option value="orcamento" <?= (($editRow['natureza'] ?? 'orcamento') === 'orcamento') ? 'selected' : '' ?>>Orçamento</option>
-            <option value="desenvolvimento" <?= (($editRow['natureza'] ?? '') === 'desenvolvimento') ? 'selected' : '' ?>>Desenvolvimento</option>
-            <option value="suporte" <?= (($editRow['natureza'] ?? '') === 'suporte') ? 'selected' : '' ?>>Suporte</option>
-            <option value="curso" <?= (($editRow['natureza'] ?? '') === 'curso') ? 'selected' : '' ?>>Curso</option>
-            <option value="aulas" <?= (($editRow['natureza'] ?? '') === 'aulas') ? 'selected' : '' ?>>Aulas particulares</option>
-          </select>
+          <label for="formato" id="formatoLabel"><?= htmlspecialchars(proposta_natureza_labels($editRow['natureza'] ?? 'orcamento')['formato'], ENT_QUOTES) ?></label>
+          <input type="text" id="formato" name="formato" placeholder="<?= htmlspecialchars(proposta_natureza_labels($editRow['natureza'] ?? 'orcamento')['formato_placeholder'], ENT_QUOTES) ?>" value="<?= htmlspecialchars($editRow['formato'] ?? '', ENT_QUOTES) ?>">
         </div>
       </div>
 
       <div class="field-row">
         <div class="field">
-          <label for="formato">Formato / tecnologia</label>
-          <input type="text" id="formato" name="formato" placeholder="Ex.: Excel, Power BI, Python" value="<?= htmlspecialchars($editRow['formato'] ?? '', ENT_QUOTES) ?>">
-        </div>
-        <div class="field">
           <label for="versao">Versão</label>
           <input type="text" id="versao" name="versao" value="<?= htmlspecialchars($editRow['versao'] ?? '1', ENT_QUOTES) ?>">
         </div>
-      </div>
-
-      <div class="field">
-        <label for="moeda">Moeda dos valores</label>
-        <select id="moeda" name="moeda">
-          <option value="USD" <?= (($editRow['moeda'] ?? 'USD') === 'USD') ? 'selected' : '' ?>>Dólar (US$) — converte pra real na proposta</option>
-          <option value="BRL" <?= (($editRow['moeda'] ?? '') === 'BRL') ? 'selected' : '' ?>>Real (R$) — valor já é o final, sem conversão</option>
-        </select>
+        <div class="field">
+          <label for="moeda">Moeda dos valores</label>
+          <select id="moeda" name="moeda">
+            <option value="USD" <?= (($editRow['moeda'] ?? 'USD') === 'USD') ? 'selected' : '' ?>>Dólar (US$) — converte pra real na proposta</option>
+            <option value="BRL" <?= (($editRow['moeda'] ?? '') === 'BRL') ? 'selected' : '' ?>>Real (R$) — valor já é o final, sem conversão</option>
+          </select>
+        </div>
       </div>
 
       <div class="field">
@@ -281,11 +282,11 @@ admin_topbar('propostas');
         <input type="text" id="resumo" name="resumo" placeholder="Ex.: Escopo pesquisa de preços" value="<?= htmlspecialchars($editRow['resumo'] ?? '', ENT_QUOTES) ?>">
       </div>
       <div class="field">
-        <label for="escopo">Escopo</label>
+        <label for="escopo" id="escopoLabel"><?= htmlspecialchars(proposta_natureza_labels($editRow['natureza'] ?? 'orcamento')['escopo'], ENT_QUOTES) ?></label>
         <textarea id="escopo" name="escopo" rows="3"><?= htmlspecialchars($editRow['escopo'] ?? '', ENT_QUOTES) ?></textarea>
       </div>
       <div class="field">
-        <label for="objetivo">Objetivo</label>
+        <label for="objetivo" id="objetivoLabel"><?= htmlspecialchars(proposta_natureza_labels($editRow['natureza'] ?? 'orcamento')['objetivo'], ENT_QUOTES) ?></label>
         <textarea id="objetivo" name="objetivo" rows="2"><?= htmlspecialchars($editRow['objetivo'] ?? '', ENT_QUOTES) ?></textarea>
       </div>
       <div class="field">
@@ -305,7 +306,7 @@ admin_topbar('propostas');
               if (!$itensIniciais) $itensIniciais = [['descricao' => '', 'horas' => '', 'valor_hora' => '']];
               foreach ($itensIniciais as $item): ?>
                 <tr>
-                  <td><input type="text" name="item_desc[]" value="<?= htmlspecialchars((string)($item['descricao'] ?? ''), ENT_QUOTES) ?>" placeholder="Ex.: ETL - tratamento dos dados"></td>
+                  <td><input type="text" name="item_desc[]" value="<?= htmlspecialchars((string)($item['descricao'] ?? ''), ENT_QUOTES) ?>" placeholder="<?= htmlspecialchars(proposta_natureza_labels($editRow['natureza'] ?? 'orcamento')['item_placeholder'], ENT_QUOTES) ?>"></td>
                   <td><input type="text" name="item_horas[]" value="<?= htmlspecialchars((string)($item['horas'] ?? ''), ENT_QUOTES) ?>" inputmode="decimal"></td>
                   <td><input type="text" name="item_valor[]" value="<?= htmlspecialchars((string)($item['valor_hora'] ?? ''), ENT_QUOTES) ?>" inputmode="decimal"></td>
                   <td><button type="button" class="danger" onclick="this.closest('tr').remove()">×</button></td>
@@ -414,6 +415,29 @@ admin_topbar('propostas');
   </div>
 </main>
 <script>
+var naturezaLabels = <?= json_encode([
+    'orcamento' => proposta_natureza_labels('orcamento'),
+    'desenvolvimento' => proposta_natureza_labels('desenvolvimento'),
+    'suporte' => proposta_natureza_labels('suporte'),
+    'curso' => proposta_natureza_labels('curso'),
+    'aulas' => proposta_natureza_labels('aulas'),
+], JSON_UNESCAPED_UNICODE) ?>;
+
+function aplicarNatureza(valor) {
+  var l = naturezaLabels[valor] || naturezaLabels.orcamento;
+  document.getElementById('formatoLabel').textContent = l.formato;
+  document.getElementById('formato').placeholder = l.formato_placeholder;
+  document.getElementById('escopoLabel').textContent = l.escopo;
+  document.getElementById('objetivoLabel').textContent = l.objetivo;
+  document.querySelectorAll('#itensTable input[name="item_desc[]"]').forEach(function (input) {
+    input.placeholder = l.item_placeholder;
+  });
+}
+document.getElementById('natureza').addEventListener('change', function () {
+  aplicarNatureza(this.value);
+});
+aplicarNatureza(document.getElementById('natureza').value);
+
 document.getElementById('contatoPicker').addEventListener('change', function () {
   var opt = this.selectedOptions[0];
   if (!opt || !opt.value) return;
@@ -423,9 +447,10 @@ document.getElementById('contatoPicker').addEventListener('change', function () 
   if (opt.dataset.doc) document.getElementById('contato_documento').value = opt.dataset.doc;
 });
 document.getElementById('addItemBtn').addEventListener('click', function () {
+  var l = naturezaLabels[document.getElementById('natureza').value] || naturezaLabels.orcamento;
   var tbody = document.querySelector('#itensTable tbody');
   var tr = document.createElement('tr');
-  tr.innerHTML = '<td><input type="text" name="item_desc[]" placeholder="Ex.: ETL - tratamento dos dados"></td>'
+  tr.innerHTML = '<td><input type="text" name="item_desc[]" placeholder="' + l.item_placeholder.replace(/"/g, '&quot;') + '"></td>'
     + '<td><input type="text" name="item_horas[]" inputmode="decimal"></td>'
     + '<td><input type="text" name="item_valor[]" inputmode="decimal"></td>'
     + '<td><button type="button" class="danger" onclick="this.closest(\'tr\').remove()">×</button></td>';

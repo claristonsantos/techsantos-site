@@ -134,8 +134,9 @@ $premissasList = $proposta ? array_values(array_filter(array_map('trim', explode
       <div class="box-head">Descrição da Proposta</div>
       <div class="box-body">
         <?php if ($proposta['resumo'] !== ''): ?><p class="resumo-line"><?= htmlspecialchars($proposta['resumo'], ENT_QUOTES) ?></p><?php endif; ?>
-        <?php if ($proposta['escopo'] !== ''): ?><p><strong>Escopo</strong><br><?= nl2br(htmlspecialchars($proposta['escopo'], ENT_QUOTES)) ?></p><?php endif; ?>
-        <?php if ($proposta['objetivo'] !== ''): ?><p><strong>Objetivo:</strong> <?= nl2br(htmlspecialchars($proposta['objetivo'], ENT_QUOTES)) ?></p><?php endif; ?>
+        <?php $naturezaLbl = proposta_natureza_labels($proposta['natureza']); ?>
+        <?php if ($proposta['escopo'] !== ''): ?><p><strong><?= htmlspecialchars($naturezaLbl['escopo'], ENT_QUOTES) ?></strong><br><?= nl2br(htmlspecialchars($proposta['escopo'], ENT_QUOTES)) ?></p><?php endif; ?>
+        <?php if ($proposta['objetivo'] !== ''): ?><p><strong><?= htmlspecialchars($naturezaLbl['objetivo'], ENT_QUOTES) ?>:</strong> <?= nl2br(htmlspecialchars($proposta['objetivo'], ENT_QUOTES)) ?></p><?php endif; ?>
       </div>
     </div>
     <?php endif; ?>
