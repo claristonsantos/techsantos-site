@@ -29,7 +29,7 @@ foreach ($alunos as $a) {
         'documento' => $a['cpf'] ? cpf_format($a['cpf']) : '',
         'telefone' => '',
         'data' => $a['created_at'],
-        'href' => '/admin/alunos.php?edit=' . (int)$a['id'],
+        'href' => '/admin/cadastro-editar.php?origem=aluno_curso&id=' . (int)$a['id'],
         'acao' => 'Editar',
     ];
 }
@@ -49,8 +49,10 @@ if (cadastros_table_exists($pdo, 'aulas_particulares_leads')) {
             'documento' => '',
             'telefone' => $au['telefone'] ?? '',
             'data' => $au['criado_em'],
-            'href' => '/admin/aulas_particulares.php?editar=' . (int)$au['id'],
+            'href' => '/admin/cadastro-editar.php?origem=aluno_aula&id=' . (int)$au['id'],
             'acao' => 'Editar',
+            'href_ver' => '/admin/aulas_particulares.php?editar=' . (int)$au['id'],
+            'acao_ver' => 'Ver agenda/valor',
         ];
     }
 }
@@ -69,9 +71,10 @@ if (cadastros_table_exists($pdo, 'propostas')) {
             'documento' => $cp['contato_documento'] ?? '',
             'telefone' => '',
             'data' => $cp['created_at'],
-            'href' => '/admin/propostas.php?edit=' . (int)$cp['id'],
+            'href' => '/admin/cadastro-editar.php?origem=cliente&id=' . (int)$cp['id'],
             'acao' => 'Editar',
             'href_ver' => '/admin/propostas.php?f_cliente=' . urlencode($cp['cliente']),
+            'acao_ver' => 'Ver propostas',
         ];
     }
 }
@@ -134,7 +137,7 @@ admin_topbar('cadastros');
             <td><?= date('d/m/Y', strtotime($c['data'])) ?></td>
             <td class="admin-table-actions">
               <a href="<?= htmlspecialchars($c['href'], ENT_QUOTES) ?>"><?= htmlspecialchars($c['acao'] ?? 'Ver', ENT_QUOTES) ?></a>
-              <?php if (!empty($c['href_ver'])): ?><a href="<?= htmlspecialchars($c['href_ver'], ENT_QUOTES) ?>">Ver propostas</a><?php endif; ?>
+              <?php if (!empty($c['href_ver'])): ?><a href="<?= htmlspecialchars($c['href_ver'], ENT_QUOTES) ?>"><?= htmlspecialchars($c['acao_ver'] ?? 'Ver detalhes', ENT_QUOTES) ?></a><?php endif; ?>
             </td>
           </tr>
         <?php endforeach; ?>
