@@ -36,6 +36,19 @@ if (admin_table_exists($pdo, 'aluno_atividade')) {
 $aulasNovas = admin_table_exists($pdo, 'aulas_particulares_leads') ? (int)$pdo->query("SELECT COUNT(*) FROM aulas_particulares_leads WHERE status = 'novo'" )->fetchColumn() : 0;
 $ultimosPedidos = admin_table_exists($pdo, 'pedidos') ? $pdo->query("SELECT p.id,p.nome,p.valor_centavos,p.status,p.email_status,p.criado_em,c.nome AS curso_nome FROM pedidos p JOIN cursos c ON c.id=p.curso_id ORDER BY p.criado_em DESC LIMIT 6")->fetchAll() : [];
 
+$propostasPagasUSD = 0.0;
+if (admin_table_exists($pdo, 'propostas')) {
+    $itensPagos = $pdo->query("SELECT itens FROM propostas WHERE status = 'pago'")->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($itensPagos as $itensJson) {
+        foreach (json_decode((string)$itensJson, true) ?: [] as $item) {
+            $propostasPagasUSD += ((float)($item['horas'] ?? 0)) * ((float)($item['valor_hora'] ?? 0));
+        }
+    }
+}
+require_once __DIR__ . '/../inc/cotacao_dolar.php';
+$cotacaoDash = $propostasPagasUSD > 0 ? cotacao_dolar_bcb($pdo) : ['valor' => 0.0, 'data' => null];
+$propostasPagasBRL = $propostasPagasUSD * $cotacaoDash['valor'];
+
 $pendencias = [
     ['label' => 'E-mails de acesso com falha', 'count' => $emailsFalha, 'href' => '/admin/pedidos.php', 'tone' => 'danger'],
     ['label' => 'Posts com erro', 'count' => $postsErro, 'href' => '/admin/social_posts.php', 'tone' => 'danger'],
@@ -60,6 +73,7 @@ admin_topbar('index');
     <a class="admin-kpi-card" href="/admin/pedidos.php"><span class="admin-kpi-label">Vendas hoje</span><strong><?= $vendasHoje ?></strong><small>Pedidos aprovados</small></a>
     <a class="admin-kpi-card" href="/admin/alunos.php"><span class="admin-kpi-label">Alunos ativos</span><strong><?= $totalAlunos ?></strong><small><?= $totalCursos ?> curso(s) ativo(s)</small></a>
     <a class="admin-kpi-card" href="/admin/social_posts.php"><span class="admin-kpi-label">Posts agendados</span><strong><?= $postsAgendados ?></strong><small>Próximas publicações</small></a>
+    <a class="admin-kpi-card" href="/admin/propostas.php?f_status=pago"><span class="admin-kpi-label">Propostas pagas</span><strong>$<?= number_format($propostasPagasUSD, 2, ',', '.') ?></strong><small><?= $cotacaoDash['valor'] > 0 ? 'R$ ' . number_format($propostasPagasBRL, 2, ',', '.') : 'Consultoria e BI externo' ?></small></a>
   </section>
 
   <div class="admin-dashboard-grid">
