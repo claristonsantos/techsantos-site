@@ -302,9 +302,11 @@ admin_topbar('propostas');
   </form>
 
   <?php if ($fCliente !== '' || $fStatus !== ''): ?>
-  <p class="admin-status-filter-summary">
-    <?= count($propostas) ?> proposta(s) · Total $<?= number_format($totalUsdFiltrado, 2, ',', '.') ?><?php if ($cotacao['valor'] > 0): ?> · R$ <?= number_format($totalBrlFiltrado, 2, ',', '.') ?><?php endif; ?>
-  </p>
+  <div class="stat-row" style="margin-bottom:1.25rem;">
+    <div class="stat-tile"><div class="num"><?= count($propostas) ?></div><div class="lbl">Proposta(s) no relatório<?= $fCliente !== '' ? ' — cliente "' . htmlspecialchars($fCliente, ENT_QUOTES) . '"' : '' ?><?= $fStatus !== '' ? ' — status "' . htmlspecialchars($statusLabels[$fStatus] ?? $fStatus, ENT_QUOTES) . '"' : '' ?></div></div>
+    <div class="stat-tile"><div class="num">$<?= number_format($totalUsdFiltrado, 2, ',', '.') ?></div><div class="lbl">Total em dólar</div></div>
+    <div class="stat-tile"><div class="num"><?= $cotacao['valor'] > 0 ? 'R$ ' . number_format($totalBrlFiltrado, 2, ',', '.') : '—' ?></div><div class="lbl">Total convertido em real</div></div>
+  </div>
   <?php endif; ?>
 
   <div class="table-wrap">
