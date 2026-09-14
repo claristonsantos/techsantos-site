@@ -75,6 +75,10 @@ $naturezaLbl = $proposta ? proposta_natureza_labels($proposta['natureza']) : pro
   table.orc th, table.orc td { border:1px solid var(--line); padding:0.55rem 0.75rem; font-size:0.85rem; text-align:left; }
   table.orc th { background:#F1F2F4; font-weight:700; }
   .total-bar { display:flex; justify-content:space-between; background:var(--head-bg); font-weight:700; padding:0.6rem 0.9rem; margin-bottom:1.6rem; }
+  .pix-box { border:2px solid var(--green); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1.8rem; }
+  .pix-box h2 { margin:0 0 0.6rem; font-size:0.95rem; color:var(--green); }
+  .pix-box p { margin:0.2rem 0; font-size:0.88rem; }
+  .pix-box .chave { font-family:'Consolas', monospace; font-size:1.05rem; font-weight:700; letter-spacing:.03em; }
   .sheet-footer { border-top:1px solid var(--line); padding:0.9rem 0; text-align:center; }
   .sheet-footer .bar { background:#0F2440; color:#fff; font-weight:700; font-size:0.82rem; padding:0.5rem; letter-spacing:0.02em; }
   .sheet-footer .addr { font-size:0.72rem; color:var(--ink-soft); margin-top:0.5rem; }
@@ -176,6 +180,15 @@ $naturezaLbl = $proposta ? proposta_natureza_labels($proposta['natureza']) : pro
     <?php if ($mostrarConversao): ?>
       <p style="font-size:0.72rem; color:var(--ink-soft); margin:-1.2rem 0 1.6rem;">Conversão pela cotação PTAX de venda do Banco Central, referente a <?= date('d/m/Y', strtotime($cotacao['data'])) ?>: US$ 1,00 = R$ <?= number_format($cotacao['valor'], 4, ',', '.') ?>.</p>
     <?php endif; ?>
+
+    <div class="pix-box">
+      <h2>Dados para pagamento</h2>
+      <p>Chave PIX (CNPJ): <span class="chave">41.135.509/0001-29</span></p>
+      <p>CNPJ: 41.135.509/0001-29</p>
+      <p>Banco: 0260 — Nu Pagamentos S.A. — Instituição de Pagamento</p>
+      <p>Agência: 0001 · Conta: 49862002-8</p>
+      <p>Favorecido: TECH SANTOS BR — Clariston Santos</p>
+    </div>
 
     <div class="sheet-footer">
       <div class="bar">TECH SANTOS BR – SOLUÇÕES EM BI E AULAS PARTICULARES</div>

@@ -157,8 +157,11 @@ foreach ($propostas as $p) {
       <?php endif; ?>
 
       <div class="pix-box">
-        <h2>Dados para pagamento — PIX</h2>
+        <h2>Dados para pagamento</h2>
         <p>Chave PIX (CNPJ): <span class="chave">41.135.509/0001-29</span></p>
+        <p>CNPJ: 41.135.509/0001-29</p>
+        <p>Banco: 0260 — Nu Pagamentos S.A. — Instituição de Pagamento</p>
+        <p>Agência: 0001 · Conta: 49862002-8</p>
         <p>Favorecido: TECH SANTOS BR — Clariston Santos</p>
       </div>
     <?php endif; ?>
