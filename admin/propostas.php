@@ -158,6 +158,8 @@ foreach ($propostas as $p) {
 }
 $totalBrlFiltrado = $totalUsdFiltrado * $cotacao['valor'];
 
+$clientesLista = $pdo->query('SELECT DISTINCT cliente FROM propostas ORDER BY cliente')->fetchAll(PDO::FETCH_COLUMN);
+
 admin_head('Propostas');
 admin_topbar('propostas');
 ?>
@@ -177,7 +179,7 @@ admin_topbar('propostas');
       <div class="field-row">
         <div class="field">
           <label for="cliente">Cliente *</label>
-          <input type="text" id="cliente" name="cliente" required value="<?= htmlspecialchars($editRow['cliente'] ?? '', ENT_QUOTES) ?>">
+          <input type="text" id="cliente" name="cliente" list="clientesList" required value="<?= htmlspecialchars($editRow['cliente'] ?? '', ENT_QUOTES) ?>">
         </div>
         <div class="field">
           <label for="projeto">Nome do projeto *</label>
@@ -279,7 +281,10 @@ admin_topbar('propostas');
   <form method="get" class="admin-filter-bar" style="grid-template-columns:2fr 1fr auto;">
     <div class="field">
       <label for="f_cliente">Cliente</label>
-      <input type="text" id="f_cliente" name="f_cliente" placeholder="Buscar por cliente" value="<?= htmlspecialchars($fCliente, ENT_QUOTES) ?>">
+      <input type="text" id="f_cliente" name="f_cliente" list="clientesList" placeholder="Buscar por cliente" value="<?= htmlspecialchars($fCliente, ENT_QUOTES) ?>">
+      <datalist id="clientesList">
+        <?php foreach ($clientesLista as $c): ?><option value="<?= htmlspecialchars($c, ENT_QUOTES) ?>"><?php endforeach; ?>
+      </datalist>
     </div>
     <div class="field">
       <label for="f_status">Status</label>
