@@ -57,6 +57,7 @@ function admin_topbar(string $active): void
             'propostas' => ['/admin/propostas.php', 'Propostas comerciais', 'proposal'],
         ],
         'Cadastros' => [
+            'cadastros' => ['/admin/cadastros.php', 'Todos os cadastros', 'students'],
             'aulas_particulares_cadastro' => ['/admin/aulas_particulares_cadastro.php', 'Cadastro das aulas', 'lessons'],
             'cursos' => ['/admin/cursos.php', 'Cursos', 'course'],
             'avaliacoes' => ['/admin/avaliacoes.php', 'Avaliações', 'assessment'],
