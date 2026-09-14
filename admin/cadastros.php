@@ -16,7 +16,7 @@ function cadastros_table_exists(PDO $pdo, string $table): bool
 $cadastros = [];
 
 $alunos = $pdo->query(
-    "SELECT a.nome, a.email, a.cpf, a.created_at, c.nome AS curso_nome
+    "SELECT a.id, a.nome, a.email, a.cpf, a.created_at, c.nome AS curso_nome
      FROM alunos a JOIN cursos c ON c.id = a.curso_id
      ORDER BY a.created_at DESC"
 )->fetchAll();
@@ -28,12 +28,13 @@ foreach ($alunos as $a) {
         'email' => $a['email'],
         'contato_extra' => $a['cpf'] ? cpf_format($a['cpf']) : '',
         'data' => $a['created_at'],
-        'href' => '/admin/alunos.php',
+        'href' => '/admin/alunos.php?edit=' . (int)$a['id'],
+        'acao' => 'Editar',
     ];
 }
 
 if (cadastros_table_exists($pdo, 'aulas_particulares_leads')) {
-    $aulas = $pdo->query("SELECT nome, email, telefone, interesse, criado_em FROM aulas_particulares_leads ORDER BY criado_em DESC")->fetchAll();
+    $aulas = $pdo->query("SELECT id, nome, email, telefone, interesse, criado_em FROM aulas_particulares_leads ORDER BY criado_em DESC")->fetchAll();
     $vistoAula = [];
     foreach ($aulas as $au) {
         $chave = mb_strtolower(trim($au['nome'])) . '|' . mb_strtolower(trim((string)$au['email']));
@@ -46,13 +47,14 @@ if (cadastros_table_exists($pdo, 'aulas_particulares_leads')) {
             'email' => $au['email'],
             'contato_extra' => $au['telefone'] ?? '',
             'data' => $au['criado_em'],
-            'href' => '/admin/aulas_particulares.php',
+            'href' => '/admin/aulas_particulares.php?editar=' . (int)$au['id'],
+            'acao' => 'Editar',
         ];
     }
 }
 
 if (cadastros_table_exists($pdo, 'propostas')) {
-    $propCli = $pdo->query("SELECT cliente, contato_email, contato_documento, created_at FROM propostas ORDER BY created_at DESC")->fetchAll();
+    $propCli = $pdo->query("SELECT id, cliente, contato_email, contato_documento, created_at FROM propostas ORDER BY created_at DESC")->fetchAll();
     $vistoCliente = [];
     foreach ($propCli as $cp) {
         if (isset($vistoCliente[$cp['cliente']])) continue;
@@ -64,7 +66,9 @@ if (cadastros_table_exists($pdo, 'propostas')) {
             'email' => $cp['contato_email'] ?? '',
             'contato_extra' => $cp['contato_documento'] ?? '',
             'data' => $cp['created_at'],
-            'href' => '/admin/propostas.php?f_cliente=' . urlencode($cp['cliente']),
+            'href' => '/admin/propostas.php?edit=' . (int)$cp['id'],
+            'acao' => 'Editar',
+            'href_ver' => '/admin/propostas.php?f_cliente=' . urlencode($cp['cliente']),
         ];
     }
 }
@@ -124,7 +128,10 @@ admin_topbar('cadastros');
             <td><?= htmlspecialchars($c['email'] ?: '—', ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($c['contato_extra'] ?: '—', ENT_QUOTES) ?></td>
             <td><?= date('d/m/Y', strtotime($c['data'])) ?></td>
-            <td class="admin-table-actions"><a href="<?= htmlspecialchars($c['href'], ENT_QUOTES) ?>">Ver</a></td>
+            <td class="admin-table-actions">
+              <a href="<?= htmlspecialchars($c['href'], ENT_QUOTES) ?>"><?= htmlspecialchars($c['acao'] ?? 'Ver', ENT_QUOTES) ?></a>
+              <?php if (!empty($c['href_ver'])): ?><a href="<?= htmlspecialchars($c['href_ver'], ENT_QUOTES) ?>">Ver propostas</a><?php endif; ?>
+            </td>
           </tr>
         <?php endforeach; ?>
       </tbody>
