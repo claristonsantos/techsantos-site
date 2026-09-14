@@ -73,6 +73,7 @@ $totalGeralBRL = $totalGeralUSD * $cotacao['valor'];
   .pedido { border:1px solid var(--line); margin-bottom:1.1rem; page-break-inside:avoid; }
   .pedido-head { display:flex; justify-content:space-between; align-items:center; gap:1rem; background:var(--head-bg); padding:0.55rem 0.9rem; font-weight:700; font-size:0.92rem; }
   .pedido-head span.status { font-weight:600; font-size:0.76rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.03em; }
+  .pedido-resumo { margin:0; padding:0.55rem 0.9rem; border-top:1px solid var(--line); font-weight:600; font-size:0.85rem; text-align:center; }
   table.itens { width:100%; border-collapse:collapse; }
   table.itens th, table.itens td { border-top:1px solid var(--line); padding:0.5rem 0.9rem; font-size:0.85rem; text-align:left; }
   table.itens th { background:#F5F6F7; font-weight:700; font-size:0.76rem; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-soft); }
@@ -118,6 +119,9 @@ $totalGeralBRL = $totalGeralUSD * $cotacao['valor'];
             <span><?= htmlspecialchars($p['projeto'], ENT_QUOTES) ?> — <?= date('d/m/Y', strtotime($p['created_at'])) ?></span>
             <span class="status"><?= htmlspecialchars($statusLabels[$p['status']] ?? $p['status'], ENT_QUOTES) ?></span>
           </div>
+          <?php if (trim((string)$p['resumo']) !== ''): ?>
+            <p class="pedido-resumo"><?= htmlspecialchars($p['resumo'], ENT_QUOTES) ?></p>
+          <?php endif; ?>
           <table class="itens">
             <thead><tr><th>Serviço</th><th>Horas</th><th>Valor/hora</th><th>Total</th></tr></thead>
             <tbody>
