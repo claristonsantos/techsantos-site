@@ -224,8 +224,8 @@ admin_topbar('propostas');
           <input type="text" id="cliente" name="cliente" list="clientesList" required value="<?= htmlspecialchars($editRow['cliente'] ?? '', ENT_QUOTES) ?>">
         </div>
         <div class="field">
-          <label for="projeto">Nome do projeto *</label>
-          <input type="text" id="projeto" name="projeto" required value="<?= htmlspecialchars($editRow['projeto'] ?? '', ENT_QUOTES) ?>">
+          <label for="projeto" id="projetoLabel"><?= htmlspecialchars(proposta_natureza_labels($editRow['natureza'] ?? 'orcamento')['projeto'], ENT_QUOTES) ?> *</label>
+          <input type="text" id="projeto" name="projeto" required placeholder="<?= htmlspecialchars(proposta_natureza_labels($editRow['natureza'] ?? 'orcamento')['projeto_placeholder'], ENT_QUOTES) ?>" value="<?= htmlspecialchars($editRow['projeto'] ?? '', ENT_QUOTES) ?>">
         </div>
       </div>
 
@@ -425,6 +425,8 @@ var naturezaLabels = <?= json_encode([
 
 function aplicarNatureza(valor) {
   var l = naturezaLabels[valor] || naturezaLabels.orcamento;
+  document.getElementById('projetoLabel').textContent = l.projeto + ' *';
+  document.getElementById('projeto').placeholder = l.projeto_placeholder;
   document.getElementById('formatoLabel').textContent = l.formato;
   document.getElementById('formato').placeholder = l.formato_placeholder;
   document.getElementById('escopoLabel').textContent = l.escopo;

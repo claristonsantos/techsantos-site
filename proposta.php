@@ -33,6 +33,7 @@ if ($proposta) {
 $mostrarConversao = $moeda === 'USD' && $cotacao['valor'] > 0;
 $totalBRL = proposta_total_em_brl($total, $moeda, $cotacao['valor']);
 $premissasList = $proposta ? array_values(array_filter(array_map('trim', explode("\n", (string)$proposta['premissas'])))) : [];
+$naturezaLbl = $proposta ? proposta_natureza_labels($proposta['natureza']) : proposta_natureza_labels('orcamento');
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -114,7 +115,7 @@ $premissasList = $proposta ? array_values(array_filter(array_map('trim', explode
       <div class="box-head" style="grid-column:1/-1;">Contextualização</div>
       <div class="box-body">
         <p><strong>Cliente:</strong> <?= htmlspecialchars($proposta['cliente'], ENT_QUOTES) ?></p>
-        <p><strong>Nome do Projeto:</strong> <?= htmlspecialchars($proposta['projeto'], ENT_QUOTES) ?></p>
+        <p><strong><?= htmlspecialchars($naturezaLbl['projeto'], ENT_QUOTES) ?>:</strong> <?= htmlspecialchars($proposta['projeto'], ENT_QUOTES) ?></p>
         <?php if (!empty($proposta['contato_nome'])): ?><p><strong>Contato:</strong> <?= htmlspecialchars($proposta['contato_nome'], ENT_QUOTES) ?></p><?php endif; ?>
         <?php if (!empty($proposta['contato_documento'])): ?><p><strong>CNPJ/CPF:</strong> <?= htmlspecialchars($proposta['contato_documento'], ENT_QUOTES) ?></p><?php endif; ?>
         <?php if (!empty($proposta['contato_email'])): ?><p><strong>E-mail:</strong> <?= htmlspecialchars($proposta['contato_email'], ENT_QUOTES) ?></p><?php endif; ?>
@@ -134,7 +135,6 @@ $premissasList = $proposta ? array_values(array_filter(array_map('trim', explode
       <div class="box-head">Descrição da Proposta</div>
       <div class="box-body">
         <?php if ($proposta['resumo'] !== ''): ?><p class="resumo-line"><?= htmlspecialchars($proposta['resumo'], ENT_QUOTES) ?></p><?php endif; ?>
-        <?php $naturezaLbl = proposta_natureza_labels($proposta['natureza']); ?>
         <?php if ($proposta['escopo'] !== ''): ?><p><strong><?= htmlspecialchars($naturezaLbl['escopo'], ENT_QUOTES) ?></strong><br><?= nl2br(htmlspecialchars($proposta['escopo'], ENT_QUOTES)) ?></p><?php endif; ?>
         <?php if ($proposta['objetivo'] !== ''): ?><p><strong><?= htmlspecialchars($naturezaLbl['objetivo'], ENT_QUOTES) ?>:</strong> <?= nl2br(htmlspecialchars($proposta['objetivo'], ENT_QUOTES)) ?></p><?php endif; ?>
       </div>

@@ -35,6 +35,8 @@ function proposta_natureza_labels(string $natureza): array
 {
     $mapas = [
         'curso' => [
+            'projeto' => 'Nome do curso',
+            'projeto_placeholder' => 'Ex.: Power BI Completo',
             'formato' => 'Modalidade do curso',
             'formato_placeholder' => 'Ex.: Online ao vivo, gravado, presencial',
             'escopo' => 'Conteúdo programático / Ementa',
@@ -42,6 +44,8 @@ function proposta_natureza_labels(string $natureza): array
             'item_placeholder' => 'Ex.: Curso completo de Power BI',
         ],
         'aulas' => [
+            'projeto' => 'Assunto das aulas',
+            'projeto_placeholder' => 'Ex.: Power BI para análise financeira',
             'formato' => 'Modalidade das aulas',
             'formato_placeholder' => 'Ex.: Online, individual, pacote de horas',
             'escopo' => 'Temas e objetivos das aulas',
@@ -50,6 +54,8 @@ function proposta_natureza_labels(string $natureza): array
         ],
     ];
     $default = [
+        'projeto' => 'Nome do projeto',
+        'projeto_placeholder' => 'Ex.: Automação DRE e fluxo de caixa',
         'formato' => 'Formato / tecnologia',
         'formato_placeholder' => 'Ex.: Excel, Power BI, Python',
         'escopo' => 'Escopo',
