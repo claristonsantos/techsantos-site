@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/../inc/cotacao_dolar.php';
+require_once __DIR__ . '/../inc/propostas_helpers.php';
 require_admin();
 
 $pdo = db();
@@ -36,19 +37,18 @@ if ($fCliente !== '') {
     unset($p);
 }
 
-$cotacao = $propostas ? cotacao_dolar_bcb($pdo) : ['valor' => 0.0, 'data' => null];
-$temCotacao = $cotacao['valor'] > 0;
+$temPropostaUsd = false;
+foreach ($propostas as $p) {
+    if ($p['moeda'] === 'USD') { $temPropostaUsd = true; break; }
+}
+$cotacao = $temPropostaUsd ? cotacao_dolar_bcb($pdo) : ['valor' => 0.0, 'data' => null];
 
-function fmt_usd(float $v): string { return '$' . number_format($v, 2, ',', '.') . ' USD'; }
 function fmt_brl(float $v): string { return 'R$ ' . number_format($v, 2, ',', '.'); }
 
-$totalGeralUSD = 0.0;
+$totalGeralBRL = 0.0;
 foreach ($propostas as $p) {
-    foreach ($p['itens'] as $item) {
-        $totalGeralUSD += ((float)($item['horas'] ?? 0)) * ((float)($item['valor_hora'] ?? 0));
-    }
+    $totalGeralBRL += proposta_total_em_brl(proposta_itens_total($p['itens']), $p['moeda'], $cotacao['valor']);
 }
-$totalGeralBRL = $totalGeralUSD * $cotacao['valor'];
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -113,7 +113,11 @@ $totalGeralBRL = $totalGeralUSD * $cotacao['valor'];
       <p class="sheet-sub">Cliente: <strong><?= htmlspecialchars($fCliente, ENT_QUOTES) ?></strong> · <?= count($propostas) ?> proposta(s)<?= $fStatus !== '' ? ' · status "' . htmlspecialchars($statusLabels[$fStatus] ?? $fStatus, ENT_QUOTES) . '"' : '' ?> · emitido em <?= date('d/m/Y') ?></p>
 
       <?php foreach ($propostas as $p): ?>
-        <?php $pedidoTotal = 0.0; foreach ($p['itens'] as $item) { $pedidoTotal += ((float)$item['horas']) * ((float)$item['valor_hora']); } ?>
+        <?php
+        $pedidoTotal = proposta_itens_total($p['itens']);
+        $pedidoUsd = $p['moeda'] === 'USD';
+        $pedidoMostraConversao = $pedidoUsd && $cotacao['valor'] > 0;
+        ?>
         <div class="pedido">
           <div class="pedido-head">
             <span><?= htmlspecialchars($p['projeto'], ENT_QUOTES) ?> — <?= date('d/m/Y', strtotime($p['created_at'])) ?></span>
@@ -125,19 +129,19 @@ $totalGeralBRL = $totalGeralUSD * $cotacao['valor'];
           <table class="itens">
             <thead><tr><th>Serviço</th><th>Horas</th><th>Valor/hora</th><th>Total</th></tr></thead>
             <tbody>
-              <?php foreach ($p['itens'] as $item): $itemTotal = ((float)$item['horas']) * ((float)$item['valor_hora']); ?>
+              <?php foreach ($p['itens'] as $item): $itemTotal = proposta_item_total($item); ?>
                 <tr>
                   <td><?= htmlspecialchars($item['descricao'], ENT_QUOTES) ?></td>
                   <td><?= htmlspecialchars((string)$item['horas'], ENT_QUOTES) ?></td>
-                  <td><?= fmt_usd((float)$item['valor_hora']) ?></td>
-                  <td><?= fmt_usd($itemTotal) ?></td>
+                  <td><?= proposta_fmt_moeda((float)$item['valor_hora'], $p['moeda']) ?></td>
+                  <td><?= proposta_fmt_moeda($itemTotal, $p['moeda']) ?></td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
             <tfoot>
               <tr>
                 <td colspan="3">Subtotal do pedido</td>
-                <td><?= fmt_usd($pedidoTotal) ?><?php if ($temCotacao): ?><br><small><?= fmt_brl($pedidoTotal * $cotacao['valor']) ?></small><?php endif; ?></td>
+                <td><?= proposta_fmt_moeda($pedidoTotal, $p['moeda']) ?><?php if ($pedidoMostraConversao): ?><br><small><?= fmt_brl($pedidoTotal * $cotacao['valor']) ?></small><?php endif; ?></td>
               </tr>
             </tfoot>
           </table>
@@ -146,10 +150,10 @@ $totalGeralBRL = $totalGeralUSD * $cotacao['valor'];
 
       <div class="total-bar">
         <span>Total Geral (<?= count($propostas) ?> pedido<?= count($propostas) === 1 ? '' : 's' ?>):</span>
-        <span><?= fmt_usd($totalGeralUSD) ?><?php if ($temCotacao): ?> &nbsp;·&nbsp; <?= fmt_brl($totalGeralBRL) ?><?php endif; ?></span>
+        <span><?= fmt_brl($totalGeralBRL) ?></span>
       </div>
-      <?php if ($temCotacao): ?>
-        <p style="font-size:0.72rem; color:var(--ink-soft); margin:-1.2rem 0 1.6rem;">Conversão pela cotação PTAX de venda do Banco Central, referente a <?= date('d/m/Y', strtotime($cotacao['data'])) ?>: US$ 1,00 = R$ <?= number_format($cotacao['valor'], 4, ',', '.') ?>.</p>
+      <?php if ($temPropostaUsd && $cotacao['valor'] > 0): ?>
+        <p style="font-size:0.72rem; color:var(--ink-soft); margin:-1.2rem 0 1.6rem;">Pedidos em dólar convertidos pela cotação PTAX de venda do Banco Central, referente a <?= date('d/m/Y', strtotime($cotacao['data'])) ?>: US$ 1,00 = R$ <?= number_format($cotacao['valor'], 4, ',', '.') ?>.</p>
       <?php endif; ?>
 
       <div class="pix-box">

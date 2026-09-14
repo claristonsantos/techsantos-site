@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/_partials.php';
+require_once __DIR__ . '/../inc/propostas_helpers.php';
 require_admin();
 
 $pdo = db();
@@ -23,15 +24,6 @@ function proposta_itens_from_post(): array
         $itens[] = ['descricao' => $desc, 'horas' => $h, 'valor_hora' => $v];
     }
     return $itens;
-}
-
-function proposta_total(array $itens): float
-{
-    $total = 0.0;
-    foreach ($itens as $item) {
-        $total += ((float)$item['horas']) * ((float)$item['valor_hora']);
-    }
-    return $total;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -63,14 +55,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tipo = ($_POST['tipo'] ?? 'novo') === 'alteracao' ? 'alteracao' : 'novo';
         $formato = trim((string)($_POST['formato'] ?? ''));
         $naturezaPost = (string)($_POST['natureza'] ?? 'orcamento');
-        $natureza = in_array($naturezaPost, ['desenvolvimento', 'suporte'], true) ? $naturezaPost : 'orcamento';
+        $natureza = in_array($naturezaPost, ['desenvolvimento', 'suporte', 'curso', 'aulas'], true) ? $naturezaPost : 'orcamento';
         $versao = trim((string)($_POST['versao'] ?? '1')) ?: '1';
         $autor = trim((string)($_POST['autor'] ?? '')) ?: 'Clariston Santos';
         $resumo = trim((string)($_POST['resumo'] ?? ''));
         $escopo = trim((string)($_POST['escopo'] ?? ''));
         $objetivo = trim((string)($_POST['objetivo'] ?? ''));
         $premissas = trim((string)($_POST['premissas'] ?? ''));
-        $moeda = 'USD'; // sempre em dólar — a conversão pra real é calculada na hora de exibir a proposta
+        $moedaPost = (string)($_POST['moeda'] ?? 'USD');
+        $moeda = $moedaPost === 'BRL' ? 'BRL' : 'USD';
         $status = trim((string)($_POST['status'] ?? 'rascunho')) ?: 'rascunho';
         $itens = proposta_itens_from_post();
 
@@ -152,11 +145,11 @@ $statusTone = [
     'recusada' => 'danger',
 ];
 
-$totalUsdFiltrado = 0.0;
+$totalBrlFiltrado = 0.0;
 foreach ($propostas as $p) {
-    $totalUsdFiltrado += proposta_total(json_decode($p['itens'], true) ?: []);
+    $nativo = proposta_itens_total(json_decode($p['itens'], true) ?: []);
+    $totalBrlFiltrado += proposta_total_em_brl($nativo, $p['moeda'], $cotacao['valor']);
 }
-$totalBrlFiltrado = $totalUsdFiltrado * $cotacao['valor'];
 
 $clientesLista = $pdo->query('SELECT DISTINCT cliente FROM propostas ORDER BY cliente')->fetchAll(PDO::FETCH_COLUMN);
 
@@ -201,6 +194,8 @@ admin_topbar('propostas');
             <option value="orcamento" <?= (($editRow['natureza'] ?? 'orcamento') === 'orcamento') ? 'selected' : '' ?>>Orçamento</option>
             <option value="desenvolvimento" <?= (($editRow['natureza'] ?? '') === 'desenvolvimento') ? 'selected' : '' ?>>Desenvolvimento</option>
             <option value="suporte" <?= (($editRow['natureza'] ?? '') === 'suporte') ? 'selected' : '' ?>>Suporte</option>
+            <option value="curso" <?= (($editRow['natureza'] ?? '') === 'curso') ? 'selected' : '' ?>>Curso</option>
+            <option value="aulas" <?= (($editRow['natureza'] ?? '') === 'aulas') ? 'selected' : '' ?>>Aulas particulares</option>
           </select>
         </div>
       </div>
@@ -214,6 +209,14 @@ admin_topbar('propostas');
           <label for="versao">Versão</label>
           <input type="text" id="versao" name="versao" value="<?= htmlspecialchars($editRow['versao'] ?? '1', ENT_QUOTES) ?>">
         </div>
+      </div>
+
+      <div class="field">
+        <label for="moeda">Moeda dos valores</label>
+        <select id="moeda" name="moeda">
+          <option value="USD" <?= (($editRow['moeda'] ?? 'USD') === 'USD') ? 'selected' : '' ?>>Dólar (US$) — converte pra real na proposta</option>
+          <option value="BRL" <?= (($editRow['moeda'] ?? '') === 'BRL') ? 'selected' : '' ?>>Real (R$) — valor já é o final, sem conversão</option>
+        </select>
       </div>
 
       <div class="field">
@@ -240,10 +243,10 @@ admin_topbar('propostas');
 
       <div class="field">
         <label>Itens do orçamento</label>
-        <span class="hint">Valores sempre em dólar — a proposta converte pra real automaticamente com a cotação PTAX do Banco Central.</span>
+        <span class="hint">Valores na moeda escolhida acima. Em dólar, a proposta soma o equivalente em real pela cotação PTAX do Banco Central; em real, o valor sai igual, sem conversão.</span>
         <div class="table-wrap" style="margin:0.5rem 0 0.75rem;">
           <table class="data-table" id="itensTable">
-            <thead><tr><th>Descrição</th><th style="width:110px">Horas</th><th style="width:140px">Valor/hora (US$)</th><th style="width:44px"></th></tr></thead>
+            <thead><tr><th>Descrição</th><th style="width:110px">Horas</th><th style="width:140px">Valor/hora</th><th style="width:44px"></th></tr></thead>
             <tbody>
               <?php
               $itensIniciais = $editRow['itens'] ?? [['descricao' => '', 'horas' => '', 'valor_hora' => '']];
@@ -310,8 +313,7 @@ admin_topbar('propostas');
   <?php if ($fCliente !== '' || $fStatus !== ''): ?>
   <div class="stat-row" style="margin-bottom:1.25rem;">
     <div class="stat-tile"><div class="num"><?= count($propostas) ?></div><div class="lbl">Proposta(s) no relatório<?= $fCliente !== '' ? ' — cliente "' . htmlspecialchars($fCliente, ENT_QUOTES) . '"' : '' ?><?= $fStatus !== '' ? ' — status "' . htmlspecialchars($statusLabels[$fStatus] ?? $fStatus, ENT_QUOTES) . '"' : '' ?></div></div>
-    <div class="stat-tile"><div class="num">$<?= number_format($totalUsdFiltrado, 2, ',', '.') ?></div><div class="lbl">Total em dólar</div></div>
-    <div class="stat-tile"><div class="num"><?= $cotacao['valor'] > 0 ? 'R$ ' . number_format($totalBrlFiltrado, 2, ',', '.') : '—' ?></div><div class="lbl">Total convertido em real</div></div>
+    <div class="stat-tile"><div class="num">R$ <?= number_format($totalBrlFiltrado, 2, ',', '.') ?></div><div class="lbl">Total geral (dólar convertido pela cotação do dia + real)</div></div>
   </div>
   <?php endif; ?>
 
@@ -323,11 +325,11 @@ admin_topbar('propostas');
           <tr class="empty-row"><td colspan="6">Nenhuma proposta encontrada.</td></tr>
         <?php endif; ?>
         <?php foreach ($propostas as $p): ?>
-          <?php $itens = json_decode($p['itens'], true) ?: []; $total = proposta_total($itens); ?>
+          <?php $itens = json_decode($p['itens'], true) ?: []; $total = proposta_itens_total($itens); ?>
           <tr>
             <td><?= htmlspecialchars($p['cliente'], ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($p['projeto'], ENT_QUOTES) ?></td>
-            <td>$<?= number_format($total, 2, ',', '.') ?><?php if ($cotacao['valor'] > 0): ?><br><small>R$ <?= number_format($total * $cotacao['valor'], 2, ',', '.') ?></small><?php endif; ?></td>
+            <td><?= proposta_fmt_moeda($total, $p['moeda']) ?><?php if ($p['moeda'] === 'USD' && $cotacao['valor'] > 0): ?><br><small>R$ <?= number_format($total * $cotacao['valor'], 2, ',', '.') ?></small><?php endif; ?></td>
             <td>
               <form method="post" style="display:inline">
                 <?= csrf_field() ?>

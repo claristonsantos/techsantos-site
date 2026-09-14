@@ -36,18 +36,20 @@ if (admin_table_exists($pdo, 'aluno_atividade')) {
 $aulasNovas = admin_table_exists($pdo, 'aulas_particulares_leads') ? (int)$pdo->query("SELECT COUNT(*) FROM aulas_particulares_leads WHERE status = 'novo'" )->fetchColumn() : 0;
 $ultimosPedidos = admin_table_exists($pdo, 'pedidos') ? $pdo->query("SELECT p.id,p.nome,p.valor_centavos,p.status,p.email_status,p.criado_em,c.nome AS curso_nome FROM pedidos p JOIN cursos c ON c.id=p.curso_id ORDER BY p.criado_em DESC LIMIT 6")->fetchAll() : [];
 
-$propostasPagasUSD = 0.0;
+require_once __DIR__ . '/../inc/cotacao_dolar.php';
+require_once __DIR__ . '/../inc/propostas_helpers.php';
+$propostasPagasBRL = 0.0;
 if (admin_table_exists($pdo, 'propostas')) {
-    $itensPagos = $pdo->query("SELECT itens FROM propostas WHERE status = 'pago'")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($itensPagos as $itensJson) {
-        foreach (json_decode((string)$itensJson, true) ?: [] as $item) {
-            $propostasPagasUSD += ((float)($item['horas'] ?? 0)) * ((float)($item['valor_hora'] ?? 0));
-        }
+    $propostasPagas = $pdo->query("SELECT itens, moeda FROM propostas WHERE status = 'pago'")->fetchAll();
+    $temPagaUsd = false;
+    foreach ($propostasPagas as $pp) {
+        if ($pp['moeda'] === 'USD') { $temPagaUsd = true; break; }
+    }
+    $cotacaoDash = $temPagaUsd ? cotacao_dolar_bcb($pdo) : ['valor' => 0.0, 'data' => null];
+    foreach ($propostasPagas as $pp) {
+        $propostasPagasBRL += proposta_total_em_brl(proposta_itens_total(json_decode((string)$pp['itens'], true) ?: []), $pp['moeda'], $cotacaoDash['valor']);
     }
 }
-require_once __DIR__ . '/../inc/cotacao_dolar.php';
-$cotacaoDash = $propostasPagasUSD > 0 ? cotacao_dolar_bcb($pdo) : ['valor' => 0.0, 'data' => null];
-$propostasPagasBRL = $propostasPagasUSD * $cotacaoDash['valor'];
 
 $atividades = [];
 foreach ($ultimosPedidos as $pedido) {
@@ -82,18 +84,15 @@ if (admin_table_exists($pdo, 'aulas_particulares_leads')) {
 if (admin_table_exists($pdo, 'propostas')) {
     $propStatusLabels = ['rascunho' => 'Rascunho', 'enviada' => 'Enviada', 'aguardando_pagamento' => 'Aguardando pagamento', 'pago' => 'Pago', 'aprovada' => 'Aprovada', 'recusada' => 'Recusada'];
     $propStatusTone = ['rascunho' => 'neutral', 'enviada' => 'neutral', 'aguardando_pagamento' => 'warning', 'pago' => 'success', 'aprovada' => 'success', 'recusada' => 'danger'];
-    $ultimasPropostas = $pdo->query("SELECT id, cliente, projeto, status, itens, created_at FROM propostas ORDER BY created_at DESC LIMIT 6")->fetchAll();
+    $ultimasPropostas = $pdo->query("SELECT id, cliente, projeto, status, itens, moeda, created_at FROM propostas ORDER BY created_at DESC LIMIT 6")->fetchAll();
     foreach ($ultimasPropostas as $prop) {
-        $usd = 0.0;
-        foreach (json_decode((string)$prop['itens'], true) ?: [] as $item) {
-            $usd += ((float)($item['horas'] ?? 0)) * ((float)($item['valor_hora'] ?? 0));
-        }
+        $nativo = proposta_itens_total(json_decode((string)$prop['itens'], true) ?: []);
         $atividades[] = [
             'data' => $prop['created_at'],
             'tipo' => 'Proposta',
             'cliente' => $prop['cliente'],
             'detalhe' => $prop['projeto'],
-            'valor' => '$' . number_format($usd, 2, ',', '.'),
+            'valor' => proposta_fmt_moeda($nativo, $prop['moeda']),
             'status_label' => $propStatusLabels[$prop['status']] ?? $prop['status'],
             'tone' => $propStatusTone[$prop['status']] ?? 'neutral',
             'href' => '/admin/propostas.php',
@@ -127,7 +126,7 @@ admin_topbar('index');
     <a class="admin-kpi-card" href="/admin/pedidos.php"><span class="admin-kpi-label">Vendas hoje</span><strong><?= $vendasHoje ?></strong><small>Pedidos aprovados</small></a>
     <a class="admin-kpi-card" href="/admin/alunos.php"><span class="admin-kpi-label">Alunos ativos</span><strong><?= $totalAlunos ?></strong><small><?= $totalCursos ?> curso(s) ativo(s)</small></a>
     <a class="admin-kpi-card" href="/admin/social_posts.php"><span class="admin-kpi-label">Posts agendados</span><strong><?= $postsAgendados ?></strong><small>Próximas publicações</small></a>
-    <a class="admin-kpi-card" href="/admin/propostas.php?f_status=pago"><span class="admin-kpi-label">Propostas pagas</span><strong>$<?= number_format($propostasPagasUSD, 2, ',', '.') ?></strong><small><?= $cotacaoDash['valor'] > 0 ? 'R$ ' . number_format($propostasPagasBRL, 2, ',', '.') : 'Consultoria e BI externo' ?></small></a>
+    <a class="admin-kpi-card" href="/admin/propostas.php?f_status=pago"><span class="admin-kpi-label">Propostas pagas</span><strong>R$ <?= number_format($propostasPagasBRL, 2, ',', '.') ?></strong><small>Consultoria, cursos e aulas sob proposta</small></a>
   </section>
 
   <div class="admin-dashboard-grid">
