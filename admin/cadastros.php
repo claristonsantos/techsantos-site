@@ -26,7 +26,8 @@ foreach ($alunos as $a) {
         'tipo' => 'Aluno',
         'origem' => 'Curso: ' . $a['curso_nome'],
         'email' => $a['email'],
-        'contato_extra' => $a['cpf'] ? cpf_format($a['cpf']) : '',
+        'documento' => $a['cpf'] ? cpf_format($a['cpf']) : '',
+        'telefone' => '',
         'data' => $a['created_at'],
         'href' => '/admin/alunos.php?edit=' . (int)$a['id'],
         'acao' => 'Editar',
@@ -45,7 +46,8 @@ if (cadastros_table_exists($pdo, 'aulas_particulares_leads')) {
             'tipo' => 'Aluno',
             'origem' => 'Aula particular: ' . $au['interesse'],
             'email' => $au['email'],
-            'contato_extra' => $au['telefone'] ?? '',
+            'documento' => '',
+            'telefone' => $au['telefone'] ?? '',
             'data' => $au['criado_em'],
             'href' => '/admin/aulas_particulares.php?editar=' . (int)$au['id'],
             'acao' => 'Editar',
@@ -64,7 +66,8 @@ if (cadastros_table_exists($pdo, 'propostas')) {
             'tipo' => 'Cliente',
             'origem' => 'Proposta comercial',
             'email' => $cp['contato_email'] ?? '',
-            'contato_extra' => $cp['contato_documento'] ?? '',
+            'documento' => $cp['contato_documento'] ?? '',
+            'telefone' => '',
             'data' => $cp['created_at'],
             'href' => '/admin/propostas.php?edit=' . (int)$cp['id'],
             'acao' => 'Editar',
@@ -115,10 +118,10 @@ admin_topbar('cadastros');
 
   <div class="table-wrap">
     <table class="data-table">
-      <thead><tr><th>Nome</th><th>Tipo</th><th>Origem</th><th>E-mail</th><th>CPF/CNPJ/Telefone</th><th>Data</th><th>Ações</th></tr></thead>
+      <thead><tr><th>Nome</th><th>Tipo</th><th>Origem</th><th>E-mail</th><th>CPF/CNPJ</th><th>Telefone</th><th>Data</th><th>Ações</th></tr></thead>
       <tbody>
         <?php if (!$cadastros): ?>
-          <tr class="empty-row"><td colspan="7">Nenhum cadastro encontrado.</td></tr>
+          <tr class="empty-row"><td colspan="8">Nenhum cadastro encontrado.</td></tr>
         <?php endif; ?>
         <?php foreach ($cadastros as $c): ?>
           <tr>
@@ -126,7 +129,8 @@ admin_topbar('cadastros');
             <td><span class="admin-status status-<?= $c['tipo'] === 'Aluno' ? 'neutral' : 'success' ?>"><?= htmlspecialchars($c['tipo'], ENT_QUOTES) ?></span></td>
             <td><?= htmlspecialchars($c['origem'], ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($c['email'] ?: '—', ENT_QUOTES) ?></td>
-            <td><?= htmlspecialchars($c['contato_extra'] ?: '—', ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($c['documento'] ?: '—', ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($c['telefone'] ?: '—', ENT_QUOTES) ?></td>
             <td><?= date('d/m/Y', strtotime($c['data'])) ?></td>
             <td class="admin-table-actions">
               <a href="<?= htmlspecialchars($c['href'], ENT_QUOTES) ?>"><?= htmlspecialchars($c['acao'] ?? 'Ver', ENT_QUOTES) ?></a>
