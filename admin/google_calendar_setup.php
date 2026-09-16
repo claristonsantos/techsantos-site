@@ -65,6 +65,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $config = google_calendar_config($pdo);
 $connected = google_calendar_is_connected($pdo);
+// google_calendar_is_connected() só olha se as 3 credenciais estão
+// preenchidas — não prova que o refresh_token ainda é aceito pelo Google
+// (ele expira sozinho se o app OAuth estiver em modo "Testing", por
+// exemplo). Sem essa checagem extra, a tela mostra "Conectado" mesmo com
+// a integração quebrada, e ninguém percebe até uma aula falhar.
+$tokenFuncionando = false;
+$tokenError = null;
+if ($connected) {
+    $tokenFuncionando = (bool)google_calendar_access_token($pdo, $tokenError);
+}
 $status = (string)($_GET['status'] ?? '');
 if ($status === 'connected') $success = 'Google Calendar conectado. Os próximos aceites poderão gerar o Meet automaticamente.';
 elseif ($status === 'saved') $success = 'Credenciais salvas. Agora conecte a conta Google que será dona das reuniões.';
@@ -78,7 +88,8 @@ admin_topbar('google_calendar');
   <?php if($error): ?><div class="alert alert-error" role="alert"><?= htmlspecialchars($error,ENT_QUOTES) ?></div><?php endif; ?>
   <?php if($success): ?><div class="alert alert-success" role="status"><?= htmlspecialchars($success,ENT_QUOTES) ?></div><?php endif; ?>
   <section class="admin-form-section"><div class="form-card" style="max-width:820px">
-    <div class="admin-form-section-head"><h2><?= $connected?'Integração conectada':'Configurar integração' ?></h2><span class="admin-status status-<?= $connected?'success':'warning' ?>"><?= $connected?'Conectado':'Pendente' ?></span></div>
+    <div class="admin-form-section-head"><h2><?= $connected?'Integração conectada':'Configurar integração' ?></h2><span class="admin-status status-<?= $connected&&$tokenFuncionando?'success':($connected?'danger':'warning') ?>"><?= $connected&&$tokenFuncionando?'Conectado':($connected?'Token expirado':'Pendente') ?></span></div>
+    <?php if ($connected && !$tokenFuncionando): ?><div class="alert alert-error" role="alert">O Google parou de aceitar o token salvo (<?= htmlspecialchars((string)$tokenError, ENT_QUOTES) ?>). Provavelmente o app OAuth está em modo "Testing" no Google Cloud Console, que expira o acesso em 7 dias — considere publicar o app como "In production" lá antes de reconectar, senão isso vai quebrar de novo. Clique em <strong>Conectar Google Calendar</strong> abaixo pra reautorizar agora.</div><?php endif; ?>
     <p style="color:var(--ink-soft);line-height:1.6">No Google Cloud, ative a <strong>Google Calendar API</strong>, crie uma credencial OAuth do tipo <strong>Aplicativo da Web</strong> e cadastre esta URI de redirecionamento autorizada:</p>
     <div style="padding:.9rem 1rem;background:var(--surface-2);border:1px solid var(--line);border-radius:7px;margin:1rem 0;overflow-wrap:anywhere"><code><?= htmlspecialchars(GOOGLE_CALENDAR_REDIRECT_URI,ENT_QUOTES) ?></code></div>
     <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="save">
@@ -89,11 +100,16 @@ admin_topbar('google_calendar');
     </form>
     <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--line)">
       <?php if($connected): ?>
-        <p style="color:var(--ink-soft)">Conectado em <?= htmlspecialchars(date('d/m/Y H:i',strtotime((string)$config['conectado_em'])),ENT_QUOTES) ?>.</p>
-        <form method="post" style="margin-top:1rem"><?= csrf_field() ?><input type="hidden" name="action" value="disconnect"><button class="btn btn-ghost on-light" type="submit">Desconectar conta</button></form>
-      <?php else: ?>
-        <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="connect"><button class="btn btn-primary" type="submit" <?= $config['client_id']===''||$config['client_secret']===''?'disabled':'' ?>>Conectar Google Calendar</button></form>
+        <p style="color:var(--ink-soft)">Conectado em <?= htmlspecialchars(date('d/m/Y H:i',strtotime((string)$config['conectado_em'])),ENT_QUOTES) ?><?= $tokenFuncionando?'.':' — mas o token não funciona mais.' ?></p>
       <?php endif; ?>
+      <div class="form-actions">
+        <?php if(!$connected || !$tokenFuncionando): ?>
+          <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="connect"><button class="btn btn-primary" type="submit" <?= $config['client_id']===''||$config['client_secret']===''?'disabled':'' ?>><?= $connected?'Reconectar Google Calendar':'Conectar Google Calendar' ?></button></form>
+        <?php endif; ?>
+        <?php if($connected): ?>
+          <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="disconnect"><button class="btn btn-ghost on-light" type="submit">Desconectar conta</button></form>
+        <?php endif; ?>
+      </div>
     </div>
   </div></section>
 </main>
