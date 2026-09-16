@@ -28,10 +28,33 @@ $stmt = $pdo->prepare(
 $stmt->execute([$inicioMes->format('Y-m-d') . ' 00:00:00', $fimMes->format('Y-m-d') . ' 23:59:59']);
 $aulas = $stmt->fetchAll();
 
+$socialStatusLabels = ['pendente' => 'Pendente', 'processando' => 'Processando', 'agendado_meta' => 'Agendado', 'publicado' => 'Publicado', 'erro' => 'Erro'];
+$socialStatusTone = ['pendente' => 'neutral', 'processando' => 'neutral', 'agendado_meta' => 'success', 'publicado' => 'success', 'erro' => 'danger'];
+$canalLabels = ['instagram' => 'IG', 'facebook' => 'FB'];
+$tipoLabels = ['feed' => 'Feed', 'story' => 'Story', 'reels' => 'Reels', 'carousel' => 'Carrossel'];
+
+$stmtSocial = $pdo->prepare(
+    "SELECT id, canal, tipo, status, agendado_para, legenda
+     FROM social_posts
+     WHERE agendado_para IS NOT NULL
+       AND agendado_para BETWEEN ? AND ?
+     ORDER BY agendado_para"
+);
+$stmtSocial->execute([$inicioMes->format('Y-m-d') . ' 00:00:00', $fimMes->format('Y-m-d') . ' 23:59:59']);
+$socialPosts = $stmtSocial->fetchAll();
+
 $porDia = [];
 foreach ($aulas as $a) {
     $dia = date('Y-m-d', strtotime($a['data_aula']));
-    $porDia[$dia][] = $a;
+    $porDia[$dia][] = ['kind' => 'aula'] + $a;
+}
+foreach ($socialPosts as $s) {
+    $dia = date('Y-m-d', strtotime($s['agendado_para']));
+    $porDia[$dia][] = ['kind' => 'social'] + $s;
+}
+foreach ($porDia as $dia => $eventos) {
+    usort($eventos, fn($x, $y) => strcmp($x['kind'] === 'aula' ? $x['data_aula'] : $x['agendado_para'], $y['kind'] === 'aula' ? $y['data_aula'] : $y['agendado_para']));
+    $porDia[$dia] = $eventos;
 }
 
 $diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -39,19 +62,23 @@ $primeiroDiaSemana = (int)$inicioMes->format('w'); // 0=domingo
 $totalDias = (int)$fimMes->format('j');
 $mesesNomes = [1 => 'Janeiro', 2 => 'Fevereiro', 3 => 'Março', 4 => 'Abril', 5 => 'Maio', 6 => 'Junho', 7 => 'Julho', 8 => 'Agosto', 9 => 'Setembro', 10 => 'Outubro', 11 => 'Novembro', 12 => 'Dezembro'];
 
-admin_head('Calendário de aulas');
+admin_head('Calendário');
 admin_topbar('aulas_calendario');
 ?>
 <main class="admin-main">
   <div class="admin-head">
-    <h1>Calendário de aulas</h1>
+    <h1>Calendário</h1>
     <div class="admin-head-actions">
       <a class="btn btn-ghost on-light" href="?mes=<?= $mesAnterior ?>">← Mês anterior</a>
       <a class="btn btn-ghost on-light" href="?mes=<?= date('Y-m') ?>">Hoje</a>
       <a class="btn btn-ghost on-light" href="?mes=<?= $mesProximo ?>">Próximo mês →</a>
     </div>
   </div>
-  <h2 style="margin-bottom:1rem;"><?= $mesesNomes[(int)$inicioMes->format('n')] ?> de <?= $inicioMes->format('Y') ?> · <?= count($aulas) ?> aula(s)</h2>
+  <h2 style="margin-bottom:.5rem;"><?= $mesesNomes[(int)$inicioMes->format('n')] ?> de <?= $inicioMes->format('Y') ?> · <?= count($aulas) ?> aula(s) · <?= count($socialPosts) ?> post(s)</h2>
+  <p style="margin-bottom:1rem;font-size:.78rem;color:var(--ink-faint);">
+    <span class="legend-dot dot-aula"></span> Aula particular &nbsp;
+    <span class="legend-dot dot-social"></span> Post em mídia social
+  </p>
 
   <div class="calendar-grid">
     <?php foreach ($diasSemana as $dw): ?><div class="calendar-dow"><?= $dw ?></div><?php endforeach; ?>
@@ -61,34 +88,20 @@ admin_topbar('aulas_calendario');
       <div class="calendar-cell<?= $dataStr === $hoje ? ' is-today' : '' ?>">
         <span class="calendar-daynum"><?= $dia ?></span>
         <?php foreach ($eventos as $ev): ?>
-          <a class="calendar-event status-<?= $statusTone[$ev['status']] ?? 'neutral' ?>" href="/admin/aulas_particulares.php?editar=<?= (int)$ev['id'] ?>">
-            <strong><?= date('H:i', strtotime($ev['data_aula'])) ?></strong> <?= htmlspecialchars($ev['nome'], ENT_QUOTES) ?>
-            <small><?= htmlspecialchars($ev['interesse'], ENT_QUOTES) ?> · <?= htmlspecialchars($statusLabels[$ev['status']] ?? $ev['status'], ENT_QUOTES) ?></small>
-          </a>
+          <?php if ($ev['kind'] === 'aula'): ?>
+            <a class="calendar-event kind-aula status-<?= $statusTone[$ev['status']] ?? 'neutral' ?>" href="/admin/aulas_particulares.php?editar=<?= (int)$ev['id'] ?>">
+              <strong><?= date('H:i', strtotime($ev['data_aula'])) ?></strong> <?= htmlspecialchars($ev['nome'], ENT_QUOTES) ?>
+              <small><?= htmlspecialchars($ev['interesse'], ENT_QUOTES) ?> · <?= htmlspecialchars($statusLabels[$ev['status']] ?? $ev['status'], ENT_QUOTES) ?></small>
+            </a>
+          <?php else: ?>
+            <a class="calendar-event kind-social status-<?= $socialStatusTone[$ev['status']] ?? 'neutral' ?>" href="/admin/social_posts.php?edit=<?= (int)$ev['id'] ?>">
+              <strong><?= date('H:i', strtotime($ev['agendado_para'])) ?></strong> <?= htmlspecialchars($canalLabels[$ev['canal']] ?? $ev['canal'], ENT_QUOTES) ?> · <?= htmlspecialchars($tipoLabels[$ev['tipo']] ?? $ev['tipo'], ENT_QUOTES) ?>
+              <small><?= htmlspecialchars(mb_strimwidth(trim((string)$ev['legenda']), 0, 38, '…'), ENT_QUOTES) ?> · <?= htmlspecialchars($socialStatusLabels[$ev['status']] ?? $ev['status'], ENT_QUOTES) ?></small>
+            </a>
+          <?php endif; ?>
         <?php endforeach; ?>
       </div>
     <?php endfor; ?>
-  </div>
-
-  <div class="table-wrap" style="margin-top:2rem;">
-    <h2 style="margin-bottom:1rem;">Lista do mês</h2>
-    <table class="data-table">
-      <thead><tr><th>Data</th><th>Aluno</th><th>Formato</th><th>Duração</th><th>Status</th><th>Reunião</th><th>Ações</th></tr></thead>
-      <tbody>
-        <?php if (!$aulas): ?><tr class="empty-row"><td colspan="7">Nenhuma aula agendada neste mês.</td></tr><?php endif; ?>
-        <?php foreach ($aulas as $a): ?>
-          <tr>
-            <td><?= date('d/m/Y H:i', strtotime($a['data_aula'])) ?></td>
-            <td><strong><?= htmlspecialchars($a['nome'], ENT_QUOTES) ?></strong></td>
-            <td><?= htmlspecialchars($a['interesse'], ENT_QUOTES) ?></td>
-            <td><?= $a['horas'] ? number_format((float)$a['horas'], 1, ',', '.') . 'h' : '—' ?></td>
-            <td><span class="admin-status status-<?= $statusTone[$a['status']] ?? 'neutral' ?>"><?= htmlspecialchars($statusLabels[$a['status']] ?? $a['status'], ENT_QUOTES) ?></span></td>
-            <td><?= $a['link_reuniao'] ? '<a href="' . htmlspecialchars($a['link_reuniao'], ENT_QUOTES) . '" target="_blank">Entrar</a>' : '—' ?></td>
-            <td class="admin-table-actions"><a href="/admin/aulas_particulares.php?editar=<?= (int)$a['id'] ?>">Gerenciar</a></td>
-          </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
   </div>
 </main>
 <style>
@@ -104,6 +117,11 @@ admin_topbar('aulas_calendario');
   .calendar-event.status-success { border-left-color:var(--green); background:var(--green-soft); }
   .calendar-event.status-neutral { border-left-color:#6088b4; }
   .calendar-event.status-warning { border-left-color:#d69c25; }
+  .calendar-event.status-danger { border-left-color:#c0392b; }
+  .calendar-event.kind-social { border-style:dashed; opacity:.92; }
+  .legend-dot { display:inline-block; width:.6rem; height:.6rem; border-radius:2px; margin-right:.25rem; vertical-align:middle; }
+  .legend-dot.dot-aula { background:var(--green); }
+  .legend-dot.dot-social { background:var(--surface-2); border:1px dashed #6088b4; }
   @media(max-width:900px){ .calendar-grid{ grid-template-columns:repeat(7,minmax(0,1fr)); font-size:.7rem; } .calendar-cell{ min-height:70px; } .calendar-event small{ display:none; } }
 </style>
 <?php admin_foot(); ?>

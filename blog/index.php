@@ -5,6 +5,62 @@ declare(strict_types=1);
 // post novo: cria o arquivo blog/<slug>.php e adiciona uma entrada aqui.
 $posts = [
     [
+        'slug' => 'python-no-excel',
+        'eyebrow' => 'Excel',
+        'title' => 'Python no Excel: a nova integração nativa, direto na célula',
+        'excerpt' => 'Python no Excel roda scripts direto na célula da planilha, sem instalar nada, integrado com fórmulas nativas. Veja como funciona e quando usar.',
+        'date' => '2026-09-16',
+    ],
+    [
+        'slug' => 'lambda-excel-funcao-personalizada',
+        'eyebrow' => 'Excel',
+        'title' => 'LAMBDA no Excel: crie sua própria função sem abrir o VBA',
+        'excerpt' => 'A função LAMBDA permite nomear e reutilizar uma fórmula complexa como se fosse uma função nativa do Excel, sem escrever macro em VBA.',
+        'date' => '2026-09-16',
+    ],
+    [
+        'slug' => 'field-parameters-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Field parameters no Power BI: um slicer que troca a métrica inteira do gráfico',
+        'excerpt' => 'Field parameters permitem trocar a métrica exibida num visual através de um slicer, sem duplicar gráficos para cada indicador. Veja como criar.',
+        'date' => '2026-09-16',
+    ],
+    [
+        'slug' => 'seguranca-nivel-linha-rls-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Segurança em nível de linha (RLS) no Power BI: cada vendedor só vê o que é dele',
+        'excerpt' => 'Row-Level Security (RLS) restringe o que cada usuário enxerga no mesmo relatório, sem depender de filtro manual. Veja como funciona e quando aplicar.',
+        'date' => '2026-09-16',
+    ],
+    [
+        'slug' => 'copilot-resumo-relatorio-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Copilot no Power BI: resuma um relatório inteiro em linguagem natural',
+        'excerpt' => 'O Copilot do Power BI descreve páginas e visuais em texto corrido, destacando tendências e pontos fora do padrão sem você abrir cada gráfico.',
+        'date' => '2026-09-16',
+    ],
+    [
+        'slug' => 'copilot-dax-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Copilot no Power BI: como pedir uma medida DAX em português',
+        'excerpt' => 'O Copilot do Power BI sugere fórmulas DAX a partir de uma descrição em linguagem natural. Veja como usar e por que ainda vale revisar antes de aplicar.',
+        'date' => '2026-09-16',
+    ],
+    [
+        'slug' => 'dataflows-gen2-fabric-etl-sem-codigo',
+        'eyebrow' => 'Microsoft Fabric',
+        'title' => 'Dataflows Gen2 no Microsoft Fabric: ETL sem escrever pipeline do zero',
+        'excerpt' => 'Dataflows Gen2 usa o Power Query pra transformar dados e envia direto pro Lakehouse, Warehouse ou outro destino, sem escrever um pipeline de ETL na mão.',
+        'date' => '2026-09-16',
+    ],
+    [
+        'slug' => 'direct-lake-power-bi-microsoft-fabric',
+        'eyebrow' => 'Microsoft Fabric',
+        'title' => 'Direct Lake no Power BI: o modo de storage que não é Import nem DirectQuery',
+        'excerpt' => 'Direct Lake lê os dados do OneLake direto em memória, sem cópia nem consulta em tempo real na fonte. Entenda quando usar no Microsoft Fabric.',
+        'date' => '2026-09-16',
+    ],
+    [
         'slug' => 'novidades-power-bi-agosto-2026',
         'eyebrow' => 'Power BI',
         'title' => '5 novidades do Power BI em agosto de 2026 que valem testar',
