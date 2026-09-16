@@ -5,6 +5,21 @@ require_once __DIR__ . '/meta_social.php';
 $key = $_GET['key'] ?? '';
 if (!hash_equals(SETUP_KEY, $key)) { http_response_code(403); exit('Forbidden.'); }
 
+function meta_delete_video_v25(string $videoId, ?string &$error = null): bool
+{
+    $ch = curl_init('https://graph.facebook.com/v25.0/' . $videoId . '?' . http_build_query(['access_token' => META_PAGE_TOKEN]));
+    curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_CUSTOMREQUEST => 'DELETE', CURLOPT_TIMEOUT => 25]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    $data = $response !== false ? json_decode($response, true) : null;
+    if ($httpCode < 200 || $httpCode >= 300 || !is_array($data) || empty($data['success'])) {
+        $error = $data['error']['message'] ?? ('HTTP ' . $httpCode . ' | ' . $response);
+        return false;
+    }
+    return true;
+}
+
 $ids = [221, 224, 228, 230, 232, 233];
 $pdo = db();
 $select = $pdo->prepare("SELECT * FROM social_posts WHERE id = ? AND canal='facebook' AND tipo='reels'");
@@ -18,7 +33,7 @@ foreach ($ids as $id) {
     if (!$row) { $out[] = "SKIP|not found|id={$id}"; continue; }
 
     $error = null;
-    if ($row['meta_post_id'] && !meta_delete_facebook_post((string)$row['meta_post_id'], $error)) {
+    if ($row['meta_post_id'] && !meta_delete_video_v25((string)$row['meta_post_id'], $error)) {
         $out[] = "DELETE|ERROR|id={$id}|{$error}";
         continue;
     }
