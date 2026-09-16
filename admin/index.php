@@ -34,6 +34,7 @@ if (admin_table_exists($pdo, 'aluno_atividade')) {
     $alunosInativos7d = (int)$pdo->query("SELECT COUNT(*) FROM alunos a LEFT JOIN aluno_atividade aa ON aa.aluno_id = a.id WHERE a.ativo = 1 AND COALESCE(aa.ultimo_acesso, a.created_at) < DATE_SUB(NOW(), INTERVAL 7 DAY)")->fetchColumn();
 }
 $aulasNovas = admin_table_exists($pdo, 'aulas_particulares_leads') ? (int)$pdo->query("SELECT COUNT(*) FROM aulas_particulares_leads WHERE status = 'novo'" )->fetchColumn() : 0;
+$aulasNovasAtrasadas = admin_table_exists($pdo, 'aulas_particulares_leads') ? (int)$pdo->query("SELECT COUNT(*) FROM aulas_particulares_leads WHERE status = 'novo' AND criado_em <= DATE_SUB(NOW(), INTERVAL 24 HOUR)")->fetchColumn() : 0;
 $ultimosPedidos = admin_table_exists($pdo, 'pedidos') ? $pdo->query("SELECT p.id,p.nome,p.valor_centavos,p.status,p.email_status,p.criado_em,c.nome AS curso_nome FROM pedidos p JOIN cursos c ON c.id=p.curso_id ORDER BY p.criado_em DESC LIMIT 6")->fetchAll() : [];
 
 require_once __DIR__ . '/../inc/cotacao_dolar.php';
@@ -106,7 +107,8 @@ $pendencias = [
     ['label' => 'E-mails de acesso com falha', 'count' => $emailsFalha, 'href' => '/admin/pedidos.php', 'tone' => 'danger'],
     ['label' => 'Posts com erro', 'count' => $postsErro, 'href' => '/admin/social_posts.php', 'tone' => 'danger'],
     ['label' => 'Pedidos pendentes há até 7 dias', 'count' => $pedidosPendentes, 'href' => '/admin/pedidos.php', 'tone' => 'warning'],
-    ['label' => 'Novas solicitações de aula', 'count' => $aulasNovas, 'href' => '/admin/aulas_particulares.php?status=novo', 'tone' => 'warning'],
+    ['label' => 'Solicitações de aula sem retorno há +24h', 'count' => $aulasNovasAtrasadas, 'href' => '/admin/aulas_particulares.php?status=novo', 'tone' => 'danger'],
+    ['label' => 'Novas solicitações de aula (últimas 24h)', 'count' => $aulasNovas - $aulasNovasAtrasadas, 'href' => '/admin/aulas_particulares.php?status=novo', 'tone' => 'warning'],
     ['label' => 'Alunos ativos sem CPF', 'count' => $alunosSemCpf, 'href' => '/admin/alunos.php', 'tone' => 'warning'],
     ['label' => 'Alunos sem acesso há 7 dias', 'count' => $alunosInativos7d, 'href' => '/admin/jornada.php', 'tone' => 'neutral'],
 ];

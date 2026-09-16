@@ -41,9 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $horasRaw = str_replace(',', '.', trim((string)($_POST['horas'] ?? '')));
     $horas = $horasRaw !== '' ? round((float)$horasRaw, 2) : null;
     if ($horas !== null && ($horas <= 0 || $horas > 100)) $horas = null;
-    $interestStmt = $pdo->prepare('SELECT interesse FROM aulas_particulares_leads WHERE id=?');
+    $interestStmt = $pdo->prepare('SELECT interesse, status FROM aulas_particulares_leads WHERE id=?');
     $interestStmt->execute([$id]);
-    $leadInterest = (string)($interestStmt->fetchColumn() ?: 'Aula avulsa');
+    $currentLeadRow = $interestStmt->fetch();
+    $leadInterest = (string)($currentLeadRow['interesse'] ?? 'Aula avulsa');
+    $oldStatus = (string)($currentLeadRow['status'] ?? '');
     if ($leadInterest === 'Pacote de aulas') { $horas = (float)$pricing['pacote_horas']; $valorCentavos = (int)$pricing['pacote_centavos']; }
     else { $hourRate = $leadInterest === 'Mentoria de projeto' ? (int)$pricing['mentoria_centavos'] : (int)$pricing['avulsa_centavos']; $valorCentavos = $horas !== null ? (int)round($horas * $hourRate) : null; }
     $dataDate = trim((string)($_POST['data_aula_data'] ?? ''));
@@ -68,8 +70,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $isSendingPayment = $action === 'send_payment';
         $sendPaymentNow = isset($_POST['send_payment_now']);
         $statusToSave = $isSending ? 'contatado' : $statusUpdate;
+        if ($dataAula !== null) {
+            $conflictStmt = $pdo->prepare("SELECT id FROM aulas_particulares_leads WHERE id != ? AND data_aula = ? AND status IN ('agendado','pago') LIMIT 1");
+            $conflictStmt->execute([$id, $dataAula]);
+            $conflictId = $conflictStmt->fetchColumn();
+            if ($conflictId) {
+                header('Location: /admin/aulas_particulares.php?editar=' . $id . '&proposta=conflito&conflito_id=' . (int)$conflictId);
+                exit;
+            }
+        }
         $stmt = $pdo->prepare('UPDATE aulas_particulares_leads SET status=?,data_aula=?,horas=?,valor_centavos=?,observacoes=?,link_reuniao=?,atualizado_em=NOW() WHERE id=?');
         $stmt->execute([$statusToSave,$dataAula,$horas,$valorCentavos,$observacoes ?: null,$linkReuniao ?: null,$id]);
+        if ($statusToSave === 'cancelado' && $oldStatus !== 'cancelado') {
+            $cancelStmt = $pdo->prepare('SELECT * FROM aulas_particulares_leads WHERE id=?');
+            $cancelStmt->execute([$id]);
+            $cancelLead = $cancelStmt->fetch();
+            if ($cancelLead) {
+                if (aulas_send_cancelled($cancelLead)) {
+                    $pdo->prepare('UPDATE aulas_particulares_leads SET cancelamento_enviado_em=NOW(), email_ultimo_erro=NULL WHERE id=?')->execute([$id]);
+                } else {
+                    $pdo->prepare('UPDATE aulas_particulares_leads SET email_ultimo_erro=? WHERE id=?')->execute(['Falha ao enviar e-mail de cancelamento', $id]);
+                }
+            }
+        }
         if ($isSending || $isSendingPayment) {
             $missing=[];
             if($isSending&&!$dataAula)$missing[]='data ou hora';
@@ -108,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $timestampColumn=$isSendingPayment?'cobranca_enviada_em':'proposta_enviada_em';
             $statusAfterSend=$isSendingPayment?$statusUpdate:'agendado';
-            $pdo->prepare("UPDATE aulas_particulares_leads SET pagamento_link=?,mercadopago_preference_id=?,{$timestampColumn}=NOW(),email_ultimo_erro=NULL,status=? WHERE id=?")->execute([$payment['url'],$payment['id'],$statusAfterSend,$id]);
+            $pdo->prepare("UPDATE aulas_particulares_leads SET pagamento_link=?,mercadopago_preference_id=?,{$timestampColumn}=NOW(),lembrete_cobranca_enviado_em=NULL,email_ultimo_erro=NULL,status=? WHERE id=?")->execute([$payment['url'],$payment['id'],$statusAfterSend,$id]);
             header('Location: /admin/aulas_particulares.php?editar='.$id.'&proposta='.($isSendingPayment?'cobranca':'enviada')); exit;
         }
         $message = 'Solicitação atualizada.'; $messageOk = true;
@@ -152,7 +175,7 @@ admin_head('Aulas particulares'); admin_topbar('aulas_particulares');
 <main class="admin-main" id="adminContent" tabindex="-1">
   <div class="admin-head"><div><span class="admin-eyebrow">Vendas</span><h1>Aulas particulares</h1><p>Conduza cada solicitação do primeiro contato até a aula realizada.</p></div><div class="admin-head-actions"><a class="btn btn-ghost on-light" href="/aulas-particulares-power-bi.php" target="_blank">Ver página pública</a></div></div>
   <?php if($message): ?><div class="alert <?= $messageOk?'alert-success':'alert-error' ?>" role="status"><?= htmlspecialchars($message,ENT_QUOTES) ?></div><?php endif; ?>
-  <?php if(($_GET['proposta']??'')==='enviada'): ?><div class="alert alert-success" role="status">Proposta enviada por e-mail e link de pagamento gerado.</div><?php elseif(($_GET['proposta']??'')==='confirmada'): ?><div class="alert alert-success" role="status">Aula confirmada por e-mail com o link da reunião, sem cobrança.</div><?php elseif(($_GET['proposta']??'')==='cobranca'): ?><div class="alert alert-success" role="status">Cobrança enviada por e-mail com o valor atualizado.</div><?php elseif(($_GET['proposta']??'')==='dados'): ?><div class="alert alert-error" role="alert">Verifique os seguintes campos: <?= htmlspecialchars((string)($_GET['faltando']??'dados da proposta'),ENT_QUOTES) ?>.</div><?php elseif(($_GET['proposta']??'')==='meet'): ?><div class="alert alert-error" role="alert">Não foi possível criar o Google Meet. Confira a conexão em <a href="/admin/google_calendar_setup.php">Google Calendar</a> e tente novamente.</div><?php elseif(($_GET['proposta']??'')==='pagamento'): ?><div class="alert alert-error" role="alert">Não foi possível gerar o link de pagamento. Verifique a integração do Mercado Pago.</div><?php elseif(($_GET['proposta']??'')==='email'): ?><div class="alert alert-error" role="alert">Os dados foram preparados, mas o e-mail não pôde ser enviado. Tente novamente.</div><?php endif; ?>
+  <?php if(($_GET['proposta']??'')==='conflito'): ?><div class="alert alert-error" role="alert">Já existe outra aula agendada/paga nesse mesmo horário (solicitação #<?= (int)($_GET['conflito_id']??0) ?>). Escolha outro horário.</div><?php elseif(($_GET['proposta']??'')==='enviada'): ?><div class="alert alert-success" role="status">Proposta enviada por e-mail e link de pagamento gerado.</div><?php elseif(($_GET['proposta']??'')==='confirmada'): ?><div class="alert alert-success" role="status">Aula confirmada por e-mail com o link da reunião, sem cobrança.</div><?php elseif(($_GET['proposta']??'')==='cobranca'): ?><div class="alert alert-success" role="status">Cobrança enviada por e-mail com o valor atualizado.</div><?php elseif(($_GET['proposta']??'')==='dados'): ?><div class="alert alert-error" role="alert">Verifique os seguintes campos: <?= htmlspecialchars((string)($_GET['faltando']??'dados da proposta'),ENT_QUOTES) ?>.</div><?php elseif(($_GET['proposta']??'')==='meet'): ?><div class="alert alert-error" role="alert">Não foi possível criar o Google Meet. Confira a conexão em <a href="/admin/google_calendar_setup.php">Google Calendar</a> e tente novamente.</div><?php elseif(($_GET['proposta']??'')==='pagamento'): ?><div class="alert alert-error" role="alert">Não foi possível gerar o link de pagamento. Verifique a integração do Mercado Pago.</div><?php elseif(($_GET['proposta']??'')==='email'): ?><div class="alert alert-error" role="alert">Os dados foram preparados, mas o e-mail não pôde ser enviado. Tente novamente.</div><?php endif; ?>
   <section class="admin-kpi-grid" aria-label="Solicitações por etapa">
     <?php foreach(['novo','contatado','agendado','pago'] as $key): ?><a class="admin-kpi-card<?= $key==='novo'&&$counts[$key]?' is-featured':'' ?>" href="?status=<?= $key ?>"><span class="admin-kpi-label"><?= $statusLabels[$key] ?></span><strong><?= $counts[$key] ?></strong><small>Ver solicitações</small></a><?php endforeach; ?>
   </section>

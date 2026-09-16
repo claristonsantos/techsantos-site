@@ -11,7 +11,8 @@ function aulas_automation_ensure(PDO $pdo): void
     foreach($pdo->query("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='aulas_particulares_leads'") as $row)$existing[$row['COLUMN_NAME']]=true;
     $columns=[
         'link_reuniao'=>'VARCHAR(500) NULL','pagamento_link'=>'TEXT NULL','mercadopago_preference_id'=>'VARCHAR(190) NULL','mercadopago_payment_id'=>'VARCHAR(190) NULL',
-        'proposta_enviada_em'=>'DATETIME NULL','agendamento_enviado_em'=>'DATETIME NULL','cobranca_enviada_em'=>'DATETIME NULL','confirmacao_enviada_em'=>'DATETIME NULL','lembrete_24h_em'=>'DATETIME NULL','lembrete_1h_em'=>'DATETIME NULL','email_ultimo_erro'=>'TEXT NULL','google_calendar_event_id'=>'VARCHAR(190) NULL'
+        'proposta_enviada_em'=>'DATETIME NULL','agendamento_enviado_em'=>'DATETIME NULL','cobranca_enviada_em'=>'DATETIME NULL','confirmacao_enviada_em'=>'DATETIME NULL','lembrete_24h_em'=>'DATETIME NULL','lembrete_1h_em'=>'DATETIME NULL','email_ultimo_erro'=>'TEXT NULL','google_calendar_event_id'=>'VARCHAR(190) NULL',
+        'lembrete_cobranca_enviado_em'=>'DATETIME NULL','cancelamento_enviado_em'=>'DATETIME NULL'
     ];
     foreach($columns as $name=>$definition)if(!isset($existing[$name]))$pdo->exec("ALTER TABLE aulas_particulares_leads ADD COLUMN {$name} {$definition}");
 }
@@ -72,6 +73,22 @@ function aulas_send_paid(array $lead): bool
     $text=$lessonFinished?'Pagamento da sua aula aprovado. Obrigado!':"Pagamento aprovado. Aula confirmada para {$date}.".($meeting!==''?" Link: {$meeting}":'');
     $html=aulas_email_frame($title,$content,$meeting!==''?'Entrar na aula':'',$meeting);
     return send_html_email($lead['email'],$subject,$html,$text);
+}
+
+function aulas_send_payment_reminder(array $lead): bool
+{
+    $hours=number_format((float)$lead['horas'],1,',','.');$value=aulas_money((int)$lead['valor_centavos']);$first=htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES);
+    $content="<p>Olá, {$first}.</p><p>Notamos que o pagamento da sua aula ainda não foi concluído.</p><ul><li><strong>Duração:</strong> {$hours} hora(s)</li><li><strong>Valor:</strong> {$value}</li></ul><p>Pra garantir o horário reservado, finalize o pagamento pelo botão abaixo.</p>";
+    $html=aulas_email_frame('Pagamento pendente',$content,'Finalizar pagamento',(string)$lead['pagamento_link']);
+    return send_html_email($lead['email'],'Pagamento pendente da sua aula — TECH SANTOS BR',$html,"Pagamento pendente: duração {$hours}h; valor {$value}. Link: {$lead['pagamento_link']}");
+}
+
+function aulas_send_cancelled(array $lead): bool
+{
+    $first=htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES);$date=$lead['data_aula']?date('d/m/Y \à\s H\h',strtotime($lead['data_aula'])):null;
+    $content="<p>Olá, {$first}.</p><p>Sua aula".($date?" marcada para <strong>{$date}</strong>":'')." foi cancelada.</p><p>Se quiser reagendar, é só responder este e-mail ou chamar no WhatsApp.</p>";
+    $html=aulas_email_frame('Aula cancelada',$content);
+    return send_html_email($lead['email'],'Aula cancelada — TECH SANTOS BR',$html,'Sua aula foi cancelada. Se quiser reagendar, responda este e-mail ou chame no WhatsApp.');
 }
 
 function aulas_send_reminder(array $lead,string $window): bool
