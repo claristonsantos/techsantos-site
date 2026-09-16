@@ -51,7 +51,7 @@ function smtp_command($sock, string $cmd): string
  * Gmail/Hotmail. Talking SMTP directly to Hostinger's authenticated mail
  * server is what actually delivers it.
  */
-function send_html_email(string $toEmail, string $subject, string $html, string $text): bool
+function send_html_email(string $toEmail, string $subject, string $html, string $text, ?string $ccEmail = null): bool
 {
     $errno = 0;
     $errstr = '';
@@ -78,6 +78,7 @@ function send_html_email(string $toEmail, string $subject, string $html, string 
         || !$expect(base64_encode(SMTP_PASS), '235')
         || !$expect('MAIL FROM:<' . MAIL_FROM . '>', '250')
         || !$expect('RCPT TO:<' . $toEmail . '>', '250')
+        || ($ccEmail !== null && !$expect('RCPT TO:<' . $ccEmail . '>', '250'))
         || !$expect('DATA', '354')
     ) {
         fclose($sock);
@@ -97,6 +98,9 @@ function send_html_email(string $toEmail, string $subject, string $html, string 
         'Message-ID: <' . bin2hex(random_bytes(16)) . '.' . time() . '@techsantos.com.br>',
         'X-Mailer: TECH-SANTOS-BR',
     ];
+    if ($ccEmail !== null) {
+        $headers[] = 'Cc: <' . $ccEmail . '>';
+    }
 
     $textEncoded = rtrim(chunk_split(base64_encode($text), 76, "\r\n"));
     $htmlEncoded = rtrim(chunk_split(base64_encode($html), 76, "\r\n"));
