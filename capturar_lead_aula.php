@@ -139,7 +139,7 @@ try {
     if (!aulas_send_received(['nome'=>$nome,'email'=>$email,'interesse'=>$interesse,'tema'=>$tema])) {
         error_log('Falha ao confirmar recebimento da aula #' . $leadId);
     }
-    if (!send_html_email(MAIL_FROM, $subject, $html, $text)) {
+    if (!send_html_email('claristonsantos@techsantos.com.br', $subject, $html, $text)) {
         error_log('Falha SMTP ao avisar sobre lead de aula #' . $leadId);
     }
 } catch (Throwable $e) {
