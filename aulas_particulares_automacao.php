@@ -70,7 +70,12 @@ function aulas_send_payment_request(array $lead): bool
 }
 function aulas_send_paid(array $lead): bool
 {
-    $date=$lead['data_aula']?date('d/m/Y \à\s H\h',strtotime($lead['data_aula'])):'a combinar';$meeting=$lead['link_reuniao']?:'';$lessonFinished=!empty($lead['data_aula'])&&strtotime($lead['data_aula'])<time();$content='<p>Olá, '.htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES).'.</p><p>'.($lessonFinished?'Pagamento aprovado. Obrigado!':'Pagamento aprovado e aula confirmada para <strong>'.$date.'</strong>.').'</p>';
+    $date=$lead['data_aula']?date('d/m/Y \à\s H\h',strtotime($lead['data_aula'])):'a combinar';$meeting=$lead['link_reuniao']?:'';
+    // data_aula é salvo como horário local (America/Sao_Paulo), sem timezone — strtotime()/time()
+    // sozinhos comparam como UTC e adiantam o "aula já aconteceu" em 3h. Sempre converter explícito.
+    $lessonFinished=false;
+    if(!empty($lead['data_aula'])){try{$aulaDt=new DateTimeImmutable((string)$lead['data_aula'],new DateTimeZone('America/Sao_Paulo'));$lessonFinished=$aulaDt->getTimestamp()<time();}catch(Throwable $e){$lessonFinished=strtotime($lead['data_aula'])<time();}}
+    $content='<p>Olá, '.htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES).'.</p><p>'.($lessonFinished?'Pagamento aprovado. Obrigado!':'Pagamento aprovado e aula confirmada para <strong>'.$date.'</strong>.').'</p>';
     if($lessonFinished)$meeting='';
     if($meeting!=='')$content.='<p>Use o botão abaixo no horário combinado para entrar na aula.</p>';
     $title=$lessonFinished?'Pagamento aprovado':'Pagamento aprovado. Aula confirmada.';

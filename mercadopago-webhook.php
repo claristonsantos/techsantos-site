@@ -25,9 +25,13 @@ try {
         db()->prepare("UPDATE aulas_particulares_leads SET status='pago',mercadopago_payment_id=?,atualizado_em=NOW() WHERE id=?")->execute([(string)$paymentId,$aulaId]);
         if(!$wasPaid){try{meta_capi_send_lesson_event('Purchase',$aulaId,(string)$lead['email'],(string)$lead['telefone'],(string)$lead['interesse'],((int)$lead['valor_centavos'])/100);}catch(Throwable $e){error_log('Meta CAPI purchase aula '.$aulaId.': '.$e->getMessage());}}
         $lead['status']='pago';$lead['mercadopago_payment_id']=(string)$paymentId;
-        if(empty($lead['confirmacao_enviada_em'])){
-            if(aulas_send_paid($lead))db()->prepare('UPDATE aulas_particulares_leads SET confirmacao_enviada_em=NOW(),email_ultimo_erro=NULL WHERE id=?')->execute([$aulaId]);
-            else db()->prepare('UPDATE aulas_particulares_leads SET email_ultimo_erro=? WHERE id=?')->execute(['Falha ao enviar confirmação de pagamento',$aulaId]);
+        // Claim atomicamente antes de enviar (não checar-depois-marcar): o Mercado Pago costuma
+        // disparar payment.created e payment.updated quase juntos, e duas chamadas concorrentes
+        // liam confirmacao_enviada_em vazio antes de qualquer uma escrever, duplicando o e-mail.
+        $claim=db()->prepare("UPDATE aulas_particulares_leads SET confirmacao_enviada_em=NOW() WHERE id=? AND confirmacao_enviada_em IS NULL");
+        $claim->execute([$aulaId]);
+        if($claim->rowCount()>0){
+            if(!aulas_send_paid($lead))db()->prepare('UPDATE aulas_particulares_leads SET email_ultimo_erro=? WHERE id=?')->execute(['Falha ao enviar confirmação de pagamento',$aulaId]);
         }
         http_response_code(200);echo 'ok';exit;
     }
