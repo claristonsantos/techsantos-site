@@ -30,9 +30,14 @@ echo "\n=== AULAS PARTICULARES por status ===\n";
 $stmt = $pdo->query("SELECT status, COUNT(*) c, SUM(valor_centavos)/100 total FROM aulas_particulares_leads GROUP BY status");
 foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $r) echo "{$r['status']}: {$r['c']}, R$ " . number_format((float)$r['total'],2,',','.') . "\n";
 
-echo "\n=== ORIGEM DOS PEDIDOS PAGOS (utm_source) ===\n";
-$stmt = $pdo->query("SELECT COALESCE(NULLIF(TRIM(origem),''),'direto') origem, COUNT(*) c FROM pedidos WHERE status='pago' GROUP BY origem ORDER BY c DESC LIMIT 15");
-foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $r) echo "{$r['origem']}: {$r['c']}\n";
+echo "\n=== ORIGEM DE TODOS OS PEDIDOS (utm_source) ===\n";
+$stmt = $pdo->query("SELECT status, COALESCE(NULLIF(TRIM(utm_source),''),'direto') origem, COUNT(*) c FROM pedidos GROUP BY status, origem ORDER BY status, c DESC");
+foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $r) echo "{$r['status']} | {$r['origem']}: {$r['c']}\n";
+
+echo "\n=== WHATSAPP_LEADS total (todas as datas) ===\n";
+$stmt = $pdo->query("SELECT COUNT(*) c, MIN(criado_em) mais_antigo, MAX(criado_em) mais_recente FROM whatsapp_leads");
+$r = $stmt->fetch(PDO::FETCH_ASSOC);
+echo "total: {$r['c']}, mais antigo: {$r['mais_antigo']}, mais recente: {$r['mais_recente']}\n";
 
 echo "\n=== SOCIAL_POSTS resumo ===\n";
 $stmt = $pdo->query("SELECT canal, tipo, status, COUNT(*) c FROM social_posts GROUP BY canal, tipo, status ORDER BY canal, tipo");
