@@ -17,7 +17,7 @@ function aulas_automation_ensure(PDO $pdo): void
     $columns=[
         'link_reuniao'=>'VARCHAR(500) NULL','pagamento_link'=>'TEXT NULL','mercadopago_preference_id'=>'VARCHAR(190) NULL','mercadopago_payment_id'=>'VARCHAR(190) NULL',
         'proposta_enviada_em'=>'DATETIME NULL','agendamento_enviado_em'=>'DATETIME NULL','cobranca_enviada_em'=>'DATETIME NULL','confirmacao_enviada_em'=>'DATETIME NULL','lembrete_24h_em'=>'DATETIME NULL','lembrete_1h_em'=>'DATETIME NULL','email_ultimo_erro'=>'TEXT NULL','google_calendar_event_id'=>'VARCHAR(190) NULL',
-        'lembrete_cobranca_enviado_em'=>'DATETIME NULL','cancelamento_enviado_em'=>'DATETIME NULL'
+        'lembrete_cobranca_enviado_em'=>'DATETIME NULL','cancelamento_enviado_em'=>'DATETIME NULL','upsell_curso_enviado_em'=>'DATETIME NULL'
     ];
     foreach($columns as $name=>$definition)if(!isset($existing[$name]))$pdo->exec("ALTER TABLE aulas_particulares_leads ADD COLUMN {$name} {$definition}");
 }
@@ -99,6 +99,14 @@ function aulas_send_cancelled(array $lead): bool
     $content="<p>Olá, {$first}.</p><p>Sua aula".($date?" marcada para <strong>{$date}</strong>":'')." foi cancelada.</p><p>Se quiser reagendar, é só responder este e-mail ou chamar no WhatsApp.</p>";
     $html=aulas_email_frame('Aula cancelada',$content);
     return send_html_email($lead['email'],'Aula cancelada — TECH SANTOS BR',$html,'Sua aula foi cancelada. Se quiser reagendar, responda este e-mail ou chame no WhatsApp.',AULAS_CC_EMAIL);
+}
+
+function aulas_send_upsell_curso(array $lead): bool
+{
+    $first=htmlspecialchars(explode(' ',trim($lead['nome']))[0],ENT_QUOTES);
+    $content="<p>Olá, {$first}.</p><p>Espero que a aula tenha ajudado a destravar o que você estava buscando.</p><p>Se você curtiu o formato e quer ir além do que deu pra ver numa aula avulsa, o <strong>curso completo de Power BI</strong> cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade, com certificado.</p><p>Por R$ 129,90, com apostila própria e o mesmo direcionamento que você teve na aula.</p>";
+    $html=aulas_email_frame('Gostou da aula? Conheça o curso completo',$content,'Conhecer o curso completo','https://techsantos.com.br/curso-power-bi.php');
+    return send_html_email($lead['email'],'Curso completo de Power BI — TECH SANTOS BR',$html,"Espero que a aula tenha ajudado. Se quiser ir além, o curso completo de Power BI sai por R$ 129,90: https://techsantos.com.br/curso-power-bi.php",AULAS_CC_EMAIL);
 }
 
 function aulas_send_reminder(array $lead,string $window): bool
