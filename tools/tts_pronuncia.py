@@ -19,6 +19,9 @@ PRONUNCIATION_FIXES = [
     (r"\bControl T\b", "Control Tê"),
     (r"\bCtrl\+T\b", "Control Tê"),
     (r"\bDirectQuery\b", "Dairét Cuéri"),
+    (r"\bCopilot\b", "Cópaylôt"),
+    (r"\bPython\b", "Páiton"),
+    (r"\bField [Pp]arameters\b", "Fiuld Páramiters"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
