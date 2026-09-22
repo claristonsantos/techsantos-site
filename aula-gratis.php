@@ -437,7 +437,7 @@ function renderLesson(id) {
           }
         }
       });
-      if (percent >= 50) revealWhatsCapture();
+      if (percent >= 25) revealWhatsCapture();
     });
     videoEl.addEventListener('ended', () => {
       if (progressSent.has('complete')) return;
