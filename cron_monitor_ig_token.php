@@ -33,23 +33,9 @@ if ($me === null) {
 
 echo date('Y-m-d H:i:s') . " - token ok (@{$me['username']})\n";
 
-// Verifica quanto tempo falta pro vencimento (tokens de usuário do Instagram
-// duram ~60 dias) usando o inspetor de token do Graph com o token do próprio
-// app — evita descobrir só quando já parou de publicar, como aconteceu em 11/09.
-$debugError = null;
-$appToken = META_APP_ID . '|' . META_APP_SECRET;
-$debug = meta_http_get(meta_graph_url('debug_token'), ['input_token' => META_IG_TOKEN, 'access_token' => $appToken], $debugError);
-
-if ($debug === null || empty($debug['data']['expires_at'])) {
-    echo date('Y-m-d H:i:s') . " - nao foi possivel checar validade/expiracao: " . ($debugError ?? 'expires_at ausente') . "\n";
-    exit;
-}
-
-$expiresAt = (int)$debug['data']['expires_at'];
-$diasRestantes = (int)floor(($expiresAt - time()) / 86400);
-echo date('Y-m-d H:i:s') . " - expira em {$diasRestantes} dia(s) (" . date('d/m/Y', $expiresAt) . ")\n";
-
-if ($diasRestantes <= 7) {
-    $msg = "O token de publicação do Instagram vence em {$diasRestantes} dia(s), em " . date('d/m/Y', $expiresAt) . ".\n\nReconecte antes disso em /admin/social_setup.php (botão \"Conectar com Instagram\", login @tech_santos_br) pra não repetir o que aconteceu em 11/09 (11 dias sem publicar sem ninguém perceber).";
-    alerta('Token do Instagram vence em breve', $msg);
-}
+// Nota: tentamos também checar dias restantes via /debug_token, mas esse
+// endpoint devolve consistentemente "(#2) Service temporarily unavailable"
+// pra tokens do fluxo "Instagram API com Login do Instagram" — não é falha
+// passageira, é limitação real desse tipo de token. Sem essa info, o alerta
+// fica reativo (dispara no primeiro dia em que o token já não funciona mais),
+// mas isso já corta o tempo de detecção de 11 dias pra no máximo 24h.
