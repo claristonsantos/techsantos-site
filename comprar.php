@@ -23,15 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
     $nome = trim((string)($_POST['nome'] ?? ''));
     $email = trim((string)($_POST['email'] ?? ''));
-    $cpf = cpf_digits((string)($_POST['cpf'] ?? ''));
+    // CPF não é pedido aqui: o checkout do Mercado Pago já pede, o webhook grava
+    // no pedido/aluno (marcar_pedido_pago), e se vier vazio o auth.php força o
+    // aluno a informar em /aluno/trocar-senha.php antes de acessar o curso.
+    $cpf = '';
     $telefoneDigits = preg_replace('/\D/', '', (string)($_POST['telefone'] ?? '')) ?? '';
 
-    if ($nome === '' || $email === '' || $cpf === '' || $telefoneDigits === '') {
-        $error = 'Preencha nome, e-mail, CPF e telefone.';
+    if ($nome === '' || $email === '' || $telefoneDigits === '') {
+        $error = 'Preencha nome, e-mail e telefone.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'E-mail inválido.';
-    } elseif (!cpf_is_valid($cpf)) {
-        $error = 'CPF inválido. Confira os 11 dígitos informados.';
     } elseif (strlen($telefoneDigits) < 10) {
         $error = 'Telefone inválido. Use DDD + número, ex.: 64999998888.';
     } elseif (!$precoCentavos) {
@@ -176,15 +177,11 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
         <input type="email" id="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES) ?>">
       </div>
       <div class="field">
-        <label for="cpf">CPF <small style="font-weight:400;color:var(--ink-faint);">— usado no certificado</small></label>
-        <input type="text" id="cpf" name="cpf" required inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00" value="<?= htmlspecialchars($_POST['cpf'] ?? '', ENT_QUOTES) ?>">
-      </div>
-      <div class="field">
         <label for="telefone">Telefone (com DDD)</label>
         <input type="tel" id="telefone" name="telefone" required maxlength="15" placeholder="(64) 99999-8888" value="<?= htmlspecialchars($_POST['telefone'] ?? '', ENT_QUOTES) ?>">
       </div>
       <button type="submit" class="btn btn-primary btn-block">Ir para o pagamento</button>
-      <p class="buy-note">Seu CPF é solicitado pela TECH SANTOS BR exclusivamente para identificar a matrícula e emitir o certificado. Você será redirecionado ao ambiente seguro do Mercado Pago para concluir com cartão ou Pix. O acesso é liberado por e-mail assim que o pagamento for confirmado.</p>
+      <p class="buy-note">Você será redirecionado ao ambiente seguro do Mercado Pago para concluir com cartão ou Pix. O acesso é liberado por e-mail assim que o pagamento for confirmado.</p>
     </form>
     <?php endif; ?>
 
@@ -223,15 +220,6 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
   var a=typeof window.techSantosAttribution==='function'?window.techSantosAttribution():{};
   var map={campaign_source:'utm_source',campaign_medium:'utm_medium',campaign_name:'utm_campaign',campaign_content:'utm_content',campaign_term:'utm_term',campaign_landing_page:'landing_page'};
   Object.keys(map).forEach(function(k){var el=document.querySelector('[name="'+map[k]+'"]');if(el&&a[k])el.value=a[k];});
-})();
-(function(){
-  var cpf=document.getElementById('cpf');
-  if(!cpf)return;
-  cpf.addEventListener('input',function(){
-    var value=this.value.replace(/\D/g,'').slice(0,11);
-    value=value.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
-    this.value=value;
-  });
 })();
 </script>
 </body>

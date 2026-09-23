@@ -136,7 +136,7 @@
     if (form) {
       form.addEventListener('submit', function (event) {
         if (form.dataset.tracked) return;
-        const filled = ['nome', 'email', 'cpf', 'telefone'].every((name) => (form.elements[name] && form.elements[name].value.trim() !== ''));
+        const filled = ['nome', 'email', 'telefone'].every((name) => (form.elements[name] && form.elements[name].value.trim() !== ''));
         if (!filled) return;
         event.preventDefault();
         form.dataset.tracked = '1';
