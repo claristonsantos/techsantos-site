@@ -223,7 +223,14 @@ const ICON_LOCK = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" s
 
 function isFree(lessonId) { return FREE_LESSON_IDS.includes(lessonId); }
 
+// Aula 1 é aberta; as outras aulas grátis pedem o WhatsApp antes (portão
+// leve, via localStorage — o objetivo é gerar lead, não proteger o vídeo).
+const GATED_LESSON_IDS = FREE_LESSON_IDS.slice(1);
 const WHATS_DONE_KEY = 'ts_whats_lead_done';
+function storageGet(key) { try { return localStorage.getItem(key); } catch { return null; } }
+function storageSet(key, value) { try { localStorage.setItem(key, value); } catch {} }
+function isUnlocked() { return !!storageGet(WHATS_DONE_KEY); }
+function isGated(lessonId) { return GATED_LESSON_IDS.includes(lessonId) && !isUnlocked(); }
 function leadAttribution() {
   const params = new URLSearchParams(window.location.search);
   const stored = typeof window.techSantosAttribution === 'function' ? window.techSantosAttribution() : {};
@@ -238,18 +245,22 @@ function leadAttribution() {
   };
 }
 
-function whatsCaptureHtml() {
-  if (localStorage.getItem(WHATS_DONE_KEY)) return '';
+function whatsCaptureHtml(gate) {
+  if (isUnlocked()) return '';
+  const title = gate ? 'Libere esta aula grátis' : 'Libere as próximas 2 aulas grátis';
+  const text = gate
+    ? 'Deixe seu WhatsApp e assista agora às aulas 2 e 3 do curso — sem cadastro, sem cartão.'
+    : 'Deixe seu WhatsApp para liberar as aulas 2 e 3 agora e receber dicas práticas de Power BI.';
   return `
-    <div class="whats-capture is-deferred" id="whatsCapture" aria-live="polite">
+    <div class="whats-capture ${gate ? 'is-visible whats-gate' : 'is-deferred'}" id="whatsCapture" aria-live="polite">
       <div class="txt">
-        <strong>Quer continuar aprendendo depois destas aulas?</strong>
-        <span>Deixe seu WhatsApp para receber resumos práticos e as próximas dicas de Power BI.</span>
+        <strong>${title}</strong>
+        <span>${text}</span>
       </div>
       <form id="whatsCaptureForm">
-        <input type="tel" id="whatsCaptureInput" aria-label="WhatsApp com DDD" placeholder="(DDD) 9xxxx-xxxx" required>
-        <button class="btn btn-primary" type="submit" style="font-size:0.85rem;padding:0.55rem 1rem;">Receber no WhatsApp</button>
-        <button class="dismiss" type="button" id="whatsCaptureDismiss">Agora não</button>
+        <input type="tel" id="whatsCaptureInput" aria-label="WhatsApp com DDD" placeholder="(DDD) 9xxxx-xxxx" autocomplete="tel" required>
+        <button class="btn btn-primary" type="submit" style="font-size:0.85rem;padding:0.55rem 1rem;">Liberar aulas</button>
+        ${gate ? '' : '<button class="dismiss" type="button" id="whatsCaptureDismiss">Agora não</button>'}
       </form>
     </div>
   `;
@@ -266,10 +277,8 @@ function wireWhatsCapture() {
   const card = document.getElementById('whatsCapture');
   if (!form || !card) return;
 
-  dismissBtn.addEventListener('click', () => {
-    localStorage.setItem(WHATS_DONE_KEY, '1');
-    card.remove();
-  });
+  if (dismissBtn) dismissBtn.addEventListener('click', () => card.remove());
+  document.getElementById('whatsCaptureInput').addEventListener('input', (e) => e.target.setCustomValidity(''));
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -294,9 +303,14 @@ function wireWhatsCapture() {
             campaign_content: attribution.content
           }, 'Lead', true);
         }
-        localStorage.setItem(WHATS_DONE_KEY, '1');
+        storageSet(WHATS_DONE_KEY, '1');
+        const currentId = currentLessonId();
+        if (GATED_LESSON_IDS.includes(currentId)) {
+          renderLesson(currentId);
+          return;
+        }
         card.classList.add('done');
-        card.innerHTML = '<div class="txt"><strong>Contato salvo! ✓</strong><span>Vamos usar este número para enviar conteúdos da TECH SANTOS BR.</span></div>';
+        card.innerHTML = `<div class="txt"><strong>Aulas liberadas! ✓</strong><span>As aulas 2 e 3 já estão disponíveis. <a href="#${GATED_LESSON_IDS[0]}">Assistir a próxima aula →</a></span></div>`;
       } else {
         submitBtn.disabled = false;
         input.setCustomValidity('Confere o número e tenta de novo.');
@@ -358,7 +372,15 @@ function renderLesson(id) {
   openModule = lesson.moduleId;
 
   let mediaBlock;
-  if (isFree(lesson.id)) {
+  if (isFree(lesson.id) && isGated(lesson.id)) {
+    mediaBlock = `
+      <div class="locked-lesson">
+        ${ICON_LOCK.replace('width="13" height="13"', 'width="32" height="32"')}
+        <p><strong>${lesson.title}</strong><br>Aula grátis — falta só um passo para assistir.</p>
+      </div>
+      ${whatsCaptureHtml(true)}
+    `;
+  } else if (isFree(lesson.id)) {
     mediaBlock = `
       <div class="player">
         <video class="player-video" controls preload="metadata" playsinline>

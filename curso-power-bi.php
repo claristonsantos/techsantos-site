@@ -83,8 +83,8 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
       </div>
       <?php endif; ?>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="/comprar.php" data-course-cta="hero_buy">Começar agora<?= $precoFormatado ? ' por R$ ' . $precoFormatado : '' ?></a>
-        <a class="btn btn-ghost" href="/aula-gratis.php" data-course-cta="hero_preview">Assistir 3 aulas grátis</a>
+        <a class="btn btn-primary" href="/aula-gratis.php" data-course-cta="hero_preview">Assistir 3 aulas grátis</a>
+        <a class="btn btn-ghost" href="/comprar.php" data-course-cta="hero_buy">Começar agora<?= $precoFormatado ? ' por R$ ' . $precoFormatado : '' ?></a>
         <a class="btn btn-ghost" href="#curriculo" data-course-cta="hero_curriculum">Ver o currículo</a>
       </div>
       <p class="hero-assurance">Acesso imediato após a confirmação · suporte direto com o instrutor · garantia de satisfação</p>
