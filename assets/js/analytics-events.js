@@ -1,6 +1,10 @@
 (function () {
   'use strict';
 
+  // Algumas páginas (ex.: comprar.php) incluem este arquivo 2x — via
+  // inc/google-analytics.php e no fim do body — o que duplicava eventos.
+  if (window.techSantosTrack) return;
+
   const sent = new Set();
   const attributionKey = 'ts_campaign_attribution_v1';
   const campaignMap = {
@@ -69,6 +73,18 @@
     if (typeof window.fbq === 'function' && metaEventName) window.fbq(metaStandard ? 'track' : 'trackCustom', metaEventName, eventParams, metaOptions || {});
   };
 
+  // Links/forms que saem da página na mesma aba descarregam antes do gtag
+  // despachar o hit — o evento se perde (course_cta_click nunca chegou ao GA4).
+  // Segura a navegação até o event_callback, com timeout caso o gtag esteja
+  // bloqueado (adblock) e o callback nunca venha.
+  function trackThenGo(eventName, params, go) {
+    let done = false;
+    const proceed = () => { if (!done) { done = true; go(); } };
+    if (typeof window.gtag !== 'function') return proceed();
+    window.gtag('event', eventName, clean({ ...attribution, ...(params || {}), event_callback: proceed, event_timeout: 800 }));
+    setTimeout(proceed, 1000);
+  }
+
   function once(key, eventName, params, metaEventName, metaStandard) {
     if (sent.has(key)) return;
     sent.add(key);
@@ -87,12 +103,20 @@
     const href = link.getAttribute('href') || '';
     const courseCta = link.getAttribute('data-course-cta');
     if (courseCta) {
-      window.techSantosTrack('course_cta_click', {
+      const ctaParams = {
         cta_position: courseCta,
         link_url: link.href,
         link_text: (link.textContent || '').trim().slice(0, 100),
         page_path: path
-      });
+      };
+      const leavesPage = !href.startsWith('#') && link.target !== '_blank' &&
+        !event.metaKey && !event.ctrlKey && !event.shiftKey && event.button === 0;
+      if (leavesPage) {
+        event.preventDefault();
+        trackThenGo('course_cta_click', ctaParams, function () { window.location.href = link.href; });
+      } else {
+        window.techSantosTrack('course_cta_click', ctaParams);
+      }
     }
     if (/^(https?:\/\/)?(wa\.me|api\.whatsapp\.com)\//i.test(href)) {
       window.techSantosTrack('contact', {
@@ -103,4 +127,21 @@
       }, 'Contact', true);
     }
   });
+
+  // Envio do formulário de matrícula = passo final antes do redirect para o
+  // Mercado Pago. Só conta com os campos obrigatórios preenchidos (a validação
+  // de CPF/telefone continua no servidor).
+  if (path.endsWith('/comprar.php')) {
+    const form = document.querySelector('form[method="post"]');
+    if (form) {
+      form.addEventListener('submit', function (event) {
+        if (form.dataset.tracked) return;
+        const filled = ['nome', 'email', 'cpf', 'telefone'].every((name) => (form.elements[name] && form.elements[name].value.trim() !== ''));
+        if (!filled) return;
+        event.preventDefault();
+        form.dataset.tracked = '1';
+        trackThenGo('add_payment_info', course, function () { form.submit(); });
+      });
+    }
+  }
 })();
