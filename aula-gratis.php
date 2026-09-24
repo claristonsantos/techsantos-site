@@ -93,8 +93,8 @@ declare(strict_types=1);
     border-radius: 6px;
     position: relative; overflow: hidden; margin-bottom: 1.5rem;
   }
-  .player-video { display: none; width: 100%; height: 100%; object-fit: contain; background: #000; }
-  .player-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .player-video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+  .player-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; background: #14161A; }
   .player-placeholder .play-btn {
     width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,.12);
     border: 1.5px solid rgba(255,255,255,.4); display: flex; align-items: center; justify-content: center; color: #fff;
@@ -384,7 +384,7 @@ function renderLesson(id) {
     mediaBlock = `
       <div class="player">
         <video class="player-video" controls preload="metadata" playsinline>
-          <source src="https://media.techsantos.com.br/previews/${lesson.id}.mp4" type="video/mp4">
+          <source src="https://media.techsantos.com.br/previews/${lesson.id}.mp4#t=0.5" type="video/mp4">
         </video>
         <div class="player-placeholder">
           <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="18" height="18" ')}</div>
@@ -469,11 +469,24 @@ function renderLesson(id) {
       }
       revealWhatsCapture();
     });
-    videoEl.addEventListener('loadedmetadata', () => {
-      videoEl.style.display = 'block';
-      placeholderEl.style.display = 'none';
+    // Antes o <video> ficava display:none até o 'loadedmetadata' e a capa
+    // não era clicável. No navegador interno do Instagram/Facebook e no
+    // Chrome mobile com economia de dados o preload não acontece antes de um
+    // toque, então o vídeo nunca aparecia: 25 visitantes em 90 dias, 2 plays.
+    // Agora o vídeo fica sempre no DOM e a capa é o botão de play.
+    const hidePlaceholder = () => { placeholderEl.style.display = 'none'; };
+    placeholderEl.addEventListener('click', () => {
+      hidePlaceholder();
+      const p = videoEl.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
     });
+    videoEl.addEventListener('loadedmetadata', hidePlaceholder);
+    videoEl.addEventListener('play', hidePlaceholder);
   }
+  // O pedido de WhatsApp não pode depender só do vídeo: aparece também
+  // depois de 20s na aula, mesmo sem play.
+  clearTimeout(window.__tsCaptureTimer);
+  window.__tsCaptureTimer = setTimeout(revealWhatsCapture, 20000);
   wireWhatsCapture();
 
   renderSidebar(lesson.id);
