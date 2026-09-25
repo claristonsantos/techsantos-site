@@ -10,6 +10,40 @@ $result = null;
 $igError = null;
 $igResult = null;
 
+/**
+ * Grava um define('NOME', '...') no config.php do servidor. O config.php fica
+ * fora do git, então antes o token era mostrado na tela, colado no chat e
+ * aplicado por script — expondo a credencial. Agora o callback do OAuth grava
+ * direto aqui (troca atômica via arquivo temporário + rename).
+ */
+function config_set_define(string $name, string $value, ?string &$error = null): bool
+{
+    $path = __DIR__ . '/../config.php';
+    $src = @file_get_contents($path);
+    if ($src === false) { $error = 'não consegui ler config.php'; return false; }
+    $line = "define('" . $name . "', " . var_export($value, true) . ");";
+    $pattern = "/define\\(\\s*'" . preg_quote($name, '/') . "'\\s*,\\s*'[^']*'\\s*\\);/";
+    $existed = (bool)preg_match($pattern, $src);
+    $new = $existed
+        ? preg_replace($pattern, str_replace(['\\', '$'], ['\\\\', '\\$'], $line), $src, 1)
+        : rtrim($src) . "\n" . $line . "\n";
+    // Trava: config.php quebrado derruba o site inteiro. Só troca o arquivo se
+    // a contagem de define( bater e a linha nova estiver lá.
+    $expected = substr_count($src, 'define(') + ($existed ? 0 : 1);
+    if (!is_string($new) || substr_count($new, 'define(') !== $expected || strpos($new, $line) === false || strpos($new, '<?php') !== 0) {
+        $error = 'verificação de segurança falhou, config.php não foi alterado';
+        return false;
+    }
+    $tmp = $path . '.tmp-' . bin2hex(random_bytes(4));
+    if (@file_put_contents($tmp, $new, LOCK_EX) === false || !@rename($tmp, $path)) {
+        @unlink($tmp);
+        $error = 'não consegui gravar config.php';
+        return false;
+    }
+    if (function_exists('opcache_invalidate')) @opcache_invalidate($path, true);
+    return true;
+}
+
 // Instagram OAuth callback (Meta redirects back here with ?code=... or ?error=...)
 if (isset($_GET['code'])) {
     $apiError = null;
@@ -24,11 +58,26 @@ if (isset($_GET['code'])) {
         if ($longLived === null) {
             $igError = 'Token curto obtido, mas falhou ao trocar por um de longa duração: ' . $apiError;
         } else {
+            $newToken = (string)($longLived['access_token'] ?? '');
             $igResult = [
-                'token' => (string)($longLived['access_token'] ?? ''),
                 'expires_in' => (int)($longLived['expires_in'] ?? 0),
                 'user_id' => (string)($exchange['user_id'] ?? ''),
+                'saved' => false,
+                'username' => null,
             ];
+            // Confere o token novo antes de gravar — nunca troca um token por um
+            // que não funciona.
+            $me = meta_http_get(meta_ig_graph_url('me'), ['fields' => 'id,username', 'access_token' => $newToken], $apiError);
+            if ($me === null) {
+                $igError = 'Token novo obtido, mas o teste /me falhou: ' . $apiError;
+                $igResult = null;
+            } elseif (!config_set_define('META_IG_TOKEN', $newToken, $apiError)) {
+                $igError = 'Token novo válido, mas falhou ao gravar no servidor: ' . $apiError;
+                $igResult = null;
+            } else {
+                $igResult['saved'] = true;
+                $igResult['username'] = (string)($me['username'] ?? '');
+            }
         }
     }
 } elseif (isset($_GET['error'])) {
@@ -85,9 +134,8 @@ admin_topbar('social');
 
     <?php if ($igResult): ?>
       <div style="padding:1rem; background:var(--surface-2); border-radius:6px;">
-        <p style="font-weight:700; margin-bottom:0.5rem;">Cole em config.php:</p>
-        <pre style="background:var(--surface); padding:1rem; border-radius:6px; overflow-x:auto; font-size:0.82rem;">define('META_IG_TOKEN', '<?= htmlspecialchars($igResult['token'], ENT_QUOTES) ?>');</pre>
-        <p style="font-size:0.82rem; color:var(--ink-soft);">Instagram User ID confirmado: <code><?= htmlspecialchars($igResult['user_id'], ENT_QUOTES) ?></code></p>
+        <p style="font-weight:700; margin-bottom:0.5rem; color:var(--green-strong);">✓ Instagram reconectado e token salvo no servidor.</p>
+        <p style="font-size:0.88rem; color:var(--ink-soft);">Conta confirmada: <strong>@<?= htmlspecialchars((string)$igResult['username'], ENT_QUOTES) ?></strong> · User ID <code><?= htmlspecialchars($igResult['user_id'], ENT_QUOTES) ?></code>. Os posts agendados voltam a publicar no próximo ciclo do cron (até 15 min). Não é preciso copiar nada.</p>
         <p style="font-size:0.8rem; color:var(--ink-faint); margin-top:0.5rem;">Válido por <?= (int)round($igResult['expires_in'] / 86400) ?> dias — depois disso, repita o login clicando no botão abaixo de novo.</p>
       </div>
     <?php else: ?>
