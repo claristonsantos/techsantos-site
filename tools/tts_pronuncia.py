@@ -44,6 +44,24 @@ PRONUNCIATION_FIXES = [
     (r"\bReal-Time Intelligence\b", "Riál Taime Intélidjens"),
     (r"\bSaaS\b", "Sáss"),
     (r"\bOLTP\b", "Ó Éle Tê Pê"),
+    # Segundo teste A/B (2026-09-26, 30 termos dos módulos 2-3). Ficaram na
+    # leitura padrão: V-Order, SCD, MERGE, CDC, upsert, Iceberg, Scala,
+    # Amazon S3, TMSL, SSMS, RLS, BigQuery, Cosmos DB, PostgreSQL, MySQL,
+    # Microsoft Entra. "ADLS Gen2" reaproveita o "Gen dois" já aprovado.
+    (r"\bOPTIMIZE\b", "Óptimaiz"),
+    (r"\bVACUUM\b", "Vácuum"),
+    (r"\bETL\b", "Ê Tê Éle"),
+    (r"\bIDENTITY\b", "Aidêntiti"),
+    (r"\b[Ss]taging\b", "stêidjin"),
+    (r"\b[Ss]nowflake\b", "snôu flêik"),
+    (r"\btime travel\b", "taime trével"),
+    (r"\bADLS Gen ?2\b", "Á Dê Éle Ésse Gen dois"),
+    (r"\bADLS\b", "Á Dê Éle Ésse"),
+    (r"\bXMLA\b", "Xis Éme Éle Á"),
+    (r"\bDatabricks\b", "Dêita bríks"),
+    (r"\bJSON\b", "Djêison"),
+    (r"\bCSV\b", "Cê Ésse Vê"),
+    (r"\bdbo\b", "Dê Bê Ó"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
