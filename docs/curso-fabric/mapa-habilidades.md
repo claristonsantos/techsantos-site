@@ -10,7 +10,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 |---|---|---|
 | 01 | Fundamentos do Fabric e configuração do ambiente | ✅ publicado |
 | 02 | OneLake: atalhos, espelhamento, segurança, integrações | ✅ publicado |
-| 03 | Lakehouse e arquitetura medalhão | ⬜ |
+| 03 | Lakehouse, medalhão e modelagem dimensional | ✅ publicado |
 | 04 | Data Factory: pipelines, orquestração e cargas | ⬜ |
 | 05 | Dataflows Gen2 e editor de consultas visuais | ⬜ |
 | 06 | Notebooks, Spark e streaming estruturado | ⬜ |
@@ -33,7 +33,10 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Implementar a integração do OneLake para Eventhouse e modelos semânticos | fab-onelake-integracoes | ✅ |
 | Ingerir ou acessar dados conforme necessário | fab-atalhos, fab-espelhamento (+ M04/M05) | 🟡 |
 | Implementar controle de acesso em nível de linha, coluna, objeto e arquivo | fab-onelake-seguranca (+ M12) | 🟡 |
-| Demais habilidades | módulos 03–15 | ⬜ |
+| Implementar um esquema estrela para um lakehouse ou warehouse | fab-modelo-dimensional, fab-carga-dimensional | ✅ |
+| Desnormalizar dados | fab-modelo-dimensional (+ M05/M06 prática) | 🟡 |
+| Agregar dados / enriquecer com colunas ou tabelas | fab-modelo-dimensional (+ M05–M07 prática) | 🟡 |
+| Demais habilidades | módulos 04–15 | ⬜ |
 
 ## DP-700
 
@@ -49,4 +52,8 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Configurar e implementar a segurança do OneLake | fab-onelake-seguranca | ✅ |
 | Escolha entre tabelas nativas e atalhos do OneLake no RTI / aceleração de consulta | fab-atalhos (+ M08) | 🟡 |
 | Identificar e resolver erros de atalho do OneLake | fab-atalhos (+ M14) | 🟡 |
-| Demais habilidades | módulos 03–15 | ⬜ |
+| Preparar dados para carregar em um modelo dimensional | fab-carga-dimensional | ✅ |
+| Otimizar uma tabela Lakehouse | fab-manutencao-delta (+ M14) | ✅ |
+| Escolha entre Dataflow Gen2, pipeline e notebook | fab-carregar-lakehouse (+ M04–M06) | 🟡 |
+| Projetar e implementar cargas completas e incrementais | fab-carga-dimensional (+ M04) | 🟡 |
+| Demais habilidades | módulos 04–15 | ⬜ |
