@@ -12,7 +12,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 02 | OneLake: atalhos, espelhamento, segurança, integrações | ✅ publicado |
 | 03 | Lakehouse, medalhão e modelagem dimensional | ✅ publicado |
 | 04 | Data Factory: pipelines, orquestração e cargas | ✅ publicado |
-| 05 | Dataflows Gen2 e editor de consultas visuais | ⬜ |
+| 05 | Dataflows Gen2 e editor de consultas visuais | ✅ publicado |
 | 06 | Notebooks, Spark e streaming estruturado | ⬜ |
 | 07 | Data Warehouse e T-SQL | ⬜ |
 | 08 | Real-Time Intelligence (Eventstream, Eventhouse, KQL) | ⬜ |
@@ -31,13 +31,18 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Descobrir dados usando o catálogo do OneLake e o hub Real-Time | fab-descobrir-dados | ✅ |
 | Escolher entre armazenamentos de dados diferentes | fab-escolher-armazenamento | ✅ |
 | Implementar a integração do OneLake para Eventhouse e modelos semânticos | fab-onelake-integracoes | ✅ |
-| Ingerir ou acessar dados conforme necessário | fab-atalhos, fab-espelhamento, fab-copy (+ M05) | 🟡 |
+| Ingerir ou acessar dados conforme necessário | fab-atalhos, fab-espelhamento, fab-copy, fab-dataflow-gen2 | ✅ |
 | Criar uma conexão de dados | fab-data-factory-visao | ✅ |
 | Implementar controle de acesso em nível de linha, coluna, objeto e arquivo | fab-onelake-seguranca (+ M12) | 🟡 |
 | Implementar um esquema estrela para um lakehouse ou warehouse | fab-modelo-dimensional, fab-carga-dimensional | ✅ |
-| Desnormalizar dados | fab-modelo-dimensional (+ M05/M06 prática) | 🟡 |
-| Agregar dados / enriquecer com colunas ou tabelas | fab-modelo-dimensional (+ M05–M07 prática) | 🟡 |
-| Demais habilidades | módulos 05–15 | ⬜ |
+| Desnormalizar dados | fab-modelo-dimensional, fab-dataflow-transformacoes (+ M06/M07 código) | ✅ |
+| Agregar dados / enriquecer com colunas ou tabelas | fab-dataflow-transformacoes, fab-modelo-dimensional (+ M06/M07 código) | ✅ |
+| Mesclar ou unir dados | fab-dataflow-transformacoes | ✅ |
+| Converter tipos de dados de coluna | fab-dataflow-transformacoes | ✅ |
+| Filtrar dados | fab-dataflow-transformacoes | ✅ |
+| Identificar e resolver dados duplicados, dados ausentes ou valores nulos | fab-dataflow-qualidade | ✅ |
+| Selecionar, filtrar e agregar dados usando o editor de consultas visuais | fab-editor-consultas-visuais | ✅ |
+| Demais habilidades | módulos 06–15 | ⬜ |
 
 ## DP-700
 
@@ -60,6 +65,10 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Implementar padrões de orquestração com notebooks e pipelines, incluindo parâmetros e expressões dinâmicas | fab-pipeline-atividades, fab-parametros-expressoes | ✅ |
 | Ingerir dados usando pipelines | fab-copy, fab-pipeline-atividades | ✅ |
 | Monitorar a ingestão de dados | fab-agendas-gatilhos (+ M14) | 🟡 |
+| Monitorar a transformação de dados | fab-dataflow-monitorar-erros (+ M06, M14) | 🟡 |
+| Identificar e resolver erros do Dataflow Gen2 | fab-dataflow-monitorar-erros, fab-dataflow-qualidade | ✅ |
+| Manipular dados duplicados, ausentes e de chegada tardia | fab-dataflow-qualidade, fab-carga-dimensional (+ M06 código) | 🟡 |
+| Escolha entre fluxos de dados Gen2, notebooks, KQL e T-SQL para transformação | fab-escolher-ferramenta, fab-dataflow-gen2 (+ M06–M08) | 🟡 |
 | Identificar e resolver erros de pipeline | fab-pipeline-atividades, fab-agendas-gatilhos (+ M14) | 🟡 |
 | Projetar e implementar cargas completas e incrementais | fab-carga-incremental, fab-copy, fab-carga-dimensional | ✅ |
-| Demais habilidades | módulos 05–15 | ⬜ |
+| Demais habilidades | módulos 06–15 | ⬜ |

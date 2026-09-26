@@ -1365,5 +1365,406 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m05', title: 'Módulo 05 · Dataflows Gen2 e o editor de consultas visuais', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-dataflow-gen2', title: 'Dataflow Gen2: o Power Query dentro do Fabric',
+        desc: 'O que é o Dataflow Gen2, o que mudou em relação ao Gen1, como criar, salvar e publicar, e as formas de executar: sob demanda, por agenda ou por pipeline.',
+        objetivos: [
+          'Explicar o que o Dataflow Gen2 faz e para quem ele é indicado',
+          'Diferenciar Dataflow Gen1 e Gen2',
+          'Entender rascunho, publicação e atualização',
+          'Executar um dataflow por agenda ou pela atividade Fluxo de dados de um pipeline'
+        ],
+        body: 'O Dataflow Gen2 é a ferramenta sem código (ou com pouco código) de ingestão e transformação do Fabric. Ele usa o mesmo Power Query do Power BI Desktop e do Excel — se você já fez o curso de Power BI, está em casa. Para a prova, ele aparece nas habilidades de transformação da DP-600 e em “Escolha entre fluxos de dados Gen2, notebooks, KQL e T-SQL” e “Identificar e resolver erros do Dataflow Gen2” da DP-700.',
+        content: [
+          { h: 'O que é',
+            p: 'Um dataflow se conecta a centenas de fontes (bancos, arquivos, APIs, SharePoint, serviços de nuvem), aplica mais de 300 transformações pela interface visual do Power Query e grava o resultado num destino. Cada etapa que você clica vira uma linha de código na linguagem <strong>M</strong>, visível no Editor Avançado. Ele exige capacidade Fabric (paga ou de avaliação) ou Power BI Premium.',
+            img: { src: `${FAB_IMG}/m05/editor-dataflow.png`, alt: 'Experiência de criação do Dataflow Gen2', caption: 'O editor do Dataflow Gen2: consultas à esquerda, faixa de opções do Power Query, visualização dos dados e etapas aplicadas.', source: `${LEARN}/data-factory/dataflows-gen2-overview` } },
+          { h: 'Gen1 × Gen2',
+            items: [
+              '<strong>Destino</strong>: o Gen1 guarda o resultado num armazenamento interno, lido pelo conector Dataflows. O Gen2 grava em <strong>destinos de dados</strong> — lakehouse, warehouse, banco SQL, banco KQL, Azure SQL, ADLS Gen2, SharePoint, Snowflake, PostgreSQL e outros.',
+              '<strong>Salvamento automático</strong>: cada alteração vira um <strong>rascunho</strong> salvo na nuvem; a <strong>publicação</strong> valida em segundo plano e gera a versão que será atualizada.',
+              '<strong>Computação</strong>: usa itens de preparo (staging) com o mecanismo SQL do Fabric para processar volumes maiores.',
+              '<strong>Monitoramento</strong>: histórico de atualizações detalhado e integração com o hub de Monitoramento.',
+              '<strong>Pipelines</strong>: entra como atividade de pipeline, com parâmetros.',
+              '<strong>CI/CD</strong>: desde abril de 2026 todo Dataflow Gen2 novo já nasce com integração Git e pipelines de implantação. Itens antigos podem ser convertidos com <strong>Salvar como</strong>.'
+            ] },
+          { h: 'Migrando do Gen1',
+            items: [
+              'Exportar as consultas num arquivo modelo <strong>PQT</strong> e importar no Gen2.',
+              'Copiar e colar as consultas no editor.',
+              'Usar <strong>Salvar como</strong>, que cria um Dataflow Gen2 novo a partir de qualquer dataflow existente.'
+            ] },
+          { h: 'Exibição de diagrama e consultas de referência',
+            p: 'A <strong>exibição de diagrama</strong> mostra as consultas como caixas ligadas, deixando claro quem depende de quem. Um padrão comum é ter uma consulta que só busca os dados brutos e outras que a <strong>referenciam</strong> para aplicar transformações diferentes, sem ler a fonte duas vezes.',
+            img: { src: `${FAB_IMG}/m05/diagrama-consultas.png`, alt: 'Exibição de diagrama do Power Query', caption: 'Exibição de diagrama: cada consulta com suas etapas, e as ligações entre consultas.', source: `${LEARN}/data-factory/create-first-dataflow-gen2` } },
+          { h: 'Executando o dataflow',
+            items: [
+              '<strong>Sob demanda</strong> — botão Atualizar no workspace; toda publicação bem-sucedida também dispara uma atualização.',
+              '<strong>Agendada</strong> — até <strong>48 vezes por dia</strong>.',
+              '<strong>Por pipeline</strong> — atividade <strong>Fluxo de dados</strong>, que permite encadear com cópia, notebook e alertas e passar parâmetros.',
+              'Quem dispara a atualização precisa ser <strong>Membro</strong> (ou superior) do workspace e ter acesso a todas as conexões do dataflow.',
+              'Limite de <strong>300 atualizações</strong> por dataflow numa janela móvel de 24 horas. A atualização pode ser <strong>cancelada</strong> no workspace.'
+            ] },
+          { h: 'Copilot para Dataflow Gen2',
+            p: 'O Copilot cria consultas e aplica transformações a partir de texto (“manter só clientes da Europa”, “contar pedidos por cliente”), explica consultas existentes e ajuda a corrigir erros. Ele gera as mesmas etapas que você geraria clicando — continue revisando o resultado.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Analista que já domina Power Query precisa limpar e juntar dados sem código → Dataflow Gen2.',
+              'Resultado precisa ficar num lakehouse para um notebook usar depois → destino de dados do Gen2 (o Gen1 não faz isso).',
+              'Dataflow precisa rodar depois da cópia terminar → atividade Fluxo de dados num pipeline.'
+            ] }
+        ],
+        recursos: [
+          { t: 'O que é o Dataflow Gen2', u: `${LEARN}/data-factory/dataflows-gen2-overview` },
+          { t: 'Criar o primeiro Dataflow Gen2', u: `${LEARN}/data-factory/create-first-dataflow-gen2` },
+          { t: 'Salvar rascunho e publicar', u: `${LEARN}/data-factory/dataflows-gen2-save-draft` },
+          { t: 'Atualização do fluxo de dados', u: `${LEARN}/data-factory/dataflow-gen2-refresh` },
+          { t: 'Atividade Fluxo de dados em pipelines', u: `${LEARN}/data-factory/dataflow-activity` }
+        ]
+      },
+      {
+        id: 'fab-dataflow-transformacoes', title: 'Transformações essenciais: filtrar, combinar, agrupar e remodelar',
+        desc: 'As transformações do Power Query que a DP-600 cobra: filtrar, converter tipos, criar colunas, mesclar (joins), acrescentar, agrupar e agregar, dinamizar e despivotar, e desnormalizar.',
+        objetivos: [
+          'Filtrar linhas e converter tipos corretamente',
+          'Enriquecer tabelas com colunas condicionais, personalizadas e de exemplos',
+          'Escolher o tipo de junção certo ao mesclar consultas',
+          'Agrupar, agregar e remodelar dados para o esquema estrela'
+        ],
+        body: 'A seção “Transformar dados” da DP-600 lista exatamente estas operações: enriquecer com colunas ou tabelas, desnormalizar, agregar, mesclar ou unir, converter tipos e filtrar. No Dataflow Gen2 todas são feitas pela faixa de opções do Power Query — e as mesmas ideias valem em SQL e PySpark nos próximos módulos.',
+        content: [
+          { h: 'Filtrar e converter tipos',
+            items: [
+              '<strong>Filtrar linhas</strong> pelo menu da coluna (valores, intervalos de data, texto contém). Filtre cedo: menos linhas em todas as etapas seguintes e mais chance de a consulta ser executada na própria fonte.',
+              '<strong>Manter/remover linhas</strong>: primeiras, últimas, intervalo, linhas em branco, erros.',
+              '<strong>Tipos de dados</strong>: defina o tipo de cada coluna (inteiro, decimal, data, texto, verdadeiro/falso). Tipo errado gera erro de conversão na célula ou soma que não fecha.',
+              '<strong>Localidade</strong>: “Alterar tipo → Usando localidade” resolve datas e números em outro formato — por exemplo, um arquivo com data americana (mês/dia) ou decimal com ponto.'
+            ] },
+          { h: 'Enriquecer: novas colunas',
+            items: [
+              '<strong>Coluna condicional</strong> — regras se/então sem escrever código (faixa de valor, categoria).',
+              '<strong>Coluna personalizada</strong> — fórmula M, por exemplo <code>[Quantidade] * [PrecoUnitario]</code>.',
+              '<strong>Coluna de exemplos</strong> — você digita alguns resultados desejados e o Power Query deduz a fórmula (juntar nome e sobrenome, extrair parte de um código, criar faixas).',
+              'Colunas de data (ano, mês, trimestre), extrair texto, dividir coluna por delimitador.',
+              'Enriquecer também é trazer colunas de outra tabela — com a mesclagem, logo abaixo.'
+            ],
+            img: { src: `${FAB_IMG}/m05/coluna-de-exemplos.png`, alt: 'Coluna de exemplos no editor do Power Query', caption: 'Coluna de exemplos: você digita o resultado esperado em algumas linhas e o Power Query gera a transformação.', source: 'https://learn.microsoft.com/pt-br/power-query/column-from-example' } },
+          { h: 'Mesclar consultas (joins)',
+            p: 'Mesclar une duas tabelas pelos valores de uma ou mais colunas. O resultado é uma nova coluna do tipo tabela, que você <strong>expande</strong> para escolher os campos da tabela da direita. Os seis tipos de junção:',
+            items: [
+              '<strong>Externa esquerda</strong> — todas as linhas da esquerda e as correspondentes da direita (o padrão; é o “PROCV”).',
+              '<strong>Externa direita</strong> — todas da direita e as correspondentes da esquerda.',
+              '<strong>Externa completa</strong> — todas as linhas das duas tabelas.',
+              '<strong>Interna</strong> — só as linhas que têm correspondência nas duas.',
+              '<strong>Anti esquerda</strong> — só as linhas da esquerda <strong>sem</strong> correspondência (ótima para achar vendas com produto que não existe no cadastro).',
+              '<strong>Anti direita</strong> — só as linhas da direita sem correspondência.',
+              '<strong>Correspondência difusa</strong> (fuzzy) — para colunas de texto com grafias diferentes (“Sao Paulo” × “São Paulo”), com limite de similaridade.'
+            ],
+            img: { src: `${FAB_IMG}/m05/mesclar-janela.png`, alt: 'Caixa de diálogo de mesclagem com colunas selecionadas', caption: 'A janela Mesclar: tabela da esquerda, tabela da direita, colunas de junção e tipo de junção.', source: 'https://learn.microsoft.com/pt-br/power-query/merge-queries-overview' } },
+          { h: 'Acrescentar consultas (união)',
+            p: '<strong>Acrescentar</strong> empilha as linhas de duas ou mais tabelas numa só — vendas da loja + vendas online + atacado. Colunas com o mesmo nome se alinham; uma coluna que existe só numa tabela aparece com valores nulos nas outras. Mesclar junta colunas (lado a lado); acrescentar junta linhas (uma embaixo da outra).' },
+          { h: 'Agrupar e agregar',
+            p: '<strong>Agrupar por</strong> resume linhas pelas colunas escolhidas com operações como Soma, Média, Mínimo, Máximo, Contar linhas, Contar linhas distintas e <strong>Todas as linhas</strong> (que guarda as linhas de cada grupo numa tabela aninhada para cálculos mais elaborados). No modo Avançado você agrupa por várias colunas e cria várias agregações de uma vez. Existe ainda o <strong>agrupamento difuso</strong>, que junta textos parecidos.',
+            img: { src: `${FAB_IMG}/m05/agrupar-por-janela.png`, alt: 'Caixa de diálogo Agrupar por com colunas agregadas', caption: 'Agrupar por (Avançado): várias colunas de agrupamento e várias agregações.', source: 'https://learn.microsoft.com/pt-br/power-query/group-by' } },
+          { h: 'Remodelar: dinamizar e despivotar',
+            items: [
+              '<strong>Transformar colunas em linhas</strong> (despivotar) — converte uma planilha “larga” (um mês por coluna) em formato longo (colunas Atributo e Valor). É o formato certo para tabela fato.',
+              'Prefira <strong>Transformar outras colunas em linhas</strong>: selecione as colunas fixas (por exemplo, País) e todo o resto é despivotado — inclusive meses novos que aparecerem na fonte.',
+              '<strong>Dinamizar coluna</strong> — o inverso: valores de uma coluna viram colunas, com uma agregação.'
+            ],
+            img: { src: `${FAB_IMG}/m05/unpivot-diagrama.png`, alt: 'Diagrama de transformação de colunas em linhas', caption: 'Despivotar: os cabeçalhos A1, A2, A3 viram valores de uma coluna Atributo, ao lado de uma coluna Valor.', source: 'https://learn.microsoft.com/pt-br/power-query/unpivot-column' } },
+          { h: 'Desnormalizar',
+            p: '<strong>Desnormalizar</strong> é juntar tabelas normalizadas numa tabela mais larga, para simplificar o modelo e acelerar consultas. Exemplo: Produto, Subcategoria e Categoria do sistema de origem viram uma única <strong>dimensão Produto</strong> com as colunas de subcategoria e categoria — feito com mesclagens (externa esquerda) e expansão das colunas. É assim que se chega ao esquema estrela do Módulo 03.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Listar pedidos cujo cliente não existe no cadastro → mesclar com <strong>anti esquerda</strong>.',
+              'Juntar arquivos mensais com as mesmas colunas → <strong>acrescentar</strong>.',
+              'Planilha com um mês por coluna precisa virar fato → <strong>transformar outras colunas em linhas</strong>.',
+              'Total de vendas por cliente e ano → <strong>agrupar por</strong> com Soma.',
+              'Criar dimensão Produto com categoria → desnormalizar com mesclagem + expandir.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral de mesclar consultas', u: 'https://learn.microsoft.com/pt-br/power-query/merge-queries-overview' },
+          { t: 'Acrescentar consultas', u: 'https://learn.microsoft.com/pt-br/power-query/append-queries' },
+          { t: 'Agrupar ou resumir linhas', u: 'https://learn.microsoft.com/pt-br/power-query/group-by' },
+          { t: 'Transformar colunas em linhas', u: 'https://learn.microsoft.com/pt-br/power-query/unpivot-column' },
+          { t: 'Adicionar coluna de exemplos', u: 'https://learn.microsoft.com/pt-br/power-query/column-from-example' },
+          { t: 'Tipos de dados no Power Query', u: 'https://learn.microsoft.com/pt-br/power-query/data-types' }
+        ]
+      },
+      {
+        id: 'fab-dataflow-qualidade', title: 'Qualidade de dados: duplicados, ausentes, nulos e erros',
+        desc: 'Ferramentas de perfil de dados, remoção de duplicados, tratamento de nulos e valores ausentes, e a diferença entre erro de etapa e erro de célula.',
+        objetivos: [
+          'Usar qualidade, distribuição e perfil de coluna para diagnosticar dados',
+          'Remover ou isolar duplicados sem cair na armadilha de maiúsculas e minúsculas',
+          'Tratar nulos e valores ausentes',
+          'Resolver erros de etapa e erros de célula'
+        ],
+        body: 'A habilidade DP-600 “Identificar e resolver dados duplicados, dados ausentes ou valores nulos” e a DP-700 “Manipular dados duplicados, ausentes e de chegada tardia” caem em forma de cenário. Primeiro você diagnostica, depois decide o tratamento.',
+        content: [
+          { h: 'Perfil de dados',
+            items: [
+              '<strong>Qualidade da coluna</strong> — percentual de valores <strong>válidos</strong>, com <strong>erro</strong> e <strong>vazios</strong> em cada coluna.',
+              '<strong>Distribuição da coluna</strong> — mini gráfico com contagem de valores <strong>distintos</strong> e <strong>únicos</strong>. Se distintos = total de linhas, a coluna pode ser chave; se não, há repetição.',
+              '<strong>Perfil da coluna</strong> — estatísticas (mínimo, máximo, média, nulos, zeros) e distribuição de valores de uma coluna.',
+              '<strong>Atenção</strong>: por padrão o perfil é calculado sobre as <strong>primeiras 1.000 linhas</strong>. Para avaliar a tabela inteira, clique no aviso da barra de status e mude para “com base em todo o conjunto de dados”.'
+            ],
+            img: { src: `${FAB_IMG}/m05/perfil-qualidade.png`, alt: 'Ferramentas de perfil de dados ativadas', caption: 'Qualidade e distribuição de coluna acima de cada cabeçalho, e o perfil da coluna selecionada embaixo.', source: 'https://learn.microsoft.com/pt-br/power-query/data-profiling-tools' } },
+          { h: 'Duplicados',
+            items: [
+              '<strong>Remover duplicatas</strong> — sobre as colunas selecionadas; mantém a primeira ocorrência. Selecionando todas as colunas, remove linhas totalmente iguais; selecionando só a chave, garante uma linha por chave.',
+              '<strong>Manter duplicatas</strong> — mostra só as linhas repetidas, para investigar antes de apagar.',
+              '<strong>O Power Query diferencia maiúsculas de minúsculas</strong>: “ABC” e “abc” não são duplicados. Padronize antes (Maiúsculas/Minúsculas, Aparar, Limpar) e só então remova.',
+              'Qual ocorrência manter? Ordene antes (por exemplo, data de alteração decrescente) para que a primeira linha seja a mais recente.'
+            ] },
+          { h: 'Nulos e valores ausentes',
+            items: [
+              '<strong>Substituir valores</strong> — trocar <code>null</code> por 0, por “Não informado” ou por um valor padrão.',
+              '<strong>Preencher para baixo / para cima</strong> — copia o último valor conhecido para as células vazias abaixo (típico de relatórios exportados em que a categoria só aparece na primeira linha do grupo).',
+              '<strong>Remover linhas em branco</strong> ou filtrar nulos quando a linha não tem valor para a análise.',
+              'Em dimensões, em vez de deixar a chave nula, use um membro <strong>Desconhecido</strong> (Módulo 03) — os fatos continuam somando e o relatório mostra o problema.',
+              'Nulo não é zero: numa média, trocar nulo por zero muda o resultado. Decida com a área de negócio.'
+            ] },
+          { h: 'Erros de etapa e erros de célula',
+            items: [
+              '<strong>Erro de etapa</strong> — impede a consulta de carregar. Aparece numa faixa amarela com o motivo e a mensagem. Exemplos: <strong>DataSource.NotFound</strong> (fonte inacessível, caminho mudou ou falta credencial) e “a coluna da tabela não foi encontrada” (uma etapa cita uma coluna que mudou de nome na fonte).',
+              '<strong>Formula.Firewall</strong> — ao combinar fontes com níveis de privacidade diferentes ou referências mal estruturadas entre consultas.',
+              '<strong>Erro de célula</strong> — a consulta carrega, mas algumas células mostram Erro, geralmente por conversão de tipo (“NA” numa coluna numérica).',
+              'Tratamento de erro de célula: <strong>Remover erros</strong> (tira as linhas), <strong>Substituir erros</strong> (por um valor fixo) ou <strong>Manter erros</strong> (isolar para investigar). Corrigir a causa, como o tipo ou a localidade, é sempre melhor.'
+            ],
+            img: { src: `${FAB_IMG}/m05/substituir-erros.png`, alt: 'Caixa de diálogo Substituir erros', caption: 'Substituir erros: troca o valor de erro das células da coluna por um valor fixo.', source: 'https://learn.microsoft.com/pt-br/power-query/dealing-with-errors' } },
+          { h: 'Dados de chegada tardia',
+            p: 'Um fato pode chegar antes da dimensão (venda de um cliente ainda não cadastrado) ou com data antiga depois que o período já foi carregado. As respostas vistas no Módulo 03 continuam valendo: membro Desconhecido ou inferido na dimensão, e janelas de carga incremental que olham alguns dias para trás. No Dataflow Gen2, a atualização incremental (próxima aula) reprocessa os períodos cujos dados mudaram.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Remover duplicatas não removeu “Joao” e “JOAO” → padronizar maiúsculas/minúsculas antes.',
+              'Perfil mostra 0% de erros, mas a carga falha em conversão → o perfil só olhou as 1.000 primeiras linhas.',
+              'Coluna de categoria vazia abaixo do primeiro item de cada grupo → preencher para baixo.',
+              'Consulta parou de carregar depois que a fonte renomeou uma coluna → erro de etapa “coluna não encontrada”; ajustar a etapa que cita o nome antigo.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Ferramentas de criação de perfil de dados', u: 'https://learn.microsoft.com/pt-br/power-query/data-profiling-tools' },
+          { t: 'Trabalhando com valores duplicados', u: 'https://learn.microsoft.com/pt-br/power-query/working-with-duplicates' },
+          { t: 'Substituir valores', u: 'https://learn.microsoft.com/pt-br/power-query/replace-values' },
+          { t: 'Preencher valores em uma coluna', u: 'https://learn.microsoft.com/pt-br/power-query/fill-values-column' },
+          { t: 'Lidando com erros no Power Query', u: 'https://learn.microsoft.com/pt-br/power-query/dealing-with-errors' }
+        ]
+      },
+      {
+        id: 'fab-dataflow-destinos', title: 'Destinos de dados e preparo (staging)',
+        desc: 'Para onde o Dataflow Gen2 grava: destinos suportados, configurações automáticas e manuais, substituir ou acrescentar, esquema dinâmico ou fixo, e quando habilitar o preparo.',
+        objetivos: [
+          'Configurar o destino de dados de uma consulta',
+          'Escolher entre configurações automáticas e manuais, substituir e acrescentar',
+          'Explicar o que o preparo faz e quando desligá-lo'
+        ],
+        body: 'O destino de dados é o que transforma o dataflow numa peça de engenharia: o resultado vai para uma tabela no lakehouse, no warehouse ou em outro banco, pronto para notebooks, SQL e modelos semânticos.',
+        content: [
+          { h: 'Destinos suportados',
+            p: 'Tabelas ou arquivos do lakehouse, warehouse, banco de dados SQL do Fabric, banco de dados KQL, Azure SQL, Azure Data Explorer, ADLS Gen2, arquivos no SharePoint (CSV e Excel), Snowflake e PostgreSQL. Cada consulta tabular pode ter o seu destino — no mesmo dataflow, uma consulta vai para o lakehouse e outra para o warehouse. Funções e listas não têm destino.',
+            img: { src: `${FAB_IMG}/m05/destinos-suportados.png`, alt: 'Destinos de dados suportados pelo Dataflow Gen2', caption: 'Lista de destinos de dados ao configurar uma consulta.', source: `${LEARN}/data-factory/dataflows-gen2-overview` } },
+          { h: 'Onde configurar',
+            p: 'Pela faixa de opções (Adicionar destino de dados), pelo painel Configurações da consulta ou pelo ícone na exibição de diagrama. Você escolhe a conexão, depois <strong>nova tabela</strong> ou <strong>tabela existente</strong>. Uma tabela nova é recriada se alguém a excluir; uma tabela existente escolhida nunca é recriada pelo dataflow. No lakehouse, um seletor permite gravar em Tables ou em Files.',
+            img: { src: `${FAB_IMG}/m05/destino-faixa.png`, alt: 'Faixa de opções com o botão de destino de dados', caption: 'Adicionar destino de dados pela faixa de opções da guia Página Inicial.', source: `${LEARN}/data-factory/dataflow-gen2-data-destinations-and-managed-settings` } },
+          { h: 'Configurações automáticas',
+            p: 'Ao criar uma tabela nova, as configurações automáticas vêm ligadas:',
+            items: [
+              'Método de atualização <strong>substituir</strong> — a tabela é esvaziada e recarregada a cada atualização.',
+              '<strong>Mapeamento gerenciado</strong> — se você adicionar uma coluna ou mudar um tipo, o mapeamento se ajusta sozinho na republicação.',
+              '<strong>Descartar e recriar a tabela</strong> a cada atualização — por isso relacionamentos ou medidas criados sobre a tabela podem ser perdidos.'
+            ],
+            img: { src: `${FAB_IMG}/m05/config-automaticas.png`, alt: 'Janela de configurações de destino com a opção automática', caption: 'Configurações automáticas: substituir, mapeamento gerenciado e recriação da tabela.', source: `${LEARN}/data-factory/dataflow-gen2-data-destinations-and-managed-settings` } },
+          { h: 'Configurações manuais',
+            items: [
+              'Mapeamento coluna a coluna: mudar tipo de destino, excluir colunas.',
+              '<strong>Substituir</strong> × <strong>Acrescentar</strong>: acrescentar soma as linhas novas às existentes (a maioria dos destinos aceita os dois; banco KQL e Azure Data Explorer não aceitam substituir).',
+              '<strong>Esquema dinâmico</strong> (só com substituir) — permite mudar o esquema ao republicar; a tabela pode ser recriada.',
+              '<strong>Esquema fixo</strong> — o esquema não muda; na atualização só as linhas são trocadas, e relacionamentos e medidas ficam intactos.',
+              'No <strong>warehouse</strong>, só existe esquema fixo.',
+              'Campos do destino aceitam o editor de expressões dinâmicas (texto + data/hora + parâmetros + variáveis do workspace).'
+            ],
+            img: { src: `${FAB_IMG}/m05/config-manuais.png`, alt: 'Janela de configurações de destino manuais', caption: 'Configurações manuais: método de atualização, opções de esquema e mapeamento de colunas.', source: `${LEARN}/data-factory/dataflow-gen2-data-destinations-and-managed-settings` } },
+          { h: 'Preparo (staging)',
+            p: 'Com o preparo habilitado na consulta, o dataflow primeiro grava o resultado em itens internos — <strong>DataflowsStagingLakehouse</strong> e <strong>DataflowsStagingWarehouse</strong>, que aparecem no workspace e não devem ser usados diretamente. As consultas seguintes que referenciam essa consulta passam a rodar sobre uma cópia consultável, e filtros, junções e agregações são executados pelo mecanismo SQL do Fabric. É o padrão “preparar uma vez, referenciar muitas vezes”.',
+            items: [
+              'Vale a pena quando uma consulta de origem alimenta várias outras, quando há junções e agregações pesadas ou quando a fonte é lenta e não faz dobragem.',
+              'Desligue quando a transformação inteira já é executada na fonte, quando há uma única saída sem ramificações, ou para economizar: o preparo cobra armazenamento do OneLake e uma gravação extra.',
+              'Para os itens seguintes (modelos semânticos, outros dataflows), leia do <strong>destino</strong> (lakehouse ou warehouse) em vez do conector Dataflows — evita os tempos limite intermitentes da API interna de preparo, que aparecem como o erro “A chave não correspondeu a nenhuma linha na tabela”.',
+              'Um dataflow aceita até <strong>50 consultas</strong> com preparo ou destino configurado.'
+            ],
+            img: { src: `${FAB_IMG}/m05/habilitar-preparo.png`, alt: 'Menu da consulta com a opção Habilitar preparo', caption: 'Clique com o botão direito na consulta para ligar ou desligar Habilitar preparo.', source: `${LEARN}/data-factory/dataflow-gen2-data-destinations-and-managed-settings` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Medidas e relacionamentos somem depois de cada atualização → a tabela está sendo recriada; usar configurações manuais com esquema fixo.',
+              'Guardar o histórico carregando só os dados novos a cada execução → método acrescentar.',
+              'Modelo semântico falha às vezes lendo pelo conector Dataflows → gravar num destino e ler do lakehouse/warehouse.',
+              'Uma consulta de origem usada por cinco outras, com junções pesadas → habilitar preparo nela.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Destinos de dados e configurações gerenciadas', u: `${LEARN}/data-factory/dataflow-gen2-data-destinations-and-managed-settings` },
+          { t: 'Dados em itens de preparo', u: `${LEARN}/data-factory/data-in-staging-items` }
+        ]
+      },
+      {
+        id: 'fab-dataflow-desempenho', title: 'Desempenho: dobragem de consultas, cópia rápida, atualização incremental e parâmetros',
+        desc: 'Como fazer o dataflow rodar rápido e barato: dobragem de consultas e seus indicadores, cópia rápida para grandes volumes, atualização incremental por janela de tempo e parâmetros públicos.',
+        objetivos: [
+          'Ler os indicadores de dobragem e manter a consulta dobrável',
+          'Saber quando e como usar a cópia rápida',
+          'Configurar a atualização incremental do Dataflow Gen2',
+          'Passar parâmetros para um dataflow a partir de um pipeline'
+        ],
+        body: 'Um dataflow lento quase sempre tem uma de três causas: trabalho que poderia ser feito pela fonte sendo feito pelo mecanismo do Power Query, grandes volumes passando pelo caminho errado, ou recarga completa de dados que não mudaram. Esta aula ataca as três.',
+        content: [
+          { h: 'Dobragem de consultas (query folding)',
+            p: 'A dobragem traduz as etapas do Power Query para a linguagem da fonte (por exemplo, SQL) e deixa a fonte executar. Filtros, seleção de colunas, junções e agrupamentos numa fonte relacional costumam dobrar; algumas funções, como “Colocar Cada Palavra em Maiúscula”, nunca dobram. A partir da primeira etapa que não dobra, tudo o que vem depois é processado pelo mecanismo do Power Query, trazendo mais dados pela rede.',
+            items: [
+              '<strong>Indicadores de dobragem</strong> (só no Power Query Online) ao lado de cada etapa: dobrando, não dobrando, pode dobrar, opaco (não dá para saber) e sem plano de consulta.',
+              'O indicador vale para a consulta <strong>até aquela etapa</strong>. “Não dobrando” não quer dizer que nada dobra — quer dizer que a partir dali não dobra mais.',
+              'Coloque as etapas que dobram (filtros, remover colunas) <strong>antes</strong> das que não dobram.',
+              '“Exibir consulta nativa” e o plano de consulta mostram o que foi enviado à fonte.'
+            ],
+            img: { src: `${FAB_IMG}/m05/dobra-indicadores.png`, alt: 'Indicadores de dobragem após adicionar uma etapa que não dobra', caption: 'Indicadores de dobragem: a etapa que coloca as palavras em maiúscula quebra a dobragem da consulta.', source: 'https://learn.microsoft.com/pt-br/power-query/step-folding-indicators' } },
+          { h: 'Cópia rápida (fast copy)',
+            items: [
+              'Liga um mecanismo de ingestão mais potente (o mesmo da atividade Copiar) quando o volume passa de um limite. Você habilita em <strong>Opções → Escala</strong>; há também a opção de <strong>exigir</strong> cópia rápida numa consulta.',
+              'Funciona com conectores como ADLS Gen2, Blob, Azure SQL, banco SQL do Fabric, Lakehouse, Warehouse, SQL Server local, Oracle, PostgreSQL e Snowflake; para arquivos, CSV ou Parquet a partir de 100 MB.',
+              'Em fontes de arquivo, suporta só combinar arquivos, selecionar, renomear e remover colunas e alterar tipos; em fontes SQL, vale tudo o que entra na consulta nativa. Indicadores por etapa mostram o que é compatível.',
+              'Grava direto só em <strong>lakehouse</strong>. Para outro destino ou transformação pesada, divida em duas consultas: uma que ingere com cópia rápida (preparada) e outra que a referencia e transforma com a computação SQL.',
+              'Não suporta esquema fixo. Com gateway, exige versão 3000.214.2 ou posterior.'
+            ],
+            img: { src: `${FAB_IMG}/m05/copia-rapida-indicadores.png`, alt: 'Indicadores de cópia rápida no painel de etapas', caption: 'Indicadores de cópia rápida por etapa: verde (compatível), amarelo (pode ser) e vermelho (impede a cópia rápida).', source: `${LEARN}/data-factory/dataflows-gen2-fast-copy` } },
+          { h: 'Atualização incremental',
+            p: 'Em vez de recarregar tudo, o dataflow divide os dados em <strong>buckets</strong> (intervalos) pela coluna de data e só busca de novo os buckets que mudaram.',
+            items: [
+              '<strong>Coluna de data/hora para filtrar</strong> (DateTime, Date ou DateTimeZone).',
+              '<strong>Extrair dados do passado</strong> — o tamanho da janela (x dias, semanas, meses…); é a carga inicial.',
+              '<strong>Tamanho do bucket</strong> — menores processam menos dados por vez, com mais iterações.',
+              '<strong>Coluna de detecção de alteração</strong> — se o valor máximo dela mudou num bucket, o bucket inteiro é buscado e <strong>substituído</strong> no destino; se não mudou, é ignorado.',
+              '<strong>Somente períodos concluídos</strong> (opcional) — não carrega o mês ou dia ainda em andamento.',
+              '<strong>Exigir dobragem completa</strong> (avançado, recomendado ligado) — garante que o filtro de cada bucket rode na fonte.',
+              'Destinos com suporte direto: lakehouse (com ressalvas extras), warehouse e Azure SQL. O destino precisa ser configurado explicitamente na consulta. Para outros destinos, prepare a consulta incremental e referencie-a numa segunda consulta. Fonte que faz dobragem é recomendada.'
+            ],
+            img: { src: `${FAB_IMG}/m05/incremental-config.png`, alt: 'Configurações de atualização incremental', caption: 'Configurações de atualização incremental: coluna de data, janela do passado, tamanho do bucket e coluna de alteração.', source: `${LEARN}/data-factory/dataflow-gen2-incremental-refresh` } },
+          { h: 'Parâmetros públicos',
+            items: [
+              'Parâmetros definidos no Power Query (Gerenciar parâmetros) podem ser expostos: <strong>Opções → Parâmetros → “Habilitar parâmetros a serem descobertos e substituídos para execução”</strong>. Exige um Dataflow Gen2 com CI/CD.',
+              'O pipeline passa os valores na atividade <strong>Fluxo de dados</strong>; também é possível pela API REST.',
+              'Parâmetro <strong>obrigatório</strong> sem valor faz a execução falhar; <strong>opcional</strong> usa o valor atual.',
+              'Dataflow com parâmetro obrigatório não pode ser agendado nem atualizado manualmente pelo Fabric — só por pipeline ou API.',
+              'Parâmetros não mudam o caminho da fonte ou do destino: as conexões ficam fixas.'
+            ],
+            img: { src: `${FAB_IMG}/m05/atividade-dataflow-parametros.png`, alt: 'Atividade de fluxo de dados com parâmetros', caption: 'Atividade Fluxo de dados no pipeline passando valores para os parâmetros do dataflow.', source: `${LEARN}/data-factory/dataflow-parameters` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Filtro de data aplicado depois de uma coluna personalizada e a carga ficou lenta → mover o filtro para antes, mantendo a dobragem.',
+              'Terabytes de Parquet no ADLS para o lakehouse via dataflow → cópia rápida.',
+              'Tabela de vendas grande, só os últimos dias mudam → atualização incremental com bucket diário e “somente períodos concluídos”.',
+              'Mesmo dataflow para várias filiais, escolhida pelo pipeline → parâmetro público passado pela atividade Fluxo de dados.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Dobragem de consultas no Power Query', u: 'https://learn.microsoft.com/pt-br/power-query/query-folding-basics' },
+          { t: 'Indicadores de dobragem', u: 'https://learn.microsoft.com/pt-br/power-query/step-folding-indicators' },
+          { t: 'Cópia rápida no Dataflow Gen2', u: `${LEARN}/data-factory/dataflows-gen2-fast-copy` },
+          { t: 'Atualização incremental no Dataflow Gen2', u: `${LEARN}/data-factory/dataflow-gen2-incremental-refresh` },
+          { t: 'Parâmetros públicos no Dataflow Gen2', u: `${LEARN}/data-factory/dataflow-parameters` }
+        ]
+      },
+      {
+        id: 'fab-editor-consultas-visuais', title: 'Editor de consultas visuais no warehouse',
+        desc: 'Selecionar, filtrar, agregar e juntar tabelas sem escrever SQL, no warehouse, no ponto de extremidade de análise SQL e em bancos espelhados — e transformar o resultado em exibição ou tabela.',
+        objetivos: [
+          'Criar uma consulta visual e ver o T-SQL gerado',
+          'Salvar a consulta como exibição ou como tabela',
+          'Conhecer as limitações do editor visual'
+        ],
+        body: 'A DP-600 tem uma habilidade com esse nome exato: “Selecionar, filtrar e agregar dados usando o editor de consultas visuais”. O editor usa a mesma interface do Power Query, mas em vez de rodar num dataflow ele gera T-SQL e roda no mecanismo SQL do Fabric.',
+        content: [
+          { h: 'Onde fica',
+            p: 'No warehouse, no ponto de extremidade de análise SQL do lakehouse ou num banco espelhado, use <strong>Nova consulta visual</strong> na faixa de opções. Arraste tabelas do explorador para a tela e aplique etapas: escolher colunas, filtrar, classificar, agrupar por, mesclar consultas. A visualização dos resultados aparece embaixo.',
+            img: { src: `${FAB_IMG}/m05/nova-consulta-visual.png`, alt: 'Menu Nova consulta visual', caption: 'Nova consulta visual, a partir da faixa de opções do warehouse.', source: `${LEARN}/data-warehouse/visual-query-editor` } },
+          { h: 'Ver e editar o SQL',
+            p: '<strong>Exibir SQL</strong> mostra o T-SQL equivalente às etapas; <strong>Editar script SQL</strong> abre esse código no editor de consultas SQL para continuar à mão. É uma ótima forma de aprender SQL a partir do que você já sabe fazer no Power Query. Quando há mesclagem, a consulta com <strong>Habilitar carregamento</strong> marcada é a que aparece no script.' },
+          { h: 'Salvar o resultado',
+            items: [
+              '<strong>Salvar como exibição</strong> — cria uma view num esquema em que você tem permissão; a lógica fica guardada e é recalculada a cada consulta.',
+              '<strong>Salvar como tabela</strong> — grava o resultado numa tabela de um warehouse (materializa os dados naquele momento).',
+              'Nos resultados, também dá para baixar um arquivo do Excel ou usar Visualizar resultados para montar um relatório.'
+            ],
+            img: { src: `${FAB_IMG}/m05/salvar-como-exibicao.png`, alt: 'Menu Salvar como exibição no editor de consultas visuais', caption: 'Salvar como exibição: a consulta visual vira uma view no warehouse.', source: `${LEARN}/data-warehouse/visual-query-editor` } },
+          { h: 'Consultas entre warehouses',
+            p: 'Adicione outros warehouses ou pontos de extremidade SQL do mesmo workspace ao explorador e arraste tabelas de itens diferentes para a mesma consulta, juntando-as com mesclar.',
+            img: { src: `${FAB_IMG}/m05/consulta-entre-warehouses.png`, alt: 'Consulta visual entre warehouses', caption: 'Consulta visual juntando uma tabela do warehouse de vendas com outra do warehouse de marketing.', source: `${LEARN}/data-warehouse/visual-query-editor` } },
+          { h: 'Limitações',
+            items: [
+              'Só consultas de leitura (SELECT). Nada de DDL (CREATE, ALTER) ou DML (INSERT, UPDATE, DELETE) — para isso, use o editor SQL.',
+              'Só um subconjunto das operações do Power Query — as que podem ser dobradas para SQL.',
+              'A visualização de resultados não aceita consultas com ORDER BY.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Analista sem SQL precisa filtrar e agregar dados do warehouse → editor de consultas visuais.',
+              'Reaproveitar a lógica da consulta visual em relatórios → salvar como exibição.',
+              'Precisa inserir ou atualizar linhas → não é o editor visual; é T-SQL (Módulo 07).'
+            ] }
+        ],
+        recursos: [
+          { t: 'Consultar usando o editor de consultas visuais', u: `${LEARN}/data-warehouse/visual-query-editor` }
+        ]
+      },
+      {
+        id: 'fab-dataflow-monitorar-erros', title: 'Monitorar e resolver erros do Dataflow Gen2',
+        desc: 'Histórico de atualizações, detalhes por tabela e atividade, logs detalhados, hub de Monitoramento e os erros mais comuns do Dataflow Gen2 com suas soluções.',
+        objetivos: [
+          'Investigar uma atualização pelo histórico e pelos detalhes',
+          'Diferenciar falha de atualização de falha de publicação',
+          'Resolver os erros mais comuns do Dataflow Gen2'
+        ],
+        body: 'Cobre “Monitorar a transformação de dados” e “Identificar e resolver erros do Dataflow Gen2” da DP-700. O caminho é sempre o mesmo: descobrir onde falhou (qual consulta, qual etapa, fonte ou destino) e ler a mensagem com atenção.',
+        content: [
+          { h: 'Histórico de atualizações',
+            items: [
+              'No menu do dataflow, em <strong>Execuções recentes</strong>: lista com início, duração, tipo (sob demanda ou agendada) e status de cada atualização.',
+              'Clique no horário de início para ver os <strong>detalhes</strong>: status geral e, por tabela, o que foi processado, as linhas gravadas e a mensagem de erro; e por atividade (leitura da fonte, gravação no destino).',
+              'Dá para baixar um <strong>CSV</strong> com as execuções e os <strong>logs detalhados</strong> do mecanismo de mashup do Power Query (um ZIP com arquivos de log em JSON Lines), úteis para investigar lentidão ou mandar ao suporte — revise antes de compartilhar, pois podem conter expressões e endereços.'
+            ],
+            img: { src: `${FAB_IMG}/m05/detalhes-atualizacao.png`, alt: 'Detalhes de uma atualização do fluxo de dados', caption: 'Detalhes de uma atualização: status, duração e o resultado de cada tabela.', source: `${LEARN}/data-factory/dataflows-gen2-monitor` } },
+          { h: 'Status no workspace e hub de Monitoramento',
+            p: 'A coluna <strong>Status</strong> do workspace mostra a última atualização e se a última alteração foi salva e validada. Se a falha foi de <strong>atualização</strong>, investigue no histórico; se foi de <strong>publicação/validação</strong>, abra o dataflow no editor e valide de novo. O <strong>hub de Monitoramento</strong> reúne as execuções de dataflows, pipelines e notebooks de todos os workspaces, com filtros.',
+            img: { src: `${FAB_IMG}/m05/historico-atualizacao.png`, alt: 'Menu do fluxo de dados com o histórico de atualização', caption: 'Abrindo o histórico de atualizações pelo menu do dataflow no workspace.', source: `${LEARN}/data-factory/dataflows-gen2-monitor` } },
+          { h: 'Erros comuns e o que fazer',
+            items: [
+              '<strong>Credenciais ou conexão</strong> — senha expirada, gateway desligado, quem atualiza não tem acesso à conexão. Corrija em Gerenciar conexões e gateways e garanta que o usuário seja Membro do workspace.',
+              '<strong>Coluna não encontrada / esquema mudou</strong> — a fonte mudou; ajuste a etapa. Se o destino tem esquema fixo, atualize o mapeamento.',
+              '<strong>Erro de conversão de tipo</strong> — valores fora do padrão numa coluna tipada; trate com tipo e localidade corretos ou substitua os erros.',
+              '<strong>Permissões insuficientes para artefatos de preparo</strong> — o usuário que criou o primeiro dataflow do workspace deixou a organização ou não entra no Fabric há mais de 90 dias; é preciso restabelecer o acesso aos itens de preparo (orientação na página de atualização do Learn).',
+              '<strong>“A chave não correspondeu a nenhuma linha na tabela”</strong> ao consumir pelo conector Dataflows — tempo limite da API interna de preparo; grave num destino e leia do lakehouse/warehouse.',
+              '<strong>Limites</strong> — mais de 300 atualizações em 24 horas ou mais de 50 consultas com preparo/destino.',
+              '<strong>Atualização cancelada ou com falha</strong> — em consulta de preparo, continuam valendo os dados da última atualização bem-sucedida; em destino, pode ficar gravado o que foi escrito até o ponto do cancelamento. Planeje cargas reexecutáveis.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Dataflow falha só quando roda agendado, mas funciona para o autor → credenciais/permissão de quem atualiza ou da conexão.',
+              'Onde ver quantas linhas foram gravadas em cada tabela → detalhes da atualização no histórico.',
+              'Status mostra falha de validação logo após salvar → abrir no editor e corrigir a consulta antes de publicar de novo.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Histórico de atualização e monitoramento de fluxos de dados', u: `${LEARN}/data-factory/dataflows-gen2-monitor` },
+          { t: 'Logs detalhados de atualização', u: `${LEARN}/data-factory/dataflow-gen2-detailed-refresh-logs` },
+          { t: 'Atualização do fluxo de dados (limitações)', u: `${LEARN}/data-factory/dataflow-gen2-refresh` },
+          { t: 'Limitações do Data Factory', u: `${LEARN}/data-factory/data-factory-limitations` }
+        ]
+      }
+    ]
   }
 ];
