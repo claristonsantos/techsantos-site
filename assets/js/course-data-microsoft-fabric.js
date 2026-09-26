@@ -620,5 +620,338 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m03', title: 'Módulo 03 · Lakehouse, arquitetura medalhão e modelagem dimensional', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-lakehouse', title: 'O lakehouse: criação, estrutura e esquemas',
+        desc: 'O que é o lakehouse do Fabric, o que é criado junto com ele, como as pastas Tables e Files funcionam, como os esquemas organizam as tabelas e quando preferir lakehouse ou warehouse.',
+        objetivos: [
+          'Criar um lakehouse e reconhecer os itens que o acompanham',
+          'Organizar tabelas em esquemas e referenciá-las com o nome de quatro partes',
+          'Comparar lakehouse e warehouse por ferramenta, tipo de dado e transações'
+        ],
+        body: 'O lakehouse junta o melhor de dois mundos: a escala e a flexibilidade de um data lake (guardar qualquer arquivo) com a capacidade de consulta de um data warehouse (tabelas prontas para SQL). No Fabric ele é o ponto de partida da maioria das soluções de engenharia de dados e a peça central da arquitetura medalhão.',
+        content: [
+          { h: 'Criando um lakehouse',
+            p: 'Para criar um lakehouse você precisa de um workspace numa capacidade Fabric (paga ou de avaliação) e da função Colaborador ou superior. Junto com ele, o Fabric cria automaticamente o <strong>ponto de extremidade de análise SQL</strong>, que permite consultar as tabelas em T-SQL. <strong>Atenção a uma mudança recente:</strong> desde 5 de setembro de 2025, o modelo semântico padrão do Power BI <strong>não é mais criado automaticamente</strong> junto com lakehouses, warehouses e itens espelhados — o modelo semântico é criado quando você precisa dele. Excluir um lakehouse apaga seus dados e o ponto de extremidade SQL associado.',
+            img: { src: `${FAB_IMG}/m03/lakehouse-novo-esquemas.png`, alt: 'Diálogo de novo lakehouse com a opção de esquemas', caption: 'Criação de um lakehouse — a opção de esquemas vem marcada por padrão no portal.', source: `${LEARN}/data-engineering/lakehouse-schemas` } },
+          { h: 'Tables e Files',
+            p: 'Como vimos no módulo anterior, <strong>Tables</strong> guarda tabelas Delta gerenciadas e <strong>Files</strong> guarda arquivos de qualquer formato. Quando uma tabela Delta aparece em Tables, o Fabric a descobre e registra automaticamente — sem configuração manual — e ela passa a aparecer no ponto de extremidade SQL.' },
+          { h: 'Esquemas no lakehouse',
+            items: [
+              'Esquemas agrupam tabelas em coleções com nome, como <code>vendas</code>, <code>marketing</code> ou <code>rh</code>. Tabelas sem esquema explícito vão para o esquema padrão <code>dbo</code>.',
+              'Vêm habilitados por padrão ao criar pelo portal; ao criar pela API REST, é preciso informar <code>"enableSchemas": true</code>.',
+              'No Spark, grave em um esquema com <code>saveAsTable("marketing.produtos")</code>.',
+              'Referência completa com <strong>nome de quatro partes</strong>: <code>workspace.lakehouse.esquema.tabela</code> — o que permite consultas Spark SQL que juntam tabelas de workspaces diferentes.',
+              'O <strong>atalho de esquema</strong> cria um esquema inteiro apontando para as tabelas Delta de outro lakehouse ou de um ADLS Gen2.'
+            ],
+            img: { src: `${FAB_IMG}/m03/atalho-de-esquema.png`, alt: 'Criando um atalho de esquema no lakehouse', caption: 'Atalho de esquema: traz várias tabelas de outro local de uma só vez.', source: `${LEARN}/data-engineering/lakehouse-schemas` } },
+          { h: 'Analisar com o mecanismo de sua preferência',
+            p: 'O menu <strong>Analisar dados com</strong> abre os dados do lakehouse direto no ponto de extremidade SQL, em um notebook ou em outras experiências — o mesmo dado, sem cópia.',
+            img: { src: `${FAB_IMG}/m03/lakehouse-analisar-dados.png`, alt: 'Menu Analisar dados com no lakehouse', caption: 'O menu “Analisar dados com” abre o lakehouse em diferentes mecanismos.', source: `${LEARN}/data-engineering/lakehouse-overview` } },
+          { h: 'Lakehouse ou warehouse?',
+            items: [
+              '<strong>Ferramenta principal:</strong> lakehouse → Apache Spark (Python, Scala, SQL, R); warehouse → T-SQL.',
+              '<strong>Tipos de dados:</strong> lakehouse → estruturados e não estruturados; warehouse → estruturados.',
+              '<strong>Transações em várias tabelas:</strong> lakehouse → não; warehouse → sim.',
+              '<strong>Ingestão:</strong> lakehouse → notebooks, pipelines, dataflows, atalhos; warehouse → T-SQL (COPY INTO, INSERT, CTAS) e pipelines.',
+              '<strong>Melhor para:</strong> lakehouse → engenharia e ciência de dados, arquitetura medalhão; warehouse → BI, modelagem dimensional, equipes de SQL.',
+              'Os dois usam o mesmo mecanismo SQL, guardam em Delta no OneLake e podem ser combinados no mesmo workspace.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Transações que atualizam várias tabelas juntas → warehouse (o lakehouse não tem transação multitabela).',
+              'Não conte com modelo semântico padrão criado automaticamente (mudança de 2025).',
+              'Nome de quatro partes e esquemas para consultas entre workspaces no Spark.'
+            ] }
+        ],
+        recursos: [
+          { t: 'O que é um lakehouse no Microsoft Fabric?', u: `${LEARN}/data-engineering/lakehouse-overview` },
+          { t: 'Esquemas do lakehouse', u: `${LEARN}/data-engineering/lakehouse-schemas` },
+          { t: 'Modelos semânticos do Power BI no Fabric (fim do modelo padrão)', u: `${LEARN}/data-warehouse/semantic-models` }
+        ]
+      },
+      {
+        id: 'fab-carregar-lakehouse', title: 'Formas de carregar dados no lakehouse',
+        desc: 'Upload, atalho, Dataflow Gen2, pipeline, notebook e Eventstream: o que cada caminho faz de melhor e como escolher.',
+        objetivos: [
+          'Conhecer as seis formas de levar dados a um lakehouse',
+          'Escolher o caminho pelo volume, pela necessidade de transformação e pela latência',
+          'Evitar a armadilha das tabelas externas criadas em Spark'
+        ],
+        body: 'A habilidade DP-600 “Ingerir ou acessar dados conforme necessário” e a DP-700 “Escolher entre Dataflow Gen2, pipeline e notebook” começam aqui. Os próximos módulos detalham cada ferramenta; esta aula dá o mapa para você saber qual usar.',
+        content: [
+          { h: 'Os seis caminhos, do mais simples ao mais programático',
+            items: [
+              '<strong>Upload de arquivos</strong> — pelo explorador do lakehouse, para arquivos pequenos sem transformação.',
+              '<strong>Atalhos</strong> — referenciam dados de outro lakehouse, ADLS, S3 etc. sem copiar.',
+              '<strong>Dataflow Gen2</strong> — transformação de baixo código no Power Query, com mais de 200 conectores, gravando em tabela do lakehouse.',
+              '<strong>Pipeline (atividade Copiar)</strong> — cópia escalável de grandes volumes, no formato original ou convertendo para tabela.',
+              '<strong>Notebook</strong> — controle total com Spark: conectar, transformar e gravar via código.',
+              '<strong>Eventstream</strong> — eventos em tempo real encaminhados diretamente para tabelas Delta do lakehouse.'
+            ],
+            img: { src: `${FAB_IMG}/m03/upload-arquivos.png`, alt: 'Diálogo de upload de arquivos no explorador do lakehouse', caption: 'O caminho mais simples: upload de arquivos direto no explorador do lakehouse.', source: `${LEARN}/data-engineering/load-data-lakehouse` } },
+          { h: 'Como escolher',
+            items: [
+              'Só quer usar dados que já existem em outro armazenamento → atalho.',
+              'Grande volume, pouca ou nenhuma transformação → pipeline com atividade Copiar.',
+              'Transformação visual, equipe de Power Query → Dataflow Gen2.',
+              'Transformação complexa, grandes volumes, equipe que programa → notebook Spark.',
+              'Dados contínuos em tempo real → Eventstream.'
+            ] },
+          { h: 'A armadilha das tabelas externas',
+            p: 'Tabelas Delta <strong>externas</strong> criadas por código Spark (apontando para um caminho fora da área gerenciada) <strong>não aparecem</strong> no ponto de extremidade de análise SQL. Para torná-las visíveis ao SQL, crie um atalho na pasta Tables apontando para elas.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Cenários do tipo “qual ferramenta usar” combinando volume, transformação e habilidade da equipe.',
+              'Tabela criada no Spark não aparece no SQL → verifique se é externa; solução: atalho em Tables.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Opções de ingestão de dados para um lakehouse', u: `${LEARN}/data-engineering/load-data-lakehouse` }
+        ]
+      },
+      {
+        id: 'fab-endpoint-sql', title: 'O ponto de extremidade de análise SQL',
+        desc: 'A camada T-SQL somente leitura sobre as tabelas do lakehouse: o que dá para fazer, como a segurança funciona e como os metadados se mantêm sincronizados.',
+        objetivos: [
+          'Consultar tabelas do lakehouse em T-SQL pelo ponto de extremidade SQL',
+          'Criar views, funções e procedimentos e aplicar segurança por linha e objeto',
+          'Entender os limites: somente leitura e segurança válida só pelo endpoint'
+        ],
+        body: 'Engenheiros transformam os dados no lakehouse com Spark; analistas e ferramentas de BI preferem SQL. O ponto de extremidade de análise SQL é a ponte: provisionado automaticamente com cada lakehouse, ele expõe as tabelas Delta para consulta em T-SQL usando o mesmo mecanismo do Fabric Data Warehouse.',
+        content: [
+          { h: 'O que você pode fazer',
+            items: [
+              'Consultar com <code>SELECT</code> qualquer tabela Delta do lakehouse, inclusive as expostas por atalhos para ADLS ou S3.',
+              'Criar <strong>views, funções e procedimentos armazenados</strong> para encapsular lógica de negócio.',
+              'Aplicar <strong>segurança em nível de linha e de objeto</strong> com permissões SQL.',
+              'Servir de fonte para modelos semânticos do Power BI.',
+              'Consultar entre workspaces usando atalhos para tabelas de outros lakehouses e warehouses.'
+            ],
+            img: { src: `${FAB_IMG}/m03/endpoint-sql.png`, alt: 'Editor de consultas do ponto de extremidade de análise SQL', caption: 'O ponto de extremidade de análise SQL do lakehouse, com o editor de consultas.', source: `${LEARN}/data-engineering/lakehouse-sql-analytics-endpoint` } },
+          { h: 'O que você não pode fazer',
+            p: 'O ponto de extremidade é <strong>somente leitura para os dados</strong>: nada de <code>INSERT</code>, <code>UPDATE</code> ou <code>DELETE</code> nas tabelas. Para modificar dados, use Spark no lakehouse — ou use um warehouse, se a equipe precisa escrever em T-SQL.' },
+          { h: 'Segurança: atenção ao escopo',
+            p: 'Regras de segurança SQL definidas no ponto de extremidade (RLS, permissões por tabela ou coluna) valem <strong>apenas para quem acessa pelo ponto de extremidade</strong>. Quem lê os mesmos dados por Spark ou por outras ferramentas não é filtrado por elas. Para uma proteção que valha em todos os mecanismos, use as funções de segurança do OneLake (Módulo 2) e restrinja o acesso ao workspace.' },
+          { h: 'Sincronização de metadados',
+            p: 'Ao criar ou alterar uma tabela Delta no lakehouse, o ponto de extremidade detecta a mudança e atualiza definições, tipos e estatísticas automaticamente — não há etapa de importação. Só tabelas em formato Delta são descobertas. Warehouses, bancos espelhados, bancos SQL no Fabric e o Cosmos DB também têm seu próprio ponto de extremidade de análise SQL.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '“Analistas precisam de T-SQL sobre o lakehouse, sem escrever” → ponto de extremidade SQL.',
+              '“Precisam de INSERT/UPDATE em T-SQL” → warehouse, não o ponto de extremidade.',
+              'RLS no endpoint não protege acesso via Spark.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Ponto de extremidade de análise SQL do lakehouse', u: `${LEARN}/data-engineering/lakehouse-sql-analytics-endpoint` }
+        ]
+      },
+      {
+        id: 'fab-medalhao', title: 'Arquitetura medalhão: bronze, prata e ouro',
+        desc: 'O padrão de design recomendado para o Fabric: três camadas de qualidade crescente, como implantá-las e as boas práticas de armazenamento em cada uma.',
+        objetivos: [
+          'Descrever o papel de cada camada: bronze, prata e ouro',
+          'Escolher entre “três lakehouses” e “ouro em warehouse”',
+          'Aplicar boas práticas de tamanho de arquivo, retenção e particionamento'
+        ],
+        body: 'A arquitetura medalhão organiza os dados em três etapas, e cada uma aumenta a qualidade e a confiabilidade. É a abordagem de design recomendada pela Microsoft para o Fabric e aparece em muitas questões de cenário das provas.',
+        content: [
+          { h: 'As três camadas',
+            items: [
+              '<strong>Bronze (bruto)</strong> — tudo exatamente como chegou da origem, sem alteração. Serve de histórico e permite reprocessar.',
+              '<strong>Prata (enriquecido)</strong> — dados corrigidos, padronizados, sem duplicatas, com tipos certos e validações aplicadas.',
+              '<strong>Ouro (curado)</strong> — dados organizados para consumo: modelos dimensionais (esquema estrela), agregações e tabelas prontas para relatórios.'
+            ],
+            img: { src: `${FAB_IMG}/m03/medalhao.png`, alt: 'Arquitetura medalhão no OneLake', caption: 'Fontes → bronze → prata → ouro → consumo, tudo sobre o OneLake.', source: `${LEARN}/onelake/onelake-medallion-lakehouse-architecture` } },
+          { h: 'Exemplo: um e-commerce',
+            items: [
+              'Bronze: pedidos do site em JSON, cadastro de clientes em CSV, cliques do site — tudo como chegou.',
+              'Prata: pedidos com datas no mesmo formato, clientes deduplicados, valores inválidos tratados.',
+              'Ouro: fato de vendas e dimensões de cliente, produto e data, prontos para o Power BI.'
+            ] },
+          { h: 'Como implantar',
+            items: [
+              '<strong>Padrão 1</strong> — cada camada é um lakehouse; os usuários de negócio consomem a camada ouro pelo ponto de extremidade SQL.',
+              '<strong>Padrão 2</strong> — bronze e prata em lakehouses, ouro em um <strong>warehouse</strong>; o consumo é pelo warehouse (útil quando a camada ouro precisa de T-SQL com escrita e transações).',
+              'Recomendação: colocar <strong>cada camada em um workspace próprio</strong>, para ter mais controle e governança por camada.',
+              '<strong>Visões materializadas de lago</strong> permitem definir as transformações entre camadas de forma declarativa, em SQL, em vez de montar pipelines manuais.'
+            ] },
+          { h: 'Boas práticas de armazenamento',
+            items: [
+              '<strong>Tamanho de arquivo</strong> — poucos arquivos grandes são melhores que muitos pequenos; na bronze arquivos menores são aceitáveis, nas camadas de consumo busque arquivos maiores.',
+              '<strong>Retenção</strong> — o Delta guarda o histórico de alterações; use VACUUM para remover versões antigas (por padrão não se remove histórico dos últimos 7 dias).',
+              '<strong>Particionamento</strong> — organize em pastas particionadas quando fizer sentido (ex.: por data) para acelerar consultas e manutenção.',
+              '<strong>Atualização</strong> — normalmente anexar dados novos; quando for preciso atualizar registros existentes, use MERGE (upsert).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Identificar a camada pelo estado do dado: bruto → bronze; limpo → prata; modelado para BI → ouro.',
+              'Camada ouro em warehouse quando o consumo exige T-SQL com escrita/transações.',
+              'Workspace separado por camada para governança.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Arquitetura medalhão com o OneLake', u: `${LEARN}/onelake/onelake-medallion-lakehouse-architecture` }
+        ]
+      },
+      {
+        id: 'fab-modelo-dimensional', title: 'Modelagem dimensional: fatos, dimensões e SCD',
+        desc: 'O esquema estrela na camada ouro: tabelas de fato e de dimensão, chaves substitutas, hierarquias, membros especiais, dimensões conformes e com papéis, e as dimensões de alteração lenta (SCD).',
+        objetivos: [
+          'Projetar um esquema estrela com fatos e dimensões',
+          'Usar chaves substitutas, membros especiais e dimensões conformes e com papéis',
+          'Escolher o tipo de SCD (1, 2 ou 3) para cada atributo'
+        ],
+        body: 'A prova DP-600 pede “implementar um esquema estrela para um lakehouse ou warehouse” e “desnormalizar dados”; a DP-700 pede “preparar dados para carregar em um modelo dimensional”. Os conceitos desta aula valem para lakehouse, warehouse e para o modelo semântico do Power BI.',
+        content: [
+          { h: 'Esquema estrela',
+            p: 'No centro fica a <strong>tabela de fatos</strong>, com os eventos medidos (vendas, pedidos, estoques) e suas métricas numéricas. Em volta ficam as <strong>tabelas de dimensão</strong>, que descrevem o contexto: quem, o quê, onde, quando. Uma dica para descobrir dimensões: preste atenção na palavra “por” — “vendas por região, por produto, por mês”.',
+            img: { src: `${FAB_IMG}/m03/esquema-estrela.svg`, alt: 'Esquema estrela para dados de vendas', caption: 'Esquema estrela: a tabela de fatos no centro e as dimensões ao redor.', source: `${LEARN}/data-warehouse/dimensional-modeling-overview` } },
+          { h: 'As colunas de uma dimensão',
+            items: [
+              '<strong>Chave substituta (surrogate key)</strong> — inteiro gerado no data warehouse, usado nas relações com os fatos. Isola o modelo de mudanças na origem e permite o histórico de SCD tipo 2.',
+              '<strong>Chave natural</strong> — o identificador vindo do sistema de origem (ex.: matrícula do funcionário), usado pelo ETL para casar os registros.',
+              '<strong>Atributos</strong> — as colunas descritivas usadas para filtrar e agrupar.',
+              '<strong>Atributos de controle histórico e de auditoria</strong> — quando e como a linha foi criada ou alterada.',
+              'O Fabric Warehouse aceita chaves estrangeiras, mas <strong>não as impõe</strong> — o ETL precisa testar a integridade.'
+            ] },
+          { h: 'Desnormalizar as dimensões',
+            p: 'Dimensões quase sempre devem ser <strong>desnormalizadas</strong>: produto, subcategoria e categoria numa tabela só. O custo de repetir texto é pequeno e a consulta fica mais simples e rápida. A exceção é a dimensão em <strong>floco de neve</strong> (snowflake), normalizada em várias tabelas — em geral evitada em modelos de BI.',
+            img: { src: `${FAB_IMG}/m03/dimensao-floco-de-neve.svg`, alt: 'Dimensão em floco de neve', caption: 'Dimensão floco de neve: Produto, Subcategoria e Categoria em tabelas separadas — normalmente preferimos juntá-las.', source: `${LEARN}/data-warehouse/dimensional-modeling-dimension-tables` } },
+          { h: 'Hierarquias e membros especiais',
+            items: [
+              '<strong>Hierarquia equilibrada</strong> — mesmo número de níveis (ano → trimestre → mês).',
+              '<strong>Desbalanceada (pai-filho)</strong> — níveis variáveis, como funcionário → gerente.',
+              '<strong>Irregular (ragged)</strong> — falta um nível para alguns membros (país sem estados); repete-se o valor do pai.',
+              '<strong>Membros especiais</strong> — linhas para “Desconhecido”, “N/D” ou erro, usadas quando o fato chega sem a dimensão correspondente.'
+            ] },
+          { h: 'Tipos de dimensão que caem na prova',
+            items: [
+              '<strong>Data</strong> — uma linha por dia; chave no formato AAAAMMDD; não misture hora do dia (use uma dimensão de tempo separada).',
+              '<strong>Conforme</strong> — compartilhada por várias tabelas de fatos (Data e Produto usadas por Vendas e Estoque).',
+              '<strong>Com vários papéis (role-playing)</strong> — a mesma dimensão usada várias vezes pelo fato: data do pedido, de envio, de entrega.',
+              '<strong>Lixo (junk)</strong> — junta vários sinalizadores de baixa cardinalidade (status, flags) numa só dimensão.',
+              '<strong>Degenerada</strong> — atributo na granularidade do fato, como o número do pedido, guardado na própria tabela de fatos.'
+            ],
+            img: { src: `${FAB_IMG}/m03/dimensao-com-papeis.svg`, alt: 'Dimensão com vários papéis', caption: 'Uma única dimensão de data exercendo vários papéis em relação à tabela de fatos.', source: `${LEARN}/data-warehouse/dimensional-modeling-dimension-tables` } },
+          { h: 'Dimensões de alteração lenta (SCD)',
+            items: [
+              '<strong>Tipo 1</strong> — sobrescreve o valor; não guarda histórico. Usado para a maioria dos atributos e para correções.',
+              '<strong>Tipo 2</strong> — insere uma nova versão da linha, com validade (início e fim) e um indicador de versão atual (ex.: <code>RecIsCurrent</code>). Preserva o histórico: as vendas antigas continuam ligadas à região antiga.',
+              '<strong>Tipo 3</strong> — guarda um histórico limitado em colunas (valor atual e anterior). Pouco usado, difícil de usar no modelo semântico.',
+              'Uma mesma dimensão pode combinar atributos tipo 1 e tipo 2.'
+            ],
+            img: { src: `${FAB_IMG}/m03/scd-tipo-2.svg`, alt: 'SCD tipo 2', caption: 'SCD tipo 2: a versão antiga é encerrada e uma nova linha passa a ser a atual.', source: `${LEARN}/data-warehouse/dimensional-modeling-dimension-tables` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '“Manter o histórico quando o vendedor muda de região” → SCD tipo 2.',
+              '“Corrigir um erro de digitação” → SCD tipo 1.',
+              'Várias datas no mesmo fato → dimensão com vários papéis.',
+              'Chaves estrangeiras não são impostas no Fabric Warehouse.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Modelagem dimensional: visão geral', u: `${LEARN}/data-warehouse/dimensional-modeling-overview` },
+          { t: 'Modelagem dimensional: tabelas de dimensão', u: `${LEARN}/data-warehouse/dimensional-modeling-dimension-tables` },
+          { t: 'Modelagem dimensional: tabelas de fatos', u: `${LEARN}/data-warehouse/dimensional-modeling-fact-tables` }
+        ]
+      },
+      {
+        id: 'fab-carga-dimensional', title: 'Preparar e carregar um modelo dimensional',
+        desc: 'O processo de ETL que alimenta a camada ouro: preparo, transformação, carga e log; como processar dimensões (incluindo SCD) e fatos (busca de chaves, membro desconhecido, membros inferidos, carga incremental).',
+        objetivos: [
+          'Descrever as etapas de um processo de carga dimensional',
+          'Processar dimensões sem quebrar as chaves substitutas',
+          'Processar fatos incrementalmente, tratando chaves ausentes'
+        ],
+        body: 'Modelar é metade do trabalho; a outra metade é carregar o modelo todo dia sem corromper o histórico. A habilidade DP-700 “Preparar dados para carregar em um modelo dimensional” e a DP-600 “Implementar um esquema estrela” cobram exatamente essa lógica.',
+        content: [
+          { h: 'As etapas do processo',
+            items: [
+              '<strong>Preparo (staging)</strong> — extrair da origem para tabelas de preparo, reduzindo o impacto nos sistemas operacionais.',
+              '<strong>Transformação</strong> — remodelar os dados para a estrutura das dimensões e fatos, com limpeza e padronização.',
+              '<strong>Carga</strong> — primeiro as dimensões, depois os fatos (os fatos precisam das chaves das dimensões).',
+              '<strong>Log</strong> — registrar início, fim, linhas processadas e erros de cada execução em tabelas próprias.'
+            ],
+            img: { src: `${FAB_IMG}/m03/etl-etapas.svg`, alt: 'Etapas do processo de ETL', caption: 'As etapas de um processo de carga de modelo dimensional.', source: `${LEARN}/data-warehouse/dimensional-modeling-load-tables` } },
+          { h: 'Processar dimensões',
+            items: [
+              'Use chave substituta inteira, a menor possível. No Fabric Warehouse, colunas <code>IDENTITY</code> estão disponíveis (com algumas limitações).',
+              'Com chaves geradas automaticamente, <strong>nunca</strong> faça truncar-e-recarregar da dimensão: as chaves mudariam e os fatos já carregados ficariam apontando para as linhas erradas.',
+              'Linhas novas são inseridas; alterações seguem o tipo de SCD — tipo 1 atualiza, tipo 2 encerra a versão atual (data fim e indicador de atual = falso) e insere a nova.',
+              'Não sincronize exclusões da origem apagando a linha da dimensão — prefira marcar o membro como excluído, porque fatos antigos ainda o referenciam.'
+            ],
+            img: { src: `${FAB_IMG}/m03/processar-dimensao.svg`, alt: 'Lógica de processamento de uma tabela de dimensão', caption: 'Como linhas novas e alteradas da origem são processadas numa dimensão.', source: `${LEARN}/data-warehouse/dimensional-modeling-load-tables` } },
+          { h: 'Processar fatos',
+            items: [
+              'Para cada chave natural do fato, busca-se a chave substituta na dimensão (nas SCD tipo 2, a versão válida na data do fato). Chaves de data podem ser calculadas direto (AAAAMMDD).',
+              'Se a busca falhar, <strong>insira o fato mesmo assim</strong>, apontando para o membro especial “Desconhecido”, e corrija depois com um processo periódico.',
+              'Ou crie um <strong>membro inferido</strong>: uma linha de dimensão só com a chave natural, marcada como inferida; quando os atributos chegarem, atualize-a sem tratar como mudança de SCD.',
+              'Prefira sempre <strong>carga incremental</strong> — detectar só os fatos novos por identificadores sequenciais, data/hora de alteração ou captura de dados de alteração (CDC) da origem. Truncar e recarregar uma tabela de fatos grande é o último recurso.',
+              'Se houver atualizações ou exclusões de fatos, guarde na tabela de fatos os identificadores da origem (número e linha do pedido) para achar as linhas a modificar.'
+            ],
+            img: { src: `${FAB_IMG}/m03/processar-fato.svg`, alt: 'Lógica de processamento de uma tabela de fatos', caption: 'Processamento de fatos: busca de chaves de dimensão antes da inserção.', source: `${LEARN}/data-warehouse/dimensional-modeling-load-tables` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Ordem de carga: dimensões antes dos fatos.',
+              'Fato chegou antes da dimensão → membro Desconhecido ou membro inferido (dado de chegada tardia).',
+              'Carga incremental por marca d’água (ID/data) ou CDC em vez de recarga completa.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Modelagem dimensional: carregar tabelas', u: `${LEARN}/data-warehouse/dimensional-modeling-load-tables` }
+        ]
+      },
+      {
+        id: 'fab-manutencao-delta', title: 'Manutenção e otimização de tabelas Delta',
+        desc: 'Arquivos pequenos, OPTIMIZE, V-Order e VACUUM: como manter as tabelas do lakehouse rápidas, pelo portal, por notebook ou por pipeline.',
+        objetivos: [
+          'Explicar o problema dos arquivos pequenos e como o OPTIMIZE resolve',
+          'Decidir quando habilitar o V-Order',
+          'Executar VACUUM com segurança e agendar a manutenção'
+        ],
+        body: 'Tabelas Delta que recebem cargas frequentes acumulam muitos arquivos pequenos e versões antigas, e ficam lentas. A habilidade DP-700 “Otimizar uma tabela Lakehouse” cobra as ferramentas de manutenção e, principalmente, quando usar cada uma.',
+        content: [
+          { h: 'Por que as tabelas ficam lentas',
+            p: 'Cada gravação cria novos arquivos Parquet. Muitas cargas pequenas geram milhares de arquivos pequenos, e o mecanismo gasta mais tempo abrindo arquivos e lendo metadados do que lendo dados. Além disso, alterações e exclusões deixam arquivos antigos que não fazem mais parte da versão atual.' },
+          { h: 'OPTIMIZE: compactação',
+            p: 'O <code>OPTIMIZE</code> junta arquivos Parquet pequenos em arquivos maiores (compactação), melhorando as leituras. Execute depois das cargas principais ou quando perceber muitos arquivos pequenos e leituras lentas.' },
+          { h: 'V-Order',
+            items: [
+              'É uma otimização aplicada <strong>no momento da gravação</strong> dos arquivos Parquet (ordenação, codificação e compressão otimizadas) que acelera as leituras em todos os mecanismos do Fabric.',
+              '<strong>Vem desativado por padrão nos workspaces novos</strong>, para favorecer cargas de engenharia com muita escrita.',
+              'Custo e benefício: gravações cerca de 15% mais lentas; até 50% mais compressão e leituras bem mais rápidas.',
+              'Use onde a leitura domina — camada ouro, painéis e análise interativa, Direct Lake. Na bronze, com muita escrita, costuma não compensar.',
+              'Pode ser controlado na sessão Spark, nas propriedades da tabela ou na própria operação de gravação, e aplicado junto com o OPTIMIZE.'
+            ] },
+          { h: 'VACUUM: limpeza de arquivos antigos',
+            items: [
+              'Remove arquivos que o log Delta não referencia mais e que são mais antigos que o limite de retenção — <strong>7 dias por padrão</strong>.',
+              'Reduzir a retenção diminui o time travel e pode afetar leitores e gravadores simultâneos; o portal e a API recusam retenção menor que 7 dias, a menos que a verificação seja desativada no ambiente Spark.'
+            ] },
+          { h: 'Como executar',
+            items: [
+              '<strong>No portal</strong> — clique com o botão direito na tabela → <strong>Manutenção</strong>: compactar (OPTIMIZE), com opção de aplicar V-Order; executar VACUUM; e limpar vetores de exclusão.',
+              '<strong>Em pipeline</strong> — a atividade Manutenção do Lakehouse (versão prévia) agenda as mesmas operações e pode ser encadeada após a carga.',
+              '<strong>Em notebook</strong> — com comandos Spark SQL, para manutenção orquestrada por código.',
+              'As execuções aparecem no hub de Monitoramento (atividades com “TableMaintenance” no nome).'
+            ],
+            img: { src: `${FAB_IMG}/m03/manutencao-tabela.png`, alt: 'Diálogo de comandos de manutenção da tabela', caption: 'A janela de manutenção de tabela no lakehouse: OPTIMIZE (com V-Order opcional) e VACUUM.', source: `${LEARN}/data-engineering/lakehouse-table-maintenance` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Muitos arquivos pequenos e consultas lentas → OPTIMIZE.',
+              'Consultas de leitura intensa (ouro, Direct Lake) → habilitar V-Order; lembrar que o padrão novo é desligado.',
+              'Espaço ocupado por versões antigas → VACUUM, respeitando a retenção de 7 dias.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Otimizar tabelas Delta com V-Order', u: `${LEARN}/data-engineering/delta-optimization-and-v-order` },
+          { t: 'Manutenção de tabelas Delta no lakehouse', u: `${LEARN}/data-engineering/lakehouse-table-maintenance` }
+        ]
+      }
+    ]
   }
 ];
