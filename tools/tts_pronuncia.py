@@ -62,6 +62,38 @@ PRONUNCIATION_FIXES = [
     (r"\bJSON\b", "Djêison"),
     (r"\bCSV\b", "Cê Ésse Vê"),
     (r"\bdbo\b", "Dê Bê Ó"),
+    # Terceiro teste A/B (2026-09-26, 38 termos do módulo 4 - Data Factory).
+    # Ficaram na leitura padrão: Copy job, On success, On fail, VNet,
+    # ISO 8601, Outlook, concat, exit, ARM, REST, ADF.
+    # "Do-if-skip-else" junta as grafias aprovadas de Do-if-else e On skip.
+    (r"\bLookup\b", "Lúk âp"),
+    (r"\bForEach\b", "Fór ítch"),
+    (r"\bSwitch\b", "Suítch"),
+    (r"\bUntil\b", "Ântil"),
+    (r"\bWebhook\b", "Uéb húk"),
+    (r"\bwatermark\b", "uóter márk"),
+    (r"\btry-catch\b", "trái kétch"),
+    (r"\bDo-if-skip-else\b", "Dú if iskíp élse"),
+    (r"\bDo-if-else\b", "Dú if élse"),
+    (r"\bOn completion\b", "Ón compliíchon"),
+    (r"\bOn skip\b", "Ón iskíp"),
+    (r"\bActivator\b", "Éctiveitor"),
+    (r"\bReflex\b", "Rífléks"),
+    (r"\bGantt\b", "Gânt"),
+    (r"\bChange Data Feed\b", "Tchêindj Dêita Fíd"),
+    (r"\bGUID\b", "Gú íd"),
+    (r"\bSHIR\b", "Ésse Agá Í Érre"),
+    (r"\bPrivate Link\b", "Práivet Link"),
+    (r"\bELT\b", "Ê Éle Tê"),
+    (r"\bUTC\b", "U Tê Cê"),
+    (r"\bTeams\b", "Tíms"),
+    (r"\bDAGs?\b", "Dégs"),
+    (r"\bKafka\b", "Káfka"),
+    (r"\bformatDateTime\b", "fórmat Dêit Táime"),
+    (r"\butcNow\b", "U Tê Cê Nau"),
+    (r"\baddDays\b", "éd Dêis"),
+    (r"\bSynapse\b", "Sináps"),
+    (r"\bCapacity Metrics\b", "Capáciti Métrics"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
