@@ -18,6 +18,12 @@ if (!$isPowerBi) {
     }
 }
 
+// Aulas com versão em áudio (modo podcast), geradas por tools/curso_audio.py.
+$audiosDisponiveis = [];
+foreach (glob(__DIR__ . '/../private-audio/*.mp3') ?: [] as $arquivo) {
+    $audiosDisponiveis[] = basename($arquivo, '.mp3');
+}
+
 $progressoConcluido = [];
 $avaliacoesInfo = [];
 if ($temConteudo) {
@@ -152,6 +158,14 @@ if ($temConteudo) {
     background: var(--surface-2); color: var(--ink-soft); font-size: 0.9rem;
   }
   .video-soon strong { color: var(--ink); font-size: 0.95rem; }
+  .podcast { margin-bottom: 1.5rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+  .podcast-head { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.7rem; }
+  .podcast-head strong { color: var(--ink); font-size: 0.95rem; }
+  .podcast-head span { color: var(--ink-soft); font-size: 0.82rem; }
+  .podcast-audio { width: 100%; }
+  .podcast-speed { display: flex; gap: 0.4rem; margin-top: 0.6rem; }
+  .podcast-speed button { font: inherit; font-size: 0.78rem; padding: 0.3rem 0.65rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft); cursor: pointer; }
+  .podcast-speed button.on { background: var(--green); border-color: var(--green); color: #08210A; font-weight: 700; }
   .course-switch select {
     font: inherit; font-size: 0.82rem; padding: 0.4rem 0.6rem; border-radius: 6px;
     border: 1px solid var(--line); background: var(--surface); color: var(--ink); max-width: 220px;
@@ -353,6 +367,7 @@ const MSL = 'learn.microsoft.com';
 const COURSE_SLUG = <?= json_encode($slugSeguro) ?>;
 // null = curso antigo (todas as aulas têm vídeo); array = ids com .mp4 publicado.
 const VIDEOS_DISPONIVEIS = <?= $isPowerBi ? 'null' : json_encode($videosDisponiveis) ?>;
+const AUDIOS_DISPONIVEIS = <?= json_encode($audiosDisponiveis) ?>;
 </script>
 <?php if ($isPowerBi): ?>
 <script src="/assets/js/course-data.js?v=20260812-63-detalhado3"></script>
@@ -596,6 +611,12 @@ function renderLesson(id) {
         <a class="btn btn-ghost on-light" href="/apostila.php">${ICON_DOC} Baixar apostila completa</a>
       </div>` : ''}
       ${playerBlock}
+      ${AUDIOS_DISPONIVEIS.includes(lesson.id) ? `
+      <div class="podcast">
+        <div class="podcast-head"><strong>🎧 Ouvir esta aula</strong><span>Modo podcast: a aula inteira narrada, para estudar no trânsito ou sem tela.</span></div>
+        <audio class="podcast-audio" controls preload="none" src="/audio.php?id=${lesson.id}"></audio>
+        <div class="podcast-speed" role="group" aria-label="Velocidade">${[1, 1.25, 1.5, 2].map(v => `<button type="button" data-speed="${v}"${v === 1 ? ' class="on"' : ''}>${String(v).replace('.', ',')}x</button>`).join('')}</div>
+      </div>` : ''}
       <div class="objectives">
         <div class="kicker">O que você vai aprender</div>
         <ul>${lesson.objetivos.map(o => `<li>${ICON_CHECK}<span>${o}</span></li>`).join('')}</ul>
@@ -670,6 +691,15 @@ function renderLesson(id) {
       <div class="side right">${next ? `<a href="#${next.id}"><span class="dir">Próxima →</span><span class="t">${next.title}</span></a>` : ''}</div>
     </div></div>
   `;
+
+  const audioEl = main.querySelector('.podcast-audio');
+  if (audioEl) {
+    main.querySelectorAll('[data-speed]').forEach(btn => btn.addEventListener('click', () => {
+      audioEl.playbackRate = Number(btn.dataset.speed);
+      main.querySelectorAll('[data-speed]').forEach(b => b.classList.toggle('on', b === btn));
+    }));
+    audioEl.addEventListener('play', () => window.techSantosTrack?.('lesson_audio_play', { course_id: COURSE_SLUG, lesson_id: lesson.id }), { once: true });
+  }
 
   const videoEl = main.querySelector('.player-video');
   const placeholderEl = main.querySelector('.player-placeholder');
