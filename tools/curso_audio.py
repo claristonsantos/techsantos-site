@@ -36,8 +36,18 @@ def carregar_curso(slug: str) -> list:
     return json.loads(subprocess.check_output(["node", "-e", code, str(js)], encoding="utf-8"))
 
 
+def _codigo_falado(m: re.Match) -> str:
+    # Código e endereços não se leem em voz alta: comando/URI vira remissão ao
+    # texto; nome simples (_delta_log, IsEnabled) é lido como palavras.
+    c = html.unescape(m.group(1))
+    if re.search(r"://|[()=<>{}\[\]\"']|\.\w+\.", c):
+        return "conforme o exemplo no texto da aula"
+    return re.sub(r"[_./]+", " ", c).strip()
+
+
 def limpo(t: str) -> str:
-    t = html.unescape(re.sub(r"<[^>]+>", "", t or ""))
+    t = re.sub(r"<code>(.*?)</code>", _codigo_falado, t or "", flags=re.S)
+    t = html.unescape(re.sub(r"<[^>]+>", "", t))
     t = t.replace("→", ", ").replace("×", " ou ").replace("“", "").replace("”", "")
     return re.sub(r"\s+", " ", t).strip()
 
