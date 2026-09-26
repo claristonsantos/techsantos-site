@@ -125,6 +125,37 @@ function require_aluno(bool $allowTempPassword = false): array
         exit;
     }
     registrar_acesso_aluno((int)$aluno['id']);
+    return aluno_aplicar_curso_ativo($aluno);
+}
+
+/**
+ * Vários cursos por aluno: carrega as matrículas e troca curso_id/curso_nome/
+ * curso_slug pelo curso escolhido na sessão (se o aluno estiver matriculado
+ * nele). Assim avaliação, certificado e área do aluno — que já leem
+ * $aluno['curso_id'] — passam a funcionar por curso sem outras mudanças.
+ * Qualquer falha aqui mantém o comportamento antigo (curso principal).
+ */
+function aluno_aplicar_curso_ativo(array $aluno): array
+{
+    require_once __DIR__ . '/matriculas.php';
+    $aluno['matriculas'] = [['id' => (int)$aluno['curso_id'], 'nome' => (string)$aluno['curso_nome'], 'slug' => (string)$aluno['curso_slug']]];
+    try {
+        $pdo = db();
+        matricular($pdo, (int)$aluno['id'], (int)$aluno['curso_id']);
+        $matriculas = matriculas_do_aluno($pdo, (int)$aluno['id']);
+        if ($matriculas) $aluno['matriculas'] = $matriculas;
+        $ativo = (int)($_SESSION['curso_ativo_id'] ?? 0);
+        foreach ($aluno['matriculas'] as $m) {
+            if ($m['id'] === $ativo) {
+                $aluno['curso_id'] = $m['id'];
+                $aluno['curso_nome'] = $m['nome'];
+                $aluno['curso_slug'] = $m['slug'];
+                break;
+            }
+        }
+    } catch (Throwable $e) {
+        error_log('matriculas aluno ' . $aluno['id'] . ': ' . $e->getMessage());
+    }
     return $aluno;
 }
 

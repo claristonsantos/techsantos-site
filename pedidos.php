@@ -3,10 +3,13 @@ declare(strict_types=1);
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
 require_once __DIR__ . '/lead_pipeline.php';
+require_once __DIR__ . '/matriculas.php';
 
 function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?string $paymentId = null): array
 {
     $pdo = db(); $senhaGerada = null; $pedido = null; $alunoId = null;
+    // Fora da transação: CREATE TABLE faria commit implícito no MySQL.
+    matriculas_ensure_schema($pdo);
     try {
         $pdo->beginTransaction();
         $stmt = $pdo->prepare('SELECT * FROM pedidos WHERE id = ? FOR UPDATE');
@@ -27,12 +30,15 @@ function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?stri
         $dup->execute([$pedido['email'], $cpf]); $existing = $dup->fetch();
         if ($existing) {
             $alunoId = (int)$existing['id'];
-            $pdo->prepare("UPDATE alunos SET curso_id = ?, ativo = 1, cpf = IF(cpf IS NULL OR cpf = '', ?, cpf) WHERE id = ?")->execute([$pedido['curso_id'], $cpf, $alunoId]);
+            // Não sobrescreve mais o curso principal: quem já tem um curso e
+            // compra outro ganha uma matrícula nova e mantém o acesso antigo.
+            $pdo->prepare("UPDATE alunos SET curso_id = COALESCE(curso_id, ?), ativo = 1, cpf = IF(cpf IS NULL OR cpf = '', ?, cpf) WHERE id = ?")->execute([$pedido['curso_id'], $cpf, $alunoId]);
         } else {
             $senhaGerada = bin2hex(random_bytes(5));
             $pdo->prepare('INSERT INTO alunos (nome,email,cpf,senha_hash,curso_id,senha_temporaria) VALUES (?,?,?,?,?,1)')->execute([$pedido['nome'],$pedido['email'],$cpf,password_hash($senhaGerada,PASSWORD_DEFAULT),$pedido['curso_id']]);
             $alunoId = (int)$pdo->lastInsertId();
         }
+        matricular($pdo, $alunoId, (int)$pedido['curso_id']);
         $pdo->prepare("UPDATE pedidos SET status='pago', aluno_id=?, mercadopago_payment_id=COALESCE(?,mercadopago_payment_id), webhook_processado_em=NOW(), webhook_ultimo_erro=NULL, atualizado_em=NOW() WHERE id=?")->execute([$alunoId,$paymentId,$pedidoId]);
         $pdo->commit();
     } catch (Throwable $e) {

@@ -3,10 +3,24 @@ declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
 $aluno = require_aluno();
 $isPowerBi = $aluno['curso_slug'] === 'power-bi';
+// Vários cursos: o Power BI usa os arquivos históricos; qualquer outro curso
+// usa assets/js/course-data-<slug>.js (e só tem conteúdo quando o arquivo existe).
+$slugSeguro = preg_match('/^[a-z0-9-]+$/', (string)$aluno['curso_slug']) ? (string)$aluno['curso_slug'] : '';
+$cursoDataJs = $isPowerBi ? null : ('/assets/js/course-data-' . $slugSeguro . '.js');
+$temConteudo = $isPowerBi || ($slugSeguro !== '' && is_file(__DIR__ . '/..' . $cursoDataJs));
+$cursoPagina = ['power-bi' => '/curso-power-bi.php'][$slugSeguro] ?? '/';
+// Cursos novos são publicados com o texto antes dos vídeos: a aula mostra
+// "vídeo em breve" até o .mp4 existir em private-videos (mesma pasta do video.php).
+$videosDisponiveis = [];
+if (!$isPowerBi) {
+    foreach (glob(__DIR__ . '/../../private-videos/*.mp4') ?: [] as $arquivo) {
+        $videosDisponiveis[] = basename($arquivo, '.mp4');
+    }
+}
 
 $progressoConcluido = [];
 $avaliacoesInfo = [];
-if ($isPowerBi) {
+if ($temConteudo) {
     $stmt = db()->prepare('SELECT licao_id FROM progresso WHERE aluno_id = ?');
     $stmt->execute([$aluno['id']]);
     $progressoConcluido = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -131,6 +145,18 @@ if ($isPowerBi) {
   .lesson-shell { max-width:880px; margin:0 auto; }
   .lesson-breadcrumb { font-size: 0.78rem; color: var(--ink-faint); font-weight: 500; }
   .lesson-title { font-size: clamp(1.35rem, 1.2vw + 1rem, 1.85rem); margin: 0.4rem 0 1.5rem; font-family: 'Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0; }
+
+  .video-soon {
+    display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1.5rem;
+    padding: 1rem 1.2rem; border-radius: 8px; border: 1px dashed var(--line);
+    background: var(--surface-2); color: var(--ink-soft); font-size: 0.9rem;
+  }
+  .video-soon strong { color: var(--ink); font-size: 0.95rem; }
+  .course-switch select {
+    font: inherit; font-size: 0.82rem; padding: 0.4rem 0.6rem; border-radius: 6px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink); max-width: 220px;
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
   .player {
     aspect-ratio: 16 / 9; background: #14161A;
@@ -270,23 +296,33 @@ if ($isPowerBi) {
 
 <div class="student-topbar">
   <div style="display:flex; align-items:center; gap:0.75rem;">
-    <?php if ($isPowerBi): ?>
+    <?php if ($temConteudo): ?>
     <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir módulos" aria-expanded="false">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
     <?php endif; ?>
-    <a class="student-brand" href="/curso-power-bi.php">
+    <a class="student-brand" href="<?= htmlspecialchars($cursoPagina, ENT_QUOTES) ?>">
       <img src="/assets/img/logo.jpg" alt="Tech Santos BR" />
       <span>TECH <em>SANTOS BR</em> · Área do Aluno</span>
     </a>
   </div>
   <div class="topbar-actions">
+    <?php if (count($aluno['matriculas']) > 1): ?>
+    <label class="course-switch">
+      <span class="sr-only">Curso</span>
+      <select onchange="location.href='/aluno/curso.php?id='+this.value" aria-label="Trocar de curso">
+        <?php foreach ($aluno['matriculas'] as $m): ?>
+          <option value="<?= (int)$m['id'] ?>"<?= (int)$m['id'] === (int)$aluno['curso_id'] ? ' selected' : '' ?>><?= htmlspecialchars($m['nome'], ENT_QUOTES) ?></option>
+        <?php endforeach; ?>
+      </select>
+    </label>
+    <?php endif; ?>
     <span class="who">Olá, <?= htmlspecialchars(explode(' ', $aluno['nome'])[0], ENT_QUOTES) ?></span>
     <a class="btn btn-ghost on-light" href="/logout.php">Sair</a>
   </div>
 </div>
 
-<?php if (!$isPowerBi): ?>
+<?php if (!$temConteudo): ?>
   <div class="empty-course">
     <h1><?= htmlspecialchars($aluno['curso_nome'], ENT_QUOTES) ?></h1>
     <p>O conteúdo deste curso ainda está sendo preparado. Assim que as aulas forem publicadas, elas aparecem automaticamente aqui — nenhuma ação necessária da sua parte.</p>
@@ -314,10 +350,17 @@ const SERVER_PROGRESS = <?= json_encode($progressoConcluido) ?>;
 const AVALIACOES = <?= json_encode($avaliacoesInfo, JSON_UNESCAPED_UNICODE) ?>;
 const RESUME_MODULE = <?= json_encode(preg_match('/^[a-z0-9-]+$/', (string)($_GET['modulo'] ?? '')) ? $_GET['modulo'] : null) ?>;
 const MSL = 'learn.microsoft.com';
+const COURSE_SLUG = <?= json_encode($slugSeguro) ?>;
+// null = curso antigo (todas as aulas têm vídeo); array = ids com .mp4 publicado.
+const VIDEOS_DISPONIVEIS = <?= $isPowerBi ? 'null' : json_encode($videosDisponiveis) ?>;
 </script>
+<?php if ($isPowerBi): ?>
 <script src="/assets/js/course-data.js?v=20260812-63-detalhado3"></script>
 <script src="/assets/js/course-details.js?v=20260812-3"></script>
 <script src="/assets/js/course-official-gaps.js?v=20260812-2"></script>
+<?php else: ?>
+<script src="<?= htmlspecialchars($cursoDataJs, ENT_QUOTES) ?>?v=<?= (int)@filemtime(__DIR__ . '/..' . $cursoDataJs) ?>"></script>
+<?php endif; ?>
 <script>
 
 const flat = [];
@@ -327,7 +370,7 @@ const totalLessons = flat.length;
 let progress = new Set(SERVER_PROGRESS);
 let openModule = COURSE[0].id;
 const trackedLessons = new Set();
-window.techSantosTrack?.('course_opened', { course_id: 'power-bi', total_lessons: totalLessons, completed_lessons: progress.size });
+window.techSantosTrack?.('course_opened', { course_id: COURSE_SLUG, total_lessons: totalLessons, completed_lessons: progress.size });
 
 function moduleIndex(moduleId) { return COURSE.findIndex(m => m.id === moduleId); }
 
@@ -526,7 +569,13 @@ function renderLesson(id) {
   const main = document.getElementById('appMain');
   openModule = lesson.moduleId;
 
-  const playerBlock = `
+  const videoPublicado = VIDEOS_DISPONIVEIS === null || VIDEOS_DISPONIVEIS.includes(lesson.id);
+  const playerBlock = !videoPublicado ? `
+    <div class="video-soon">
+      <strong>🎬 Vídeo desta aula em breve</strong>
+      <span>Todo o conteúdo necessário já está aqui embaixo, em texto e imagens — você pode estudar e concluir a aula normalmente.</span>
+    </div>
+  ` : `
     <div class="player">
       <video class="player-video" controls preload="metadata" playsinline>
         <source src="/video.php?id=${lesson.id}" type="video/mp4">
