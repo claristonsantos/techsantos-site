@@ -953,5 +953,417 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m04', title: 'Módulo 04 · Data Factory: pipelines, orquestração e cargas', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-data-factory-visao', title: 'Data Factory no Fabric: itens, conexões e gateways',
+        desc: 'O que o Data Factory oferece dentro do Fabric, como criar e gerenciar conexões de dados e quando usar o gateway local ou o gateway de rede virtual.',
+        objetivos: [
+          'Reconhecer os itens do Data Factory e o papel de cada um',
+          'Criar e gerenciar uma conexão de dados em “Gerenciar conexões e gateways”',
+          'Escolher entre gateway de dados local e gateway de rede virtual (VNet)',
+          'Apontar as diferenças principais em relação ao Azure Data Factory'
+        ],
+        body: 'O Data Factory é a carga de trabalho de integração de dados do Fabric: é com ele que você traz dados de fora para dentro do OneLake e orquestra as etapas de uma solução. Ele se conecta a mais de 170 fontes e reúne movimentação, orquestração e transformação num só lugar. Esta aula cobre a habilidade DP-600 “Criar uma conexão de dados” e prepara o terreno para o resto do módulo.',
+        content: [
+          { h: 'Os itens do Data Factory',
+            items: [
+              '<strong>Pipeline</strong> — o orquestrador: uma sequência de atividades (copiar, executar notebook, rodar procedimento, repetir, decidir) com agendas e gatilhos.',
+              '<strong>Trabalho de cópia (Copy job)</strong> — movimentação de dados simplificada, de várias fontes para vários destinos, com cópia completa ou incremental e sem precisar montar pipeline.',
+              '<strong>Dataflow Gen2</strong> — transformação com Power Query, sem código ou com pouco código (Módulo 05).',
+              '<strong>Espelhamento</strong> — replicação contínua de bancos para o OneLake (visto no Módulo 02).',
+              '<strong>Trabalho do Apache Airflow</strong> — orquestração escrita em Python, para quem já usa Airflow.',
+              '<strong>Copilot para Data Factory</strong> — cria e explica pipelines e fluxos de dados por linguagem natural e ajuda a diagnosticar erros.'
+            ],
+            img: { src: `${FAB_IMG}/m04/pilha-integracao.png`, alt: 'Diagrama da pilha de integração de dados do Data Factory no Fabric', caption: 'Data Factory no Fabric: mais de 170 conectores, movimentação, orquestração e transformação, tudo gravando no OneLake.', source: `${LEARN}/data-factory/data-factory-overview` } },
+          { h: 'ETL ou ELT',
+            p: 'No <strong>ETL</strong> (extrair, transformar, carregar) você limpa e padroniza os dados no caminho, antes de gravar — por exemplo, num Dataflow Gen2. No <strong>ELT</strong> (extrair, carregar, transformar) você primeiro copia os dados brutos para o lakehouse ou warehouse e transforma depois, com Spark ou T-SQL, aproveitando a escala do destino. A arquitetura medalhão do Módulo 03 é um ELT: o dado entra bruto na bronze e é refinado nas camadas seguintes.' },
+          { h: 'Conexões de dados',
+            p: 'No Fabric não existem os “serviços vinculados” e “conjuntos de dados” do Azure Data Factory: a credencial e o endereço da fonte ficam num objeto <strong>conexão</strong>, guardado com segurança e reutilizado pelos itens. Você cria e administra as conexões em <strong>Configurações (engrenagem) → Gerenciar conexões e gateways</strong>, ou direto de dentro de uma atividade, pela opção de nova conexão.',
+            items: [
+              'Cada conexão tem um <strong>ID</strong> (GUID), visível nas configurações dela — é esse ID que você usa para parametrizar conexões em pipelines e nas APIs REST.',
+              'Em <strong>Gerenciar usuários</strong> você define quem pode usar ou administrar a conexão, sem entregar a senha a ninguém.',
+              'A opção “Esta conexão pode ser usada com gateways de dados locais e gateways de dados VNet” controla se a conexão de nuvem pode ser avaliada por um gateway.',
+              'As conexões mostram quando foram vinculadas a um item e quando as credenciais foram usadas pela última vez — ajuda a achar conexões abandonadas antes de trocar senha ou excluir.'
+            ],
+            img: { src: `${FAB_IMG}/m04/gerenciar-conexoes.png`, alt: 'Menu Configurações com Gerenciar conexões e gateways destacado', caption: 'Configurações → Gerenciar conexões e gateways: o lugar central das conexões do Fabric.', source: `${LEARN}/data-factory/how-to-access-on-premises-data` } },
+          { h: 'Gateway de dados local',
+            p: 'Quando a fonte está dentro da rede da empresa (um SQL Server no servidor da matriz, uma pasta de rede), a nuvem não consegue alcançá-la sozinha. O <strong>gateway de dados local</strong> é um programa que você instala num computador dessa rede; ele faz a ponte segura com o Fabric. Depois de instalado, você cria a conexão escolhendo o tipo <strong>Local</strong> e informando o cluster de gateway. Para pipelines, o gateway precisa estar numa versão recente (3000.214.2 ou posterior). No Fabric, o gateway local substitui o runtime de integração auto-hospedado (SHIR) que existia no Azure Data Factory.',
+            img: { src: `${FAB_IMG}/m04/nova-conexao-local.png`, alt: 'Diálogo Nova conexão com a opção Local selecionada', caption: 'Nova conexão do tipo Local: você escolhe o cluster de gateway e o tipo da fonte.', source: `${LEARN}/data-factory/how-to-access-on-premises-data` } },
+          { h: 'Gateway de dados de rede virtual (VNet)',
+            items: [
+              'É um gateway <strong>gerenciado pela Microsoft</strong>, sem instalação em máquina: ele é injetado numa rede virtual do Azure da sua empresa.',
+              'Serve para fontes do Azure protegidas por <strong>pontos de extremidade privados</strong> ou Private Link — o tráfego não passa por endpoint público.',
+              'Funciona com Dataflow Gen2, pipelines, trabalho de cópia, espelhamento, modelos semânticos e relatórios paginados do Power BI.',
+              'Disponível em SKUs F (recomendado F8 ou superior), P e A4 ou superior.'
+            ] },
+          { h: 'E se eu já uso Azure Data Factory?',
+            p: 'O Data Factory do Fabric é a próxima geração do Azure Data Factory. Cerca de 90% das atividades do ADF existem no Fabric, e há novidades como as atividades do Outlook e do Teams para notificação. As diferenças que mais aparecem: conexões em vez de serviços vinculados e conjuntos de dados; gateway local em vez de SHIR; agendas e gatilhos do Activator em vez dos gatilhos do ADF; Git e pipelines de implantação por item em vez de modelos ARM; e o destino natural dos dados é o OneLake.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Fonte on-premises atrás do firewall → gateway de dados local + conexão do tipo Local.',
+              'Fonte no Azure acessível só por ponto de extremidade privado, sem querer instalar nada → gateway de dados VNet.',
+              'Precisa trocar a conexão dinamicamente num pipeline → use o ID (GUID) da conexão como parâmetro.',
+              'Compartilhar acesso a uma fonte sem revelar a senha → dar permissão de uso na conexão.'
+            ] }
+        ],
+        recursos: [
+          { t: 'O que é o Data Factory no Microsoft Fabric', u: `${LEARN}/data-factory/data-factory-overview` },
+          { t: 'Gerenciamento de fontes de dados (conexões)', u: `${LEARN}/data-factory/data-source-management` },
+          { t: 'Acessar fontes de dados locais', u: `${LEARN}/data-factory/how-to-access-on-premises-data` },
+          { t: 'Gateway de dados de rede virtual', u: 'https://learn.microsoft.com/pt-br/data-integration/vnet/overview' },
+          { t: 'Diferenças entre Azure Data Factory e Fabric Data Factory', u: `${LEARN}/data-factory/compare-fabric-data-factory-and-azure-data-factory` }
+        ]
+      },
+      {
+        id: 'fab-pipeline-atividades', title: 'Pipelines: atividades, dependências e tratamento de erros',
+        desc: 'Os três grupos de atividades, as configurações comuns (tempo limite, repetição), as condições de dependência entre atividades e os padrões de tratamento de erro que decidem se o pipeline termina com sucesso ou falha.',
+        objetivos: [
+          'Classificar as atividades em movimentação, transformação e fluxo de controle',
+          'Configurar tempo limite, repetição e desativação de atividades',
+          'Usar as quatro condições de dependência e prever o status final do pipeline',
+          'Aplicar ForEach, Lookup, If, Invocar pipeline e variáveis em padrões de orquestração'
+        ],
+        body: 'Um pipeline é um conjunto de atividades ligadas por setas de dependência. Saber qual atividade usar e como elas se encadeiam é a base das habilidades DP-700 “Ingerir dados usando pipelines” e “Implementar padrões de orquestração com notebooks e pipelines”.',
+        content: [
+          { h: 'Os três grupos de atividades',
+            items: [
+              '<strong>Movimentação</strong>: Copiar dados e Trabalho de cópia.',
+              '<strong>Transformação</strong>: Dataflow Gen2, Notebook, Definição de trabalho do Spark, Procedimento armazenado, Script SQL, Excluir dados, atividade KQL, entre outras.',
+              '<strong>Fluxo de controle</strong>: ForEach, Se (condição), Switch, Até (Until), Espera, Pesquisa (Lookup), Obter metadados, Definir variável, Acrescentar variável, Filtro, Falha (Fail), Invocar pipeline, Web e Webhook, Teams e Outlook, e atividades do próprio Fabric como Manutenção do Lakehouse e Atualizar o ponto de extremidade de análise SQL.'
+            ],
+            img: { src: `${FAB_IMG}/m04/editor-atividades.png`, alt: 'Editor de pipeline com a guia Atividades', caption: 'O editor de pipeline: a guia Atividades lista tudo o que pode ser arrastado para a tela.', source: `${LEARN}/data-factory/activity-overview` } },
+          { h: 'Configurações gerais de uma atividade',
+            items: [
+              '<strong>Tempo limite</strong>: padrão de 12 horas, máximo de 7 dias (formato dias.horas:minutos:segundos).',
+              '<strong>Repetição</strong>: quantas novas tentativas fazer se a atividade falhar e o intervalo entre elas (padrão de 30 segundos) — ideal para erros transitórios, como queda de rede.',
+              '<strong>Entrada segura / saída segura</strong>: escondem a entrada ou a saída da atividade nos logs de monitoramento (use quando houver senha ou dado sensível).',
+              'Um pipeline aceita até <strong>120 atividades</strong>, contando as que ficam dentro de contêineres como ForEach e If.'
+            ],
+            img: { src: `${FAB_IMG}/m04/config-gerais.png`, alt: 'Guia Configurações gerais de uma atividade', caption: 'Guia Geral: nome, descrição, tempo limite, repetição e entrada/saída seguras.', source: `${LEARN}/data-factory/activity-overview` } },
+          { h: 'Desativar uma atividade',
+            p: 'Você pode desativar uma atividade (ou várias, com Ctrl + clique e botão direito) para que ela seja ignorada na validação e na execução, sem apagá-la da tela — é o “comentar código” do pipeline. Ao desativar, você escolhe como ela deve ser marcada: <strong>Com êxito, Com falha ou Ignorada</strong>, e isso decide o caminho que as atividades seguintes vão tomar. Útil para deixar um espaço reservado durante o desenvolvimento ou para pular uma etapa problemática enquanto a fonte está fora do ar.',
+            img: { src: `${FAB_IMG}/m04/desativar-atividade.png`, alt: 'Atividade desativada no editor de pipeline', caption: 'Atividade desativada: aparece esmaecida e com o status escolhido para o fluxo seguir.', source: `${LEARN}/data-factory/activity-overview` } },
+          { h: 'Condições de dependência',
+            p: 'A seta que liga uma atividade à próxima tem uma condição. São quatro:',
+            items: [
+              '<strong>Ao ter êxito</strong> (On success, seta verde) — a próxima só roda se a anterior deu certo. É a padrão.',
+              '<strong>Ao falhar</strong> (On fail, vermelha) — roda só se a anterior falhou; usada para tratamento de erro e alerta.',
+              '<strong>Ao concluir</strong> (On completion, azul) — roda de qualquer jeito, com sucesso ou falha; usada para passos de “melhor esforço”, como gravar log.',
+              '<strong>Ao ignorar</strong> (On skip, cinza) — roda quando a anterior não foi executada.',
+              'Quando uma atividade recebe várias setas, todas as condições precisam ser atendidas (lógica “E”). Para lógica “OU”, use “Ao concluir” mais uma atividade Se (condição) testando o status das anteriores.'
+            ] },
+          { h: 'Quando o pipeline é considerado com falha',
+            p: 'O status final do pipeline é calculado pelas <strong>atividades folha</strong> (as últimas de cada ramo); se uma folha foi ignorada, avalia-se a atividade anterior a ela. O pipeline só termina com êxito se todas as atividades avaliadas terminaram com êxito. Daí saem os padrões clássicos:',
+            items: [
+              '<strong>Try-catch</strong> — só o caminho “Ao falhar” é ligado ao tratamento de erro. Se o tratamento der certo, o pipeline termina <strong>com êxito</strong> (o erro foi “capturado”).',
+              '<strong>Do-if-else</strong> — há um caminho “Ao ter êxito” e outro “Ao falhar”. Mesmo que o tratamento de erro dê certo, o pipeline termina <strong>com falha</strong>, porque o ramo de sucesso ficou ignorado e a atividade principal falhou.',
+              '<strong>Do-if-skip-else</strong> — igual ao anterior, com uma atividade fictícia ligada por “Ao ignorar”; o pipeline volta a terminar com êxito quando o tratamento dá certo.',
+              'Para <strong>forçar</strong> uma falha com mensagem e código próprios (por exemplo, arquivo vazio), use a atividade <strong>Falha (Fail)</strong>.'
+            ] },
+          { h: 'Atividades de orquestração que mais caem',
+            items: [
+              '<strong>Pesquisa (Lookup)</strong> — lê um valor ou uma lista de uma tabela, arquivo, consulta ou procedimento, para as próximas atividades usarem. Limites: até 5.000 linhas e 4 MB de saída.',
+              '<strong>ForEach</strong> — repete as atividades internas para cada item de uma lista; o item atual é <code>@item()</code>. Pode ser <strong>sequencial</strong> ou em <strong>paralelo</strong>, com a <strong>contagem de lote</strong> limitando quantos itens rodam ao mesmo tempo.',
+              '<strong>Se (condição)</strong> e <strong>Switch</strong> — ramificam por expressão; <strong>Até (Until)</strong> repete até a condição ficar verdadeira; <strong>Espera</strong> pausa.',
+              '<strong>Obter metadados</strong> — lê propriedades de arquivos e pastas (existe? tamanho? lista de arquivos?) para decidir o que carregar.',
+              '<strong>Invocar pipeline</strong> — um pipeline pai chama pipelines filhos (do Fabric, e também do ADF ou Synapse), podendo esperar a conclusão. Ajuda a modularizar e reutilizar.',
+              '<strong>Definir variável</strong> e <strong>Acrescentar variável</strong> — gravam em variáveis do pipeline (Cadeia, Booliano ou Matriz); Definir variável também define o <strong>valor retornado</strong> do pipeline para quem o invocou.'
+            ],
+            img: { src: `${FAB_IMG}/m04/foreach-config.png`, alt: 'Configurações da atividade ForEach com a lista de itens', caption: 'ForEach: sequencial ou paralelo, contagem de lote e a lista de itens (fixa ou dinâmica).', source: `${LEARN}/data-factory/foreach-activity` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Enviar alerta só quando a cópia falhar → dependência “Ao falhar”.',
+              'Gravar log independentemente do resultado → “Ao concluir”.',
+              'Pipeline deve terminar com êxito depois de tratar o erro → padrão try-catch (só o caminho de falha ligado).',
+              'Carregar uma lista de tabelas definida numa tabela de controle → Lookup + ForEach com <code>@item()</code>.',
+              'Erro de rede intermitente → configurar repetição da atividade em vez de refazer o pipeline.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral das atividades', u: `${LEARN}/data-factory/activity-overview` },
+          { t: 'Erros e execução condicional (padrões de tratamento)', u: 'https://learn.microsoft.com/pt-br/azure/data-factory/tutorial-pipeline-failure-error-handling' },
+          { t: 'Atividade ForEach', u: `${LEARN}/data-factory/foreach-activity` },
+          { t: 'Atividade Pesquisa (Lookup)', u: `${LEARN}/data-factory/lookup-activity` },
+          { t: 'Atividade Invocar pipeline', u: `${LEARN}/data-factory/invoke-pipeline-activity` },
+          { t: 'Atividade Definir variável', u: `${LEARN}/data-factory/set-variable-activity` }
+        ]
+      },
+      {
+        id: 'fab-copy', title: 'Atividade Copiar e trabalho de cópia',
+        desc: 'As duas formas de mover dados no Data Factory: a atividade Copiar dentro de um pipeline e o item trabalho de cópia, com cópia completa ou incremental, métodos de atualização e agendas próprias.',
+        objetivos: [
+          'Configurar origem, destino e mapeamento de uma atividade Copiar',
+          'Explicar os modos de cópia e os métodos de atualização do trabalho de cópia',
+          'Escolher entre atividade Copiar e trabalho de cópia'
+        ],
+        body: 'Copiar dados é a tarefa mais comum de qualquer engenheiro de dados. No Fabric há dois caminhos: a atividade Copiar, peça de um pipeline, e o trabalho de cópia, um item independente que já traz incremental e agendamento prontos.',
+        content: [
+          { h: 'A atividade Copiar',
+            p: 'A atividade Copiar lê de uma fonte, converte os tipos e grava no destino. Você pode configurá-la pelo <strong>assistente de cópia</strong> (guia passo a passo: fonte, dados, destino, mapeamento, revisão) ou adicioná-la direto à tela e preencher as guias:',
+            items: [
+              '<strong>Origem</strong> — conexão e tabela, consulta ou caminho de arquivo.',
+              '<strong>Destino</strong> — pode ser um item do próprio Fabric (lakehouse, warehouse, banco de dados KQL) ou um armazenamento externo. No lakehouse você escolhe gravar em <strong>Tables</strong> ou em <strong>Files</strong>.',
+              '<strong>Mapeamento</strong> — “Importar esquemas” gera o mapeamento coluna a coluna; você pode renomear colunas ao criar uma tabela nova.',
+              '<strong>Configurações</strong> — desempenho (paralelismo), preparo (staging), tolerância a falhas e verificação de consistência.',
+              'Tipos de dados: o Data Factory converte o tipo nativo da origem num tipo provisório e depois no tipo do destino.'
+            ],
+            img: { src: `${FAB_IMG}/m04/assistente-copia.png`, alt: 'Opções para abrir o assistente de cópia', caption: 'Duas entradas: o assistente de cópia (guiado) ou adicionar a atividade Copiar à tela.', source: `${LEARN}/data-factory/copy-data-activity` } },
+          { h: 'Parametrizando a cópia',
+            p: 'Quase todos os campos aceitam <strong>conteúdo dinâmico</strong>: nome da tabela, pasta, até a própria conexão ou o lakehouse de destino. Assim um único pipeline, dentro de um ForEach, copia dezenas de tabelas lendo os nomes de uma tabela de controle. Na próxima aula você aprende a sintaxe das expressões.',
+            img: { src: `${FAB_IMG}/m04/copia-no-canvas.png`, alt: 'Atividade de cópia na tela do pipeline', caption: 'A atividade Copiar na tela do pipeline, com as guias Geral, Origem, Destino, Mapeamento e Configurações.', source: `${LEARN}/data-factory/copy-data-activity` } },
+          { h: 'O trabalho de cópia (Copy job)',
+            p: 'É um item próprio do workspace para mover dados sem montar pipeline. Um mesmo trabalho copia várias tabelas de uma vez, com experiência guiada.',
+            items: [
+              '<strong>Cópia completa</strong> — toda execução copia tudo.',
+              '<strong>Cópia incremental</strong> — a primeira execução copia tudo; as seguintes só o que é novo ou mudou. O próprio trabalho guarda o estado da última execução bem-sucedida; se uma execução falhar, a próxima retoma de onde a última boa parou, sem perda. Dá para redefinir e voltar a uma carga completa.',
+              'Incremental por <strong>CDC</strong> (quando a fonte tem captura de dados de alteração: pega inserções, atualizações e exclusões) ou por <strong>marca d’água</strong> (uma coluna crescente, como data de alteração ou ID: pega inserções e atualizações).',
+              '<strong>Métodos de atualização</strong> no destino: <strong>acréscimo</strong> (o padrão), <strong>mesclagem</strong> (upsert por coluna-chave), <strong>substituição</strong> e, em destinos com suporte, <strong>SCD Tipo 2</strong>.',
+              'Cria as tabelas no destino se não existirem, pode truncar o destino antes da carga completa e acrescentar <strong>colunas de auditoria</strong> (hora da extração, arquivo de origem).',
+              'Em destino lakehouse, pode habilitar o <strong>Change Data Feed</strong> da tabela Delta, para as camadas seguintes também processarem só as mudanças.',
+              'Aceita <strong>vários agendamentos</strong> (por exemplo, diário às 6h e outro aos domingos), gateway local ou VNet, Git e biblioteca de variáveis para CI/CD.'
+            ],
+            img: { src: `${FAB_IMG}/m04/copy-job-monitor.png`, alt: 'Trabalho de cópia e seu painel de resultados', caption: 'Um trabalho de cópia com várias tabelas e o painel de resultados de cada execução.', source: `${LEARN}/data-factory/what-is-copy-job` } },
+          { h: 'Atividade Copiar ou trabalho de cópia?',
+            items: [
+              '<strong>Trabalho de cópia</strong> — quer copiar muitas tabelas com incremental pronto, sem desenhar lógica de controle. É a escolha simples para ingestão e replicação.',
+              '<strong>Atividade Copiar</strong> — a cópia é uma etapa dentro de um fluxo maior, com lógica própria (Lookup, ForEach, condições, notebook depois).',
+              'Dá para juntar os dois: a atividade <strong>Trabalho de cópia</strong> executa um trabalho de cópia dentro de um pipeline, aproveitando gatilhos de evento e dependências.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Copiar várias tabelas de um SQL com CDC habilitado, só as alterações, com pouco código → trabalho de cópia incremental baseado em CDC.',
+              'Fonte sem CDC mas com coluna de data de alteração → incremental por marca d’água.',
+              'Atualizar linhas existentes no destino pela chave → método de mesclagem.',
+              'Cópia que precisa rodar só depois de validar um arquivo e antes de um notebook → atividade Copiar num pipeline.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Como copiar dados usando a atividade Copiar', u: `${LEARN}/data-factory/copy-data-activity` },
+          { t: 'O que é o trabalho de cópia', u: `${LEARN}/data-factory/what-is-copy-job` },
+          { t: 'Atividade Trabalho de cópia em pipelines', u: `${LEARN}/data-factory/copy-job-activity` },
+          { t: 'Visão geral dos conectores', u: `${LEARN}/data-factory/connector-overview` }
+        ]
+      },
+      {
+        id: 'fab-parametros-expressoes', title: 'Parâmetros, variáveis e expressões dinâmicas',
+        desc: 'Como tornar um pipeline reutilizável: parâmetros, variáveis, variáveis de sistema, a linguagem de expressões e a passagem de parâmetros para notebooks e entre pipelines.',
+        objetivos: [
+          'Diferenciar parâmetro de variável de pipeline',
+          'Escrever expressões com funções, saída de atividades e variáveis de sistema',
+          'Passar parâmetros para um notebook e ler o valor que ele devolve'
+        ],
+        body: 'A habilidade DP-700 “Implementar padrões de orquestração com notebooks e pipelines, incluindo parâmetros e expressões dinâmicas” é uma das mais cobradas na parte prática da prova. O segredo é entender de onde vem cada valor e como referenciá-lo.',
+        content: [
+          { h: 'Parâmetros e variáveis',
+            items: [
+              '<strong>Parâmetro</strong> — valor que entra de fora no início da execução (manual, agenda, gatilho ou pipeline pai) e <strong>não muda</strong> durante a execução. Criado clicando no fundo da tela → guia Parâmetros → + Novo, com nome, tipo e valor padrão. Referência: <code>@pipeline().parameters.NomeTabela</code>.',
+              '<strong>Variável</strong> — valor interno que <strong>pode mudar</strong> durante a execução, com as atividades Definir variável e Acrescentar variável. Referência: <code>@variables(\'contador\')</code>.',
+              '<strong>Biblioteca de variáveis</strong> — item do workspace que guarda valores por ambiente (desenvolvimento, teste, produção); agendas e trabalhos de cópia podem ler dela, o que facilita o CI/CD (Módulo 13).'
+            ],
+            img: { src: `${FAB_IMG}/m04/parametro-novo.png`, alt: 'Editor de Parâmetros do pipeline', caption: 'Guia Parâmetros do pipeline: nome, tipo e valor padrão de cada parâmetro.', source: `${LEARN}/data-factory/parameters` } },
+          { h: 'A linguagem de expressões',
+            items: [
+              'Um valor que começa com <strong>@</strong> é avaliado em tempo de execução; sem @, é texto literal.',
+              'Para misturar texto e expressão use a interpolação <code>@{...}</code>: por exemplo, <code>vendas_@{pipeline().parameters.ano}.csv</code>.',
+              'Funções de texto, coleção, lógica, conversão, matemática e data: <code>concat</code>, <code>formatDateTime</code>, <code>utcNow</code>, <code>addDays</code>, <code>equals</code>, <code>if</code>, <code>length</code>, <code>int</code>, entre outras. Exemplo de nome de arquivo com data: <code>@concat(\'vendas_\', formatDateTime(utcNow(), \'yyyyMMdd\'), \'.parquet\')</code>.',
+              'Aspas simples delimitam texto; para um apóstrofo dentro do texto, use duas aspas simples.',
+              'Para ler um subcampo cujo nome vem de parâmetro, use colchetes em vez do ponto.'
+            ],
+            img: { src: `${FAB_IMG}/m04/parametro-conteudo-dinamico.png`, alt: 'Janela Adicionar conteúdo dinâmico com um parâmetro', caption: 'A janela Adicionar conteúdo dinâmico: parâmetros, variáveis de sistema, funções e saídas de atividades a um clique.', source: `${LEARN}/data-factory/parameters` } },
+          { h: 'De onde vêm os valores',
+            items: [
+              'Saída de outra atividade: <code>@activity(\'NomeDaAtividade\').output</code>. Do Lookup com “somente primeira linha”: <code>...output.firstRow.Coluna</code>; com várias linhas: <code>...output.value</code> (a lista que alimenta um ForEach).',
+              'Item atual dentro de um ForEach: <code>@item()</code> (ou <code>@item().Coluna</code>).',
+              'Variáveis de sistema: <code>@pipeline().RunId</code> (ID da execução), <code>@pipeline().PipelineName</code>, <code>@pipeline().TriggerTime</code> (hora em que o gatilho disparou, em UTC), <code>@pipeline().TriggerName</code> e o ID do workspace.',
+              'Todas as datas de gatilho vêm em <strong>UTC</strong>, no formato ISO 8601 — converta para o fuso local quando for gravar ou comparar.'
+            ],
+            img: { src: `${FAB_IMG}/m04/lookup-saida-expressao.png`, alt: 'Uso da saída da atividade de pesquisa numa expressão', caption: 'A saída de uma atividade Pesquisa sendo usada numa expressão da atividade seguinte.', source: `${LEARN}/data-factory/lookup-activity` } },
+          { h: 'Parâmetros em notebooks',
+            p: 'Para receber valores do pipeline, o notebook precisa de uma <strong>célula de parâmetros</strong> (marcada com “Alternar célula de parâmetro”), onde ficam as variáveis com valores padrão. Na atividade Notebook, os <strong>parâmetros base</strong> sobrescrevem esses valores; o Fabric até preenche a lista automaticamente a partir da célula de parâmetros. No sentido contrário, o notebook devolve um valor ao pipeline encerrando com <code>notebookutils.notebook.exit(valor)</code>, lido no pipeline em <code>@activity(\'NomeDoNotebook\').output.result.exitValue</code>. Não coloque o <code>exit</code> dentro de um bloco try/except: a exceção interna que ele gera precisa se propagar para o pipeline receber o valor.',
+            img: { src: `${FAB_IMG}/m04/notebook-parametros-base.png`, alt: 'Parâmetros base preenchidos automaticamente na atividade Notebook', caption: 'Atividade Notebook: os parâmetros base vêm da célula de parâmetros do notebook e podem receber conteúdo dinâmico.', source: `${LEARN}/data-factory/notebook-activity` } },
+          { h: 'Outros detalhes da atividade Notebook',
+            items: [
+              '<strong>Marca de sessão</strong>: com o modo de alta simultaneidade para pipelines ligado nas configurações do Spark do workspace, notebooks do pipeline que usam a mesma marca reaproveitam a sessão Spark e começam mais rápido.',
+              'A atividade pode autenticar com a <strong>identidade do workspace</strong>, útil para não depender da conta de uma pessoa.',
+              'Não executa notebooks de outra região.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Mesmo pipeline para várias tabelas ou ambientes → parâmetros, não cópias do pipeline.',
+              'Valor que precisa mudar durante a execução (contador, lista acumulada) → variável.',
+              'Nome de arquivo com a data da execução → <code>formatDateTime</code> com <code>utcNow</code> ou <code>pipeline().TriggerTime</code>.',
+              'Notebook precisa receber a data de corte → célula de parâmetros + parâmetro base; devolver o total de linhas → <code>notebookutils.notebook.exit</code>.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Parâmetros do Data Factory', u: `${LEARN}/data-factory/parameters` },
+          { t: 'Expressões e funções', u: `${LEARN}/data-factory/expression-language` },
+          { t: 'Atividade Notebook', u: `${LEARN}/data-factory/notebook-activity` }
+        ]
+      },
+      {
+        id: 'fab-agendas-gatilhos', title: 'Executar, agendar, disparar por evento e monitorar',
+        desc: 'As três formas de iniciar um pipeline — sob demanda, por agenda e por evento — e como acompanhar as execuções, receber alertas de falha e reexecutar a partir da atividade que falhou.',
+        objetivos: [
+          'Configurar agendas fixas e baseadas em intervalo, com parâmetros',
+          'Criar um gatilho de evento de armazenamento e usar o nome do arquivo no pipeline',
+          'Monitorar execuções e reexecutar a partir da falha'
+        ],
+        body: 'Esta aula cobre a habilidade DP-700 “Projetar e implementar agendas e gatilhos baseados em eventos” e o início de “Monitorar a ingestão de dados”, que volta com mais profundidade no Módulo 14.',
+        content: [
+          { h: 'Sob demanda',
+            p: 'O botão <strong>Executar</strong> da guia Página Inicial dispara uma execução imediata; o Fabric pede para salvar antes (Salvar e executar). O andamento aparece na guia <strong>Saída</strong>, embaixo da tela, atividade por atividade.' },
+          { h: 'Agendas',
+            items: [
+              'Em <strong>Agendar → Adicionar agenda</strong>, você define frequência, data e hora de início e de término e fuso horário. Por padrão, o pipeline não tem agenda.',
+              'Data de término é obrigatória: não existe agenda sem fim. Para rodar indefinidamente, use uma data bem distante.',
+              'Até <strong>20 agendas</strong> por pipeline, cada uma com frequência e horários próprios.',
+              'A agenda pode passar <strong>valores de parâmetros</strong> — valor direto ou lido de uma biblioteca de variáveis. Os nomes precisam bater com os parâmetros do pipeline.',
+              '<strong>Agenda baseada em intervalo</strong> (versão prévia): janelas fixas e sem sobreposição, que entregam ao pipeline o início e o fim de cada janela — ótimo para cargas incrementais por período. Não dá para editar nem pausar: exclua e recrie.',
+              '<strong>Notificações de falha</strong> por e-mail para usuários ou grupos — valem só para execuções agendadas, não para as sob demanda.'
+            ],
+            img: { src: `${FAB_IMG}/m04/agenda-fixa.png`, alt: 'Configuração de agendamento fixo', caption: 'Configuração de uma agenda fixa: frequência, início, término e fuso horário.', source: `${LEARN}/data-factory/pipeline-runs` } },
+          { h: 'Agenda com parâmetros',
+            p: 'Um mesmo pipeline pode ter uma agenda diária que passa <code>modo = incremental</code> e uma semanal que passa <code>modo = completo</code>. É assim que se combina carga incremental no dia a dia com uma reconciliação completa periódica, sem duplicar o pipeline.',
+            img: { src: `${FAB_IMG}/m04/agenda-parametros.png`, alt: 'Agenda com a seção de parâmetros', caption: 'Agenda passando valores para os parâmetros do pipeline.', source: `${LEARN}/data-factory/pipeline-runs` } },
+          { h: 'Gatilhos por evento',
+            items: [
+              'Iniciam o pipeline quando algo acontece: um arquivo chega ou é excluído (eventos de arquivo do OneLake ou de Blob do Azure), um trabalho termina, algo muda no workspace.',
+              'Criados pelo botão <strong>Gatilho</strong> da guia Página Inicial. Por baixo, usam o <strong>Activator</strong> (Ativador de Dados) e os eventos do Real-Time hub; o gatilho vira um item do tipo <strong>Reflex</strong> no workspace.',
+              'O pipeline recebe o nome do arquivo e o caminho da pasta do evento pela guia “Parâmetros de gatilho” do construtor de expressões — por exemplo <code>@pipeline()?.TriggerEvent?.FileName</code>. Assim a cópia processa exatamente o arquivo que chegou. O <strong>?</strong> evita erro quando o valor é nulo, como num teste manual, em que não existe evento.',
+              'Use quando os dados chegam em horários imprevisíveis: em vez de agendar a cada 5 minutos “para ver se chegou”, o pipeline só roda quando há o que processar.'
+            ],
+            img: { src: `${FAB_IMG}/m04/gatilho-evento.png`, alt: 'Botão Gatilho na guia Página Inicial do pipeline', caption: 'O botão Gatilho: execuções baseadas em eventos, configuradas com o Activator.', source: `${LEARN}/data-factory/pipeline-runs` } },
+          { h: 'Monitorar e reexecutar',
+            items: [
+              '<strong>Guia Saída</strong> — execução atual, com entrada, saída e erro de cada atividade.',
+              '<strong>Exibir histórico de execuções</strong> (menu ... do pipeline) e o <strong>hub de Monitoramento</strong>, com filtros, colunas, exportação para CSV e a visão de <strong>Gantt</strong> (barras por duração).',
+              'Na cópia, o ícone de detalhes mostra quanto tempo cada etapa levou (fila, leitura, gravação) — ponto de partida para otimizar.',
+              '<strong>Reexecutar a partir da atividade com falha</strong>, sem repetir o que já deu certo.',
+              'Para análise em nível de log, o <strong>monitoramento do workspace</strong> grava os eventos num eventhouse; o uso de capacidade aparece no aplicativo Capacity Metrics.'
+            ],
+            img: { src: `${FAB_IMG}/m04/rerun-falha.png`, alt: 'Reexecução da atividade com falha no hub de monitoramento', caption: 'Hub de Monitoramento: reexecutar o pipeline a partir da atividade que falhou.', source: `${LEARN}/data-factory/monitor-pipeline-runs` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Arquivos chegam a qualquer hora e devem ser processados assim que chegam → gatilho de evento de armazenamento, usando o nome do arquivo do evento.',
+              'Carga diária incremental e completa aos domingos no mesmo pipeline → duas agendas com parâmetros diferentes.',
+              'Equipe precisa ser avisada quando a carga agendada falhar → notificações de falha da agenda (ou atividade Outlook/Teams no caminho “Ao falhar”).',
+              'Pipeline falhou na última de 10 etapas → reexecutar a partir da atividade com falha.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Executar, agendar ou usar eventos para iniciar um pipeline', u: `${LEARN}/data-factory/pipeline-runs` },
+          { t: 'Monitorar execuções de pipeline', u: `${LEARN}/data-factory/monitor-pipeline-runs` }
+        ]
+      },
+      {
+        id: 'fab-carga-incremental', title: 'Cargas completas e incrementais',
+        desc: 'Quando recarregar tudo e quando carregar só o que mudou: marca d’água, CDC, Change Data Feed e o passo a passo do padrão Lookup + Copiar + procedimento armazenado.',
+        objetivos: [
+          'Decidir entre carga completa e incremental',
+          'Montar a carga incremental por marca d’água num pipeline',
+          'Reconhecer quando usar CDC, trabalho de cópia ou Change Data Feed'
+        ],
+        body: 'A habilidade DP-700 “Projetar e implementar cargas de dados completas e incrementais” aparece em quase todo estudo de caso da prova. Aqui você vê as opções e o padrão clássico construído atividade por atividade.',
+        content: [
+          { h: 'Completa ou incremental',
+            items: [
+              '<strong>Carga completa</strong> — apaga e recarrega (ou sobrescreve) tudo. Simples e sempre consistente, mas cara em tabelas grandes. Boa para tabelas pequenas, dimensões de baixo volume e reconciliações periódicas.',
+              '<strong>Carga incremental</strong> — traz só o que é novo ou mudou desde a última carga. Mais rápida e barata, mas exige uma forma confiável de saber o que mudou e cuidado para não perder nem duplicar linhas.',
+              'Na prática se combinam: incremental no dia a dia e completa de tempos em tempos para corrigir desvios.'
+            ] },
+          { h: 'Formas de detectar o que mudou',
+            items: [
+              '<strong>Marca d’água (watermark)</strong> — uma coluna que só cresce (data de alteração, ID sequencial). Guarda-se o maior valor já carregado e, na próxima vez, busca-se o que for maior que ele. Pega inserções e atualizações, mas <strong>não pega exclusões</strong>.',
+              '<strong>CDC (captura de dados de alteração)</strong> — o banco de origem registra inserções, atualizações e exclusões. Mais completo; exige CDC habilitado na fonte.',
+              '<strong>Change Data Feed</strong> das tabelas Delta — dentro do lakehouse, permite que a prata leia só as mudanças da bronze.',
+              '<strong>Espelhamento</strong> e <strong>trabalho de cópia incremental</strong> — fazem o controle do estado por você.'
+            ] },
+          { h: 'O padrão de marca d’água no pipeline',
+            p: 'O tutorial oficial monta a carga incremental do warehouse para o lakehouse com quatro atividades:',
+            items: [
+              '1. <strong>Pesquisa da marca antiga</strong> — lê, numa tabela de controle (por exemplo <code>watermarktable</code>), o último valor carregado.',
+              '2. <strong>Pesquisa da marca nova</strong> — consulta o maior valor atual da coluna de controle na origem.',
+              '3. <strong>Copiar</strong> — ligada às duas pesquisas por “Ao ter êxito”, copia só as linhas com valor maior que a marca antiga e menor ou igual à nova, usando uma consulta com as saídas das pesquisas.',
+              '4. <strong>Procedimento armazenado</strong> — depois do sucesso da cópia, grava a marca nova na tabela de controle, para a próxima execução.',
+              'Por que capturar a marca nova <strong>antes</strong> de copiar: linhas que chegarem durante a cópia ficam para a próxima janela, sem perda nem duplicação.'
+            ],
+            img: { src: `${FAB_IMG}/m04/logica-incremental.png`, alt: 'Diagrama da lógica de carga incremental com marca d’água', caption: 'A lógica oficial: marca antiga e marca nova (Pesquisa), cópia entre as duas (Copiar), atualização da marca (Procedimento armazenado).', source: `${LEARN}/data-factory/tutorial-incremental-copy-data-warehouse-lakehouse` } },
+          { h: 'As atividades ligadas na tela',
+            p: 'A ordem importa: a marca só é atualizada se a cópia deu certo. Se a cópia falhar, a marca antiga continua valendo e a próxima execução tenta a mesma janela de novo — a carga é <strong>reexecutável</strong> sem perder dados.',
+            img: { src: `${FAB_IMG}/m04/lookup-copia-conectados.png`, alt: 'Atividades de pesquisa conectadas à atividade de cópia', caption: 'As duas atividades Pesquisa ligadas à cópia pela seta verde (Ao ter êxito).', source: `${LEARN}/data-factory/tutorial-incremental-copy-data-warehouse-lakehouse` } },
+          { h: 'Gravando no destino sem duplicar',
+            items: [
+              'Só inserções (logs, eventos) → <strong>acréscimo</strong>.',
+              'Inserções e atualizações → <strong>MERGE</strong> (upsert) pela chave de negócio: no lakehouse com Spark/Delta, no warehouse com T-SQL, ou com o método de mesclagem do trabalho de cópia.',
+              'Precisa de histórico → SCD Tipo 2 (Módulo 03).',
+              'Exclusões na origem → só aparecem com CDC ou com uma comparação periódica completa (carga de reconciliação).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Tabela com coluna de última alteração, sem CDC → marca d’água.',
+              'Precisa refletir exclusões da origem → CDC (ou espelhamento), não marca d’água.',
+              'Pouco código, muitas tabelas, incremental gerenciado → trabalho de cópia.',
+              'Onde atualizar a marca? → no fim, só após o sucesso da cópia.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Tutorial: carga incremental do warehouse para o lakehouse', u: `${LEARN}/data-factory/tutorial-incremental-copy-data-warehouse-lakehouse` },
+          { t: 'Trabalho de cópia: modos incrementais', u: `${LEARN}/data-factory/what-is-copy-job` }
+        ]
+      },
+      {
+        id: 'fab-escolher-ferramenta', title: 'Escolher entre pipeline, Dataflow Gen2, notebook e trabalho de cópia',
+        desc: 'O guia de decisão oficial resumido: qual ferramenta usar para ingerir, transformar e orquestrar, por perfil da equipe, volume de dados e necessidade de código.',
+        objetivos: [
+          'Comparar atividade Copiar, trabalho de cópia, Dataflow Gen2, Eventstream e Spark',
+          'Escolher a ferramenta de orquestração: pipeline, notebook ou Airflow',
+          'Resolver cenários no estilo da prova'
+        ],
+        body: 'A prova DP-700 tem uma habilidade só para isso: “Escolha entre o Dataflow Gen 2, um pipeline e um notebook”. As questões descrevem uma equipe, um volume e uma restrição, e pedem a ferramenta. Esta aula fecha o módulo com o guia de decisão da Microsoft.',
+        content: [
+          { h: 'Uma frase para cada ferramenta',
+            items: [
+              '<strong>Atividade Copiar (pipeline)</strong> — mover dados em qualquer volume, sem código, como parte de um fluxo orquestrado. Migrações e ingestão em lote.',
+              '<strong>Trabalho de cópia</strong> — mover dados sem código com incremental e replicação prontos, sem montar pipeline.',
+              '<strong>Dataflow Gen2</strong> — ingerir e <strong>transformar</strong> com Power Query (linguagem M), sem código ou pouco código, com mais de 150 conectores. Perfil: analista de negócios e engenheiro que conhece Power Query; volume pequeno a médio.',
+              '<strong>Eventstream</strong> — dados de eventos em tempo real (Kafka, CDC, mensageria), sem código (Módulo 08).',
+              '<strong>Notebook / Spark</strong> — código (PySpark, Scala, Spark SQL, R), transformações complexas e grandes volumes, bibliotecas, testes. Perfil: engenheiro e cientista de dados.'
+            ] },
+          { h: 'Orquestrar: quem chama quem',
+            items: [
+              '<strong>Pipeline</strong> — o orquestrador padrão do Fabric: agenda, gatilho por evento, dependências, repetição e alertas, chamando cópias, dataflows, notebooks e procedimentos.',
+              '<strong>Notebook orquestrando notebooks</strong> — com <code>notebookutils.notebook.run</code> ou <code>runMultiple</code>, para quem prefere controlar tudo em código dentro do Spark.',
+              '<strong>Trabalho do Apache Airflow</strong> — orquestração em Python (DAGs), para equipes que já têm Airflow.',
+              'O padrão mais comum na prova: <strong>pipeline</strong> orquestrando, <strong>cópia</strong> para a bronze e <strong>notebook</strong> ou <strong>Dataflow Gen2</strong> para prata e ouro.'
+            ] },
+          { h: 'Cenários do guia oficial',
+            items: [
+              '<strong>Grande volume de muitas fontes</strong> (bancos, arquivos, APIs, locais e nuvem), sem querer manter código de conector → <strong>atividade Copiar</strong> em pipeline para a bronze.',
+              '<strong>Analista experiente em Power Query</strong>, volume baixo a médio, precisa limpar e juntar dados para relatórios → <strong>Dataflow Gen2</strong>.',
+              '<strong>Eventos chegando continuamente</strong>, preferência por solução sem código → <strong>Eventstream</strong>.',
+              '<strong>Transformações complexas em grande volume</strong> por um engenheiro que programa → <strong>Spark</strong> (notebook ou definição de trabalho do Spark).',
+              '<strong>Várias tabelas com CDC</strong> no SQL Server local, solução guiada com carga inicial e depois incremental → <strong>trabalho de cópia</strong>.'
+            ] },
+          { h: 'Pistas nas perguntas',
+            items: [
+              '“Sem código”, “baixo código”, “Power Query”, “analista” → Dataflow Gen2 (transformar) ou cópia (só mover).',
+              '“PySpark”, “bibliotecas”, “volume muito grande”, “lógica complexa” → notebook.',
+              '“Agendar”, “encadear”, “depois que terminar”, “se falhar” → pipeline.',
+              '“Só as alterações”, “CDC”, “várias tabelas” sem lógica extra → trabalho de cópia.',
+              '“Tempo real”, “eventos”, “streaming” → Eventstream (ou streaming estruturado no Spark, Módulo 06).'
+            ] },
+          { h: 'Como isso cai na prova',
+            p: 'Leia o cenário procurando três coisas: <strong>quem</strong> vai manter a solução (analista ou engenheiro que programa), <strong>quanto</strong> dado e com que frequência, e <strong>o que</strong> precisa ser feito (só mover, transformar ou orquestrar). A resposta certa quase sempre é a ferramenta mais simples que atende as três. Nos Módulos 05 e 06 você aprofunda Dataflow Gen2 e notebooks.' }
+        ],
+        recursos: [
+          { t: 'Guia de decisão: cópia, trabalho de cópia, dataflow, Eventstream ou Spark', u: `${LEARN}/fundamentals/decision-guide-pipeline-dataflow-spark` },
+          { t: 'Visão geral das atividades', u: `${LEARN}/data-factory/activity-overview` }
+        ]
+      }
+    ]
   }
 ];

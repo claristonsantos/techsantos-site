@@ -11,7 +11,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 01 | Fundamentos do Fabric e configuração do ambiente | ✅ publicado |
 | 02 | OneLake: atalhos, espelhamento, segurança, integrações | ✅ publicado |
 | 03 | Lakehouse, medalhão e modelagem dimensional | ✅ publicado |
-| 04 | Data Factory: pipelines, orquestração e cargas | ⬜ |
+| 04 | Data Factory: pipelines, orquestração e cargas | ✅ publicado |
 | 05 | Dataflows Gen2 e editor de consultas visuais | ⬜ |
 | 06 | Notebooks, Spark e streaming estruturado | ⬜ |
 | 07 | Data Warehouse e T-SQL | ⬜ |
@@ -31,12 +31,13 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Descobrir dados usando o catálogo do OneLake e o hub Real-Time | fab-descobrir-dados | ✅ |
 | Escolher entre armazenamentos de dados diferentes | fab-escolher-armazenamento | ✅ |
 | Implementar a integração do OneLake para Eventhouse e modelos semânticos | fab-onelake-integracoes | ✅ |
-| Ingerir ou acessar dados conforme necessário | fab-atalhos, fab-espelhamento (+ M04/M05) | 🟡 |
+| Ingerir ou acessar dados conforme necessário | fab-atalhos, fab-espelhamento, fab-copy (+ M05) | 🟡 |
+| Criar uma conexão de dados | fab-data-factory-visao | ✅ |
 | Implementar controle de acesso em nível de linha, coluna, objeto e arquivo | fab-onelake-seguranca (+ M12) | 🟡 |
 | Implementar um esquema estrela para um lakehouse ou warehouse | fab-modelo-dimensional, fab-carga-dimensional | ✅ |
 | Desnormalizar dados | fab-modelo-dimensional (+ M05/M06 prática) | 🟡 |
 | Agregar dados / enriquecer com colunas ou tabelas | fab-modelo-dimensional (+ M05–M07 prática) | 🟡 |
-| Demais habilidades | módulos 04–15 | ⬜ |
+| Demais habilidades | módulos 05–15 | ⬜ |
 
 ## DP-700
 
@@ -54,6 +55,11 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Identificar e resolver erros de atalho do OneLake | fab-atalhos (+ M14) | 🟡 |
 | Preparar dados para carregar em um modelo dimensional | fab-carga-dimensional | ✅ |
 | Otimizar uma tabela Lakehouse | fab-manutencao-delta (+ M14) | ✅ |
-| Escolha entre Dataflow Gen2, pipeline e notebook | fab-carregar-lakehouse (+ M04–M06) | 🟡 |
-| Projetar e implementar cargas completas e incrementais | fab-carga-dimensional (+ M04) | 🟡 |
-| Demais habilidades | módulos 04–15 | ⬜ |
+| Escolha entre Dataflow Gen2, pipeline e notebook | fab-escolher-ferramenta, fab-carregar-lakehouse (+ M05–M06) | ✅ |
+| Projetar e implementar agendas e gatilhos baseados em eventos | fab-agendas-gatilhos | ✅ |
+| Implementar padrões de orquestração com notebooks e pipelines, incluindo parâmetros e expressões dinâmicas | fab-pipeline-atividades, fab-parametros-expressoes | ✅ |
+| Ingerir dados usando pipelines | fab-copy, fab-pipeline-atividades | ✅ |
+| Monitorar a ingestão de dados | fab-agendas-gatilhos (+ M14) | 🟡 |
+| Identificar e resolver erros de pipeline | fab-pipeline-atividades, fab-agendas-gatilhos (+ M14) | 🟡 |
+| Projetar e implementar cargas completas e incrementais | fab-carga-incremental, fab-copy, fab-carga-dimensional | ✅ |
+| Demais habilidades | módulos 05–15 | ⬜ |
