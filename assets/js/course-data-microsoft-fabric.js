@@ -3017,5 +3017,273 @@ GROUP BY DispositivoID, HoppingWindow(minute, 5, 1)` },
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m09', title: 'Módulo 09 · Modelos semânticos: design', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-modelo-semantico-visao', title: 'Modelos semânticos no Fabric e modos de armazenamento',
+        desc: 'O que é um modelo semântico, onde ele nasce no Fabric e os modos de armazenamento de tabela: Importação, DirectQuery, Dual, Direct Lake, híbrido e DirectQuery para modelos do Power BI.',
+        objetivos: [
+          'Explicar o papel do modelo semântico entre os dados e os relatórios',
+          'Criar um modelo semântico a partir de um lakehouse ou warehouse',
+          'Escolher o modo de armazenamento de cada tabela'
+        ],
+        body: 'O modelo semântico (antigo “conjunto de dados” do Power BI) é a camada que traduz tabelas técnicas para a linguagem do negócio: relacionamentos, medidas, hierarquias, formatos e segurança. A seção “Implementar e gerenciar modelos semânticos” vale 25 a 30% da DP-600. Esta aula cobre a habilidade “Escolher um modo de armazenamento”.',
+        content: [
+          { h: 'Modelo semântico no Fabric',
+            items: [
+              'Um modelo semântico descreve um domínio analítico: tabelas, relacionamentos, medidas DAX, hierarquias, formatações e regras de segurança. Relatórios, painéis, Excel e o Copilot consomem o modelo, e não as tabelas cruas.',
+              'No Fabric, você cria um modelo a partir de um lakehouse, warehouse ou banco espelhado (<strong>Novo modelo semântico</strong>) escolhendo as tabelas, e edita no navegador (modelagem na Web) ou no Power BI Desktop.',
+              'Lembre-se da mudança de 2025: o modelo semântico <strong>padrão</strong> não é mais criado automaticamente com lakehouses e warehouses; você cria os modelos que precisa, com as tabelas que precisa.',
+              'Um bom modelo é reutilizado por muitos relatórios (<strong>modelo compartilhado</strong>): uma única versão das métricas para toda a empresa.'
+            ] },
+          { h: 'Os modos de armazenamento',
+            items: [
+              '<strong>Importação</strong> — os dados são copiados e comprimidos na memória do modelo (VertiPaq). Consultas mais rápidas e DAX completo; os dados só mudam quando o modelo é atualizado. Funciona com quase qualquer fonte.',
+              '<strong>DirectQuery</strong> — nada é copiado; cada visual gera uma consulta na fonte (SQL, por exemplo). Dados sempre atuais, mas o desempenho depende da fonte e há restrições de DAX e de Power Query.',
+              '<strong>Dual</strong> — a tabela funciona como Importação ou DirectQuery conforme a consulta. Usado em dimensões de modelos compostos para manter relacionamentos regulares com tabelas de Importação e DirectQuery.',
+              '<strong>Direct Lake</strong> — exclusivo do Fabric: lê os arquivos Delta (Parquet) do OneLake direto para a memória, sem cópia agendada e sem traduzir consulta para SQL. Desempenho próximo ao da Importação com dados atualizados quase em tempo real. Existe em duas variantes — no OneLake e no ponto de extremidade SQL — detalhadas no Módulo 11.',
+              '<strong>Híbrido</strong> — tabela de Importação com atualização incremental cuja partição mais recente fica em DirectQuery, para ter os dados de hoje sem atualizar o modelo.',
+              '<strong>DirectQuery para modelos do Power BI</strong> — o seu modelo usa tabelas e medidas de outro modelo publicado e adiciona o que precisa (modelo composto sobre um modelo compartilhado).'
+            ],
+            img: { src: `${FAB_IMG}/m09/modo-armazenamento.png`, alt: 'Propriedade modo de armazenamento de uma tabela no Power BI Desktop', caption: 'Cada tabela tem a propriedade Modo de armazenamento, no painel de propriedades do modo de exibição Modelo.', source: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-storage-mode' } },
+          { h: 'Conexão dinâmica não é modo de armazenamento',
+            p: 'Um relatório conectado em <strong>conexão dinâmica</strong> (live connection) a um modelo publicado não tem modelo próprio — é o “relatório fino”. Todas as medidas e tabelas vêm do modelo remoto. Se precisar acrescentar tabelas, use “Fazer alterações neste modelo”, que transforma a conexão em DirectQuery para modelos do Power BI.' },
+          { h: 'Como escolher',
+            items: [
+              'Dados no Fabric (lakehouse/warehouse), volume grande, precisa de desempenho e dados recentes → <strong>Direct Lake</strong>.',
+              'Fonte fora do Fabric, volume que cabe na memória, atualização algumas vezes por dia basta → <strong>Importação</strong>.',
+              'Os dados precisam estar atualizados a cada consulta e a fonte aguenta a carga, ou os dados não podem sair da fonte → <strong>DirectQuery</strong>.',
+              'Fato gigante em DirectQuery e dimensões pequenas → dimensões em <strong>Dual</strong>.',
+              'Histórico grande em Importação mais os dados do dia → <strong>híbrido</strong> (atualização incremental com a opção de dados em tempo real).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Relatório sobre tabelas Delta do lakehouse, com bilhões de linhas e sem janelas de atualização → Direct Lake.',
+              'Relacionamento entre tabela de Importação e tabela DirectQuery aparece como limitado → mudar a dimensão para Dual.',
+              'Analista quer acrescentar uma planilha a um modelo corporativo publicado → DirectQuery para modelos do Power BI (modelo composto).',
+              'Medida com função DAX não suportada numa coluna calculada em DirectQuery → restrição do modo; usar Importação ou mover a lógica para a fonte.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Modo de armazenamento de tabela', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-storage-mode' },
+          { t: 'Modelos semânticos do Power BI no Fabric', u: `${LEARN}/data-warehouse/semantic-models` },
+          { t: 'Sobre o DirectQuery', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/desktop-directquery-about' }
+        ]
+      },
+      {
+        id: 'fab-modelo-estrela', title: 'Esquema estrela no modelo semântico',
+        desc: 'Fatos e dimensões no Power BI: por que o esquema estrela é o formato certo, floco de neve, tabela de datas, dimensões com papéis múltiplos, dimensões degeneradas e redução de dados.',
+        objetivos: [
+          'Montar um modelo em esquema estrela',
+          'Criar e marcar uma tabela de datas',
+          'Resolver dimensões com vários papéis e dimensões degeneradas',
+          'Reduzir o tamanho do modelo'
+        ],
+        body: 'Cobre “Implementar um esquema de estrela para um modelo semântico” (DP-600). O Módulo 03 mostrou o esquema estrela no lakehouse e no warehouse; aqui o foco é o modelo semântico, onde o formato das tabelas afeta diretamente o desempenho e a correção do DAX.',
+        content: [
+          { h: 'Por que estrela',
+            p: 'O mecanismo do Power BI é otimizado para <strong>tabelas de fatos</strong> (eventos, números, chaves) cercadas de <strong>tabelas de dimensão</strong> (atributos para filtrar e agrupar), ligadas por relacionamentos <strong>um-para-muitos</strong> com filtro da dimensão para o fato. Esse formato deixa as medidas simples, os filtros previsíveis e a compressão eficiente. Uma tabela única gigante (“flat”) ou um modelo copiado do sistema transacional funcionam mal.',
+            img: { src: `${FAB_IMG}/m09/esquema-estrela.svg`, alt: 'Ilustração de um esquema em estrela', caption: 'Esquema estrela: a tabela de fatos no centro e as dimensões ao redor.', source: 'https://learn.microsoft.com/pt-br/power-bi/guidance/star-schema' } },
+          { h: 'Floco de neve',
+            p: 'No <strong>floco de neve</strong>, uma dimensão é dividida em várias tabelas (Produto → Subcategoria → Categoria). Funciona, mas cada tabela extra é mais um relacionamento a percorrer e mais colunas espalhadas para o usuário. No modelo semântico, prefira <strong>desnormalizar</strong> numa só dimensão Produto (Módulo 05/06) e criar uma <strong>hierarquia</strong> Categoria → Subcategoria → Produto.',
+            img: { src: `${FAB_IMG}/m09/floco-de-neve.svg`, alt: 'Exemplo de design em floco de neve', caption: 'Design em floco de neve: a dimensão Produto normalizada em três tabelas.', source: 'https://learn.microsoft.com/pt-br/power-bi/guidance/star-schema' } },
+          { h: 'Tabela de datas',
+            items: [
+              'Crie uma dimensão <strong>Data</strong> com um dia por linha, sem lacunas, cobrindo todos os anos dos fatos — no lakehouse/warehouse ou com DAX (CALENDAR/CALENDARAUTO).',
+              '<strong>Marque como tabela de datas</strong> para as funções de inteligência de tempo funcionarem de forma confiável.',
+              'Desligue a <strong>data/hora automática</strong> em modelos corporativos: ela cria uma tabela oculta por coluna de data e aumenta o modelo.'
+            ] },
+          { h: 'Dimensões com vários papéis',
+            p: 'Um fato de pedidos tem data do pedido, de envio e de entrega — três relacionamentos com a mesma dimensão Data. Só <strong>um</strong> pode ficar ativo; os outros ficam <strong>inativos</strong> e são usados em medidas com <code>USERELATIONSHIP</code>. A alternativa é duplicar a dimensão (Data do Pedido, Data de Envio) quando o usuário precisa filtrar pelas duas ao mesmo tempo.',
+            img: { src: `${FAB_IMG}/m09/relacao-inativa.svg`, alt: 'Modelo com relacionamentos ativos e inativos', caption: 'Dimensão com vários papéis: relacionamentos inativos (tracejados) acionados por medida, ou dimensões duplicadas.', source: 'https://learn.microsoft.com/pt-br/power-bi/guidance/relationships-active-inactive' } },
+          { h: 'Outros tipos de dimensão',
+            items: [
+              '<strong>Degenerada</strong> — atributo que fica no próprio fato (número do pedido); não precisa de tabela.',
+              '<strong>Lixo (junk)</strong> — junta flags e indicadores de baixa cardinalidade numa dimensão só.',
+              '<strong>SCD tipo 2</strong> — várias versões do mesmo cliente; o fato aponta para a chave substituta da versão válida (Módulo 03).',
+              '<strong>Tabela de fatos sem fatos</strong> — só chaves (presença, cobertura), contada com COUNTROWS.'
+            ] },
+          { h: 'Reduzir o modelo',
+            items: [
+              'Remova colunas e linhas que ninguém usa (histórico antigo, colunas técnicas).',
+              'Menos cardinalidade comprime mais: separe data e hora, arredonde decimais, evite colunas de texto únicas como GUIDs.',
+              'Prefira colunas criadas na fonte ou no Power Query a colunas calculadas em DAX.',
+              'Resuma o fato quando o detalhe não é necessário (por dia em vez de por transação), ou use agregações.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Filtrar por data de pedido e data de entrega na mesma medida → relacionamento inativo + USERELATIONSHIP.',
+              'Inteligência de tempo dando resultados errados → faltou marcar a tabela de datas ou ela tem lacunas.',
+              'Categoria e Subcategoria em tabelas separadas deixando o modelo lento e confuso → desnormalizar na dimensão Produto.',
+              'Modelo grande demais → remover colunas, reduzir cardinalidade e desligar data/hora automática.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Entender o esquema estrela no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/star-schema' },
+          { t: 'Tabelas de datas', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/model-date-tables' },
+          { t: 'Relacionamentos ativos e inativos', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/relationships-active-inactive' },
+          { t: 'Técnicas de redução de dados para modelos de importação', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/import-modeling-data-reduction' }
+        ]
+      },
+      {
+        id: 'fab-modelo-relacoes', title: 'Relacionamentos: cardinalidade, direção, ponte e muitos-para-muitos',
+        desc: 'Cardinalidade e direção de filtro, filtro bidirecional com cuidado, tabelas de ponte para dimensões muitos-para-muitos, fatos em granularidade diferente e relacionamentos limitados.',
+        objetivos: [
+          'Configurar cardinalidade e direção de filtro corretamente',
+          'Modelar muitos-para-muitos com tabela de ponte',
+          'Relacionar fatos com granularidade maior (metas)',
+          'Reconhecer relacionamentos regulares e limitados'
+        ],
+        body: 'Cobre “Implementar relações, como tabelas de ponte e relações muitos para muitos” (DP-600) — um dos temas com mais pegadinhas da prova.',
+        content: [
+          { h: 'Cardinalidade e direção',
+            items: [
+              '<strong>Um-para-muitos</strong> (1:*) — o padrão do esquema estrela: dimensão (lado um, valores únicos) filtra o fato (lado muitos).',
+              '<strong>Um-para-um</strong> (1:1) — geralmente sinal de que as duas tabelas deveriam ser uma só.',
+              '<strong>Muitos-para-muitos</strong> (*:*) — os dois lados têm valores repetidos; use com consciência (abaixo).',
+              '<strong>Direção do filtro</strong>: única (da dimensão para o fato) é o padrão e o recomendado. <strong>Bidirecional</strong> faz o fato filtrar a dimensão também — útil em casos específicos, mas pode criar ambiguidade, resultados inesperados e lentidão. Prefira resolver na medida com <code>CROSSFILTER</code> ou filtrando a segmentação com uma medida.'
+            ],
+            img: { src: `${FAB_IMG}/m09/filtro-bidirecional.svg`, alt: 'Modelo com filtro bidirecional entre produto e vendas', caption: 'Filtro bidirecional: o fato passa a filtrar a dimensão — use só quando necessário.', source: 'https://learn.microsoft.com/pt-br/power-bi/guidance/relationships-bidirectional-filtering' } },
+          { h: 'Dimensões muitos-para-muitos: tabela de ponte',
+            p: 'Clientes podem ter várias contas e contas podem ter vários clientes. O modelo tem a dimensão <strong>Cliente</strong>, a dimensão <strong>Conta</strong> e uma tabela de <strong>ponte</strong> (ContaCliente) com uma linha por par. Relacionamentos um-para-muitos ligam cada dimensão à ponte; o relacionamento entre a ponte e a dimensão do outro lado precisa filtrar <strong>nos dois sentidos</strong> para que o filtro de Cliente chegue ao fato de transações. Lembre-se: os totais não se somam — uma transação de conta conjunta aparece para cada titular.',
+            img: { src: `${FAB_IMG}/m09/ponte-muitos-muitos.svg`, alt: 'Modelo com tabela de ponte entre cliente e conta', caption: 'Tabela de ponte (ContaCliente) resolvendo o muitos-para-muitos entre Cliente e Conta.', source: 'https://learn.microsoft.com/pt-br/power-bi/guidance/relationships-many-to-many' } },
+          { h: 'Fatos com granularidade maior',
+            p: 'Metas definidas por <strong>ano e categoria</strong> não se relacionam diretamente com a dimensão Data (dia) nem com Produto (produto). Para datas, guarde o primeiro dia do período na tabela de metas e crie um relacionamento um-para-muitos com Data. Para categoria, crie um relacionamento <strong>muitos-para-muitos</strong> Produto → Meta pela coluna Categoria, com filtro em direção única (de Produto para Meta). E proteja a medida: se o usuário filtrar por um nível abaixo da meta (um produto, um dia), a medida deve retornar em branco — com <code>ISFILTERED</code> ou comparando contagens de linhas.',
+            img: { src: `${FAB_IMG}/m09/granularidade-meta.svg`, alt: 'Modelo com tabela de metas em granularidade maior', caption: 'Metas (Target) em granularidade maior que Vendas: relacionamento com Data pelo primeiro dia e com Produto pela categoria.', source: 'https://learn.microsoft.com/pt-br/power-bi/guidance/relationships-many-to-many' } },
+          { h: 'Não relacione fatos diretamente',
+            p: 'Ligar duas tabelas de fatos (Pedidos e Entregas) com muitos-para-muitos parece prático, mas limita os filtros e gera totais confusos. O certo é criar as <strong>dimensões compartilhadas</strong> (Produto, Data, Pedido) e ligar os dois fatos a elas — cada fato conversa com o outro através das dimensões.' },
+          { h: 'Relacionamentos regulares e limitados',
+            items: [
+              'Um relacionamento é <strong>regular</strong> quando as duas tabelas estão no mesmo grupo de fontes e o lado “um” é garantido. É o caso normal.',
+              'Ele vira <strong>limitado</strong> quando é muitos-para-muitos ou liga tabelas de <strong>grupos de fontes diferentes</strong> num modelo composto (Importação × DirectQuery de outra fonte). Relacionamentos limitados não expandem a tabela, não tratam linhas sem correspondência como membro em branco e custam mais nas consultas.',
+              'Em modelos compostos, trocar a dimensão para <strong>Dual</strong> ajuda a manter os relacionamentos regulares.'
+            ],
+            img: { src: `${FAB_IMG}/m09/relacao-limitada.png`, alt: 'Aviso sobre relacionamentos limitados ao mudar modo de armazenamento', caption: 'Aviso do Power BI Desktop: ao misturar modos, relacionamentos podem se tornar limitados — a sugestão é usar Dual.', source: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-storage-mode' } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Clientes com várias contas e contas com vários clientes → tabela de ponte com filtro bidirecional entre ponte e dimensão.',
+              'Metas mensais por categoria junto com vendas diárias por produto → relacionamento pelo primeiro dia do mês e muitos-para-muitos por categoria.',
+              'Segmentação deve mostrar só produtos com venda → medida de filtro na segmentação, em vez de bidirecional no modelo.',
+              'Totais estranhos entre dois fatos ligados diretamente → dimensões compartilhadas.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Diretrizes de relação muitos para muitos', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/relationships-many-to-many' },
+          { t: 'Filtragem bidirecional', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/relationships-bidirectional-filtering' },
+          { t: 'Relacionamentos um-para-um', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/relationships-one-to-one' },
+          { t: 'Entender relacionamentos de modelo', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-relationships-understand' }
+        ]
+      },
+      {
+        id: 'fab-modelo-grupos-calculo', title: 'Grupos de cálculo, formato dinâmico e parâmetros de campo',
+        desc: 'Menos medidas repetidas com grupos de cálculo, formato que muda conforme o valor ou o contexto, e parâmetros de campo para o leitor trocar medidas e dimensões dos visuais.',
+        objetivos: [
+          'Criar um grupo de cálculo com itens de inteligência de tempo',
+          'Aplicar cadeias de formato dinâmico em medidas e itens de cálculo',
+          'Criar parâmetros de campo para medidas e dimensões'
+        ],
+        body: 'Cobre “Implementar grupos de cálculo, cadeias de caracteres de formato dinâmico e parâmetros de campo” (DP-600). Os três recursos resolvem o mesmo problema: evitar dezenas de medidas e visuais quase iguais.',
+        content: [
+          { h: 'Grupos de cálculo',
+            p: 'Sem grupo de cálculo, cada medida precisa de versões AA, AC, YoY… (Vendas AC, Custo AC, Margem AC…). Um <strong>grupo de cálculo</strong> define essas variações uma vez como <strong>itens de cálculo</strong>, que se aplicam a qualquer medida por meio de <code>SELECTEDMEASURE()</code>. O grupo aparece como uma tabela com uma coluna, usada em segmentações ou nas linhas/colunas de uma matriz.',
+            items: [
+              'Criado no modo de exibição <strong>Modelo</strong> (botão Grupo de cálculo) ou via TMDL / editores externos.',
+              'Exige ligar <strong>Desencorajar medidas implícitas</strong>: o usuário não arrasta mais colunas numéricas somando sozinhas; tudo passa a ser medida explícita.',
+              '<strong>Precedência</strong> define a ordem quando há mais de um grupo (por exemplo, tempo e moeda).',
+              'As medidas passam a ter tipo <strong>variante</strong> quando um grupo de cálculo existe no modelo.',
+              'Um item pode ser usado dentro de uma medida com CALCULATE: <code>CALCULATE([Pedidos], \'Inteligência de Tempo\'[Item] = "YoY%")</code>.'
+            ],
+            code: `-- itens do grupo "Inteligência de Tempo"
+Atual  = SELECTEDMEASURE()
+AC     = CALCULATE(SELECTEDMEASURE(), DATESYTD('Data'[Data]))
+AA     = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Data'[Data]))
+YoY%   = DIVIDE(SELECTEDMEASURE()
+               - CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Data'[Data])),
+               CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Data'[Data])))`,
+            img: { src: `${FAB_IMG}/m09/grupo-calculo-itens.png`, alt: 'Grupo de cálculo com os itens de inteligência de tempo', caption: 'Um grupo de cálculo com seus itens de inteligência de tempo no painel Dados.', source: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/calculation-groups' } },
+          { h: 'Cadeias de formato dinâmico',
+            items: [
+              'Numa medida, escolha <strong>Formato → Dinâmico</strong> e escreva uma expressão DAX que <strong>retorna o texto do formato</strong>. O valor continua numérico (ordena e soma certo); só a exibição muda.',
+              'Exemplos: símbolo da moeda conforme o país selecionado; “K”, “M” ou “Bi” conforme a grandeza; duração em ms mostrada como horas.',
+              'Itens de cálculo também têm formato dinâmico — o item YoY% mostra percentual enquanto os outros mantêm o formato da medida.',
+              'É a alternativa correta a FORMAT(), que transforma o número em texto e quebra ordenação e gráficos.'
+            ],
+            code: `-- expressão de formato dinâmico da medida [Receita]
+VAR v = ABS([Receita])
+RETURN
+    SWITCH(TRUE(),
+        v >= 1E9, "R$ #,0.0,,,""Bi""",
+        v >= 1E6, "R$ #,0.0,,""M""",
+        v >= 1E3, "R$ #,0.0,""K""",
+        "R$ #,0")`,
+            img: { src: `${FAB_IMG}/m09/formato-dinamico.png`, alt: 'Expressão de formato dinâmico de uma medida', caption: 'Formato dinâmico: a lista suspensa à esquerda da barra de fórmulas alterna entre a medida e sua expressão de formato.', source: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-dynamic-format-strings' } },
+          { h: 'Parâmetros de campo',
+            items: [
+              '<strong>Modelagem → Novo parâmetro → Campos</strong>: escolha medidas ou colunas; o Power BI cria uma tabela calculada e uma segmentação.',
+              'Coloque o parâmetro no eixo (colunas) ou nos valores (medidas) de um visual: o leitor troca o que o visual mostra pela segmentação.',
+              'Por baixo é uma tabela DAX com tuplas (nome exibido, <code>NAMEOF</code>(campo), ordem) — edite a expressão para acrescentar campos.',
+              'Não funcionam com visuais de IA e com o Q&A.'
+            ],
+            img: { src: `${FAB_IMG}/m09/parametro-campo.png`, alt: 'Relatório com parâmetros de campo em segmentações', caption: 'Parâmetros de campo: o leitor escolhe na segmentação quais dimensões e medidas o visual mostra.', source: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/power-bi-field-parameters' } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Evitar criar AC, AA e YoY para 30 medidas → grupo de cálculo com SELECTEDMEASURE.',
+              'Criar o grupo de cálculo exige qual configuração → desencorajar medidas implícitas.',
+              'Mostrar valores em milhões sem transformar em texto → cadeia de formato dinâmico, não FORMAT().',
+              'Leitor quer escolher entre ver por Região, Produto ou Canal no mesmo gráfico → parâmetro de campo.',
+              'Dois grupos de cálculo aplicados na ordem errada → ajustar a precedência.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Criar grupos de cálculo', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/calculation-groups' },
+          { t: 'Cadeias de caracteres de formato dinâmico para medidas', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-dynamic-format-strings' },
+          { t: 'Parâmetros de campo', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/power-bi-field-parameters' }
+        ]
+      },
+      {
+        id: 'fab-modelo-composto-grande', title: 'Modelos compostos, agregações e formato de modelo grande',
+        desc: 'Misturar modos de armazenamento e fontes num modelo composto, usar agregações para acelerar DirectQuery e habilitar o formato de modelo semântico grande.',
+        objetivos: [
+          'Projetar um modelo composto e entender grupos de fontes',
+          'Usar agregações definidas pelo usuário',
+          'Identificar quando habilitar o formato de modelo grande'
+        ],
+        body: 'Cobre “Projetar e criar modelos compostos” e “Identificar casos de uso e configurar formato de armazenamento de modelo semântico grande” (DP-600).',
+        content: [
+          { h: 'Modelo composto',
+            items: [
+              'Um <strong>modelo composto</strong> tem tabelas em mais de um modo de armazenamento ou de mais de uma fonte DirectQuery: por exemplo, fato de vendas em DirectQuery no SQL, metas em Importação de uma planilha e dimensões em Dual.',
+              'Cada fonte DirectQuery e a parte importada formam <strong>grupos de fontes</strong>. Relacionamentos entre grupos diferentes são limitados.',
+              'O caso mais comum hoje: <strong>DirectQuery para um modelo do Power BI</strong> — o analista estende o modelo corporativo com suas próprias tabelas e medidas, sem duplicar o modelo. As medidas dos dois modelos ficam disponíveis.',
+              'Cuidados: segurança — dados de um grupo podem ser enviados em consultas para outro; desempenho — junções entre fontes custam caro.'
+            ] },
+          { h: 'Agregações definidas pelo usuário',
+            p: 'Com um fato gigante em DirectQuery, crie uma tabela <strong>agregada</strong> (por dia, produto e loja) em Importação e configure <strong>Gerenciar agregações</strong>, mapeando colunas e funções (Soma, Contagem, Agrupar por). As consultas que cabem na agregação são respondidas da memória; só as que pedem detalhe vão à fonte. A tabela agregada fica oculta, e o usuário continua vendo só o fato original. É a técnica clássica para “big data” em DirectQuery — no Fabric, o Direct Lake muitas vezes resolve o mesmo problema sem esse trabalho.' },
+          { h: 'Formato de modelo semântico grande',
+            items: [
+              'Sem ele, um modelo em Importação fica limitado a <strong>1 GB</strong> compactado ao publicar/atualizar. Com o formato grande, o limite passa a ser a memória da capacidade (SKU).',
+              'Disponível em capacidades F, P, A e PPU. Habilite nas configurações do modelo ou como padrão do workspace.',
+              'Traz também <strong>carga sob demanda</strong>: depois que o modelo sai da memória, só as partes consultadas voltam, e o tamanho de segmento padrão sobe para 8 milhões de linhas.',
+              'Use sempre junto com <strong>atualização incremental</strong> quando o modelo cresce com o tempo (Módulo 11).',
+              'Tamanho estimado do modelo: pelo ponto de extremidade XMLA no SSMS ou com consultas às DMVs do modelo.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Modelo de 15 GB não publica numa capacidade F64 → habilitar o formato de modelo grande.',
+              'Fato em DirectQuery lento em visuais resumidos → agregações em Importação.',
+              'Departamento precisa acrescentar dados próprios ao modelo corporativo → DirectQuery para o modelo do Power BI.',
+              'Relacionamento entre tabela importada e tabela DirectQuery de outra fonte → relacionamento limitado.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Usar modelos compostos no Power BI Desktop', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-composite-models' },
+          { t: 'Diretrizes de modelos compostos', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/composite-model-guidance' },
+          { t: 'Agregações definidas pelo usuário', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/aggregations-advanced' },
+          { t: 'Modelos semânticos grandes', u: 'https://learn.microsoft.com/pt-br/fabric/enterprise/powerbi/service-premium-large-models' }
+        ]
+      }
+    ]
   }
 ];

@@ -16,7 +16,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 06 | Notebooks, Spark e streaming estruturado | ✅ publicado |
 | 07 | Data Warehouse e T-SQL | ✅ publicado |
 | 08 | Real-Time Intelligence (Eventstream, Eventhouse, KQL) | ✅ publicado |
-| 09 | Modelos semânticos: design | ⬜ |
+| 09 | Modelos semânticos: design | ✅ publicado |
 | 10 | DAX para a prova | ⬜ |
 | 11 | Direct Lake e otimização de modelos | ⬜ |
 | 12 | Segurança e governança | ⬜ |
@@ -45,7 +45,13 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Criar exibições, funções e procedimentos armazenados | fab-tsql-objetos | ✅ |
 | Selecionar, filtrar e agregar dados usando o SQL | fab-tsql-consultas | ✅ |
 | Selecionar, filtrar e agregar dados usando KQL | fab-kql-consultas | ✅ |
-| Demais habilidades | módulos 09–15 | ⬜ |
+| Escolher um modo de armazenamento | fab-modelo-semantico-visao (+ M11 Direct Lake) | ✅ |
+| Implementar um esquema de estrela para um modelo semântico | fab-modelo-estrela | ✅ |
+| Implementar relações, como tabelas de ponte e relações muitos para muitos | fab-modelo-relacoes | ✅ |
+| Implementar grupos de cálculo, cadeias de formato dinâmico e parâmetros de campo | fab-modelo-grupos-calculo | ✅ |
+| Identificar casos de uso e configurar formato de modelo semântico grande | fab-modelo-composto-grande | ✅ |
+| Projetar e criar modelos compostos | fab-modelo-composto-grande, fab-modelo-relacoes | ✅ |
+| Demais habilidades | módulos 10–15 | ⬜ |
 
 ## DP-700
 

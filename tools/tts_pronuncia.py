@@ -69,7 +69,7 @@ PRONUNCIATION_FIXES = [
     # "Do-if-skip-else" junta as grafias aprovadas de Do-if-else e On skip.
     (r"\bLookup\b", "Lúk âp"),
     (r"\bForEach\b", "Fór ítch"),
-    (r"\bSwitch\b", "Suítch"),
+    (r"\b(Switch|SWITCH)\b", "Suítch"),  # maiúsculas (DAX) usam a grafia aprovada
     (r"\bUntil\b", "Ântil"),
     (r"\bWebhook\b", "Uéb húk"),
     (r"\bwatermark\b", "uóter márk"),
@@ -82,6 +82,7 @@ PRONUNCIATION_FIXES = [
     (r"\bReflex\b", "Rífléks"),
     (r"\bGantt\b", "Gânt"),
     (r"\bChange Data Feed\b", "Tchêindj Dêita Fíd"),
+    (r"\bGUIDs\b", "Gú íds"),
     (r"\bGUID\b", "Gú íd"),
     (r"\bSHIR\b", "Ésse Agá Í Érre"),
     (r"\bPrivate Link\b", "Práivet Link"),
