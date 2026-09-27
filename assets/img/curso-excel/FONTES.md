@@ -63,3 +63,7 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m07/ses-notas.png | Função SES Exemplo de notas. A fórmula na célula B2 é  =SES(A2>89,A,A2>79,B,A2>69,C,A2>59,D,VERDADEIRO,F) | https://support.microsoft.com/pt-br/excel/functions/ifs-function |
 | /assets/img/curso-excel/m07/parametro-argumentos.png | Detalhamento dos argumentos das funções SWITCH | https://support.microsoft.com/pt-br/excel/functions/switch-function |
 | /assets/img/curso-excel/m07/se-e-bonus.png | Exemplo de cálculo de Bônus de Vendas com as funções SE e E. A fórmula na célula E14 é =SE(E(B14>=$B$7,C14>=$B$5),B14*$B$8,0) | https://support.microsoft.com/pt-br/excel/functions/and-function |
+| /assets/img/curso-excel/m08/dividirtexto.png | Divide um nome e uma frase por um delimitador de espaço | https://support.microsoft.com/pt-br/excel/functions/textsplit-function |
+| /assets/img/curso-excel/m08/texto-zeros.png | Exemplos de utilização da fórmula TEXTO para formatar zeros à esquerda. =TEXTO(A2,00000) | https://support.microsoft.com/pt-br/excel/functions/text-function |
+| /assets/img/curso-excel/m08/data-calcular.png | Calcular uma data com base em outra data | https://support.microsoft.com/pt-br/excel/functions/date-function |
+| /assets/img/curso-excel/m08/data-converter-texto.png | Converter cadeias de texto e números em datas | https://support.microsoft.com/pt-br/excel/functions/date-function |

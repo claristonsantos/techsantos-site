@@ -1658,5 +1658,205 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m08', title: 'Módulo 08 · Funções de texto e de data', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-texto-extrair', title: 'Extrair partes de um texto: ESQUERDA, DIREITA, EXT.TEXTO e companhia',
+        desc: 'Pegar caracteres do início, do fim ou do meio de um texto, medir o tamanho, localizar a posição de um caractere e as funções modernas TEXTOANTES, TEXTODEPOIS e DIVIDIRTEXTO.',
+        objetivos: [
+          'Usar ESQUERDA, DIREITA, EXT.TEXTO e NÚM.CARACT',
+          'Encontrar posições com LOCALIZAR e PROCURAR para extrair partes de tamanho variável',
+          'Separar textos por delimitador com TEXTOANTES, TEXTODEPOIS e DIVIDIRTEXTO'
+        ],
+        body: 'Códigos de produto com a categoria nos primeiros caracteres, CPFs de onde se quer só os dígitos finais, e-mails dos quais se quer o domínio: extrair pedaços de texto é tarefa diária. As funções ESQUERDA, DIREITA, EXT.TEXTO e NÚM.CARACT são cobradas nominalmente na prova Associate; as funções modernas desta aula resolvem os mesmos problemas com menos esforço.',
+        content: [
+          { h: 'As quatro básicas',
+            items: [
+              '<strong>ESQUERDA</strong> (LEFT) — os primeiros caracteres do texto. O número de caracteres é opcional; sem ele, devolve só o primeiro.',
+              '<strong>DIREITA</strong> (RIGHT) — os últimos caracteres.',
+              '<strong>EXT.TEXTO</strong> (MID) — um pedaço do meio: o texto, a posição inicial e quantos caracteres pegar.',
+              '<strong>NÚM.CARACT</strong> (LEN) — o tamanho do texto, contando espaços, pontuação e números.',
+              'O resultado dessas funções é sempre texto, mesmo quando só tem dígitos. Para usar como número, converta com VALOR (próxima aula) ou multiplique por 1.'
+            ],
+            code: 'Em A2: "BR-2026-0045"\n=ESQUERDA(A2;2)          → "BR"\n=DIREITA(A2;4)           → "0045"\n=EXT.TEXTO(A2;4;4)       → "2026"\n=NÚM.CARACT(A2)          → 12' },
+          { h: 'Quando o tamanho varia: LOCALIZAR e PROCURAR',
+            p: 'Nem todo texto tem posições fixas: "Maria Silva" e "Ana Paula Souza" têm o espaço em lugares diferentes. <strong>LOCALIZAR</strong> (SEARCH) e <strong>PROCURAR</strong> (FIND) devolvem a posição de um texto dentro de outro. A diferença: PROCURAR diferencia maiúsculas e minúsculas e não aceita curingas; LOCALIZAR não diferencia e aceita. Se não encontrar, as duas devolvem o erro de valor. Combinadas com ESQUERDA e EXT.TEXTO, extraem partes de tamanho variável.',
+            code: 'Em A2: "maria.silva@empresa.com.br"\n=LOCALIZAR("@";A2)                          → 12\n=ESQUERDA(A2;LOCALIZAR("@";A2)-1)           → "maria.silva"\n=EXT.TEXTO(A2;LOCALIZAR("@";A2)+1;100)      → "empresa.com.br"' },
+          { h: 'As funções modernas (Microsoft 365)',
+            items: [
+              '<strong>TEXTOANTES</strong> (TEXTBEFORE) — o texto antes de um delimitador. Um argumento opcional escolhe qual ocorrência (a segunda, a última usando número negativo).',
+              '<strong>TEXTODEPOIS</strong> (TEXTAFTER) — o texto depois do delimitador.',
+              '<strong>DIVIDIRTEXTO</strong> (TEXTSPLIT) — separa o texto em várias células pelo delimitador, espalhando o resultado para a direita (ou para baixo, com o delimitador de linha). É uma fórmula de matriz dinâmica (Módulo 09) — o equivalente em fórmula do Texto para Colunas, que se atualiza sozinho.'
+            ],
+            code: '=TEXTOANTES(A2;"@")           → "maria.silva"\n=TEXTODEPOIS(A2;"@")          → "empresa.com.br"\n=TEXTODEPOIS(A2;".";-1)       → "br"  (depois do último ponto)\n=DIVIDIRTEXTO(B2;" ")         → cada palavra numa coluna',
+            img: { src: `${XL_IMG}/m08/dividirtexto.png`, alt: 'DIVIDIRTEXTO separando um nome e uma frase pelo espaço', caption: 'DIVIDIRTEXTO: uma fórmula, o resultado espalhado pelas colunas.', source: `${SUP}/excel/functions/textsplit-function` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'A MO-200/MO-210 cobra "formatar e modificar texto usando DIREITA, ESQUERDA e EXT.TEXTO" e "usando NÚM.CARACT" — espere tarefas como "na coluna Estado, extraia as duas últimas letras do código".',
+              'Confira se a tarefa quer o resultado como texto ou número (códigos com zeros à esquerda devem ficar como texto).',
+              'Nomes em inglês: LEFT, RIGHT, MID, LEN, SEARCH, FIND.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função ESQUERDA', u: `${SUP}/excel/functions/left-function` },
+          { t: 'Microsoft Suporte — Função DIREITA', u: `${SUP}/excel/functions/right-function` },
+          { t: 'Microsoft Suporte — Função EXT.TEXTO', u: `${SUP}/excel/functions/mid-function` },
+          { t: 'Microsoft Suporte — Função NÚM.CARACT', u: `${SUP}/excel/functions/len-function` },
+          { t: 'Microsoft Suporte — Função LOCALIZAR', u: `${SUP}/excel/functions/search-function` },
+          { t: 'Microsoft Suporte — Função TEXTOANTES', u: `${SUP}/excel/functions/textbefore-function` },
+          { t: 'Microsoft Suporte — Função TEXTODEPOIS', u: `${SUP}/excel/functions/textafter-function` },
+          { t: 'Microsoft Suporte — Função DIVIDIRTEXTO', u: `${SUP}/excel/functions/textsplit-function` }
+        ]
+      },
+      {
+        id: 'xl-texto-limpar-juntar', title: 'Limpar, padronizar e juntar textos: MAIÚSCULA, ARRUMAR, CONCAT, UNIRTEXTO e TEXTO',
+        desc: 'Padronizar maiúsculas, remover espaços, substituir trechos, juntar textos com e sem separador e converter entre número e texto com TEXTO e VALOR.',
+        objetivos: [
+          'Padronizar com MAIÚSCULA, MINÚSCULA, PRI.MAIÚSCULA e ARRUMAR',
+          'Trocar trechos com SUBSTITUIR',
+          'Juntar textos com o e comercial, CONCAT e UNIRTEXTO',
+          'Formatar números dentro de textos com TEXTO e converter texto em número com VALOR'
+        ],
+        body: 'Base de clientes com "SÃO PAULO", "são paulo" e "  São Paulo " na mesma coluna não agrupa, não filtra e não bate no PROCX. Esta aula reúne as funções de limpeza e as de junção — MAIÚSCULA, MINÚSCULA, NÚM.CARACT, CONCAT e UNIRTEXTO estão na lista da prova Associate.',
+        content: [
+          { h: 'Maiúsculas e minúsculas',
+            items: [
+              '<strong>MAIÚSCULA</strong> (UPPER) — tudo em maiúsculas: "são paulo" vira "SÃO PAULO".',
+              '<strong>MINÚSCULA</strong> (LOWER) — tudo em minúsculas; útil para padronizar e-mails.',
+              '<strong>PRI.MAIÚSCULA</strong> (PROPER) — primeira letra de cada palavra em maiúscula: "maria DA silva" vira "Maria Da Silva" (note que preposições também sobem).'
+            ] },
+          { h: 'Espaços e substituições',
+            items: [
+              '<strong>ARRUMAR</strong> (TRIM) — remove espaços do início e do fim e reduz espaços repetidos entre palavras a um só. Não remove o espaço "incondicional" (código 160) que vem de páginas da Web — para ele, combine com SUBSTITUIR trocando o CARACT(160) por espaço comum.',
+              '<strong>SUBSTITUIR</strong> (SUBSTITUTE) — troca um trecho por outro: o texto, o texto antigo, o novo e, opcionalmente, qual ocorrência trocar (sem ele, troca todas). Diferencia maiúsculas e minúsculas.',
+              'Funções se aninham: primeiro limpa, depois padroniza.'
+            ],
+            code: '=ARRUMAR("   São   Paulo  ")               → "São Paulo"\n=SUBSTITUIR(A2;".";"")                     → tira todos os pontos de um CPF\n=SUBSTITUIR(A2;"-";"/";2)                  → troca só o segundo hífen\n=PRI.MAIÚSCULA(ARRUMAR(A2))                → limpa e padroniza nomes' },
+          { h: 'Juntar textos',
+            items: [
+              '<strong>E comercial</strong> — o operador de junção: nome, um espaço entre aspas e sobrenome.',
+              '<strong>CONCAT</strong> — junta vários textos ou intervalos inteiros, sem separador. Substitui a antiga CONCATENAR, que continua existindo por compatibilidade mas não aceita intervalos.',
+              '<strong>UNIRTEXTO</strong> (TEXTJOIN) — junta com um <strong>delimitador</strong> entre cada item e com a opção de <strong>ignorar vazios</strong>: o delimitador, VERDADEIRO ou FALSO para ignorar células vazias, e os textos ou intervalos. É a forma de transformar uma coluna numa lista separada por vírgulas.'
+            ],
+            code: '=A2&" "&B2                             → "Maria Silva"\n=CONCAT(A2:C2)                         → junta as três células sem separador\n=UNIRTEXTO(", ";VERDADEIRO;A2:A10)     → "Norte, Sul, Leste" (pula os vazios)' },
+          { h: 'Números dentro de textos: TEXTO',
+            p: 'Juntar um número com texto perde a formatação: o valor 1250,5 aparece como "Total: 1250,5". A função <strong>TEXTO</strong> converte o número em texto já formatado, usando os mesmos códigos dos formatos personalizados (Módulo 03), entre aspas. Também serve para padronizar códigos com zeros à esquerda.',
+            code: '="Total: "&TEXTO(B2;"R$ #.##0,00")      → "Total: R$ 1.250,50"\n="Vencimento: "&TEXTO(C2;"dd/mm/aaaa")\n=TEXTO(A2;"dddd")                        → "segunda-feira"\n=TEXTO(B4;"00000")                       → "00123"',
+            img: { src: `${XL_IMG}/m08/texto-zeros.png`, alt: 'TEXTO devolvendo códigos com zeros à esquerda', caption: 'TEXTO com o código de cinco zeros recompõe os zeros à esquerda.', source: `${SUP}/excel/functions/text-function` } },
+          { h: 'Texto que devia ser número: VALOR',
+            p: '<strong>VALOR</strong> (VALUE) converte um texto que representa número ou data ("1.250,50", "27/09/2026") em número de verdade, que soma e classifica corretamente. Útil depois de ESQUERDA/DIREITA/EXT.TEXTO, que sempre devolvem texto. Um texto que não pareça número resulta em erro de valor.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Na coluna Código, junte as iniciais do estado e o número do pedido separados por hífen" — e comercial ou CONCAT.',
+              '"Crie uma lista dos produtos separados por ponto e vírgula, ignorando células vazias" — UNIRTEXTO com VERDADEIRO.',
+              '"Converta os nomes para maiúsculas" — MAIÚSCULA numa coluna nova (a prova indica a célula de destino).',
+              'Em inglês: UPPER, LOWER, PROPER, TRIM, SUBSTITUTE, CONCAT, TEXTJOIN, TEXT, VALUE.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função MAIÚSCULA', u: `${SUP}/excel/functions/upper-function` },
+          { t: 'Microsoft Suporte — Função MINÚSCULA', u: `${SUP}/excel/functions/lower-function` },
+          { t: 'Microsoft Suporte — Função PRI.MAIÚSCULA', u: `${SUP}/excel/functions/proper-function` },
+          { t: 'Microsoft Suporte — Função ARRUMAR', u: `${SUP}/excel/functions/trim-function` },
+          { t: 'Microsoft Suporte — Função SUBSTITUIR', u: `${SUP}/excel/functions/substitute-function` },
+          { t: 'Microsoft Suporte — Função CONCAT', u: `${SUP}/excel/functions/concat-function` },
+          { t: 'Microsoft Suporte — Função UNIRTEXTO', u: `${SUP}/excel/functions/textjoin-function` },
+          { t: 'Microsoft Suporte — Função TEXTO', u: `${SUP}/excel/functions/text-function` },
+          { t: 'Microsoft Suporte — Função VALOR', u: `${SUP}/excel/functions/value-function` }
+        ]
+      },
+      {
+        id: 'xl-funcoes-data', title: 'Datas e horas: HOJE, AGORA, DATA, DIA.DA.SEMANA, FIMMÊS e DATADIF',
+        desc: 'Datas que se atualizam sozinhas, montar e desmontar datas, descobrir o dia da semana, somar meses, achar o último dia do mês e calcular idades e prazos.',
+        objetivos: [
+          'Usar HOJE e AGORA sabendo que são voláteis, e inserir data e hora fixas pelo teclado',
+          'Montar e desmontar datas com DATA, ANO, MÊS e DIA',
+          'Calcular dia da semana, meses à frente, fim do mês e diferença entre datas'
+        ],
+        body: 'Como o Excel guarda datas como números (Módulo 03), dá para somar dias, subtrair datas e comparar prazos com fórmulas simples. As funções de data completam o quadro: vencimentos, idade, dias em atraso, primeiro e último dia do mês. AGORA, HOJE e DIA.DA.SEMANA estão na lista da prova Expert.',
+        content: [
+          { h: 'HOJE e AGORA',
+            items: [
+              '<strong>HOJE</strong> (TODAY) — a data atual, sem argumentos. <strong>AGORA</strong> (NOW) — data e hora atuais.',
+              'São funções <strong>voláteis</strong>: recalculam sempre que a planilha recalcula (ao abrir, ao editar qualquer célula, ou com F9). Amanhã, a mesma célula mostra outra data.',
+              'Para registrar uma data <strong>fixa</strong> (a data de um pedido), não use fórmula: <strong>Ctrl+;</strong> (Ctrl e ponto e vírgula) insere a data atual e <strong>Ctrl+Shift+:</strong> (dois-pontos) insere a hora atual, como valores.'
+            ],
+            code: '=HOJE()-B2                     → dias desde a data em B2\n=SE(C2<HOJE();"Vencido";"No prazo")' },
+          { h: 'Montar e desmontar datas',
+            items: [
+              '<strong>DATA</strong> (DATE) — monta uma data a partir de ano, mês e dia. Ela "corrige" valores fora da faixa: mês 13 vira janeiro do ano seguinte; dia zero vira o último dia do mês anterior.',
+              '<strong>ANO</strong>, <strong>MÊS</strong> e <strong>DIA</strong> (YEAR, MONTH, DAY) — extraem cada parte de uma data.',
+              'Juntas, calculam aniversários e datas relativas: cinco anos depois da data de início, ou o primeiro dia do mês de uma data qualquer.'
+            ],
+            code: '=DATA(2026;9;27)\n=DATA(ANO(C2)+5;MÊS(C2);DIA(C2))      → mesma data, cinco anos depois\n=DATA(ANO(A2);MÊS(A2);1)              → primeiro dia do mês de A2\n=DATA(ESQUERDA(A2;4);EXT.TEXTO(A2;5;2);DIREITA(A2;2))  → "20260927" vira data',
+            img: { src: `${XL_IMG}/m08/data-calcular.png`, alt: 'DATA com ANO, MÊS e DIA calculando o quinto aniversário', caption: 'DATA(ANO+5; MÊS; DIA): a mesma data cinco anos depois.', source: `${SUP}/excel/functions/date-function` } },
+          { h: 'DIA.DA.SEMANA',
+            p: '<strong>DIA.DA.SEMANA</strong> (WEEKDAY) devolve o dia da semana como número. O segundo argumento, o tipo de retorno, define a numeração: <strong>1</strong> (padrão) — domingo = 1 até sábado = 7; <strong>2</strong> — segunda = 1 até domingo = 7; <strong>3</strong> — segunda = 0 até domingo = 6. Com o tipo 2, "é fim de semana?" vira "o resultado é maior que 5". Para o nome do dia, use TEXTO com quatro letras d.',
+            code: '=DIA.DA.SEMANA(A2;2)\n=SE(DIA.DA.SEMANA(A2;2)>5;"Fim de semana";"Dia útil")\n=TEXTO(A2;"dddd")' },
+          { h: 'Somar meses e achar o fim do mês',
+            items: [
+              '<strong>DATAM</strong> (EDATE) — a data N meses antes ou depois, mantendo o dia (ajustando para o fim do mês quando o dia não existe: 31/01 mais um mês dá 28 ou 29/02). Ideal para vencimentos mensais.',
+              '<strong>FIMMÊS</strong> (EOMONTH) — o último dia do mês, N meses antes ou depois. Com zero, o fim do mês da própria data; com menos um, somado a 1, o primeiro dia do mês.'
+            ],
+            code: '=DATAM(A2;3)          → três meses depois\n=FIMMÊS(A2;0)         → último dia do mês de A2\n=FIMMÊS(A2;-1)+1      → primeiro dia do mês de A2' },
+          { h: 'Diferença entre datas: subtração e DATADIF',
+            p: 'Dias corridos entre duas datas é só subtrair. Para anos ou meses completos (idade, tempo de casa), use <strong>DATADIF</strong> — uma função antiga, que não aparece na lista do Inserir Função nem no AutoCompletar, mas funciona. Unidades: "Y" anos completos, "M" meses completos, "D" dias, "YM" meses que sobram além dos anos, "YD" dias ignorando os anos. A própria Microsoft desaconselha a unidade "MD", que pode dar resultados errados. A data inicial precisa ser menor que a final, senão o resultado é erro.',
+            code: '=DATADIF(B2;HOJE();"Y")                           → idade em anos\n=DATADIF(B2;HOJE();"Y")&" anos e "&DATADIF(B2;HOJE();"YM")&" meses"' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'A MO-211 pede "referenciar data e hora usando AGORA e HOJE" e "calcular datas usando DIA.DA.SEMANA e DIATRABALHO" (próxima aula).',
+              'Se o resultado aparecer como número de cinco dígitos, é só aplicar formato de data à célula.',
+              'Em inglês: TODAY, NOW, DATE, YEAR, MONTH, DAY, WEEKDAY, EDATE, EOMONTH, DATEDIF.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função HOJE', u: `${SUP}/excel/functions/today-function` },
+          { t: 'Microsoft Suporte — Função AGORA', u: `${SUP}/excel/functions/now-function` },
+          { t: 'Microsoft Suporte — Função DATA', u: `${SUP}/excel/functions/date-function` },
+          { t: 'Microsoft Suporte — Função DIA.DA.SEMANA', u: `${SUP}/excel/functions/weekday-function` },
+          { t: 'Microsoft Suporte — Função DATAM', u: `${SUP}/excel/functions/edate-function` },
+          { t: 'Microsoft Suporte — Função FIMMÊS', u: `${SUP}/excel/functions/eomonth-function` },
+          { t: 'Microsoft Suporte — Função DATADIF', u: `${SUP}/excel/functions/datedif-function` }
+        ]
+      },
+      {
+        id: 'xl-dias-uteis', title: 'Dias úteis: DIATRABALHO e DIATRABALHOTOTAL',
+        desc: 'Calcular prazos em dias úteis e contar dias úteis entre duas datas, descontando fins de semana e uma lista de feriados — e as versões .INTL para escalas diferentes.',
+        objetivos: [
+          'Calcular a data de entrega N dias úteis depois de uma data com DIATRABALHO',
+          'Contar dias úteis entre duas datas com DIATRABALHOTOTAL',
+          'Usar uma tabela de feriados e conhecer as versões .INTL'
+        ],
+        body: 'Prazo de entrega de "10 dias úteis", SLA de atendimento, dias trabalhados no mês para calcular vale-transporte: tudo isso precisa pular sábados, domingos e feriados. É o trabalho de DIATRABALHO e DIATRABALHOTOTAL — a primeira está na lista da prova Expert.',
+        content: [
+          { h: 'DIATRABALHO: a data depois de N dias úteis',
+            p: '<strong>DIATRABALHO</strong> (WORKDAY) recebe a data inicial, o número de dias úteis (negativo para voltar no tempo) e, opcionalmente, uma lista de feriados. O resultado é o número da data — formate a célula como data.',
+            code: 'DIATRABALHO(data_inicial; dias; [feriados])\n\n=DIATRABALHO(A2;10)                      → 10 dias úteis depois de A2\n=DIATRABALHO(A2;10;Feriados)             → pulando também os feriados\n=DIATRABALHO(A2;-5;Feriados)             → 5 dias úteis antes' },
+          { h: 'DIATRABALHOTOTAL: quantos dias úteis entre duas datas',
+            p: '<strong>DIATRABALHOTOTAL</strong> (NETWORKDAYS) conta os dias úteis entre a data inicial e a final, <strong>incluindo as duas</strong> se forem dias úteis, descontando fins de semana e feriados.',
+            code: 'DIATRABALHOTOTAL(data_inicial; data_final; [feriados])\n\n=DIATRABALHOTOTAL(DATA(2026;9;1);DATA(2026;9;30);Feriados)\n=DIATRABALHOTOTAL(B2;HOJE())             → dias úteis em aberto' },
+          { h: 'A tabela de feriados',
+            items: [
+              'Liste os feriados (nacionais, estaduais e municipais que valem para a empresa) numa coluna, como datas de verdade.',
+              'Transforme em tabela do Excel ou dê um nome ao intervalo (Feriados) — assim todas as fórmulas apontam para a mesma lista e um feriado novo entra em todas de uma vez.',
+              'Feriados móveis (Carnaval, Sexta-feira Santa, Corpus Christi) mudam de data todo ano; atualize a lista anualmente.'
+            ] },
+          { h: 'Escalas diferentes: as versões .INTL',
+            p: 'Para quem trabalha de segunda a sábado, ou folga em outro dia, existem <strong>DIATRABALHO.INTL</strong> e <strong>DIATRABALHOTOTAL.INTL</strong>, com um argumento de fim de semana: um número (1 = sábado e domingo, 11 = só domingo, e assim por diante) ou um texto de sete dígitos de segunda a domingo, em que 1 é folga e 0 é dia trabalhado.',
+            code: '=DIATRABALHO.INTL(A2;10;11;Feriados)           → só domingo é folga\n=DIATRABALHOTOTAL.INTL(A2;B2;"0000011";Feriados) → folga sábado e domingo' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Calcule a data de entrega 15 dias úteis após a data do pedido, desconsiderando os feriados da planilha Feriados" — DIATRABALHO com o intervalo de feriados (referência absoluta ou nome, para copiar a fórmula).',
+              'Em inglês: WORKDAY, NETWORKDAYS, WORKDAY.INTL, NETWORKDAYS.INTL.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função DIATRABALHO', u: `${SUP}/excel/functions/workday-function` },
+          { t: 'Microsoft Suporte — Função DIATRABALHOTOTAL', u: `${SUP}/excel/functions/networkdays-function` }
+        ]
+      }
+    ]
   }
 ];

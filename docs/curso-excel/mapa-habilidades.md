@@ -67,7 +67,9 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Cálculos com MÉDIA, MÁXIMO, MÍNIMO e SOMA | xl-funcoes-basicas | ✅ |
 | Contar células com CONT.NÚM, CONT.VALORES e CONTAR.VAZIO | xl-funcoes-basicas | ✅ |
 | Operações condicionais com SE | xl-funcao-se | ✅ |
-| Funções de texto | — (Módulo 08) | ⬜ |
+| Formatar e modificar texto com DIREITA, ESQUERDA e EXT.TEXTO | xl-texto-extrair | ✅ |
+| Formatar texto com MAIÚSCULA, MINÚSCULA e NÚM.CARACT | xl-texto-extrair, xl-texto-limpar-juntar | ✅ |
+| Formatar texto com CONCAT e UNIRTEXTO | xl-texto-limpar-juntar | ✅ |
 
 ⬜ ⬜ Gráficos
 
@@ -88,6 +90,8 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 |---|---|---|
 | Operações lógicas aninhadas: SE, SES, PARÂMETRO, SOMASE, MÉDIASE, CONT.SE, SOMASES, MÉDIASES, CONT.SES, MÁXIMOSES, MÍNIMOSES, E, OU, NÃO | xl-funcao-se, xl-e-ou-ses-parametro, xl-agregacoes-condicionais | ✅ |
 | Usar a função LET | xl-funcao-let | ✅ |
-| Demais (procura, datas, análise de hipóteses, auditoria, macros) | — (Módulos 08, 09, 13, 14, 16) | ⬜ |
+| Referenciar data e hora com AGORA e HOJE | xl-funcoes-data | ✅ |
+| Calcular datas com DIA.DA.SEMANA e DIATRABALHO | xl-funcoes-data, xl-dias-uteis | ✅ |
+| Demais (procura, análise de hipóteses, auditoria, macros) | — (Módulos 09, 13, 14, 16) | ⬜ |
 
 ⬜ Opções e configurações da pasta de trabalho · ⬜ Demais itens de dados · ⬜ Gráficos e tabelas avançados
