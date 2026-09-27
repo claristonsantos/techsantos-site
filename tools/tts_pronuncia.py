@@ -247,6 +247,27 @@ PRONUNCIATION_FIXES = [
     (r"\.?\bshow ingestion failures\b", "xôu ingéstchon fêiliurs"),
     (r"\bAzure Monitor\b", "Ájur Mônitor"),
     (r"\bApplication Insights\b", "Aplikêichon Ínsaits"),
+    # Oitavo teste A/B (2026-09-27, 22 termos do módulo 9 - modelos semânticos).
+    # Ficaram na leitura padrão: Dual, live connection, YoY.
+    (r"\bVertiPaq\b", "Vérti Pék"),
+    (r"\bImport\b", "Ímport"),
+    (r"\bSELECTEDMEASURE\b", "Selékted Méjur"),
+    (r"\bUSERELATIONSHIP\b", "Iuz Rilêichonchip"),
+    (r"\bCROSSFILTER\b", "Crós Filter"),
+    (r"\bISFILTERED\b", "Iz Filtered"),
+    (r"\bCALCULATE\b", "Cálculeit"),
+    (r"\bDATESYTD\b", "Dêits Uai Tê Dê"),
+    (r"\bSAMEPERIODLASTYEAR\b", "Sêim Píriod Lést Íer"),
+    (r"\bDIVIDE\b", "Diváid"),
+    (r"\bFORMAT\b", "Fórmat"),
+    (r"\bNAMEOF\b", "Nêim Óf"),
+    (r"\bCALENDARAUTO\b", "Calêndar Óuto"),
+    (r"\bCALENDAR\b", "Calêndar"),
+    (r"\bCOUNTROWS\b", "Cáunt Rôus"),
+    (r"\bTMDL\b", "Tê Éme Dê Éle"),
+    (r"\bQ&A\b", "Quiú en Ei"),
+    (r"\bjunk\b", "djânk"),
+    (r"\bDesktop\b", "Désktop"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
