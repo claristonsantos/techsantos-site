@@ -415,6 +415,19 @@ PRONUNCIATION_FIXES = [
     (r"\bAssociate\b", "Assôuciêit"),
     (r"#{3,}", "cerquilhas"),
     (r"XLCOMBOCTRLSHIFT", "Ctrl+Shift"),
+    # Curso Excel, rodada 2 (Módulo 02) — 12 termos. Ficaram na leitura
+    # padrão: Flash Fill, Alt+; e Ctrl+Enter. "*ltda" foi aprovado como
+    # "asterisco ltda" (sem virar "limitada"), por isso vem depois da regra
+    # de "ltda" e desfaz a troca.
+    (r"\bHYPERLINK\b", "Ráiper línk"),
+    (r"\bROW\b", "Rôu"),
+    (r"\bSEQUENCE\b", "Síquens"),
+    (r"\bTRANSPOSE\b", "Trens pôuz"),
+    (r"\bURL\b", "U Érre Éle"),
+    (r"s\?l", "s, interrogação, l"),
+    (r"~\*", "til asterisco"),
+    (r"\bltda\b", "limitada"),
+    (r"\*limitada", "asterisco ltda"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
