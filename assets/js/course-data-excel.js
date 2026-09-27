@@ -779,5 +779,231 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m04', title: 'Módulo 04 · Importar, limpar e validar dados', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-importar-txt-csv', title: 'Importar arquivos de texto e CSV',
+        desc: 'Abrir um CSV diretamente x importar com Dados > De Texto/CSV: codificação, delimitador, tipos de dados, Carregar, Carregar Para e Transformar Dados — e o Assistente de Importação de Texto.',
+        objetivos: [
+          'Diferenciar abrir um arquivo de texto de importá-lo para uma planilha',
+          'Importar .txt e .csv escolhendo codificação, delimitador e destino',
+          'Preservar zeros à esquerda e datas no formato certo na importação'
+        ],
+        body: 'Quase todo sistema — ERP, banco, e-commerce, planilha do governo — exporta dados em texto: .csv ou .txt. Trazer esse arquivo para o Excel do jeito certo é a diferença entre uma coluna de CEPs intacta e uma coluna de números sem o zero da frente, ou entre "São Paulo" e "SÃ£o Paulo". Importar .txt e .csv é a primeira habilidade da lista da prova Associate.',
+        content: [
+          { h: 'Dois caminhos: abrir ou importar',
+            items: [
+              '<strong>Abrir</strong> (Arquivo > Abrir, escolhendo o arquivo .csv) — o Excel abre o texto como se fosse uma pasta de trabalho, usando as configurações regionais do computador para interpretar cada coluna. É rápido, mas você não controla nada: zeros à esquerda somem, datas em outro padrão podem virar texto ou datas trocadas, e o arquivo continua sendo .csv (salvar grava de volta em texto, perdendo formatação).',
+              '<strong>Importar</strong> (Dados > Obter e Transformar Dados > <strong>De Texto/CSV</strong>) — traz os dados para dentro de uma pasta de trabalho do Excel como uma consulta do Power Query, com uma janela de visualização em que você confere e ajusta tudo antes de carregar. É o caminho recomendado e o que a prova espera.'
+            ] },
+          { h: 'A janela de importação',
+            p: 'Depois de escolher o arquivo, o Excel mostra uma prévia com três controles no alto:',
+            items: [
+              '<strong>Origem do Arquivo</strong> — a codificação dos caracteres. Se os acentos aparecerem quebrados ("SÃ£o Paulo"), troque para <strong>65001: Unicode (UTF-8)</strong>; arquivos antigos do Windows costumam ser 1252: Europeu Ocidental.',
+              '<strong>Delimitador</strong> — vírgula, ponto e vírgula, tabulação, espaço ou personalizado. CSVs gerados no Brasil costumam usar ponto e vírgula.',
+              '<strong>Detecção de Tipo de Dados</strong> — com base nas primeiras 200 linhas, em todo o conjunto de dados ou não detectar (tudo vira texto).'
+            ] },
+          { h: 'Carregar, Carregar Para ou Transformar Dados',
+            items: [
+              '<strong>Carregar</strong> — cria uma planilha nova com os dados em formato de tabela do Excel.',
+              '<strong>Carregar Para</strong> — abre a caixa Importar Dados, onde você escolhe como exibir (Tabela, Relatório de Tabela Dinâmica, Gráfico Dinâmico ou Apenas Criar Conexão), onde colocar (planilha existente, a partir de uma célula, ou nova planilha) e se adiciona ao Modelo de Dados.',
+              '<strong>Transformar Dados</strong> — abre o Editor do Power Query para limpar antes de carregar (próxima aula).'
+            ] },
+          { h: 'Zeros à esquerda e datas',
+            p: 'Para uma coluna de códigos (CEP, CPF, matrícula) manter os zeros, ela precisa chegar como texto: em Transformar Dados, clique no ícone de tipo no cabeçalho da coluna e escolha Texto — ou, na prévia, use "Não detectar tipos de dados". Para datas em padrão estrangeiro (mês/dia/ano), no Editor use botão direito no cabeçalho > Alterar Tipo > <strong>Usando a Localidade</strong> e escolha Data com a localidade de origem (Inglês – Estados Unidos, por exemplo). Assim 03/08/2026 vira 8 de março, e não 3 de agosto.' },
+          { h: 'O Assistente de Importação de Texto (herdado)',
+            p: 'O assistente clássico continua disponível para compatibilidade: ele aparece ao abrir um .txt por Arquivo > Abrir, e pode ser ligado em Arquivo > Opções > Dados > Mostrar assistentes herdados de importação de dados (fica em Dados > Obter Dados > Assistentes Herdados). São três etapas:',
+            items: [
+              '<strong>Etapa 1</strong> — Delimitado (campos separados por um caractere) ou <strong>Largura fixa</strong> (cada campo ocupa sempre as mesmas posições); linha em que começa a importação; Origem do arquivo (codificação).',
+              '<strong>Etapa 2</strong> — delimitadores; <strong>Considerar delimitadores consecutivos como um só</strong>; <strong>Qualificador de texto</strong> (normalmente aspas duplas: "Goiânia, GO" entre aspas fica numa célula só, mesmo contendo a vírgula). Em largura fixa, você clica na régua para marcar onde cada coluna começa.',
+              '<strong>Etapa 3</strong> — o formato de cada coluna: Geral, Texto, Data (com a ordem DMA, MDA etc.) ou Não importar coluna. O botão Avançado define os separadores decimal e de milhar usados no arquivo.'
+            ] },
+          { h: 'Exportar para texto',
+            p: 'O caminho inverso é Arquivo > Salvar Como com o tipo CSV UTF-8, CSV (separado por vírgulas) ou Texto (separado por tabulações). Lembre-se: só a planilha ativa é salva e só os valores (Módulo 01). O Excel avisa as duas coisas antes de salvar.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Importe o arquivo Vendas.csv a partir da célula A1 da planilha Dados" — De Texto/CSV > Carregar Para > Planilha existente, célula A1.',
+              '"Importe o arquivo delimitado por tabulação mantendo a primeira linha como cabeçalho" — confira na prévia se o cabeçalho foi reconhecido.',
+              'Não abra o arquivo por Arquivo > Abrir quando a tarefa pede para importar para a pasta de trabalho atual.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Importar ou exportar arquivos de texto (.txt ou .csv)', u: `${SUP}/excel/get-started/import-or-export-text-txt-or-csv-files` },
+          { t: 'Microsoft Suporte — Assistente de Importação de Texto', u: `${SUP}/excel/text-import-wizard` }
+        ]
+      },
+      {
+        id: 'xl-power-query-basico', title: 'Power Query no Excel: obter, transformar e atualizar',
+        desc: 'As quatro fases do Power Query, fontes de dados (texto, pasta, Web, tabela), o Editor com Etapas Aplicadas, os destinos de carga e as opções de atualização.',
+        objetivos: [
+          'Explicar as fases conectar, transformar, combinar e carregar',
+          'Fazer limpezas básicas no Editor do Power Query e entender as Etapas Aplicadas',
+          'Escolher o destino da carga e configurar a atualização dos dados'
+        ],
+        body: 'O Power Query (no Excel também chamado de Obter e Transformar) é o motor de importação e limpeza de dados do Excel — o mesmo do Power BI. A grande ideia: você ensina a limpeza uma vez e, no mês seguinte, quando chega o arquivo novo, basta clicar em Atualizar. A prova Associate cobra a importação; esta aula dá a base para usar o Power Query no trabalho e nos módulos de análise.',
+        content: [
+          { h: 'As quatro fases',
+            img: { src: `${XL_IMG}/m04/power-query-fluxo.png`, alt: 'Conectar, Transformar, Combinar e Carregar', caption: 'Conectar à fonte, transformar, combinar consultas e carregar no Excel.', source: `${SUP}/excel/about-power-query-in-excel` },
+            items: [
+              '<strong>Conectar</strong> — a um arquivo, pasta, página da Web, banco de dados, serviço na nuvem ou a uma tabela da própria pasta de trabalho.',
+              '<strong>Transformar</strong> — remover colunas, filtrar linhas, trocar tipos de dados, dividir colunas, substituir valores. A fonte original nunca é alterada.',
+              '<strong>Combinar</strong> — <strong>Acrescentar</strong> consultas (empilhar tabelas com as mesmas colunas, como janeiro + fevereiro) ou <strong>Mesclar</strong> consultas (juntar colunas de outra tabela por uma chave, como um PROCV).',
+              '<strong>Carregar</strong> — levar o resultado para uma planilha ou para o Modelo de Dados, e atualizar sempre que a fonte mudar.'
+            ] },
+          { h: 'Fontes de dados mais comuns',
+            p: 'Todas ficam na guia Dados, grupo Obter e Transformar Dados, e no menu <strong>Obter Dados</strong>:',
+            items: [
+              '<strong>De Texto/CSV</strong> — arquivos de texto (aula anterior).',
+              '<strong>Da Web</strong> — cole o endereço de uma página; o Navegador lista as tabelas encontradas nela para você escolher.',
+              '<strong>De Tabela/Intervalo</strong> — usa dados da própria planilha (o intervalo vira tabela do Excel).',
+              '<strong>Obter Dados > De Arquivo > Da Pasta</strong> — junta todos os arquivos de uma pasta (os doze CSVs mensais, por exemplo) numa consulta só; arquivo novo na pasta entra na próxima atualização.',
+              '<strong>Da Pasta de Trabalho do Excel</strong>, bancos de dados (SQL Server, Access), SharePoint, OneDrive e outros serviços.'
+            ],
+            img: { src: `${XL_IMG}/m04/obter-dados-comandos.png`, alt: 'Menu Obter Dados com as categorias de fontes', caption: 'Dados > Obter Dados: fontes organizadas por categoria.', source: `${SUP}/excel/about-power-query-in-excel` } },
+          { h: 'O Editor do Power Query',
+            p: 'Em Transformar Dados (ou Dados > Obter Dados > Iniciar Editor do Power Query) abre o Editor. Cada ação que você faz pela faixa de opções ou clicando com o botão direito no cabeçalho de uma coluna vira uma etapa no painel <strong>Configurações de Consulta</strong>, em <strong>Etapas Aplicadas</strong>. As etapas são reexecutadas, na ordem, a cada atualização. Clicar numa etapa mostra os dados naquele ponto; o X ao lado exclui a etapa.',
+            img: { src: `${XL_IMG}/m04/editor-power-query.png`, alt: 'Editor do Power Query com a lista de consultas, a visualização dos dados e as Etapas Aplicadas', caption: 'O Editor do Power Query: consultas à esquerda, dados no centro e Etapas Aplicadas à direita.', source: `${SUP}/excel/create-load-or-edit-a-query-in-excel-power-query` } },
+          { h: 'Limpezas que resolvem 80% dos casos',
+            items: [
+              '<strong>Usar a Primeira Linha como Cabeçalho</strong> — quando os títulos vieram como a primeira linha de dados.',
+              '<strong>Remover Colunas</strong> e <strong>Remover Outras Colunas</strong> (fica só com as selecionadas).',
+              '<strong>Remover Linhas</strong> — linhas superiores (cabeçalhos de relatório), linhas em branco, duplicatas, erros.',
+              '<strong>Tipo de dados</strong> — o ícone no cabeçalho da coluna (texto, número inteiro, decimal, data, moeda).',
+              '<strong>Dividir Coluna</strong> — por delimitador ou por número de caracteres.',
+              '<strong>Substituir Valores</strong>, <strong>Aparar</strong> (tira espaços do começo e do fim) e <strong>Colocar Cada Palavra em Maiúscula</strong>.',
+              '<strong>Filtrar</strong> — a seta do cabeçalho funciona como o filtro do Excel, mas vira etapa permanente da consulta.'
+            ] },
+          { h: 'Onde carregar',
+            p: '<strong>Fechar e Carregar</strong> leva o resultado para uma planilha nova como tabela. <strong>Fechar e Carregar Para</strong> abre a caixa Importar Dados: Tabela, Relatório de Tabela Dinâmica, Gráfico Dinâmico ou <strong>Apenas Criar Conexão</strong> (a consulta existe, mas não ocupa planilha — útil para consultas intermediárias), além da caixa <strong>Adicionar estes dados ao Modelo de Dados</strong>, que leva os dados ao Power Pivot para tabelas dinâmicas com várias tabelas relacionadas. O painel <strong>Consultas e Conexões</strong> (Dados > Consultas e Conexões) lista todas as consultas; botão direito numa delas oferece Editar, Carregar Para, Duplicar, Referenciar e Excluir.' },
+          { h: 'Atualizar os dados',
+            items: [
+              '<strong>Atualizar</strong> — botão direito na tabela carregada > Atualizar, ou guia Consulta > Atualizar.',
+              '<strong>Atualizar Tudo</strong> (Dados > Consultas e Conexões > Atualizar Tudo, ou Ctrl+Alt+F5) — todas as consultas e tabelas dinâmicas da pasta.',
+              '<strong>Propriedades da conexão</strong> (seta de Atualizar Tudo > Propriedades da Conexão): <strong>Atualizar a cada</strong> N minutos, <strong>Atualizar dados ao abrir o arquivo</strong> e <strong>Habilitar atualização em segundo plano</strong> (você continua trabalhando enquanto atualiza).'
+            ],
+            img: { src: `${XL_IMG}/m04/atualizar-tudo.png`, alt: 'Botão Atualizar Tudo na guia Dados', caption: 'Dados > Atualizar Tudo.', source: `${SUP}/excel/refresh-an-external-data-connection-in-excel` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'A MO-210 pede importar .txt e .csv; a MO-211 pede consultar dados de outras pastas de trabalho — os dois caminhos passam por Obter Dados.',
+              '"Configure a conexão para atualizar ao abrir o arquivo" — Propriedades da Conexão, guia Uso.',
+              'Quando a tarefa diz "sem criar uma planilha nova", use Carregar Para > Apenas Criar Conexão ou Planilha existente.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Sobre o Power Query no Excel', u: `${SUP}/excel/about-power-query-in-excel` },
+          { t: 'Microsoft Suporte — Criar, carregar ou editar uma consulta', u: `${SUP}/excel/create-load-or-edit-a-query-in-excel-power-query` },
+          { t: 'Microsoft Suporte — Importar dados da Web', u: `${SUP}/excel/get-started/import-data-from-the-web` },
+          { t: 'Microsoft Suporte — Importar dados de uma pasta com vários arquivos', u: `${SUP}/excel/import-data-from-a-folder-with-multiple-files-power-query` },
+          { t: 'Microsoft Suporte — Atualizar uma conexão de dados externa', u: `${SUP}/excel/refresh-an-external-data-connection-in-excel` }
+        ]
+      },
+      {
+        id: 'xl-texto-colunas-duplicatas', title: 'Texto para Colunas e Remover Duplicatas',
+        desc: 'Dividir uma coluna em várias por delimitador ou largura fixa, remover linhas duplicadas escolhendo as colunas-chave e filtrar valores exclusivos sem apagar nada.',
+        objetivos: [
+          'Dividir dados com o Assistente para Conversão de Texto em Colunas',
+          'Remover duplicatas entendendo o que é uma linha duplicada para o Excel',
+          'Obter valores exclusivos com o Filtro Avançado, sem excluir dados'
+        ],
+        body: 'Dois problemas aparecem em quase toda base de dados que chega de fora: informações grudadas numa coluna só ("Goiânia - GO") e linhas repetidas (o mesmo cliente cadastrado três vezes). O Excel tem um comando pronto para cada um, os dois na guia Dados, grupo Ferramentas de Dados. Remover duplicatas é habilidade da prova Expert.',
+        content: [
+          { h: 'Texto para Colunas',
+            p: 'Selecione a coluna (uma só) e vá em Dados > <strong>Texto para Colunas</strong>. Garanta colunas vazias à direita: o resultado ocupa as colunas seguintes e substitui o que houver nelas. O assistente tem três etapas:',
+            items: [
+              '<strong>Delimitado</strong> ou <strong>Largura fixa</strong>.',
+              'Os delimitadores (Tabulação, Ponto e vírgula, Vírgula, Espaço, Outros) e a opção Considerar delimitadores consecutivos como um só — com a Visualização dos dados embaixo.',
+              'O formato de cada coluna resultante (Geral, Texto, Data ou Não importar coluna) e o <strong>Destino</strong> — a célula onde a primeira coluna vai começar (para não sobrescrever a original, aponte para outra coluna).'
+            ] },
+          { h: 'Um truque: converter texto em data ou número',
+            p: 'Texto para Colunas também conserta colunas "presas" como texto. Selecione a coluna de datas que o Excel não reconhece, abra o assistente, avance direto até a etapa 3, escolha Data com a ordem certa (DMA) e conclua: o texto é reinterpretado como data real. O mesmo vale para números que chegaram como texto, escolhendo Geral.' },
+          { h: 'Remover Duplicatas',
+            p: 'Com uma célula dentro dos dados, Dados > <strong>Remover Duplicatas</strong>. Na caixa, marque <strong>Meus dados contêm cabeçalhos</strong> (se for o caso) e escolha as colunas que definem o que é "igual":',
+            items: [
+              'Com todas as colunas marcadas, só saem linhas idênticas em tudo.',
+              'Com só a coluna CPF marcada, saem todas as linhas com CPF repetido — mesmo que o telefone seja diferente. A linha inteira é excluída, não só a célula.',
+              'A primeira ocorrência de cada valor fica; as seguintes saem. Classifique antes (por data, por exemplo) se quiser controlar qual registro fica.',
+              'Ao final, o Excel informa quantas duplicatas foram removidas e quantos valores exclusivos permanecem. Ctrl+Z desfaz.',
+              'A comparação usa o valor exibido: a mesma data com formatos diferentes conta como valores diferentes. Espaços sobrando também tornam valores "diferentes" — limpe antes (função ARRUMAR/TRIM, Módulo 08, ou Aparar no Power Query).'
+            ],
+            img: { src: `${XL_IMG}/m04/remover-duplicatas.png`, alt: 'Botão Remover Duplicatas no grupo Ferramentas de Dados', caption: 'Dados > Ferramentas de Dados > Remover Duplicatas.', source: `${SUP}/excel/get-started/filter-for-unique-values-or-remove-duplicate-values` } },
+          { h: 'Valores exclusivos sem apagar nada',
+            p: 'Remover Duplicatas exclui dados permanentemente — faça uma cópia antes. Para só ver ou extrair os valores exclusivos, use Dados > Classificar e Filtrar > <strong>Avançado</strong>: escolha Filtrar a lista no local ou Copiar para outro local (informando a célula em Copiar para) e marque <strong>Somente registros exclusivos</strong>. No Microsoft 365, a função ÚNICO (UNIQUE) faz o mesmo com fórmula e se atualiza sozinha (Módulo 09). E a formatação condicional Realçar Regras das Células > Valores Duplicados mostra as repetições antes de você decidir (Módulo 10).',
+            img: { src: `${XL_IMG}/m04/filtro-avancado.png`, alt: 'Botão Avançado no grupo Classificar e Filtrar', caption: 'Dados > Classificar e Filtrar > Avançado.', source: `${SUP}/excel/get-started/filter-for-unique-values-or-remove-duplicate-values` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Remova os registros duplicados com base apenas nas colunas Nome e Email" — desmarque as outras colunas na caixa Remover Duplicatas.',
+              '"Separe a coluna A em Nome e Sobrenome" — Texto para Colunas com delimitador Espaço (ou Preenchimento Relâmpago, se a tarefa pedir).',
+              'Não remova duplicatas de dados com subtotais ou estrutura de tópicos: o comando não funciona; remova os subtotais antes.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Dividir texto em colunas com o Assistente', u: `${SUP}/excel/get-started/split-text-into-different-columns-with-the-convert-text-to-columns-wizard` },
+          { t: 'Microsoft Suporte — Filtrar por valores exclusivos ou remover duplicados', u: `${SUP}/excel/get-started/filter-for-unique-values-or-remove-duplicate-values` }
+        ]
+      },
+      {
+        id: 'xl-validacao-dados', title: 'Validação de dados e listas suspensas',
+        desc: 'Restringir o que pode ser digitado (números, datas, tamanho de texto, listas, fórmula), mensagens de entrada, os três estilos de alerta de erro e como encontrar dados inválidos.',
+        objetivos: [
+          'Criar regras de validação para números, datas, texto e listas',
+          'Montar listas suspensas a partir de valores digitados ou de uma tabela',
+          'Configurar mensagem de entrada e alerta de erro (Parar, Aviso, Informações)'
+        ],
+        body: 'Planilha que várias pessoas preenchem sem validação vira bagunça: "SP", "sp", "São Paulo" e "Sao Paulo" na mesma coluna; quantidade negativa; data de 2062. A Validação de Dados impede a entrada errada na origem, e a lista suspensa é a forma mais prática de padronizar. Configurar validação é habilidade da prova Expert.',
+        content: [
+          { h: 'Criar uma regra',
+            p: 'Selecione as células e vá em Dados > Ferramentas de Dados > <strong>Validação de Dados</strong>. Na guia <strong>Configurações</strong>, a caixa <strong>Permitir</strong> define o tipo:',
+            items: [
+              '<strong>Qualquer valor</strong> — sem restrição (é assim que se "desliga" a regra).',
+              '<strong>Número inteiro</strong> e <strong>Decimal</strong> — com a condição em <strong>Dados</strong>: está entre, não está entre, igual a, diferente de, maior do que, menor do que, maior ou igual a, menor ou igual a. Ex.: quantidade inteira maior ou igual a 1.',
+              '<strong>Lista</strong> — só aceita itens de uma lista (lista suspensa).',
+              '<strong>Data</strong> e <strong>Hora</strong> — ex.: data entre 01/01/2026 e 31/12/2026. Os limites podem ser fórmulas, como HOJE().',
+              '<strong>Comprimento do texto</strong> — ex.: exatamente 8 caracteres para CEP sem traço.',
+              '<strong>Personalizado</strong> — uma fórmula que precisa dar VERDADEIRO. Ex.: impedir código repetido com uma fórmula CONT.SE (Módulo 07).'
+            ],
+            img: { src: `${XL_IMG}/m04/validacao-dados.png`, alt: 'Botão Validação de Dados na guia Dados', caption: 'Dados > Ferramentas de Dados > Validação de Dados.', source: `${SUP}/excel/get-started/apply-data-validation-to-cells` } },
+          { h: 'Listas suspensas',
+            p: 'Em Permitir escolha <strong>Lista</strong>, mantenha marcada a caixa <strong>Menu suspenso na célula</strong> e preencha a <strong>Fonte</strong> de um destes jeitos:',
+            items: [
+              'Itens digitados direto, separados por ponto e vírgula no Excel em português (Alta;Média;Baixa). No Excel em inglês o separador é a vírgula.',
+              'Um intervalo da planilha com os itens, sem incluir o cabeçalho.',
+              'Melhor ainda: os itens numa <strong>tabela do Excel</strong> (Módulo 05). Aí, ao acrescentar um item na tabela, todas as listas baseadas nela passam a mostrá-lo sem você mexer na validação. Para apontar para a coluna da tabela, use um nome definido ou a função INDIRETO.',
+              '<strong>Ignorar em branco</strong> permite deixar a célula vazia.'
+            ],
+            img: { src: `${XL_IMG}/m04/lista-suspensa-origem.png`, alt: 'Configurações de validação com Permitir Lista e a caixa Fonte', caption: 'Lista, Menu suspenso na célula e a Fonte com o intervalo dos itens.', source: `${SUP}/excel/get-started/create-a-drop-down-list` } },
+          { h: 'Mensagem de entrada',
+            p: 'Na guia <strong>Mensagem de entrada</strong>, marque Mostrar mensagem de entrada ao selecionar a célula e escreva um Título e a Mensagem. Ela aparece como uma nota amarela quando a célula é selecionada — é o lugar para explicar o que deve ser digitado ("Informe a data da venda, no ano de 2026").' },
+          { h: 'Alerta de erro: Parar, Aviso e Informações',
+            p: 'Na guia <strong>Alerta de erro</strong>, o <strong>Estilo</strong> muda o comportamento quando alguém digita algo inválido:',
+            items: [
+              '<strong>Parar</strong> — impede a entrada; só dá para Repetir ou Cancelar. É o padrão.',
+              '<strong>Aviso</strong> — pergunta "Deseja continuar?"; Sim aceita o valor inválido.',
+              '<strong>Informações</strong> — só informa; OK aceita o valor.',
+              'Título e Mensagem de erro personalizados deixam claro o que está errado. Se o alerta estiver desmarcado, qualquer valor é aceito.'
+            ],
+            img: { src: `${XL_IMG}/m04/alerta-de-erro.png`, alt: 'Guia Alerta de erro da caixa Validação de Dados', caption: 'Alerta de erro: estilo, título e mensagem.', source: `${SUP}/excel/get-started/create-a-drop-down-list` } },
+          { h: 'Limites da validação e como achar dados inválidos',
+            items: [
+              'A validação só age na digitação: dados colados por cima ou que já estavam na célula não são barrados (colar substitui inclusive a própria regra).',
+              '<strong>Circular Dados Inválidos</strong> (seta de Validação de Dados) desenha um círculo vermelho nas células que desobedecem à regra; Limpar Círculos de Validação remove.',
+              'Para encontrar todas as células com validação: Localizar e Selecionar > Validação de Dados, ou Ir para Especial > Validação de dados.',
+              'Para remover a regra: selecione as células > Validação de Dados > <strong>Limpar Tudo</strong>. <strong>Aplicar alterações a todas as células com as mesmas configurações</strong> atualiza a regra em todas as células que a compartilham.',
+              'Com a planilha protegida, a validação não pode ser alterada.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Configure C2:C100 para aceitar apenas números inteiros entre 1 e 500, com o alerta de estilo Aviso e o título Atenção" — cada detalhe da tarefa corresponde a um campo das três guias.',
+              '"Crie uma lista suspensa com os valores da coluna A da planilha Listas" — Lista, com Fonte apontando para o intervalo (sem o cabeçalho).',
+              'Leia o estilo pedido: Parar, Aviso e Informações são corrigidos separadamente.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Aplicar validação de dados às células', u: `${SUP}/excel/get-started/apply-data-validation-to-cells` },
+          { t: 'Microsoft Suporte — Criar uma lista suspensa', u: `${SUP}/excel/get-started/create-a-drop-down-list` }
+        ]
+      }
+    ]
   }
 ];

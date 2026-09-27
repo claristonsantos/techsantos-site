@@ -30,3 +30,12 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m03/casas-decimais.png | aumentar ou diminuir casas decimais em formatação de números | https://support.microsoft.com/pt-br/excel/get-started/available-number-formats-in-excel |
 | /assets/img/curso-excel/m03/quebrar-texto.png | O botão Quebrar Texto Automaticamente no grupo Alinhamento | https://support.microsoft.com/pt-br/excel/wrap-text-in-a-cell-in-excel |
 | /assets/img/curso-excel/m03/estilos-de-celula.png | Captura de ecrã de estilos de célula no Excel. | https://support.microsoft.com/pt-br/excel/apply-create-or-remove-a-cell-style |
+| /assets/img/curso-excel/m04/remover-duplicatas.png | Remover Duplicatas | https://support.microsoft.com/pt-br/excel/get-started/filter-for-unique-values-or-remove-duplicate-values |
+| /assets/img/curso-excel/m04/filtro-avancado.png | Filtro Avançado | https://support.microsoft.com/pt-br/excel/get-started/filter-for-unique-values-or-remove-duplicate-values |
+| /assets/img/curso-excel/m04/power-query-fluxo.png | Power Query common steps | https://support.microsoft.com/pt-br/excel/about-power-query-in-excel |
+| /assets/img/curso-excel/m04/obter-dados-comandos.png | Importar comandos na interface do usuário | https://support.microsoft.com/pt-br/excel/about-power-query-in-excel |
+| /assets/img/curso-excel/m04/editor-power-query.png | Uma exibição típica do Editor do Power Query | https://support.microsoft.com/pt-br/excel/create-load-or-edit-a-query-in-excel-power-query |
+| /assets/img/curso-excel/m04/atualizar-tudo.png | Ponteiro do mouse sobre o botão Atualizar Tudo | https://support.microsoft.com/pt-br/excel/refresh-an-external-data-connection-in-excel |
+| /assets/img/curso-excel/m04/validacao-dados.png | Validação de Dados | https://support.microsoft.com/pt-br/excel/get-started/apply-data-validation-to-cells |
+| /assets/img/curso-excel/m04/lista-suspensa-origem.png | Opções da Lista de Validação de Dados | https://support.microsoft.com/pt-br/excel/get-started/create-a-drop-down-list |
+| /assets/img/curso-excel/m04/alerta-de-erro.png | Opções de mensagem de erro suspensa de validação de dados | https://support.microsoft.com/pt-br/excel/get-started/create-a-drop-down-list |

@@ -8,7 +8,7 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 ### Gerenciar planilhas e pastas de trabalho
 | Habilidade | Aula(s) | Status |
 |---|---|---|
-| Importar dados de arquivos .txt e .csv | — (Módulo 04) | ⬜ |
+| Importar dados de arquivos .txt e .csv | xl-importar-txt-csv, xl-power-query-basico | ✅ |
 | Pesquisar dados na pasta de trabalho | xl-localizar-substituir-links | ✅ |
 | Navegar para células, intervalos ou elementos nomeados | xl-navegar-selecionar (Caixa de Nome, Ir para) | 🟡 (nomes definidos no Módulo 06) |
 | Inserir e remover hiperlinks | xl-localizar-substituir-links | ✅ |
@@ -54,5 +54,7 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Preencher células usando opções avançadas de série | xl-preenchimento-series | ✅ |
 | Preencher células usando a função MATRIZALEATÓRIA | — (Módulo 09) | ⬜ |
 | Criar formatos de número personalizados | xl-formatos-personalizados | ✅ |
+| Configurar a validação de dados | xl-validacao-dados | ✅ |
+| Remover registros duplicados | xl-texto-colunas-duplicatas | ✅ |
 
 ⬜ Opções e configurações da pasta de trabalho · ⬜ Demais itens de dados · ⬜ Fórmulas e macros avançadas · ⬜ Gráficos e tabelas avançados
