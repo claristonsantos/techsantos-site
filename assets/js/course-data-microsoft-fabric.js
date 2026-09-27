@@ -2627,5 +2627,395 @@ KILL 71;   -- encerra a sessão 71 (somente administrador do workspace)` },
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m08', title: 'Módulo 08 · Real-Time Intelligence: Eventstream, Eventhouse e KQL', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-rti-visao', title: 'Real-Time Intelligence: componentes e escolha do mecanismo de streaming',
+        desc: 'As peças da Real-Time Intelligence — hub em tempo real, Eventstream, Eventhouse, KQL, painéis em tempo real e Activator — e como escolher entre Eventstream, streaming do Spark e KQL.',
+        objetivos: [
+          'Descrever o papel de cada componente da Real-Time Intelligence',
+          'Montar o fluxo de ponta a ponta de uma solução em tempo real',
+          'Escolher o mecanismo de streaming adequado a cada cenário'
+        ],
+        body: 'A Real-Time Intelligence é a carga de trabalho do Fabric para dados em movimento: telemetria, logs, cliques, sensores, transações. “Tempo real” aqui não exige volume gigante — significa reagir quando o evento acontece, e não num agendamento. Cobre a habilidade DP-700 “Escolher um mecanismo de streaming apropriado” e abre o módulo.',
+        content: [
+          { h: 'As peças',
+            items: [
+              '<strong>Hub em tempo real</strong> — catálogo de todos os dados em movimento da organização: fluxos de eventos, tabelas KQL, eventos do Fabric (itens do workspace, trabalhos, OneLake) e do Azure (Blob). Visto no Módulo 01 para descobrir dados.',
+              '<strong>Eventstream</strong> — captura eventos de dezenas de fontes, transforma sem código e roteia para vários destinos.',
+              '<strong>Eventhouse</strong> — o banco analítico para eventos: um ou mais <strong>bancos de dados KQL</strong>, indexados e particionados por tempo, que consultam bilhões de linhas em segundos.',
+              '<strong>KQL</strong> (Kusto Query Language) — a linguagem de consulta dos bancos KQL; o <strong>conjunto de consultas KQL</strong> é o item onde você escreve e salva consultas.',
+              '<strong>Painel em tempo real</strong> — visuais alimentados por consultas KQL, com atualização automática.',
+              '<strong>Activator</strong> — detecta condições nos dados e dispara ações (e-mail, Teams, pipeline, notebook, Power Automate).'
+            ],
+            img: { src: `${FAB_IMG}/m08/arquitetura-rti.png`, alt: 'Arquitetura da Real-Time Intelligence', caption: 'Arquitetura da Real-Time Intelligence: fontes, Eventstream, Eventhouse, visualização e ações, com o OneLake por baixo.', source: `${LEARN}/real-time-intelligence/overview` } },
+          { h: 'O fluxo típico',
+            p: 'Fonte de eventos (Hubs de Eventos, IoT Hub, Kafka, CDC de um banco) → <strong>Eventstream</strong> (filtra, enriquece, agrega) → <strong>Eventhouse</strong> (armazena e consulta em KQL) → <strong>painel em tempo real</strong> ou Power BI → <strong>Activator</strong> para alertas e ações. Com a disponibilidade no OneLake ligada, os mesmos dados do eventhouse ficam acessíveis como tabelas Delta para Spark, SQL e Power BI.' },
+          { h: 'Escolhendo o mecanismo de streaming',
+            items: [
+              '<strong>Eventstream</strong> — sem código, conectores prontos, transformações leves (filtro, campos, agregação em janelas, união, junção com dados de referência) e roteamento para vários destinos. Primeira escolha para trazer eventos ao Fabric.',
+              '<strong>Streaming estruturado do Spark</strong> (Módulo 06) — código PySpark, lógica complexa, bibliotecas, gravação em tabelas Delta do lakehouse. Para engenheiros que programam e cenários de lakehouse.',
+              '<strong>KQL no eventhouse</strong> — políticas de atualização e exibições materializadas transformam os dados logo após a ingestão, e o KQL analisa séries temporais com latência de segundos. Para telemetria, logs e análise interativa sobre dados recentes.',
+              'Na prática eles se combinam: Eventstream para ingerir, eventhouse para armazenar e analisar, Spark para processamentos pesados sobre o histórico.'
+            ] },
+          { h: 'Padrões de carga para streaming',
+            items: [
+              '<strong>Ingestão direta</strong> no eventhouse — os eventos brutos entram numa tabela; a transformação acontece depois, com políticas de atualização (padrão medalhão dentro do eventhouse).',
+              '<strong>Processar antes de ingerir</strong> — o Eventstream filtra e agrega no caminho e grava o resultado.',
+              '<strong>Lakehouse como destino</strong> — os eventos viram tabelas Delta; bom quando o consumo principal é Spark ou SQL, não a análise de segundos.',
+              '<strong>Vários destinos</strong> ao mesmo tempo: bruto no eventhouse, agregado no lakehouse e alertas no Activator, a partir do mesmo fluxo.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Trazer eventos de um Hub de Eventos para o Fabric sem código → Eventstream.',
+              'Telemetria de milhões de dispositivos com consultas interativas sobre os últimos minutos → eventhouse com KQL.',
+              'Lógica de streaming complexa em Python gravando no lakehouse → streaming estruturado do Spark.',
+              'Avisar a equipe no Teams quando um sensor passar do limite → Activator.'
+            ] }
+        ],
+        recursos: [
+          { t: 'O que é a Real-Time Intelligence', u: `${LEARN}/real-time-intelligence/overview` },
+          { t: 'Visão geral do hub em tempo real', u: `${LEARN}/real-time-hub/real-time-hub-overview` }
+        ]
+      },
+      {
+        id: 'fab-eventstream', title: 'Eventstream: fontes, transformações e destinos',
+        desc: 'Criar um Eventstream, conectar fontes, transformar eventos com o editor sem código ou com SQL, agregar em janelas de tempo e rotear para eventhouse, lakehouse, fluxo derivado e Activator.',
+        objetivos: [
+          'Conectar fontes e destinos a um Eventstream',
+          'Usar os operadores de transformação do editor',
+          'Agregar eventos em janelas fixas e de salto',
+          'Conhecer os limites e garantias do Eventstream'
+        ],
+        body: 'Cobre “Processar dados usando Eventstream” e parte de “Criar funções de janela” e “Projetar e implementar um padrão de carregamento para dados de streaming” da DP-700.',
+        content: [
+          { h: 'Fontes',
+            items: [
+              'Azure: Hubs de Eventos, IoT Hub, Service Bus, Event Grid, Blob Storage.',
+              'CDC de bancos: Azure SQL, SQL Server, SQL Managed Instance, PostgreSQL, MySQL, Cosmos DB, Oracle, MongoDB e o feed de alterações de bancos espelhados.',
+              'Mensageria de terceiros: Apache Kafka, Confluent, Amazon Kinesis e MSK, Google Pub/Sub, MQTT, Solace.',
+              'Eventos do Fabric (itens do workspace, trabalhos, OneLake, capacidade), aplicativo personalizado e dados de exemplo.',
+              'Cada Eventstream expõe também um <strong>ponto de extremidade compatível com Kafka</strong>: aplicativos que já falam Kafka enviam e consomem sem mudar código.'
+            ] },
+          { h: 'Destinos',
+            items: [
+              '<strong>Eventhouse</strong> — com <strong>ingestão direta</strong> (sem processamento) ou <strong>processamento antes da ingestão</strong>.',
+              '<strong>Lakehouse</strong> — converte os eventos em tabela Delta.',
+              '<strong>Fluxo derivado</strong> — o fluxo já transformado vira um novo fluxo, publicado no hub em tempo real para outros consumirem.',
+              '<strong>Activator</strong> — para regras e alertas.',
+              '<strong>Ponto de extremidade personalizado</strong> e <strong>notebook Spark</strong> (versão prévia).',
+              'Um mesmo Eventstream alimenta vários destinos ao mesmo tempo, sem que um interfira no outro.'
+            ],
+            img: { src: `${FAB_IMG}/m08/eventstream-destinos.png`, alt: 'Eventstream com várias fontes e destinos', caption: 'Um Eventstream com fonte, operadores de transformação e vários destinos.', source: `${LEARN}/real-time-intelligence/event-streams/overview` } },
+          { h: 'Transformar sem código',
+            p: 'No modo Editar, você insere operadores entre o fluxo e o destino:',
+            items: [
+              '<strong>Filtro</strong> — mantém só os eventos que atendem a uma condição.',
+              '<strong>Gerenciar campos</strong> — adiciona, remove, renomeia ou muda o tipo de campos, com funções de texto, data e matemática.',
+              '<strong>Agregação</strong> — soma, mínimo, máximo ou média num período, a cada novo evento.',
+              '<strong>Agrupar por</strong> — agrega todos os eventos de uma janela de tempo, agrupando por um ou mais campos.',
+              '<strong>União</strong> — junta fluxos com campos de mesmo nome e tipo (os demais são descartados).',
+              '<strong>Expandir</strong> — transforma uma matriz em várias linhas.',
+              '<strong>Junção</strong> com outro fluxo ou com <strong>dados de referência</strong> (enriquecimento com uma tabela de cadastro, atualizada por agendamento).',
+              'Também há um operador de <strong>código SQL</strong> para escrever a transformação numa linguagem de consulta de streaming.'
+            ],
+            img: { src: `${FAB_IMG}/m08/editor-eventos.png`, alt: 'Editor de processamento de eventos no modo Editar', caption: 'Editor de processamento de eventos: operadores arrastados entre a fonte e os destinos.', source: `${LEARN}/real-time-intelligence/event-streams/process-events-using-event-processor-editor` } },
+          { h: 'Janelas de tempo no Eventstream',
+            items: [
+              '<strong>Fixa</strong> (tumbling) — intervalos consecutivos, sem sobreposição: total de vendas a cada 1 minuto.',
+              '<strong>De salto</strong> (hopping) — janelas de tamanho fixo que avançam em passos menores e se sobrepõem: média dos últimos 5 minutos, recalculada a cada minuto. Ótima para detectar picos e anomalias.',
+              'A linguagem de streaming também oferece janelas deslizantes, de sessão (agrupa eventos próximos, fechando após um período sem eventos) e de instantâneo.',
+              'O horário do fim da janela sai em <code>System.Timestamp</code>.'
+            ],
+            code: `SELECT Cidade,
+       System.Timestamp AS FimJanela,
+       SUM(Valor) AS Vendas
+INTO   saida
+FROM   entrada
+GROUP BY Cidade, TumblingWindow(minute, 1)
+
+-- média móvel de 5 minutos, recalculada a cada minuto
+GROUP BY DispositivoID, HoppingWindow(minute, 5, 1)` },
+          { h: 'Limites e operação',
+            items: [
+              'Mensagem de até <strong>1 MB</strong>; retenção dos eventos no Eventstream de até <strong>90 dias</strong>; entrega <strong>pelo menos uma vez</strong> — o destino pode receber duplicados e deve estar preparado para isso.',
+              'Por baixo, cada Eventstream usa um namespace de Hubs de Eventos gerenciado.',
+              'Fluxos e destinos podem ser <strong>pausados e retomados</strong> sem apagar a configuração.',
+              'Um Eventstream precisa ser <strong>publicado</strong> depois de editado; erros de criação aparecem na guia de erros de autoria.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Total por loja a cada 5 minutos, sem sobreposição → janela fixa (tumbling) no Agrupar por.',
+              'Média dos últimos 10 minutos atualizada a cada minuto → janela de salto (hopping).',
+              'Enriquecer eventos com o nome do produto de uma tabela → junção com dados de referência.',
+              'Aplicativo existente usa Kafka → ponto de extremidade Kafka do Eventstream.',
+              'Duplicados no destino → entrega “pelo menos uma vez”; deduplicar no eventhouse.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral dos Eventstreams', u: `${LEARN}/real-time-intelligence/event-streams/overview` },
+          { t: 'Processar eventos com o editor', u: `${LEARN}/real-time-intelligence/event-streams/process-events-using-event-processor-editor` },
+          { t: 'Processar eventos com o editor de código SQL', u: `${LEARN}/real-time-intelligence/event-streams/process-events-using-sql-code-editor` },
+          { t: 'Enriquecer eventos com dados de referência', u: `${LEARN}/real-time-intelligence/event-streams/enrich-events-with-reference-data` },
+          { t: 'Adicionar um eventhouse como destino', u: `${LEARN}/real-time-intelligence/event-streams/add-destination-kql-database` }
+        ]
+      },
+      {
+        id: 'fab-eventhouse', title: 'Eventhouse e banco de dados KQL: políticas, OneLake e atalhos',
+        desc: 'Eventhouse e bancos KQL, políticas de retenção e cache, disponibilidade no OneLake, atalhos do OneLake com e sem aceleração de consulta, e atalhos de banco de dados.',
+        objetivos: [
+          'Criar eventhouse e banco KQL e ingerir dados',
+          'Configurar retenção e cache',
+          'Expor os dados do eventhouse no OneLake',
+          'Escolher entre tabela nativa, atalho e atalho acelerado'
+        ],
+        body: 'Cobre as habilidades DP-700 “Escolha entre tabelas nativas e atalhos do OneLake na Inteligência em Tempo Real” e “Escolha entre a aceleração de consulta para os atalhos do OneLake e os atalhos padrão”, além da parte de eventhouse de “Implementar a integração do OneLake” (DP-600, vista no Módulo 02).',
+        content: [
+          { h: 'Eventhouse e bancos KQL',
+            items: [
+              'O <strong>eventhouse</strong> agrupa um ou mais bancos KQL e compartilha a computação entre eles. Serve para logs, telemetria, IoT, séries temporais e registros de segurança — dados estruturados, semiestruturados (JSON) e texto livre.',
+              'Os dados são <strong>indexados e particionados por tempo de ingestão</strong> automaticamente.',
+              'O eventhouse <strong>suspende</strong> quando está ocioso para economizar e volta em alguns segundos. Para sistemas que não toleram essa latência, defina uma <strong>capacidade mínima</strong> (sempre ativa), inclusive por horário com o Planejador de Capacidade.',
+              'Formas de ingerir: Eventstream, Obter dados (arquivos, OneLake, Hubs de Eventos), pipelines, dataflows e comandos KQL.'
+            ],
+            img: { src: `${FAB_IMG}/m08/eventhouse-pagina.png`, alt: 'Página principal do eventhouse', caption: 'Página do eventhouse: visão geral do sistema, armazenamento, ingestão e bancos KQL.', source: `${LEARN}/real-time-intelligence/manage-monitor-eventhouse` } },
+          { h: 'Retenção e cache',
+            items: [
+              '<strong>Política de retenção</strong> — por quanto tempo os dados ficam no banco ou na tabela antes de serem apagados automaticamente. Padrão: <strong>3.650 dias</strong> (ou ilimitado).',
+              '<strong>Política de cache</strong> — quanto dos dados recentes fica no <strong>cache quente</strong> (SSD local), com consultas muito mais rápidas. O restante fica no armazenamento frio, mais barato. Padrão também de 3.650 dias.',
+              'Ajuste as duas ao uso real: por exemplo, reter 1 ano e manter 30 dias em cache se as consultas olham quase sempre o último mês.'
+            ],
+            img: { src: `${FAB_IMG}/m08/politica-retencao.png`, alt: 'Painel da política de retenção de dados', caption: 'Política de retenção de um banco KQL: período em dias ou ilimitado.', source: `${LEARN}/real-time-intelligence/data-policies` } },
+          { h: 'Disponibilidade no OneLake',
+            p: 'Ligando a <strong>disponibilidade no OneLake</strong> num banco ou numa tabela, o eventhouse mantém uma cópia lógica dos dados em formato Delta no OneLake. Assim, lakehouse (por atalho), ponto de extremidade SQL, notebooks e o Direct Lake do Power BI usam os mesmos dados, sem pipeline de cópia. O eventhouse agrupa os eventos para gravar arquivos Parquet de bom tamanho — por isso a cópia Delta pode atrasar alguns minutos quando o volume é baixo.',
+            img: { src: `${FAB_IMG}/m08/onelake-disponibilidade.png`, alt: 'Habilitar a disponibilidade do OneLake', caption: 'Habilitar a disponibilidade do OneLake num banco KQL.', source: `${LEARN}/real-time-intelligence/event-house-onelake-availability` } },
+          { h: 'Tabela nativa, atalho ou atalho acelerado',
+            items: [
+              '<strong>Tabela nativa</strong> (dados ingeridos no eventhouse) — o melhor desempenho de consulta e acesso a todos os recursos: políticas de atualização, exibições materializadas, retenção e cache. Custa a ingestão e o armazenamento.',
+              '<strong>Atalho do OneLake</strong> (tabela externa) — consulta dados Delta que já estão no OneLake ou em outra nuvem, sem copiar, com <code>external_table()</code>. Bom para dados consultados de vez em quando; mais lento que a tabela nativa.',
+              '<strong>Atalho com aceleração de consulta</strong> — o eventhouse indexa e guarda em cache os dados do atalho por um número de dias que você define, chegando a um desempenho próximo ao da tabela nativa sem ingerir. Bom para dados que já chegam ao OneLake e são consultados com frequência. Continua sendo tabela externa: sem políticas de atualização e exibições materializadas; limite de 900 colunas.',
+              '<strong>Atalho de banco de dados</strong> — expõe, somente leitura, um banco inteiro de outro eventhouse ou do Azure Data Explorer, com computação separada.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Menor latência de consulta e uso de exibições materializadas → tabela nativa.',
+              'Dados Delta já no OneLake, consultados raramente → atalho padrão.',
+              'Dados Delta no OneLake consultados o tempo todo, sem querer duplicar a ingestão → atalho com aceleração de consulta.',
+              'Consultas lentas sobre o último mês com cache de 7 dias → aumentar a política de cache.',
+              'Spark e Power BI precisam dos dados do eventhouse sem cópia → disponibilidade no OneLake.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral do Eventhouse', u: `${LEARN}/real-time-intelligence/eventhouse` },
+          { t: 'Alterar políticas de dados (retenção e cache)', u: `${LEARN}/real-time-intelligence/data-policies` },
+          { t: 'Disponibilidade no OneLake para eventhouse', u: `${LEARN}/real-time-intelligence/event-house-onelake-availability` },
+          { t: 'Aceleração de consulta para atalhos do OneLake', u: `${LEARN}/real-time-intelligence/query-acceleration-overview` },
+          { t: 'Atalho de banco de dados', u: `${LEARN}/real-time-intelligence/database-shortcut` }
+        ]
+      },
+      {
+        id: 'fab-kql-consultas', title: 'KQL: selecionar, filtrar, agregar e janelas',
+        desc: 'A linguagem KQL do zero: o operador de pipe, where, project, extend, summarize com bin, top, join, render, e funções de janela com serialize, prev e row_cumsum.',
+        objetivos: [
+          'Ler e escrever consultas KQL com o operador de pipe',
+          'Filtrar por tempo com ago e agregar por intervalos com bin',
+          'Juntar tabelas e visualizar resultados',
+          'Usar funções de janela do KQL'
+        ],
+        body: 'Cobre a habilidade DP-600 “Selecionar, filtrar e agregar dados usando KQL” e as DP-700 “Processar dados usando KQL” e “Criar funções de janela”. Quem sabe SQL aprende KQL rápido: a lógica é a mesma, só que a consulta é escrita de cima para baixo, como uma sequência de etapas — muito parecido com o Power Query.',
+        content: [
+          { h: 'Estrutura de uma consulta',
+            p: 'Uma consulta começa pelo nome da tabela e segue por etapas separadas por <strong>|</strong> (pipe). Cada operador recebe a tabela da etapa anterior e devolve uma nova tabela.',
+            code: `Vendas
+| where Timestamp > ago(1d)            // últimas 24 horas
+| where Loja == "Itumbiara"
+| project Timestamp, Produto, Quantidade, Valor
+| extend Receita = Quantidade * Valor
+| summarize ReceitaTotal = sum(Receita), Pedidos = count() by Produto
+| top 10 by ReceitaTotal desc` },
+          { h: 'Os operadores essenciais',
+            items: [
+              '<strong>where</strong> — filtra linhas. Filtre primeiro pelo tempo (<code>ago(1h)</code>, <code>between</code>): é o que mais reduz dados. Texto: <code>==</code> diferencia maiúsculas, <code>=~</code> não; <code>has</code> é mais rápido que <code>contains</code>.',
+              '<strong>project</strong> escolhe (e renomeia) colunas; <strong>project-away</strong> remove; <strong>extend</strong> cria colunas calculadas.',
+              '<strong>summarize</strong> agrega (count, sum, avg, min, max, dcount) <strong>by</strong> colunas de agrupamento.',
+              '<strong>bin(Timestamp, 5m)</strong> arredonda o tempo para intervalos — a base de toda série temporal.',
+              '<strong>sort by</strong>/<strong>order by</strong>, <strong>top</strong> N <strong>by</strong>, <strong>take</strong> (amostra rápida), <strong>distinct</strong>, <strong>count</strong>.',
+              '<strong>join</strong> (kind=inner, leftouter, leftanti…) e <strong>lookup</strong> para enriquecer com tabelas de dimensão; <strong>union</strong> empilha tabelas.',
+              '<strong>render</strong> desenha o resultado como gráfico (timechart, columnchart, piechart).'
+            ],
+            code: `Telemetria
+| where Timestamp > ago(6h)
+| summarize TempMedia = avg(Temperatura), TempMax = max(Temperatura)
+            by DispositivoID, bin(Timestamp, 5m)
+| join kind=inner (Dispositivos | project DispositivoID, Local) on DispositivoID
+| render timechart` },
+          { h: 'Duplicados e o registro mais recente',
+            items: [
+              '<code>summarize arg_max(Timestamp, *) by DispositivoID</code> devolve a linha mais recente de cada dispositivo — o jeito KQL de deduplicar mantendo a última versão.',
+              '<code>distinct</code> remove linhas repetidas nas colunas escolhidas.',
+              'Nulos e vazios: <code>isnull()</code>, <code>isempty()</code>, <code>coalesce()</code>.'
+            ] },
+          { h: 'Funções de janela',
+            p: 'No KQL, funções de janela operam sobre um conjunto de linhas <strong>serializado</strong> (em ordem). Ele fica serializado depois de <code>sort</code>/<code>order by</code>, <code>top</code> ou do operador <code>serialize</code>.',
+            items: [
+              '<code>prev(coluna)</code> e <code>next(coluna)</code> — valor da linha anterior ou seguinte (variação entre leituras).',
+              '<code>row_number()</code> — numeração das linhas.',
+              '<code>row_cumsum(coluna)</code> — soma acumulada.',
+              'Para janelas de tempo, <code>bin()</code> com summarize faz o papel da janela fixa; funções de série temporal (make-series) cobrem médias móveis e detecção de anomalias.'
+            ],
+            code: `Leituras
+| where DispositivoID == "sensor-07"
+| order by Timestamp asc
+| extend Variacao = Valor - prev(Valor),
+         Acumulado = row_cumsum(Valor)` },
+          { h: 'Conjunto de consultas KQL',
+            p: 'O <strong>conjunto de consultas KQL</strong> é o item para escrever, salvar e compartilhar consultas, com várias abas, cada uma ligada a um banco (do eventhouse, do Azure Data Explorer ou do Azure Monitor). Todo banco KQL também tem um ambiente de consulta próprio. Os bancos KQL aceitam ainda consultas em <strong>T-SQL</strong> (um subconjunto), úteis para quem está começando, e o Copilot gera KQL a partir de perguntas em linguagem natural.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Contagem de eventos por intervalo de 15 minutos na última hora → <code>where Timestamp > ago(1h) | summarize count() by bin(Timestamp, 15m)</code>.',
+              'Estado mais recente de cada dispositivo → <code>arg_max</code>.',
+              'Diferença entre leituras consecutivas → <code>order by</code> + <code>prev()</code>.',
+              'Consulta lenta → filtrar primeiro pelo tempo e usar <code>has</code> em vez de <code>contains</code>.',
+              'Completar a sintaxe: summarize… <strong>by</strong>, top… <strong>by</strong>, join… <strong>on</strong>.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral da linguagem KQL', u: 'https://learn.microsoft.com/pt-br/kusto/query/?view=microsoft-fabric' },
+          { t: 'Tutorial: operadores comuns do KQL', u: 'https://learn.microsoft.com/pt-br/kusto/query/tutorials/learn-common-operators?view=microsoft-fabric' },
+          { t: 'Operador summarize', u: 'https://learn.microsoft.com/pt-br/kusto/query/summarize-operator?view=microsoft-fabric' },
+          { t: 'Funções de janela do KQL', u: 'https://learn.microsoft.com/pt-br/kusto/query/window-functions?view=microsoft-fabric' },
+          { t: 'Práticas recomendadas de consultas KQL', u: 'https://learn.microsoft.com/pt-br/kusto/query/best-practices?view=microsoft-fabric' },
+          { t: 'Consultar dados num conjunto de consultas KQL', u: `${LEARN}/real-time-intelligence/kusto-query-set` }
+        ]
+      },
+      {
+        id: 'fab-kql-transformar', title: 'Transformar dados no eventhouse: funções, políticas de atualização e exibições materializadas',
+        desc: 'Montar um medalhão dentro do eventhouse: funções armazenadas, políticas de atualização que transformam na ingestão e exibições materializadas que mantêm agregações e deduplicação prontas.',
+        objetivos: [
+          'Criar funções armazenadas em KQL',
+          'Transformar dados na ingestão com políticas de atualização',
+          'Usar exibições materializadas para agregar e deduplicar'
+        ],
+        body: 'Completa “Processar dados usando KQL” e “Transformar dados usando PySpark, SQL e KQL” da DP-700. A ideia é transformar os eventos assim que chegam, sem agendador.',
+        content: [
+          { h: 'Funções armazenadas',
+            p: 'Uma função guarda uma consulta KQL com nome (e, se quiser, parâmetros) no banco. Serve para reaproveitar lógica — e é o que a política de atualização executa.',
+            code: `.create-or-alter function ParseTelemetria() {
+    TelemetriaBruta
+    | extend d = parse_json(Payload)
+    | project Timestamp,
+              DispositivoID = tostring(d.deviceId),
+              Temperatura   = todouble(d.temp),
+              Umidade       = todouble(d.humidity)
+    | where isnotnull(Temperatura)
+}` },
+          { h: 'Políticas de atualização',
+            p: 'Uma <strong>política de atualização</strong> é definida na tabela de destino: sempre que chegam dados na tabela de origem, a função roda sobre as linhas novas e o resultado é acrescentado ao destino. É o jeito de montar bronze → prata dentro do eventhouse. Pode ser <strong>transacional</strong>: se a transformação falhar, a ingestão na origem também é desfeita. A origem pode até ser uma tabela Delta externa (versão prévia), com processamento periódico.',
+            code: `.alter table Telemetria policy update
+@'[{"IsEnabled": true, "Source": "TelemetriaBruta",
+    "Query": "ParseTelemetria()", "IsTransactional": true}]'`,
+            img: { src: `${FAB_IMG}/m08/politica-atualizacao.png`, alt: 'Comando de política de atualização de tabela', caption: 'Criação de uma política de atualização de tabela a partir do banco KQL.', source: `${LEARN}/real-time-intelligence/table-update-policy` } },
+          { h: 'Exibições materializadas',
+            items: [
+              'Uma <strong>exibição materializada</strong> é uma agregação (um único summarize) sobre uma tabela, mantida automaticamente em segundo plano. A consulta à exibição combina a parte já materializada com os registros que ainda não foram processados — o resultado está sempre atualizado.',
+              'Usos clássicos: <strong>agregados</strong> (totais por hora e dispositivo) e <strong>deduplicação</strong> com <code>take_any(*)</code> ou <strong>último estado</strong> com <code>arg_max(Timestamp, *)</code>.',
+              'Pode ser criada vazia (só dados novos) ou com <strong>backfill</strong> (processa o histórico).',
+              '<code>materialized_view("nome")</code> consulta só a parte materializada: mais rápido, um pouco menos atual.',
+              'Consomem recursos em segundo plano; filtre pelas chaves do group by ao consultar.'
+            ],
+            code: `.create materialized-view with (backfill=true) TelemetriaPorHora on table Telemetria
+{
+    Telemetria
+    | summarize TempMedia = avg(Temperatura), TempMax = max(Temperatura)
+                by DispositivoID, bin(Timestamp, 1h)
+}
+
+.create materialized-view UltimaLeitura on table Telemetria
+{
+    Telemetria | summarize arg_max(Timestamp, *) by DispositivoID
+}`,
+            img: { src: `${FAB_IMG}/m08/exibicao-materializada.png`, alt: 'Janela de criação de exibição materializada', caption: 'Criação de uma exibição materializada a partir do banco KQL.', source: `${LEARN}/real-time-intelligence/materialized-view` } },
+          { h: 'Medalhão no eventhouse',
+            items: [
+              '<strong>Bronze</strong> — tabela com os eventos brutos (ingestão direta do Eventstream), retenção curta.',
+              '<strong>Prata</strong> — política de atualização com a função que interpreta, tipa e limpa.',
+              '<strong>Ouro</strong> — exibições materializadas com agregados e último estado, prontas para painéis e Power BI.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Converter JSON bruto em colunas tipadas no momento da ingestão → política de atualização com função.',
+              'Painel lento consultando médias por hora sobre bilhões de linhas → exibição materializada.',
+              'Eventos duplicados vindos do Eventstream → exibição materializada com take_any ou arg_max.',
+              'Falha na transformação não pode deixar dado bruto sem processar → política transacional.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral da política de atualização', u: 'https://learn.microsoft.com/pt-br/kusto/management/update-policy?view=microsoft-fabric' },
+          { t: 'Criar política de atualização de tabela', u: `${LEARN}/real-time-intelligence/table-update-policy` },
+          { t: 'Visão geral das exibições materializadas', u: 'https://learn.microsoft.com/pt-br/kusto/management/materialized-views/materialized-view-overview?view=microsoft-fabric' },
+          { t: 'Criar e editar exibições materializadas', u: `${LEARN}/real-time-intelligence/materialized-view` }
+        ]
+      },
+      {
+        id: 'fab-rti-acoes-monitorar', title: 'Painéis em tempo real, Activator, monitoramento e otimização',
+        desc: 'Visualizar com painéis em tempo real, automatizar respostas com o Activator, monitorar eventhouse e Eventstream, resolver erros e otimizar.',
+        objetivos: [
+          'Criar um painel em tempo real a partir de consultas KQL',
+          'Criar regras e ações no Activator',
+          'Monitorar e resolver erros de Eventstream e eventhouse',
+          'Otimizar Eventstream e eventhouse'
+        ],
+        body: 'Cobre “Configurar alertas”, “Identificar e resolver erros do Eventhouse”, “Identificar e resolver erros do Eventstream” e “Otimizar Eventstream e Eventhouse” da DP-700.',
+        content: [
+          { h: 'Painel em tempo real',
+            p: 'Um <strong>painel em tempo real</strong> é um conjunto de blocos, cada um alimentado por uma consulta KQL, com atualização automática, parâmetros (filtros de tempo e de valores) e detalhamento. Você cria do zero ou fixa uma consulta do conjunto de consultas. É a visualização de menor latência do Fabric; relatórios Power BI também podem ler o eventhouse (DirectQuery) ou a cópia no OneLake (Direct Lake).',
+            img: { src: `${FAB_IMG}/m08/painel-tempo-real.png`, alt: 'Painel em tempo real com fonte de dados', caption: 'Um painel em tempo real: blocos com consultas KQL e parâmetros no topo.', source: `${LEARN}/real-time-intelligence/dashboard-real-time-create` } },
+          { h: 'Activator',
+            items: [
+              'Detecta condições nos dados e dispara <strong>ações</strong> — sem código.',
+              'Fontes: Eventstream, eventos do Fabric e do Azure, painéis em tempo real, consultas KQL, relatórios Power BI e consultas SQL no warehouse (versão prévia).',
+              '<strong>Objetos</strong> — as entidades monitoradas (um freezer, um caminhão, um cliente), identificados por uma coluna de ID; <strong>propriedades</strong> — os campos observados (temperatura, velocidade).',
+              '<strong>Regras</strong> sem estado (cada evento isolado: valor &gt; 50) ou com estado (compara com o passado do objeto: “aumenta”, “torna-se”, “fica sem dados por 10 minutos”).',
+              '<strong>Ações</strong>: e-mail, Teams, fluxo do Power Automate, pipeline, notebook, trabalho Spark, dataflow, trabalho de cópia e funções de dados do usuário.',
+              'Os gatilhos de evento dos pipelines (Módulo 04) usam o próprio Activator por baixo.'
+            ] },
+          { h: 'Monitorar',
+            items: [
+              '<strong>Eventhouse</strong> — a visão geral do sistema mostra estado, armazenamento, computação, ingestão, bancos mais consultados e recomendações. O <strong>monitoramento do workspace</strong> grava logs detalhados num eventhouse para consultar em KQL.',
+              '<strong>Eventstream</strong> — cada nó mostra <strong>insights de dados</strong> (eventos de entrada e saída, bytes) e <strong>logs de runtime</strong> com avisos e erros; a guia de erros de autoria aponta problemas de configuração.',
+              'O hub de Monitoramento e o aplicativo Capacity Metrics mostram consumo e falhas.'
+            ] },
+          { h: 'Erros comuns',
+            items: [
+              '<strong>Eventstream não publica</strong> → erro de autoria (operador sem esquema, campo inexistente); corrija e publique de novo.',
+              '<strong>Destino não recebe dados</strong> → fluxo ou destino pausado, esquema do evento diferente do mapeamento da tabela, permissão no destino, ou mensagem acima de 1 MB.',
+              '<strong>Ingestão no eventhouse falha</strong> → formato ou mapeamento errado; investigue com <code>.show ingestion failures</code>.',
+              '<strong>Política de atualização falhando</strong> → a função quebra com os dados novos; teste a função sozinha. Transacional: a ingestão inteira falha.',
+              '<strong>Primeira consulta lenta depois de horas parado</strong> → o eventhouse estava suspenso; defina capacidade mínima se isso não for aceitável.'
+            ] },
+          { h: 'Otimizar',
+            items: [
+              '<strong>Eventstream</strong> — filtre e remova campos cedo, agregue antes de gravar quando o detalhe não é necessário, use fluxos derivados para não repetir transformações e ajuste a configuração de taxa de transferência ao volume de eventos.',
+              '<strong>Eventhouse</strong> — política de cache cobrindo o período consultado, retenção enxuta, exibições materializadas para agregações frequentes, políticas de atualização em vez de transformar na consulta.',
+              '<strong>Consultas KQL</strong> — filtro de tempo primeiro, <code>has</code> em vez de <code>contains</code>, project cedo, summarize antes de join.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Mandar mensagem no Teams quando a temperatura de um freezer subir por 10 minutos seguidos → regra com estado no Activator.',
+              'Painel operacional atualizado a cada 30 segundos sobre o eventhouse → painel em tempo real.',
+              'Descobrir por que linhas não entraram na tabela KQL → .show ingestion failures.',
+              'Consultas sobre os últimos 60 dias lentas com cache de 7 dias → aumentar a política de cache.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Criar um painel em tempo real', u: `${LEARN}/real-time-intelligence/dashboard-real-time-create` },
+          { t: 'O que é o Fabric Activator', u: `${LEARN}/real-time-intelligence/data-activator/activator-introduction` },
+          { t: 'Gerenciar e monitorar um eventhouse', u: `${LEARN}/real-time-intelligence/manage-monitor-eventhouse` },
+          { t: 'Adicionar o Activator como destino do Eventstream', u: `${LEARN}/real-time-intelligence/event-streams/add-destination-activator` }
+        ]
+      }
+    ]
   }
 ];

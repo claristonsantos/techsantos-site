@@ -15,7 +15,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 05 | Dataflows Gen2 e editor de consultas visuais | ✅ publicado |
 | 06 | Notebooks, Spark e streaming estruturado | ✅ publicado |
 | 07 | Data Warehouse e T-SQL | ✅ publicado |
-| 08 | Real-Time Intelligence (Eventstream, Eventhouse, KQL) | ⬜ |
+| 08 | Real-Time Intelligence (Eventstream, Eventhouse, KQL) | ✅ publicado |
 | 09 | Modelos semânticos: design | ⬜ |
 | 10 | DAX para a prova | ⬜ |
 | 11 | Direct Lake e otimização de modelos | ⬜ |
@@ -44,7 +44,8 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Selecionar, filtrar e agregar dados usando o editor de consultas visuais | fab-editor-consultas-visuais | ✅ |
 | Criar exibições, funções e procedimentos armazenados | fab-tsql-objetos | ✅ |
 | Selecionar, filtrar e agregar dados usando o SQL | fab-tsql-consultas | ✅ |
-| Demais habilidades | módulos 08–15 | ⬜ |
+| Selecionar, filtrar e agregar dados usando KQL | fab-kql-consultas | ✅ |
+| Demais habilidades | módulos 09–15 | ⬜ |
 
 ## DP-700
 
@@ -58,7 +59,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Criar e gerenciar atalhos do OneLake | fab-atalhos | ✅ |
 | Implementar espelhamento | fab-espelhamento | ✅ |
 | Configurar e implementar a segurança do OneLake | fab-onelake-seguranca | ✅ |
-| Escolha entre tabelas nativas e atalhos do OneLake no RTI / aceleração de consulta | fab-atalhos (+ M08) | 🟡 |
+| Escolha entre tabelas nativas e atalhos do OneLake no RTI / aceleração de consulta | fab-eventhouse, fab-atalhos | ✅ |
 | Identificar e resolver erros de atalho do OneLake | fab-atalhos (+ M14) | 🟡 |
 | Preparar dados para carregar em um modelo dimensional | fab-carga-dimensional | ✅ |
 | Otimizar uma tabela Lakehouse | fab-manutencao-delta (+ M14) | ✅ |
@@ -68,13 +69,13 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Ingerir dados usando pipelines | fab-copy, fab-pipeline-atividades | ✅ |
 | Monitorar a ingestão de dados | fab-agendas-gatilhos (+ M14) | 🟡 |
 | Monitorar a transformação de dados | fab-dataflow-monitorar-erros, fab-spark-monitorar-otimizar (+ M14) | ✅ |
-| Transformar dados usando PySpark, SQL e KQL | fab-pyspark-transformar, fab-spark-qualidade-merge, fab-tsql-consultas, fab-tsql-objetos (+ M08 KQL) | 🟡 |
+| Transformar dados usando PySpark, SQL e KQL | fab-pyspark-transformar, fab-spark-qualidade-merge, fab-tsql-consultas, fab-tsql-objetos, fab-kql-transformar | ✅ |
 | Otimizar um data warehouse | fab-warehouse-desempenho, fab-warehouse-ingestao | ✅ |
 | Identificar e resolver erros de T-SQL | fab-warehouse-desempenho, fab-tsql-objetos | ✅ |
 | Agrupar e agregar dados | fab-pyspark-transformar, fab-dataflow-transformacoes | ✅ |
 | Processar dados usando o streaming estruturado do Spark | fab-streaming-estruturado | ✅ |
-| Criar funções de janela | fab-spark-qualidade-merge, fab-streaming-estruturado (+ M08 KQL) | 🟡 |
-| Projetar e implementar um padrão de carregamento para dados de streaming | fab-streaming-estruturado (+ M08) | 🟡 |
+| Criar funções de janela | fab-spark-qualidade-merge, fab-streaming-estruturado, fab-eventstream, fab-kql-consultas | ✅ |
+| Projetar e implementar um padrão de carregamento para dados de streaming | fab-rti-visao, fab-eventstream, fab-streaming-estruturado | ✅ |
 | Identificar e resolver erros de notebook | fab-spark-monitorar-otimizar | ✅ |
 | Otimizar o desempenho do Spark | fab-spark-monitorar-otimizar, fab-manutencao-delta | ✅ |
 | Identificar e resolver erros do Dataflow Gen2 | fab-dataflow-monitorar-erros, fab-dataflow-qualidade | ✅ |
@@ -82,4 +83,11 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Escolha entre fluxos de dados Gen2, notebooks, KQL e T-SQL para transformação | fab-escolher-ferramenta, fab-dataflow-gen2 (+ M06–M08) | 🟡 |
 | Identificar e resolver erros de pipeline | fab-pipeline-atividades, fab-agendas-gatilhos (+ M14) | 🟡 |
 | Projetar e implementar cargas completas e incrementais | fab-carga-incremental, fab-copy, fab-carga-dimensional | ✅ |
-| Demais habilidades | módulos 08–15 | ⬜ |
+| Escolher um mecanismo de streaming apropriado | fab-rti-visao | ✅ |
+| Processar dados usando Eventstream | fab-eventstream | ✅ |
+| Processar dados usando KQL | fab-kql-consultas, fab-kql-transformar | ✅ |
+| Configurar alertas | fab-rti-acoes-monitorar (+ M14) | 🟡 |
+| Identificar e resolver erros do Eventhouse | fab-rti-acoes-monitorar | ✅ |
+| Identificar e resolver erros do Eventstream | fab-rti-acoes-monitorar | ✅ |
+| Otimizar Eventstream e Eventhouse | fab-rti-acoes-monitorar, fab-eventhouse | ✅ |
+| Demais habilidades | módulos 09–15 | ⬜ |
