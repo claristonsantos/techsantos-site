@@ -3607,5 +3607,231 @@ EVALUATE
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m11', title: 'Módulo 11 · Direct Lake e otimização de modelos', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-direct-lake', title: 'Direct Lake: como funciona e as duas variantes',
+        desc: 'Transcodificação, enquadramento e atualizações automáticas; Direct Lake no OneLake × Direct Lake no ponto de extremidade SQL; limites por SKU e segurança.',
+        objetivos: [
+          'Explicar transcodificação, enquadramento e atualizações automáticas',
+          'Escolher entre Direct Lake no OneLake e no ponto de extremidade SQL',
+          'Conhecer os limites (guardrails) por SKU e os requisitos de permissão'
+        ],
+        body: 'Cobre as habilidades DP-600 “Configurar o Direct Lake, incluindo o comportamento padrão de fallback e atualização” e “Escolher entre Direct Lake no OneLake e Direct Lake no ponto de extremidade de análise do SQL”. É o modo de armazenamento que só existe no Fabric — e por isso é muito cobrado.',
+        content: [
+          { h: 'A ideia',
+            p: 'No Direct Lake, as tabelas do modelo apontam para tabelas <strong>Delta</strong> no OneLake. Quando uma consulta precisa de uma coluna, o mecanismo lê os arquivos Parquet dessa coluna e a carrega na memória no formato VertiPaq — sem copiar o dado para dentro do modelo, como a Importação faz, e sem traduzir a consulta para SQL, como o DirectQuery faz. Resultado: desempenho próximo ao da Importação sobre volumes grandes, com dados atualizados poucos segundos após a carga.',
+            img: { src: `${FAB_IMG}/m11/direct-lake-visao.svg`, alt: 'Diagrama de um modelo semântico Direct Lake', caption: 'Modelo Direct Lake: as colunas são carregadas das tabelas Delta do OneLake para a memória sob demanda.', source: `${LEARN}/fundamentals/direct-lake-overview` } },
+          { h: 'Transcodificação e temperatura',
+            items: [
+              '<strong>Transcodificação</strong> — carregar uma coluna do Parquet para a memória na primeira vez que uma consulta precisa dela, juntando os dicionários de cada arquivo num dicionário global. Só as colunas usadas são carregadas.',
+              '<strong>Frio</strong> — nada na memória: a primeira consulta paga a transcodificação. <strong>Morno/quente</strong> — colunas, dicionários e índices de junção já carregados: desempenho de Importação.',
+              'Sob pressão de memória, colunas pouco usadas são descarregadas e voltam a ser transcodificadas quando necessárias.'
+            ] },
+          { h: 'Enquadramento (framing) e atualizações automáticas',
+            items: [
+              'A “atualização” de um modelo Direct Lake não copia dados: ela faz o <strong>enquadramento</strong> — registra qual versão de cada tabela Delta o modelo enxerga. Leva segundos.',
+              'O enquadramento é <strong>incremental</strong>: lendo o log Delta, descarta só os segmentos afetados; dados apenas acrescentados reaproveitam o que está em memória. Cargas que só inserem são as mais amigáveis; OPTIMIZE e sobrescritas invalidam mais segmentos.',
+              '<strong>Manter seus dados do Direct Lake atualizados</strong> (atualizações automáticas) vem <strong>ligado por padrão</strong>: o modelo enquadra sozinho quando detecta mudanças nas tabelas.',
+              'Desligue quando o ETL grava várias tabelas em etapas e o relatório não pode mostrar um estado intermediário — então dispare a atualização (enquadramento) ao final do pipeline, por exemplo com a atividade de atualização de modelo semântico ou a API.',
+              'Como o modelo aponta para uma versão Delta, não faça VACUUM com retenção menor que o intervalo entre enquadramentos.'
+            ],
+            img: { src: `${FAB_IMG}/m11/enquadramento.svg`, alt: 'Diagrama de enquadramento do Direct Lake', caption: 'Enquadramento: a cada atualização o modelo passa a apontar para a versão mais recente das tabelas Delta.', source: `${LEARN}/fundamentals/direct-lake-how-it-works` } },
+          { h: 'As duas variantes',
+            items: [
+              '<strong>Direct Lake no OneLake</strong> — lê as tabelas Delta direto pelas APIs do OneLake, de <strong>um ou mais</strong> itens (inclusive atalhos), usa a <strong>segurança do OneLake</strong> e roda sempre no modo DirectLakeOnly: <strong>não há fallback</strong> para DirectQuery — se algo não for suportado, a consulta falha. Permite misturar tabelas de Importação. É a opção recomendada para modelos novos.',
+              '<strong>Direct Lake no ponto de extremidade SQL</strong> — usa o ponto de extremidade de análise SQL de <strong>um</strong> lakehouse ou warehouse para descobrir tabelas e checar permissões, e pode fazer <strong>fallback para DirectQuery</strong> (por exemplo, para ler exibições SQL ou respeitar RLS definida no SQL).',
+              'Ambos exigem capacidade Fabric (F).'
+            ],
+            img: { src: `${FAB_IMG}/m11/direct-lake-criacao.png`, alt: 'Criação de modelo semântico a partir do ponto de extremidade SQL', caption: 'Criação de um modelo semântico Direct Lake a partir de um item do Fabric.', source: `${LEARN}/fundamentals/direct-lake-develop` } },
+          { h: 'Limites (guardrails) por SKU',
+            p: 'Cada SKU tem limites por tabela: número de arquivos Parquet, de grupos de linhas, de linhas e tamanho máximo do modelo e de memória. Em F2 a F8, por exemplo: 1.000 arquivos, 1.000 grupos de linhas e 300 milhões de linhas por tabela; os limites crescem com a SKU. <strong>Uma única tabela acima do limite</strong> impede o Direct Lake no modelo inteiro — no ponto de extremidade SQL, cai para DirectQuery; no OneLake, a consulta falha. OPTIMIZE (menos arquivos e grupos de linhas) ou uma SKU maior resolvem.' },
+          { h: 'Segurança e identidade',
+            items: [
+              'Por padrão, o Direct Lake usa <strong>SSO</strong>: a identidade de quem consulta precisa ter acesso aos dados (ponto de extremidade SQL ou OneLake, conforme a variante).',
+              'Com uma <strong>identidade fixa</strong> (conexão de nuvem com uma conta ou entidade de serviço), todos leem os dados com essa identidade e a segurança fica no modelo (RLS/OLS do modelo) — recomendado quando você usa RLS do modelo.',
+              'O <strong>proprietário do modelo</strong> precisa de acesso de leitura às tabelas de origem para o enquadramento funcionar; senão, o erro é “uma ou várias tabelas de origem não existem ou o acesso foi negado”.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Modelo novo, tabelas em dois lakehouses, sem querer fallback → Direct Lake no OneLake.',
+              'Modelo precisa ler uma exibição SQL do warehouse → Direct Lake no ponto de extremidade SQL (com fallback) ou materializar a exibição como tabela.',
+              'Relatório mostrou dados parciais no meio do ETL → desligar atualizações automáticas e enquadrar no fim do pipeline.',
+              'Primeira consulta do dia lenta e as seguintes rápidas → transcodificação (estado frio).',
+              'Atualização falha com “acesso negado” às tabelas de origem → proprietário do modelo sem permissão de leitura.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral do Direct Lake', u: `${LEARN}/fundamentals/direct-lake-overview` },
+          { t: 'Como funciona o Direct Lake', u: `${LEARN}/fundamentals/direct-lake-how-it-works` },
+          { t: 'Desenvolver modelos Direct Lake', u: `${LEARN}/fundamentals/direct-lake-develop` },
+          { t: 'Integrar a segurança do Direct Lake', u: `${LEARN}/fundamentals/direct-lake-security-integration` }
+        ]
+      },
+      {
+        id: 'fab-direct-lake-fallback', title: 'Fallback para DirectQuery e desempenho do Direct Lake',
+        desc: 'Quando o Direct Lake cai para DirectQuery, como controlar com DirectLakeBehavior, como diagnosticar e como preparar as tabelas Delta para o melhor desempenho.',
+        objetivos: [
+          'Listar as condições que provocam fallback',
+          'Configurar DirectLakeBehavior',
+          'Diagnosticar o fallback e corrigir a causa',
+          'Otimizar tabelas Delta para Direct Lake'
+        ],
+        body: 'Continuação direta da aula anterior, focada no “comportamento padrão de fallback” que a DP-600 cita nominalmente.',
+        content: [
+          { h: 'Quando acontece o fallback (Direct Lake no ponto de extremidade SQL)',
+            items: [
+              'Tabela baseada numa <strong>exibição SQL</strong> (não materializada).',
+              'Tabela com <strong>RLS, OLS ou máscara dinâmica de dados</strong> definida no ponto de extremidade SQL.',
+              'Alguma tabela acima dos <strong>limites da SKU</strong> (arquivos, grupos de linhas, linhas).',
+              'Tabela ainda não <strong>enquadrada</strong> (modelo não atualizado depois de criar ou alterar a tabela).',
+              '<strong>Pressão de memória</strong> na capacidade.'
+            ] },
+          { h: 'DirectLakeBehavior',
+            p: 'Propriedade do modelo (painel de propriedades no modo de exibição Modelo, ou via TOM/TMSL), válida para o Direct Lake no ponto de extremidade SQL:',
+            items: [
+              '<strong>Automático</strong> (padrão) — se as condições não forem atendidas, cai silenciosamente para DirectQuery: o relatório funciona, mais lento. Bom para produção.',
+              '<strong>DirectLakeOnly</strong> — sem fallback: a consulta falha com erro. Bom no desenvolvimento, para descobrir problemas.',
+              '<strong>DirectQueryOnly</strong> — sempre DirectQuery; útil para medir o desempenho do fallback.'
+            ],
+            img: { src: `${FAB_IMG}/m11/comportamento-direct-lake.png`, alt: 'Lista suspensa de comportamento do Direct Lake', caption: 'Propriedade de comportamento do Direct Lake no modelo: Automático, Somente Direct Lake ou Somente DirectQuery.', source: `${LEARN}/fundamentals/direct-lake-how-it-works` } },
+          { h: 'Diagnosticar e corrigir',
+            items: [
+              'A consulta DAX <code>EVALUATE TABLETRAITS()</code> mostra, na coluna DirectLakeFallbackInfo, por que cada tabela caiu (None = está em Direct Lake).',
+              'No Analisador de Desempenho ou no SQL Server Profiler, eventos de DirectQuery indicam fallback.',
+              'Correções: enquadrar o modelo; materializar a exibição como tabela Delta; mover RLS/OLS do SQL para o modelo; OPTIMIZE e VACUUM para reduzir arquivos e grupos de linhas; SKU maior; reduzir carga simultânea.'
+            ] },
+          { h: 'Tabelas Delta boas para Direct Lake',
+            items: [
+              '<strong>V-Order</strong> ligado nas tabelas lidas pelo Direct Lake (camada ouro) — melhor compressão e carga mais rápida.',
+              '<strong>Poucos arquivos grandes</strong> e grupos de linhas entre 1 e 16 milhões de linhas; cada grupo de linhas vira um segmento de coluna na memória. Muitos arquivos pequenos (típico de streaming) prejudicam — rode OPTIMIZE.',
+              'Cargas <strong>só de inserção</strong> preservam o enquadramento incremental; exclusões e sobrescritas forçam recarga. Particionar por data limita o efeito do OPTIMIZE e das exclusões.',
+              'Menos colunas e menor cardinalidade também valem aqui: coluna não usada não é carregada, mas coluna usada com milhões de valores distintos pesa.'
+            ],
+            img: { src: `${FAB_IMG}/m11/grupos-linhas-segmentos.png`, alt: 'Relação entre grupos de linhas Delta e segmentos do modelo', caption: 'Cada grupo de linhas dos arquivos Parquet vira um segmento de coluna no modelo Direct Lake.', source: `${LEARN}/fundamentals/direct-lake-understand-storage` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Relatório sobre Direct Lake no SQL ficou lento depois que a equipe criou RLS no warehouse → fallback para DirectQuery; mover a RLS para o modelo.',
+              'Durante o desenvolvimento, quer erro em vez de fallback silencioso → DirectLakeBehavior = DirectLakeOnly.',
+              'Descobrir quais tabelas estão em fallback → EVALUATE TABLETRAITS().',
+              'Tabela de streaming com milhares de arquivos derrubou o Direct Lake → OPTIMIZE (e checar os limites da SKU).'
+            ] }
+        ],
+        recursos: [
+          { t: 'Como funciona o Direct Lake (fallback)', u: `${LEARN}/fundamentals/direct-lake-how-it-works` },
+          { t: 'Entender o desempenho de consultas do Direct Lake', u: `${LEARN}/fundamentals/direct-lake-understand-storage` },
+          { t: 'Analisar o processamento de consultas do Direct Lake', u: `${LEARN}/fundamentals/direct-lake-analyze-query-processing` }
+        ]
+      },
+      {
+        id: 'fab-atualizacao-incremental-modelo', title: 'Atualização incremental em modelos semânticos',
+        desc: 'Configurar a atualização incremental com RangeStart e RangeEnd, a política de arquivamento e atualização, dados em tempo real com DirectQuery e detecção de alterações.',
+        objetivos: [
+          'Criar os parâmetros RangeStart e RangeEnd e filtrar a tabela',
+          'Definir a política de atualização incremental',
+          'Adicionar dados em tempo real e detecção de alterações'
+        ],
+        body: 'Cobre “Implementar a atualização incremental para modelos semânticos” (DP-600). Vale para tabelas em Importação — no Direct Lake, o equivalente é carregar a tabela Delta de forma incremental (Módulos 04 a 06).',
+        content: [
+          { h: 'Por que',
+            p: 'Recarregar uma tabela de fatos de cinco anos todos os dias é lento, caro e arriscado. Com atualização incremental, o Power BI divide a tabela em <strong>partições por período</strong> e só recarrega as mais recentes, mantendo o histórico intacto.',
+            img: { src: `${FAB_IMG}/m11/atualizacao-incremental-janela.png`, alt: 'Padrão de janela móvel da atualização incremental', caption: 'Janela móvel: o histórico é arquivado e só os períodos recentes são atualizados.', source: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-overview' } },
+          { h: 'Passo a passo',
+            items: [
+              'No Power Query, crie dois parâmetros do tipo Data/Hora com os nomes reservados (sensíveis a maiúsculas) <strong>RangeStart</strong> e <strong>RangeEnd</strong>.',
+              'Filtre a coluna de data da tabela com eles: maior ou igual a RangeStart e <strong>menor</strong> que RangeEnd (nunca “menor ou igual” nos dois lados, para não duplicar linhas na fronteira das partições).',
+              'A consulta deve <strong>dobrar</strong> (query folding) para a fonte — senão cada partição lê a tabela inteira. O Desktop avisa quando não consegue verificar.',
+              'Na tabela, defina a <strong>política</strong>: arquivar dados de N anos/meses e atualizar incrementalmente os últimos N dias/meses.',
+              'Publique: a primeira atualização no serviço cria as partições e carrega o histórico; as seguintes só atualizam o período recente.'
+            ],
+            img: { src: `${FAB_IMG}/m11/atualizacao-incremental-politica.png`, alt: 'Caixa de diálogo de atualização incremental', caption: 'Política de atualização incremental: período arquivado, período atualizado e opções avançadas.', source: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-overview' } },
+          { h: 'Opções avançadas',
+            items: [
+              '<strong>Obter os dados mais recentes em tempo real com DirectQuery</strong> — cria uma partição DirectQuery depois do período incremental (tabela <strong>híbrida</strong>); exige Premium, PPU ou Fabric.',
+              '<strong>Apenas atualizar dias completos</strong> — não carrega o dia (ou período) em andamento.',
+              '<strong>Detectar alterações de dados</strong> — informe uma coluna de data de modificação; só as partições cujo valor máximo mudou são atualizadas.',
+              'A data de referência é em UTC por padrão; o fuso pode ser configurado na atualização agendada.',
+              'Com o ponto de extremidade XMLA é possível atualizar partições específicas e não há limite de tempo de atualização nas capacidades (no Pro, o limite é de 2 horas).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Nomes obrigatórios dos parâmetros → RangeStart e RangeEnd (Data/Hora).',
+              'Linhas duplicadas entre partições → filtro com “menor ou igual” nos dois lados; use &gt;= RangeStart e &lt; RangeEnd.',
+              'Atualização incremental lendo a tabela toda → a consulta não dobra.',
+              'Precisa do dado de hoje sem atualizar a cada hora → opção de tempo real com DirectQuery (tabela híbrida).',
+              'Só atualizar os meses em que algo mudou → detectar alterações de dados.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Atualização incremental e dados em tempo real', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-overview' },
+          { t: 'Configurar a atualização incremental', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-configure' }
+        ]
+      },
+      {
+        id: 'fab-otimizar-relatorios-dax', title: 'Otimizar consultas, visuais e DAX',
+        desc: 'Analisador de desempenho, tempos de consulta DAX e de renderização, boas práticas de visuais e as mudanças que mais aceleram o DAX.',
+        objetivos: [
+          'Medir o desempenho de visuais com o Analisador de desempenho',
+          'Separar tempo de consulta DAX de tempo de exibição',
+          'Aplicar as principais otimizações de visuais e de DAX'
+        ],
+        body: 'Cobre “Implementar melhorias de desempenho em consultas e visuais de relatório” e “Melhorar o desempenho do DAX” (DP-600).',
+        content: [
+          { h: 'Analisador de desempenho',
+            items: [
+              'No Desktop, guia <strong>Otimizar → Analisador de desempenho</strong> (também disponível no serviço, em modo de edição). Inicie a gravação e interaja ou atualize os visuais.',
+              'Para cada visual: <strong>Consulta DAX</strong> (tempo do mecanismo), <strong>Exibição visual</strong> (tempo de desenhar) e <strong>Outro</strong> (espera por outros visuais, preparação). Em DirectQuery aparece também o tempo da consulta na fonte.',
+              '<strong>Copiar consulta</strong> ou <strong>Executar na exibição de consulta DAX</strong> para analisar a consulta do visual lento; exporte os resultados em JSON.',
+              'Para análise mais profunda: DAX Studio (tempos do mecanismo de fórmulas e de armazenamento) e o SQL Server Profiler conectado ao modelo.'
+            ],
+            img: { src: `${FAB_IMG}/m11/analisador-desempenho.png`, alt: 'Painel Analisador de Desempenho com duração dos visuais', caption: 'Analisador de desempenho: tempo de consulta DAX, exibição visual e outros por visual.', source: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/performance-analyzer' } },
+          { h: 'Onde está a lentidão',
+            items: [
+              '<strong>Consulta DAX alta</strong> → problema de modelo ou de medida: otimize o DAX e o modelo.',
+              '<strong>Exibição visual alta</strong> → visual pesado demais: muitos pontos, tabela com milhares de linhas, visual personalizado ruim.',
+              '<strong>Outro alto</strong> → página com visuais demais disputando a vez.'
+            ] },
+          { h: 'Otimizar visuais e relatórios',
+            items: [
+              'Menos visuais por página; use indicadores, dicas de ferramenta e detalhamento em vez de empilhar gráficos.',
+              'Aplique filtros restritivos por padrão (por exemplo, o ano atual) em vez de mostrar tudo.',
+              'Evite tabelas e matrizes com milhares de linhas visíveis; prefira resumos e detalhamento.',
+              'Teste visuais personalizados antes de usar; no DirectQuery, considere reduzir as interações cruzadas e usar o botão Aplicar nas segmentações.'
+            ] },
+          { h: 'Otimizar o DAX',
+            items: [
+              '<strong>Variáveis</strong> para não calcular a mesma expressão duas vezes.',
+              '<strong>Filtros booleanos em colunas</strong> no CALCULATE em vez de FILTER sobre tabelas inteiras.',
+              '<strong>DIVIDE</strong> em vez de IF para evitar divisão por zero; evite IFERROR/ISERROR, que forçam avaliação linha a linha.',
+              'Iteradores sobre a menor tabela possível (VALUES de uma coluna em vez da tabela de fatos).',
+              'Medidas que devolvem 0 em vez de BLANK aumentam as linhas processadas nos visuais.',
+              'Preferir relacionamentos físicos a TREATAS/relacionamentos virtuais quando o uso é frequente.',
+              'Colunas calculadas complexas → mover para a fonte ou para o Power Query.'
+            ] },
+          { h: 'Otimizar o modelo',
+            items: [
+              'Remover colunas e linhas não usadas, reduzir cardinalidade, desligar data/hora automática (Módulo 09).',
+              'Esquema estrela, relacionamentos um-para-muitos de direção única.',
+              'No Direct Lake: V-Order, OPTIMIZE e respeitar os limites da SKU. Na Importação: formato grande e atualização incremental. No DirectQuery: agregações e índices na fonte.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Visual com tempo de exibição alto e consulta rápida → simplificar o visual (menos pontos/linhas).',
+              'Consulta DAX lenta com FILTER(Vendas, …) → trocar por filtro booleano ou filtrar colunas.',
+              'Mesma subexpressão avaliada duas vezes → variável.',
+              'Página com 25 visuais lenta → reduzir visuais e usar detalhamento/dicas.',
+              'Ver a consulta que um visual envia → Analisador de desempenho → Copiar consulta.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Analisador de desempenho', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/performance-analyzer' },
+          { t: 'Guia de otimização do Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/power-bi-optimization' },
+          { t: 'Solucionar problemas de desempenho de relatórios', u: 'https://learn.microsoft.com/pt-br/power-bi/guidance/report-performance-troubleshoot' },
+          { t: 'Variáveis no DAX', u: 'https://learn.microsoft.com/pt-br/dax/best-practices/dax-variables' }
+        ]
+      }
+    ]
   }
 ];

@@ -18,7 +18,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 08 | Real-Time Intelligence (Eventstream, Eventhouse, KQL) | ✅ publicado |
 | 09 | Modelos semânticos: design | ✅ publicado |
 | 10 | DAX para a prova | ✅ publicado |
-| 11 | Direct Lake e otimização de modelos | ⬜ |
+| 11 | Direct Lake e otimização de modelos | ✅ publicado |
 | 12 | Segurança e governança | ⬜ |
 | 13 | Ciclo de vida: Git, .pbip, pipelines de implantação, XMLA | ⬜ |
 | 14 | Monitoramento, erros e otimização | ⬜ |
@@ -53,7 +53,12 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Projetar e criar modelos compostos | fab-modelo-composto-grande, fab-modelo-relacoes | ✅ |
 | Escrever cálculos que usam variáveis e funções DAX (iteradores, filtragem de tabela, janelas, informações) | fab-dax-contextos, fab-dax-filtros, fab-dax-iteradores-janelas, fab-dax-informacao | ✅ |
 | Selecionar, filtrar e agregar dados usando DAX | fab-dax-consultas | ✅ |
-| Demais habilidades | módulos 11–15 | ⬜ |
+| Implementar melhorias de desempenho em consultas e visuais de relatório | fab-otimizar-relatorios-dax | ✅ |
+| Melhorar o desempenho do DAX | fab-otimizar-relatorios-dax, fab-dax-filtros | ✅ |
+| Configurar o Direct Lake, incluindo o comportamento padrão de fallback e atualização | fab-direct-lake, fab-direct-lake-fallback | ✅ |
+| Escolher entre Direct Lake no OneLake e Direct Lake no ponto de extremidade SQL | fab-direct-lake | ✅ |
+| Implementar a atualização incremental para modelos semânticos | fab-atualizacao-incremental-modelo | ✅ |
+| Demais habilidades | módulos 12–15 | ⬜ |
 
 ## DP-700
 
