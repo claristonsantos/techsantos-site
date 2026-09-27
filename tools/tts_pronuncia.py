@@ -439,6 +439,12 @@ PRONUNCIATION_FIXES = [
     (r"\bUNIQUE\b", "Iuník"),
     (r"\bOK\b", "Ôkêi"),
     (r"\bDMA\b", "Dê Ême Á"),
+    # Curso Excel, rodada 5 (Módulo 05). Ficou na leitura padrão: Design (da Tabela).
+    (r"\bDesvPad\b", "Desvio Padrão"),
+    (r"\bSORTBY\b", "Sórt Bái"),
+    (r"\bSORT\b", "Sórt"),
+    (r"\bR1C1\b", "Érre um Cê um"),
+    (r"\bAutoFiltro\b", "Áuto Filtro"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
