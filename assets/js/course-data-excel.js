@@ -1858,5 +1858,224 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m09', title: 'Módulo 09 · Funções de procura e matrizes dinâmicas', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-procx', title: 'PROCX: a função de procura do Excel moderno',
+        desc: 'Procurar um valor e trazer o dado correspondente de outra coluna, com mensagem para não encontrado, correspondência aproximada para faixas, busca de trás para frente e retorno de várias colunas.',
+        objetivos: [
+          'Escrever PROCX com os três argumentos obrigatórios',
+          'Usar se_não_encontrada, modo de correspondência e modo de pesquisa',
+          'Resolver faixas (tabela de comissão, alíquotas) e procuras em duas direções'
+        ],
+        body: 'Procurar é a operação mais comum em planilhas de trabalho: o preço do produto pelo código, o nome do cliente pelo CPF, a alíquota pela faixa de receita. PROCX (XLOOKUP) é a função moderna para isso — mais simples e mais segura que PROCV. Está na lista da prova Expert, ao lado de PROCV, PROCH, CORRESP e ÍNDICE.',
+        content: [
+          { h: 'Os três argumentos obrigatórios',
+            p: 'PROCX pede: <strong>o que procurar</strong> (pesquisa_valor), <strong>onde procurar</strong> (a coluna com as chaves, pesquisa_matriz) e <strong>o que devolver</strong> (a coluna com a resposta, matriz_retorno). As duas matrizes precisam ter o mesmo tamanho. Por padrão a correspondência é <strong>exata</strong>; se não achar, devolve o erro de valor não disponível.',
+            code: 'PROCX(pesquisa_valor; pesquisa_matriz; matriz_retorno; [se_não_encontrada]; [modo_correspondência]; [modo_pesquisa])\n\n=PROCX(F2;B2:B11;D2:D11)              → o prefixo do país digitado em F2',
+            img: { src: `${XL_IMG}/m09/procx-basico.jpg`, alt: 'PROCX devolvendo o código de discagem do país', caption: 'PROCX: procura "Brasil" na coluna B e devolve o valor da mesma linha na coluna D.', source: `${SUP}/excel/functions/xlookup-function` } },
+          { h: 'Por que PROCX é melhor que PROCV',
+            items: [
+              'A coluna de resposta pode estar à esquerda da coluna de procura.',
+              'Não há "número da coluna" para contar — e inserir colunas no meio não quebra a fórmula.',
+              'O padrão é correspondência exata (no PROCV, o padrão é aproximada, fonte de erros silenciosos).',
+              'Tem mensagem própria para não encontrado, sem precisar de SEERRO.',
+              'Pode devolver várias colunas de uma vez e procurar do fim para o começo.'
+            ] },
+          { h: 'Os argumentos opcionais',
+            items: [
+              '<strong>se_não_encontrada</strong> — o que mostrar quando não houver correspondência: um texto ("Não cadastrado"), zero ou texto vazio.',
+              '<strong>modo_correspondência</strong> — <strong>0</strong> exata (padrão); <strong>-1</strong> exata ou o próximo <strong>menor</strong>; <strong>1</strong> exata ou o próximo <strong>maior</strong>; <strong>2</strong> curingas (asterisco, interrogação e til têm significado especial).',
+              '<strong>modo_pesquisa</strong> — <strong>1</strong> do primeiro para o último (padrão); <strong>-1</strong> do último para o primeiro (para achar a ocorrência mais recente); 2 e -2 são pesquisas binárias, só para dados já classificados.'
+            ] },
+          { h: 'Faixas: correspondência aproximada',
+            p: 'Tabelas de faixas (comissão por volume, alíquota por receita, frete por peso) não precisam de SEs aninhados. Na tabela oficial abaixo, cada alíquota tem sua receita máxima; o modo 1 procura a receita exata ou a próxima maior — 46.523 cai na faixa de até 84.200, alíquota de 24%. Com a tabela montada pelo "valor mínimo" de cada faixa, o modo seria -1 (exata ou próxima menor). Diferente do PROCV aproximado, a tabela não precisa estar classificada.',
+            code: '=PROCX(E2;C2:C7;B2:B7;0;1)',
+            img: { src: `${XL_IMG}/m09/procx-aproximado.jpg`, alt: 'PROCX com correspondência aproximada devolvendo alíquota', caption: 'Modo de correspondência 1: exata ou a próxima maior.', source: `${SUP}/excel/functions/xlookup-function` } },
+          { h: 'Várias colunas, duas direções e última ocorrência',
+            code: '=PROCX(H2;tbFunc[Matrícula];tbFunc[[Nome]:[Depto]])        → devolve Nome e Depto de uma vez (despeja 2 colunas)\n=PROCX(H2;tbPedidos[Cliente];tbPedidos[Data];"";0;-1)      → data do pedido MAIS RECENTE do cliente\n=PROCX(J2;B3:B20;PROCX(K2;C2:N2;C3:N20))                     → cruzamento: linha pelo produto, coluna pelo mês' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Na célula C5, retorne o preço do produto informado em B5 a partir da tabela Produtos" — PROCX com as colunas certas da tabela.',
+              '"Exiba Não encontrado quando o código não existir" — quarto argumento.',
+              'Em inglês a função se chama XLOOKUP, com os mesmos argumentos na mesma ordem.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função PROCX', u: `${SUP}/excel/functions/xlookup-function` }
+        ]
+      },
+      {
+        id: 'xl-procv-proch', title: 'PROCV e PROCH: ler, corrigir e manter fórmulas antigas',
+        desc: 'Como PROCV e PROCH funcionam, o argumento de correspondência que causa erros silenciosos, as limitações que levaram ao PROCX e como migrar.',
+        objetivos: [
+          'Escrever PROCV e PROCH com correspondência exata',
+          'Reconhecer os erros típicos: FALSO esquecido, coluna errada, procura à esquerda',
+          'Converter um PROCV em PROCX'
+        ],
+        body: 'Milhões de planilhas no mundo foram construídas com PROCV (VLOOKUP), e você vai encontrá-lo em quase todo arquivo que receber. A prova Expert cobra PROCV e PROCH nominalmente. Saber lê-los, corrigi-los e substituí-los é tão importante quanto usar o PROCX.',
+        content: [
+          { h: 'A sintaxe do PROCV',
+            p: 'PROCV procura o valor na <strong>primeira coluna</strong> de uma tabela e devolve o dado da coluna de número indicado, na mesma linha. O quarto argumento define o tipo de correspondência: <strong>FALSO</strong> (ou 0) para exata; VERDADEIRO (ou 1), ou omitido, para aproximada.',
+            code: 'PROCV(valor_procurado; matriz_tabela; núm_índice_coluna; [procurar_intervalo])\n\n=PROCV(B3;B2:E7;2;FALSO)       → procura B3 na coluna B e devolve a 2ª coluna (C)',
+            img: { src: `${XL_IMG}/m09/procv-exemplo.png`, alt: 'Exemplo de PROCV com correspondência exata', caption: 'PROCV: a procura sempre na primeira coluna do intervalo; o número diz qual coluna devolver.', source: `${SUP}/excel/functions/vlookup-function` } },
+          { h: 'Os erros clássicos',
+            items: [
+              '<strong>Esquecer o FALSO</strong> — sem o quarto argumento, PROCV faz correspondência aproximada e, se a coluna não estiver classificada, devolve um valor errado <strong>sem mostrar erro</strong>. Em procura por código, cliente ou produto, use sempre FALSO.',
+              '<strong>Número de coluna fixo</strong> — inserir ou excluir uma coluna no meio da tabela muda a posição do dado, mas o número na fórmula continua o mesmo.',
+              '<strong>Procurar à esquerda</strong> — PROCV não devolve colunas à esquerda da coluna de procura.',
+              '<strong>Intervalo relativo</strong> — ao copiar a fórmula, a matriz_tabela desliza para baixo; use referência absoluta, nome ou tabela do Excel.',
+              '<strong>Tipos diferentes</strong> — o código 123 como número não encontra "123" como texto (erro de valor não disponível mesmo com o dado "lá").'
+            ] },
+          { h: 'Quando o aproximado é o certo',
+            p: 'PROCV com VERDADEIRO serve para faixas, desde que a primeira coluna tenha o <strong>limite inferior</strong> de cada faixa em <strong>ordem crescente</strong>: ele devolve a linha do maior valor menor ou igual ao procurado.',
+            code: 'Tabela de comissão em G2:H5:  0 → 1%   |  10000 → 2%  |  50000 → 3%  |  100000 → 4%\n=PROCV(B2;$G$2:$H$5;2;VERDADEIRO)     → 37000 cai na faixa de 10000 → 2%' },
+          { h: 'PROCH: a mesma ideia na horizontal',
+            p: '<strong>PROCH</strong> (HLOOKUP) procura na <strong>primeira linha</strong> e devolve o valor da linha de número indicado, na mesma coluna. Serve para tabelas com os códigos no cabeçalho (meses nas colunas, por exemplo). As mesmas regras valem: FALSO para exata, limitações idênticas. PROCX substitui as duas, porque aceita matrizes horizontais ou verticais.',
+            code: 'PROCH(valor_procurado; matriz_tabela; núm_índice_linha; [procurar_intervalo])\n\n=PROCH("Mar";B1:M4;3;FALSO)    → o valor da 3ª linha na coluna de março' },
+          { h: 'Migrar para PROCX',
+            code: 'Antes:  =PROCV(A2;Produtos!$A$2:$F$500;4;FALSO)\nDepois: =PROCX(A2;Produtos!$A$2:$A$500;Produtos!$D$2:$D$500;"Não cadastrado")' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'A prova Expert pode pedir explicitamente PROCV ou PROCH — use a função pedida, mesmo que PROCX fosse mais simples.',
+              'Correspondência exata sempre que o enunciado falar em "o código", "o produto", "o funcionário".',
+              'Em inglês: VLOOKUP e HLOOKUP, com os mesmos argumentos.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função PROCV', u: `${SUP}/excel/functions/vlookup-function` },
+          { t: 'Microsoft Suporte — Função PROCH', u: `${SUP}/excel/functions/hlookup-function` }
+        ]
+      },
+      {
+        id: 'xl-indice-corresp', title: 'ÍNDICE, CORRESP e CORRESPX',
+        desc: 'Devolver o valor de uma posição com ÍNDICE, descobrir a posição de um valor com CORRESP e CORRESPX, e a combinação clássica que procura em qualquer direção.',
+        objetivos: [
+          'Usar ÍNDICE para pegar o valor de uma linha e coluna',
+          'Usar CORRESP e CORRESPX com os tipos de correspondência',
+          'Combinar ÍNDICE com CORRESP para procuras flexíveis e em duas dimensões'
+        ],
+        body: 'Antes do PROCX, a dupla ÍNDICE + CORRESP era a forma "profissional" de procurar: funciona em qualquer direção e não quebra com colunas inseridas. Ela continua importante — está na lista da prova Expert, aparece em muitos modelos financeiros e é a base de fórmulas de duas dimensões.',
+        content: [
+          { h: 'ÍNDICE: o valor de uma posição',
+            p: '<strong>ÍNDICE</strong> (INDEX) recebe um intervalo, o número da linha e, opcionalmente, o número da coluna, e devolve o valor dessa posição <strong>dentro do intervalo</strong> (não da planilha).',
+            code: 'ÍNDICE(matriz; núm_linha; [núm_coluna])\n\n=ÍNDICE(B2:D11;5;3)       → 5ª linha, 3ª coluna do intervalo B2:D11 (a célula D6)\n=ÍNDICE(D2:D11;5)         → 5º item da coluna' },
+          { h: 'CORRESP: a posição de um valor',
+            p: '<strong>CORRESP</strong> (MATCH) devolve a <strong>posição</strong> do valor dentro de uma linha ou coluna. O terceiro argumento, o tipo de correspondência: <strong>0</strong> exata (o que você quer quase sempre); <strong>1</strong> (padrão!) o maior valor menor ou igual, com dados em ordem crescente; <strong>-1</strong> o menor valor maior ou igual, com dados em ordem decrescente. Como no PROCV, esquecer o 0 é o erro clássico.',
+            code: 'CORRESP(valor_procurado; matriz_procurada; [tipo_correspondência])\n\n=CORRESP("Brasil";B2:B11;0)     → 5 (Brasil é o 5º item)' },
+          { h: 'A combinação: ÍNDICE com CORRESP',
+            p: 'CORRESP descobre a linha; ÍNDICE busca o valor nessa linha, na coluna de resposta. Como as colunas de procura e de resposta são independentes, a resposta pode estar à esquerda, e inserir colunas não quebra a fórmula.',
+            code: '=ÍNDICE(D2:D11;CORRESP(F2;B2:B11;0))                     → equivale ao PROCX(F2;B2:B11;D2:D11)\n=ÍNDICE(C3:N20;CORRESP(J2;B3:B20;0);CORRESP(K2;C2:N2;0))  → cruzamento produto × mês' },
+          { h: 'CORRESPX',
+            p: '<strong>CORRESPX</strong> (XMATCH) é a versão moderna do CORRESP, com os mesmos modos do PROCX: correspondência <strong>0 exata por padrão</strong>, -1 exata ou próxima menor, 1 exata ou próxima maior, 2 curingas; e modo de pesquisa 1 (do início), -1 (do fim) e binárias. Os dados não precisam estar classificados para as aproximadas.',
+            code: 'CORRESPX(pesquisa_valor; pesquisa_matriz; [modo_correspondência]; [modo_pesquisa])\n\n=CORRESPX("Brasil";B2:B11)          → 5 (exata por padrão)' },
+          { h: 'Qual usar',
+            items: [
+              'Procura simples, retorno de uma ou várias colunas: PROCX.',
+              'Precisa da posição (para usar em ÍNDICE, DESLOC, validação): CORRESPX ou CORRESP.',
+              'Arquivo que será aberto em versões antigas do Excel (2016 ou anterior): ÍNDICE + CORRESP ou PROCV, que existem em todas.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Use ÍNDICE e CORRESP para retornar o salário do funcionário de H2" — as duas funções aninhadas, CORRESP com 0.',
+              'Em inglês: INDEX, MATCH e XMATCH.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função ÍNDICE', u: `${SUP}/excel/functions/index-function` },
+          { t: 'Microsoft Suporte — Função CORRESP', u: `${SUP}/excel/functions/match-function` },
+          { t: 'Microsoft Suporte — Função CORRESPX', u: `${SUP}/excel/functions/xmatch-function` }
+        ]
+      },
+      {
+        id: 'xl-matrizes-dinamicas', title: 'Matrizes dinâmicas: FILTRO, CLASSIFICAR, CLASSIFICARPOR e ÚNICO',
+        desc: 'Fórmulas que despejam o resultado em várias células, o erro de despejo, a referência ao intervalo despejado e as funções que filtram, ordenam e deduplicam por fórmula.',
+        objetivos: [
+          'Entender o despejo, o erro #DESPEJAR! e a referência ao intervalo despejado',
+          'Filtrar com FILTRO usando um ou vários critérios (E e OU)',
+          'Ordenar com CLASSIFICAR e CLASSIFICARPOR e extrair valores únicos com ÚNICO'
+        ],
+        body: 'No Microsoft 365, uma única fórmula pode devolver uma tabela inteira: você escreve numa célula e o resultado "despeja" nas vizinhas. Com isso, filtrar, ordenar e tirar duplicatas viram fórmulas que se atualizam sozinhas quando a base muda — sem clicar em nada. FILTRO, CLASSIFICARPOR e as funções de matriz dinâmica fazem parte da prova Expert na versão Microsoft 365.',
+        content: [
+          { h: 'Despejo',
+            items: [
+              'A fórmula fica só na primeira célula; as demais mostram o resultado em cinza na barra de fórmulas. Uma borda azul marca o <strong>intervalo despejado</strong>.',
+              'Se houver qualquer conteúdo no caminho, a fórmula mostra o erro <strong>#DESPEJAR!</strong> (SPILL) — limpe as células e o resultado aparece.',
+              'Para referenciar o resultado inteiro, use a célula da fórmula seguida de uma <strong>cerquilha</strong>: o intervalo despejado de F2, qualquer que seja o tamanho, acompanhando quando ele cresce ou encolhe.',
+              'Matrizes dinâmicas não funcionam dentro de tabelas do Excel (as tabelas não despejam); coloque a fórmula fora da tabela.',
+              'Fórmulas antigas que agora despejariam aparecem com uma arroba na frente (interseção implícita), que força um único valor.'
+            ],
+            code: '=SOMA(F2#)             → soma todo o resultado despejado a partir de F2\n=CONT.VALORES(F2#)     → quantos itens o FILTRO devolveu' },
+          { h: 'FILTRO',
+            p: '<strong>FILTRO</strong> (FILTER) recebe o intervalo, uma condição (uma coluna comparada com um critério, que resulta em VERDADEIRO ou FALSO para cada linha) e, opcionalmente, o que mostrar se nada for encontrado. Sem esse terceiro argumento, um filtro vazio resulta em erro de cálculo (#CALC!). Para vários critérios, cada condição vai entre parênteses: <strong>multiplicar</strong> as condições é E; <strong>somar</strong> é OU.',
+            code: 'FILTRO(matriz; incluir; [se_vazio])\n\n=FILTRO(A5:D20;C5:C20=H2;"Nada encontrado")\n=FILTRO(A5:D20;(C5:C20=H1)*(A5:A20=H2))         → produto E região\n=FILTRO(A5:D20;(C5:C20="Maçã")+(A5:A20="Leste")) → produto OU região\n=FILTRO(tbVendas;tbVendas[Valor]>5000)' },
+          { h: 'CLASSIFICAR e CLASSIFICARPOR',
+            items: [
+              '<strong>CLASSIFICAR</strong> (SORT) — ordena um intervalo por uma de suas colunas: o intervalo, o índice da coluna (padrão 1), a ordem (1 crescente, -1 decrescente) e, opcionalmente, VERDADEIRO para ordenar por colunas.',
+              '<strong>CLASSIFICARPOR</strong> (SORTBY) — ordena um intervalo por <strong>outros</strong> intervalos, em vários níveis: pares de intervalo de ordenação e ordem. O intervalo de ordenação não precisa aparecer no resultado.',
+              'Aninhadas com FILTRO, dão relatórios prontos: os pedidos do Sul, do maior para o menor.'
+            ],
+            code: '=CLASSIFICAR(A2:C50;3;-1)                         → pela 3ª coluna, decrescente\n=CLASSIFICARPOR(A2:B20;C2:C20;1;D2:D20;-1)         → por região (C) crescente, depois idade (D) decrescente\n=CLASSIFICAR(FILTRO(A2:D200;B2:B200="Sul");4;-1)',
+            img: { src: `${XL_IMG}/m09/classificarpor-dois-niveis.png`, alt: 'CLASSIFICARPOR ordenando por região e depois por idade', caption: 'CLASSIFICARPOR com dois níveis de ordenação.', source: `${SUP}/excel/functions/sortby-function` } },
+          { h: 'ÚNICO',
+            p: '<strong>ÚNICO</strong> (UNIQUE) devolve a lista sem repetições. Argumentos opcionais: comparar por colunas em vez de linhas e <strong>exatamente_uma_vez</strong> — com VERDADEIRO, devolve só os valores que aparecem uma única vez (útil para achar cadastros sem duplicata). Combinado com CLASSIFICAR, gera listas ordenadas para validação de dados ou quadros-resumo; com CONT.VALORES, conta itens distintos.',
+            code: '=ÚNICO(B2:B500)\n=CLASSIFICAR(ÚNICO(B2:B500))\n=CONT.VALORES(ÚNICO(B2:B500))          → quantos clientes distintos\n=ÚNICO(B2:B500;;VERDADEIRO)            → quem aparece uma vez só',
+            img: { src: `${XL_IMG}/m09/unico-classificar.jpg`, alt: 'ÚNICO dentro de CLASSIFICAR gerando lista ordenada de nomes', caption: 'CLASSIFICAR(ÚNICO(...)): lista sem repetições, em ordem.', source: `${SUP}/excel/functions/unique-function` } },
+          { h: 'Juntando tudo',
+            p: 'Um quadro-resumo dinâmico inteiro com duas fórmulas: a lista de vendedores com ÚNICO e, ao lado, a soma de cada um com SOMASES apontando para o intervalo despejado. Quando entra um vendedor novo na base, ele aparece no quadro sozinho.',
+            code: 'F2: =CLASSIFICAR(ÚNICO(tbVendas[Vendedor]))\nG2: =SOMASES(tbVendas[Valor];tbVendas[Vendedor];F2#)',
+            img: { src: `${XL_IMG}/m09/filtro-e-classificar.png`, alt: 'FILTRO e CLASSIFICAR combinados', caption: 'FILTRO e CLASSIFICAR juntos, com critério OU.', source: `${SUP}/excel/functions/filter-function` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'A MO-211 (Microsoft 365) pede "resumir dados usando FILTRO e CLASSIFICARPOR"; ÚNICO, CLASSIFICAR e SEQUÊNCIA aparecem nos mesmos cenários.',
+              'Confira se há espaço livre para o despejo antes de confirmar a fórmula.',
+              'Em inglês: FILTER, SORT, SORTBY, UNIQUE; o erro é #SPILL!.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função FILTRO', u: `${SUP}/excel/functions/filter-function` },
+          { t: 'Microsoft Suporte — Função CLASSIFICAR', u: `${SUP}/excel/functions/sort-function` },
+          { t: 'Microsoft Suporte — Função CLASSIFICARPOR', u: `${SUP}/excel/functions/sortby-function` },
+          { t: 'Microsoft Suporte — Função ÚNICO', u: `${SUP}/excel/functions/unique-function` }
+        ]
+      },
+      {
+        id: 'xl-sequencia-aleatoria', title: 'SEQUÊNCIA e MATRIZALEATÓRIA',
+        desc: 'Gerar sequências de números e datas com uma fórmula e preencher células com números aleatórios para testes e simulações.',
+        objetivos: [
+          'Criar sequências de números e datas com SEQUÊNCIA',
+          'Gerar números aleatórios com MATRIZALEATÓRIA, inteiros ou decimais, dentro de uma faixa',
+          'Congelar resultados aleatórios quando necessário'
+        ],
+        body: 'Duas funções de matriz dinâmica que preenchem células: SEQUÊNCIA gera listas numeradas (1 a 100, os dias do mês, os 12 meses do ano) e MATRIZALEATÓRIA gera números aleatórios, úteis para testar fórmulas e simular cenários. "Preencher células usando a função MATRIZALEATÓRIA" está na lista da prova Expert.',
+        content: [
+          { h: 'SEQUÊNCIA',
+            p: '<strong>SEQUÊNCIA</strong> (SEQUENCE) recebe o número de linhas e, opcionalmente, de colunas, o valor inicial e o passo (padrão 1 para os dois). O resultado despeja; preenche linha por linha.',
+            code: 'SEQUÊNCIA(linhas; [colunas]; [início]; [etapa])\n\n=SEQUÊNCIA(10)                    → 1 a 10 numa coluna\n=SEQUÊNCIA(4;5)                   → 1 a 20 em 4 linhas × 5 colunas\n=SEQUÊNCIA(5;1;100;-10)           → 100, 90, 80, 70, 60\n=SEQUÊNCIA(30;1;DATA(2026;9;1))   → os 30 dias de setembro (formate como data)\n=SEQUÊNCIA(1;12;1)                → 1 a 12 na horizontal (meses)',
+            img: { src: `${XL_IMG}/m09/sequencia-4x5.png`, alt: 'SEQUÊNCIA gerando uma matriz de 4 linhas por 5 colunas', caption: 'SEQUÊNCIA(4;5): números de 1 a 20 preenchidos por linha.', source: `${SUP}/excel/functions/sequence-function` } },
+          { h: 'MATRIZALEATÓRIA',
+            p: '<strong>MATRIZALEATÓRIA</strong> (RANDARRAY) gera uma matriz de números aleatórios. Todos os argumentos são opcionais: linhas, colunas, mínimo, máximo e <strong>número_inteiro</strong> (VERDADEIRO para inteiros, FALSO — o padrão — para decimais). Sem argumentos, devolve um único decimal entre 0 e 1.',
+            code: 'MATRIZALEATÓRIA([linhas]; [colunas]; [mín]; [máx]; [número_inteiro])\n\n=MATRIZALEATÓRIA(5;3)                       → 5 × 3 decimais entre 0 e 1\n=MATRIZALEATÓRIA(10;1;1;100;VERDADEIRO)     → 10 inteiros de 1 a 100\n=MATRIZALEATÓRIA(12;1;5000;20000)           → 12 valores de venda simulados' },
+          { h: 'Volátil: os números mudam',
+            items: [
+              'MATRIZALEATÓRIA (como ALEATÓRIO e ALEATÓRIOENTRE) recalcula a cada alteração na planilha e a cada F9 — os números mudam o tempo todo.',
+              'Para fixar os valores: selecione o resultado, copie e use Colar Especial > Valores (Módulo 02).',
+              'Para sortear itens de uma lista sem repetição, combine: CLASSIFICARPOR da lista por uma MATRIZALEATÓRIA do mesmo tamanho embaralha a lista; os primeiros itens da lista embaralhada são o sorteio.'
+            ],
+            code: '=CLASSIFICARPOR(A2:A50;MATRIZALEATÓRIA(CONT.VALORES(A2:A50)))    → lista embaralhada' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Preencha A2:A21 com 20 números inteiros aleatórios entre 1 e 500" — uma fórmula em A2 com linhas 20, colunas 1, mínimo 1, máximo 500 e VERDADEIRO.',
+              'Em inglês: SEQUENCE e RANDARRAY, com os mesmos argumentos.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função SEQUÊNCIA', u: `${SUP}/excel/functions/sequence-function` },
+          { t: 'Microsoft Suporte — Função MATRIZALEATÓRIA', u: `${SUP}/excel/functions/randarray-function` }
+        ]
+      }
+    ]
   }
 ];

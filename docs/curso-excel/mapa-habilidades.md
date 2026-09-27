@@ -79,7 +79,7 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 |---|---|---|
 | Preencher células usando o Preenchimento Relâmpago | xl-preenchimento-relampago | ✅ |
 | Preencher células usando opções avançadas de série | xl-preenchimento-series | ✅ |
-| Preencher células usando a função MATRIZALEATÓRIA | — (Módulo 09) | ⬜ |
+| Preencher células usando a função MATRIZALEATÓRIA | xl-sequencia-aleatoria | ✅ |
 | Criar formatos de número personalizados | xl-formatos-personalizados | ✅ |
 | Configurar a validação de dados | xl-validacao-dados | ✅ |
 | Referenciar dados em outras pastas de trabalho | xl-referencias, xl-power-query-basico | ✅ |
@@ -92,6 +92,8 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Usar a função LET | xl-funcao-let | ✅ |
 | Referenciar data e hora com AGORA e HOJE | xl-funcoes-data | ✅ |
 | Calcular datas com DIA.DA.SEMANA e DIATRABALHO | xl-funcoes-data, xl-dias-uteis | ✅ |
-| Demais (procura, análise de hipóteses, auditoria, macros) | — (Módulos 09, 13, 14, 16) | ⬜ |
+| Procurar dados com PROCX, PROCV, PROCH, CORRESP e ÍNDICE | xl-procx, xl-procv-proch, xl-indice-corresp | ✅ |
+| Resumir dados com FILTRO e CLASSIFICARPOR (matrizes dinâmicas) | xl-matrizes-dinamicas | ✅ |
+| Demais (análise de hipóteses, auditoria, macros) | — (Módulos 13, 14, 16) | ⬜ |
 
 ⬜ Opções e configurações da pasta de trabalho · ⬜ Demais itens de dados · ⬜ Gráficos e tabelas avançados
