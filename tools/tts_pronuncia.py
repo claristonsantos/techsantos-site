@@ -331,6 +331,28 @@ PRONUNCIATION_FIXES = [
     (r"\bDáks Studio\b", "Dáks Stúdio"),  # "DAX" já virou "Dáks" pela regra acima
     (r"\bIFERROR\b", "If Érror"),
     (r"\bISERROR\b", "Iz Érror"),
+    # Décimo primeiro teste A/B (2026-09-27, 22 termos do módulo 12 -
+    # segurança). Ficaram na leitura padrão: ReadAll, Build, GRANT, email().
+    # CREATE e ALTER já foram trocados pelas regras acima, por isso aqui só
+    # entra o resto da expressão (ROLE, SECURITY POLICY, ANY MASK).
+    (r"\bReadData\b", "Ríd Dêita"),
+    (r"\bReshare\b", "Ri Xér"),
+    (r"\bDENY\b", "Dinái"),
+    (r"\bREVOKE\b", "Rivôuk"),
+    (r"\bROLE\b", "Rôul"),
+    (r"\bSECURITY POLICY\b", "Sekiúriti Pólici"),
+    (r"\bUSER[_ ]NAME\b", "Iúzer Nêim"),
+    (r"\bSCHEMABINDING\b", "Squêma Báinding"),
+    (r"\bMASKED WITH\b", "Mésqued Uíth"),
+    (r"\bUNMASK\b", "Ân Mésk"),
+    (r"\bANY MASK\b", "Éni Mésk"),
+    (r"\brandom\(\)", "rêndom"),
+    (r"\bpartial\(\)", "párchal"),
+    (r"\bCLS\b", "Cê Éle Ésse"),
+    (r"\bOLS\b", "Ó Éle Ésse"),
+    (r"\bmetadataPermission\b", "Métadêita Permíchon"),
+    (r"\bTabular Editor\b", "Tâbiular Éditor"),
+    (r"\bMicrosoft 365\b", "Máicrossoft trezentos e sessenta e cinco"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
