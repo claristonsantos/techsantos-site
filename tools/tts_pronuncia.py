@@ -461,6 +461,32 @@ PRONUNCIATION_FIXES = [
     (r"\bXFD(\d+)\b", r"Xis Éfe Dê \1"),
     (r"\bAutoCompletar\b", "Áuto Completar"),
     (r"\bAutoSoma\b", "Áuto Soma"),
+    # Curso Excel, rodada 7 (Módulo 07). Ficaram na leitura padrão: SEERRO,
+    # SES, SEs, IF, AND, NOT, LET. SOMASE, MÉDIASES e MÍNIMOSES não foram
+    # testados à parte: seguem a mesma grafia aprovada de SOMASES, MÉDIASE e
+    # MÁXIMOSES.
+    (r"\bSENÃODISP\b", "Se Não Disp"),
+    (r"\bIFS\b", "Ífs"),
+    (r"\bIFNA\b", "Íf Ên Á"),
+    (r"\bOR\b", "Ór"),
+    (r"\bCOUNTIFS\b", "Cáunt Ífs"),
+    (r"\bCOUNTIF\b", "Cáunt Íf"),
+    (r"\bSUMIFS\b", "Sâm Ífs"),
+    (r"\bSUMIF\b", "Sâm Íf"),
+    (r"\bAVERAGEIFS\b", "Éverêdj Ífs"),
+    (r"\bAVERAGEIF\b", "Éverêdj Íf"),
+    (r"\bMAXIFS\b", "Méks Ífs"),
+    (r"\bMINIFS\b", "Mín Ífs"),
+    (r"\bLETs\b", "Léts"),
+    (r"\bVIP\b", "Vípi"),
+    (r"\bCONT\.SES\b", "Cont Sés"),
+    (r"\bCONT\.SE\b", "Cont Sê"),
+    (r"\bMÁXIMOSES\b", "Máximo Sés"),
+    (r"\bMÍNIMOSES\b", "Mínimo Sés"),
+    (r"\bMÉDIASES\b", "Média Sés"),
+    (r"\bMÉDIASE\b", "Média Sê"),
+    (r"\bSOMASES\b", "Soma Sés"),
+    (r"\bSOMASE\b", "Soma Sê"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
