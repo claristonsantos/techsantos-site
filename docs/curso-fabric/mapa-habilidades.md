@@ -98,4 +98,4 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Identificar e resolver erros do Eventhouse | fab-rti-acoes-monitorar | ✅ |
 | Identificar e resolver erros do Eventstream | fab-rti-acoes-monitorar | ✅ |
 | Otimizar Eventstream e Eventhouse | fab-rti-acoes-monitorar, fab-eventhouse | ✅ |
-| Demais habilidades | módulos 09–15 | ⬜ |
+| Demais habilidades | módulos 11–15 | ⬜ |
