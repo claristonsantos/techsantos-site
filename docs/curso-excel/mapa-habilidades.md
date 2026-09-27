@@ -43,8 +43,21 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Limpar formatação de células | xl-estilos-pincel-limpar | ✅ |
 | Demais (nomes, minigráficos, formatação condicional) | — (Módulos 06, 10) | ⬜ |
 
+### Gerenciar tabelas e dados de tabela
+| Habilidade | Aula(s) | Status |
+|---|---|---|
+| Criar tabelas do Excel a partir de intervalos | xl-tabelas-criar | ✅ |
+| Aplicar estilos de tabela | xl-tabelas-estilos-totais | ✅ |
+| Converter tabelas em intervalos | xl-tabelas-criar | ✅ |
+| Adicionar ou remover linhas e colunas da tabela | xl-tabelas-criar | ✅ |
+| Configurar opções de estilo de tabela | xl-tabelas-estilos-totais | ✅ |
+| Inserir e configurar linhas de total | xl-tabelas-estilos-totais | ✅ |
+| Filtrar registros | xl-filtrar | ✅ |
+| Classificar dados por várias colunas | xl-classificar | ✅ |
+| Nomear tabela (seção de células/intervalos) | xl-tabelas-criar | ✅ |
+
 ### Demais áreas Associate
-⬜ Tabelas · ⬜ Fórmulas e funções · ⬜ Gráficos
+⬜ Fórmulas e funções · ⬜ Gráficos
 
 ## Expert (MO-211)
 ### Gerenciar e formatar dados

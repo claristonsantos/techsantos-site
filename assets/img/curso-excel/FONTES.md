@@ -39,3 +39,15 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m04/validacao-dados.png | Validação de Dados | https://support.microsoft.com/pt-br/excel/get-started/apply-data-validation-to-cells |
 | /assets/img/curso-excel/m04/lista-suspensa-origem.png | Opções da Lista de Validação de Dados | https://support.microsoft.com/pt-br/excel/get-started/create-a-drop-down-list |
 | /assets/img/curso-excel/m04/alerta-de-erro.png | Opções de mensagem de erro suspensa de validação de dados | https://support.microsoft.com/pt-br/excel/get-started/create-a-drop-down-list |
+| /assets/img/curso-excel/m05/tabela-visao-geral.png | Exemplo de dados formatados como uma tabela do Excel | https://support.microsoft.com/pt-br/excel/overview-of-excel-tables |
+| /assets/img/curso-excel/m05/coluna-calculada.png | Adicione uma única fórmula em uma célula da tabela que será preenchida automaticamente para criar uma coluna calculada | https://support.microsoft.com/pt-br/excel/overview-of-excel-tables |
+| /assets/img/curso-excel/m05/linha-de-totais.png | Exemplo de seleção de uma fórmula Linha de Totais na lista suspensa de fórmulas Linha de Totais | https://support.microsoft.com/pt-br/excel/get-started/total-the-data-in-an-excel-table |
+| /assets/img/curso-excel/m05/redimensionar-tabela.png | Redimensionar Tabela | https://support.microsoft.com/pt-br/excel/resize-a-table-by-adding-or-removing-rows-and-columns-in-excel |
+| /assets/img/curso-excel/m05/estilos-de-tabela.png | Seleções da Galeria de Estilos do Excel para Formatar como Tabela | https://support.microsoft.com/pt-br/excel/format-an-excel-table |
+| /assets/img/curso-excel/m05/nome-da-tabela.png | Imagem da caixa de nome na barra de fórmulas do Excel para renomear uma tabela | https://support.microsoft.com/pt-br/excel/rename-an-excel-table |
+| /assets/img/curso-excel/m05/classificar-adicionar-nivel.jpg | Clique em Adicionar Nível | https://support.microsoft.com/pt-br/excel/sort-data-in-a-range-or-table-in-excel |
+| /assets/img/curso-excel/m05/classificar-em.jpg | Em Classificar em, escolha uma opção | https://support.microsoft.com/pt-br/excel/sort-data-in-a-range-or-table-in-excel |
+| /assets/img/curso-excel/m05/filtros-numero.jpg | Filtros de Número Entre | https://support.microsoft.com/pt-br/excel/get-started/filter-data-in-a-range-or-table-in-excel |
+| /assets/img/curso-excel/m05/personalizar-autofiltro.jpg | Caixa de diálogo Personalizar AutoFiltro | https://support.microsoft.com/pt-br/excel/get-started/filter-data-in-a-range-or-table-in-excel |
+| /assets/img/curso-excel/m05/segmentacao-elementos.jpg | Captura de tela de elementos de segmentação de dados de Tabela Dinâmica. | https://support.microsoft.com/pt-br/excel/get-started/use-slicers-to-filter-data |
+| /assets/img/curso-excel/m05/criterios-filtro-avancado.png | Captura de tela de critérios e intervalo de lista | https://support.microsoft.com/pt-br/excel/filter-by-using-advanced-criteria |

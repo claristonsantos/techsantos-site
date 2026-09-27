@@ -1005,5 +1005,203 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m05', title: 'Módulo 05 · Tabelas do Excel, classificação e filtros', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-tabelas-criar', title: 'Tabelas do Excel: criar, nomear e redimensionar',
+        desc: 'O que muda quando um intervalo vira tabela, como criar, nomear, acrescentar linhas e colunas, usar colunas calculadas e converter de volta em intervalo.',
+        objetivos: [
+          'Criar uma tabela a partir de um intervalo, com ou sem cabeçalhos',
+          'Nomear a tabela seguindo as regras de nomes do Excel',
+          'Adicionar e remover linhas e colunas, redimensionar e converter em intervalo'
+        ],
+        body: 'Transformar uma lista de dados em tabela do Excel é, provavelmente, o hábito que mais melhora uma planilha. A tabela cresce sozinha quando você acrescenta dados, leva as fórmulas para as linhas novas, mantém os filtros no cabeçalho e dá um nome que as fórmulas, os gráficos e as tabelas dinâmicas podem usar. A prova Associate tem uma seção inteira sobre tabelas (15 a 20% da nota).',
+        content: [
+          { h: 'Criar uma tabela',
+            items: [
+              'Clique em qualquer célula dos dados e use <strong>Inserir > Tabela</strong> (ou Página Inicial > <strong>Formatar como Tabela</strong>, que já pede um estilo).',
+              'A caixa Criar Tabela sugere o intervalo — confira se pegou todas as linhas e colunas — e pergunta se <strong>Minha tabela tem cabeçalhos</strong>. Sem cabeçalhos, o Excel cria títulos Coluna1, Coluna2...',
+              'Antes de criar: uma linha de títulos, sem linhas ou colunas totalmente vazias no meio, sem células mescladas, e um tipo de dado por coluna.'
+            ],
+            img: { src: `${XL_IMG}/m05/tabela-visao-geral.png`, alt: 'Dados formatados como tabela do Excel', caption: 'Uma tabela do Excel: cabeçalho com setas de filtro, linhas em tiras e alça de redimensionamento no canto.', source: `${SUP}/excel/overview-of-excel-tables` } },
+          { h: 'O que a tabela ganha',
+            items: [
+              '<strong>Setas de filtro e classificação</strong> em cada cabeçalho.',
+              '<strong>Cabeçalho que fica visível</strong> — ao rolar, os títulos da tabela substituem as letras das colunas.',
+              '<strong>Expansão automática</strong> — digitar logo abaixo da última linha (ou à direita da última coluna) incorpora os dados à tabela, com a mesma formatação.',
+              '<strong>Colunas calculadas</strong> — digite uma fórmula numa célula de uma coluna e ela é preenchida em toda a coluna; linhas novas recebem a fórmula automaticamente.',
+              '<strong>Nome próprio</strong> e referências estruturadas nas fórmulas (Módulo 06).',
+              '<strong>Guia Design da Tabela</strong>, que aparece sempre que a célula ativa está dentro da tabela.'
+            ],
+            img: { src: `${XL_IMG}/m05/coluna-calculada.png`, alt: 'Fórmula digitada numa célula preenchendo a coluna inteira da tabela', caption: 'Coluna calculada: uma fórmula, a coluna inteira preenchida.', source: `${SUP}/excel/overview-of-excel-tables` } },
+          { h: 'Nomear a tabela',
+            p: 'Cada tabela nasce como Tabela1, Tabela2... Troque em Design da Tabela > Propriedades > <strong>Nome da Tabela</strong>. Regras: começar com letra, sublinhado ou barra invertida; sem espaços (use sublinhado ou maiúsculas: Vendas_2026, tbVendas); não pode parecer uma referência de célula (como A1 ou R1C1), nem ser só "C" ou "R"; até 255 caracteres; único na pasta (maiúsculas e minúsculas não diferenciam). Todas as tabelas aparecem na lista da Caixa de Nome — escolher uma leva até ela, mesmo em outra planilha.',
+            img: { src: `${XL_IMG}/m05/nome-da-tabela.png`, alt: 'Campo Nome da Tabela no grupo Propriedades', caption: 'Design da Tabela > Propriedades > Nome da Tabela.', source: `${SUP}/excel/rename-an-excel-table` } },
+          { h: 'Acrescentar e remover linhas e colunas',
+            items: [
+              '<strong>Digitando ou colando</strong> logo abaixo ou à direita — a tabela se expande. Se os dados colados tiverem mais colunas que a tabela, as colunas extras ficam de fora.',
+              '<strong>Tab na última célula</strong> da tabela cria uma linha nova.',
+              '<strong>Inserir</strong> — botão direito numa célula > Inserir > Linhas da Tabela Acima ou Colunas da Tabela à Esquerda. Só a tabela abre espaço; o resto da planilha não se mexe.',
+              '<strong>Excluir</strong> — botão direito > Excluir > Linhas da Tabela ou Colunas da Tabela.',
+              '<strong>Redimensionar Tabela</strong> (Design da Tabela > Propriedades) — informe o novo intervalo; ele precisa manter a mesma linha de cabeçalho. Ou arraste a alça no canto inferior direito da tabela.'
+            ],
+            img: { src: `${XL_IMG}/m05/redimensionar-tabela.png`, alt: 'Comando Redimensionar Tabela', caption: 'Design da Tabela > Redimensionar Tabela.', source: `${SUP}/excel/resize-a-table-by-adding-or-removing-rows-and-columns-in-excel` } },
+          { h: 'Converter em intervalo',
+            p: 'Para voltar a um intervalo comum mantendo a aparência: Design da Tabela > Ferramentas > <strong>Converter em Intervalo</strong> (ou botão direito > Tabela > Converter em Intervalo) e confirme. As setas de filtro somem, a guia Design da Tabela deixa de aparecer e as referências estruturadas nas fórmulas viram referências comuns (como A2:A50). Recursos que não funcionam dentro de tabela — mesclar células, subtotais automáticos (Módulo 13) — exigem a conversão.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Crie uma tabela a partir de A3:F120 com cabeçalhos" — confira o intervalo sugerido; muitas tarefas têm título acima dos dados.',
+              '"Nomeie a tabela como Estoque" — Nome da Tabela, sem espaços.',
+              '"Adicione uma coluna Total à tabela" / "Remova a coluna Obs." — insira ou exclua colunas da tabela, não da planilha.',
+              '"Converta a tabela em um intervalo" — Converter em Intervalo; não confunda com Limpar formatação.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Visão geral das tabelas do Excel', u: `${SUP}/excel/overview-of-excel-tables` },
+          { t: 'Microsoft Suporte — Criar e formatar tabelas', u: `${SUP}/excel/get-started/create-and-format-tables` },
+          { t: 'Microsoft Suporte — Redimensionar uma tabela', u: `${SUP}/excel/resize-a-table-by-adding-or-removing-rows-and-columns-in-excel` },
+          { t: 'Microsoft Suporte — Renomear uma tabela do Excel', u: `${SUP}/excel/rename-an-excel-table` },
+          { t: 'Microsoft Suporte — Converter uma tabela em intervalo', u: `${SUP}/excel/convert-an-excel-table-to-a-range-of-data` }
+        ]
+      },
+      {
+        id: 'xl-tabelas-estilos-totais', title: 'Estilos de tabela, opções de estilo e Linha de Totais',
+        desc: 'Aplicar e criar estilos de tabela, ligar e desligar elementos (cabeçalho, totais, tiras, primeira e última coluna, botão de filtro) e totalizar com a Linha de Totais.',
+        objetivos: [
+          'Aplicar, criar e limpar estilos de tabela',
+          'Configurar as Opções de Estilo de Tabela',
+          'Inserir a Linha de Totais e escolher a função de cada coluna'
+        ],
+        body: 'A aparência de uma tabela é controlada por duas coisas: o estilo (as cores e bordas) e as opções de estilo (quais partes da tabela recebem destaque). E a Linha de Totais dá, em dois cliques, somas, médias e contagens que respeitam o filtro aplicado. Tudo isso está na seção de tabelas da prova Associate.',
+        content: [
+          { h: 'Estilos de tabela',
+            p: 'A galeria <strong>Estilos de Tabela</strong> (Design da Tabela, ou Página Inicial > Formatar como Tabela) é dividida em Claro, Médio e Escuro. Passar o mouse pré-visualiza; clicar aplica. <strong>Limpar</strong>, no fim da galeria, remove o estilo sem desfazer a tabela. <strong>Novo Estilo de Tabela</strong> cria um estilo seu: dê um nome, escolha cada Elemento de Tabela (Tabela Inteira, Linha de Cabeçalho, Linha de Totais, Primeira Faixa de Linha...) e clique em Formatar. Estilos personalizados ficam na seção Personalizado da galeria e valem só para a pasta em que foram criados; a opção "Definir como estilo de tabela padrão deste documento" faz dele o estilo das tabelas novas.',
+            img: { src: `${XL_IMG}/m05/estilos-de-tabela.png`, alt: 'Galeria de estilos de tabela', caption: 'Galeria de estilos: Claro, Médio e Escuro.', source: `${SUP}/excel/format-an-excel-table` } },
+          { h: 'Opções de Estilo de Tabela',
+            p: 'No grupo Opções de Estilo de Tabela (guia Design da Tabela) ficam as caixas que ligam e desligam partes da tabela:',
+            items: [
+              '<strong>Linha de Cabeçalho</strong> — mostra ou oculta os títulos (os nomes das colunas continuam existindo para as fórmulas).',
+              '<strong>Linha de Totais</strong> — acrescenta a linha de totais no fim.',
+              '<strong>Linhas em Tiras</strong> e <strong>Colunas em Tiras</strong> — sombreamento alternado de linhas ou de colunas.',
+              '<strong>Primeira Coluna</strong> e <strong>Última Coluna</strong> — destacam (em negrito, conforme o estilo) a primeira ou a última coluna.',
+              '<strong>Botão de Filtro</strong> — mostra ou esconde as setas de filtro do cabeçalho.'
+            ] },
+          { h: 'Linha de Totais',
+            p: 'Marque <strong>Linha de Totais</strong>. Na última linha aparece uma célula com lista suspensa em cada coluna: Nenhum, Média, Contagem, Contar Números, Máx, Mín, Soma, DesvPad, Var e Mais Funções. O Excel escreve uma fórmula SUBTOTAL com o código da função (109 para soma) e o nome da coluna, e essa fórmula ignora as linhas ocultas pelo filtro — filtrou só a região Sul, o total mostra só o Sul. A primeira célula da linha costuma trazer o rótulo "Total", que você pode editar. Desmarcar e marcar a Linha de Totais de novo preserva as funções escolhidas.',
+            img: { src: `${XL_IMG}/m05/linha-de-totais.png`, alt: 'Lista suspensa da Linha de Totais com as funções disponíveis', caption: 'Linha de Totais: escolha a função de cada coluna na lista.', source: `${SUP}/excel/get-started/total-the-data-in-an-excel-table` } },
+          { h: 'Segmentação de dados em tabelas',
+            p: 'Com a célula ativa na tabela, Design da Tabela > <strong>Inserir Segmentação de Dados</strong> cria botões de filtro visuais para as colunas que você escolher — o mesmo recurso das tabelas dinâmicas (Módulo 12). Clicar num botão filtra a tabela; Ctrl+clique seleciona vários; o ícone no canto da segmentação limpa o filtro.',
+            img: { src: `${XL_IMG}/m05/segmentacao-elementos.jpg`, alt: 'Elementos de uma segmentação de dados', caption: 'Segmentação: cabeçalho, botões de filtro, seleção múltipla e Limpar Filtro.', source: `${SUP}/excel/get-started/use-slicers-to-filter-data` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Aplique o estilo Laranja, Estilo de Tabela Médio 3" — o nome aparece ao passar o mouse na galeria; confira antes de clicar.',
+              '"Configure a tabela para destacar a primeira coluna e remover as linhas em tiras" — duas caixas de Opções de Estilo de Tabela.',
+              '"Adicione uma linha de totais que mostre a média da coluna Preço" — Linha de Totais e Média na lista da coluna certa (a padrão é a da última coluna).'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Formatar uma tabela do Excel', u: `${SUP}/excel/format-an-excel-table` },
+          { t: 'Microsoft Suporte — Totalizar os dados em uma tabela do Excel', u: `${SUP}/excel/get-started/total-the-data-in-an-excel-table` },
+          { t: 'Microsoft Suporte — Usar segmentações de dados para filtrar dados', u: `${SUP}/excel/get-started/use-slicers-to-filter-data` }
+        ]
+      },
+      {
+        id: 'xl-classificar', title: 'Classificar por várias colunas, por cor e por lista',
+        desc: 'Classificação rápida, a caixa Classificar com vários níveis, classificar por cor da célula, cor da fonte ou ícone, por lista personalizada e da esquerda para a direita.',
+        objetivos: [
+          'Classificar por uma coluna em ordem crescente ou decrescente',
+          'Montar uma classificação com vários níveis na caixa Classificar',
+          'Classificar por cor, por ícone, por lista personalizada e por colunas'
+        ],
+        body: 'Classificar parece simples até a lista precisar ficar por região, dentro da região por vendedor e, para cada vendedor, da maior venda para a menor. A caixa Classificar resolve isso com níveis. "Classificar dados por várias colunas" é habilidade da prova Associate.',
+        content: [
+          { h: 'Classificação rápida',
+            p: 'Clique numa célula da coluna (não selecione a coluna inteira) e use os botões da guia Dados > Classificar e Filtrar, ou as setas do cabeçalho da tabela. O nome dos botões muda conforme o tipo da coluna: <strong>Classificar de A a Z</strong> e de Z a A para texto; <strong>do Menor para o Maior</strong> e do Maior para o Menor para números; <strong>do Mais Antigo para o Mais Novo</strong> e o inverso para datas. O Excel reconhece a região dos dados e move as linhas inteiras, mantendo cada registro junto.' },
+          { h: 'Cuidados antes de classificar',
+            items: [
+              'Nunca classifique uma coluna selecionada sozinha quando há dados ao lado: o Excel pergunta se deve Expandir a seleção — escolha expandir; do contrário, só aquela coluna muda de ordem e os registros se desmontam.',
+              'Números guardados como texto são classificados antes dos números; espaços no começo do texto também atrapalham. Limpe antes (Módulos 03 e 08).',
+              'Linhas ou colunas ocultas não se movem na classificação — reexiba antes.',
+              'Linhas totalmente vazias interrompem a região; o Excel pode classificar só um pedaço da lista.'
+            ] },
+          { h: 'Vários níveis na caixa Classificar',
+            p: 'Dados > <strong>Classificar</strong> abre a caixa com a linha "Classificar por". Para cada nível escolha a <strong>Coluna</strong>, o <strong>Classificar em</strong> (Valores da Célula, Cor da Célula, Cor da Fonte ou Ícone de Formatação Condicional) e a <strong>Ordem</strong>. <strong>Adicionar Nível</strong> cria "E depois por"; Excluir Nível e Copiar Nível ajustam a lista, e as setas mudam a prioridade. A caixa <strong>Meus dados contêm cabeçalhos</strong> impede que a linha de títulos seja classificada junto.',
+            img: { src: `${XL_IMG}/m05/classificar-adicionar-nivel.jpg`, alt: 'Caixa Classificar com dois níveis', caption: 'Classificar por, E depois por: cada nível com coluna, critério e ordem.', source: `${SUP}/excel/sort-data-in-a-range-or-table-in-excel` } },
+          { h: 'Por cor, por ícone e por lista personalizada',
+            items: [
+              '<strong>Classificar em: Cor da Célula</strong> (ou Cor da Fonte, ou Ícone de Formatação Condicional) — escolha a cor e se ela vai No Topo ou Na Parte Inferior. Para ordenar várias cores, crie um nível por cor.',
+              '<strong>Ordem: Lista Personalizada</strong> — use uma lista pronta (dias da semana, meses) ou crie uma (Alta, Média, Baixa) para classificar numa ordem que não é alfabética (Módulo 02).'
+            ],
+            img: { src: `${XL_IMG}/m05/classificar-em.jpg`, alt: 'Opções de Classificar em', caption: 'Classificar em: valores, cor da célula, cor da fonte ou ícone.', source: `${SUP}/excel/sort-data-in-a-range-or-table-in-excel` } },
+          { h: 'Opções: maiúsculas e da esquerda para a direita',
+            p: 'O botão <strong>Opções</strong> da caixa Classificar tem <strong>Diferenciar maiúsculas de minúsculas</strong> e a orientação: <strong>De cima para baixo</strong> (padrão, reorganiza linhas) ou <strong>Da esquerda para a direita</strong> (reorganiza colunas, usando uma linha como critério — útil para pôr meses em ordem num relatório que cresce para o lado).' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Classifique a tabela por Departamento de A a Z e depois por Salário do maior para o menor" — dois níveis na caixa Classificar, na ordem do enunciado.',
+              '"Classifique para que as células com preenchimento vermelho fiquem no topo" — Classificar em: Cor da Célula.',
+              'No Microsoft 365, CLASSIFICAR (SORT) e CLASSIFICARPOR (SORTBY) fazem isso por fórmula, sem mexer nos dados originais (Módulo 09).'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Classificar dados em um intervalo ou tabela', u: `${SUP}/excel/sort-data-in-a-range-or-table-in-excel` }
+        ]
+      },
+      {
+        id: 'xl-filtrar', title: 'Filtros: AutoFiltro, filtros personalizados e Filtro Avançado',
+        desc: 'Filtrar por lista de valores, por texto, número e data, por cor, os 10 primeiros, limpar e reaplicar, e o Filtro Avançado com intervalo de critérios E/OU.',
+        objetivos: [
+          'Filtrar registros por valores, condições, cor e posição (10 primeiros)',
+          'Combinar filtros em várias colunas, limpar e reaplicar',
+          'Montar um Filtro Avançado com critérios E e OU e copiar o resultado para outro lugar'
+        ],
+        body: 'Filtrar é mostrar só as linhas que interessam e esconder o resto temporariamente — nada é apagado. É o recurso mais usado para responder perguntas rápidas sobre uma base ("quais pedidos do Sul acima de R$ 5 mil em setembro?"). "Filtrar registros" está na seção de tabelas da prova Associate.',
+        content: [
+          { h: 'Ligar o filtro',
+            p: 'Em tabelas, as setas já estão no cabeçalho. Num intervalo comum, clique numa célula dos dados e use Dados > <strong>Filtro</strong> (ou Ctrl+Shift+L, que liga e desliga). A seta da coluna abre o menu de filtro: classificação no alto, a caixa de <strong>Pesquisa</strong>, a lista de valores com (Selecionar Tudo) e os filtros por tipo de dado. Quando uma coluna está filtrada, a seta vira um ícone de funil e os números das linhas ficam azuis; a barra de status informa quantos registros foram encontrados.' },
+          { h: 'Tipos de filtro',
+            items: [
+              '<strong>Por lista de valores</strong> — desmarque (Selecionar Tudo) e marque os que quer ver. Em datas, a lista vem agrupada por ano, mês e dia.',
+              '<strong>Pesquisa</strong> — digite parte do texto e o Excel marca os valores que contêm aquilo.',
+              '<strong>Filtros de Texto</strong> — É Igual a, Começa Com, Termina Com, Contém, Não Contém.',
+              '<strong>Filtros de Número</strong> — Maior do que, Menor do que, Entre, <strong>10 Primeiros</strong> (primeiros ou últimos N itens ou N por cento), Acima da Média, Abaixo da Média.',
+              '<strong>Filtros de Data</strong> — Amanhã, Hoje, Ontem, Esta Semana, Mês Passado, Próximo Trimestre, Ano até a Data, Todas as Datas no Período...',
+              '<strong>Filtrar por Cor</strong> — por cor da célula, cor da fonte ou ícone.',
+              '<strong>Filtro Personalizado</strong> — a caixa Personalizar AutoFiltro combina duas condições com <strong>E</strong> ou <strong>Ou</strong>, e aceita os curingas asterisco e interrogação.'
+            ],
+            img: { src: `${XL_IMG}/m05/filtros-numero.jpg`, alt: 'Menu Filtros de Número com a opção Entre', caption: 'O menu muda conforme o tipo da coluna: aqui, Filtros de Número.', source: `${SUP}/excel/get-started/filter-data-in-a-range-or-table-in-excel` } },
+          { h: 'Várias colunas, limpar e reaplicar',
+            items: [
+              'Filtros em colunas diferentes se somam (E): Região = Sul <em>e</em> Mês = setembro.',
+              'Numa mesma coluna, use a lista de valores ou o filtro personalizado — um tipo de cada vez (lista ou condição, não os dois).',
+              '<strong>Limpar Filtro de "Coluna"</strong> (no menu da seta) limpa uma coluna; Dados > <strong>Limpar</strong> limpa todas.',
+              'Dados > <strong>Reaplicar</strong> — depois de alterar ou incluir dados, reavalia o filtro (linhas que passaram a atender ou deixaram de atender o critério).',
+              'Copiar e colar um intervalo filtrado leva só as linhas visíveis; já preencher ou excluir exige cuidado — selecione só as células visíveis (Módulo 02).'
+            ],
+            img: { src: `${XL_IMG}/m05/personalizar-autofiltro.jpg`, alt: 'Caixa Personalizar AutoFiltro', caption: 'Personalizar AutoFiltro: duas condições ligadas por E ou Ou.', source: `${SUP}/excel/get-started/filter-data-in-a-range-or-table-in-excel` } },
+          { h: 'Filtro Avançado: critérios na planilha',
+            p: 'Quando a lógica é complexa, o <strong>Filtro Avançado</strong> (Dados > Classificar e Filtrar > Avançado) usa um <strong>intervalo de critérios</strong> montado na própria planilha, acima ou ao lado dos dados: uma linha com os mesmos títulos das colunas e, abaixo, as condições.',
+            items: [
+              'Condições <strong>na mesma linha</strong> se combinam com <strong>E</strong>: Região = Sul e Vendas maior que 5000.',
+              'Condições <strong>em linhas diferentes</strong> se combinam com <strong>OU</strong>: Vendedor = Ana numa linha, Vendedor = Bruno na outra.',
+              'Operadores de comparação vão junto do valor, como "maior que 5000" escrito com o sinal de maior; texto sem operador significa "começa com".',
+              'Na caixa, informe o <strong>Intervalo da lista</strong> (os dados, com cabeçalhos) e o <strong>Intervalo de critérios</strong> (com os títulos), e escolha <strong>Filtrar a lista no local</strong> ou <strong>Copiar para outro local</strong> — aí o resultado sai numa área separada, e os dados originais ficam intactos. <strong>Somente registros exclusivos</strong> elimina repetições no resultado.'
+            ],
+            img: { src: `${XL_IMG}/m05/criterios-filtro-avancado.png`, alt: 'Intervalo de critérios acima do intervalo da lista', caption: 'Intervalo de critérios (em cima) e intervalo da lista (embaixo) — imagem original em inglês.', source: `${SUP}/excel/filter-by-using-advanced-criteria` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Filtre a tabela para mostrar apenas os pedidos de Goiás com valor maior que 1.000" — dois filtros em colunas diferentes.',
+              '"Mostre os 5 produtos com maior estoque" — Filtros de Número > 10 Primeiros, trocando 10 por 5.',
+              '"Remova todos os filtros" — Dados > Limpar (não desligue o Filtro se a tarefa pede só limpar).',
+              'No Microsoft 365, a função FILTRO (FILTER) devolve o resultado filtrado por fórmula (Módulo 09).'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Filtrar dados em um intervalo ou tabela', u: `${SUP}/excel/get-started/filter-data-in-a-range-or-table-in-excel` },
+          { t: 'Microsoft Suporte — Filtrar usando critérios avançados', u: `${SUP}/excel/filter-by-using-advanced-criteria` }
+        ]
+      }
+    ]
   }
 ];
