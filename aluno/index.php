@@ -205,6 +205,8 @@ if ($temConteudo) {
   .reading-card h3 { font-size: 1.02rem; font-weight: 700; font-family: 'Plex Sans', sans-serif; margin: 1.5rem 0 0.5rem; }
   .reading-card h3:first-of-type { margin-top: 0; }
   .reading-card p { color: var(--ink-soft); font-size: 0.96rem; line-height: 1.65; margin-bottom: 0.5rem; }
+  .reading-card .lesson-code { background: #0f1b2d; color: #d7f5d0; font-family: 'Plex Mono', monospace; font-size: 0.8rem; line-height: 1.5; padding: 0.8rem 0.95rem; border-radius: 6px; overflow-x: auto; margin: 0.4rem 0 1rem; white-space: pre; }
+  .reading-card .lesson-code code { background: none; color: inherit; font: inherit; padding: 0; }
   .reading-card .res-inline { margin: 0.35rem 0 0.9rem; }
   .lesson-meta { display:flex; flex-wrap:wrap; gap:.5rem; margin:-.8rem 0 1.35rem; color:var(--ink-faint); font-size:.76rem; }
   .lesson-meta span { display:inline-flex; align-items:center; min-height:28px; padding:.25rem .55rem; border:1px solid var(--line); border-radius:999px; background:var(--surface); }
@@ -536,8 +538,10 @@ function contentBlock(b, index = 0, lessonId = 'aula') {
     <img src="${b.img.src}" alt="${b.img.alt || ''}" loading="lazy" decoding="async">
     <figcaption>${b.img.caption || ''}${b.img.source ? ` · <a href="${b.img.source}" target="_blank" rel="noopener">Fonte: Microsoft Learn</a>` : ''}</figcaption>
   </figure>` : '';
+  // b.code: exemplo de código em texto puro (escapado aqui; não entra no áudio).
+  const codigo = b.code ? `<pre class="lesson-code"><code>${String(b.code).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>` : '';
   const recurso = b.r ? `<div class="res-inline resources"><ul>${resourceItem(b.r)}</ul></div>` : '';
-  return texto + figura + recurso;
+  return texto + codigo + figura + recurso;
 }
 
 function resourceItem(r) {

@@ -1766,5 +1766,442 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m06', title: 'Módulo 06 · Notebooks, Spark e streaming estruturado', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-spark-notebooks', title: 'Spark no Fabric e o notebook',
+        desc: 'Como o Spark roda no Fabric (pools, nós, sessões, runtime), o que é um notebook, as linguagens e comandos mágicos, o lakehouse padrão e a diferença entre notebook Spark e notebook Python.',
+        objetivos: [
+          'Explicar driver, executores, pool inicial e pool personalizado',
+          'Usar várias linguagens num notebook com comandos mágicos',
+          'Anexar lakehouses e entender o lakehouse padrão',
+          'Escolher entre notebook PySpark e notebook Python puro'
+        ],
+        body: 'O Apache Spark é o motor de processamento distribuído da engenharia de dados do Fabric: ele divide o trabalho entre várias máquinas e processa volumes que não caberiam num computador. O notebook é a forma mais comum de escrever código Spark. Esta aula dá a base para as habilidades DP-700 “Transformar dados usando PySpark, SQL e KQL” e “Otimizar o desempenho do Spark”.',
+        content: [
+          { h: 'Como o Spark roda no Fabric',
+            items: [
+              'Um cluster Spark tem um <strong>driver</strong> (coordena o trabalho) e <strong>executores</strong> (fazem o processamento). No Fabric, cada nó tem um executor; um nó fica com o driver e os demais com os executores. Um pool pode ter um único nó, com driver e executor juntos, para cargas pequenas.',
+              '<strong>Pool inicial</strong> — clusters de nós médios mantidos prontos: a sessão começa em cerca de 5 a 10 segundos, sem configurar nada. Bibliotecas extras ou propriedades personalizadas aumentam esse tempo.',
+              '<strong>Pool personalizado</strong> — você escolhe tamanho do nó (de Pequeno, 4 vCores/32 GB, a XX-Grande, 64 vCores/512 GB), escala automática e alocação dinâmica de executores. Criado pelo administrador do workspace, se o administrador da capacidade permitir.',
+              '<strong>Sessão</strong> — expira após um tempo sem uso (padrão de 20 minutos, ajustável).',
+              'A configuração dos pools, ambientes e alta simultaneidade no workspace foi vista no Módulo 01.'
+            ],
+            img: { src: `${FAB_IMG}/m06/computacao-spark.png`, alt: 'Plataforma de computação Spark com pools iniciais e personalizados', caption: 'A computação Spark do Fabric: pools iniciais (prontos, nós médios) e pools personalizados (dimensionados por você).', source: `${LEARN}/data-engineering/spark-compute` } },
+          { h: 'Runtime',
+            p: 'O <strong>Fabric Runtime</strong> reúne as versões de Apache Spark, Delta Lake, Python, Java/Scala e R, além de bibliotecas pré-instaladas e dezenas de otimizações próprias da Microsoft. Mais de um runtime fica disponível ao mesmo tempo; você escolhe o runtime no ambiente ou nas configurações do workspace. Ao trocar de runtime, confira se as bibliotecas e configurações continuam compatíveis.' },
+          { h: 'O notebook',
+            items: [
+              'Células de <strong>código</strong> e de <strong>texto</strong> (Markdown), executadas uma a uma ou todas (Executar tudo). Salva automaticamente e pode ser editado por várias pessoas ao mesmo tempo.',
+              'Quatro linguagens Spark: <strong>PySpark</strong> (Python), <strong>Spark</strong> (Scala), <strong>Spark SQL</strong> e <strong>SparkR</strong>. A linguagem principal vale para as células novas.',
+              'Numa célula, um <strong>comando mágico</strong> muda a linguagem: <code>%%pyspark</code>, <code>%%spark</code>, <code>%%sql</code>, <code>%%sparkr</code>. Também existem <code>%run</code> (executar outro notebook), <code>%pip</code> (instalar biblioteca na sessão) e <code>%%configure</code> (configurar a sessão).',
+              'Importa e exporta arquivos <strong>.ipynb</strong> (Jupyter) e .py.',
+              'Gerenciador de variáveis, histórico de versões, comentários por célula e o <strong>Copilot</strong>, que gera, explica e corrige código.'
+            ],
+            img: { src: `${FAB_IMG}/m06/comando-magico.png`, alt: 'Comando mágico de linguagem numa célula', caption: 'Um comando mágico no início da célula define a linguagem daquela célula.', source: `${LEARN}/data-engineering/author-execute-notebook` } },
+          { h: 'Lakehouse padrão',
+            p: 'No explorador à esquerda do notebook você adiciona um ou mais lakehouses. Um deles é o <strong>padrão</strong>: é ele que o Spark usa quando você cita uma tabela só pelo nome (<code>spark.sql(\'SELECT * FROM vendas\')</code>) ou um caminho relativo como <code>Files/brutos/</code>. Clicando com o botão direito num arquivo ou tabela, o Fabric gera o código de leitura para você.',
+            img: { src: `${FAB_IMG}/m06/lakehouse-padrao.png`, alt: 'Fixar um lakehouse como padrão no notebook', caption: 'Explorador do notebook: escolha qual lakehouse é o padrão.', source: `${LEARN}/data-engineering/how-to-use-notebook` } },
+          { h: 'Notebook Spark ou notebook Python',
+            p: 'Além do notebook Spark, existe o <strong>notebook Python</strong>: um kernel Python simples (sem cluster Spark), que inicia mais rápido e consome menos capacidade. Serve para volumes pequenos, bibliotecas como pandas e Polars, chamadas de API e automações. Para processar grandes volumes em paralelo, use o notebook Spark (PySpark).' },
+          { h: 'Quem é o dono da execução',
+            items: [
+              '<strong>Execução interativa</strong> — roda com a identidade de quem clicou.',
+              '<strong>Atividade de pipeline</strong> — roda com a identidade do <strong>último usuário que modificou o pipeline</strong>.',
+              '<strong>Agendamento do notebook</strong> — roda com a identidade de quem criou ou atualizou o agendamento por último.',
+              'Isso explica o clássico “funciona para mim, falha no agendamento”: a outra identidade não tem acesso ao dado.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Sessões demoram a iniciar porque o ambiente instala muitas bibliotecas → é esperado; o início em segundos vale para o pool inicial sem personalizações.',
+              'Célula SQL dentro de um notebook PySpark → <code>%%sql</code>.',
+              'Tabela citada sem o nome do lakehouse não é encontrada → conferir o lakehouse padrão.',
+              'Tarefa pequena de API/pandas que não precisa de cluster → notebook Python.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral da computação Spark no Fabric', u: `${LEARN}/data-engineering/spark-compute` },
+          { t: 'Runtimes do Apache Spark no Fabric', u: `${LEARN}/data-engineering/runtime` },
+          { t: 'Como usar notebooks', u: `${LEARN}/data-engineering/how-to-use-notebook` },
+          { t: 'Desenvolver, executar e gerenciar notebooks', u: `${LEARN}/data-engineering/author-execute-notebook` },
+          { t: 'Notebooks Python', u: `${LEARN}/data-engineering/using-python-experience-on-notebook` }
+        ]
+      },
+      {
+        id: 'fab-pyspark-transformar', title: 'Transformar dados com PySpark e Spark SQL',
+        desc: 'DataFrames na prática: ler arquivos e tabelas, selecionar, filtrar, criar colunas, juntar, agrupar e agregar, e gravar tabelas Delta — em PySpark e em Spark SQL.',
+        objetivos: [
+          'Ler CSV, Parquet e tabelas Delta num DataFrame',
+          'Aplicar select, filter, withColumn, join e groupBy',
+          'Gravar tabelas Delta com os modos corretos',
+          'Fazer o mesmo em Spark SQL'
+        ],
+        body: 'Esta é a aula mais “mão na massa” do módulo e cobre as habilidades DP-700 “Transformar dados usando PySpark, SQL e KQL”, “Desnormalizar dados” e “Agrupar e agregar dados”. A prova mostra trechos de código e pergunta o que falta ou o que ele faz — entender a lógica vale mais do que decorar sintaxe.',
+        content: [
+          { h: 'DataFrame e avaliação preguiçosa',
+            p: 'Um <strong>DataFrame</strong> é uma tabela distribuída entre os executores. As <strong>transformações</strong> (select, filter, join, groupBy) só montam um plano; nada é processado até uma <strong>ação</strong> — mostrar (<code>display</code>, <code>show</code>), contar (<code>count</code>) ou gravar (<code>write</code>). Isso permite ao Spark otimizar o plano inteiro antes de executar.' },
+          { h: 'Ler dados',
+            items: [
+              'Arquivo CSV da área Files, com cabeçalho e inferência de tipos (ou, melhor, um esquema definido).',
+              'Parquet e JSON: <code>spark.read.parquet</code>, <code>spark.read.json</code>.',
+              'Tabela Delta do lakehouse: <code>spark.read.table</code> ou <code>spark.sql</code>.'
+            ],
+            code: `df = (spark.read
+      .option("header", True)
+      .option("inferSchema", True)
+      .csv("Files/brutos/vendas/*.csv"))
+
+clientes = spark.read.table("clientes")      # tabela Delta do lakehouse padrão
+display(df.limit(10))` },
+          { h: 'Transformar',
+            items: [
+              '<strong>select</strong> escolhe colunas; <strong>filter</strong> (ou where) filtra linhas; <strong>withColumn</strong> cria ou substitui coluna; <strong>withColumnRenamed</strong> renomeia; <strong>cast</strong> converte tipo; <strong>drop</strong> remove coluna.',
+              '<strong>join</strong> com os tipos inner, left, right, full, left_semi e left_anti — os mesmos conceitos da mesclagem do Power Query.',
+              '<strong>union</strong>/<strong>unionByName</strong> empilham DataFrames (acrescentar).',
+              '<strong>groupBy</strong> + <strong>agg</strong> agrupam e agregam (sum, avg, count, countDistinct, min, max).'
+            ],
+            code: `from pyspark.sql import functions as F
+
+vendas = (df
+    .filter(F.col("Status") == "Faturado")
+    .withColumn("Receita", F.col("Quantidade") * F.col("PrecoUnitario"))
+    .withColumn("DataVenda", F.to_date("DataVenda", "dd/MM/yyyy"))
+    .join(clientes.select("ClienteID", "Cidade", "UF"), on="ClienteID", how="left"))
+
+resumo = (vendas
+    .groupBy("UF", F.year("DataVenda").alias("Ano"))
+    .agg(F.sum("Receita").alias("ReceitaTotal"),
+         F.countDistinct("ClienteID").alias("Clientes")))` },
+          { h: 'Gravar tabelas Delta',
+            items: [
+              '<code>saveAsTable</code> cria uma tabela <strong>gerenciada</strong> na área Tables do lakehouse — aparece no ponto de extremidade SQL e pode ser usada no Direct Lake.',
+              'Modos: <strong>overwrite</strong> (substitui), <strong>append</strong> (acrescenta), <strong>error</strong>/errorifexists (padrão: falha se existir) e <strong>ignore</strong>.',
+              '<code>partitionBy</code> particiona em pastas por coluna — só para tabelas grandes e colunas de cardinalidade baixa (ano, mês). Partições demais geram arquivos pequenos.',
+              'Evite gravar com um caminho fora da área gerenciada: tabelas externas não aparecem no ponto de extremidade SQL (Módulo 03).'
+            ],
+            code: `(resumo.write
+    .format("delta")
+    .mode("overwrite")
+    .saveAsTable("ouro_receita_uf_ano"))` },
+          { h: 'O mesmo em Spark SQL',
+            p: 'Tudo o que foi feito acima pode ser escrito em SQL numa célula <code>%%sql</code>, lendo e criando tabelas do lakehouse. Você também pode registrar um DataFrame como visão temporária com <code>createOrReplaceTempView</code> e consultá-lo em SQL.',
+            code: `%%sql
+CREATE OR REPLACE TABLE ouro_receita_uf_ano AS
+SELECT c.UF, YEAR(v.DataVenda) AS Ano,
+       SUM(v.Quantidade * v.PrecoUnitario) AS ReceitaTotal,
+       COUNT(DISTINCT v.ClienteID) AS Clientes
+FROM prata_vendas v
+LEFT JOIN clientes c ON c.ClienteID = v.ClienteID
+WHERE v.Status = 'Faturado'
+GROUP BY c.UF, YEAR(v.DataVenda)` },
+          { h: 'Desnormalizar e enriquecer',
+            p: 'Para criar uma dimensão desnormalizada, junte as tabelas do sistema de origem (produto, subcategoria, categoria) com joins do tipo left e selecione as colunas descritivas. Para enriquecer, crie colunas derivadas (faixas, flags, partes de data) com <code>withColumn</code> e expressões condicionais <code>F.when</code>.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Código que termina sem ação (sem display, count ou write) → nada é processado.',
+              'Tabela gravada não aparece no ponto de extremidade SQL → foi gravada como externa (caminho) em vez de saveAsTable.',
+              'Encontrar pedidos sem cliente cadastrado → join left_anti.',
+              'Acumular cargas diárias numa tabela → mode("append"); recriar a tabela ouro → mode("overwrite").'
+            ] }
+        ],
+        recursos: [
+          { t: 'Lakehouse e tabelas Delta', u: `${LEARN}/data-engineering/lakehouse-and-delta-tables` },
+          { t: 'Carregar dados no lakehouse', u: `${LEARN}/data-engineering/load-data-lakehouse` },
+          { t: 'Desenvolver, executar e gerenciar notebooks', u: `${LEARN}/data-engineering/author-execute-notebook` }
+        ]
+      },
+      {
+        id: 'fab-spark-qualidade-merge', title: 'Funções de janela, duplicados, nulos e MERGE no Spark',
+        desc: 'Funções de janela para ranking e acumulados, remoção de duplicados, tratamento de nulos e a operação MERGE do Delta para cargas incrementais, SCD e dados de chegada tardia.',
+        objetivos: [
+          'Usar funções de janela (row_number, rank, lag, soma acumulada)',
+          'Remover duplicados mantendo a versão mais recente',
+          'Tratar valores nulos e ausentes em PySpark',
+          'Fazer upsert com MERGE em tabelas Delta'
+        ],
+        body: 'Cobre “Criar funções de janela” (na parte de lote) e “Manipular dados duplicados, ausentes e de chegada tardia” da DP-700, agora em código. São padrões que aparecem em qualquer camada prata.',
+        content: [
+          { h: 'Funções de janela',
+            p: 'Uma função de janela calcula um valor para cada linha olhando um grupo de linhas relacionadas, <strong>sem agrupar</strong> (as linhas continuam todas lá). A janela define a partição (<code>partitionBy</code>) e a ordem (<code>orderBy</code>).',
+            items: [
+              '<strong>row_number</strong> — numera as linhas da partição (1, 2, 3…) sem empate; base para deduplicar.',
+              '<strong>rank</strong> e <strong>dense_rank</strong> — ranking com empates (rank pula posições, dense_rank não).',
+              '<strong>lag</strong> e <strong>lead</strong> — valor da linha anterior ou seguinte (variação em relação ao mês anterior).',
+              '<strong>sum/avg sobre a janela</strong> com <code>rowsBetween</code> — acumulados e médias móveis.'
+            ],
+            code: `from pyspark.sql import functions as F
+from pyspark.sql.window import Window
+
+w = Window.partitionBy("ClienteID").orderBy("DataVenda")
+w_acum = w.rowsBetween(Window.unboundedPreceding, Window.currentRow)
+
+vendas = (vendas
+    .withColumn("NumeroCompra", F.row_number().over(w))
+    .withColumn("ReceitaAnterior", F.lag("Receita").over(w))
+    .withColumn("ReceitaAcumulada", F.sum("Receita").over(w_acum)))` },
+          { h: 'Duplicados',
+            items: [
+              '<code>dropDuplicates()</code> sem argumentos remove linhas totalmente iguais; com uma lista de colunas, mantém uma linha por chave — mas <strong>qual</strong> linha fica não é garantido.',
+              'Para manter a versão mais recente, numere com <strong>row_number</strong> ordenando pela data de alteração decrescente e fique com a linha 1.',
+              'Como no Power Query, “abc” e “ABC” são valores diferentes: padronize (<code>F.upper</code>, <code>F.trim</code>) antes de comparar.'
+            ],
+            code: `w = Window.partitionBy("ClienteID").orderBy(F.col("AlteradoEm").desc())
+clientes_unicos = (clientes
+    .withColumn("rn", F.row_number().over(w))
+    .filter("rn = 1")
+    .drop("rn"))` },
+          { h: 'Nulos e valores ausentes',
+            items: [
+              '<code>fillna</code> (ou <code>na.fill</code>) troca nulos por um valor padrão, por coluna.',
+              '<code>dropna</code> remove linhas com nulos (em todas ou em colunas específicas).',
+              '<code>F.coalesce</code> devolve o primeiro valor não nulo entre colunas (por exemplo, telefone celular ou fixo).',
+              'Nulo em chave de dimensão → aponte para o membro Desconhecido (chave -1, por exemplo) em vez de descartar o fato.'
+            ],
+            code: `vendas = (vendas
+    .fillna({"Desconto": 0, "Canal": "Não informado"})
+    .withColumn("Contato", F.coalesce("Celular", "Telefone"))
+    .dropna(subset=["DataVenda"]))` },
+          { h: 'MERGE: upsert em tabelas Delta',
+            p: 'O <strong>MERGE</strong> compara uma origem (as linhas novas ou alteradas) com a tabela de destino pela chave e, numa única transação, <strong>atualiza</strong> as que existem e <strong>insere</strong> as novas — pode também excluir. É a base da carga incremental na prata e do SCD tipo 1. Para SCD tipo 2, o MERGE encerra a versão atual (data fim, flag de atual) e as versões novas são inseridas.',
+            code: `from delta.tables import DeltaTable
+
+destino = DeltaTable.forName(spark, "prata_clientes")
+(destino.alias("d")
+    .merge(clientes_unicos.alias("o"), "d.ClienteID = o.ClienteID")
+    .whenMatchedUpdateAll()
+    .whenNotMatchedInsertAll()
+    .execute())` },
+          { h: 'O mesmo MERGE em Spark SQL',
+            code: `%%sql
+MERGE INTO prata_clientes AS d
+USING novos_clientes AS o
+  ON d.ClienteID = o.ClienteID
+WHEN MATCHED THEN UPDATE SET *
+WHEN NOT MATCHED THEN INSERT *` },
+          { h: 'Dados de chegada tardia',
+            items: [
+              'Fato chegou antes da dimensão → gravar o fato com a chave do membro Desconhecido ou criar um <strong>membro inferido</strong> na dimensão (só a chave natural) e completá-lo depois com MERGE.',
+              'Registro chegou com data antiga depois que o período foi carregado → a carga incremental precisa de uma janela que olhe alguns dias para trás, e o MERGE garante que reprocessar não duplica.',
+              'Por isso o MERGE torna a carga <strong>idempotente</strong>: rodar de novo com os mesmos dados dá o mesmo resultado.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Manter só o registro mais recente de cada cliente → row_number com orderBy decrescente, filtrar 1.',
+              'Atualizar existentes e inserir novos numa só operação → MERGE (whenMatchedUpdate + whenNotMatchedInsert).',
+              'Ranking de produtos por categoria sem perder as linhas → função de janela com partitionBy("Categoria").',
+              'Carga reexecutada duplicou linhas → trocar append por MERGE pela chave.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Lakehouse e tabelas Delta', u: `${LEARN}/data-engineering/lakehouse-and-delta-tables` },
+          { t: 'Modelagem dimensional: carregar tabelas', u: `${LEARN}/data-warehouse/dimensional-modeling-load-tables` }
+        ]
+      },
+      {
+        id: 'fab-spark-orquestrar', title: 'Orquestrar notebooks: notebookutils, ambientes e definições de trabalho do Spark',
+        desc: 'Encadear notebooks com %run, run e runMultiple, agendar, executar por pipeline, gerenciar bibliotecas no ambiente e quando usar uma definição de trabalho do Spark.',
+        objetivos: [
+          'Chamar notebooks de dentro de outro notebook',
+          'Escolher entre agendar o notebook, usar pipeline ou runMultiple',
+          'Gerenciar bibliotecas com ambientes e %pip',
+          'Saber quando usar uma definição de trabalho do Spark'
+        ],
+        body: 'Continua a habilidade DP-700 “Implementar padrões de orquestração com notebooks e pipelines” do lado do código. O pipeline (Módulo 04) é o orquestrador padrão, mas muitos times preferem controlar a sequência dentro do próprio Spark.',
+        content: [
+          { h: 'NotebookUtils',
+            p: 'O <strong>NotebookUtils</strong> (antigo MSSparkUtils) é o pacote embutido para tarefas comuns: sistema de arquivos (<code>notebookutils.fs</code>), segredos, variáveis de ambiente e encadeamento de notebooks. O nome antigo continua funcionando, mas o recomendado é <code>notebookutils</code>.',
+            items: [
+              '<code>%run NomeDoNotebook</code> — executa outro notebook <strong>na mesma sessão</strong>: funções e variáveis definidas lá ficam disponíveis aqui. Bom para bibliotecas de funções comuns.',
+              '<code>notebookutils.notebook.run("Nome", timeout, parâmetros)</code> — executa outro notebook como filho, passando parâmetros, e recebe o valor devolvido por <code>notebookutils.notebook.exit</code>.',
+              '<code>notebookutils.notebook.runMultiple</code> — executa vários notebooks em paralelo ou num DAG (grafo de dependências), com limite de simultaneidade e tempo limite; por padrão, o DAG inteiro tem limite de 12 horas.',
+              'Célula de parâmetros + parâmetros base continuam valendo quando o notebook é chamado por pipeline (Módulo 04).'
+            ],
+            code: `# Dois notebooks em paralelo, depois o terceiro que depende deles
+dag = {
+  "activities": [
+    {"name": "clientes", "path": "nb_prata_clientes"},
+    {"name": "produtos", "path": "nb_prata_produtos"},
+    {"name": "vendas",   "path": "nb_prata_vendas",
+     "dependencies": ["clientes", "produtos"],
+     "args": {"data_corte": "2026-09-01"}}
+  ],
+  "concurrency": 2
+}
+notebookutils.notebook.runMultiple(dag)` },
+          { h: 'Formas de executar um notebook',
+            items: [
+              '<strong>Agendar o próprio notebook</strong> — simples, para uma execução periódica isolada.',
+              '<strong>Pipeline</strong> — quando precisa de dependências com outras atividades (cópia, dataflow), gatilhos por evento, repetição e alertas.',
+              '<strong>runMultiple</strong> — muitos notebooks em paralelo compartilhando a mesma sessão, com menos sobrecarga do que várias atividades de pipeline.',
+              '<strong>API do Agendador de Trabalhos</strong> — execução por API, com parâmetros, entidade de serviço e escolha de ambiente, para CI/CD e automação.',
+              'Trabalhos agendados ou disparados por pipeline entram numa <strong>fila</strong> quando a capacidade está no limite e são reprocessados automaticamente (a entrada expira em 24 horas). Execução interativa não entra na fila.'
+            ] },
+          { h: 'Ambientes e bibliotecas',
+            items: [
+              'O <strong>ambiente</strong> é o item que guarda runtime, propriedades Spark, pool e bibliotecas. Anexe-o ao notebook ou defina-o como padrão do workspace.',
+              'Bibliotecas públicas (PyPI, Conda, Maven) e personalizadas (.whl, .py, .jar, .tar.gz).',
+              'Modo de publicação <strong>Completo</strong>: resolve dependências e cria um instantâneo estável na publicação — para produção. Modo <strong>Rápido</strong>: instala na inicialização da sessão, só em notebooks — para iterar.',
+              '<code>%pip install</code> numa célula instala só para aquela sessão: prático para testar, ruim para produção (repete a instalação a cada execução e pode falhar em pipeline).',
+              'Depois de alterar um ambiente, é preciso <strong>publicar</strong> para as mudanças valerem.'
+            ],
+            img: { src: `${FAB_IMG}/m06/ambiente-no-notebook.png`, alt: 'Anexar um ambiente a um notebook', caption: 'Seletor de ambiente no notebook: runtime, bibliotecas e configurações vêm do ambiente anexado.', source: `${LEARN}/data-engineering/create-and-use-environment` } },
+          { h: 'Definição de trabalho do Spark',
+            p: 'A <strong>definição de trabalho do Spark</strong> (Spark Job Definition) executa um programa Spark não interativo a partir de um arquivo principal (.py, .jar ou .R) e de arquivos de referência, com um lakehouse padrão e argumentos de linha de comando. É indicada para código já empacotado, trabalhos em lote de produção e, principalmente, <strong>streaming contínuo</strong>, porque aceita uma <strong>política de repetição</strong> que reinicia o trabalho se ele parar.',
+            img: { src: `${FAB_IMG}/m06/sjd-repeticao.png`, alt: 'Guia Otimização da definição de trabalho do Spark com a política de repetição', caption: 'Política de repetição da definição de trabalho do Spark, essencial para trabalhos de streaming.', source: `${LEARN}/data-engineering/get-started-streaming` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Reutilizar funções comuns em vários notebooks, na mesma sessão → <code>%run</code>.',
+              'Executar dez notebooks de prata em paralelo, com dependências, a partir de um notebook mestre → <code>runMultiple</code> com DAG.',
+              'Biblioteca estável para todos os notebooks de produção → ambiente com modo Completo, não <code>%pip</code>.',
+              'Streaming que precisa rodar sem parar e se recuperar de falhas → definição de trabalho do Spark com política de repetição.'
+            ] }
+        ],
+        recursos: [
+          { t: 'NotebookUtils para o Fabric', u: `${LEARN}/data-engineering/notebook-utilities` },
+          { t: 'Criar, configurar e usar um ambiente', u: `${LEARN}/data-engineering/create-and-use-environment` },
+          { t: 'Gerenciar bibliotecas em ambientes', u: `${LEARN}/data-engineering/environment-manage-library` },
+          { t: 'O que é uma definição de trabalho do Spark', u: `${LEARN}/data-engineering/spark-job-definition` },
+          { t: 'Enfileiramento de trabalhos do Spark', u: `${LEARN}/data-engineering/job-queueing-for-fabric-spark` }
+        ]
+      },
+      {
+        id: 'fab-streaming-estruturado', title: 'Streaming estruturado do Spark',
+        desc: 'Processar dados que chegam continuamente: readStream e writeStream, tabela Delta como destino, checkpoint, gatilhos, modos de saída, janelas de tempo e marca d’água.',
+        objetivos: [
+          'Explicar o modelo de tabela ilimitada do streaming estruturado',
+          'Gravar um fluxo numa tabela Delta com checkpoint',
+          'Escolher gatilho e modo de saída',
+          'Agregar por janelas de tempo com marca d’água'
+        ],
+        body: 'Cobre “Processar dados usando o streaming estruturado do Spark”, “Criar funções de janela” (no streaming) e parte de “Projetar e implementar um padrão de carregamento para dados de streaming” da DP-700. O Eventstream e o KQL, a outra metade do streaming, vêm no Módulo 08.',
+        content: [
+          { h: 'O modelo',
+            p: 'O streaming estruturado trata o fluxo como uma <strong>tabela que não para de crescer</strong>: cada evento novo é uma linha acrescentada. Você escreve a consulta quase como se fosse um DataFrame comum; o Spark a executa em <strong>microlotes</strong>, processando só o que chegou desde o lote anterior. Fontes comuns: arquivos que chegam numa pasta, Hubs de Eventos do Azure, Kafka e tabelas Delta.' },
+          { h: 'Delta como destino e o checkpoint',
+            items: [
+              'Com <code>format("delta")</code> no writeStream, os eventos vão direto para uma tabela Delta do lakehouse, com transações ACID — consultável pelo SQL e pelo Power BI enquanto o fluxo roda.',
+              'O <strong>checkpoint</strong> guarda até onde o fluxo já leu e o estado das agregações. É ele que permite reiniciar sem perder nem duplicar dados. Cada consulta de streaming precisa do seu próprio local de checkpoint.',
+              'Uma tabela Delta também pode ser <strong>fonte</strong> de streaming: a prata lê a bronze de forma incremental.'
+            ],
+            code: `stream = (spark.readStream
+    .format("delta")
+    .table("bronze_eventos"))
+
+(stream.filter("tipo = 'compra'")
+    .writeStream
+    .format("delta")
+    .outputMode("append")
+    .option("checkpointLocation", "Files/checkpoints/prata_compras")
+    .trigger(processingTime="1 minute")
+    .toTable("prata_compras"))` },
+          { h: 'Gatilhos',
+            items: [
+              '<strong>Padrão</strong> — um microlote começa assim que o anterior termina.',
+              '<strong>processingTime</strong> — um lote a cada intervalo (por exemplo, 1 minuto). Agrupar eventos em lotes maiores gera menos arquivos pequenos e melhora a gravação.',
+              '<strong>availableNow</strong> — processa tudo o que está disponível agora e para. Permite rodar o streaming como carga incremental agendada, usando o checkpoint para saber de onde continuar.'
+            ] },
+          { h: 'Modos de saída',
+            items: [
+              '<strong>append</strong> — grava só as linhas novas; o padrão e o mais comum para Delta.',
+              '<strong>update</strong> — grava as linhas cujo resultado mudou no lote.',
+              '<strong>complete</strong> — regrava o resultado inteiro a cada lote; só para agregações pequenas.'
+            ] },
+          { h: 'Janelas de tempo e marca d’água',
+            p: 'Para agregar eventos por período (vendas a cada 5 minutos), agrupe por <code>F.window</code> sobre a coluna de horário do <strong>evento</strong>. Janelas <strong>fixas</strong> (tumbling) não se sobrepõem; janelas <strong>deslizantes</strong> (sliding) se sobrepõem (janela de 10 minutos a cada 5). A <strong>marca d’água</strong> (<code>withWatermark</code>) diz quanto atraso o Spark vai tolerar: eventos que chegarem mais atrasados que o limite são descartados, e o estado das janelas antigas pode ser liberado. Sem marca d’água, o estado cresce indefinidamente.',
+            code: `vendas_5min = (stream
+    .withWatermark("horario_evento", "10 minutes")
+    .groupBy(F.window("horario_evento", "5 minutes"), "loja")
+    .agg(F.sum("valor").alias("total")))` },
+          { h: 'Desempenho e produção',
+            items: [
+              '<strong>Gravação otimizada</strong> (optimize write) junta ou divide partições antes de gravar, evitando arquivos pequenos sem precisar de repartition manual.',
+              '<code>partitionBy</code> só com colunas de cardinalidade adequada.',
+              'Em produção, rode o streaming numa <strong>definição de trabalho do Spark</strong> com política de repetição, e não num notebook aberto.',
+              'O hub de Monitoramento tem uma guia de Streaming Estruturado com taxa de entrada, taxa de processamento, linhas e duração dos lotes.',
+              'O mecanismo de execução nativo ainda não acelera streaming estruturado — ele volta automaticamente ao motor padrão.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Fluxo reiniciado reprocessou tudo ou perdeu eventos → checkpoint ausente, compartilhado ou apagado.',
+              'Muitos arquivos pequenos na tabela de streaming → gatilho com intervalo maior e gravação otimizada; OPTIMIZE periódico.',
+              'Processar só o que chegou desde a última execução, uma vez por hora → trigger availableNow agendado.',
+              'Agregação por janela consumindo memória sem parar → falta withWatermark.',
+              'Janelas de 5 minutos sem sobreposição → janela fixa (tumbling).'
+            ] }
+        ],
+        recursos: [
+          { t: 'Transmitir dados para o lakehouse com Spark', u: `${LEARN}/data-engineering/lakehouse-streaming-data` },
+          { t: 'Início rápido: streaming no lakehouse com definição de trabalho do Spark', u: `${LEARN}/data-engineering/get-started-streaming` }
+        ]
+      },
+      {
+        id: 'fab-spark-monitorar-otimizar', title: 'Monitorar, depurar e otimizar o Spark',
+        desc: 'Onde acompanhar os aplicativos Spark, como ler logs e o Spark Advisor, os erros mais comuns de notebook e as alavancas de desempenho: mecanismo de execução nativo, alta simultaneidade, autotune, particionamento e capacidade.',
+        objetivos: [
+          'Encontrar um aplicativo Spark e investigar seus trabalhos e logs',
+          'Resolver erros comuns de notebook, incluindo o erro 430 de capacidade',
+          'Aplicar as principais otimizações de desempenho do Spark'
+        ],
+        body: 'Cobre “Identificar e resolver erros de notebook”, “Monitorar a transformação de dados” e “Otimizar o desempenho do Spark” da DP-700.',
+        content: [
+          { h: 'Onde monitorar',
+            items: [
+              '<strong>No próprio notebook</strong> — abaixo de cada célula aparece o progresso dos trabalhos Spark, com estágios, tarefas e link para a interface do Spark.',
+              '<strong>Hub de Monitoramento</strong> — todos os aplicativos Spark de notebooks, definições de trabalho e pipelines, com filtros.',
+              '<strong>Execuções recentes</strong> do item e, nos pipelines, links diretos das atividades Notebook para o aplicativo Spark.',
+              '<strong>Página de detalhes do aplicativo</strong> — guias Trabalhos (duração, dados lidos e gravados), Recursos (uso dos executores), Logs (driver, Livy), Dados (arquivos de entrada e saída) e Instantâneos do item (o código exatamente como rodou).',
+              'A <strong>interface do Spark</strong> e o servidor de histórico mostram o plano de execução e os estágios em detalhe.'
+            ],
+            img: { src: `${FAB_IMG}/m06/progresso-spark.png`, alt: 'Detalhes do progresso dos trabalhos Spark no notebook', caption: 'Progresso dos trabalhos Spark logo abaixo da célula do notebook.', source: `${LEARN}/data-engineering/author-execute-notebook` } },
+          { h: 'Spark Advisor e diagnóstico',
+            p: 'O <strong>Spark Advisor</strong> analisa a execução e mostra recomendações e análise de erros no painel de Diagnóstico e na saída da célula — por exemplo, distorção de dados (skew), operação que caiu para o motor padrão ou configuração ineficiente. Nas falhas, “Corrigir com Copilot” resume o erro e sugere a correção.',
+            img: { src: `${FAB_IMG}/m06/spark-diagnostico.png`, alt: 'Painel de diagnóstico do aplicativo Spark', caption: 'Painel de Diagnóstico: recomendações e análise de erros do Spark Advisor.', source: `${LEARN}/data-engineering/spark-detail-monitoring` } },
+          { h: 'Erros comuns de notebook',
+            items: [
+              '<strong>Erro HTTP 430 (TooManyRequestsForCapacity)</strong> — a capacidade atingiu o limite de VCores Spark. Cancele sessões ativas no hub de Monitoramento, espere, use a fila (trabalhos em segundo plano) ou aumente a SKU.',
+              '<strong>Tabela ou caminho não encontrado</strong> — lakehouse padrão errado ou ausente, ou nome de tabela sem o lakehouse correto.',
+              '<strong>Falha só no agendamento/pipeline</strong> — a identidade da execução (dono do agendamento ou último editor do pipeline) não tem acesso.',
+              '<strong>Falta de memória / executor perdido</strong> — <code>collect()</code> ou <code>toPandas()</code> de dados grandes no driver, junção explodindo linhas, partições distorcidas. Evite trazer tudo para o driver; aumente o nó ou corrija a lógica.',
+              '<strong>Incompatibilidade de esquema ao gravar</strong> em tabela Delta existente — ajuste os tipos ou habilite a evolução de esquema de forma consciente.',
+              '<strong>Biblioteca não encontrada</strong> — ambiente não publicado ou não anexado.'
+            ],
+            img: { src: `${FAB_IMG}/m06/spark-logs.png`, alt: 'Logs do aplicativo Spark', caption: 'Guia Logs do aplicativo Spark: driver, Livy e pré-lançamento.', source: `${LEARN}/data-engineering/spark-detail-monitoring` } },
+          { h: 'Capacidade e simultaneidade',
+            items: [
+              'Cada CU da capacidade corresponde a 2 VCores Spark (F64 = 128 VCores), e o Fabric permite <strong>burst</strong> de até 3 vezes (F64 = até 384 VCores) para simultaneidade ou para um trabalho grande.',
+              'A admissão é por VCores disponíveis; trabalhos em segundo plano entram em fila FIFO quando falta capacidade.',
+              '<strong>Alta simultaneidade</strong> — vários notebooks do mesmo usuário compartilham uma sessão (padrão de até 5), e só o primeiro é cobrado. Nos pipelines, combine com a marca de sessão (Módulo 04).'
+            ],
+            img: { src: `${FAB_IMG}/m06/alta-simultaneidade.png`, alt: 'Modo de alta simultaneidade', caption: 'Alta simultaneidade: vários notebooks compartilham a mesma sessão Spark, dentro do limite de um usuário.', source: `${LEARN}/data-engineering/high-concurrency-overview` } },
+          { h: 'Alavancas de desempenho',
+            items: [
+              '<strong>Mecanismo de execução nativo</strong> (Velox + Apache Gluten) — executa consultas em código nativo vetorizado, acelerando bastante leituras e agregações sobre Parquet e Delta. Habilitado no ambiente (Aceleração) ou por sessão com <code>%%configure</code>. Quando algo não é suportado (streaming, JSON, XML), cai automaticamente para o motor padrão.',
+              '<strong>Autotune</strong> (versão prévia, desligado por padrão) — ajusta por consulta partições de shuffle, limite de broadcast join e tamanho máximo de partição de arquivo, aprendendo com execuções anteriores.',
+              '<strong>Arquivos</strong> — tabela com arquivos pequenos demais ou partições demais é lenta: OPTIMIZE, gravação otimizada e V-Order onde a leitura domina (Módulo 03).',
+              '<strong>Junções</strong> — tabela pequena? Broadcast join evita embaralhar a tabela grande. Filtre e selecione colunas antes de juntar.',
+              '<strong>Cache</strong> (<code>df.cache()</code>) só para DataFrames reutilizados várias vezes na mesma sessão.',
+              '<strong>Pool</strong> — nós maiores para trabalhos pesados em memória; pool inicial para iniciar rápido.'
+            ],
+            img: { src: `${FAB_IMG}/m06/nee-habilitar.png`, alt: 'Habilitar o mecanismo de execução nativo no ambiente', caption: 'Ambiente → Aceleração: ligar o mecanismo de execução nativo para todos os notebooks e trabalhos que usam o ambiente.', source: `${LEARN}/data-engineering/native-execution-engine-overview` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Notebooks agendados falham com 430 nos horários de pico → capacidade no limite: escalonar horários, cancelar sessões ociosas, usar alta simultaneidade ou aumentar a SKU.',
+              'Consultas de agregação sobre Delta lentas, sem mudar código → habilitar o mecanismo de execução nativo no ambiente.',
+              'Onde ver o código exato que rodou num trabalho que falhou ontem → Instantâneos do item nos detalhes do aplicativo.',
+              'Junção de uma fato enorme com uma dimensão pequena lenta → broadcast da dimensão.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral do monitoramento do Spark', u: `${LEARN}/data-engineering/spark-monitoring-overview` },
+          { t: 'Monitoramento de detalhes do aplicativo Spark', u: `${LEARN}/data-engineering/spark-detail-monitoring` },
+          { t: 'Limites de simultaneidade e enfileiramento', u: `${LEARN}/data-engineering/spark-job-concurrency-and-queueing` },
+          { t: 'Modo de alta simultaneidade', u: `${LEARN}/data-engineering/high-concurrency-overview` },
+          { t: 'Mecanismo de execução nativo', u: `${LEARN}/data-engineering/native-execution-engine-overview` },
+          { t: 'Autotune', u: `${LEARN}/data-engineering/autotune` }
+        ]
+      }
+    ]
   }
 ];

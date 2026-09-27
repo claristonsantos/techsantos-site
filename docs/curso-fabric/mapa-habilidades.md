@@ -13,7 +13,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 03 | Lakehouse, medalhão e modelagem dimensional | ✅ publicado |
 | 04 | Data Factory: pipelines, orquestração e cargas | ✅ publicado |
 | 05 | Dataflows Gen2 e editor de consultas visuais | ✅ publicado |
-| 06 | Notebooks, Spark e streaming estruturado | ⬜ |
+| 06 | Notebooks, Spark e streaming estruturado | ✅ publicado |
 | 07 | Data Warehouse e T-SQL | ⬜ |
 | 08 | Real-Time Intelligence (Eventstream, Eventhouse, KQL) | ⬜ |
 | 09 | Modelos semânticos: design | ⬜ |
@@ -42,7 +42,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Filtrar dados | fab-dataflow-transformacoes | ✅ |
 | Identificar e resolver dados duplicados, dados ausentes ou valores nulos | fab-dataflow-qualidade | ✅ |
 | Selecionar, filtrar e agregar dados usando o editor de consultas visuais | fab-editor-consultas-visuais | ✅ |
-| Demais habilidades | módulos 06–15 | ⬜ |
+| Demais habilidades | módulos 07–15 | ⬜ |
 
 ## DP-700
 
@@ -65,10 +65,17 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Implementar padrões de orquestração com notebooks e pipelines, incluindo parâmetros e expressões dinâmicas | fab-pipeline-atividades, fab-parametros-expressoes | ✅ |
 | Ingerir dados usando pipelines | fab-copy, fab-pipeline-atividades | ✅ |
 | Monitorar a ingestão de dados | fab-agendas-gatilhos (+ M14) | 🟡 |
-| Monitorar a transformação de dados | fab-dataflow-monitorar-erros (+ M06, M14) | 🟡 |
+| Monitorar a transformação de dados | fab-dataflow-monitorar-erros, fab-spark-monitorar-otimizar (+ M14) | ✅ |
+| Transformar dados usando PySpark, SQL e KQL | fab-pyspark-transformar, fab-spark-qualidade-merge (+ M07 T-SQL, M08 KQL) | 🟡 |
+| Agrupar e agregar dados | fab-pyspark-transformar, fab-dataflow-transformacoes | ✅ |
+| Processar dados usando o streaming estruturado do Spark | fab-streaming-estruturado | ✅ |
+| Criar funções de janela | fab-spark-qualidade-merge, fab-streaming-estruturado (+ M08 KQL) | 🟡 |
+| Projetar e implementar um padrão de carregamento para dados de streaming | fab-streaming-estruturado (+ M08) | 🟡 |
+| Identificar e resolver erros de notebook | fab-spark-monitorar-otimizar | ✅ |
+| Otimizar o desempenho do Spark | fab-spark-monitorar-otimizar, fab-manutencao-delta | ✅ |
 | Identificar e resolver erros do Dataflow Gen2 | fab-dataflow-monitorar-erros, fab-dataflow-qualidade | ✅ |
-| Manipular dados duplicados, ausentes e de chegada tardia | fab-dataflow-qualidade, fab-carga-dimensional (+ M06 código) | 🟡 |
+| Manipular dados duplicados, ausentes e de chegada tardia | fab-dataflow-qualidade, fab-spark-qualidade-merge, fab-carga-dimensional | ✅ |
 | Escolha entre fluxos de dados Gen2, notebooks, KQL e T-SQL para transformação | fab-escolher-ferramenta, fab-dataflow-gen2 (+ M06–M08) | 🟡 |
 | Identificar e resolver erros de pipeline | fab-pipeline-atividades, fab-agendas-gatilhos (+ M14) | 🟡 |
 | Projetar e implementar cargas completas e incrementais | fab-carga-incremental, fab-copy, fab-carga-dimensional | ✅ |
-| Demais habilidades | módulos 06–15 | ⬜ |
+| Demais habilidades | módulos 07–15 | ⬜ |

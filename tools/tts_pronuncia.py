@@ -59,6 +59,7 @@ PRONUNCIATION_FIXES = [
     (r"\bADLS\b", "Á Dê Éle Ésse"),
     (r"\bXMLA\b", "Xis Éme Éle Á"),
     (r"\bDatabricks\b", "Dêita bríks"),
+    (r"\bJSON Lines\b", "Djêison Láins"),  # rodada 4; antes da regra de JSON
     (r"\bJSON\b", "Djêison"),
     (r"\bCSV\b", "Cê Ésse Vê"),
     (r"\bdbo\b", "Dê Bê Ó"),
@@ -94,6 +95,28 @@ PRONUNCIATION_FIXES = [
     (r"\baddDays\b", "éd Dêis"),
     (r"\bSynapse\b", "Sináps"),
     (r"\bCapacity Metrics\b", "Capáciti Métrics"),
+    # Quarto teste A/B (2026-09-27, 32 termos do módulo 5 - Dataflows Gen2).
+    # Ficaram na leitura padrão: PQT, DateTime, Excel, SharePoint, Oracle,
+    # DDL, DML, SELECT, ORDER BY, DELETE, null, CI/CD, Git.
+    (r"\bDataflowsStagingLakehouse\b", "Dêita flôus Stêidjin Lêique ráus"),
+    (r"\bDataflow Gen ?1\b", "Dêita flôu Gen um"),
+    (r"\bDataflows\b", "Dêita flôus"),
+    (r"\bDataflow\b", "Dêita flôu"),
+    (r"\blinguagem M\b", "linguagem Éme"),
+    (r"\bfast copy\b", "fést cópi"),
+    (r"\bquery folding\b", "cuéri fôlding"),
+    (r"\bbuckets\b", "bâkets"),
+    (r"\bbucket\b", "bâket"),
+    (r"\bDateTimeZone\b", "Dêit Táime Zôun"),
+    (r"\bfuzzy\b", "fâzi"),
+    (r"\bAzure Data Explorer\b", "Ájur Dêita Explórer"),
+    (r"\bZIP\b", "Zíp"),
+    (r"\bINSERT\b", "Insért"),
+    (r"\bUPDATE\b", "Âpdeit"),
+    (r"\bCREATE\b", "Criêit"),
+    (r"\bALTER\b", "Ólter"),
+    (r"\bDataSource\.NotFound\b", "Dêita Sórs Nót Fáund"),
+    (r"\bFormula\.Firewall\b", "Fórmula Fáier uól"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.

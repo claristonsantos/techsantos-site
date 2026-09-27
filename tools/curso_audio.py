@@ -75,7 +75,17 @@ def roteiro(modulo: dict, aula: dict) -> str:
 
 async def gerar(texto: str, destino: Path) -> float:
     bruto = destino.with_suffix(".raw.mp3")
-    await edge_tts.Communicate(fix_pronunciation(texto), VOICE).save(str(bruto))
+    # O serviço do edge-tts às vezes para de responder sem erro; sem limite
+    # de tempo o processo fica preso para sempre. Aulas longas levam ~2 min.
+    for tentativa in range(1, 4):
+        try:
+            await asyncio.wait_for(edge_tts.Communicate(fix_pronunciation(texto), VOICE).save(str(bruto)), timeout=420)
+            break
+        except (asyncio.TimeoutError, edge_tts.exceptions.EdgeTTSException, OSError) as e:
+            print(f"  tentativa {tentativa} falhou ({type(e).__name__}), repetindo...", flush=True)
+            bruto.unlink(missing_ok=True)
+    else:
+        raise RuntimeError(f"edge-tts não respondeu para {destino.name}")
     subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", str(bruto), "-ac", "1", "-ar", "24000", "-b:a", "48k", str(destino)])
     bruto.unlink()
     dur = subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(destino)])
