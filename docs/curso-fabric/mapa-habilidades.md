@@ -22,7 +22,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 12 | Segurança e governança | ✅ publicado |
 | 13 | Ciclo de vida: Git, .pbip, pipelines de implantação, XMLA | ✅ publicado |
 | 14 | Monitoramento, erros e otimização | ✅ publicado |
-| 15 | Projeto final e simulados | ⬜ |
+| 15 | Projeto final e simulados (+ avaliação por módulo e simulados DP-600/DP-700) | ✅ publicado |
 
 ## DP-600
 

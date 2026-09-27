@@ -92,7 +92,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $certificadoCodigo = null;
-        if ($aprovado && $moduloId === 'encerramento') {
+        $modulosCertificado = avaliacoes_do_certificado((string)($aluno['curso_slug'] ?? ''));
+        $todasAprovadas = false;
+        if ($aprovado && in_array($moduloId, $modulosCertificado, true)) {
+            // Todas as avaliações exigidas pelo curso aprovadas (a atual acabou de ser gravada).
+            $ph = implode(',', array_fill(0, count($modulosCertificado), '?'));
+            $okStmt = $pdo->prepare(
+                "SELECT COUNT(DISTINCT a.modulo_id) FROM avaliacoes a
+                   JOIN avaliacao_tentativas t ON t.avaliacao_id = a.id AND t.aluno_id = ? AND t.aprovado = 1
+                  WHERE a.curso_id = ? AND a.modulo_id IN ($ph)"
+            );
+            $okStmt->execute(array_merge([$aluno['id'], $aluno['curso_id']], $modulosCertificado));
+            $todasAprovadas = (int)$okStmt->fetchColumn() === count($modulosCertificado);
+        }
+        if ($todasAprovadas) {
             $cStmt = $pdo->prepare('SELECT codigo FROM certificados WHERE aluno_id = ? AND curso_id = ?');
             $cStmt->execute([$aluno['id'], $aluno['curso_id']]);
             $existente = $cStmt->fetchColumn();
@@ -143,7 +156,7 @@ if (!$resultado) {
         }
 
         $certificadoCodigo = null;
-        if ($moduloId === 'encerramento') {
+        if (in_array($moduloId, avaliacoes_do_certificado((string)($aluno['curso_slug'] ?? '')), true)) {
             $cStmt = $pdo->prepare('SELECT codigo FROM certificados WHERE aluno_id = ? AND curso_id = ?');
             $cStmt->execute([$aluno['id'], $aluno['curso_id']]);
             $certificadoCodigo = $cStmt->fetchColumn() ?: null;
@@ -223,7 +236,7 @@ $historicoTentativas = $historyStmt->fetchAll();
 <body>
 <script>
 window.techSantosTrack?.(<?= $resultado ? json_encode($resultado['aprovado'] ? 'assessment_passed' : 'assessment_failed') : json_encode('assessment_viewed') ?>, {
-  course_id: 'power-bi', module_id: <?= json_encode($moduloId) ?>,
+  course_id: <?= json_encode((string)($aluno['curso_slug'] ?? '')) ?>, module_id: <?= json_encode($moduloId) ?>,
   <?php if ($resultado): ?>score: <?= json_encode($resultado['nota']) ?>, passed: <?= $resultado['aprovado'] ? 'true' : 'false' ?><?php endif; ?>
 });
 </script>
@@ -240,6 +253,9 @@ window.techSantosTrack?.(<?= $resultado ? json_encode($resultado['aprovado'] ? '
       <?php if ($resultado['aprovado'] && $resultado['certificado']): ?>
         <p style="margin-top:1rem;"><a class="btn btn-primary" href="/certificado.php?codigo=<?= urlencode($resultado['certificado']) ?>">Ver meu certificado</a></p>
       <?php elseif ($resultado['aprovado']): ?>
+        <?php if (in_array($moduloId, avaliacoes_do_certificado((string)($aluno['curso_slug'] ?? '')), true)): ?>
+          <p style="margin-top:.6rem;">Para receber o certificado, seja aprovado também no outro simulado final.</p>
+        <?php endif; ?>
         <?php $moduloSeguinteId = modulo_seguinte($moduloId); ?>
         <p style="margin-top:1rem;"><a class="btn btn-primary" href="/aluno/<?= $moduloSeguinteId ? '?modulo=' . urlencode($moduloSeguinteId) : '' ?>">Continuar o curso</a></p>
       <?php else: ?>

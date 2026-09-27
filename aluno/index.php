@@ -367,6 +367,9 @@ const AVALIACOES = <?= json_encode($avaliacoesInfo, JSON_UNESCAPED_UNICODE) ?>;
 const RESUME_MODULE = <?= json_encode(preg_match('/^[a-z0-9-]+$/', (string)($_GET['modulo'] ?? '')) ? $_GET['modulo'] : null) ?>;
 const MSL = 'learn.microsoft.com';
 const COURSE_SLUG = <?= json_encode($slugSeguro) ?>;
+// Power BI: a avaliação de um módulo libera o seguinte. Nos outros cursos as
+// avaliações são para praticar e não travam o avanço.
+const AVALIACOES_BLOQUEIAM = <?= $isPowerBi ? 'true' : 'false' ?>;
 // null = curso antigo (todas as aulas têm vídeo); array = ids com .mp4 publicado.
 const VIDEOS_DISPONIVEIS = <?= $isPowerBi ? 'null' : json_encode($videosDisponiveis) ?>;
 const AUDIOS_DISPONIVEIS = <?= json_encode($audiosDisponiveis) ?>;
@@ -393,7 +396,7 @@ function moduleIndex(moduleId) { return COURSE.findIndex(m => m.id === moduleId)
 
 function moduleUnlocked(moduleId) {
   const idx = moduleIndex(moduleId);
-  if (idx <= 0) return true;
+  if (idx <= 0 || !AVALIACOES_BLOQUEIAM) return true;
   const prevId = COURSE[idx - 1].id;
   if (!(prevId in AVALIACOES)) return true;
   return !!AVALIACOES[prevId].aprovado;
@@ -727,8 +730,8 @@ function renderLesson(id) {
     try {
       await syncProgress(lesson.id, wasDone ? 'uncomplete' : 'complete');
       if (wasDone) progress.delete(lesson.id); else progress.add(lesson.id);
-      window.techSantosTrack?.(wasDone ? 'lesson_uncompleted' : 'lesson_completed', { course_id: 'power-bi', module_id: lesson.moduleId, lesson_id: lesson.id, completed_lessons: progress.size });
-      if (!wasDone && moduleDone(module) && AVALIACOES[module.id] && !AVALIACOES[module.id].aprovado) {
+      window.techSantosTrack?.(wasDone ? 'lesson_uncompleted' : 'lesson_completed', { course_id: COURSE_SLUG, module_id: lesson.moduleId, lesson_id: lesson.id, completed_lessons: progress.size });
+      if (!wasDone && AVALIACOES_BLOQUEIAM && moduleDone(module) && AVALIACOES[module.id] && !AVALIACOES[module.id].aprovado) {
         location.href = '/aluno/avaliacao.php?modulo=' + encodeURIComponent(module.id);
       } else if (!wasDone && next && moduleUnlocked(next.moduleId)) {
         location.hash = next.id;
@@ -744,7 +747,7 @@ function renderLesson(id) {
   renderSidebar(lesson.id);
   if (!trackedLessons.has(lesson.id)) {
     trackedLessons.add(lesson.id);
-    window.techSantosTrack?.('lesson_viewed', { course_id: 'power-bi', module_id: module.id, lesson_id: lesson.id, lesson_type: lesson.kind || 'video' });
+    window.techSantosTrack?.('lesson_viewed', { course_id: COURSE_SLUG, module_id: module.id, lesson_id: lesson.id, lesson_type: lesson.kind || 'video' });
   }
   document.title = `${lesson.title} — Área do Aluno — TECH SANTOS BR`;
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
@@ -783,7 +786,7 @@ function renderDashboard() {
   renderSidebar(null);
   updateProgressBar();
   document.title = 'Minha jornada — Área do Aluno — TECH SANTOS BR';
-  window.techSantosTrack?.('student_dashboard_viewed', { course_id:'power-bi', completed_lessons:progress.size, progress_percent:percentage });
+  window.techSantosTrack?.('student_dashboard_viewed', { course_id:COURSE_SLUG, completed_lessons:progress.size, progress_percent:percentage });
 }
 
 function resumeStep() {

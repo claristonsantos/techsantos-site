@@ -17,6 +17,18 @@ const MODULOS_POWER_BI = [
     'encerramento' => 'Módulo 13 · Encerramento & Avaliação Final',
 ];
 
+// Avaliações que precisam estar aprovadas para emitir o certificado, por curso.
+// O certificado sai quando o aluno passa na última delas que faltava.
+const CERTIFICADO_AVALIACOES = [
+    'power-bi' => ['encerramento'],
+    'microsoft-fabric' => ['fab-simulado-dp600', 'fab-simulado-dp700'],
+];
+
+function avaliacoes_do_certificado(string $cursoSlug): array
+{
+    return CERTIFICADO_AVALIACOES[$cursoSlug] ?? [];
+}
+
 function modulo_anterior(string $moduloId): ?string
 {
     $ids = array_keys(MODULOS_POWER_BI);

@@ -6,7 +6,7 @@ $codigo = (string)($_GET['codigo'] ?? '');
 $cert = null;
 if (preg_match('/^[A-Z0-9]{4,20}$/', $codigo)) {
     $stmt = db()->prepare(
-        'SELECT c.codigo, c.emitido_em, a.nome AS aluno_nome, cu.nome AS curso_nome, cu.carga_horaria
+        'SELECT c.codigo, c.emitido_em, a.nome AS aluno_nome, cu.nome AS curso_nome, cu.slug AS curso_slug, cu.carga_horaria
          FROM certificados c
          JOIN alunos a ON a.id = c.aluno_id
          JOIN cursos cu ON cu.id = c.curso_id
@@ -15,6 +15,12 @@ if (preg_match('/^[A-Z0-9]{4,20}$/', $codigo)) {
     $stmt->execute([$codigo]);
     $cert = $stmt->fetch();
 }
+// O que o curso cobriu, por curso (o texto antigo era fixo no Power BI).
+$certConteudo = [
+    'power-bi' => 'modelagem de dados, Power Query, DAX, construção de relatórios e publicação em Power BI',
+    'microsoft-fabric' => 'OneLake, lakehouse e warehouse, Data Factory, Dataflows Gen2, Spark, Real-Time Intelligence, modelos semânticos, DAX, Direct Lake, segurança, governança e ciclo de vida no Microsoft Fabric, com base nas certificações DP-600 e DP-700',
+];
+$certPaginaCurso = ['power-bi' => '/curso-power-bi.php'];
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -63,7 +69,7 @@ if (preg_match('/^[A-Z0-9]{4,20}$/', $codigo)) {
 <div class="cert-page">
   <?php if ($cert): ?>
     <div class="cert-actions">
-      <a class="back" href="/curso-power-bi.php">← TECH SANTOS BR</a>
+      <a class="back" href="<?= htmlspecialchars($certPaginaCurso[$cert['curso_slug']] ?? '/', ENT_QUOTES) ?>">← TECH SANTOS BR</a>
       <button class="btn btn-primary" onclick="window.print()">Baixar / Imprimir PDF</button>
     </div>
     <div class="cert-sheet">
@@ -73,7 +79,7 @@ if (preg_match('/^[A-Z0-9]{4,20}$/', $codigo)) {
       </div>
       <p class="cert-eyebrow">Certificado de Conclusão</p>
       <h1 class="cert-name"><?= htmlspecialchars($cert['aluno_nome'], ENT_QUOTES) ?></h1>
-      <p class="cert-body">concluiu com aproveitamento o curso <strong><?= htmlspecialchars($cert['curso_nome'], ENT_QUOTES) ?></strong><?= $cert['carga_horaria'] ? ', com carga horária de <strong>' . htmlspecialchars($cert['carga_horaria'], ENT_QUOTES) . '</strong>,' : '' ?> ministrado pela TECH SANTOS BR, cobrindo modelagem de dados, Power Query, DAX, construção de relatórios e publicação em Power BI.</p>
+      <p class="cert-body">concluiu com aproveitamento o curso <strong><?= htmlspecialchars($cert['curso_nome'], ENT_QUOTES) ?></strong><?= $cert['carga_horaria'] ? ', com carga horária de <strong>' . htmlspecialchars($cert['carga_horaria'], ENT_QUOTES) . '</strong>,' : '' ?> ministrado pela TECH SANTOS BR<?= isset($certConteudo[$cert['curso_slug']]) ? ', cobrindo ' . htmlspecialchars($certConteudo[$cert['curso_slug']], ENT_QUOTES) : '' ?>.</p>
       <div class="cert-meta">
         <div><div class="k">Emitido em</div><div class="v"><?= date('d/m/Y', strtotime($cert['emitido_em'])) ?></div></div>
         <div><div class="k">Código de verificação</div><div class="v"><?= htmlspecialchars($cert['codigo'], ENT_QUOTES) ?></div></div>

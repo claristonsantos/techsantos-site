@@ -4550,5 +4550,211 @@ GRANT UNMASK TO [auditoria@empresa.com];` },
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m15', title: 'Módulo 15 · Projeto final e preparação para as provas', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-projeto-final', title: 'Projeto final: plataforma de dados da Distribuidora Araguaia',
+        desc: 'Estudo de caso completo, do dado bruto ao relatório: você recebe o cenário e os requisitos, toma as decisões de arquitetura e constrói a solução no Fabric. As decisões esperadas ficam no fim, para conferir depois.',
+        objetivos: [
+          'Desenhar uma solução ponta a ponta no Fabric a partir de requisitos de negócio',
+          'Justificar cada escolha de ferramenta, armazenamento, segurança e ciclo de vida',
+          'Construir e validar a solução numa capacidade de avaliação'
+        ],
+        body: 'O melhor treino para as provas é tomar decisões com um cenário na frente — é exatamente o formato dos estudos de caso da DP-600 e da DP-700. Leia o cenário inteiro, anote suas decisões para cada fase e só depois compare com a seção “Decisões esperadas”. Para construir, use a avaliação gratuita do Fabric (Módulo 01).',
+        content: [
+          { h: 'O cenário',
+            p: 'A <strong>Distribuidora Araguaia</strong> vende produtos de limpeza para supermercados em Goiás, Tocantins e Mato Grosso. Hoje, os relatórios são planilhas montadas à mão toda segunda-feira. A diretoria quer uma plataforma no Fabric. As fontes são:',
+            items: [
+              '<strong>ERP</strong> num SQL Server dentro do escritório de Itumbiara: tabelas de pedidos (cerca de 40 milhões de linhas, com coluna de data de alteração), itens de pedido, clientes, produtos e vendedores. O CDC não está habilitado.',
+              '<strong>Planilha de metas</strong> no SharePoint, mantida pela equipe comercial: meta mensal por vendedor e por categoria.',
+              '<strong>Arquivos JSON</strong> dos rastreadores dos caminhões de entrega, enviados continuamente para um Hub de Eventos do Azure: posição, velocidade, temperatura do baú, a cada 10 segundos.',
+              '<strong>Cotação diária</strong> de preços de concorrentes, entregue por um fornecedor como arquivos CSV num contêiner ADLS Gen2 da conta dele.'
+            ] },
+          { h: 'Os requisitos',
+            items: [
+              'R1 — Relatório de vendas × metas atualizado até as 7h, com histórico de 5 anos e sem copiar os 40 milhões de pedidos todos os dias.',
+              'R2 — Cada vendedor vê só os próprios clientes; gerentes regionais veem a sua região; a diretoria vê tudo.',
+              'R3 — Painel de monitoramento da frota com atraso máximo de 1 minuto, e alerta no Teams para a logística quando a temperatura do baú passar de 25 °C por mais de 5 minutos.',
+              'R4 — Os preços dos concorrentes precisam estar disponíveis para análise sem duplicar os arquivos do fornecedor.',
+              'R5 — A equipe comercial (que domina Power Query, mas não programa) cuida da limpeza das metas.',
+              'R6 — O CPF dos clientes pessoa física não pode aparecer para os analistas que consultam o warehouse em SQL; a auditoria precisa ver.',
+              'R7 — Toda mudança passa por revisão e é promovida de desenvolvimento para produção sem editar nada à mão em produção.',
+              'R8 — A TI quer saber quem excluiu ou compartilhou itens e ser avisada quando uma carga noturna falhar.'
+            ] },
+          { h: 'Fase 1 — Arquitetura',
+            items: [
+              'Quantos workspaces e quais itens? Onde fica bronze, prata e ouro?',
+              'Lakehouse, warehouse ou eventhouse para cada fonte e camada? Por quê?',
+              'Qual domínio e quais funções de workspace para TI, engenharia, equipe comercial e diretoria?'
+            ] },
+          { h: 'Fase 2 — Ingestão',
+            items: [
+              'Como trazer o ERP (fonte local, sem CDC) atendendo R1? Que componente de rede é necessário?',
+              'Como trazer a planilha de metas atendendo R5?',
+              'Como atender R4?',
+              'Como capturar os eventos dos caminhões?'
+            ] },
+          { h: 'Fase 3 — Transformação e modelagem',
+            items: [
+              'Onde e com que ferramenta montar as dimensões (cliente com histórico de mudança de endereço e vendedor) e o fato de vendas?',
+              'Como relacionar metas mensais por categoria com vendas diárias por produto?',
+              'Qual modo de armazenamento do modelo semântico para R1? Que configuração de atualização?',
+              'Como transformar os eventos brutos dos caminhões para o painel de R3?'
+            ] },
+          { h: 'Fase 4 — Segurança, governança e ciclo de vida',
+            items: [
+              'Como implementar R2 no modelo? E R6 no warehouse?',
+              'Que rótulo de confidencialidade e endosso aplicar ao modelo de vendas?',
+              'Como atender R7 e R8?'
+            ] },
+          { h: 'Fase 5 — Construção e validação',
+            items: [
+              'Construa a solução na capacidade de avaliação com dados de exemplo (gere pedidos fictícios num notebook, se não tiver um SQL Server local — use um Azure SQL ou o banco SQL do Fabric no lugar).',
+              'Checklist de validação: a carga incremental não duplica linhas ao ser reexecutada; o relatório atende R1 às 7h; “Testar como função” confirma R2; um usuário sem UNMASK vê o CPF mascarado; o alerta dispara com um evento de teste; o pipeline de implantação leva a solução para produção com as conexões certas.',
+              'Registre, para cada decisão, a alternativa que você descartou e por quê — é assim que as questões de estudo de caso são construídas.'
+            ] },
+          { h: 'Decisões esperadas (confira só depois de fazer)',
+            items: [
+              '<strong>Arquitetura</strong>: workspaces de dev/teste/produção num pipeline de implantação; lakehouse bronze e prata, warehouse ou lakehouse ouro, eventhouse para a frota; domínio “Comercial”; Colaborador para engenharia, Visualizador + app para diretoria e comercial.',
+              '<strong>ERP</strong>: gateway de dados local + pipeline com carga incremental por marca d’água na data de alteração (ou trabalho de cópia incremental por marca d’água); nada de carga completa diária.',
+              '<strong>Metas</strong>: Dataflow Gen2 (Power Query) mantido pela equipe comercial, gravando no lakehouse.',
+              '<strong>Concorrentes</strong>: atalho do OneLake para o ADLS Gen2 do fornecedor, com conexão própria — sem cópia.',
+              '<strong>Frota</strong>: Eventstream lendo o Hub de Eventos → eventhouse (ingestão direta) → política de atualização para tipar o JSON → painel em tempo real; regra com estado no Activator (acima de 25 °C por 5 minutos) → Teams.',
+              '<strong>Modelagem</strong>: notebook (MERGE) ou T-SQL para dimensões com SCD tipo 2 no cliente; metas relacionadas pelo primeiro dia do mês e por categoria (muitos-para-muitos em direção única), medida que fica em branco abaixo da granularidade.',
+              '<strong>Modelo</strong>: Direct Lake no OneLake sobre a camada ouro; enquadramento no fim do pipeline noturno (atualizações automáticas desligadas se o ETL escreve em etapas).',
+              '<strong>Segurança</strong>: RLS dinâmica com USERPRINCIPALNAME e tabela de mapeamento vendedor/região; máscara dinâmica no CPF com UNMASK para a auditoria.',
+              '<strong>Governança</strong>: rótulo Confidencial (herdado a jusante), modelo Certificado; logs de auditoria no Purview; notificação de falha no agendamento ou Activator em eventos de trabalho.',
+              '<strong>Ciclo de vida</strong>: workspace de desenvolvimento ligado ao Git com pull request; pipeline de implantação com regras/bibliotecas de variáveis trocando conexões.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Avaliação gratuita do Fabric', u: `${LEARN}/fundamentals/fabric-trial` },
+          { t: 'Arquitetura medalhão no Fabric', u: `${LEARN}/onelake/onelake-medallion-lakehouse-architecture` }
+        ]
+      },
+      {
+        id: 'fab-guia-provas', title: 'Guia das provas DP-600 e DP-700 e plano de estudo',
+        desc: 'Como são as provas, o que cada uma pesa, como usar o Microsoft Learn durante o exame, como se preparar com o curso e com os simulados, e como manter a certificação.',
+        objetivos: [
+          'Conhecer o formato e as áreas de cada prova',
+          'Montar um plano de estudo com o curso',
+          'Saber agendar, fazer e renovar a certificação'
+        ],
+        body: 'O curso foi montado a partir das listas oficiais de habilidades das duas provas — cada habilidade tem ao menos uma aula (o mapa está no material de apoio do curso). Esta aula junta o que você precisa saber sobre a prova em si.',
+        content: [
+          { h: 'As duas certificações',
+            items: [
+              '<strong>DP-600 — Fabric Analytics Engineer Associate</strong>: manter uma solução de análise (25 a 30%), preparar dados (45 a 50%) e implementar e gerenciar modelos semânticos (25 a 30%). Exige SQL, KQL e DAX.',
+              '<strong>DP-700 — Fabric Data Engineer Associate</strong>: implementar e gerenciar uma solução de análise (30 a 35%), ingerir e transformar dados (30 a 35%) e monitorar e otimizar (30 a 35%). Exige PySpark, SQL e KQL.',
+              'Muitas habilidades se repetem (workspaces, segurança, OneLake, lakehouse e warehouse): quem faz uma tem boa parte da outra estudada.'
+            ] },
+          { h: 'Formato',
+            items: [
+              '<strong>100 minutos</strong>, supervisionado (centro de testes ou on-line), agendado pela Pearson VUE. Disponível em <strong>português do Brasil</strong>.',
+              'Aprovação com <strong>700</strong> numa escala até 1.000 (não é 70% de acertos exatos — as questões têm pesos diferentes).',
+              'Tipos de questão: múltipla escolha, múltiplas respostas, arrastar e ordenar, completar código, “sim/não” por afirmação, e <strong>estudos de caso</strong> com vários requisitos (como o projeto final).',
+              'Algumas séries de questões não permitem voltar depois de respondidas; leia o aviso antes de avançar.',
+              'A <strong>área restrita (sandbox) do exame</strong> no site da Microsoft mostra a interface antes do dia.',
+              'Reprovou? Pode refazer após 24 horas na primeira vez; depois, os intervalos aumentam.'
+            ] },
+          { h: 'Microsoft Learn durante a prova',
+            items: [
+              'Nas provas associadas, há um botão para abrir o <strong>Microsoft Learn</strong> em tela dividida — todo o domínio learn.microsoft.com, exceto Q&A, avaliações práticas e o seu perfil.',
+              'O relógio continua correndo: use para confirmar um detalhe (nome de uma função, limite, sintaxe), não para aprender o assunto.',
+              'Os links oficiais de cada aula deste curso são justamente as páginas que você vai procurar — conheça o caminho até elas.'
+            ] },
+          { h: 'Plano de estudo sugerido',
+            items: [
+              '<strong>DP-600</strong>: Módulos 01 a 03, 05, 07, 09 a 13, com 04, 06 e 08 como apoio.',
+              '<strong>DP-700</strong>: Módulos 01 a 08, 12 a 14, com 09 a 11 como apoio.',
+              'Para cada módulo: leia ou ouça as aulas, faça o laboratório na capacidade de avaliação e a avaliação do módulo. Errou? Volte à seção “Como isso cai na prova” da aula correspondente.',
+              'Faça o projeto final e depois o <strong>simulado final</strong> da prova escolhida. Meta: passar com folga (80% ou mais) antes de agendar.',
+              'Complete com as <strong>avaliações práticas oficiais</strong> gratuitas do Microsoft Learn para a DP-600 e a DP-700.'
+            ] },
+          { h: 'Depois da aprovação',
+            items: [
+              'As certificações associadas <strong>expiram em um ano</strong>; a renovação é gratuita, por uma avaliação on-line no Microsoft Learn, liberada nos meses anteriores ao vencimento.',
+              'Conecte o perfil de certificação à sua conta do Learn para agendar, renovar e compartilhar o selo.',
+              'Registre-se com uma conta Microsoft pessoal: se usar a conta da empresa e sair dela, você perde o acesso ao histórico.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Guia de estudo da DP-600', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/resources/study-guides/dp-600' },
+          { t: 'Guia de estudo da DP-700', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/resources/study-guides/dp-700' },
+          { t: 'Certificação Fabric Analytics Engineer Associate', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/fabric-analytics-engineer-associate/' },
+          { t: 'Certificação Fabric Data Engineer Associate', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/fabric-data-engineer-associate/' },
+          { t: 'Duração e experiência do exame (Learn durante a prova)', u: 'https://learn.microsoft.com/pt-br/credentials/support/exam-duration-exam-experience' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'fab-simulado-dp600', title: 'Simulado final · DP-600', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-simulado-dp600-instrucoes', title: 'Como fazer o simulado DP-600',
+        desc: 'Instruções do simulado final da DP-600: 40 questões no estilo da prova, distribuídas pelos pesos oficiais. Conclua esta aula para liberar o simulado.',
+        objetivos: [
+          'Simular as condições da prova DP-600',
+          'Identificar os temas que ainda precisam de revisão'
+        ],
+        body: 'O simulado tem 40 questões distribuídas pelas três áreas da DP-600, na mesma proporção da prova oficial. A aprovação no simulado é com 70% de acertos. Você pode refazer quantas vezes quiser; depois de cada tentativa, a correção mostra o que você acertou e errou.',
+        content: [
+          { h: 'Como fazer',
+            items: [
+              'Reserve 80 minutos sem interrupção — é o ritmo da prova real (cerca de 2 minutos por questão).',
+              'Não consulte as aulas durante a primeira tentativa. Na prova você pode abrir o Microsoft Learn; aqui, treine primeiro sem consulta.',
+              'Marque as questões em que ficou em dúvida num papel e revise-as depois pelo tema.',
+              'Marque esta aula como concluída para liberar o link do simulado no menu do módulo.'
+            ] },
+          { h: 'Distribuição das questões',
+            items: [
+              'Manter uma solução de análise (segurança, governança, ciclo de vida) — cerca de 11 questões.',
+              'Preparar dados (obter, transformar, consultar com SQL, KQL e DAX) — cerca de 18 questões.',
+              'Implementar e gerenciar modelos semânticos (design, DAX, Direct Lake, otimização) — cerca de 11 questões.'
+            ] },
+          { h: 'Depois do simulado',
+            p: 'Para cada questão errada, volte à aula indicada pelo tema e releia a seção “Como isso cai na prova”. Quando passar com 80% ou mais, faça também a avaliação prática oficial da Microsoft e agende a prova. Aprovado nos dois simulados finais (DP-600 e DP-700), você recebe o certificado de conclusão do curso.' }
+        ],
+        recursos: [
+          { t: 'Guia de estudo da DP-600', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/resources/study-guides/dp-600' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'fab-simulado-dp700', title: 'Simulado final · DP-700', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-simulado-dp700-instrucoes', title: 'Como fazer o simulado DP-700',
+        desc: 'Instruções do simulado final da DP-700: 40 questões no estilo da prova, distribuídas pelos pesos oficiais. Conclua esta aula para liberar o simulado.',
+        objetivos: [
+          'Simular as condições da prova DP-700',
+          'Identificar os temas que ainda precisam de revisão'
+        ],
+        body: 'O simulado tem 40 questões distribuídas pelas três áreas da DP-700, na mesma proporção da prova oficial. A aprovação no simulado é com 70% de acertos, e você pode refazer quantas vezes quiser.',
+        content: [
+          { h: 'Como fazer',
+            items: [
+              'Reserve 80 minutos sem interrupção e faça a primeira tentativa sem consultar as aulas.',
+              'Anote as questões de dúvida para revisar pelo tema.',
+              'Marque esta aula como concluída para liberar o link do simulado no menu do módulo.'
+            ] },
+          { h: 'Distribuição das questões',
+            items: [
+              'Implementar e gerenciar uma solução de análise (workspaces, ciclo de vida, segurança, orquestração) — cerca de 13 questões.',
+              'Ingerir e transformar dados (lote e streaming) — cerca de 14 questões.',
+              'Monitorar e otimizar (monitoramento, erros, desempenho) — cerca de 13 questões.'
+            ] },
+          { h: 'Depois do simulado',
+            p: 'Revise pelos temas errados, faça a avaliação prática oficial da Microsoft e agende a prova quando passar com folga. Aprovado nos dois simulados finais, o certificado de conclusão do curso é emitido automaticamente.' }
+        ],
+        recursos: [
+          { t: 'Guia de estudo da DP-700', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/resources/study-guides/dp-700' }
+        ]
+      }
+    ]
   }
 ];
