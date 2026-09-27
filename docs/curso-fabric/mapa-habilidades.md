@@ -14,7 +14,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 04 | Data Factory: pipelines, orquestração e cargas | ✅ publicado |
 | 05 | Dataflows Gen2 e editor de consultas visuais | ✅ publicado |
 | 06 | Notebooks, Spark e streaming estruturado | ✅ publicado |
-| 07 | Data Warehouse e T-SQL | ⬜ |
+| 07 | Data Warehouse e T-SQL | ✅ publicado |
 | 08 | Real-Time Intelligence (Eventstream, Eventhouse, KQL) | ⬜ |
 | 09 | Modelos semânticos: design | ⬜ |
 | 10 | DAX para a prova | ⬜ |
@@ -42,7 +42,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Filtrar dados | fab-dataflow-transformacoes | ✅ |
 | Identificar e resolver dados duplicados, dados ausentes ou valores nulos | fab-dataflow-qualidade | ✅ |
 | Selecionar, filtrar e agregar dados usando o editor de consultas visuais | fab-editor-consultas-visuais | ✅ |
-| Demais habilidades | módulos 07–15 | ⬜ |
+| Demais habilidades | módulos 08–15 | ⬜ |
 
 ## DP-700
 
@@ -66,7 +66,9 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Ingerir dados usando pipelines | fab-copy, fab-pipeline-atividades | ✅ |
 | Monitorar a ingestão de dados | fab-agendas-gatilhos (+ M14) | 🟡 |
 | Monitorar a transformação de dados | fab-dataflow-monitorar-erros, fab-spark-monitorar-otimizar (+ M14) | ✅ |
-| Transformar dados usando PySpark, SQL e KQL | fab-pyspark-transformar, fab-spark-qualidade-merge (+ M07 T-SQL, M08 KQL) | 🟡 |
+| Transformar dados usando PySpark, SQL e KQL | fab-pyspark-transformar, fab-spark-qualidade-merge, fab-tsql-consultas, fab-tsql-objetos (+ M08 KQL) | 🟡 |
+| Otimizar um data warehouse | fab-warehouse-desempenho, fab-warehouse-ingestao | ✅ |
+| Identificar e resolver erros de T-SQL | fab-warehouse-desempenho, fab-tsql-objetos | ✅ |
 | Agrupar e agregar dados | fab-pyspark-transformar, fab-dataflow-transformacoes | ✅ |
 | Processar dados usando o streaming estruturado do Spark | fab-streaming-estruturado | ✅ |
 | Criar funções de janela | fab-spark-qualidade-merge, fab-streaming-estruturado (+ M08 KQL) | 🟡 |
@@ -78,4 +80,4 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Escolha entre fluxos de dados Gen2, notebooks, KQL e T-SQL para transformação | fab-escolher-ferramenta, fab-dataflow-gen2 (+ M06–M08) | 🟡 |
 | Identificar e resolver erros de pipeline | fab-pipeline-atividades, fab-agendas-gatilhos (+ M14) | 🟡 |
 | Projetar e implementar cargas completas e incrementais | fab-carga-incremental, fab-copy, fab-carga-dimensional | ✅ |
-| Demais habilidades | módulos 07–15 | ⬜ |
+| Demais habilidades | módulos 08–15 | ⬜ |

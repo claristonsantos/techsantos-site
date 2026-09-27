@@ -2203,5 +2203,429 @@ notebookutils.notebook.runMultiple(dag)` },
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m07', title: 'Módulo 07 · Data Warehouse e T-SQL', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-warehouse-visao', title: 'O warehouse do Fabric: tabelas, tipos e limitações',
+        desc: 'O que é o Fabric Data Warehouse, como ele se diferencia do ponto de extremidade de análise SQL e do lakehouse, e as regras de tabelas, tipos de dados, chaves, IDENTITY e ordenação.',
+        objetivos: [
+          'Diferenciar warehouse, ponto de extremidade de análise SQL e lakehouse',
+          'Criar esquemas e tabelas com tipos de dados suportados',
+          'Usar chaves NOT ENFORCED e colunas IDENTITY corretamente',
+          'Conhecer os recursos de T-SQL que não existem no warehouse'
+        ],
+        body: 'O warehouse é o armazenamento relacional do Fabric, programado em T-SQL, com suporte completo a transações. Ele grava os dados como tabelas Delta no OneLake — o mesmo formato aberto do lakehouse — e divide o mesmo mecanismo SQL com o ponto de extremidade de análise. Esta aula prepara o terreno para as habilidades DP-600 de SQL e para “Otimizar um data warehouse” da DP-700.',
+        content: [
+          { h: 'Warehouse × ponto de extremidade de análise SQL × lakehouse',
+            items: [
+              '<strong>Warehouse</strong> — leitura e escrita em T-SQL: DDL (CREATE, ALTER, DROP) e DML (INSERT, UPDATE, DELETE, MERGE), transações com várias tabelas. Ideal para esquemas estrela, data marts corporativos e equipes que dominam SQL.',
+              '<strong>Ponto de extremidade de análise SQL</strong> — criado automaticamente com cada lakehouse (e com bancos espelhados). Consulta as tabelas Delta do lakehouse em T-SQL, <strong>só leitura</strong> de dados; mas aceita criar exibições, funções, procedimentos e segurança em nível de objeto, linha e coluna.',
+              '<strong>Lakehouse</strong> — escrito principalmente com Spark; guarda qualquer arquivo (estruturado ou não) além de tabelas.',
+              'Todos gravam Delta no OneLake: um warehouse pode ler tabelas do lakehouse com consultas entre bancos, sem copiar dados.'
+            ],
+            img: { src: `${FAB_IMG}/m07/lakehouse-ou-warehouse.png`, alt: 'Árvores de decisão para escolher lakehouse ou warehouse', caption: 'Guia de decisão oficial: desenvolvimento em Spark e dados variados apontam para lakehouse; T-SQL e transações com várias tabelas, para warehouse.', source: `${LEARN}/fundamentals/decision-guide-lakehouse-warehouse` } },
+          { h: 'Esquemas e tabelas',
+            items: [
+              'Organize com esquemas (<code>CREATE SCHEMA vendas</code>) e prefixos que indiquem o papel da tabela: <strong>dim</strong>, <strong>fact</strong>, <strong>int</strong> (integração/preparo).',
+              'Crie tabelas vazias com CREATE TABLE ou já com dados, com CREATE TABLE AS SELECT (próxima aula).',
+              'Renomear coluna: <code>sp_rename</code>. ALTER TABLE aceita adicionar coluna anulável, remover coluna e adicionar/remover restrições; ALTER COLUMN está em versão prévia.',
+              '<strong>TRUNCATE TABLE</strong> é suportado.',
+              'Tabelas temporárias <strong>#temp</strong> com escopo de sessão existem; globais (##) não.'
+            ] },
+          { h: 'Tipos de dados',
+            p: 'O warehouse aceita um subconjunto dos tipos do SQL Server, porque tudo vira Parquet. Suportados: bit, smallint, int, bigint, decimal/numeric, float, real, date, time e datetime2 (até 6 casas de fração de segundo), char, varchar (varchar(max) até 16 MB), varbinary e uniqueidentifier.',
+            items: [
+              '<strong>Sem suporte em tabelas</strong> e o que usar no lugar: money → decimal; datetime e smalldatetime → datetime2; nchar/nvarchar → char/varchar (com ordenação UTF-8, acentos são armazenados normalmente); text/ntext → varchar; tinyint → smallint; json → varchar; image → varbinary; geography/geometry → latitude e longitude ou varbinary. XML e tipos CLR não têm equivalente.',
+              'Boas práticas: inteiros para identificadores, a menor precisão de decimal que atende, varchar com o menor tamanho possível (em vez de varchar(max)) e NOT NULL sempre que o modelo permitir.'
+            ] },
+          { h: 'Chaves e IDENTITY',
+            items: [
+              'PRIMARY KEY e UNIQUE só com <strong>NONCLUSTERED NOT ENFORCED</strong>; FOREIGN KEY só com <strong>NOT ENFORCED</strong>. O warehouse <strong>não valida</strong> essas restrições — elas servem de metadado para o otimizador e para as ferramentas. Garantir unicidade é trabalho da carga.',
+              '<strong>IDENTITY</strong> gera chaves substitutas: só em colunas <strong>bigint</strong>, sem semente nem incremento personalizados. Os valores são únicos e positivos, mas <strong>não sequenciais</strong> e podem ter lacunas, porque são distribuídos entre nós.',
+              'Para inserir um valor explícito (como -1 para o membro Desconhecido): <code>SET IDENTITY_INSERT dbo.DimCliente ON</code>, insira e desligue; depois, <code>DBCC CHECKIDENT</code> com RESEED ajusta a próxima faixa.'
+            ],
+            code: `CREATE TABLE dim.Cliente (
+    ClienteSK     BIGINT IDENTITY,
+    ClienteID     INT          NOT NULL,   -- chave natural
+    Nome          VARCHAR(120) NOT NULL,
+    Cidade        VARCHAR(60)  NULL,
+    InicioVigencia DATE        NOT NULL,
+    FimVigencia    DATE        NULL,
+    Atual          BIT         NOT NULL
+);
+ALTER TABLE dim.Cliente
+  ADD CONSTRAINT PK_DimCliente PRIMARY KEY NONCLUSTERED (ClienteSK) NOT ENFORCED;` },
+          { h: 'Ordenação (collation)',
+            p: 'O padrão é <strong>Latin1_General_100_BIN2_UTF8</strong>, que <strong>diferencia maiúsculas de minúsculas</strong>: <code>WHERE Cidade = \'itumbiara\'</code> não encontra “Itumbiara”. Também existe uma ordenação que não diferencia (Latin1_General_100_CI_AS_KS_WS_SC_UTF8), escolhida ao criar o warehouse (por API) ou nas configurações do workspace.' },
+          { h: 'O que não existe no warehouse',
+            items: [
+              'Gatilhos (triggers), exibições materializadas e indexadas, sinônimos, sequências, colunas computadas, tabelas particionadas, estatísticas de várias colunas criadas manualmente, consultas recursivas, FOR XML e SET TRANSACTION ISOLATION LEVEL.',
+              'Em compensação: MERGE, CTEs, TRUNCATE, #temp, exibições, funções embutidas com valor de tabela e procedimentos armazenados funcionam.'
+            ],
+            img: { src: `${FAB_IMG}/m07/warehouse-exemplo.png`, alt: 'Warehouse carregado com dados de exemplo', caption: 'Um warehouse com o conjunto de exemplo: explorador de esquemas e tabelas à esquerda.', source: `${LEARN}/data-warehouse/create-warehouse` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Precisa de UPDATE/DELETE em T-SQL sobre tabelas do lakehouse → não é possível pelo ponto de extremidade SQL; use warehouse (ou Spark).',
+              'Coluna money ou datetime no script de migração falha → trocar por decimal e datetime2.',
+              'Chave primária declarada, mas chegaram duplicados → é NOT ENFORCED; a carga precisa deduplicar.',
+              'Chaves IDENTITY com lacunas e fora de ordem → comportamento esperado.',
+              'Filtro de texto não encontra linhas por causa de maiúsculas → ordenação padrão é sensível a maiúsculas.'
+            ] }
+        ],
+        recursos: [
+          { t: 'O que é o Fabric Data Warehouse', u: `${LEARN}/data-warehouse/data-warehousing` },
+          { t: 'Tabelas no Fabric Data Warehouse', u: `${LEARN}/data-warehouse/tables` },
+          { t: 'Tipos de dados', u: `${LEARN}/data-warehouse/data-types` },
+          { t: 'Colunas IDENTITY', u: `${LEARN}/data-warehouse/identity` },
+          { t: 'Área de superfície do T-SQL', u: `${LEARN}/data-warehouse/tsql-surface-area` },
+          { t: 'Guia de decisão: warehouse ou lakehouse', u: `${LEARN}/fundamentals/decision-guide-lakehouse-warehouse` }
+        ]
+      },
+      {
+        id: 'fab-warehouse-ingestao', title: 'Carregar dados no warehouse: COPY INTO, CTAS, INSERT e OPENROWSET',
+        desc: 'As formas de colocar dados no warehouse — COPY INTO, CREATE TABLE AS SELECT, INSERT…SELECT, SELECT INTO, OPENROWSET, consultas entre bancos, pipelines e dataflows — e quando usar cada uma.',
+        objetivos: [
+          'Carregar arquivos com COPY INTO',
+          'Criar e alimentar tabelas com CTAS e INSERT…SELECT, inclusive a partir do lakehouse',
+          'Ler arquivos sem carregar com OPENROWSET',
+          'Evitar os padrões de carga que degradam o warehouse'
+        ],
+        body: 'Cobre a parte de warehouse de “Ingerir ou acessar dados” (DP-600) e “Ingerir dados” (DP-700). Regra de ouro: cargas em lote grandes; nada de inserir linha a linha.',
+        content: [
+          { h: 'As opções',
+            items: [
+              '<strong>COPY INTO</strong> — a forma mais rápida de carregar arquivos (CSV, Parquet, JSONL) do ADLS Gen2, Blob ou OneLake. Ideal dentro de lógica T-SQL.',
+              '<strong>CREATE TABLE AS SELECT (CTAS)</strong> — cria uma tabela nova já com o resultado de uma consulta.',
+              '<strong>INSERT…SELECT</strong> — acrescenta o resultado de uma consulta a uma tabela existente.',
+              '<strong>SELECT INTO</strong> — como o CTAS, na sintaxe clássica do T-SQL.',
+              '<strong>OPENROWSET</strong> — lê arquivos diretamente (Parquet, CSV, JSONL) sem carregar; pode ser a fonte de um CTAS ou INSERT.',
+              '<strong>Pipelines</strong> (atividade Copiar), <strong>Dataflows Gen2</strong> e <strong>trabalho de cópia</strong> — sem código, a partir de centenas de conectores.'
+            ] },
+          { h: 'COPY INTO',
+            p: 'Por padrão o COPY usa a identidade Microsoft Entra de quem executa para ler a fonte; também aceita SAS, chave da conta ou a <strong>identidade do workspace</strong>, que separa o acesso à fonte da permissão de gravar na tabela. Arquivos com pelo menos 4 MB rendem melhor; divida arquivos CSV grandes quando forem poucos.',
+            code: `COPY INTO dbo.Vendas
+FROM 'https://minhaconta.dfs.core.windows.net/brutos/vendas/2026/*.parquet'
+WITH (FILE_TYPE = 'PARQUET');
+
+COPY INTO dbo.Clientes
+FROM 'https://minhaconta.blob.core.windows.net/brutos/clientes.csv'
+WITH (FILE_TYPE = 'CSV', FIRSTROW = 2, FIELDTERMINATOR = ';');` },
+          { h: 'CTAS e INSERT a partir do lakehouse',
+            p: 'Tabelas do lakehouse e de outros warehouses <strong>do mesmo workspace</strong> são lidas com o nome de três partes <code>item.esquema.tabela</code>. É o jeito mais eficiente de levar dados da prata do lakehouse para o ouro do warehouse — sem pipeline, sem cópia intermediária.',
+            code: `-- nova tabela no warehouse a partir da prata do lakehouse
+CREATE TABLE ouro.FatoVendas AS
+SELECT v.PedidoID, v.DataVenda, c.ClienteSK, v.Quantidade * v.Preco AS Receita
+FROM   LH_Prata.dbo.vendas AS v
+JOIN   dim.Cliente        AS c ON c.ClienteID = v.ClienteID AND c.Atual = 1;
+
+-- carga incremental numa tabela existente
+INSERT INTO ouro.FatoVendas
+SELECT ... FROM LH_Prata.dbo.vendas WHERE DataVenda > @UltimaCarga;` },
+          { h: 'OPENROWSET: ler sem carregar',
+            p: '<code>OPENROWSET(BULK \'caminho\')</code> lê CSV, Parquet ou JSONL do ADLS, do Blob ou do OneLake como se fosse uma tabela. Útil para explorar um arquivo antes de decidir como carregar e para alimentar um CTAS.' },
+          { h: 'Padrões a evitar',
+            items: [
+              '<strong>Inserções, atualizações e exclusões pequenas e frequentes</strong> (“gota a gota”) criam muitos arquivos Parquet pequenos e pioram as leituras. Agrupe as mudanças e aplique em lote.',
+              'Para cargas em várias etapas, carregue numa tabela de <strong>preparo</strong> (esquema int) e aplique a transformação final com INSERT…SELECT ou MERGE.',
+              'O warehouse compacta arquivos pequenos automaticamente em segundo plano, mas isso não substitui cargas bem dimensionadas.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Maior desempenho para carregar Parquet do ADLS em T-SQL → COPY INTO.',
+              'Levar tabela da prata do lakehouse para o warehouse no mesmo workspace sem pipeline → CTAS/INSERT com nome de três partes.',
+              'Olhar o conteúdo de um CSV no data lake sem criar tabela → OPENROWSET.',
+              'Warehouse lento após milhares de INSERTs de uma linha → agrupar em cargas em lote.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Inserir dados no warehouse', u: `${LEARN}/data-warehouse/ingest-data` },
+          { t: 'Ingerir dados com a instrução COPY', u: `${LEARN}/data-warehouse/ingest-data-copy` },
+          { t: 'Ingerir dados com Transact-SQL', u: `${LEARN}/data-warehouse/ingest-data-tsql` },
+          { t: 'Procurar conteúdo de arquivos com OPENROWSET', u: `${LEARN}/data-warehouse/browse-file-content-with-openrowset` }
+        ]
+      },
+      {
+        id: 'fab-tsql-consultas', title: 'Selecionar, filtrar e agregar dados com T-SQL',
+        desc: 'O SQL que a prova cobra: SELECT, WHERE, JOIN, GROUP BY e HAVING, CTEs e funções de janela — e o editor de consultas SQL do Fabric, com salvar como exibição ou tabela e consultas entre bancos.',
+        objetivos: [
+          'Escrever consultas com filtros, junções e agregações',
+          'Usar CTEs e funções de janela (ROW_NUMBER, RANK, LAG, SUM OVER)',
+          'Usar o editor SQL do Fabric e ferramentas externas',
+          'Consultar vários warehouses e lakehouses na mesma consulta'
+        ],
+        body: 'Habilidade DP-600 “Selecionar, filtrar e agregar dados usando o SQL” e parte de “Transformar dados usando PySpark, SQL e KQL” da DP-700. Os mesmos conceitos que você viu em Power Query e PySpark, agora na linguagem mais usada em dados.',
+        content: [
+          { h: 'A consulta básica',
+            items: [
+              '<strong>SELECT</strong> colunas (evite SELECT * em tabelas largas), <strong>FROM</strong> tabela, <strong>WHERE</strong> filtra linhas antes de agrupar.',
+              '<strong>JOIN</strong>: INNER, LEFT, RIGHT, FULL; o “anti join” em SQL é LEFT JOIN … WHERE direita IS NULL, ou NOT EXISTS.',
+              '<strong>GROUP BY</strong> agrupa; <strong>HAVING</strong> filtra grupos depois da agregação; <strong>ORDER BY</strong> ordena; <strong>TOP</strong> limita.',
+              'Funções úteis: CAST/CONVERT, COALESCE e ISNULL para nulos, CASE WHEN para regras, DATEPART/YEAR/EOMONTH para datas.'
+            ],
+            code: `SELECT c.UF,
+       YEAR(v.DataVenda)          AS Ano,
+       SUM(v.Receita)             AS ReceitaTotal,
+       COUNT(DISTINCT v.ClienteSK) AS Clientes
+FROM   ouro.FatoVendas v
+JOIN   dim.Cliente     c ON c.ClienteSK = v.ClienteSK
+WHERE  v.DataVenda >= '2025-01-01'
+GROUP BY c.UF, YEAR(v.DataVenda)
+HAVING SUM(v.Receita) > 100000
+ORDER BY ReceitaTotal DESC;` },
+          { h: 'CTEs e funções de janela',
+            p: 'Uma <strong>CTE</strong> (WITH) dá nome a uma subconsulta e deixa a lógica legível. Funções de janela com <strong>OVER (PARTITION BY … ORDER BY …)</strong> calculam rankings, valores anteriores e acumulados sem agrupar as linhas — exatamente como no Spark.',
+            code: `WITH ranking AS (
+    SELECT ProdutoID, Categoria, SUM(Receita) AS Receita,
+           RANK() OVER (PARTITION BY Categoria ORDER BY SUM(Receita) DESC) AS Posicao
+    FROM   ouro.FatoVendas
+    GROUP BY ProdutoID, Categoria
+)
+SELECT * FROM ranking WHERE Posicao <= 3;   -- top 3 por categoria
+
+-- valor do mês anterior e acumulado no ano
+SELECT Mes, Receita,
+       LAG(Receita) OVER (ORDER BY Mes) AS MesAnterior,
+       SUM(Receita) OVER (PARTITION BY YEAR(Mes) ORDER BY Mes
+                          ROWS UNBOUNDED PRECEDING) AS AcumuladoAno
+FROM   ouro.ReceitaMensal;` },
+          { h: 'Duplicados e nulos em SQL',
+            items: [
+              'Remover duplicados mantendo o mais recente: ROW_NUMBER() OVER (PARTITION BY chave ORDER BY AlteradoEm DESC) e ficar com a linha 1.',
+              'Achar duplicados: GROUP BY chave HAVING COUNT(*) > 1.',
+              'Nulos: COALESCE(coluna, valor padrão); filtros com IS NULL / IS NOT NULL (nunca “= NULL”).'
+            ] },
+          { h: 'O editor de consultas SQL',
+            items: [
+              '<strong>Nova consulta SQL</strong> na faixa de opções, com modelos prontos (criar tabela, exibição, procedimento, estatística…).',
+              'A visualização mostra até 10.000 linhas. Várias consultas na mesma aba geram vários conjuntos de resultados.',
+              '<strong>Salvar como exibição</strong>, <strong>Salvar como tabela</strong>, <strong>Abrir no Excel</strong> e <strong>Visualizar resultados</strong> (cria um relatório).',
+              'Ferramentas externas usam a <strong>cadeia de conexão SQL</strong> do warehouse: SSMS, VS Code com a extensão de SQL, Excel e o Power BI Desktop.'
+            ],
+            img: { src: `${FAB_IMG}/m07/editor-sql.png`, alt: 'Editor de consultas SQL com resultados', caption: 'O editor de consultas SQL do warehouse, com o resultado da consulta embaixo.', source: `${LEARN}/data-warehouse/sql-query-editor` } },
+          { h: 'Consultas entre bancos',
+            p: 'No explorador, <strong>+ Warehouses</strong> adiciona outros warehouses, pontos de extremidade SQL e bancos espelhados do mesmo workspace. A partir daí, junte tabelas de itens diferentes com o nome de três partes — inclusive em transações que gravam no warehouse.',
+            img: { src: `${FAB_IMG}/m07/adicionar-warehouses.png`, alt: 'Adicionar warehouses no explorador', caption: 'Adicionar outros warehouses e pontos de extremidade ao explorador para consultas entre bancos.', source: `${LEARN}/data-warehouse/query-warehouse` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Filtrar pelo total agregado → HAVING, não WHERE.',
+              'Top N por grupo → RANK/ROW_NUMBER com PARTITION BY numa CTE.',
+              'Comparar com o período anterior → LAG.',
+              'Juntar tabela do lakehouse com dimensão do warehouse → nome de três partes no mesmo workspace.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Consultar o warehouse ou o ponto de extremidade SQL', u: `${LEARN}/data-warehouse/query-warehouse` },
+          { t: 'Editor de consultas SQL', u: `${LEARN}/data-warehouse/sql-query-editor` },
+          { t: 'Funções de janela: cláusula OVER (T-SQL)', u: 'https://learn.microsoft.com/pt-br/sql/t-sql/queries/select-over-clause-transact-sql?view=fabric' }
+        ]
+      },
+      {
+        id: 'fab-tsql-objetos', title: 'Exibições, funções, procedimentos, MERGE e transações',
+        desc: 'Encapsular lógica em exibições, funções com valor de tabela e procedimentos armazenados; fazer upsert e SCD com MERGE; e entender transações, isolamento por instantâneo e conflitos de gravação.',
+        objetivos: [
+          'Criar exibições, funções embutidas e procedimentos armazenados',
+          'Usar MERGE para upsert e SCD',
+          'Explicar isolamento por instantâneo e bloqueio no nível da tabela',
+          'Evitar e resolver conflitos de gravação'
+        ],
+        body: 'Cobre a habilidade DP-600 “Criar exibições, funções e procedimentos armazenados” e prepara “Identificar e resolver erros de T-SQL” da DP-700.',
+        content: [
+          { h: 'Exibições (views)',
+            p: 'Uma exibição guarda uma consulta com nome. Não armazena dados — é recalculada a cada uso. Serve para esconder complexidade (joins já feitos), padronizar regras de negócio e controlar o que cada usuário enxerga. Funciona no warehouse e no ponto de extremidade SQL do lakehouse.',
+            code: `CREATE OR ALTER VIEW ouro.vw_VendasPorCliente AS
+SELECT c.Nome, c.Cidade, SUM(v.Receita) AS Receita
+FROM   ouro.FatoVendas v
+JOIN   dim.Cliente c ON c.ClienteSK = v.ClienteSK
+GROUP BY c.Nome, c.Cidade;` },
+          { h: 'Funções embutidas com valor de tabela',
+            p: 'Uma função com valor de tabela embutida (inline TVF) é como uma exibição com parâmetros: recebe valores e devolve uma tabela que pode ser usada no FROM.',
+            code: `CREATE OR ALTER FUNCTION ouro.fn_VendasDoPeriodo (@Inicio DATE, @Fim DATE)
+RETURNS TABLE
+AS RETURN
+    SELECT * FROM ouro.FatoVendas
+    WHERE DataVenda BETWEEN @Inicio AND @Fim;
+
+SELECT * FROM ouro.fn_VendasDoPeriodo('2026-01-01', '2026-03-31');` },
+          { h: 'Procedimentos armazenados',
+            p: 'Um procedimento guarda um bloco de T-SQL com parâmetros — a lógica de carga fica versionada no próprio warehouse e é chamada por um pipeline (atividade Procedimento armazenado), como no padrão de marca d’água do Módulo 04.',
+            code: `CREATE OR ALTER PROCEDURE int.usp_CarregarFatoVendas @DataCorte DATE
+AS
+BEGIN
+    INSERT INTO ouro.FatoVendas (PedidoID, DataVenda, ClienteSK, Receita)
+    SELECT v.PedidoID, v.DataVenda, ISNULL(c.ClienteSK, -1), v.Receita
+    FROM   LH_Prata.dbo.vendas v
+    LEFT JOIN dim.Cliente c ON c.ClienteID = v.ClienteID AND c.Atual = 1
+    WHERE  v.DataVenda > @DataCorte;
+END;
+
+EXEC int.usp_CarregarFatoVendas @DataCorte = '2026-09-01';` },
+          { h: 'MERGE',
+            p: 'O MERGE (disponível em geral no warehouse) compara origem e destino pela chave e, numa única instrução, atualiza, insere e, se quiser, exclui. É o upsert do T-SQL e a base do SCD tipo 1. Para SCD tipo 2, um MERGE encerra a versão atual (FimVigencia, Atual = 0) e um INSERT grava as novas versões.',
+            code: `MERGE dim.Produto AS d
+USING int.ProdutoPreparo AS o
+   ON d.ProdutoID = o.ProdutoID
+WHEN MATCHED AND (d.Nome <> o.Nome OR d.Categoria <> o.Categoria) THEN
+    UPDATE SET d.Nome = o.Nome, d.Categoria = o.Categoria
+WHEN NOT MATCHED BY TARGET THEN
+    INSERT (ProdutoID, Nome, Categoria) VALUES (o.ProdutoID, o.Nome, o.Categoria);` },
+          { h: 'Transações e isolamento',
+            items: [
+              'Transações ACID com <strong>BEGIN TRAN / COMMIT / ROLLBACK</strong>, inclusive envolvendo várias tabelas e outros warehouses do mesmo workspace.',
+              'O isolamento é sempre <strong>por instantâneo</strong> (snapshot): cada transação enxerga os dados como estavam quando começou; leitores não bloqueiam gravadores e vice-versa. Tentar mudar o nível de isolamento é ignorado.',
+              'O bloqueio é <strong>no nível da tabela</strong>. DDL usa bloqueio de modificação de esquema, que bloqueia todo acesso à tabela; evite DDL dentro de transações em horário de carga.',
+              'Sem suporte: transações distribuídas, pontos de salvamento e transações nomeadas.'
+            ] },
+          { h: 'Conflitos de gravação',
+            p: 'Duas transações que fazem UPDATE, DELETE, MERGE ou TRUNCATE na <strong>mesma tabela</strong> ao mesmo tempo entram em conflito — mesmo mexendo em linhas diferentes. A primeira a confirmar vence; a outra é revertida com o <strong>erro 24556</strong> (“transação de isolamento por instantâneo anulada devido a conflito de atualização”). INSERT cria arquivos novos e raramente conflita.',
+            items: [
+              'Não rode atualizações simultâneas na mesma tabela; serialize as cargas no pipeline.',
+              'Implemente nova tentativa para a transação que falhou.',
+              'Mantenha transações curtas e sempre com COMMIT ou ROLLBACK.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Lógica de carga reutilizável chamada pelo pipeline → procedimento armazenado.',
+              'Consulta reutilizável com parâmetro de período → função embutida com valor de tabela.',
+              'Atualizar existentes e inserir novos numa só instrução → MERGE.',
+              'Dois pipelines atualizando a mesma tabela falham com 24556 → conflito de gravação; serializar e repetir.',
+              'SET TRANSACTION ISOLATION LEVEL não tem efeito → o warehouse usa sempre isolamento por instantâneo.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Transações no Fabric Data Warehouse', u: `${LEARN}/data-warehouse/transactions` },
+          { t: 'Área de superfície do T-SQL (MERGE, exibições, funções)', u: `${LEARN}/data-warehouse/tsql-surface-area` },
+          { t: 'Tabelas temporárias', u: `${LEARN}/data-warehouse/temp-tables` },
+          { t: 'Modelagem dimensional: carregar tabelas', u: `${LEARN}/data-warehouse/dimensional-modeling-load-tables` }
+        ]
+      },
+      {
+        id: 'fab-warehouse-recuperacao', title: 'Viagem no tempo, clones e restauração',
+        desc: 'Consultar dados como estavam no passado, criar cópias instantâneas de tabelas sem duplicar dados e restaurar o warehouse inteiro a partir de pontos de restauração.',
+        objetivos: [
+          'Consultar o passado com FOR TIMESTAMP AS OF',
+          'Criar clones de tabela sem cópia',
+          'Restaurar o warehouse a partir de um ponto de restauração'
+        ],
+        body: 'Recursos que dependem do formato Delta e do fato de o warehouse guardar versões dos dados por um período de retenção. Aparecem na prova em cenários de erro humano, auditoria e ambientes de teste.',
+        content: [
+          { h: 'Retenção',
+            p: 'O warehouse mantém automaticamente as versões anteriores dos dados por um período de retenção <strong>configurável de 1 a 120 dias</strong> — o padrão é <strong>30 dias</strong>. Viagem no tempo, clones num ponto do passado e pontos de restauração só alcançam o que está dentro desse período. No ponto de extremidade SQL do lakehouse, o limite é dado pela retenção do VACUUM de cada tabela.' },
+          { h: 'Viagem no tempo',
+            p: 'A dica <code>OPTION (FOR TIMESTAMP AS OF \'...\')</code> no fim de um SELECT consulta todas as tabelas da instrução como estavam naquele instante (em UTC). O resultado é somente leitura. Usos: relatório estável enquanto o ETL roda, comparar antes e depois de uma carga, auditoria, investigar a causa de um erro.',
+            code: `SELECT UF, SUM(Receita) AS Receita
+FROM   ouro.FatoVendas
+GROUP BY UF
+OPTION (FOR TIMESTAMP AS OF '2026-09-20T08:00:00');` },
+          { h: 'Clone de tabela sem cópia',
+            p: '<code>CREATE TABLE ... AS CLONE OF</code> cria em segundos uma réplica da tabela copiando só os metadados — os arquivos Parquet são compartilhados. O clone pode ser do estado atual ou de um momento do passado dentro da retenção. Depois de criado, é <strong>independente</strong>: mudanças na origem não aparecem no clone, e vice-versa. Herda a segurança em nível de objeto da origem. Administrador, Membro e Colaborador podem clonar; Visualizador não.',
+            code: `-- cópia de trabalho para testar uma alteração
+CREATE TABLE teste.FatoVendas AS CLONE OF ouro.FatoVendas;
+
+-- como estava antes da carga com problema
+CREATE TABLE teste.FatoVendas_0920 AS CLONE OF ouro.FatoVendas
+    AT '2026-09-20T08:00:00';` },
+          { h: 'Pontos de restauração',
+            items: [
+              'O Fabric cria <strong>pontos de restauração do sistema a cada 8 horas</strong> enquanto o warehouse está ativo (objetivo de ponto de recuperação de 8 horas).',
+              'Administradores do workspace criam <strong>pontos definidos pelo usuário</strong> antes e depois de mudanças grandes.',
+              'Retenção padrão de 30 dias, com garantia mínima de 20 pontos mesmo se o warehouse ficar parado.',
+              'A <strong>restauração no local</strong> volta o warehouse inteiro para o ponto escolhido (copiando só metadados). Tudo o que foi feito depois se perde — é o “desfazer geral”.'
+            ] },
+          { h: 'Qual recurso usar',
+            items: [
+              'Ver como os números estavam ontem, sem mexer em nada → viagem no tempo.',
+              'Recuperar uma tabela apagada ou corrompida sem afetar as outras → clone da tabela num momento anterior e troca de nomes.',
+              'Uma implantação estragou o warehouse inteiro → restauração no local a partir de um ponto de restauração.',
+              'Ambiente de teste com dados reais, sem custo de cópia → clones.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Alguém apagou linhas de uma tabela há 3 dias → clone AT antes do DELETE (dentro da retenção) e recarga.',
+              'Relatório deve ler os dados do fechamento de ontem enquanto o ETL de hoje roda → FOR TIMESTAMP AS OF.',
+              'Retenção padrão do warehouse → 30 dias.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Viagem no tempo no warehouse', u: `${LEARN}/data-warehouse/time-travel` },
+          { t: 'Clonar uma tabela', u: `${LEARN}/data-warehouse/clone-table` },
+          { t: 'Restauração no local do warehouse', u: `${LEARN}/data-warehouse/restore-in-place` }
+        ]
+      },
+      {
+        id: 'fab-warehouse-desempenho', title: 'Desempenho, monitoramento e erros do warehouse',
+        desc: 'Estatísticas, cache, cache de conjunto de resultados, agrupamento de dados e V-Order; como monitorar com Query Insights e DMVs; gerenciamento de carga de trabalho; e os erros de T-SQL mais comuns.',
+        objetivos: [
+          'Aplicar as otimizações do warehouse (estatísticas, tipos, clustering, cache)',
+          'Encontrar consultas lentas com Query Insights e DMVs',
+          'Entender isolamento de ingestão e consulta, sessões e burst',
+          'Resolver erros comuns de T-SQL'
+        ],
+        body: 'Cobre “Otimizar um data warehouse”, “Otimizar o desempenho de consultas” e “Identificar e resolver erros de T-SQL” da DP-700. O warehouse é sem servidor e se ajusta sozinho em muita coisa — a prova quer que você saiba o que ainda depende de você.',
+        content: [
+          { h: 'Otimizações automáticas e o que você controla',
+            items: [
+              '<strong>Estatísticas</strong> — criadas automaticamente quando o otimizador precisa (colunas em JOIN, GROUP BY, WHERE, DISTINCT) e atualizadas de forma proativa e incremental. Você pode criar e atualizar manualmente (CREATE/UPDATE STATISTICS), só de coluna única — útil depois de cargas grandes.',
+              '<strong>Cache em memória e em disco (SSD)</strong> — automático, sem opção de limpar. A primeira execução (cache frio) costuma ser mais lenta que as seguintes; meça desempenho a partir da segunda.',
+              '<strong>Cache de conjunto de resultados</strong> — ligado por padrão no warehouse e no ponto de extremidade SQL: um SELECT repetido sobre dados que não mudaram devolve o resultado guardado. Pode ser desligado no item ou por consulta.',
+              '<strong>Agrupamento de dados</strong> (<code>CLUSTER BY</code>, versão prévia) — guarda juntas as linhas com valores parecidos nas colunas escolhidas; acelera filtros frequentes em colunas de cardinalidade média a alta.',
+              '<strong>V-Order</strong> — ligado por padrão no warehouse; pode ser desativado em warehouses de preparo com muita escrita (a desativação não tem volta).',
+              '<strong>Compactação</strong> de arquivos pequenos — automática, em segundo plano.',
+              '<strong>Tipos de dados</strong> enxutos, varchar curto, NOT NULL e cargas em lote continuam sendo as melhores alavancas manuais.'
+            ] },
+          { h: 'Query Insights',
+            p: 'O esquema <strong>queryinsights</strong> (em cada warehouse e ponto de extremidade SQL) guarda o histórico das consultas: <code>exec_requests_history</code> (cada execução, com CPU, dados lidos da memória, do disco e do armazenamento remoto, e se usou o cache de resultados), <code>long_running_queries</code>, <code>frequently_run_queries</code> e <code>exec_sessions_history</code>. Consultas com o mesmo formato são agregadas pelo query hash.',
+            img: { src: `${FAB_IMG}/m07/query-insights-views.png`, alt: 'Exibições de Query Insights no explorador', caption: 'As exibições do esquema queryinsights no explorador do warehouse.', source: `${LEARN}/data-warehouse/query-insights` } },
+          { h: 'DMVs: o que está rodando agora',
+            items: [
+              '<code>sys.dm_exec_connections</code>, <code>sys.dm_exec_sessions</code> e <code>sys.dm_exec_requests</code> mostram conexões, sessões e consultas em andamento.',
+              'O administrador do workspace vê tudo e pode encerrar uma consulta travada com <code>KILL</code> + id da sessão; Membro, Colaborador e Visualizador veem só as próprias sessões e solicitações.'
+            ],
+            code: `SELECT r.session_id, s.login_name, r.status, r.total_elapsed_time, r.command
+FROM   sys.dm_exec_requests r
+JOIN   sys.dm_exec_sessions s ON s.session_id = r.session_id
+ORDER BY r.total_elapsed_time DESC;
+
+KILL 71;   -- encerra a sessão 71 (somente administrador do workspace)` },
+          { h: 'Gerenciamento de carga de trabalho',
+            items: [
+              'A computação é sem servidor e escala sozinha; o tamanho da SKU define o limite.',
+              'No warehouse, a computação é dividida meio a meio em dois pools isolados — um para consultas <strong>SELECT</strong> e outro para o <strong>resto</strong> (ETL, ingestão) — para uma carga não travar os relatórios. O administrador pode personalizar com pools SQL personalizados.',
+              '<strong>Capacidade de intermitência</strong> (burst): o warehouse pode usar temporariamente mais recursos que a linha de base da SKU, dentro de um limite de segurança.',
+              'Limite de <strong>2.048 sessões de usuário</strong> por workspace.',
+              'Para isolar cargas pesadas, use workspaces separados (réplicas somente leitura via atalhos).'
+            ] },
+          { h: 'Erros comuns de T-SQL',
+            items: [
+              '<strong>Tipo de dado sem suporte</strong> no CREATE TABLE (money, datetime, nvarchar) → trocar pelo equivalente suportado.',
+              '<strong>Recurso sem suporte</strong> (trigger, sequência, exibição materializada, SET TRANSACTION ISOLATION LEVEL) → reescrever a lógica.',
+              '<strong>Erro 24556</strong>, conflito de atualização → atualizações simultâneas na mesma tabela; serializar e repetir.',
+              '<strong>DML no ponto de extremidade SQL</strong> do lakehouse → é somente leitura; gravar com Spark ou num warehouse.',
+              '<strong>Falta de espaço no tempdb</strong> → consulta que gera resultados intermediários enormes; revise joins, filtre antes e confira as estatísticas.',
+              '<strong>Erros transitórios de conexão</strong> → implemente nova tentativa no cliente; verifique se a capacidade não está pausada.',
+              'Para o suporte: ID do workspace, ID da instrução e ID da solicitação distribuída (aparecem nas mensagens da consulta).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Achar as consultas que mais consumiram CPU na última semana → queryinsights.exec_requests_history.',
+              'Encerrar uma consulta travando o warehouse agora → sys.dm_exec_requests + KILL (administrador).',
+              'Primeira execução lenta, as seguintes rápidas → cache frio; é esperado.',
+              'Filtros frequentes por data e cliente numa fato enorme → CLUSTER BY nessas colunas.',
+              'Estimativas ruins de plano depois de carga grande → UPDATE STATISTICS.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Diretrizes de desempenho do warehouse', u: `${LEARN}/data-warehouse/guidelines-warehouse-performance` },
+          { t: 'Estatísticas', u: `${LEARN}/data-warehouse/statistics` },
+          { t: 'Cache de conjunto de resultados', u: `${LEARN}/data-warehouse/result-set-caching` },
+          { t: 'Agrupamento de dados', u: `${LEARN}/data-warehouse/data-clustering` },
+          { t: 'Query Insights', u: `${LEARN}/data-warehouse/query-insights` },
+          { t: 'Monitorar com DMVs', u: `${LEARN}/data-warehouse/monitor-using-dmv` },
+          { t: 'Gerenciamento de carga de trabalho', u: `${LEARN}/data-warehouse/workload-management` },
+          { t: 'Solucionar problemas do warehouse', u: `${LEARN}/data-warehouse/troubleshoot-fabric-data-warehouse` }
+        ]
+      }
+    ]
   }
 ];
