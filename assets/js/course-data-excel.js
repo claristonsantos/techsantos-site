@@ -1203,5 +1203,276 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m06', title: 'Módulo 06 · Fórmulas, referências e nomes', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-formulas-basico', title: 'Como uma fórmula funciona: operadores e ordem de cálculo',
+        desc: 'As partes de uma fórmula, os operadores aritméticos, de comparação, de texto e de referência, a ordem de precedência e o separador de argumentos do Excel em português.',
+        objetivos: [
+          'Montar fórmulas com constantes, referências, operadores e funções',
+          'Aplicar a ordem de precedência e usar parênteses para mudá-la',
+          'Usar o ponto e vírgula como separador de argumentos no Excel em português'
+        ],
+        body: 'Fórmula é o que transforma o Excel de uma tabela bonita numa calculadora que se atualiza sozinha. Toda fórmula começa com o sinal de igual e combina valores, referências a células, operadores e funções. Entender como o Excel lê a fórmula — e em que ordem calcula — evita os erros mais silenciosos, aqueles em que o resultado aparece, mas está errado.',
+        content: [
+          { h: 'As partes de uma fórmula',
+            p: 'Na fórmula do exemplo, que calcula a área de um círculo, aparecem as quatro peças possíveis: uma <strong>função</strong> (PI, que devolve 3,14159...), uma <strong>referência</strong> (A2, o valor que está nessa célula), uma <strong>constante</strong> (o número 2, digitado direto) e <strong>operadores</strong> (o asterisco multiplica e o acento circunflexo eleva à potência). Quando o valor de A2 muda, o resultado se recalcula sozinho — é por isso que se usa referência em vez de digitar o número.',
+            code: '=PI()*A2^2',
+            img: { src: `${XL_IMG}/m06/partes-da-formula.gif`, alt: 'Fórmula com função, referência, constante e operador numerados', caption: '1 função, 2 referência, 3 constante, 4 operadores.', source: `${SUP}/excel/get-started/overview-of-formulas-in-excel` } },
+          { h: 'Digitar e editar',
+            items: [
+              'Clique na célula, digite o sinal de igual e monte a fórmula. Em vez de digitar referências, clique nas células: o Excel escreve a referência e colore cada uma, na fórmula e na planilha.',
+              'Enter confirma; Esc cancela. <strong>Ctrl+Enter</strong> confirma e mantém a célula selecionada — ou, com várias células selecionadas, lança a mesma fórmula em todas.',
+              'Para editar, F2 ou a barra de fórmulas. Enquanto edita, F2 alterna entre os modos Editar e Apontar (no modo Apontar, as setas escolhem células em vez de mover o cursor no texto).',
+              'Uma fórmula pode ter até 8.192 caracteres; a barra de fórmulas pode ser expandida pela setinha à direita (Ctrl+Shift+U).'
+            ] },
+          { h: 'Operadores aritméticos',
+            items: [
+              'Adição (sinal de mais), subtração ou negação (sinal de menos), multiplicação (asterisco), divisão (barra), porcentagem (sinal de por cento: 20% vale 0,2) e exponenciação (acento circunflexo: dois elevado a três dá 8).'
+            ] },
+          { h: 'Operadores de comparação e de texto',
+            p: 'Comparações devolvem VERDADEIRO ou FALSO: igual, maior que, menor que, maior ou igual, menor ou igual e diferente (os sinais de menor e maior juntos). São a base da função SE (Módulo 07). O operador de texto é o <strong>e comercial</strong>, que junta textos: nome, um espaço e sobrenome viram "Maria Silva".',
+            code: '=A1>=B1        → VERDADEIRO ou FALSO\n=A1<>B1        → diferente de\n=A2&" "&B2     → junta nome e sobrenome com um espaço' },
+          { h: 'Operadores de referência e o ponto e vírgula',
+            items: [
+              '<strong>Dois-pontos</strong> — intervalo: de B5 até B15.',
+              '<strong>Ponto e vírgula</strong> — no Excel em português, separa os argumentos de uma função e também une referências: somar B5 a B15 e D5 a D15. No Excel em inglês esse papel é da vírgula — por isso fórmulas copiadas de sites em inglês dão erro até você trocar vírgula por ponto e vírgula. A vírgula, aqui, é o separador decimal.',
+              '<strong>Espaço</strong> — interseção: as células comuns a dois intervalos.'
+            ],
+            code: '=SOMA(B5:B15)\n=SOMA(B5:B15;D5:D15)\n=SOMA(B7:D7 C6:C8)   → só C7, a interseção' },
+          { h: 'A ordem de cálculo',
+            p: 'O Excel não calcula simplesmente da esquerda para a direita. A precedência é: operadores de referência; negação (o sinal de menos na frente de um número); porcentagem; exponenciação; multiplicação e divisão; adição e subtração; o e comercial; e por último as comparações. Operadores do mesmo nível são calculados da esquerda para a direita. Parênteses mudam a ordem — o que está dentro deles é calculado primeiro.',
+            code: '=5+2*3      → 11 (multiplica antes)\n=(5+2)*3    → 21\n=-2^2       → 4  (a negação vem antes da potência)\n=-(2^2)     → -4' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'A prova pede fórmulas que produzam um resultado específico; a verificação é pelo valor e, muitas vezes, pela presença da referência (e não do número digitado). Clique nas células em vez de digitar os valores.',
+              'Em cálculos com percentual, use parênteses: o preço com desconto de 10% é o preço vezes, entre parênteses, um menos o desconto.',
+              'Lembre-se: a MO-211 é em inglês, onde o separador de argumentos é a vírgula.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Visão geral de fórmulas no Excel', u: `${SUP}/excel/get-started/overview-of-formulas-in-excel` },
+          { t: 'Microsoft Suporte — Operadores de cálculo e precedência', u: `${SUP}/excel/calculation-operators-and-precedence-in-excel` },
+          { t: 'Microsoft Suporte — Criar uma fórmula simples', u: `${SUP}/excel/create-a-simple-formula-in-excel` }
+        ]
+      },
+      {
+        id: 'xl-referencias', title: 'Referências relativas, absolutas e mistas — e referências a outras planilhas e pastas',
+        desc: 'O que acontece com cada tipo de referência ao copiar a fórmula, a tecla F4, referências a outras planilhas, referências 3D e links para outras pastas de trabalho.',
+        objetivos: [
+          'Prever como uma referência muda ao copiar a fórmula',
+          'Travar linha, coluna ou ambas com o cifrão e a tecla F4',
+          'Referenciar outras planilhas, várias planilhas (3D) e outras pastas de trabalho'
+        ],
+        body: 'Você escreve uma fórmula na primeira linha e arrasta para baixo: em 90% das vezes funciona; nos outros 10%, aparece zero, erro ou um valor absurdo. A causa quase sempre é o tipo de referência. Este é o conceito mais importante de todo o módulo de fórmulas — e está explicitamente na prova Associate ("inserir referências relativas, absolutas e mistas").',
+        content: [
+          { h: 'Referência relativa (o padrão)',
+            p: 'Uma referência comum, como B4, é relativa: o Excel a guarda como "a célula duas colunas à esquerda, na mesma linha". Ao copiar a fórmula uma linha para baixo, ela passa a apontar para B5; uma coluna para a direita, para C4. É isso que permite escrever o cálculo uma vez e estendê-lo para mil linhas.',
+            img: { src: `${XL_IMG}/m06/ref-relativa.gif`, alt: 'Fórmula com referência relativa copiada', caption: 'Relativa: a referência acompanha o deslocamento da fórmula.', source: `${SUP}/excel/get-started/overview-of-formulas-in-excel` } },
+          { h: 'Referência absoluta',
+            p: 'Com o cifrão antes da coluna e antes da linha, a referência fica travada: copie para onde quiser e ela continua apontando para a mesma célula. É o caso típico de um valor fixo usado por muitas linhas — a taxa de câmbio, a alíquota, a meta.',
+            code: 'D2:  =C2*$G$1     (preço em reais × cotação em G1)\nD3:  =C3*$G$1     ← ao copiar, C muda; G1 fica',
+            img: { src: `${XL_IMG}/m06/ref-absoluta.gif`, alt: 'Fórmula com referência absoluta copiada', caption: 'Absoluta: a referência não muda ao copiar.', source: `${SUP}/excel/get-started/overview-of-formulas-in-excel` } },
+          { h: 'Referência mista',
+            p: 'Trava só uma das partes: cifrão antes da coluna (a coluna fica, a linha muda) ou antes da linha (a linha fica, a coluna muda). É o recurso para tabelas de duas entradas, como uma tabuada ou uma tabela de preço × quantidade, em que a mesma fórmula é copiada para baixo e para o lado.',
+            code: 'B2:  =$A2*B$1     → copiada para toda a tabela, cada célula\n                    multiplica o valor da coluna A da sua linha\n                    pelo valor da linha 1 da sua coluna',
+            img: { src: `${XL_IMG}/m06/ref-mista.gif`, alt: 'Fórmula com referência mista copiada', caption: 'Mista: só a parte com cifrão fica travada.', source: `${SUP}/excel/get-started/overview-of-formulas-in-excel` } },
+          { h: 'A tecla F4',
+            p: 'Com o cursor sobre uma referência na barra de fórmulas (ou logo depois de clicar na célula ao montar a fórmula), cada toque em F4 alterna entre os quatro tipos: absoluta (cifrão na coluna e na linha), linha travada, coluna travada e relativa de novo. A tabela oficial resume o efeito de copiar a fórmula duas linhas para baixo e duas colunas para a direita:',
+            items: [
+              'Absoluta, com cifrão nos dois: continua exatamente igual.',
+              'Linha travada (cifrão antes do 1): a coluna anda duas letras e a linha fica — A1 vira C1.',
+              'Coluna travada (cifrão antes do A): a coluna fica e a linha anda duas — vira A3.',
+              'Relativa: as duas andam — vira C3.'
+            ],
+            img: { src: `${XL_IMG}/m06/copiar-formula.gif`, alt: 'Fórmula copiada de A1 para duas linhas abaixo e duas colunas à direita', caption: 'O deslocamento usado na tabela: duas linhas para baixo e duas colunas para a direita.', source: `${SUP}/excel/switch-between-relative-absolute-and-mixed-references` } },
+          { h: 'Copiar x recortar uma fórmula',
+            p: 'Copiar (e colar ou arrastar a alça) ajusta as referências relativas. Recortar e colar move a fórmula sem alterar nenhuma referência. Para copiar a fórmula "exatamente como está", sem ajuste, copie o texto da barra de fórmulas (não a célula).' },
+          { h: 'Referência a outra planilha',
+            p: 'O nome da planilha vem antes da referência, separado por um ponto de exclamação. Se o nome tiver espaços ou acentos, fica entre apóstrofos. O jeito mais fácil é não digitar: comece a fórmula, clique na guia da outra planilha, selecione as células e pressione Enter.',
+            code: '=Vendas!B4\n=SOMA(\'Vendas 2026\'!B2:B200)\n=MÉDIA(Marketing!B1:B10)',
+            img: { src: `${XL_IMG}/m06/ref-outra-planilha.gif`, alt: 'Fórmula com referência a outra planilha', caption: '1 nome da planilha, 2 intervalo, 3 o ponto de exclamação que separa os dois (imagem original em inglês, com a função AVERAGE, que é a MÉDIA).', source: `${SUP}/excel/get-started/overview-of-formulas-in-excel` } },
+          { h: 'Referência 3D: a mesma célula em várias planilhas',
+            p: 'Quando várias planilhas têm o mesmo layout (uma por mês, uma por filial), uma referência 3D soma a mesma célula em todas as planilhas entre a primeira e a última citadas: o intervalo de planilhas usa dois-pontos. Planilhas inseridas entre as duas pontas passam a entrar no cálculo; planilhas movidas para fora saem.',
+            code: '=SOMA(Janeiro:Dezembro!B5)     → B5 de todas as planilhas de Janeiro a Dezembro' },
+          { h: 'Links para outras pastas de trabalho',
+            p: 'Um link de pasta de trabalho (antes chamado de referência externa) traz valores de outro arquivo. Com as duas pastas abertas, comece a fórmula, alterne para a outra pasta (Exibir > Alternar Janelas), clique na célula e pressione Enter. O nome do arquivo aparece entre colchetes, antes do nome da planilha, e a referência vem absoluta (retire os cifrões se for copiar). Com o arquivo de origem fechado, o Excel mostra o caminho completo. Também dá para criar o link com Copiar e Colar > Colar Vínculo.',
+            code: "=[Orcamento.xlsx]Plan1!$B$4\n='C:\\Relatorios\\[Orcamento.xlsx]Plan1'!$B$4     ← com o arquivo fechado" },
+          { h: 'Gerenciar os links',
+            items: [
+              'Ao abrir um arquivo com links, o Excel mostra um aviso de segurança; clique em <strong>Habilitar Conteúdo</strong> para permitir a atualização.',
+              'Dados > Consultas e Conexões > <strong>Links de Pasta de Trabalho</strong> abre o painel que lista as origens, com Atualizar, Alterar origem, Abrir e <strong>Quebrar link</strong> (substitui as fórmulas pelos valores atuais — não pode ser desfeito).',
+              'Renomear ou mover o arquivo de origem quebra o link; use Alterar origem para apontar o novo local.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Na célula D2, calcule o valor em dólar usando a cotação de G1 e copie até D50" — a prova confere se todas as linhas estão certas: G1 precisa estar absoluta.',
+              '"Some o valor de B5 das planilhas Jan a Dez" — referência 3D.',
+              'A MO-211 cobra "referenciar dados em outras pastas de trabalho": link por fórmula ou Colar Vínculo.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Alternar entre referências relativas, absolutas e mistas', u: `${SUP}/excel/switch-between-relative-absolute-and-mixed-references` },
+          { t: 'Microsoft Suporte — Mover ou copiar uma fórmula', u: `${SUP}/excel/move-or-copy-a-formula-in-excel` },
+          { t: 'Microsoft Suporte — Referência à mesma célula em várias planilhas (3D)', u: `${SUP}/excel/create-a-reference-to-the-same-cell-range-on-multiple-worksheets` },
+          { t: 'Microsoft Suporte — Criar links de pasta de trabalho', u: `${SUP}/excel/create-workbook-links` },
+          { t: 'Microsoft Suporte — Gerenciar links de pasta de trabalho', u: `${SUP}/excel/manage-workbook-links` }
+        ]
+      },
+      {
+        id: 'xl-nomes-definidos', title: 'Nomes definidos: dar nome a células, intervalos e constantes',
+        desc: 'Criar nomes pela Caixa de Nome, por Definir Nome e por Criar a partir da Seleção, usar nomes em fórmulas, escopo e o Gerenciador de Nomes.',
+        objetivos: [
+          'Definir nomes para células, intervalos e constantes',
+          'Usar nomes em fórmulas e para navegar',
+          'Editar, excluir e filtrar nomes no Gerenciador de Nomes, entendendo o escopo'
+        ],
+        body: 'Qual fórmula é mais fácil de entender: uma que multiplica C2 pela célula G1 com cifrões, ou uma que multiplica o Preço pela Cotação? Nomes deixam fórmulas legíveis, funcionam como referências absolutas e servem de atalho de navegação. A prova Associate pede "definir um intervalo nomeado" e "referenciar intervalos nomeados em fórmulas".',
+        content: [
+          { h: 'Três formas de criar um nome',
+            items: [
+              '<strong>Caixa de Nome</strong> — selecione a célula ou o intervalo, clique na Caixa de Nome (à esquerda da barra de fórmulas), digite o nome e pressione Enter. É o jeito mais rápido; o Enter é obrigatório.',
+              '<strong>Definir Nome</strong> — Fórmulas > Nomes Definidos > Definir Nome: além do nome, você escolhe o <strong>Escopo</strong>, escreve um <strong>Comentário</strong> e ajusta o campo <strong>Refere-se a</strong>, que pode ser um intervalo, uma constante ou uma fórmula.',
+              '<strong>Criar a partir da Seleção</strong> — selecione a tabela inteira, incluindo os títulos, e em Fórmulas > Criar a partir da Seleção indique onde estão os rótulos (Linha superior, Coluna esquerda, Linha inferior, Coluna direita). O Excel cria de uma vez um nome para cada coluna ou linha, usando o título (espaços viram sublinhado).'
+            ] },
+          { h: 'Regras para nomes',
+            items: [
+              'Começar com letra, sublinhado ou barra invertida; o resto pode ter letras, números, pontos e sublinhados.',
+              'Sem espaços; não pode ser igual a uma referência (como A1, R1C1 ou uma coluna tipo XFD1), nem ser só as letras C ou R.',
+              'Até 255 caracteres; maiúsculas e minúsculas não se diferenciam (Vendas e VENDAS são o mesmo nome).'
+            ] },
+          { h: 'Nomes para constantes',
+            p: 'Um nome não precisa apontar para uma célula. Em Definir Nome, escreva no Refere-se a um valor, como 0,18 para Aliquota_ICMS. As fórmulas passam a usar o nome, e ninguém altera a alíquota por engano numa célula — mudar o valor exige ir ao Gerenciador de Nomes.' },
+          { h: 'Usar nomes nas fórmulas e para navegar',
+            items: [
+              'Digite as primeiras letras do nome dentro da fórmula e escolha na lista do AutoCompletar (Tab confirma).',
+              'Fórmulas > <strong>Usar em Fórmula</strong> lista os nomes; F3 abre a caixa Colar Nome.',
+              'Nomes são referências absolutas: copiar a fórmula não os desloca.',
+              'Para ir a um intervalo nomeado, escolha o nome na seta da Caixa de Nome ou em F5 (Ir para) — essa é a habilidade "navegar para elementos nomeados" da prova.',
+              'Criou nomes depois das fórmulas? Fórmulas > Definir Nome > <strong>Aplicar Nomes</strong> troca as referências existentes pelos nomes correspondentes.'
+            ],
+            code: '=Preco*Cotacao\n=SOMA(Vendas_Jan)\n=Valor*Aliquota_ICMS' },
+          { h: 'Gerenciador de Nomes (Ctrl+F3)',
+            p: 'Fórmulas > <strong>Gerenciador de Nomes</strong> lista todos os nomes definidos e nomes de tabela, com Valor, Refere-se a, Escopo e Comentário. Ali você cria (Novo), edita, exclui e usa o botão <strong>Filtro</strong> para ver só nomes com escopo de planilha, com escopo de pasta, nomes com erros (útil para limpar nomes que apontam para células excluídas, que mostram o erro de referência), nomes definidos ou nomes de tabela.',
+            img: { src: `${XL_IMG}/m06/gerenciador-de-nomes.png`, alt: 'Caixa de diálogo Gerenciador de Nomes', caption: 'Gerenciador de Nomes: todos os nomes da pasta, com valor, referência e escopo.', source: `${SUP}/excel/use-the-name-manager-in-excel` } },
+          { h: 'Escopo: pasta de trabalho ou planilha',
+            p: 'O escopo define onde o nome é reconhecido. O padrão é <strong>Pasta de Trabalho</strong>: o nome vale em todas as planilhas e precisa ser único na pasta. Com escopo de uma <strong>planilha</strong>, o nome só é reconhecido nela — o que permite ter um nome "Total" diferente em cada planilha. O escopo é escolhido ao criar o nome e não pode ser alterado depois pela edição (é preciso recriar).' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Defina o nome Comissao para a célula H2" — Caixa de Nome ou Definir Nome; atenção à grafia exata e ao escopo, se a tarefa informar.',
+              '"Crie nomes para as colunas usando os títulos" — Criar a partir da Seleção, Linha superior.',
+              '"Na célula B20, some o intervalo nomeado Receitas" — use o nome, não o endereço.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Definir e usar nomes em fórmulas', u: `${SUP}/excel/get-started/define-and-use-names-in-formulas` },
+          { t: 'Microsoft Suporte — Usar o Gerenciador de Nomes', u: `${SUP}/excel/use-the-name-manager-in-excel` }
+        ]
+      },
+      {
+        id: 'xl-referencias-estruturadas', title: 'Referências estruturadas: fórmulas com nomes de tabela e coluna',
+        desc: 'Como o Excel escreve fórmulas que apontam para tabelas, o que significam a arroba e os especificadores Tudo, Dados, Cabeçalhos e Totais, e por que elas se ajustam sozinhas.',
+        objetivos: [
+          'Ler e escrever referências a tabela, coluna e linha atual',
+          'Usar os especificadores especiais de uma tabela',
+          'Entender como as referências estruturadas reagem a mudanças na tabela'
+        ],
+        body: 'Quando você clica numa célula de tabela ao montar uma fórmula, o Excel não escreve C2 — escreve o nome da coluna. Isso se chama referência estruturada. A fórmula fica legível ("preço vezes quantidade") e se ajusta sozinha quando a tabela cresce, quando uma coluna muda de nome ou é movida. A prova Associate pede "referenciar tabelas nomeadas em fórmulas".',
+        content: [
+          { h: 'A sintaxe',
+            items: [
+              '<strong>Coluna inteira</strong> — o nome da tabela seguido do nome da coluna entre colchetes. Fora da tabela, o nome da tabela é obrigatório; dentro dela, pode ser omitido.',
+              '<strong>Linha atual</strong> — a arroba antes do nome da coluna significa "o valor desta coluna na mesma linha da fórmula". É o que aparece nas colunas calculadas.',
+              '<strong>Várias colunas</strong> — as duas colunas entre colchetes, separadas por dois-pontos: de Janeiro a Dezembro.',
+              '<strong>Nomes com espaços ou caracteres especiais</strong> ganham um par extra de colchetes.'
+            ],
+            code: '=SOMA(tbVendas[Valor])                  → soma a coluna Valor da tabela tbVendas\n=[@Preco]*[@Qtd]                         → coluna calculada: preço × quantidade da linha\n=SOMA(tbVendas[@[Janeiro]:[Dezembro]])   → soma de janeiro a dezembro na linha\n=MÉDIA(tbVendas[[#Totais];[Valor]])      → a célula da linha de totais da coluna Valor' },
+          { h: 'Especificadores de item',
+            items: [
+              '<strong>#Tudo</strong> — a tabela inteira: cabeçalho, dados e totais.',
+              '<strong>#Dados</strong> — só as linhas de dados (é o que se usa quando nada é especificado).',
+              '<strong>#Cabeçalhos</strong> — a linha de cabeçalho.',
+              '<strong>#Totais</strong> — a linha de totais (se não existir, o resultado é vazio).',
+              '<strong>Arroba</strong> — a linha atual (antigamente escrita como Esta Linha).'
+            ] },
+          { h: 'Por que usar',
+            items: [
+              '<strong>Expansão automática</strong> — a soma da coluna Valor passa a incluir as linhas novas sem mexer na fórmula; uma referência como B2:B500 não faria isso.',
+              '<strong>Renomear coluna</strong> — todas as fórmulas que usam aquele título são atualizadas.',
+              '<strong>Legibilidade</strong> — a fórmula diz o que calcula.',
+              '<strong>Validação e gráficos</strong> — gráficos e tabelas dinâmicas baseados na tabela também crescem com ela.'
+            ] },
+          { h: 'Cuidados',
+            items: [
+              'Arrastar a alça para o lado com uma referência de coluna inteira desloca a coluna (como uma referência relativa); copiar e colar não desloca. Para fixar, use a forma de intervalo de coluna, repetindo o nome: a coluna Valor até a coluna Valor.',
+              'Ao converter a tabela em intervalo, as referências estruturadas viram referências comuns de célula.',
+              'Se preferir referências comuns ao clicar em tabelas, desligue em Arquivo > Opções > Fórmulas > "Usar nomes de tabela em fórmulas".'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Na célula H2, some a coluna Receita da tabela Vendas2026" — clique na coluna ao montar a fórmula ou escreva a referência estruturada.',
+              '"Crie uma coluna calculada Total que multiplique Qtd por Preço" — digite numa célula da coluna nova, clicando nas células da mesma linha: o Excel gera a forma com arroba e preenche a coluna.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Usar referências estruturadas com tabelas do Excel', u: `${SUP}/excel/using-structured-references-with-excel-tables` }
+        ]
+      },
+      {
+        id: 'xl-funcoes-basicas', title: 'Funções essenciais: SOMA, MÉDIA, MÁXIMO, MÍNIMO e as contagens',
+        desc: 'Inserir funções pela AutoSoma, pelo botão Inserir Função e digitando; SOMA, MÉDIA, MÁXIMO, MÍNIMO, CONT.NÚM, CONT.VALORES, CONTAR.VAZIO e ARRED.',
+        objetivos: [
+          'Inserir funções pela AutoSoma, pela caixa Inserir Função e pela digitação',
+          'Usar SOMA, MÉDIA, MÁXIMO e MÍNIMO sabendo o que cada uma ignora',
+          'Diferenciar CONT.NÚM, CONT.VALORES e CONTAR.VAZIO, e arredondar com ARRED'
+        ],
+        body: 'Funções são fórmulas prontas: em vez de somar célula a célula, você diz "some este intervalo". Nesta aula ficam as sete funções que a prova Associate lista nominalmente para cálculos e contagens — e o detalhe que mais cai: o que cada uma considera ou ignora (texto, células vazias, zeros).',
+        content: [
+          { h: 'Três formas de inserir uma função',
+            items: [
+              '<strong>AutoSoma</strong> (Página Inicial > Edição, ou Fórmulas > Biblioteca de Funções; atalho Alt+=) — selecione a célula logo abaixo de uma coluna de números (ou à direita de uma linha), clique em AutoSoma e confira o intervalo sugerido antes do Enter. A seta do botão oferece Soma, Média, Contar Números, Máx e Mín.',
+              '<strong>Inserir Função</strong> (o botão fx ao lado da barra de fórmulas, ou Shift+F3) — procura a função por descrição e abre a caixa <strong>Argumentos da Função</strong>, que explica cada argumento e mostra o resultado parcial.',
+              '<strong>Digitando</strong> — após o sinal de igual e as primeiras letras, o AutoCompletar lista as funções; Tab insere a escolhida e abre o parêntese. Uma dica flutuante mostra os argumentos, com o atual em negrito; argumentos entre colchetes são opcionais.'
+            ],
+            img: { src: `${XL_IMG}/m06/autosoma-formula.jpg`, alt: 'AutoSoma criando a fórmula SOMA com o intervalo destacado', caption: 'AutoSoma: o Excel propõe o intervalo; confira antes de confirmar.', source: `${SUP}/excel/use-autosum-to-sum-numbers-in-excel` } },
+          { h: 'SOMA, MÉDIA, MÁXIMO e MÍNIMO',
+            items: [
+              '<strong>SOMA</strong> (SUM) — soma números de intervalos e valores, até 255 argumentos. Texto e células vazias no intervalo são ignorados.',
+              '<strong>MÉDIA</strong> (AVERAGE) — média aritmética. Ignora texto, valores lógicos e células vazias, mas <strong>conta os zeros</strong>: uma venda zero puxa a média para baixo; uma célula vazia, não.',
+              '<strong>MÁXIMO</strong> (MAX) e <strong>MÍNIMO</strong> (MIN) — o maior e o menor número do intervalo, ignorando texto e vazios.'
+            ],
+            code: '=SOMA(B2:B13)\n=MÉDIA(B2:B13)\n=MÁXIMO(B2:B13)\n=MÍNIMO(B2:B13;D2:D13)' },
+          { h: 'As três contagens',
+            items: [
+              '<strong>CONT.NÚM</strong> (COUNT) — conta só as células com <strong>números</strong> (datas contam, porque são números).',
+              '<strong>CONT.VALORES</strong> (COUNTA) — conta as células <strong>não vazias</strong>: números, texto, valores lógicos, erros e até um texto vazio gerado por fórmula.',
+              '<strong>CONTAR.VAZIO</strong> (COUNTBLANK) — conta as células <strong>vazias</strong> do intervalo; células com fórmula que devolve texto vazio também contam como vazias. Zero não é vazio.'
+            ],
+            code: 'Intervalo com: 10, "ok", (vazia), 0, 25/09/2026\n=CONT.NÚM(A1:A5)      → 3  (10, 0 e a data)\n=CONT.VALORES(A1:A5)  → 4\n=CONTAR.VAZIO(A1:A5)  → 1' },
+          { h: 'Arredondar de verdade: ARRED',
+            p: 'Formatar com menos casas decimais só esconde (Módulo 03). Para mudar o valor, use <strong>ARRED</strong> (ROUND) com o número e a quantidade de casas: duas casas para centavos, zero para inteiros, e números negativos arredondam à esquerda da vírgula (menos dois arredonda para a centena). ARREDONDAR.PARA.CIMA e ARREDONDAR.PARA.BAIXO forçam a direção.',
+            code: '=ARRED(2,4567;2)     → 2,46\n=ARRED(1234;-2)      → 1200\n=ARRED(B2*C2;2)      → o cálculo já arredondado para centavos' },
+          { h: 'A barra de status como calculadora',
+            p: 'Para uma conferência rápida, selecione as células: a barra de status mostra Média, Contagem e Soma. Clique com o botão direito nela para exibir também Contagem Numérica, Mínimo e Máximo. Nada é gravado na planilha.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Em B15, calcule a média de B2:B14" — MÉDIA; confira se o intervalo da AutoSoma não pegou o título ou o total.',
+              '"Conte quantos clientes não informaram o telefone" — CONTAR.VAZIO na coluna do telefone.',
+              '"Conte quantos pedidos existem" numa coluna de códigos em texto — CONT.VALORES (CONT.NÚM daria zero).'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Usar a AutoSoma para somar números', u: `${SUP}/excel/use-autosum-to-sum-numbers-in-excel` },
+          { t: 'Microsoft Suporte — Função SOMA', u: `${SUP}/excel/functions/sum-function` },
+          { t: 'Microsoft Suporte — Função MÉDIA', u: `${SUP}/excel/functions/average-function` },
+          { t: 'Microsoft Suporte — Função CONT.NÚM', u: `${SUP}/excel/functions/count-function` },
+          { t: 'Microsoft Suporte — Função CONT.VALORES', u: `${SUP}/excel/functions/counta-function` },
+          { t: 'Microsoft Suporte — Função CONTAR.VAZIO', u: `${SUP}/excel/functions/countblank-function` },
+          { t: 'Microsoft Suporte — Função ARRED', u: `${SUP}/excel/functions/round-function` }
+        ]
+      }
+    ]
   }
 ];

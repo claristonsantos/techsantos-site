@@ -10,7 +10,7 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 |---|---|---|
 | Importar dados de arquivos .txt e .csv | xl-importar-txt-csv, xl-power-query-basico | ✅ |
 | Pesquisar dados na pasta de trabalho | xl-localizar-substituir-links | ✅ |
-| Navegar para células, intervalos ou elementos nomeados | xl-navegar-selecionar (Caixa de Nome, Ir para) | 🟡 (nomes definidos no Módulo 06) |
+| Navegar para células, intervalos ou elementos nomeados | xl-navegar-selecionar, xl-nomes-definidos | ✅ |
 | Inserir e remover hiperlinks | xl-localizar-substituir-links | ✅ |
 | Modificar a configuração de página | — (Módulo 15) | ⬜ |
 | Ajustar altura de linha e largura de coluna | xl-planilhas-linhas-colunas | ✅ |
@@ -41,7 +41,9 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Aplicar formatos de célula da caixa Formatar Células | xl-fonte-alinhamento, xl-formatos-numero | ✅ |
 | Aplicar estilos de célula | xl-estilos-pincel-limpar | ✅ |
 | Limpar formatação de células | xl-estilos-pincel-limpar | ✅ |
-| Demais (nomes, minigráficos, formatação condicional) | — (Módulos 06, 10) | ⬜ |
+| Definir um intervalo nomeado | xl-nomes-definidos | ✅ |
+| Nomear uma tabela | xl-tabelas-criar | ✅ |
+| Demais (minigráficos, formatação condicional) | — (Módulo 10) | ⬜ |
 
 ### Gerenciar tabelas e dados de tabela
 | Habilidade | Aula(s) | Status |
@@ -57,7 +59,17 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Nomear tabela (seção de células/intervalos) | xl-tabelas-criar | ✅ |
 
 ### Demais áreas Associate
-⬜ Fórmulas e funções · ⬜ Gráficos
+### Operações com fórmulas e funções
+| Habilidade | Aula(s) | Status |
+|---|---|---|
+| Inserir referências relativas, absolutas e mistas | xl-referencias | ✅ |
+| Referenciar intervalos nomeados e tabelas nomeadas em fórmulas | xl-nomes-definidos, xl-referencias-estruturadas | ✅ |
+| Cálculos com MÉDIA, MÁXIMO, MÍNIMO e SOMA | xl-funcoes-basicas | ✅ |
+| Contar células com CONT.NÚM, CONT.VALORES e CONTAR.VAZIO | xl-funcoes-basicas | ✅ |
+| Operações condicionais com SE | — (Módulo 07) | ⬜ |
+| Funções de texto | — (Módulo 08) | ⬜ |
+
+⬜ ⬜ Gráficos
 
 ## Expert (MO-211)
 ### Gerenciar e formatar dados
@@ -68,6 +80,7 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Preencher células usando a função MATRIZALEATÓRIA | — (Módulo 09) | ⬜ |
 | Criar formatos de número personalizados | xl-formatos-personalizados | ✅ |
 | Configurar a validação de dados | xl-validacao-dados | ✅ |
+| Referenciar dados em outras pastas de trabalho | xl-referencias, xl-power-query-basico | ✅ |
 | Remover registros duplicados | xl-texto-colunas-duplicatas | ✅ |
 
 ⬜ Opções e configurações da pasta de trabalho · ⬜ Demais itens de dados · ⬜ Fórmulas e macros avançadas · ⬜ Gráficos e tabelas avançados

@@ -51,3 +51,11 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m05/personalizar-autofiltro.jpg | Caixa de diálogo Personalizar AutoFiltro | https://support.microsoft.com/pt-br/excel/get-started/filter-data-in-a-range-or-table-in-excel |
 | /assets/img/curso-excel/m05/segmentacao-elementos.jpg | Captura de tela de elementos de segmentação de dados de Tabela Dinâmica. | https://support.microsoft.com/pt-br/excel/get-started/use-slicers-to-filter-data |
 | /assets/img/curso-excel/m05/criterios-filtro-avancado.png | Captura de tela de critérios e intervalo de lista | https://support.microsoft.com/pt-br/excel/filter-by-using-advanced-criteria |
+| /assets/img/curso-excel/m06/partes-da-formula.gif | Partes de uma fórmula | https://support.microsoft.com/pt-br/excel/get-started/overview-of-formulas-in-excel |
+| /assets/img/curso-excel/m06/ref-relativa.gif | Fórmula copiada com referência relativa | https://support.microsoft.com/pt-br/excel/get-started/overview-of-formulas-in-excel |
+| /assets/img/curso-excel/m06/ref-absoluta.gif | Fórmula copiada com referência absoluta | https://support.microsoft.com/pt-br/excel/get-started/overview-of-formulas-in-excel |
+| /assets/img/curso-excel/m06/ref-mista.gif | Fórmula copiada com referência mista | https://support.microsoft.com/pt-br/excel/get-started/overview-of-formulas-in-excel |
+| /assets/img/curso-excel/m06/ref-outra-planilha.gif | Exemplo de referência de planilha | https://support.microsoft.com/pt-br/excel/get-started/overview-of-formulas-in-excel |
+| /assets/img/curso-excel/m06/copiar-formula.gif | Fórmula sendo copiada de A1 para duas células abaixo e para a direita | https://support.microsoft.com/pt-br/excel/switch-between-relative-absolute-and-mixed-references |
+| /assets/img/curso-excel/m06/autosoma-formula.jpg | Fórmula criada ao clicar em Soma Automática Base > | https://support.microsoft.com/pt-br/excel/use-autosum-to-sum-numbers-in-excel |
+| /assets/img/curso-excel/m06/gerenciador-de-nomes.png | Caixa de diálogo Gerenciador de Nomes | https://support.microsoft.com/pt-br/excel/use-the-name-manager-in-excel |
