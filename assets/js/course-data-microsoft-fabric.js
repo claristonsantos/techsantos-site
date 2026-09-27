@@ -3833,5 +3833,255 @@ EVALUATE
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m12', title: 'Módulo 12 · Segurança e governança', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-seg-workspace-item', title: 'Acesso no workspace e no item',
+        desc: 'As quatro funções de workspace e o que cada uma pode fazer, e o compartilhamento de itens com permissões Ler, Ler tudo (SQL e Spark), Criar, Editar, Compartilhar e Executar.',
+        objetivos: [
+          'Atribuir a função de workspace certa para cada perfil',
+          'Compartilhar itens com o mínimo de permissão necessário',
+          'Diferenciar ReadData (SQL) de ReadAll (OneLake/Spark)'
+        ],
+        body: 'Cobre “Implementar controles de acesso no nível do workspace” e “no nível do item”, presentes nas duas provas. A regra de ouro é o menor privilégio: dar a cada pessoa o acesso mínimo para fazer o trabalho — de preferência por grupos de segurança, não por pessoa.',
+        content: [
+          { h: 'As funções de workspace',
+            items: [
+              '<strong>Administrador</strong> — tudo: atualizar e excluir o workspace, adicionar e remover pessoas (inclusive outros administradores), conectar ao Git, criar a identidade do workspace.',
+              '<strong>Membro</strong> — tudo o que o colaborador faz, mais adicionar pessoas com funções iguais ou inferiores e permitir que outros compartilhem itens.',
+              '<strong>Colaborador</strong> — cria, edita e exclui itens (lakehouse, warehouse, pipeline, notebook…), executa e cancela notebooks e pipelines, lê dados pelo SQL e pelo OneLake/Spark (ReadAll).',
+              '<strong>Visualizador</strong> — vê e lê o conteúdo e a saída das execuções, conecta ao ponto de extremidade SQL e lê dados pelo <strong>SQL</strong> (ReadData), mas <strong>não</strong> lê os arquivos pelo OneLake/Spark nem edita nada.',
+              'Funções são atribuídas a pessoas, grupos de segurança, grupos do Microsoft 365 e listas de distribuição; quem está em vários grupos fica com a maior permissão.',
+              'Segurança em nível de linha, coluna e objeto do modelo e do SQL só restringe <strong>Visualizadores</strong>: Administrador, Membro e Colaborador têm acesso de edição e enxergam tudo.'
+            ],
+            img: { src: `${FAB_IMG}/m12/acesso-workspace.png`, alt: 'Painel Adicionar pessoas com a escolha da função', caption: 'Gerenciar acesso ao workspace: adicionar pessoas ou grupos e escolher a função.', source: `${LEARN}/fundamentals/give-access-workspaces` } },
+          { h: 'Compartilhar um item',
+            p: 'Para quem não deve ter acesso ao workspace inteiro, compartilhe só o item (botão Compartilhar ou Gerenciar permissões → acesso direto). <strong>Ler</strong> é sempre concedido; as demais são opcionais:',
+            items: [
+              '<strong>Ler</strong> — ver o item no catálogo, abri-lo e conectar ao ponto de extremidade SQL (sem ler dados, a não ser que haja outra permissão).',
+              '<strong>Ler todos os dados com o ponto de extremidade SQL</strong> (ReadData) — consultar as tabelas em T-SQL.',
+              '<strong>Ler todos os dados com o Apache Spark</strong> (ReadAll) — ler os arquivos pelo OneLake, notebooks e explorador do lakehouse.',
+              '<strong>Criar</strong> (Build) — num modelo semântico, criar relatórios e conteúdo novo sobre ele.',
+              '<strong>Editar</strong> — alterar o item.',
+              '<strong>Compartilhar</strong> (Reshare) — repassar o acesso, até o limite das próprias permissões.',
+              '<strong>Executar</strong> e <strong>Assinar eventos do OneLake</strong>, conforme o item.',
+              'Revogar uma permissão pode levar até duas horas para valer para um usuário conectado.'
+            ],
+            img: { src: `${FAB_IMG}/m12/compartilhar-permissoes.png`, alt: 'Permissões adicionais ao compartilhar um item', caption: 'Compartilhamento de um lakehouse: permissões adicionais além de Ler.', source: `${LEARN}/fundamentals/share-items` } },
+          { h: 'Combinações que caem na prova',
+            items: [
+              'Analista precisa consultar o lakehouse em SQL, sem ver outros itens → compartilhar o item com Ler + Ler todos os dados com o ponto de extremidade SQL.',
+              'Cientista de dados precisa ler os arquivos com Spark → Ler tudo com Apache Spark (ou função de Colaborador).',
+              'Autor de relatório precisa criar relatórios sobre um modelo publicado → permissão Criar (Build) no modelo.',
+              'Aplicar RLS a um usuário → ele precisa ser Visualizador (ou só ter permissão de item), nunca Colaborador ou acima.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Quem pode conectar o workspace ao Git ou criar a identidade do workspace → só Administrador.',
+              'Quem pode adicionar outras pessoas ao workspace → Administrador e Membro (Membro só até o próprio nível).',
+              'Visualizador consegue ler tabelas via SQL mas não via notebook → Visualizador tem ReadData, não ReadAll.',
+              'Menor privilégio para desenvolver pipelines e notebooks → Colaborador.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Funções em workspaces', u: `${LEARN}/fundamentals/roles-workspaces` },
+          { t: 'Dar acesso a workspaces', u: `${LEARN}/fundamentals/give-access-workspaces` },
+          { t: 'Compartilhar itens', u: `${LEARN}/fundamentals/share-items` },
+          { t: 'Modelo de permissões do Fabric', u: `${LEARN}/security/permission-model` }
+        ]
+      },
+      {
+        id: 'fab-seg-sql', title: 'Segurança granular no warehouse: GRANT, RLS, CLS e máscara dinâmica',
+        desc: 'Permissões SQL granulares, segurança em nível de linha com políticas de segurança, segurança em nível de coluna e de objeto com GRANT/DENY, e mascaramento dinâmico de dados no warehouse e no ponto de extremidade SQL.',
+        objetivos: [
+          'Conceder e negar permissões em objetos com T-SQL',
+          'Implementar RLS com função de predicado e política de segurança',
+          'Restringir colunas e aplicar máscaras dinâmicas'
+        ],
+        body: 'Cobre, do lado SQL, “Implementar controles de acesso no nível de linha, coluna, objeto” (as duas provas) e “Implementar máscara dinâmica de dados” (DP-700). Tudo isso vale no warehouse e no ponto de extremidade SQL do lakehouse.',
+        content: [
+          { h: 'Permissões granulares (segurança em nível de objeto)',
+            items: [
+              'Quando as funções e permissões de item não bastam, use <strong>GRANT</strong>, <strong>DENY</strong> e <strong>REVOKE</strong> em esquemas, tabelas, exibições, funções e procedimentos.',
+              'Não existe CREATE USER: ao executar GRANT/DENY para um usuário do Entra, o Fabric cria o usuário do banco. Mas ele só conecta se tiver também uma função no workspace ou a permissão Ler no item.',
+              'Prefira funções de banco (<code>CREATE ROLE</code>) e grupos a permissões por pessoa.',
+              '<code>sys.fn_my_permissions</code> mostra as permissões do usuário atual.'
+            ],
+            code: `CREATE ROLE analistas_vendas;
+GRANT SELECT ON SCHEMA::ouro TO analistas_vendas;
+DENY  SELECT ON dbo.Salarios TO analistas_vendas;      -- nível de objeto
+ALTER ROLE analistas_vendas ADD MEMBER [grupo-vendas@empresa.com];` },
+          { h: 'Segurança em nível de coluna (CLS)',
+            p: 'É um GRANT com lista de colunas: o usuário só consegue selecionar as colunas liberadas; uma consulta com <code>SELECT *</code> ou que cite a coluna proibida falha. Mais simples do que criar exibições só para esconder colunas.',
+            code: `GRANT SELECT ON dbo.Clientes (ClienteID, Nome, Cidade, UF)
+TO [ana@empresa.com];   -- CPF e Telefone ficam de fora` },
+          { h: 'Segurança em nível de linha (RLS)',
+            items: [
+              'Crie uma <strong>função com valor de tabela embutida</strong> que devolve 1 quando o usuário pode ver a linha (o predicado).',
+              'Crie uma <strong>política de segurança</strong> (<code>CREATE SECURITY POLICY</code>) que aplica a função como <strong>predicado de filtro</strong> numa tabela. Cada tabela precisa da sua política.',
+              'O filtro é silencioso: o usuário simplesmente não vê as outras linhas, em qualquer ferramenta que consulte o banco.',
+              'Criar políticas exige ALTER ANY SECURITY POLICY. No ponto de extremidade SQL você pode criar esquema, função e política, mas não tabelas.',
+              'Cuidado com Direct Lake: RLS, CLS/OLS e máscaras definidas no SQL fazem o Direct Lake no ponto de extremidade SQL cair para DirectQuery (Módulo 11).'
+            ],
+            code: `CREATE SCHEMA seg;
+GO
+CREATE FUNCTION seg.fn_filtroVendedor (@Vendedor AS VARCHAR(100))
+RETURNS TABLE WITH SCHEMABINDING
+AS RETURN
+    SELECT 1 AS permitido
+    WHERE @Vendedor = USER_NAME() OR USER_NAME() = 'gerente@empresa.com';
+GO
+CREATE SECURITY POLICY seg.PoliticaVendas
+ADD FILTER PREDICATE seg.fn_filtroVendedor(EmailVendedor) ON dbo.Pedidos
+WITH (STATE = ON);` },
+          { h: 'Mascaramento dinâmico de dados',
+            items: [
+              'Esconde o valor na saída das consultas, sem alterar o dado armazenado. Definido por coluna com <code>MASKED WITH (FUNCTION = ...)</code>.',
+              'Quatro funções: <strong>default()</strong> (XXXX, zero ou 1900-01-01 conforme o tipo), <strong>email()</strong> (aXXX@XXXX.com), <strong>random()</strong> (número aleatório num intervalo) e <strong>partial()</strong> (mostra o início e o fim, com um preenchimento no meio).',
+              'Quem é Administrador, Membro ou Colaborador vê os dados reais; para outros, conceda <strong>UNMASK</strong> a quem pode ver e <strong>ALTER ANY MASK</strong> a quem administra.',
+              'Não é criptografia nem controle de acesso: com consultas de filtro, um usuário pode inferir o valor. Combine com CLS/RLS para dados realmente sensíveis.'
+            ],
+            code: `ALTER TABLE dbo.Clientes ALTER COLUMN Email
+    ADD MASKED WITH (FUNCTION = 'email()');
+ALTER TABLE dbo.Clientes ALTER COLUMN Telefone
+    ADD MASKED WITH (FUNCTION = 'partial(0,"XXXX-",4)');
+GRANT UNMASK TO [auditoria@empresa.com];` },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Vendedor só pode ver os próprios pedidos no warehouse → RLS: função de predicado + CREATE SECURITY POLICY.',
+              'Analista não pode ver a coluna CPF → GRANT SELECT com lista de colunas (CLS) ou DENY na coluna.',
+              'Atendimento deve ver só os últimos 4 dígitos do telefone → máscara partial().',
+              'Usuário com máscara precisa ver o dado real → GRANT UNMASK.',
+              'Usuário recebeu GRANT mas não conecta → faltou função no workspace ou permissão Ler no item.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Segurança do Fabric Data Warehouse', u: `${LEARN}/data-warehouse/security` },
+          { t: 'Permissões granulares do SQL', u: `${LEARN}/data-warehouse/sql-granular-permissions` },
+          { t: 'Segurança em nível de linha', u: `${LEARN}/data-warehouse/row-level-security` },
+          { t: 'Segurança em nível de coluna', u: `${LEARN}/data-warehouse/column-level-security` },
+          { t: 'Mascaramento dinâmico de dados', u: `${LEARN}/data-warehouse/dynamic-data-masking` }
+        ]
+      },
+      {
+        id: 'fab-seg-modelo', title: 'Segurança no modelo semântico e no OneLake',
+        desc: 'Funções com RLS estática e dinâmica, OLS em tabelas e colunas, testar como função, e como a segurança do OneLake (pastas e arquivos) se combina com o modelo e o Direct Lake.',
+        objetivos: [
+          'Criar funções de RLS estáticas e dinâmicas no modelo',
+          'Proteger tabelas e colunas com OLS',
+          'Testar a segurança e atribuir membros',
+          'Escolher em que camada aplicar cada regra'
+        ],
+        body: 'Completa “Implementar controle de acesso em nível de linha, coluna, objeto e arquivo/pasta” com o lado do Power BI e do OneLake (visto em detalhe no Módulo 02).',
+        content: [
+          { h: 'RLS no modelo semântico',
+            items: [
+              'Em <strong>Gerenciar funções</strong> (Desktop ou modelagem na Web), crie funções com filtros por tabela: pela interface ou com uma expressão DAX que retorna verdadeiro/falso por linha.',
+              '<strong>Estática</strong>: <code>[UF] = "GO"</code> — uma função por região.',
+              '<strong>Dinâmica</strong>: uma tabela de mapeamento usuário → região e o filtro <code>[Email] = USERPRINCIPALNAME()</code>; uma única função atende todos. É a abordagem mais comum.',
+              'O filtro se propaga pelos relacionamentos (da dimensão para o fato). Filtrar pela tabela de mapeamento exige que o filtro atravesse para as dimensões — às vezes com a opção de aplicar o filtro de segurança nas duas direções.',
+              'Membros (pessoas e grupos) são atribuídos no <strong>serviço</strong>, na página de segurança do modelo; no Desktop, só dá para testar.',
+              'A RLS vale para quem tem apenas leitura (Visualizador ou permissão de item); não restringe quem pode editar o modelo.'
+            ],
+            img: { src: `${FAB_IMG}/m12/rls-membros.png`, alt: 'Adicionar membros a uma função de segurança', caption: 'Segurança em nível de linha no serviço: adicionar pessoas ou grupos a uma função.', source: `${LEARN}/security/service-admin-row-level-security` } },
+          { h: 'Testar como função',
+            p: '<strong>Exibir como</strong> (Desktop) e <strong>Testar como função</strong> (serviço) mostram o relatório como uma função — e, com RLS dinâmica, como um usuário específico. Teste sempre antes de publicar e depois de mudar o modelo.',
+            img: { src: `${FAB_IMG}/m12/rls-testar-funcao.png`, alt: 'Opção Testar como função', caption: 'Testar como função no serviço: valida o que cada perfil enxerga.', source: `${LEARN}/security/service-admin-row-level-security` } },
+          { h: 'OLS no modelo',
+            items: [
+              'A <strong>segurança em nível de objeto</strong> esconde tabelas ou colunas inteiras de uma função — elas passam a “não existir” para esses usuários; um visual que as usa gera erro.',
+              'Configurada nas funções com a exibição TMDL do Desktop ou com ferramentas externas (Tabular Editor), definindo metadataPermission = none na tabela ou coluna.',
+              'Como a RLS, só se aplica a Visualizadores.'
+            ] },
+          { h: 'Segurança do OneLake (pastas e arquivos)',
+            items: [
+              'Funções de acesso do OneLake definem quais pastas/tabelas de um lakehouse cada grupo lê, com RLS e CLS aplicados em todos os mecanismos (Spark, SQL, Direct Lake no OneLake) — revise o Módulo 02.',
+              'Vale para quem tem acesso de leitura ao item (Visualizadores e permissões de item); Colaboradores e acima continuam vendo tudo.',
+              'Direct Lake no OneLake respeita a segurança do OneLake com a identidade do usuário (SSO); com identidade fixa, a segurança deve ficar no modelo.'
+            ] },
+          { h: 'Em que camada aplicar',
+            items: [
+              '<strong>OneLake</strong> — quando a mesma regra deve valer para todos os mecanismos (notebook, SQL, relatório).',
+              '<strong>SQL (warehouse/ponto de extremidade)</strong> — quando os consumidores usam T-SQL; lembre do fallback do Direct Lake no SQL.',
+              '<strong>Modelo semântico</strong> — quando os consumidores só usam relatórios e não têm acesso aos dados de origem; combine com identidade fixa no Direct Lake.',
+              'Regras em várias camadas ao mesmo tempo aumentam a complexidade: documente e teste.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Cada gerente vê só a própria região, com uma única função → RLS dinâmica com USERPRINCIPALNAME e tabela de mapeamento.',
+              'Esconder a coluna Salário de um grupo de leitores do relatório → OLS no modelo.',
+              'Regra deve valer para quem usa notebook e relatório → segurança do OneLake.',
+              'Colaborador reclama que a RLS não funciona para ele → RLS não se aplica a quem pode editar; teste com Visualizador.',
+              'Onde atribuir membros às funções → no serviço, nas configurações de segurança do modelo.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Segurança em nível de linha no Power BI', u: `${LEARN}/security/service-admin-row-level-security` },
+          { t: 'Segurança em nível de objeto', u: `${LEARN}/security/service-admin-object-level-security` },
+          { t: 'Integrar a segurança do Direct Lake', u: `${LEARN}/fundamentals/direct-lake-security-integration` }
+        ]
+      },
+      {
+        id: 'fab-governanca', title: 'Governança: rótulos de confidencialidade, endosso e auditoria',
+        desc: 'Rótulos de confidencialidade do Purview e sua herança, endosso Promovido, Certificado e Dados mestres, e os logs de auditoria do Fabric.',
+        objetivos: [
+          'Aplicar rótulos de confidencialidade e entender a herança',
+          'Endossar itens com o selo certo',
+          'Localizar atividades de usuários nos logs de auditoria'
+        ],
+        body: 'Cobre “Aplicar rótulos de confidencialidade a itens” (as duas provas), “Aprovar/Endossar itens” e “Implementar e usar logs de auditoria do Microsoft Fabric” (DP-700).',
+        content: [
+          { h: 'Rótulos de confidencialidade',
+            items: [
+              'Vêm da <strong>Proteção de Informações do Microsoft Purview</strong> (Público, Interno, Confidencial, Altamente confidencial…) e exigem licença adequada e habilitação pelo administrador.',
+              'Aplicados no menu do item ou no cabeçalho, por quem tem permissão de edição; podem ser obrigatórios e ter um rótulo padrão.',
+              '<strong>Herança de fontes de dados</strong> — o item que ingere dados rotulados herda o rótulo.',
+              '<strong>Herança a jusante</strong> (ligada por padrão) — o rótulo de um lakehouse ou modelo se propaga para os itens que dependem dele (modelos, relatórios, painéis).',
+              'O rótulo <strong>acompanha os dados exportados</strong> para Excel, PowerPoint e PDF; rótulos com proteção podem restringir quem abre o arquivo exportado ou o .pbix.',
+              'No hub do Purview e nas experiências de governança, os administradores veem a cobertura de rótulos no patrimônio.'
+            ],
+            img: { src: `${FAB_IMG}/m12/rotulo-confidencialidade.png`, alt: 'Menu de rótulo de confidencialidade de um item', caption: 'Aplicando um rótulo de confidencialidade a um item do Fabric.', source: `${LEARN}/fundamentals/apply-sensitivity-labels` } },
+          { h: 'Endosso',
+            items: [
+              '<strong>Promovido</strong> — o criador indica que o item está pronto para reutilização. Qualquer pessoa com permissão de gravação no item pode promover.',
+              '<strong>Certificado</strong> — um revisor autorizado pela organização atesta que o item segue os padrões de qualidade. Só usuários definidos pelo administrador (ou pelo administrador de domínio) certificam.',
+              '<strong>Dados mestres</strong> — o item é a fonte principal e confiável para aquele tipo de dado (cadastro de clientes, produtos). Também restrito a usuários autorizados.',
+              'Itens endossados aparecem com selo e ganham destaque no catálogo do OneLake e nas buscas. Todos os itens (exceto painéis do Power BI) podem ser promovidos ou certificados; Dados mestres vale para itens que contêm dados.'
+            ],
+            img: { src: `${FAB_IMG}/m12/endosso-selos.png`, alt: 'Selos de endosso nos itens', caption: 'Selos de endosso — Dados mestres, Certificado e Promovido — ao procurar itens.', source: `${LEARN}/governance/endorsement-overview` } },
+          { h: 'Logs de auditoria',
+            items: [
+              'Toda ação relevante (criar, ver, compartilhar, excluir, exportar, executar, alterar permissões) gera um registro de auditoria.',
+              'Os logs são pesquisados no <strong>portal do Microsoft Purview</strong> (Auditoria), filtrando por data (padrão: últimos 7 dias, em UTC), atividade, usuário e item. É preciso a função de Logs de Auditoria (grupos Gerenciamento de Conformidade ou de Organização).',
+              'Administradores também podem consultar atividades por API e, para uso de capacidade, o aplicativo Capacity Metrics.',
+              'A lista de operações do Fabric documenta o nome de cada atividade registrada.'
+            ] },
+          { h: 'Outras peças de governança',
+            items: [
+              '<strong>Domínios</strong> e administradores de domínio (Módulo 01).',
+              '<strong>Linhagem e análise de impacto</strong> — o que depende de um item antes de alterá-lo (Módulo 13).',
+              '<strong>Hub do Purview</strong> no Fabric — visão consolidada de rótulos, endosso e itens sensíveis.',
+              'Configurações de locatário no <strong>portal de administração</strong> — quem pode criar workspaces, compartilhar externamente, exportar, usar Copilot.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Garantir que relatórios criados sobre um lakehouse confidencial também sejam confidenciais → herança a jusante de rótulos.',
+              'Indicar o modelo oficial de vendas aprovado pela governança → Certificado.',
+              'Indicar que a tabela de clientes é a fonte única de verdade → Dados mestres.',
+              'Criador quer sinalizar que o dataflow está pronto para reutilização → Promovido.',
+              'Descobrir quem excluiu um pipeline ontem → log de auditoria no Purview.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Proteção de informações no Fabric', u: `${LEARN}/governance/information-protection` },
+          { t: 'Aplicar rótulos de confidencialidade', u: `${LEARN}/fundamentals/apply-sensitivity-labels` },
+          { t: 'Visão geral do endosso', u: `${LEARN}/governance/endorsement-overview` },
+          { t: 'Acompanhar as atividades do usuário', u: `${LEARN}/admin/track-user-activities` },
+          { t: 'Governança e conformidade no Fabric', u: `${LEARN}/governance/governance-compliance-overview` }
+        ]
+      }
+    ]
   }
 ];

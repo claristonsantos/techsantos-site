@@ -19,7 +19,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 09 | Modelos semânticos: design | ✅ publicado |
 | 10 | DAX para a prova | ✅ publicado |
 | 11 | Direct Lake e otimização de modelos | ✅ publicado |
-| 12 | Segurança e governança | ⬜ |
+| 12 | Segurança e governança | ✅ publicado |
 | 13 | Ciclo de vida: Git, .pbip, pipelines de implantação, XMLA | ⬜ |
 | 14 | Monitoramento, erros e otimização | ⬜ |
 | 15 | Projeto final e simulados | ⬜ |
@@ -33,7 +33,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Implementar a integração do OneLake para Eventhouse e modelos semânticos | fab-onelake-integracoes | ✅ |
 | Ingerir ou acessar dados conforme necessário | fab-atalhos, fab-espelhamento, fab-copy, fab-dataflow-gen2 | ✅ |
 | Criar uma conexão de dados | fab-data-factory-visao | ✅ |
-| Implementar controle de acesso em nível de linha, coluna, objeto e arquivo | fab-onelake-seguranca (+ M12) | 🟡 |
+| Implementar controle de acesso em nível de linha, coluna, objeto e arquivo | fab-onelake-seguranca, fab-seg-sql, fab-seg-modelo | ✅ |
 | Implementar um esquema estrela para um lakehouse ou warehouse | fab-modelo-dimensional, fab-carga-dimensional | ✅ |
 | Desnormalizar dados | fab-modelo-dimensional, fab-dataflow-transformacoes (+ M06/M07 código) | ✅ |
 | Agregar dados / enriquecer com colunas ou tabelas | fab-dataflow-transformacoes, fab-modelo-dimensional (+ M06/M07 código) | ✅ |
@@ -58,7 +58,11 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Configurar o Direct Lake, incluindo o comportamento padrão de fallback e atualização | fab-direct-lake, fab-direct-lake-fallback | ✅ |
 | Escolher entre Direct Lake no OneLake e Direct Lake no ponto de extremidade SQL | fab-direct-lake | ✅ |
 | Implementar a atualização incremental para modelos semânticos | fab-atualizacao-incremental-modelo | ✅ |
-| Demais habilidades | módulos 12–15 | ⬜ |
+| Implementar controles de acesso no nível do workspace | fab-seg-workspace-item | ✅ |
+| Implementar controles de acesso no nível do item | fab-seg-workspace-item | ✅ |
+| Aplicar rótulos de confidencialidade a itens | fab-governanca | ✅ |
+| Aprovar (endossar) itens | fab-governanca | ✅ |
+| Demais habilidades | módulos 13–15 | ⬜ |
 
 ## DP-700
 
@@ -104,4 +108,11 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Identificar e resolver erros do Eventstream | fab-rti-acoes-monitorar | ✅ |
 | Otimizar Eventstream e Eventhouse | fab-rti-acoes-monitorar, fab-eventhouse | ✅ |
 | Otimizar o desempenho de consultas | fab-warehouse-desempenho, fab-kql-consultas, fab-otimizar-relatorios-dax (+ M14) | 🟡 |
-| Demais habilidades | módulos 12–15 | ⬜ |
+| Implementar controles de acesso no nível do workspace | fab-seg-workspace-item | ✅ |
+| Implementar controles de acesso no nível do item | fab-seg-workspace-item | ✅ |
+| Implementar controles de acesso no nível de linha, coluna, objeto e pasta/arquivo | fab-seg-sql, fab-seg-modelo, fab-onelake-seguranca | ✅ |
+| Implementar máscara dinâmica de dados | fab-seg-sql | ✅ |
+| Aplicar rótulos de confidencialidade a itens | fab-governanca | ✅ |
+| Endossar itens | fab-governanca | ✅ |
+| Implementar e usar logs de auditoria do Microsoft Fabric | fab-governanca | ✅ |
+| Demais habilidades | módulos 13–15 | ⬜ |
