@@ -386,6 +386,35 @@ PRONUNCIATION_FIXES = [
     (r"\bSpark UI\b", "Spárk U Ái"),
     (r"\bAdvisor\b", "Edváizor"),
     (r"\bPearson VUE\b", "Pírson Viú"),
+    # Curso Excel, rodada 1 (Módulo 01) — teste A/B em 2026-09-27, 34 termos.
+    # Ficaram na leitura padrão: worksheet, OneDrive, Tab, End, Page Down,
+    # Page Up, Ctrl+Shift+seta (o combo soou melhor sem substituição, embora
+    # Ctrl e Shift sozinhos tenham ido para B — por isso o combo é protegido
+    # por um marcador e restaurado no fim), .xlsx, .xlsm, .xltx, office.com.
+    (r"\bCtrl\+Shift\b", "XLCOMBOCTRLSHIFT"),
+    (r"\b[Ww]orkbooks?\b", "uórk búk"),
+    (r"\bribbon\b", "ríbon"),
+    (r"\bBackstage\b", "Bék stêidj"),
+    (r"\bEnter\b", "Ênter"),
+    (r"\bShift\b", "Xífti"),
+    (r"\bCtrl\b", "Control"),
+    (r"\bHome\b", "Rôume"),
+    (r"\bEsc\b", "Ésqui"),
+    (r"\bDelete\b", "Delíte"),
+    (r"\bAlt\b", "Áltê"),
+    (r"\bF(1[0-2]|[1-9])\b", r"Éfe \1"),  # teclas F1–F12 (não pega F64)
+    (r"\bPDF\b", "Pê Dê Éfe"),
+    (r"\bXPS\b", "Xis Pê Ésse"),
+    (r"\bXFD\b", "Xis Éfe Dê"),
+    (r"\bVBA\b", "Vê Bê Á"),
+    (r"\bUTF-8\b", "U Tê Éfe oito"),
+    (r"\bMO-(\d{3})\b", r"Ême Ó \1"),
+    (r"\bMOS\b", "Ême Ó Ésse"),
+    (r"\bWindows\b", "Uíndous"),
+    (r"\bWeb\b", "Uébi"),
+    (r"\bAssociate\b", "Assôuciêit"),
+    (r"#{3,}", "cerquilhas"),
+    (r"XLCOMBOCTRLSHIFT", "Ctrl+Shift"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
