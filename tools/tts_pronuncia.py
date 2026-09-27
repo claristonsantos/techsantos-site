@@ -430,6 +430,15 @@ PRONUNCIATION_FIXES = [
     (r"\*limitada", "asterisco ltda"),
     # Curso Excel, rodada 3 (Módulo 03): #REF!, ACME, 1,23E+10, 1,00E+09 e o
     # sufixo K ficaram todos na leitura padrão — sem regra.
+    # Curso Excel, rodada 4 (Módulo 04). Ficaram na leitura padrão: Unicode, ERP.
+    (r"\bCSVs\b", "Cê Ésse Vês"),
+    (r"\bAccess\b", "Écsses"),
+    (r"\bPower Pivot\b", "Páuer Pívot"),
+    (r"\bEmail\b", "Imêil"),
+    (r"\bTRIM\b", "Trím"),
+    (r"\bUNIQUE\b", "Iuník"),
+    (r"\bOK\b", "Ôkêi"),
+    (r"\bDMA\b", "Dê Ême Á"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
