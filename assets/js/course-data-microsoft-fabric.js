@@ -4302,5 +4302,253 @@ GRANT UNMASK TO [auditoria@empresa.com];` },
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m14', title: 'Módulo 14 · Monitoramento, erros e otimização', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-monitorar', title: 'Monitorar: hub de monitoramento, monitoramento do workspace e alertas',
+        desc: 'Onde acompanhar cada carga de trabalho, o histórico de 30 dias, as notificações de falha centralizadas, os logs do monitoramento do workspace e as formas de configurar alertas.',
+        objetivos: [
+          'Usar o hub de monitoramento para acompanhar execuções',
+          'Ativar e consultar o monitoramento do workspace',
+          'Configurar alertas de falha e alertas sobre dados'
+        ],
+        body: 'Este módulo reúne a seção “Monitorar e otimizar uma solução de análise” da DP-700 (30 a 35% da prova). Muito já apareceu aula a aula; aqui está a visão de conjunto, com o que faltava. Esta aula cobre “Monitorar a ingestão de dados”, “Monitorar a transformação de dados” e “Configurar alertas”.',
+        content: [
+          { h: 'Hub de monitoramento',
+            items: [
+              'Menu <strong>Monitor</strong>: uma tabela com os trabalhos ativos e recentes de todos os workspaces a que você tem acesso — pipelines, dataflows, notebooks, definições de trabalho do Spark, trabalhos de cópia, atualizações de modelos semânticos, entre outros.',
+              'O painel de detalhes mostra status, início, duração, quem disparou e a mensagem de erro, com link para o monitoramento específico (execução do pipeline, aplicativo Spark, histórico do dataflow).',
+              'A página principal mostra as 100 atividades mais recentes dos últimos 30 dias; <strong>Execuções históricas</strong> de um item traz os 30 dias completos.',
+              'Filtros por status, tipo de item, horário, quem enviou e workspace; colunas configuráveis.',
+              '<strong>Falhas de agendamento</strong> (versão prévia): configura, num só lugar, quem recebe e-mail quando um item agendado falha.'
+            ],
+            img: { src: `${FAB_IMG}/m14/hub-monitoramento.png`, alt: 'Hub de monitoramento do Fabric', caption: 'Hub de monitoramento: execuções de todos os tipos de item com status, duração e filtros.', source: `${LEARN}/admin/monitoring-hub` } },
+          { h: 'Monitoramento do workspace',
+            items: [
+              'Nas configurações do workspace → <strong>Monitoramento</strong>, ative o monitoramento: o Fabric cria um <strong>eventhouse somente leitura</strong> que recebe logs e métricas dos itens (consultas do warehouse e do ponto de extremidade SQL, operações de modelos semânticos, execuções de pipelines e Spark, eventhouses…).',
+              'Você consulta os logs em <strong>KQL</strong> e monta painéis em tempo real ou relatórios — a Microsoft publica consultas e modelos de painel prontos.',
+              'Acessível a usuários com função de Colaborador ou superior.'
+            ] },
+          { h: 'Onde olhar cada coisa',
+            items: [
+              '<strong>Pipeline</strong> — guia Saída, histórico de execuções, detalhes da cópia (Módulo 04).',
+              '<strong>Dataflow Gen2</strong> — histórico de atualizações e logs detalhados (Módulo 05).',
+              '<strong>Notebook/Spark</strong> — progresso na célula, detalhes do aplicativo, Spark UI, Advisor (Módulo 06).',
+              '<strong>Warehouse</strong> — Query Insights e DMVs (Módulo 07).',
+              '<strong>Eventstream/Eventhouse</strong> — insights de dados, logs de runtime e visão geral do sistema (Módulo 08).',
+              '<strong>Modelo semântico</strong> — histórico de atualização (próxima aula).',
+              '<strong>Capacidade</strong> — aplicativo Capacity Metrics (aula de capacidade).'
+            ] },
+          { h: 'Alertas',
+            items: [
+              '<strong>Falha de agendamento</strong> — notificações por e-mail na agenda do pipeline, do dataflow ou do modelo semântico, ou na página Falhas de agendamento do hub.',
+              '<strong>Dentro do fluxo</strong> — atividades <strong>Outlook</strong> ou <strong>Teams</strong> no caminho “Ao falhar” do pipeline, com a mensagem de erro via expressão.',
+              '<strong>Eventos de trabalho</strong> — o <strong>Activator</strong> assina eventos de trabalhos do Fabric (item concluído, falhou) no hub em tempo real e dispara e-mail, Teams ou outro pipeline.',
+              '<strong>Sobre os dados</strong> — regras do Activator em Eventstreams, consultas KQL, painéis em tempo real e visuais do Power BI (valor passou do limite, parou de chegar dado).',
+              '<strong>Capacidade</strong> — administradores configuram alertas por e-mail de uso e limitação da capacidade.'
+            ],
+            img: { src: `${FAB_IMG}/m14/falhas-agendamento.png`, alt: 'Página Falhas de agendamento no hub de monitoramento', caption: 'Falhas de agendamento: notificações de falha centralizadas para itens agendados.', source: `${LEARN}/admin/monitoring-hub` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Ver num só lugar todas as execuções que falharam ontem em vários workspaces → hub de monitoramento com filtro de status.',
+              'Guardar e consultar em KQL os logs das consultas do warehouse e do modelo → monitoramento do workspace.',
+              'Avisar no Teams quando qualquer pipeline de um workspace falhar → Activator com eventos de trabalho do Fabric (ou atividade Teams no caminho de falha).',
+              'Alerta quando o número de pedidos por minuto cair a zero → regra do Activator sobre o Eventstream ou consulta KQL.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Hub de monitoramento', u: `${LEARN}/admin/monitoring-hub` },
+          { t: 'Monitoramento do workspace', u: `${LEARN}/fundamentals/workspace-monitoring-overview` },
+          { t: 'O que é o Fabric Activator', u: `${LEARN}/real-time-intelligence/data-activator/activator-introduction` }
+        ]
+      },
+      {
+        id: 'fab-monitorar-modelo', title: 'Monitorar a atualização de modelos semânticos',
+        desc: 'Agendamento, histórico, notificações de falha, pausa por inatividade, atualização por API e pelo pipeline, e os erros de atualização mais comuns.',
+        objetivos: [
+          'Configurar e monitorar a atualização agendada de um modelo',
+          'Ler o histórico e receber notificações de falha',
+          'Diagnosticar falhas comuns de atualização'
+        ],
+        body: 'Cobre “Monitorar a atualização semântica do modelo” (DP-700). Vale para modelos em Importação (e partições híbridas); em Direct Lake, a “atualização” é o enquadramento, que leva segundos (Módulo 11).',
+        content: [
+          { h: 'Tipos de atualização',
+            items: [
+              '<strong>Importação</strong> — a atualização recarrega os dados da fonte para o modelo.',
+              '<strong>DirectQuery / conexão dinâmica</strong> — não há carga de dados; o serviço só atualiza caches de blocos de painel.',
+              '<strong>Direct Lake</strong> — enquadramento: aponta para a versão mais recente das tabelas Delta (automático por padrão).',
+              'Formas de disparar: agendada, “Atualizar agora”, pela <strong>atividade de atualização de modelo semântico</strong> num pipeline (depois da carga), pela <strong>API REST de atualização</strong> (assíncrona, com tabelas/partições específicas) e pelo ponto de extremidade XMLA.'
+            ],
+            img: { src: `${FAB_IMG}/m14/modos-atualizacao.png`, alt: 'Modos de armazenamento e tipos de modelo semântico', caption: 'O que “atualizar” significa em cada modo de armazenamento.', source: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/refresh-data' } },
+          { h: 'Agendamento',
+            items: [
+              'Nas configurações do modelo → <strong>Atualizar</strong>: frequência, fuso horário e horários. Em capacidade Fabric, Premium ou PPU: até <strong>48 atualizações por dia</strong>; em Pro compartilhado, até 8.',
+              'Credenciais e gateway configurados na seção de conexões — a causa número um de falhas.',
+              'Se ninguém abre o modelo/relatório por <strong>dois meses</strong>, o serviço <strong>pausa</strong> a atualização agendada e avisa o proprietário.',
+              'Depois de falhas consecutivas, o agendamento também é desativado — é preciso corrigir e reativar.',
+              'Melhor prática: disparar a atualização pelo pipeline, logo após a carga dos dados, em vez de um horário fixo que pode chegar antes dos dados.'
+            ],
+            img: { src: `${FAB_IMG}/m14/agenda-atualizacao-modelo.png`, alt: 'Opções de agendamento de atualização', caption: 'Configuração da atualização agendada de um modelo semântico.', source: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/refresh-data' } },
+          { h: 'Histórico e notificações',
+            items: [
+              '<strong>Histórico de atualização</strong> (nas configurações ou no menu do modelo): cada execução com tipo (agendada/sob demanda), início, fim, status e mensagem de erro.',
+              'O <strong>hub de monitoramento</strong> também lista as atualizações de modelos junto com os outros trabalhos.',
+              'Por padrão, o <strong>proprietário</strong> recebe e-mail quando a atualização agendada falha; adicione outros contatos em “Enviar e-mail a estes contatos quando a atualização falhar”.',
+              'Para análise detalhada: rastreamento via XMLA (SQL Server Profiler), logs do monitoramento do workspace e o Capacity Metrics (consumo da atualização).'
+            ],
+            img: { src: `${FAB_IMG}/m14/historico-atualizacao-modelo.png`, alt: 'Histórico de atualização de um modelo', caption: 'Histórico de atualização: status e horários de cada atualização.', source: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/refresh-data' } },
+          { h: 'Falhas comuns',
+            items: [
+              '<strong>Credenciais expiradas</strong> ou senha trocada → atualizar as credenciais da fonte/conexão.',
+              '<strong>Gateway</strong> offline, versão antiga ou sem a fonte cadastrada → verificar o gateway e a conexão.',
+              '<strong>Tempo limite</strong> (2 horas em Pro; limites maiores em capacidade) → atualização incremental, menos dados, consultas que dobram.',
+              '<strong>Memória insuficiente</strong> na capacidade durante a atualização → reduzir o modelo, formato de modelo grande, atualizar em horário de menor uso ou SKU maior.',
+              '<strong>Erro de coluna</strong> (coluna renomeada na fonte, tipo incompatível) → corrigir a consulta.',
+              'Em Direct Lake: o proprietário sem acesso às tabelas de origem faz o enquadramento falhar (Módulo 11).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Onde ver por que a atualização de ontem falhou → histórico de atualização do modelo (ou hub de monitoramento).',
+              'Equipe inteira deve ser avisada da falha → contatos adicionais nas notificações de falha.',
+              'Relatório abriu com dados antigos porque a atualização rodou antes do ETL → disparar a atualização como atividade no fim do pipeline.',
+              'Atualização agendada parou sozinha → dois meses sem uso ou falhas consecutivas.',
+              'Atualizar só uma tabela/partição por automação → API REST de atualização assíncrona ou XMLA.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Atualização de dados no Power BI', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/refresh-data' },
+          { t: 'Solucionar problemas de atualização', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/refresh-troubleshooting-refresh-scenarios' },
+          { t: 'Atualização aprimorada com a API REST', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/asynchronous-refresh' }
+        ]
+      },
+      {
+        id: 'fab-capacidade', title: 'Capacidade: consumo, suavização, limitação e o aplicativo Capacity Metrics',
+        desc: 'Como o Fabric mede e cobra computação em CUs, operações interativas e em segundo plano, burst e suavização, os estágios de limitação e como investigar com o Capacity Metrics.',
+        objetivos: [
+          'Explicar burst, suavização e excedentes',
+          'Reconhecer os estágios de limitação e seus efeitos',
+          'Investigar o consumo com o Capacity Metrics'
+        ],
+        body: 'Quase todo problema de desempenho “que aparece do nada” no Fabric tem a ver com a capacidade. A DP-700 cobra entender o comportamento da capacidade dentro das habilidades de monitoramento e otimização.',
+        content: [
+          { h: 'Burst e suavização',
+            items: [
+              'Toda operação consome <strong>segundos de CU</strong> da capacidade.',
+              '<strong>Burst</strong> — uma operação pode usar temporariamente mais computação do que a SKU oferece, para terminar rápido.',
+              '<strong>Suavização</strong> — o consumo é distribuído ao longo do tempo para não gerar picos de cobrança: operações <strong>interativas</strong> (consultas de relatório, por exemplo) são suavizadas por no mínimo <strong>5 minutos</strong> (até 64 minutos); operações em <strong>segundo plano</strong> (atualizações, pipelines, Spark, warehouse) ao longo de <strong>24 horas</strong>.',
+              'O tempo é medido em pontos de 30 segundos (2.880 pontos em 24 horas).'
+            ] },
+          { h: 'Estágios de limitação (throttling)',
+            p: 'Quando o uso futuro já suavizado passa do que a SKU oferece, a capacidade entra em <strong>excedente</strong> e a limitação acontece em etapas:',
+            items: [
+              '<strong>Até 10 minutos</strong> de uso futuro — <strong>proteção contra excedente</strong>: nada acontece.',
+              '<strong>De 10 a 60 minutos</strong> — <strong>atraso interativo</strong>: novas operações interativas esperam 20 segundos.',
+              '<strong>De 60 minutos a 24 horas</strong> — <strong>rejeição interativa</strong>: relatórios e consultas dos usuários são recusados; trabalhos em segundo plano continuam.',
+              '<strong>Mais de 24 horas</strong> — <strong>rejeição em segundo plano</strong>: todas as solicitações são recusadas.',
+              'Operações já em andamento não são interrompidas. A capacidade se recupera sozinha à medida que o excedente é “queimado”; escalar a SKU ou pausar/retomar (o que cobra o excedente) acelera.',
+              'Erros típicos: CapacityLimitExceeded e, no Spark, o 430 (Módulo 06).'
+            ] },
+          { h: 'Aplicativo Capacity Metrics',
+            items: [
+              'Instalado por um administrador de capacidade; mostra o consumo por capacidade, workspace, item e operação, com dados de 10 a 15 minutos atrás.',
+              'Página de <strong>computação</strong>: uso de CU ao longo do tempo, com linhas de 100% e os gráficos de limitação (atraso e rejeição) e de excedentes; detalhamento por ponto no tempo para ver quais operações pesaram.',
+              'Página de <strong>armazenamento</strong>: OneLake e preparo por workspace.',
+              'Use para descobrir o item que mais consome (um dataflow sem dobragem, um notebook em loop, um relatório mal feito) antes de pensar em aumentar a SKU.'
+            ] },
+          { h: 'O que fazer com uma capacidade estourada',
+            items: [
+              'Otimizar os maiores consumidores (Módulos 04 a 11).',
+              'Mover cargas pesadas para horários de menos uso ou para outra capacidade (separar desenvolvimento e produção).',
+              'Reduzir a concorrência (menos atualizações simultâneas, alta simultaneidade no Spark).',
+              'Escalar a SKU (F permite escalar para cima e para baixo) quando o uso for consistentemente alto.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Relatórios ficaram lentos com espera de 20 segundos, mas funcionam → atraso interativo (10 a 60 minutos de excedente).',
+              'Usuários recebem erro ao abrir relatórios, mas os pipelines continuam → rejeição interativa.',
+              'Descobrir qual item consumiu mais CU na última semana → Capacity Metrics.',
+              'Por que um pico de 5 minutos de uma atualização não gerou limitação → suavização em 24 horas das operações em segundo plano.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Política de limitação da capacidade', u: `${LEARN}/enterprise/throttling` },
+          { t: 'Aplicativo Capacity Metrics', u: `${LEARN}/enterprise/metrics-app` },
+          { t: 'Planejar a capacidade', u: `${LEARN}/enterprise/plan-capacity` },
+          { t: 'Operações do Fabric (interativas e em segundo plano)', u: `${LEARN}/enterprise/fabric-operations` }
+        ]
+      },
+      {
+        id: 'fab-erros-otimizacao', title: 'Guia de erros e de otimização por item',
+        desc: 'Um roteiro para resolver erros de pipeline, dataflow, notebook, T-SQL, Eventstream, eventhouse e atalhos, e as principais alavancas para otimizar pipelines, lakehouse, warehouse, Spark, RTI e consultas.',
+        objetivos: [
+          'Seguir um método para diagnosticar qualquer falha',
+          'Resolver erros de atalho do OneLake',
+          'Otimizar um pipeline de cópia',
+          'Revisar as otimizações de cada item'
+        ],
+        body: 'Cobre “Identificar e resolver erros de atalho do OneLake”, “Otimizar um pipeline” e fecha as demais habilidades de erros e otimização da DP-700, que foram estudadas item a item. Use esta aula como revisão final antes dos simulados.',
+        content: [
+          { h: 'Método para qualquer falha',
+            items: [
+              '1. <strong>Onde</strong> falhou? Hub de monitoramento → item → atividade/consulta/célula exata.',
+              '2. <strong>Qual</strong> a mensagem? Leia a mensagem inteira e o código de erro (entrada/saída da atividade, log do Spark, histórico do dataflow).',
+              '3. <strong>Quem</strong> executou? Identidade da execução (usuário, dono do agendamento, último editor do pipeline, identidade do workspace) e as permissões dela.',
+              '4. <strong>O que mudou</strong>? Esquema da fonte, credencial, capacidade, código publicado.',
+              '5. É <strong>transitório</strong>? Rede, capacidade limitada → repetição automática.'
+            ] },
+          { h: 'Erros de atalho do OneLake',
+            items: [
+              '<strong>Acesso negado</strong> em atalho interno → o usuário que consulta precisa de permissão no <strong>destino</strong> (o OneLake usa a identidade de quem chama).',
+              '<strong>Atalho externo (ADLS, S3, GCS…) falhando</strong> → a <strong>conexão</strong> do atalho: credencial expirada, chave/SAS revogada, firewall ou ponto de extremidade privado bloqueando.',
+              '<strong>Destino não encontrado</strong> → a pasta/tabela de origem foi movida, renomeada ou excluída; recrie ou edite o atalho.',
+              '<strong>Tabela do atalho não aparece como tabela</strong> → o destino não é uma pasta Delta válida ou o atalho foi criado em Files em vez de Tables.',
+              'Excluir um atalho não apaga os dados; mas excluir arquivos <strong>dentro</strong> do atalho apaga no destino, se houver permissão de escrita.',
+              'Atalhos para outras nuvens geram custo de saída: o <strong>cache de atalhos</strong> reduz leituras repetidas (Módulo 01).'
+            ] },
+          { h: 'Otimizar um pipeline',
+            items: [
+              '<strong>Cópia</strong>: configure a <strong>otimização inteligente de taxa de transferência</strong> (Automático, Padrão, Equilibrado, Máximo) e o <strong>grau de paralelismo de cópia</strong>; particione a leitura da origem (colunas de partição física ou dinâmica) em tabelas grandes.',
+              'Copie <strong>só o necessário</strong>: incremental (marca d’água, CDC, trabalho de cópia) em vez de completa; filtre e selecione colunas na consulta de origem.',
+              'Arquivos: prefira poucos arquivos grandes; Parquet em vez de CSV quando puder.',
+              '<strong>Paralelize</strong> com ForEach em paralelo (contagem de lote) e dependências mínimas; mas respeite a capacidade e a fonte.',
+              'Evite atividades desnecessárias em loop (Lookup dentro de ForEach para cada item), e use a <strong>marca de sessão</strong> + alta simultaneidade para notebooks em sequência.',
+              'Use o detalhamento da cópia (fila, leitura, gravação) para achar o gargalo: fonte lenta, rede/gateway ou destino.'
+            ] },
+          { h: 'Revisão rápida: otimização por item',
+            items: [
+              '<strong>Tabela do lakehouse</strong> — OPTIMIZE, V-Order onde a leitura domina, VACUUM, particionamento com moderação (Módulo 03).',
+              '<strong>Dataflow Gen2</strong> — dobragem de consultas, cópia rápida, preparo, atualização incremental (Módulo 05).',
+              '<strong>Spark</strong> — mecanismo de execução nativo, alta simultaneidade, broadcast, evitar collect, autotune, pool adequado (Módulo 06).',
+              '<strong>Warehouse</strong> — tipos enxutos, cargas em lote, estatísticas, CLUSTER BY, cache de resultados, Query Insights (Módulo 07).',
+              '<strong>Eventstream e eventhouse</strong> — filtrar cedo, política de cache, exibições materializadas, políticas de atualização (Módulo 08).',
+              '<strong>Consultas</strong> — SQL: filtrar e selecionar colunas; KQL: tempo primeiro, has em vez de contains; DAX: variáveis, filtros de coluna, modelo em estrela (Módulos 07, 08, 10, 11).',
+              '<strong>Modelo semântico</strong> — Direct Lake bem alimentado, redução de cardinalidade, atualização incremental (Módulos 09 e 11).'
+            ] },
+          { h: 'Revisão rápida: erros por item',
+            items: [
+              '<strong>Pipeline</strong> — ler saída da atividade; repetição; dependências “Ao falhar”; identidade do último editor (Módulo 04).',
+              '<strong>Dataflow Gen2</strong> — credenciais, erros de etapa/célula, permissões de preparo, limites (Módulo 05).',
+              '<strong>Notebook</strong> — 430 de capacidade, lakehouse padrão, identidade, memória, bibliotecas (Módulo 06).',
+              '<strong>T-SQL</strong> — tipos sem suporte, 24556 de conflito, DML no ponto de extremidade SQL, tempdb (Módulo 07).',
+              '<strong>Eventstream/Eventhouse</strong> — erros de autoria, destino pausado, esquema, .show ingestion failures, política de atualização (Módulo 08).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Atalho para ADLS parou de funcionar para todos → conexão do atalho (credencial/SAS expirada).',
+              'Usuário não consegue ler dados por um atalho interno, mas o dono consegue → permissão do usuário no item de destino.',
+              'Cópia de uma tabela grande lenta, com CPU da origem baixa → aumentar paralelismo/particionar a leitura e ajustar a otimização de taxa de transferência.',
+              'Pipeline diário copia a tabela inteira toda vez → carga incremental.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Guia de desempenho da atividade de cópia', u: `${LEARN}/data-factory/copy-activity-performance-and-scalability-guide` },
+          { t: 'Atalhos do OneLake', u: `${LEARN}/onelake/onelake-shortcuts` },
+          { t: 'Segurança de atalhos do OneLake', u: `${LEARN}/onelake/onelake-shortcut-security` },
+          { t: 'Limitações do Data Factory', u: `${LEARN}/data-factory/data-factory-limitations` }
+        ]
+      }
+    ]
   }
 ];

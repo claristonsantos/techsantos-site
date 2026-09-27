@@ -21,7 +21,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 11 | Direct Lake e otimização de modelos | ✅ publicado |
 | 12 | Segurança e governança | ✅ publicado |
 | 13 | Ciclo de vida: Git, .pbip, pipelines de implantação, XMLA | ✅ publicado |
-| 14 | Monitoramento, erros e otimização | ⬜ |
+| 14 | Monitoramento, erros e otimização | ✅ publicado |
 | 15 | Projeto final e simulados | ⬜ |
 
 ## DP-600
@@ -83,14 +83,14 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Implementar espelhamento | fab-espelhamento | ✅ |
 | Configurar e implementar a segurança do OneLake | fab-onelake-seguranca | ✅ |
 | Escolha entre tabelas nativas e atalhos do OneLake no RTI / aceleração de consulta | fab-eventhouse, fab-atalhos | ✅ |
-| Identificar e resolver erros de atalho do OneLake | fab-atalhos (+ M14) | 🟡 |
+| Identificar e resolver erros de atalho do OneLake | fab-atalhos, fab-erros-otimizacao | ✅ |
 | Preparar dados para carregar em um modelo dimensional | fab-carga-dimensional | ✅ |
 | Otimizar uma tabela Lakehouse | fab-manutencao-delta (+ M14) | ✅ |
 | Escolha entre Dataflow Gen2, pipeline e notebook | fab-escolher-ferramenta, fab-carregar-lakehouse (+ M05–M06) | ✅ |
 | Projetar e implementar agendas e gatilhos baseados em eventos | fab-agendas-gatilhos | ✅ |
 | Implementar padrões de orquestração com notebooks e pipelines, incluindo parâmetros e expressões dinâmicas | fab-pipeline-atividades, fab-parametros-expressoes | ✅ |
 | Ingerir dados usando pipelines | fab-copy, fab-pipeline-atividades | ✅ |
-| Monitorar a ingestão de dados | fab-agendas-gatilhos (+ M14) | 🟡 |
+| Monitorar a ingestão de dados | fab-agendas-gatilhos, fab-monitorar | ✅ |
 | Monitorar a transformação de dados | fab-dataflow-monitorar-erros, fab-spark-monitorar-otimizar (+ M14) | ✅ |
 | Transformar dados usando PySpark, SQL e KQL | fab-pyspark-transformar, fab-spark-qualidade-merge, fab-tsql-consultas, fab-tsql-objetos, fab-kql-transformar | ✅ |
 | Otimizar um data warehouse | fab-warehouse-desempenho, fab-warehouse-ingestao | ✅ |
@@ -103,17 +103,17 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Otimizar o desempenho do Spark | fab-spark-monitorar-otimizar, fab-manutencao-delta | ✅ |
 | Identificar e resolver erros do Dataflow Gen2 | fab-dataflow-monitorar-erros, fab-dataflow-qualidade | ✅ |
 | Manipular dados duplicados, ausentes e de chegada tardia | fab-dataflow-qualidade, fab-spark-qualidade-merge, fab-carga-dimensional | ✅ |
-| Escolha entre fluxos de dados Gen2, notebooks, KQL e T-SQL para transformação | fab-escolher-ferramenta, fab-dataflow-gen2 (+ M06–M08) | 🟡 |
-| Identificar e resolver erros de pipeline | fab-pipeline-atividades, fab-agendas-gatilhos (+ M14) | 🟡 |
+| Escolha entre fluxos de dados Gen2, notebooks, KQL e T-SQL para transformação | fab-escolher-ferramenta, fab-dataflow-gen2, fab-rti-visao, fab-pyspark-transformar, fab-tsql-consultas | ✅ |
+| Identificar e resolver erros de pipeline | fab-pipeline-atividades, fab-agendas-gatilhos, fab-erros-otimizacao | ✅ |
 | Projetar e implementar cargas completas e incrementais | fab-carga-incremental, fab-copy, fab-carga-dimensional | ✅ |
 | Escolher um mecanismo de streaming apropriado | fab-rti-visao | ✅ |
 | Processar dados usando Eventstream | fab-eventstream | ✅ |
 | Processar dados usando KQL | fab-kql-consultas, fab-kql-transformar | ✅ |
-| Configurar alertas | fab-rti-acoes-monitorar (+ M14) | 🟡 |
+| Configurar alertas | fab-rti-acoes-monitorar, fab-monitorar | ✅ |
 | Identificar e resolver erros do Eventhouse | fab-rti-acoes-monitorar | ✅ |
 | Identificar e resolver erros do Eventstream | fab-rti-acoes-monitorar | ✅ |
 | Otimizar Eventstream e Eventhouse | fab-rti-acoes-monitorar, fab-eventhouse | ✅ |
-| Otimizar o desempenho de consultas | fab-warehouse-desempenho, fab-kql-consultas, fab-otimizar-relatorios-dax (+ M14) | 🟡 |
+| Otimizar o desempenho de consultas | fab-warehouse-desempenho, fab-kql-consultas, fab-otimizar-relatorios-dax, fab-erros-otimizacao | ✅ |
 | Implementar controles de acesso no nível do workspace | fab-seg-workspace-item | ✅ |
 | Implementar controles de acesso no nível do item | fab-seg-workspace-item | ✅ |
 | Implementar controles de acesso no nível de linha, coluna, objeto e pasta/arquivo | fab-seg-sql, fab-seg-modelo, fab-onelake-seguranca | ✅ |
@@ -124,6 +124,6 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Configurar controle de versão | fab-git | ✅ |
 | Implementar projetos de banco de dados | fab-pbip-projetos | ✅ |
 | Criar e configurar pipelines de implantação | fab-pipelines-implantacao | ✅ |
-| Monitorar a atualização do modelo semântico | (M14) | ⬜ |
-| Otimizar um pipeline | (M14) | ⬜ |
+| Monitorar a atualização do modelo semântico | fab-monitorar-modelo | ✅ |
+| Otimizar um pipeline | fab-erros-otimizacao | ✅ |
 | Demais habilidades | M14/M15 revisam e aprofundam | ✅ |
