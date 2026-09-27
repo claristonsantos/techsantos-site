@@ -2817,7 +2817,7 @@ GROUP BY DispositivoID, HoppingWindow(minute, 5, 1)` },
       },
       {
         id: 'fab-kql-consultas', title: 'KQL: selecionar, filtrar, agregar e janelas',
-        desc: 'A linguagem KQL do zero: o operador de pipe, where, project, extend, summarize com bin, top, join, render, e funções de janela com serialize, prev e row_cumsum.',
+        desc: 'A linguagem KQL do zero: o operador de pipe, where, project, extend, summarize com bin, top, join, render, e funções de janela com o operador serialize, prev e row_cumsum.',
         objetivos: [
           'Ler e escrever consultas KQL com o operador de pipe',
           'Filtrar por tempo com ago e agregar por intervalos com bin',

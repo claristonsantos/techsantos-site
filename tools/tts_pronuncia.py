@@ -208,6 +208,44 @@ PRONUNCIATION_FIXES = [
     (r"\bsp[_ ]rename\b", "ésse pê rinêim"),
     (r"\bstored procedures?\b", "stórd prossídjur"),
     (r"\binline\b", "in láin"),
+    # Sétimo teste A/B (2026-09-27, 39 termos do módulo 8 - Real-Time/KQL).
+    # Ficaram na leitura padrão: hub, Event Grid, Google Pub/Sub, Kusto, ago,
+    # project, IsTransactional. Operadores KQL só em minúsculas (como no
+    # código) para não pegar palavras soltas em outros contextos.
+    (r"\bIoT Hub\b", "Ái Ô Tí Râb"),
+    (r"\bService Bus\b", "Sérvis Bâs"),
+    (r"\bKinesis\b", "Kinísis"),
+    (r"\bMSK\b", "Éme Ésse Cá"),
+    (r"\bMQTT\b", "Éme Quê Tê Tê"),
+    (r"\bSolace\b", "Sólas"),
+    (r"\bMongoDB\b", "Mongo Dê Bê"),
+    (r"\bConfluent\b", "Cónfluent"),
+    (r"\bhopping\b", "róping"),
+    (r"\bSystem[ .]Timestamp\b", "Sístem Táime Stémp"),
+    (r"\b[Tt]imestamp\b", "Táime Stémp"),
+    (r"\bexternal[_ ]table\b", "ekstérnal têibol"),
+    (r"\bsummarize\b", "sâmaraiz"),
+    (r"\bbin\b", "bín"),
+    (r"\bextend\b", "ekstênd"),
+    (r"\btake[_ ]any\b", "têik éni"),
+    (r"\btake\b", "têik"),
+    (r"\brender\b", "rênder"),
+    (r"\btimechart\b", "táime tchárt"),
+    (r"\bhas\b", "réz"),
+    (r"\bcontains\b", "contêins"),
+    (r"\barg[_ ]max\b", "arg máks"),
+    # "serialize" também é verbo em português ("serialize as cargas"):
+    # só troca quando é o operador KQL.
+    (r"\boperador serialize\b", "operador sírializ"),
+    (r"\bprev\b", "prév"),
+    (r"\brow[_ ]cumsum\b", "rôu cúm sâm"),
+    (r"\bmake-series\b", "mêik síris"),
+    (r"\bdcount\b", "dê count"),
+    (r"\bbackfill\b", "békfil"),
+    (r"\bPower Automate\b", "Páuer Óutomeit"),
+    (r"\.?\bshow ingestion failures\b", "xôu ingéstchon fêiliurs"),
+    (r"\bAzure Monitor\b", "Ájur Mônitor"),
+    (r"\bApplication Insights\b", "Aplikêichon Ínsaits"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
