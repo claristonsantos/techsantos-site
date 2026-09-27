@@ -1,14 +1,56 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
+require_once __DIR__ . '/../cursos_catalogo.php';
 $aluno = require_aluno();
+
+// Vitrine: cursos do aluno (cards) e os outros cursos à venda, com compra direta.
+$idsMatriculados = array_map(static fn($m) => (int)$m['id'], $aluno['matriculas']);
+$outrosCursos = array_values(array_filter(cursos_a_venda(db()), static fn($c) => !in_array((int)$c['id'], $idsMatriculados, true)));
+ob_start(); ?>
+<div class="catalog">
+  <h2 class="catalog-title">Meus cursos</h2>
+  <div class="catalog-grid">
+    <?php foreach ($aluno['matriculas'] as $m): $v = curso_vitrine($m['slug']); $atual = (int)$m['id'] === (int)$aluno['curso_id']; ?>
+    <div class="catalog-card<?= $atual ? ' current' : '' ?>">
+      <img src="<?= htmlspecialchars($v['imagem'], ENT_QUOTES) ?>" alt="" loading="lazy">
+      <div class="catalog-body">
+        <?php if ($atual): ?><span class="catalog-tag">Você está aqui</span><?php else: ?><span class="catalog-tag owned">Matriculado</span><?php endif; ?>
+        <h3><?= htmlspecialchars($m['nome'], ENT_QUOTES) ?></h3>
+        <p><?= htmlspecialchars($v['resumo'], ENT_QUOTES) ?></p>
+        <?php if (!$atual): ?><a class="btn btn-primary" href="/aluno/curso.php?id=<?= (int)$m['id'] ?>">Acessar curso</a><?php endif; ?>
+      </div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+  <?php if ($outrosCursos): ?>
+  <h2 class="catalog-title">Outros cursos da TECH SANTOS BR</h2>
+  <div class="catalog-grid">
+    <?php foreach ($outrosCursos as $c): $v = curso_vitrine($c['slug']); ?>
+    <div class="catalog-card">
+      <img src="<?= htmlspecialchars($v['imagem'], ENT_QUOTES) ?>" alt="" loading="lazy">
+      <div class="catalog-body">
+        <h3><?= htmlspecialchars($c['nome'], ENT_QUOTES) ?></h3>
+        <p><?= htmlspecialchars($v['resumo'], ENT_QUOTES) ?></p>
+        <p class="catalog-price">R$ <?= preco_formatado((int)$c['preco_centavos']) ?> <small>à vista, ou em até 12x no cartão · Pix</small></p>
+        <div class="catalog-actions">
+          <a class="btn btn-primary" href="/comprar.php?curso=<?= rawurlencode($c['slug']) ?>" data-catalog-buy="<?= htmlspecialchars($c['slug'], ENT_QUOTES) ?>">Comprar agora</a>
+          <a class="btn btn-ghost on-light" href="<?= htmlspecialchars($v['pagina'], ENT_QUOTES) ?>" target="_blank" rel="noopener">Ver detalhes</a>
+        </div>
+      </div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+  <?php endif; ?>
+</div>
+<?php $vitrineHtml = (string)ob_get_clean();
 $isPowerBi = $aluno['curso_slug'] === 'power-bi';
 // Vários cursos: o Power BI usa os arquivos históricos; qualquer outro curso
 // usa assets/js/course-data-<slug>.js (e só tem conteúdo quando o arquivo existe).
 $slugSeguro = preg_match('/^[a-z0-9-]+$/', (string)$aluno['curso_slug']) ? (string)$aluno['curso_slug'] : '';
 $cursoDataJs = $isPowerBi ? null : ('/assets/js/course-data-' . $slugSeguro . '.js');
 $temConteudo = $isPowerBi || ($slugSeguro !== '' && is_file(__DIR__ . '/..' . $cursoDataJs));
-$cursoPagina = ['power-bi' => '/curso-power-bi.php'][$slugSeguro] ?? '/';
+$cursoPagina = curso_vitrine($slugSeguro)['pagina'];
 // Cursos novos são publicados com o texto antes dos vídeos: a aula mostra
 // "vídeo em breve" até o .mp4 existir em private-videos (mesma pasta do video.php).
 $videosDisponiveis = [];
@@ -106,6 +148,21 @@ if ($temConteudo) {
   .dashboard-next h2 { font-size:1rem; margin:0 0 .4rem; }
   .dashboard-next p { color:var(--ink-soft); margin:0; }
   @media(max-width:700px){.dashboard-grid{grid-template-columns:1fr}.dashboard-actions .btn{width:100%;justify-content:center}}
+  .catalog { margin-top:2rem; }
+  .catalog-title { font-size:1.1rem; margin:1.75rem 0 .8rem; }
+  .catalog-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; }
+  .catalog-card { display:flex; flex-direction:column; border:1px solid var(--line); border-radius:10px; background:var(--surface); overflow:hidden; }
+  .catalog-card.current { border-color:var(--green); box-shadow:0 0 0 1px var(--green) inset; }
+  .catalog-card img { width:100%; aspect-ratio:16/9; object-fit:cover; background:#111; display:block; }
+  .catalog-body { padding:1.1rem 1.2rem 1.25rem; display:flex; flex-direction:column; gap:.55rem; flex:1; }
+  .catalog-body h3 { font-size:1rem; margin:0; }
+  .catalog-body p { color:var(--ink-soft); font-size:.88rem; margin:0; }
+  .catalog-tag { align-self:flex-start; font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--green-strong); background:var(--green-soft); padding:.2rem .55rem; border-radius:99px; }
+  .catalog-tag.owned { color:var(--ink-soft); background:var(--surface-2); }
+  .catalog-price { font:600 1.2rem 'Plex Mono',monospace; color:var(--green-strong)!important; margin-top:auto!important; }
+  .catalog-price small { font:400 .75rem 'Plex Sans',sans-serif; color:var(--ink-faint); }
+  .catalog-actions { display:flex; gap:.6rem; flex-wrap:wrap; }
+  .catalog-actions .btn, .catalog-body > .btn { text-decoration:none; }
 
   .sidebar-module { border-bottom: 1px solid var(--line); }
   .sidebar-module-head {
@@ -343,6 +400,7 @@ if ($temConteudo) {
     <h1><?= htmlspecialchars($aluno['curso_nome'], ENT_QUOTES) ?></h1>
     <p>O conteúdo deste curso ainda está sendo preparado. Assim que as aulas forem publicadas, elas aparecem automaticamente aqui — nenhuma ação necessária da sua parte.</p>
   </div>
+  <div class="dashboard"><?= $vitrineHtml ?></div>
 <?php else: ?>
 
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
@@ -369,6 +427,7 @@ const MSL = 'learn.microsoft.com';
 const COURSE_SLUG = <?= json_encode($slugSeguro) ?>;
 // Power BI: a avaliação de um módulo libera o seguinte. Nos outros cursos as
 // avaliações são para praticar e não travam o avanço.
+const VITRINE_HTML = <?= json_encode($vitrineHtml, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
 const AVALIACOES_BLOQUEIAM = <?= $isPowerBi ? 'true' : 'false' ?>;
 // null = curso antigo (todas as aulas têm vídeo); array = ids com .mp4 publicado.
 const VIDEOS_DISPONIVEIS = <?= $isPowerBi ? 'null' : json_encode($videosDisponiveis) ?>;
@@ -777,10 +836,11 @@ function renderDashboard() {
     nextLabel = 'Fazer avaliação';
   }
   document.getElementById('appMain').innerHTML = `<section class="dashboard">
-    <div class="dashboard-hero"><span class="dashboard-eyebrow">Minha jornada</span><h1>Olá, <?= htmlspecialchars(explode(' ', trim($aluno['nome']))[0], ENT_QUOTES) ?>.</h1><p>Acompanhe seu avanço e retome exatamente do ponto recomendado.</p><div class="dashboard-actions"><a class="btn btn-primary" href="${nextUrl}">${nextLabel}</a><a class="btn btn-ghost on-light" href="/apostila.php">${ICON_DOC} Baixar apostila</a></div></div>
+    <div class="dashboard-hero"><span class="dashboard-eyebrow">Minha jornada</span><h1>Olá, <?= htmlspecialchars(explode(' ', trim($aluno['nome']))[0], ENT_QUOTES) ?>.</h1><p>Acompanhe seu avanço e retome exatamente do ponto recomendado.</p><div class="dashboard-actions"><a class="btn btn-primary" href="${nextUrl}">${nextLabel}</a>${COURSE_SLUG === 'power-bi' ? `<a class="btn btn-ghost on-light" href="/apostila.php">${ICON_DOC} Baixar apostila</a>` : ''}</div></div>
     <div class="dashboard-grid"><div class="dashboard-card"><span class="label">Progresso geral</span><span class="value">${percentage}%</span><span class="label">${progress.size} de ${totalLessons} aulas</span></div><div class="dashboard-card"><span class="label">Módulos concluídos</span><span class="value">${completedModules}/${COURSE.length}</span><span class="label">Conclusão de todas as aulas</span></div><div class="dashboard-card"><span class="label">Avaliações aprovadas</span><span class="value">${approvedAssessments}</span><span class="label">Avance no seu ritmo</span></div></div>
     <div class="dashboard-next"><h2>Seu próximo passo</h2><p><strong>${nextTitle}</strong><br>${nextDescription}</p></div>
-    ${!progress.has('modelagem-pratica') ? `<div class="dashboard-next"><h2>Primeira entrega prática</h2><p>Monte seu primeiro modelo em 20 minutos e valide um relacionamento 1:*.</p><div class="dashboard-actions"><a class="btn btn-ghost on-light" href="#modelagem-pratica">Abrir laboratório rápido</a></div></div>` : ''}
+    ${COURSE_SLUG === 'power-bi' && !progress.has('modelagem-pratica') ? `<div class="dashboard-next"><h2>Primeira entrega prática</h2><p>Monte seu primeiro modelo em 20 minutos e valide um relacionamento 1:*.</p><div class="dashboard-actions"><a class="btn btn-ghost on-light" href="#modelagem-pratica">Abrir laboratório rápido</a></div></div>` : ''}
+    ${VITRINE_HTML}
   </section>`;
   document.getElementById('dashboardBtn').classList.add('active');
   renderSidebar(null);

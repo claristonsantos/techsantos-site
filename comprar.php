@@ -2,6 +2,8 @@
 declare(strict_types=1);
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/mercadopago.php';
+require_once __DIR__ . '/cursos_catalogo.php';
+require_once __DIR__ . '/matriculas.php';
 
 // Precisa iniciar a sessão AQUI, antes de qualquer saída de HTML — o
 // formulário só chama csrf_field() lá embaixo, no meio do body, e a essa
@@ -10,13 +12,42 @@ require_once __DIR__ . '/mercadopago.php';
 // navegador) e todo POST cairia em "Sessão expirada".
 csrf_token();
 
-$stmt = db()->prepare("SELECT id, nome, carga_horaria, descricao, modalidade, preco_centavos FROM cursos WHERE slug = 'power-bi'");
-$stmt->execute();
-$curso = $stmt->fetch();
+// Curso escolhido por ?curso=<slug> (padrão: Power BI, para os links antigos).
+$slug = (string)($_GET['curso'] ?? 'power-bi');
+$curso = curso_a_venda(db(), $slug);
+if (!$curso && $slug === 'power-bi') {
+    // Compatibilidade: o Power BI sempre foi vendido por aqui, mesmo sem a flag ativo.
+    $stmt = db()->prepare("SELECT id, nome, slug, carga_horaria, descricao, modalidade, preco_centavos FROM cursos WHERE slug = 'power-bi'");
+    $stmt->execute();
+    $curso = $stmt->fetch() ?: null;
+}
+if (!$curso) {
+    http_response_code(404);
+    exit('Curso não encontrado ou fora de venda. Veja os cursos em https://techsantos.com.br/');
+}
+$vitrine = curso_vitrine($slug);
+$urlCompra = '/comprar.php' . ($slug === 'power-bi' ? '' : '?curso=' . rawurlencode($slug));
 $nomeCurso = $curso['nome'] ?? 'Power BI Completo';
 $precoCentavos = $curso['preco_centavos'] ?? null;
 $precoFormatado = $precoCentavos ? number_format($precoCentavos / 100, 2, ',', '.') : null;
 $whatsMsg = rawurlencode('Olá! Quero fazer a matrícula no curso ' . $nomeCurso . '.');
+
+// Aluno logado comprando pela Área do Aluno: preenche os dados e avisa se já tem o curso.
+$alunoLogado = null; $jaMatriculado = false; $telefoneAnterior = '';
+if ($alunoLogadoId = aluno_logged_id()) {
+    $st = db()->prepare('SELECT id, nome, email FROM alunos WHERE id = ? AND ativo = 1');
+    $st->execute([$alunoLogadoId]);
+    $alunoLogado = $st->fetch() ?: null;
+    if ($alunoLogado) {
+        foreach (matriculas_do_aluno(db(), (int)$alunoLogado['id']) as $m) {
+            if ((int)$m['id'] === (int)$curso['id']) { $jaMatriculado = true; }
+        }
+        $st = db()->prepare("SELECT telefone FROM pedidos WHERE email = ? AND telefone <> '' ORDER BY id DESC LIMIT 1");
+        $st->execute([$alunoLogado['email']]);
+        $telefoneAnterior = (string)($st->fetchColumn() ?: '');
+    }
+}
+$valorCampo = static function (string $campo, string $padrao) { return htmlspecialchars((string)($_POST[$campo] ?? $padrao), ENT_QUOTES); };
 
 $error = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -82,14 +113,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta name="description" content="Matricule-se no curso completo de <?= htmlspecialchars($nomeCurso, ENT_QUOTES) ?> da TECH SANTOS BR — acesso imediato, modalidade EAD." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="pt_BR" />
-<meta property="og:url" content="https://techsantos.com.br/comprar.php" />
+<meta property="og:url" content="https://techsantos.com.br<?= htmlspecialchars($urlCompra, ENT_QUOTES) ?>" />
 <meta property="og:title" content="Matricule-se — <?= htmlspecialchars($nomeCurso, ENT_QUOTES) ?> — TECH SANTOS BR" />
 <meta property="og:description" content="Matricule-se no curso completo de <?= htmlspecialchars($nomeCurso, ENT_QUOTES) ?> da TECH SANTOS BR — acesso imediato, modalidade EAD." />
-<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta property="og:image" content="https://techsantos.com.br<?= htmlspecialchars($vitrine['imagem'], ENT_QUOTES) ?>" />
 <meta property="og:image:width" content="1080" />
 <meta property="og:image:height" content="1080" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="canonical" href="https://techsantos.com.br/comprar.php" />
+<link rel="canonical" href="https://techsantos.com.br<?= htmlspecialchars($urlCompra, ENT_QUOTES) ?>" />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -98,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($precoCentavos): ?>
 <script>
-fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 100, 2)) ?>, currency: 'BRL', content_name: 'Curso Power BI'});
+fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 100, 2)) ?>, currency: 'BRL', content_name: <?= json_encode($nomeCurso, JSON_UNESCAPED_UNICODE) ?>});
 </script>
 <?php endif; ?>
 <style>
@@ -131,16 +162,16 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
 </head>
 <body>
 <div class="buy-shell">
-  <div class="buy-top"><a href="/index.html">← Voltar para o site</a></div>
+  <div class="buy-top"><a href="<?= $alunoLogado ? '/aluno/' : htmlspecialchars($vitrine['pagina'], ENT_QUOTES) ?>">← <?= $alunoLogado ? 'Voltar para a Área do Aluno' : 'Voltar para a página do curso' ?></a></div>
   <div class="buy-card">
     <h1>Matricule-se no <?= htmlspecialchars($nomeCurso, ENT_QUOTES) ?></h1>
     <?php if ($precoFormatado): ?>
       <p class="buy-price">R$ <?= $precoFormatado ?> <small>à vista, ou parcelado em até 12x no cartão</small></p>
     <?php endif; ?>
     <ul class="buy-includes">
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg><span>13 módulos, 46 videoaulas práticas (mais de 7 horas) + apostila com referências oficiais Microsoft</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg><span>Avaliações por módulo e avaliação final com certificado de conclusão</span></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg><span>Acesso liberado automaticamente após a confirmação do pagamento</span></li>
+      <?php foreach ($vitrine['itens'] as $item): ?>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg><span><?= htmlspecialchars($item, ENT_QUOTES) ?></span></li>
+      <?php endforeach; ?>
     </ul>
 
     <div class="buy-social">
@@ -162,7 +193,10 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
 
     <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
 
-    <?php if ($precoCentavos): ?>
+    <?php if ($jaMatriculado): ?>
+    <div class="alert alert-success">Você já tem acesso a este curso. <a href="/aluno/curso.php?id=<?= (int)$curso['id'] ?>">Ir para o curso →</a></div>
+    <?php elseif ($precoCentavos): ?>
+    <?php if ($alunoLogado): ?><p class="buy-note" style="margin:0 0 1rem;">Comprando como <strong><?= htmlspecialchars($alunoLogado['email'], ENT_QUOTES) ?></strong>: depois do pagamento, o curso aparece na sua Área do Aluno com o mesmo login e senha.</p><?php endif; ?>
     <form method="post" novalidate>
       <?= csrf_field() ?>
       <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium">
@@ -170,15 +204,15 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
       <input type="hidden" name="utm_term"><input type="hidden" name="landing_page">
       <div class="field">
         <label for="nome">Nome completo</label>
-        <input type="text" id="nome" name="nome" required value="<?= htmlspecialchars($_POST['nome'] ?? '', ENT_QUOTES) ?>">
+        <input type="text" id="nome" name="nome" required value="<?= $valorCampo('nome', (string)($alunoLogado['nome'] ?? '')) ?>">
       </div>
       <div class="field">
         <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES) ?>">
+        <input type="email" id="email" name="email" required value="<?= $valorCampo('email', (string)($alunoLogado['email'] ?? '')) ?>"<?= $alunoLogado ? ' readonly' : '' ?>>
       </div>
       <div class="field">
         <label for="telefone">Telefone (com DDD)</label>
-        <input type="tel" id="telefone" name="telefone" required maxlength="15" placeholder="(64) 99999-8888" value="<?= htmlspecialchars($_POST['telefone'] ?? '', ENT_QUOTES) ?>">
+        <input type="tel" id="telefone" name="telefone" required maxlength="15" placeholder="(64) 99999-8888" value="<?= $valorCampo('telefone', $telefoneAnterior) ?>">
       </div>
       <button type="submit" class="btn btn-primary btn-block">Ir para o pagamento</button>
       <p class="buy-note">Você será redirecionado ao ambiente seguro do Mercado Pago para concluir com cartão ou Pix. O acesso é liberado por e-mail assim que o pagamento for confirmado.</p>
@@ -187,7 +221,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
 
     <div class="buy-guarantee">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
-      <span><strong>Garantia:</strong> mediante solicitação, se você assistiu menos de 20% do curso e não gostou, devolvemos 100% do valor.</span>
+      <span><strong>Garantia:</strong> mediante solicitação, se você concluiu menos de 20% do curso e não gostou, devolvemos 100% do valor.</span>
     </div>
 
     <div class="buy-alt">

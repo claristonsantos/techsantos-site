@@ -40,7 +40,11 @@ fbq('track', 'Purchase', {value: <?= json_encode(round($pedido['valor_centavos']
   <?php if ($pago): ?>
     <div class="ret-icon ok"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg></div>
     <h1>Pagamento confirmado!</h1>
+    <?php if (($pedido['email_status'] ?? '') === 'nao_necessario'): ?>
+    <p>Seu acesso ao curso <?= htmlspecialchars($pedido['curso_nome'], ENT_QUOTES) ?> já está liberado. Como você já é aluno, entre com o mesmo login e senha de sempre — o curso novo aparece na sua Área do Aluno.</p>
+    <?php else: ?>
     <p>Seu acesso ao curso <?= htmlspecialchars($pedido['curso_nome'], ENT_QUOTES) ?> já está liberado. Enviamos um e-mail para <strong><?= htmlspecialchars($pedido['email'], ENT_QUOTES) ?></strong> com seu login e senha provisória.</p>
+    <?php endif; ?>
     <p style="margin-top:1.5rem;"><a class="btn btn-primary" href="/login.php">Acessar a Área do Aluno</a></p>
   <?php else: ?>
     <div class="ret-icon pending"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
