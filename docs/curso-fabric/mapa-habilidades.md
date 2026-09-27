@@ -17,7 +17,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 07 | Data Warehouse e T-SQL | ✅ publicado |
 | 08 | Real-Time Intelligence (Eventstream, Eventhouse, KQL) | ✅ publicado |
 | 09 | Modelos semânticos: design | ✅ publicado |
-| 10 | DAX para a prova | ⬜ |
+| 10 | DAX para a prova | ✅ publicado |
 | 11 | Direct Lake e otimização de modelos | ⬜ |
 | 12 | Segurança e governança | ⬜ |
 | 13 | Ciclo de vida: Git, .pbip, pipelines de implantação, XMLA | ⬜ |
@@ -51,7 +51,9 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Implementar grupos de cálculo, cadeias de formato dinâmico e parâmetros de campo | fab-modelo-grupos-calculo | ✅ |
 | Identificar casos de uso e configurar formato de modelo semântico grande | fab-modelo-composto-grande | ✅ |
 | Projetar e criar modelos compostos | fab-modelo-composto-grande, fab-modelo-relacoes | ✅ |
-| Demais habilidades | módulos 10–15 | ⬜ |
+| Escrever cálculos que usam variáveis e funções DAX (iteradores, filtragem de tabela, janelas, informações) | fab-dax-contextos, fab-dax-filtros, fab-dax-iteradores-janelas, fab-dax-informacao | ✅ |
+| Selecionar, filtrar e agregar dados usando DAX | fab-dax-consultas | ✅ |
+| Demais habilidades | módulos 11–15 | ⬜ |
 
 ## DP-700
 

@@ -3285,5 +3285,327 @@ RETURN
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m10', title: 'Módulo 10 · DAX para a prova', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-dax-contextos', title: 'Fundamentos: medidas, contextos, CALCULATE e variáveis',
+        desc: 'Medida, coluna calculada e tabela calculada; contexto de linha e contexto de filtro; como o CALCULATE modifica filtros e faz a transição de contexto; e por que usar variáveis.',
+        objetivos: [
+          'Escolher entre medida, coluna calculada e tabela calculada',
+          'Explicar contexto de linha, contexto de filtro e transição de contexto',
+          'Escrever medidas com CALCULATE e variáveis'
+        ],
+        body: 'A DP-600 cobra “Escrever cálculos que usam variáveis e funções DAX, como iteradores, filtragem de tabela, janelas e funções de informações”. Tudo em DAX gira em torno de dois conceitos: contexto e CALCULATE. Se você fez o curso de Power BI, esta aula é uma revisão focada na prova.',
+        content: [
+          { h: 'Onde o DAX vive',
+            items: [
+              '<strong>Medida</strong> — calculada na hora da consulta, respeitando os filtros do visual. É onde deve ficar quase toda a lógica de negócio (totais, percentuais, comparações).',
+              '<strong>Coluna calculada</strong> — calculada linha a linha na atualização e armazenada no modelo (ocupa memória). Use para atributos que viram filtro ou eixo, e só quando não der para criar na fonte ou no Power Query.',
+              '<strong>Tabela calculada</strong> — tabela inteira criada por DAX (tabela de datas com CALENDAR, parâmetros de campo).',
+              'No Direct Lake, colunas e tabelas calculadas sobre tabelas do lago têm restrições — mais um motivo para criar colunas na fonte (Módulo 11).'
+            ] },
+          { h: 'Os dois contextos',
+            items: [
+              '<strong>Contexto de filtro</strong> — o conjunto de filtros ativos quando a medida é avaliada: segmentações, linhas e colunas do visual, filtros da página e do relatório, segurança em nível de linha. Uma medida <code>SUM(Vendas[Valor])</code> dá um número diferente em cada célula porque o contexto de filtro muda.',
+              '<strong>Contexto de linha</strong> — “a linha atual”, que existe numa coluna calculada e dentro de iteradores (SUMX, FILTER…). O contexto de linha <strong>não filtra</strong> nada por si só.',
+              '<strong>Transição de contexto</strong> — quando CALCULATE (ou uma medida, que tem CALCULATE implícito) é chamado dentro de um contexto de linha, a linha atual vira filtro. É por isso que <code>SUMX(Cliente, [Vendas])</code> calcula as vendas de cada cliente.'
+            ] },
+          { h: 'CALCULATE',
+            p: '<code>CALCULATE(expressão, filtro1, filtro2…)</code> avalia a expressão num contexto de filtro modificado. Cada argumento de filtro, se a coluna já estiver filtrada, <strong>substitui</strong> o filtro existente; se não estiver, <strong>adiciona</strong>. Filtros podem ser booleanos simples (uma coluna de uma tabela, sem medidas), tabelas (FILTER, VALUES) ou modificadores (ALL, REMOVEFILTERS, KEEPFILTERS, USERELATIONSHIP, CROSSFILTER).',
+            code: `Vendas Azul =
+CALCULATE ( [Vendas], Produto[Cor] = "Azul" )          -- substitui o filtro de Cor
+
+Vendas Azul Mantendo Filtro =
+CALCULATE ( [Vendas], KEEPFILTERS ( Produto[Cor] = "Azul" ) )  -- intersecta
+
+% do Total =
+DIVIDE ( [Vendas], CALCULATE ( [Vendas], REMOVEFILTERS ( Produto ) ) )` },
+          { h: 'Variáveis',
+            items: [
+              '<strong>VAR … RETURN</strong> guarda um resultado intermediário: a expressão é avaliada <strong>uma vez</strong> (melhor desempenho), a fórmula fica legível e a depuração fica fácil (retorne a variável temporariamente).',
+              'Uma variável é avaliada no contexto em que é <strong>definida</strong>, não onde é usada: se você usar a variável dentro de um CALCULATE, o filtro do CALCULATE não muda o valor dela. Isso substitui o antigo EARLIER.'
+            ],
+            code: `Crescimento AA % =
+VAR VendasAtual = [Vendas]
+VAR VendasAA    = CALCULATE ( [Vendas], SAMEPERIODLASTYEAR ( 'Data'[Data] ) )
+RETURN
+    DIVIDE ( VendasAtual - VendasAA, VendasAA )` },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Cálculo que muda com a segmentação → medida, não coluna calculada.',
+              'Percentual sobre o total geral → DIVIDE com CALCULATE e REMOVEFILTERS/ALL.',
+              'Filtro de CALCULATE ignora a seleção do usuário na mesma coluna → usar KEEPFILTERS.',
+              'Mesma subexpressão repetida duas vezes na medida → variável.',
+              'Divisão por zero → DIVIDE em vez do operador “/”.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Visão geral do DAX', u: 'https://learn.microsoft.com/pt-br/dax/dax-overview' },
+          { t: 'CALCULATE', u: 'https://learn.microsoft.com/pt-br/dax/calculate-function-dax' },
+          { t: 'KEEPFILTERS', u: 'https://learn.microsoft.com/pt-br/dax/keepfilters-function-dax' },
+          { t: 'Use variáveis para melhorar suas fórmulas', u: 'https://learn.microsoft.com/pt-br/dax/best-practices/dax-variables' },
+          { t: 'DIVIDE × operador de divisão', u: 'https://learn.microsoft.com/pt-br/dax/best-practices/dax-divide-function-operator' }
+        ]
+      },
+      {
+        id: 'fab-dax-filtros', title: 'Funções de filtragem de tabela',
+        desc: 'FILTER, ALL, ALLEXCEPT, ALLSELECTED, REMOVEFILTERS, VALUES, KEEPFILTERS, TREATAS, USERELATIONSHIP e CROSSFILTER — o que cada uma faz e quando usar.',
+        objetivos: [
+          'Remover, manter e substituir filtros com as funções certas',
+          'Usar FILTER sem prejudicar o desempenho',
+          'Aplicar relacionamentos virtuais e inativos em medidas'
+        ],
+        body: 'Filtragem de tabela é o assunto que mais aparece nas questões de DAX: a prova mostra uma medida e pergunta o resultado, ou pede para completar a função que falta.',
+        content: [
+          { h: 'Remover filtros',
+            items: [
+              '<strong>REMOVEFILTERS(tabela ou colunas)</strong> — remove filtros; só funciona como modificador dentro do CALCULATE. É o nome mais claro para o uso mais comum.',
+              '<strong>ALL(tabela ou colunas)</strong> — faz o mesmo como modificador e também retorna uma tabela sem filtros (pode ser usada como tabela).',
+              '<strong>ALLEXCEPT(tabela, colunas)</strong> — remove todos os filtros da tabela, menos os das colunas indicadas.',
+              '<strong>ALLSELECTED</strong> — remove os filtros do visual, mas mantém os de fora (segmentações): base do “% do total visível”.'
+            ],
+            code: `% da Categoria =
+DIVIDE ( [Vendas],
+         CALCULATE ( [Vendas], ALLEXCEPT ( Produto, Produto[Categoria] ) ) )
+
+% do Total Visível =
+DIVIDE ( [Vendas], CALCULATE ( [Vendas], ALLSELECTED ( Produto ) ) )` },
+          { h: 'FILTER',
+            p: '<code>FILTER(tabela, condição)</code> é um iterador: percorre a tabela linha a linha e devolve as linhas que atendem à condição. É necessário quando a condição usa uma <strong>medida</strong> ou compara colunas de forma complexa. Para condições simples numa coluna, prefira o filtro booleano direto no CALCULATE — ele é traduzido para um filtro sobre uma coluna, que é muito mais eficiente do que iterar uma tabela inteira. <strong>Nunca</strong> filtre uma tabela de fatos inteira com FILTER quando dá para filtrar uma coluna.',
+            code: `-- ruim: itera a tabela de fatos inteira
+CALCULATE ( [Vendas], FILTER ( Vendas, Vendas[Canal] = "Online" ) )
+
+-- bom: filtro booleano sobre a coluna
+CALCULATE ( [Vendas], Vendas[Canal] = "Online" )
+
+-- FILTER é necessário: condição com medida
+Clientes VIP =
+COUNTROWS ( FILTER ( VALUES ( Cliente[ClienteID] ), [Vendas] > 100000 ) )` },
+          { h: 'Outras funções que a prova usa',
+            items: [
+              '<strong>VALUES(coluna)</strong> — valores distintos visíveis no contexto atual (inclui o “em branco” de linhas sem correspondência); <strong>DISTINCT</strong> não inclui esse em branco.',
+              '<strong>KEEPFILTERS</strong> — faz o filtro do CALCULATE intersectar com o existente em vez de substituí-lo.',
+              '<strong>USERELATIONSHIP(col1, col2)</strong> — ativa um relacionamento inativo durante o cálculo (data de envio, data de entrega).',
+              '<strong>CROSSFILTER(col1, col2, direção)</strong> — muda a direção do filtro de um relacionamento só nessa medida (Both, None…), em vez de deixar o modelo bidirecional.',
+              '<strong>TREATAS(tabela, colunas)</strong> — aplica os valores de uma tabela como filtro em colunas de outra, criando um <strong>relacionamento virtual</strong> quando não existe relacionamento físico.',
+              '<strong>CALCULATETABLE</strong> — o CALCULATE que devolve tabela.'
+            ],
+            code: `Vendas por Data de Envio =
+CALCULATE ( [Vendas], USERELATIONSHIP ( Vendas[DataEnvio], 'Data'[Data] ) )
+
+Meta Filtrada =   -- relacionamento virtual entre Metas e Produto pela categoria
+CALCULATE ( SUM ( Metas[Valor] ),
+            TREATAS ( VALUES ( Produto[Categoria] ), Metas[Categoria] ) )` },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Percentual dentro da categoria → ALLEXCEPT(Produto, Produto[Categoria]).',
+              'Percentual que respeita a segmentação mas ignora o eixo do visual → ALLSELECTED.',
+              'Medida pela data de entrega com relacionamento inativo → USERELATIONSHIP.',
+              'Duas tabelas sem relacionamento físico → TREATAS.',
+              'Medida lenta com FILTER(Vendas, …) sobre coluna simples → trocar por filtro booleano.'
+            ] }
+        ],
+        recursos: [
+          { t: 'REMOVEFILTERS', u: 'https://learn.microsoft.com/pt-br/dax/removefilters-function-dax' },
+          { t: 'KEEPFILTERS', u: 'https://learn.microsoft.com/pt-br/dax/keepfilters-function-dax' },
+          { t: 'TREATAS', u: 'https://learn.microsoft.com/pt-br/dax/treatas-function-dax' },
+          { t: 'CALCULATE (funções modificadoras de filtro)', u: 'https://learn.microsoft.com/pt-br/dax/calculate-function-dax' }
+        ]
+      },
+      {
+        id: 'fab-dax-iteradores-janelas', title: 'Iteradores, inteligência de tempo e funções de janela',
+        desc: 'SUMX, AVERAGEX, RANKX e companhia; inteligência de tempo; e as funções de janela WINDOW, OFFSET, INDEX, RANK e ROWNUMBER, inclusive em cálculos visuais.',
+        objetivos: [
+          'Usar iteradores X e RANKX corretamente',
+          'Aplicar funções de inteligência de tempo',
+          'Calcular acumulados, médias móveis e comparação com o anterior com funções de janela',
+          'Conhecer os cálculos visuais'
+        ],
+        body: 'Cobre as partes “iteradores” e “janelas” da habilidade de cálculos DAX da DP-600.',
+        content: [
+          { h: 'Iteradores',
+            items: [
+              'Funções X (<strong>SUMX, AVERAGEX, MINX, MAXX, COUNTX, CONCATENATEX</strong>) percorrem uma tabela, avaliam uma expressão em cada linha (contexto de linha) e agregam.',
+              'Use quando o cálculo precisa acontecer <strong>antes</strong> da agregação: <code>SUMX(Vendas, Vendas[Qtd] * Vendas[Preço])</code> — em vez de criar uma coluna calculada.',
+              'Iterar sobre uma dimensão chamando uma medida provoca transição de contexto: <code>AVERAGEX(VALUES(Cliente[ClienteID]), [Vendas])</code> é a venda média por cliente.',
+              '<strong>RANKX(tabela, expressão, , ordem, empates)</strong> classifica; lembre-se de usar ALL/ALLSELECTED na tabela para comparar com todos, e não só com a linha atual.'
+            ],
+            code: `Receita = SUMX ( Vendas, Vendas[Quantidade] * Vendas[PrecoUnitario] )
+
+Ranking Produto =
+RANKX ( ALLSELECTED ( Produto[Nome] ), [Receita], , DESC, DENSE )` },
+          { h: 'Inteligência de tempo',
+            items: [
+              'Exige uma tabela de datas marcada e contínua.',
+              '<strong>TOTALYTD / DATESYTD</strong> (acumulado no ano), <strong>SAMEPERIODLASTYEAR</strong> e <strong>DATEADD</strong> (mesmo período anterior), <strong>PARALLELPERIOD</strong>, <strong>DATESINPERIOD</strong> (últimos N dias/meses, base de médias móveis), <strong>PREVIOUSMONTH</strong>.',
+              'Grupos de cálculo (Módulo 09) evitam repetir essas variações para cada medida.'
+            ] },
+          { h: 'Funções de janela',
+            p: 'As funções de janela trabalham com posições de linhas numa tabela ordenada — sem os malabarismos de antes com FILTER e datas. Todas aceitam <strong>ORDERBY</strong> (ordem) e <strong>PARTITIONBY</strong> (reinicia por grupo):',
+            items: [
+              '<strong>OFFSET(delta, …)</strong> — a linha deslocada: −1 é a anterior (mês anterior, produto anterior no ranking).',
+              '<strong>WINDOW(de, tipo, até, tipo, …)</strong> — um intervalo de linhas, absoluto ou relativo: acumulado (do início até a linha atual) ou média móvel (das 2 anteriores até a atual).',
+              '<strong>INDEX(posição, …)</strong> — a linha numa posição absoluta (a primeira, a última).',
+              '<strong>RANK</strong> e <strong>ROWNUMBER</strong> — posição da linha atual na ordenação (com e sem empates).'
+            ],
+            code: `Vendas Mês Anterior =
+CALCULATE ( [Vendas],
+    OFFSET ( -1, ALLSELECTED ( 'Data'[Ano], 'Data'[Mês] ),
+             ORDERBY ( 'Data'[Ano], ASC, 'Data'[Mês], ASC ) ) )
+
+Média Móvel 3 Meses =
+AVERAGEX (
+    WINDOW ( -2, REL, 0, REL,
+             ALLSELECTED ( 'Data'[Ano], 'Data'[Mês] ),
+             ORDERBY ( 'Data'[Ano], ASC, 'Data'[Mês], ASC ) ),
+    [Vendas] )` },
+          { h: 'Cálculos visuais',
+            p: 'Os <strong>cálculos visuais</strong> são expressões DAX escritas no próprio visual, sobre a matriz de dados que ele mostra — não entram no modelo. São perfeitos para acumulados, percentuais do total e comparação com a linha anterior, com funções simplificadas como <code>RUNNINGSUM</code>, <code>MOVINGAVERAGE</code>, <code>PREVIOUS</code> e as mesmas WINDOW/OFFSET usando eixos (ROWS, COLUMNS) e referências como HIGHESTPARENT.',
+            img: { src: `${FAB_IMG}/m10/calculo-visual.png`, alt: 'Tela de edição de cálculos visuais', caption: 'Edição de cálculos visuais: a matriz do visual, a barra de fórmulas e a pré-visualização.', source: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-visual-calculations-overview' } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Receita = quantidade × preço sem criar coluna → SUMX.',
+              'Ranking que ignora o filtro da linha atual → RANKX com ALL/ALLSELECTED na tabela.',
+              'Comparar com o mês anterior dentro de cada ano → OFFSET(-1) com PARTITIONBY ou ORDERBY adequados.',
+              'Média móvel dos últimos 3 meses → WINDOW(-2, REL, 0, REL) ou DATESINPERIOD.',
+              'Cálculo só para um visual, sem poluir o modelo → cálculo visual.'
+            ] }
+        ],
+        recursos: [
+          { t: 'SUMX', u: 'https://learn.microsoft.com/pt-br/dax/sumx-function-dax' },
+          { t: 'RANKX', u: 'https://learn.microsoft.com/pt-br/dax/rankx-function-dax' },
+          { t: 'WINDOW', u: 'https://learn.microsoft.com/pt-br/dax/window-function-dax' },
+          { t: 'OFFSET', u: 'https://learn.microsoft.com/pt-br/dax/offset-function-dax' },
+          { t: 'INDEX', u: 'https://learn.microsoft.com/pt-br/dax/index-function-dax' },
+          { t: 'RANK', u: 'https://learn.microsoft.com/pt-br/dax/rank-function-dax' },
+          { t: 'Cálculos visuais', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-visual-calculations-overview' }
+        ]
+      },
+      {
+        id: 'fab-dax-informacao', title: 'Funções de informação e tratamento de brancos',
+        desc: 'ISBLANK, HASONEVALUE, SELECTEDVALUE, ISFILTERED, ISCROSSFILTERED, ISINSCOPE, USERPRINCIPALNAME e as funções INFO — para medidas que se comportam bem em totais, subtotais e seleções.',
+        objetivos: [
+          'Controlar o resultado de medidas em totais e subtotais',
+          'Ler a seleção do usuário com SELECTEDVALUE e HASONEVALUE',
+          'Tratar valores em branco corretamente',
+          'Conhecer as funções INFO para documentar o modelo'
+        ],
+        body: 'Cobre a parte “funções de informações” da habilidade de cálculos DAX da DP-600. São as funções que respondem perguntas sobre o contexto: há um valor só? Esta coluna está filtrada? Estou no nível do produto ou da categoria?',
+        content: [
+          { h: 'Perguntas sobre o contexto',
+            items: [
+              '<strong>HASONEVALUE(coluna)</strong> — verdadeiro se o contexto tem exatamente um valor naquela coluna. Uso típico: mostrar algo só na linha de detalhe e deixar o total em branco.',
+              '<strong>SELECTEDVALUE(coluna, alternativo)</strong> — devolve o valor se houver exatamente um; senão, o alternativo. Substitui o padrão IF(HASONEVALUE(...), VALUES(...)).',
+              '<strong>ISFILTERED(coluna)</strong> — a coluna está filtrada diretamente. <strong>ISCROSSFILTERED</strong> — está filtrada direta ou indiretamente (por outra coluna ou tabela relacionada).',
+              '<strong>ISINSCOPE(coluna)</strong> — a coluna é o nível atual da hierarquia no visual. Ideal para cálculos diferentes em cada nível de uma matriz (percentual do pai).',
+              '<strong>USERPRINCIPALNAME()</strong> — o e-mail/UPN de quem está vendo: base da segurança dinâmica em nível de linha (Módulo 12).'
+            ],
+            code: `Título Dinâmico =
+"Vendas de " & SELECTEDVALUE ( Loja[Cidade], "todas as cidades" )
+
+% do Pai =
+SWITCH ( TRUE (),
+    ISINSCOPE ( Produto[Produto] ),
+        DIVIDE ( [Vendas], CALCULATE ( [Vendas], REMOVEFILTERS ( Produto[Produto] ) ) ),
+    ISINSCOPE ( Produto[Categoria] ),
+        DIVIDE ( [Vendas], CALCULATE ( [Vendas], REMOVEFILTERS ( Produto[Categoria] ) ) ),
+    1 )` },
+          { h: 'Brancos',
+            items: [
+              'Em DAX, <strong>BLANK</strong> é o “nulo”. Linhas e colunas sem valor são escondidas dos visuais — por isso uma medida que devolve 0 em vez de branco pode encher uma tabela de linhas inúteis.',
+              '<strong>ISBLANK</strong> testa; <strong>COALESCE(expr, 0)</strong> devolve o primeiro valor não branco.',
+              '<strong>DIVIDE(a, b, alternativo)</strong> devolve branco (ou o alternativo) quando b é zero ou branco.',
+              'Somar branco com número dá o número; compará-lo com zero dá verdadeiro (BLANK = 0 é TRUE), use <code>==</code> para comparação estrita.',
+              'Metas em granularidade maior (Módulo 09): retorne BLANK quando o usuário desce abaixo do nível da meta, testando ISFILTERED na coluna de detalhe.'
+            ] },
+          { h: 'Funções INFO',
+            p: 'As funções <strong>INFO.</strong> (como <code>INFO.VIEW.TABLES()</code>, <code>INFO.VIEW.MEASURES()</code>, <code>INFO.TABLES()</code>) devolvem os metadados do próprio modelo — tabelas, colunas, medidas com suas expressões, relacionamentos. Numa consulta DAX (próxima aula), servem para documentar e auditar o modelo sem ferramenta externa. <code>COLUMNSTATISTICS()</code> devolve estatísticas de todas as colunas (mínimo, máximo, cardinalidade).' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Mostrar o nome do produto selecionado ou “Vários” → SELECTEDVALUE com alternativo.',
+              'Medida deve ficar em branco no total geral → IF(HASONEVALUE(...)) ou ISINSCOPE.',
+              'Cálculo diferente por nível da hierarquia na matriz → ISINSCOPE, do nível mais baixo para o mais alto.',
+              'Divisão com zero no denominador sem erro → DIVIDE.',
+              'Listar todas as medidas do modelo com a expressão → INFO.VIEW.MEASURES numa consulta DAX.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Funções de informações DAX', u: 'https://learn.microsoft.com/pt-br/dax/information-functions-dax' },
+          { t: 'SELECTEDVALUE', u: 'https://learn.microsoft.com/pt-br/dax/selectedvalue-function-dax' },
+          { t: 'INFO.VIEW.TABLES', u: 'https://learn.microsoft.com/pt-br/dax/info-view-tables-function-dax' }
+        ]
+      },
+      {
+        id: 'fab-dax-consultas', title: 'Consultas DAX: selecionar, filtrar e agregar',
+        desc: 'Escrever consultas DAX com EVALUATE, DEFINE, ORDER BY, SUMMARIZECOLUMNS, TOPN e CALCULATETABLE, na exibição de consulta DAX do Desktop e do serviço.',
+        objetivos: [
+          'Escrever consultas DAX que retornam tabelas',
+          'Agregar com SUMMARIZECOLUMNS e filtrar com CALCULATETABLE',
+          'Testar medidas com DEFINE MEASURE e atualizar o modelo',
+          'Usar a exibição de consulta DAX e o analisador de desempenho'
+        ],
+        body: 'Habilidade DP-600 “Selecionar, filtrar e agregar dados usando DAX”. Uma consulta DAX é para o modelo semântico o que um SELECT é para o warehouse: devolve uma tabela e não cria nada no modelo.',
+        content: [
+          { h: 'Estrutura',
+            items: [
+              '<strong>EVALUATE</strong> (obrigatório) seguido de uma expressão de tabela. Pode haver vários EVALUATE na mesma consulta.',
+              '<strong>ORDER BY</strong> ordena o resultado (a propriedade “classificar por coluna” do modelo não vale na consulta).',
+              '<strong>START AT</strong> define o ponto de partida da ordenação.',
+              '<strong>DEFINE</strong> declara, só para a consulta, <strong>MEASURE</strong>, <strong>VAR</strong>, <strong>TABLE</strong>, <strong>COLUMN</strong> e funções.'
+            ],
+            code: `DEFINE
+    MEASURE Vendas[Receita] = SUMX ( Vendas, Vendas[Qtd] * Vendas[Preco] )
+    VAR AnoAlvo = 2026
+
+EVALUATE
+    SUMMARIZECOLUMNS (
+        Produto[Categoria],
+        'Data'[Mês],
+        TREATAS ( { AnoAlvo }, 'Data'[Ano] ),        -- filtro
+        "Receita", [Receita],
+        "Pedidos", COUNTROWS ( Vendas )
+    )
+ORDER BY [Receita] DESC` },
+          { h: 'Funções de tabela mais usadas',
+            items: [
+              '<strong>SUMMARIZECOLUMNS</strong> — agrupa por colunas (de várias tabelas), aplica filtros e calcula medidas; é o que os visuais do Power BI geram. Linhas em que todas as medidas são branco são removidas.',
+              '<strong>CALCULATETABLE(tabela, filtros)</strong> — devolve a tabela filtrada.',
+              '<strong>FILTER</strong>, <strong>TOPN(n, tabela, ordem)</strong> para os N primeiros, <strong>ADDCOLUMNS</strong> para acrescentar colunas calculadas, <strong>SELECTCOLUMNS</strong> para escolher e renomear.',
+              'Uma tabela sozinha também é consulta: <code>EVALUATE \'Pedidos\'</code>.'
+            ],
+            code: `EVALUATE
+    TOPN ( 10,
+           ADDCOLUMNS ( VALUES ( Cliente[Nome] ), "Receita", [Receita] ),
+           [Receita], DESC )
+
+EVALUATE
+    CALCULATETABLE ( Vendas, 'Data'[Ano] = 2026, Loja[UF] = "GO" )` },
+          { h: 'Exibição de consulta DAX',
+            items: [
+              'No Power BI Desktop (ícone na lateral) e no serviço/portal do Fabric (<strong>Gravar consultas DAX</strong> no menu do modelo semântico).',
+              'Formatar (Shift+Alt+F), comentar (Ctrl+/), várias abas de consulta, e o <strong>Copilot</strong> para escrever e explicar consultas.',
+              'Consultas rápidas pelo painel Dados: mostrar as primeiras 100 linhas, estatísticas de coluna, avaliar uma medida.',
+              'Medidas definidas no DEFINE podem ser enviadas ao modelo com <strong>Atualizar modelo com alterações</strong> — um ótimo jeito de testar antes de publicar.',
+              'Do <strong>Analisador de desempenho</strong>, “Copiar consulta” leva a consulta gerada por um visual para a exibição de consulta DAX, onde você a analisa e otimiza (Módulo 11).'
+            ],
+            img: { src: `${FAB_IMG}/m10/consulta-dax-layout.png`, alt: 'Layout da exibição de consulta DAX', caption: 'Exibição de consulta DAX: faixa de opções, editor, resultados e painel Dados com consultas rápidas.', source: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/dax-query-view' } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Palavra-chave obrigatória de uma consulta DAX → EVALUATE.',
+              'Total por categoria e mês filtrado por ano → SUMMARIZECOLUMNS com filtro (TREATAS ou CALCULATETABLE).',
+              'Os 10 maiores clientes → TOPN.',
+              'Testar uma medida nova sem alterar o modelo → DEFINE MEASURE na consulta; depois “Atualizar modelo com alterações”.',
+              'Descobrir que consulta um visual lento envia → Analisador de desempenho → Copiar consulta.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Consultas DAX', u: 'https://learn.microsoft.com/pt-br/dax/dax-queries' },
+          { t: 'Exibição de consulta DAX', u: 'https://learn.microsoft.com/pt-br/power-bi/transform-model/dax-query-view' },
+          { t: 'SUMMARIZECOLUMNS', u: 'https://learn.microsoft.com/pt-br/dax/summarizecolumns-function-dax' }
+        ]
+      }
+    ]
   }
 ];
