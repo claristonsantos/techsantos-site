@@ -33,7 +33,15 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Preencher células usando o Preenchimento Automático | xl-preenchimento-series | ✅ |
 | Inserir e excluir várias colunas ou linhas | xl-inserir-mover-celulas | ✅ |
 | Inserir e excluir células | xl-inserir-mover-celulas | ✅ |
-| Demais (mesclar, alinhamento, formatos de número, estilos, nomes, minigráficos, formatação condicional) | — (Módulos 03, 06, 10) | ⬜ |
+| Mesclar e desfazer mesclagem de células | xl-fonte-alinhamento | ✅ |
+| Modificar alinhamento, orientação e recuo | xl-fonte-alinhamento | ✅ |
+| Formatar células usando o Pincel de Formatação | xl-estilos-pincel-limpar | ✅ |
+| Quebrar texto em células | xl-fonte-alinhamento | ✅ |
+| Aplicar formatos de número | xl-formatos-numero | ✅ |
+| Aplicar formatos de célula da caixa Formatar Células | xl-fonte-alinhamento, xl-formatos-numero | ✅ |
+| Aplicar estilos de célula | xl-estilos-pincel-limpar | ✅ |
+| Limpar formatação de células | xl-estilos-pincel-limpar | ✅ |
+| Demais (nomes, minigráficos, formatação condicional) | — (Módulos 06, 10) | ⬜ |
 
 ### Demais áreas Associate
 ⬜ Tabelas · ⬜ Fórmulas e funções · ⬜ Gráficos
@@ -45,5 +53,6 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Preencher células usando o Preenchimento Relâmpago | xl-preenchimento-relampago | ✅ |
 | Preencher células usando opções avançadas de série | xl-preenchimento-series | ✅ |
 | Preencher células usando a função MATRIZALEATÓRIA | — (Módulo 09) | ⬜ |
+| Criar formatos de número personalizados | xl-formatos-personalizados | ✅ |
 
 ⬜ Opções e configurações da pasta de trabalho · ⬜ Demais itens de dados · ⬜ Fórmulas e macros avançadas · ⬜ Gráficos e tabelas avançados

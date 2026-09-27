@@ -23,3 +23,10 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m02/transpor-depois.jpg | Dados regionais em linhas | https://support.microsoft.com/pt-br/excel/transpose-rotate-data-from-rows-to-columns-or-vice-versa |
 | /assets/img/curso-excel/m02/opcoes-insercao.jpg | Imagem do botão Opções de Inserção que é exibido após inserir linhas ou colunas. | https://support.microsoft.com/pt-br/excel/get-started/insert-or-delete-rows-and-columns-in-excel |
 | /assets/img/curso-excel/m02/localizar.jpg | Pressione Ctrl+F para iniciar a caixa de diálogo Localizar | https://support.microsoft.com/pt-br/excel/get-started/find-or-replace-text-and-numbers-on-a-worksheet |
+| /assets/img/curso-excel/m03/mesclar-celulas.jpg | Mesclar células acima de outras células | https://support.microsoft.com/pt-br/excel/get-started/merge-and-unmerge-cells-in-excel |
+| /assets/img/curso-excel/m03/texto-girado.png | Linha de texto girada em vários graus. | https://support.microsoft.com/pt-br/excel/get-started/align-or-rotate-text-in-a-cell |
+| /assets/img/curso-excel/m03/formatos-de-numero.png | Formatos de números disponíveis | https://support.microsoft.com/pt-br/excel/get-started/available-number-formats-in-excel |
+| /assets/img/curso-excel/m03/numero-vs-geral.png | exemplo de como os números aparecem de diferentes formas nos formatos Número e Geral. | https://support.microsoft.com/pt-br/excel/get-started/available-number-formats-in-excel |
+| /assets/img/curso-excel/m03/casas-decimais.png | aumentar ou diminuir casas decimais em formatação de números | https://support.microsoft.com/pt-br/excel/get-started/available-number-formats-in-excel |
+| /assets/img/curso-excel/m03/quebrar-texto.png | O botão Quebrar Texto Automaticamente no grupo Alinhamento | https://support.microsoft.com/pt-br/excel/wrap-text-in-a-cell-in-excel |
+| /assets/img/curso-excel/m03/estilos-de-celula.png | Captura de ecrã de estilos de célula no Excel. | https://support.microsoft.com/pt-br/excel/apply-create-or-remove-a-cell-style |

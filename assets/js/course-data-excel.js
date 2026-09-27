@@ -559,5 +559,225 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m03', title: 'Módulo 03 · Formatação de células e planilhas', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-fonte-alinhamento', title: 'Fonte, bordas, preenchimento, alinhamento e mesclagem',
+        desc: 'A caixa Formatar Células e seus atalhos na faixa de opções: fonte, bordas e cores, alinhamento horizontal e vertical, recuo, orientação, quebra de texto e as quatro opções de mesclar.',
+        objetivos: [
+          'Aplicar fonte, bordas e preenchimento pela faixa de opções e pela caixa Formatar Células',
+          'Alinhar, recuar, girar e quebrar texto dentro da célula',
+          'Mesclar e desfazer mesclagem sabendo o que se perde — e conhecer a alternativa Centralizar Seleção'
+        ],
+        body: 'Formatação não muda o valor de nenhuma célula, mas decide se a planilha vai ser lida em dez segundos ou ignorada. Neste módulo você vê as ferramentas de formatação que a prova Associate lista uma a uma: mesclar, alinhamento, orientação, recuo, quebra de texto, Pincel de Formatação, formatos de número, estilos de célula e limpar formatação.',
+        content: [
+          { h: 'A caixa Formatar Células (Ctrl+1)',
+            p: 'Os grupos Fonte, Alinhamento e Número da guia Página Inicial têm os comandos mais usados; a caixa <strong>Formatar Células</strong> tem todos. Abra com <strong>Ctrl+1</strong>, com botão direito > Formatar Células, ou pela setinha no canto dos grupos. Ela tem seis guias: <strong>Número</strong>, <strong>Alinhamento</strong>, <strong>Fonte</strong>, <strong>Borda</strong>, <strong>Preenchimento</strong> e <strong>Proteção</strong>. Quando uma tarefa pede algo que não está na faixa de opções — um ângulo exato de rotação, um estilo de borda diagonal, um efeito de preenchimento em gradiente — o caminho é essa caixa.' },
+          { h: 'Fonte, bordas e preenchimento',
+            items: [
+              '<strong>Fonte</strong> — tipo, tamanho, negrito, itálico, sublinhado, cor da fonte. Aumentar Tamanho da Fonte e Diminuir Tamanho da Fonte ajustam de um em um degrau.',
+              '<strong>Bordas</strong> — a seta do botão Bordas oferece as combinações comuns (Todas as Bordas, Borda Externa, Borda Inferior Dupla...). Em Mais Bordas (a guia Borda da caixa Formatar Células) você escolhe estilo de linha e cor primeiro e depois clica onde aplicar — contorno, interna ou cada lado. Sem Borda remove.',
+              '<strong>Cor de Preenchimento</strong> — o fundo da célula. A guia Preenchimento também oferece padrões e efeitos de preenchimento (gradiente).',
+              'As cores das paletas seguem o <strong>tema</strong> da pasta de trabalho (Layout da Página > Temas). Trocar o tema troca as cores de tema de uma vez; as "Cores Padrão" da paleta não mudam com o tema.'
+            ] },
+          { h: 'Alinhamento horizontal, vertical e recuo',
+            p: 'No grupo Alinhamento ficam Alinhar em Cima, Alinhar no Meio e Alinhar Embaixo (vertical) e Alinhar à Esquerda, Centralizar e Alinhar à Direita (horizontal). <strong>Aumentar Recuo</strong> e <strong>Diminuir Recuo</strong> afastam o conteúdo da borda da célula — útil para mostrar hierarquia (subcontas recuadas sob a conta principal). A guia Alinhamento da caixa Formatar Células tem ainda Justificar, Distribuído, Preencher e <strong>Centralizar seleção</strong>.' },
+          { h: 'Orientação: girar o texto',
+            p: 'O botão <strong>Orientação</strong> (o "ab" inclinado no grupo Alinhamento) gira o texto: Girar Texto para Cima, para Baixo, no Sentido Anti-Horário, no Sentido Horário, ou Texto Vertical (letras empilhadas). Para um ângulo exato, use Orientação > <strong>Formatar Alinhamento da Célula</strong> e digite os graus, de -90 a 90: positivos giram para cima, negativos para baixo. É o recurso para cabeçalhos de colunas estreitas.',
+            img: { src: `${XL_IMG}/m03/texto-girado.png`, alt: 'Texto girado em diferentes ângulos', caption: 'O mesmo texto em vários ângulos de orientação.', source: `${SUP}/excel/get-started/align-or-rotate-text-in-a-cell` } },
+          { h: 'Quebrar texto e quebra de linha manual',
+            p: '<strong>Quebrar Texto Automaticamente</strong> faz o conteúdo ocupar várias linhas dentro da célula, conforme a largura da coluna — se a coluna mudar de largura, a quebra se ajusta. Se o texto quebrado não aparecer inteiro, a linha provavelmente tem altura fixa: use Formatar > AutoAjuste da Altura da Linha. Para quebrar num ponto escolhido, edite a célula (F2), posicione o cursor e pressione <strong>Alt+Enter</strong>: é uma quebra de linha manual, que liga automaticamente a opção Quebrar Texto.',
+            img: { src: `${XL_IMG}/m03/quebrar-texto.png`, alt: 'Botão Quebrar Texto Automaticamente no grupo Alinhamento', caption: 'Página Inicial > Alinhamento > Quebrar Texto Automaticamente.', source: `${SUP}/excel/wrap-text-in-a-cell-in-excel` } },
+          { h: 'Mesclar células',
+            p: 'A seta de <strong>Mesclar e Centralizar</strong> tem quatro opções:',
+            items: [
+              '<strong>Mesclar e Centralizar</strong> — junta as células selecionadas em uma só e centraliza o conteúdo (o clássico título sobre várias colunas).',
+              '<strong>Mesclar através</strong> — com várias linhas selecionadas, mescla cada linha separadamente.',
+              '<strong>Mesclar Células</strong> — junta sem centralizar.',
+              '<strong>Desmesclar Células</strong> — desfaz a mesclagem, devolvendo células separadas.'
+            ],
+            img: { src: `${XL_IMG}/m03/mesclar-celulas.jpg`, alt: 'Título mesclado sobre várias colunas', caption: 'A1:C1 mescladas formam o rótulo que descreve as colunas abaixo.', source: `${SUP}/excel/get-started/merge-and-unmerge-cells-in-excel` } },
+          { h: 'Cuidados com a mesclagem',
+            p: 'Ao mesclar, só o conteúdo da célula superior esquerda sobrevive — os valores das outras células são apagados (o Excel avisa). Células mescladas também atrapalham: impedem classificar, filtrar e copiar colunas normalmente, e não existem dentro de tabelas do Excel (o botão fica desabilitado). Para títulos sobre várias colunas sem esses efeitos colaterais, prefira <strong>Centralizar seleção</strong> (Formatar Células > Alinhamento > Horizontal): o texto aparece centralizado sobre as colunas, mas cada célula continua independente. Não é possível dividir uma célula que nunca foi mesclada; para separar conteúdo de uma célula em várias colunas, o recurso é Texto para Colunas (Módulo 04).' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Mescle e centralize A1:F1" — atenção à seleção exata do enunciado.',
+              '"Gire o texto das células B3:M3 para 45 graus" — Formatar Alinhamento da Célula, Graus = 45.',
+              '"Quebre o texto na célula" e "aplique recuo de 2" — o recuo exato é digitado na guia Alinhamento (campo Recuo).',
+              'A prova verifica o formato da célula, não a aparência: centralizar com espaços digitados não conta.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Mesclar e desfazer mesclagem de células', u: `${SUP}/excel/get-started/merge-and-unmerge-cells-in-excel` },
+          { t: 'Microsoft Suporte — Alinhar ou girar texto em uma célula', u: `${SUP}/excel/get-started/align-or-rotate-text-in-a-cell` },
+          { t: 'Microsoft Suporte — Quebrar texto automaticamente em uma célula', u: `${SUP}/excel/wrap-text-in-a-cell-in-excel` },
+          { t: 'Microsoft Suporte — Aplicar ou remover bordas de célula', u: `${SUP}/excel/apply-or-remove-cell-borders-on-a-worksheet` }
+        ]
+      },
+      {
+        id: 'xl-formatos-numero', title: 'Formatos de número: moeda, contábil, porcentagem, data e texto',
+        desc: 'O que cada formato interno faz, a diferença entre valor e exibição, como o Excel guarda datas e horas, números armazenados como texto e os truques para o Excel não transformar o que você digita.',
+        objetivos: [
+          'Aplicar os formatos internos e ajustar casas decimais',
+          'Entender que o formato muda só a exibição, nunca o valor',
+          'Saber como datas e horas são guardadas e evitar conversões indesejadas'
+        ],
+        body: 'O mesmo número 0,25 pode aparecer como 0,25, 25%, R$ 0,25, 1/4 ou 06:00 — tudo depende do formato de número. Entender que o formato é só uma "máscara" sobre o valor evita metade dos erros de relatório: o total que "não bate" porque os centavos estão escondidos, a data que vira número, o CEP que perde o zero da frente.',
+        content: [
+          { h: 'Onde ficam os formatos',
+            p: 'Na guia Página Inicial, grupo Número: a caixa de lista Formato de Número (Geral, Número, Moeda, Contábil, Data Abreviada, Data Completa, Hora, Porcentagem, Fração, Científico, Texto) e botões rápidos — Formato de Número de Contabilização, Estilo de Porcentagem, Separador de Milhares, <strong>Aumentar Casas Decimais</strong> e <strong>Diminuir Casas Decimais</strong>. A lista completa, com todas as opções de cada formato, está em Ctrl+1 > guia Número.',
+            img: { src: `${XL_IMG}/m03/formatos-de-numero.png`, alt: 'Lista de formatos de número da guia Página Inicial', caption: 'Página Inicial > Número > Formato de Número.', source: `${SUP}/excel/get-started/available-number-formats-in-excel` } },
+          { h: 'Os formatos internos',
+            items: [
+              '<strong>Geral</strong> — o padrão: mostra o número como digitado; se não couber, arredonda decimais, e números com 12 dígitos ou mais aparecem em notação científica.',
+              '<strong>Número</strong> — escolha de casas decimais, separador de milhar e forma dos negativos (com sinal, em vermelho, entre parênteses).',
+              '<strong>Moeda</strong> — símbolo da moeda colado ao número (R$ 1.250,00).',
+              '<strong>Contábil</strong> — também monetário, mas alinha o símbolo na borda esquerda da célula e as vírgulas decimais na coluna; zero aparece como um traço. É o formato de demonstrativos financeiros.',
+              '<strong>Data</strong> e <strong>Hora</strong> — vários estilos; os que começam com asterisco na lista acompanham as configurações regionais do Windows.',
+              '<strong>Porcentagem</strong> — multiplica o valor por 100 na exibição e acrescenta %: 0,08 aparece como 8%. Digitar 8% numa célula grava 0,08.',
+              '<strong>Fração</strong> — 0,25 aparece como 1/4. <strong>Científico</strong> — 12345678901 aparece como 1,23E+10.',
+              '<strong>Texto</strong> — trata o que for digitado como texto, exatamente como está (inclusive zeros à esquerda).',
+              '<strong>Especial</strong> — máscaras regionais prontas, como CEP e telefone. <strong>Personalizado</strong> — seus próprios códigos (próxima aula).'
+            ] },
+          { h: 'Formato é máscara; o valor não muda',
+            p: 'Se A1 contém 2,4567 e você diminui para uma casa decimal, a célula mostra 2,5 — mas a barra de fórmulas continua mostrando 2,4567 e os cálculos usam 2,4567. Por isso uma coluna de valores "com duas casas" pode somar um total que parece não bater: os centavos escondidos entram na conta. Se o valor precisa realmente ser arredondado, use a função ARRED (ROUND), vista no Módulo 06.',
+            img: { src: `${XL_IMG}/m03/numero-vs-geral.png`, alt: 'Os mesmos números exibidos nos formatos Geral e Número', caption: 'Mesmos valores, formatos diferentes: só a exibição muda.', source: `${SUP}/excel/get-started/available-number-formats-in-excel` } },
+          { h: 'Como o Excel guarda datas e horas',
+            p: 'Para o Excel, data é um número: a quantidade de dias desde 1º de janeiro de 1900 (que vale 1). A data 27/09/2026 é o número 46292 formatado como data. Hora é fração de dia: 12:00 vale 0,5 e 06:00 vale 0,25. É por isso que dá para subtrair uma data de outra e obter o número de dias, e é por isso que, se você aplicar o formato Geral numa data, aparece um número de cinco dígitos — a data não "estragou", só perdeu a máscara.' },
+          { h: 'Quando o Excel converte sem você pedir',
+            p: 'O Excel tenta adivinhar: 12/2 vira data (12 de fevereiro), 1-5 também, 1/2 vira 1º de fevereiro, 1e9 vira 1,00E+09 e 00123 perde os zeros. Não há como desligar esse comportamento, mas há três saídas:',
+            items: [
+              'Formatar as células como <strong>Texto</strong> antes de digitar (Ctrl+1 > Texto) — o ideal para colunas de códigos, CEP, CPF e telefone.',
+              'Começar a digitação com um <strong>apóstrofo</strong>: \'00123 fica 00123 como texto; o apóstrofo não aparece na célula.',
+              'Para frações, digitar zero e espaço antes: "0 1/2" grava meio, com formato Fração.'
+            ] },
+          { h: 'Números armazenados como texto',
+            p: 'Um número guardado como texto (vindo de sistemas, ou digitado com apóstrofo) aparece alinhado à esquerda e ganha um triângulo verde no canto da célula. Somas ignoram esses valores. Clique no ícone de aviso ao lado e escolha <strong>Converter em Número</strong>, ou use o truque do Colar Especial com Multiplicar por 1 (Módulo 02). Já códigos que nunca serão somados — CEP, CPF, matrícula — devem mesmo ficar como texto: marque Ignorar Erro para o triângulo sumir.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Aplique o formato Contábil com zero casas decimais" — Ctrl+1 > Contábil, Casas decimais = 0 (o botão de contabilização sozinho aplica 2 casas).',
+              '"Formate como porcentagem com uma casa decimal" — Estilo de Porcentagem + Aumentar Casas Decimais, ou Ctrl+1.',
+              '"Aplique o formato Data Abreviada" — nome exato da lista Formato de Número.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Formatos de número disponíveis no Excel', u: `${SUP}/excel/get-started/available-number-formats-in-excel` },
+          { t: 'Microsoft Suporte — Parar de transformar números em datas', u: `${SUP}/excel/stop-automatically-changing-numbers-to-dates` },
+          { t: 'Microsoft Suporte — Formatar números como texto', u: `${SUP}/excel/format-numbers-as-text` }
+        ]
+      },
+      {
+        id: 'xl-formatos-personalizados', title: 'Formatos de número personalizados',
+        desc: 'Os códigos por trás de cada formato: as quatro seções, os marcadores de dígito, texto fixo e arroba, cores, condições, datas e horas, escala por milhar e máscaras brasileiras como CPF e CEP.',
+        objetivos: [
+          'Ler e escrever um código de formato com até quatro seções',
+          'Usar marcadores de dígito, texto fixo, cores e condições',
+          'Montar formatos de data, hora acumulada, escala em milhares e máscaras de documentos'
+        ],
+        body: 'Quando nenhum formato interno serve — mostrar "12,5 mi" em vez de 12.500.000, negativos em vermelho com a palavra "Déficit", horas trabalhadas passando de 24, CPF com pontos e traço — você escreve o seu. Formatos personalizados são habilidade da prova Expert, e a boa notícia é que a "linguagem" tem poucas peças.',
+        content: [
+          { h: 'Onde criar',
+            p: 'Selecione as células, Ctrl+1 > guia Número > categoria <strong>Personalizado</strong>. Escolha na lista o formato mais parecido com o que você quer e edite o código na caixa <strong>Tipo</strong>; a Amostra mostra o resultado. O formato novo fica salvo na pasta de trabalho e aparece no fim da lista. Para apagar um formato personalizado, selecione-o nessa lista e clique em Excluir (os internos não podem ser excluídos).' },
+          { h: 'As quatro seções',
+            p: 'Um código tem até quatro seções separadas por ponto e vírgula, nesta ordem: <strong>positivos ; negativos ; zero ; texto</strong>. Com uma seção só, ela vale para todos os números; com duas, a primeira vale para positivos e zero e a segunda para negativos. Para pular uma seção, mantenha o ponto e vírgula dela. Exemplo:',
+            code: '#.##0,00;[Vermelho]-#.##0,00;"–";@' },
+          { h: 'Marcadores de dígito',
+            items: [
+              '<strong>0</strong> (zero) — dígito obrigatório: completa com zeros. Com duas casas obrigatórias (0,00), 8,9 aparece como 8,90; com cinco zeros (00000), 45 aparece como 00045.',
+              '<strong>#</strong> (cerquilha) — dígito opcional: não mostra zeros insignificantes. Com duas cerquilhas depois da vírgula, 8,9 continua aparecendo como 8,9.',
+              '<strong>?</strong> (ponto de interrogação) — como o zero, mas coloca um espaço no lugar do zero insignificante, alinhando vírgulas decimais numa coluna.',
+              '<strong>Separadores</strong> — no Excel em português, a vírgula é o decimal e o ponto é o milhar. Se houver mais decimais no número do que marcadores no formato, a exibição é arredondada.',
+              '<strong>Escala por milhar</strong> — um ponto de milhar no fim do código divide a exibição por mil; dois pontos, por um milhão. O formato abaixo mostra 12.500.000 como 12,5 mi:'
+            ],
+            code: '#.##0,0.. "mi"' },
+          { h: 'Texto, espaços e caracteres literais',
+            items: [
+              'Texto fixo vai entre aspas duplas: <code>0 "unid."</code> mostra 25 como "25 unid.". Um único caractere pode vir precedido de barra invertida.',
+              'Alguns caracteres aparecem sem aspas: R$, sinais + e -, parênteses, dois-pontos, barra, espaço.',
+              '<strong>@</strong> (arroba) na seção de texto representa o texto digitado: o formato <code>"Cliente: "@</code> transforma "ACME" em "Cliente: ACME". Se a seção de texto não tiver a arroba, o texto digitado não aparece.',
+              '<strong>_</strong> (sublinhado) seguido de um caractere reserva um espaço da largura desse caractere — por exemplo, sublinhado e parêntese alinham positivos com negativos entre parênteses.',
+              '<strong>*</strong> (asterisco) seguido de um caractere repete esse caractere até preencher a célula.'
+            ] },
+          { h: 'Cores e condições',
+            p: 'Uma cor entre colchetes, no início da seção, pinta aquela seção: [Preto], [Azul], [Ciano], [Verde], [Magenta], [Vermelho], [Branco], [Amarelo]. Condições entre colchetes substituem a regra positivo/negativo, com um operador e um valor. O código abaixo mostra valores até 100 em vermelho e acima de 100 em azul. Para regras mais ricas (ícones, barras, fórmulas), o recurso é a Formatação Condicional (Módulo 10).',
+            code: '[Vermelho][<=100]0;[Azul][>100]0' },
+          { h: 'Datas e horas',
+            items: [
+              '<strong>d</strong> e <strong>dd</strong> (uma ou duas letras d) — dia sem e com zero à esquerda; <strong>ddd</strong> (três letras d) — dia da semana abreviado (seg); <strong>dddd</strong> (quatro letras d) — por extenso (segunda-feira).',
+              '<strong>m</strong> e <strong>mm</strong> (uma ou duas letras m) — mês em número; <strong>mmm</strong> (três) — abreviado (set); <strong>mmmm</strong> (quatro) — por extenso (setembro); <strong>mmmmm</strong> (cinco) — só a inicial.',
+              '<strong>aa</strong> e <strong>aaaa</strong> (duas ou quatro letras a) — ano com 2 ou 4 dígitos (no Excel em português o código do ano é "a").',
+              '<strong>h</strong> ou <strong>hh</strong>, <strong>mm</strong> e <strong>ss</strong> (letras h, m e s) — horas, minutos e segundos. O "m" logo após "h" ou antes de "ss" é minuto; em outro lugar, é mês.',
+              '<strong>[h]</strong> (h entre colchetes) — horas acumuladas: sem colchetes, 26 horas aparecem como 02:00 (o relógio "vira"); com <code>[h]:mm</code>, aparecem 26:00. Essencial para somar banco de horas.'
+            ],
+            code: 'dddd", "dd" de "mmmm" de "aaaa   →   domingo, 27 de setembro de 2026' },
+          { h: 'Máscaras úteis no Brasil',
+            p: 'CPF, CNPJ e CEP guardados como número perdem os zeros à esquerda; com um formato personalizado, o número ganha a máscara e os zeros voltam. Como o ponto é o separador de milhar no código, ele precisa de barra invertida para aparecer literalmente. Se o documento puder começar com zero e vier de outro sistema, guardá-lo como texto continua sendo a opção mais segura.',
+            code: 'CPF:  000\\.000\\.000-00\nCNPJ: 00\\.000\\.000"/"0000-00\nCEP:  00000-000' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'A tarefa costuma dar o resultado esperado ("exiba os valores em milhares, com o sufixo K") e você escreve o código — teste na Amostra antes de confirmar.',
+              'Lembre-se da ordem das seções e de que a prova Expert é em inglês: lá o decimal é ponto, o milhar é vírgula e o ano usa a letra y (ípsilon) — a lógica é a mesma.',
+              'Não confunda formato personalizado (muda a exibição) com arredondamento (muda o valor).'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Criar um formato de número personalizado', u: `${SUP}/excel/get-started/create-a-custom-number-format` },
+          { t: 'Microsoft Suporte — Diretrizes para personalizar um formato de número', u: `${SUP}/excel/review-guidelines-for-customizing-a-number-format` },
+          { t: 'Microsoft Suporte — Exibir números como CEP, telefone ou documentos', u: `${SUP}/excel/display-numbers-as-postal-codes-social-security-numbers-or-phone-numbers` }
+        ]
+      },
+      {
+        id: 'xl-estilos-pincel-limpar', title: 'Estilos de célula, temas, Pincel de Formatação e Limpar',
+        desc: 'Formatação consistente com estilos de célula e temas, copiar formatos com o Pincel e remover conteúdo, formatos, comentários ou links com o comando Limpar.',
+        objetivos: [
+          'Aplicar, criar, modificar e duplicar estilos de célula',
+          'Trocar tema, cores e fontes da pasta de trabalho',
+          'Copiar formatação com o Pincel e limpar só o que é necessário'
+        ],
+        body: 'Formatar célula por célula dá trabalho e sai inconsistente: um título em 14 pontos, outro em 13, um azul um pouco diferente. Estilos de célula e temas resolvem com um clique e mantêm o padrão em toda a pasta. Para fechar, o Pincel de Formatação e o comando Limpar — dois itens que a prova Associate cita pelo nome.',
+        content: [
+          { h: 'Estilos de célula',
+            p: 'Página Inicial > Estilos > <strong>Estilos de Célula</strong> abre uma galeria de combinações prontas de fonte, borda, preenchimento e formato de número: Bom, Ruim e Neutro; Dados e Modelo (Cálculo, Célula de Verificação, Entrada, Saída, Nota...); Títulos e Cabeçalhos (Título, Título 1 a 4, Total); estilos temáticos com Ênfase; e Formato de Número (Moeda, Porcentagem, Vírgula). Selecione as células e clique no estilo. O estilo <strong>Normal</strong> é o padrão de todas as células — aplicar Normal devolve a célula à formatação padrão.',
+            img: { src: `${XL_IMG}/m03/estilos-de-celula.png`, alt: 'Galeria de estilos de célula do Excel', caption: 'Página Inicial > Estilos de Célula.', source: `${SUP}/excel/apply-create-or-remove-a-cell-style` } },
+          { h: 'Criar, modificar e duplicar',
+            items: [
+              '<strong>Novo Estilo de Célula</strong> (no fim da galeria) — dê um nome, clique em Formatar, defina a formatação e, em "O estilo inclui", desmarque o que o estilo não deve controlar (por exemplo, deixar o formato de número livre).',
+              '<strong>Modificar</strong> — botão direito num estilo > Modificar: todas as células que usam aquele estilo mudam juntas. É a grande vantagem sobre formatar à mão.',
+              '<strong>Duplicar</strong> — cria uma cópia editável de um estilo existente.',
+              '<strong>Excluir</strong> — botão direito > Excluir; as células voltam ao estilo Normal.',
+              '<strong>Mesclar Estilos</strong> — traz os estilos personalizados de outra pasta de trabalho aberta.'
+            ] },
+          { h: 'Temas',
+            p: 'Em Layout da Página > <strong>Temas</strong>, o tema define o conjunto de cores, fontes (uma para títulos, outra para corpo) e efeitos de gráficos e formas da pasta inteira. Trocar o tema atualiza, de uma vez, tudo o que usa cores e fontes de tema — inclusive os estilos de célula, que são baseados no tema. Os botões Cores, Fontes e Efeitos, ao lado, trocam só uma parte; Salvar Tema Atual guarda sua combinação para reutilizar.' },
+          { h: 'Pincel de Formatação',
+            p: 'Para copiar só a formatação: selecione a célula modelo, clique em <strong>Pincel de Formatação</strong> (Página Inicial > Área de Transferência) e clique ou arraste sobre o destino. Um clique no pincel vale para uma aplicação; <strong>duplo clique</strong> mantém o pincel ativo para vários destinos, até você pressionar Esc ou clicar no pincel de novo. O pincel copia formato de número, fonte, alinhamento, bordas, preenchimento e formatação condicional — nunca o conteúdo. Funciona também com linhas e colunas inteiras (copia larguras e alturas).' },
+          { h: 'Limpar: o que exatamente remover',
+            p: 'A tecla Delete apaga só o conteúdo e mantém a formatação. Para mais controle, Página Inicial > Edição > <strong>Limpar</strong>:',
+            items: [
+              '<strong>Limpar Tudo</strong> — conteúdo, formatos, comentários e anotações.',
+              '<strong>Limpar Formatos</strong> — remove só a formatação (a célula volta ao estilo Normal), mantendo os valores. É o "limpar formatação" da prova.',
+              '<strong>Limpar Conteúdo</strong> — o mesmo que Delete.',
+              '<strong>Limpar Comentários e Anotações</strong>.',
+              '<strong>Limpar Hiperlinks</strong> e <strong>Remover Hiperlinks</strong> — o primeiro tira o link e mantém a formatação de link; o segundo tira o link e a formatação.'
+            ] },
+          { h: 'Limpar não é excluir',
+            p: 'Limpar esvazia as células e deixa o lugar delas; excluir remove as células e desloca as vizinhas (Módulo 02). Uma fórmula que apontava para uma célula limpa passa a enxergar zero; uma fórmula que apontava para uma célula excluída passa a mostrar o erro #REF!.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Aplique o estilo de célula Título 1 a A1" — nome exato da galeria.',
+              '"Copie a formatação de A3 para A4:A20" — Pincel de Formatação.',
+              '"Remova a formatação de B2:B30 sem remover os valores" — Limpar Formatos.',
+              '"Aplique o tema Íon" ou "altere as cores do tema para Azul" — Layout da Página > Temas / Cores.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Aplicar, criar ou remover um estilo de célula', u: `${SUP}/excel/apply-create-or-remove-a-cell-style` },
+          { t: 'Microsoft Suporte — Copiar a formatação de células', u: `${SUP}/excel/get-started/copy-cell-formatting` },
+          { t: 'Microsoft Suporte — Limpar células de conteúdo ou formatos', u: `${SUP}/excel/clear-cells-of-contents-or-formats` }
+        ]
+      }
+    ]
   }
 ];
