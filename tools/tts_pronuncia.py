@@ -428,6 +428,8 @@ PRONUNCIATION_FIXES = [
     (r"~\*", "til asterisco"),
     (r"\bltda\b", "limitada"),
     (r"\*limitada", "asterisco ltda"),
+    # Curso Excel, rodada 3 (Módulo 03): #REF!, ACME, 1,23E+10, 1,00E+09 e o
+    # sufixo K ficaram todos na leitura padrão — sem regra.
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
