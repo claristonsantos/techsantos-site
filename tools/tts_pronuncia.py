@@ -374,6 +374,18 @@ PRONUNCIATION_FIXES = [
     (r"\bSqlPackage\b", "És Quê Éle Pékedj"),
     (r"\bALM Toolkit\b", "Á Éle Éme Tul Kít"),
     (r"\.?\bgitignore\b", " ponto guít ignór"),
+    # Décimo terceiro teste A/B (2026-09-27, 10 termos dos módulos 14-15).
+    # Ficou na leitura padrão: sandbox. "Pro" só com maiúscula (o "pro" do
+    # português, contração de "para o", não pode ser trocado).
+    (r"\bCapacityLimitExceeded\b", "Capáciti Límit Eksíded"),
+    (r"\bthrottling\b", "trótling"),
+    (r"\bsmoothing\b", "smúding"),
+    (r"\bSAS\b", "Ésse Á Ésse"),
+    (r"\bGCS\b", "Gê Cê Ésse"),
+    (r"\bPro\b", "Pró"),
+    (r"\bSpark UI\b", "Spárk U Ái"),
+    (r"\bAdvisor\b", "Edváizor"),
+    (r"\bPearson VUE\b", "Pírson Viú"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
