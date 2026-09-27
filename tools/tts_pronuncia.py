@@ -445,6 +445,22 @@ PRONUNCIATION_FIXES = [
     (r"\bSORT\b", "Sórt"),
     (r"\bR1C1\b", "Érre um Cê um"),
     (r"\bAutoFiltro\b", "Áuto Filtro"),
+    # Curso Excel, rodada 6 (Módulo 06). Ficaram na leitura padrão: PI,
+    # CONT.VALORES e #Tudo.
+    (r"\bSUM\b", "Sâm"),
+    (r"\bAVERAGE\b", "Éverêdj"),
+    (r"\bCOUNTBLANK\b", "Cáunt Blénk"),
+    (r"\bCOUNTA\b", "Cáunt Á"),
+    (r"\bCOUNT\b", "Cáunt"),
+    (r"\bMAX\b", "Méks"),
+    (r"\bMIN\b", "Mín"),
+    (r"\bROUND\b", "Ráund"),
+    (r"\bCONT\.NÚM\b", "Cont Núm"),
+    (r"\bARREDONDAR\.PARA\.CIMA\b", "arredondar para cima"),
+    (r"\bARREDONDAR\.PARA\.BAIXO\b", "arredondar para baixo"),
+    (r"\bXFD(\d+)\b", r"Xis Éfe Dê \1"),
+    (r"\bAutoCompletar\b", "Áuto Completar"),
+    (r"\bAutoSoma\b", "Áuto Soma"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
