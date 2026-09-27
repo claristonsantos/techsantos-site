@@ -353,6 +353,27 @@ PRONUNCIATION_FIXES = [
     (r"\bmetadataPermission\b", "Métadêita Permíchon"),
     (r"\bTabular Editor\b", "Tâbiular Éditor"),
     (r"\bMicrosoft 365\b", "Máicrossoft trezentos e sessenta e cinco"),
+    # Décimo segundo teste A/B (2026-09-27, 20 termos do módulo 13 - ciclo
+    # de vida). Ficaram na leitura padrão: branch, SQL Database Projects.
+    # Extensões aparecem com ponto no texto e sem ponto dentro de <code>.
+    (r"\bGitHub Actions\b", "Guít Râb Ékchons"),
+    (r"\bGitHub\b", "Guít Râb"),
+    (r"\bAzure DevOps\b", "Ájur Dév Óps"),
+    (r"\bcommit\b", "comít"),
+    (r"\bpull requests?\b", "púl riquést"),
+    (r"\bpush\b", "púch"),
+    (r"\.?\bpbip\b", " ponto Pê Bê Í Pê"),
+    (r"\.?\bpbix\b", " ponto Pê Bê Í Xis"),
+    (r"\.?\bpbit\b", " ponto Pê Bê Í Tê"),
+    (r"\.?\bpbids\b", " ponto Pê Bê Í Dê Ésse"),
+    (r"\bPBIR\b", "Pê Bê Í Érre"),
+    (r"\bmodel[. ]bim\b", "môdel bím"),
+    (r"\bdefinition\b", "defíníchon"),
+    (r"\.?\bsqlproj\b", " ponto És Quê Éle Prój"),
+    (r"\bDacFx\b", "Dék Éfe Xis"),
+    (r"\bSqlPackage\b", "És Quê Éle Pékedj"),
+    (r"\bALM Toolkit\b", "Á Éle Éme Tul Kít"),
+    (r"\.?\bgitignore\b", " ponto guít ignór"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
