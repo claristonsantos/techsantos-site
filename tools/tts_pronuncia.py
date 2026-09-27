@@ -320,6 +320,17 @@ PRONUNCIATION_FIXES = [
     (r"\bTRUE\b", "Trú"),
     (r"\bVAR\b", "Vár"),
     (r"\bRETURN\b", "Ritârn"),
+    # Décimo teste A/B (2026-09-27, 16 termos do módulo 11 - Direct Lake).
+    # Ficaram na leitura padrão: DirectLakeBehavior, DirectLakeOnly,
+    # DirectQueryOnly, SSO, TOM, RangeStart, RangeEnd, SQL Server Profiler.
+    (r"\bframing\b", "frêiming"),
+    (r"\bDirectLakeFallbackInfo\b", "Dairét Lêique Fólbék Ínfo"),
+    (r"\bfallback\b", "fólbék"),
+    (r"\bTABLETRAITS\b", "Têibol Treits"),
+    (r"\bguardrails\b", "gárd rêils"),
+    (r"\bDáks Studio\b", "Dáks Stúdio"),  # "DAX" já virou "Dáks" pela regra acima
+    (r"\bIFERROR\b", "If Érror"),
+    (r"\bISERROR\b", "Iz Érror"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
