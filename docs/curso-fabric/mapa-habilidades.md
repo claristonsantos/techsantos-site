@@ -42,6 +42,8 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Filtrar dados | fab-dataflow-transformacoes | ✅ |
 | Identificar e resolver dados duplicados, dados ausentes ou valores nulos | fab-dataflow-qualidade | ✅ |
 | Selecionar, filtrar e agregar dados usando o editor de consultas visuais | fab-editor-consultas-visuais | ✅ |
+| Criar exibições, funções e procedimentos armazenados | fab-tsql-objetos | ✅ |
+| Selecionar, filtrar e agregar dados usando o SQL | fab-tsql-consultas | ✅ |
 | Demais habilidades | módulos 08–15 | ⬜ |
 
 ## DP-700
