@@ -9,9 +9,9 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Habilidade | Aula(s) | Status |
 |---|---|---|
 | Importar dados de arquivos .txt e .csv | — (Módulo 04) | ⬜ |
-| Pesquisar dados na pasta de trabalho | — (Módulo 02) | ⬜ |
+| Pesquisar dados na pasta de trabalho | xl-localizar-substituir-links | ✅ |
 | Navegar para células, intervalos ou elementos nomeados | xl-navegar-selecionar (Caixa de Nome, Ir para) | 🟡 (nomes definidos no Módulo 06) |
-| Inserir e remover hiperlinks | — (Módulo 02) | ⬜ |
+| Inserir e remover hiperlinks | xl-localizar-substituir-links | ✅ |
 | Modificar a configuração de página | — (Módulo 15) | ⬜ |
 | Ajustar altura de linha e largura de coluna | xl-planilhas-linhas-colunas | ✅ |
 | Personalizar cabeçalhos e rodapés | — (Módulo 15) | ⬜ |
@@ -26,8 +26,24 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Configurar definições de impressão | — (Módulo 15) | ⬜ |
 | Inspecionar pastas de trabalho (problemas) | xl-salvar-formatos (Inspecionar Documento, Acessibilidade, Compatibilidade) | ✅ |
 
+### Gerenciar células e intervalos de dados
+| Habilidade | Aula(s) | Status |
+|---|---|---|
+| Colar dados usando opções especiais de colagem | xl-copiar-colar-especial | ✅ |
+| Preencher células usando o Preenchimento Automático | xl-preenchimento-series | ✅ |
+| Inserir e excluir várias colunas ou linhas | xl-inserir-mover-celulas | ✅ |
+| Inserir e excluir células | xl-inserir-mover-celulas | ✅ |
+| Demais (mesclar, alinhamento, formatos de número, estilos, nomes, minigráficos, formatação condicional) | — (Módulos 03, 06, 10) | ⬜ |
+
 ### Demais áreas Associate
-⬜ Gerenciar células e intervalos · ⬜ Tabelas · ⬜ Fórmulas e funções · ⬜ Gráficos
+⬜ Tabelas · ⬜ Fórmulas e funções · ⬜ Gráficos
 
 ## Expert (MO-211)
-⬜ Opções e configurações da pasta de trabalho · ⬜ Gerenciar e formatar dados · ⬜ Fórmulas e macros avançadas · ⬜ Gráficos e tabelas avançados
+### Gerenciar e formatar dados
+| Habilidade | Aula(s) | Status |
+|---|---|---|
+| Preencher células usando o Preenchimento Relâmpago | xl-preenchimento-relampago | ✅ |
+| Preencher células usando opções avançadas de série | xl-preenchimento-series | ✅ |
+| Preencher células usando a função MATRIZALEATÓRIA | — (Módulo 09) | ⬜ |
+
+⬜ Opções e configurações da pasta de trabalho · ⬜ Demais itens de dados · ⬜ Fórmulas e macros avançadas · ⬜ Gráficos e tabelas avançados
