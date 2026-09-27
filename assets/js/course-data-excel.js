@@ -1474,5 +1474,189 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m07', title: 'Módulo 07 · Funções lógicas e cálculos condicionais', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-funcao-se', title: 'A função SE e o tratamento de erros com SEERRO',
+        desc: 'Testar uma condição e devolver um resultado para verdadeiro e outro para falso, aninhar SEs, e trocar erros por mensagens com SEERRO e SENÃODISP.',
+        objetivos: [
+          'Escrever testes lógicos com os operadores de comparação',
+          'Usar SE com texto, números e cálculos nos resultados, e aninhar SEs',
+          'Tratar erros com SEERRO e SENÃODISP'
+        ],
+        body: 'SE é a função que dá "inteligência" à planilha: "se a venda passou da meta, pague comissão; senão, zero". Ela aparece em quase toda planilha de verdade e é a única função lógica cobrada nominalmente na prova Associate ("executar operações condicionais usando a função SE"). Na Expert, o foco são os SEs aninhados e as combinações com E, OU e NÃO.',
+        content: [
+          { h: 'A sintaxe',
+            p: 'SE recebe três argumentos, separados por ponto e vírgula: o <strong>teste lógico</strong> (algo que resulta em VERDADEIRO ou FALSO), o <strong>valor se verdadeiro</strong> e o <strong>valor se falso</strong> (opcional — se omitido e o teste falhar, a função devolve FALSO).',
+            code: 'SE(teste_lógico; valor_se_verdadeiro; [valor_se_falso])\n\n=SE(C2>B2;"Acima do orçamento";"Dentro do orçamento")\n=SE(C2="Sim";1;2)\n=SE(B2>=Meta;B2*5%;0)',
+            img: { src: `${XL_IMG}/m07/se-orcamento.png`, alt: 'Exemplo de SE comparando gasto real com orçamento', caption: 'SE devolvendo um texto para cada situação.', source: `${SUP}/excel/functions/if-function` } },
+          { h: 'Regras práticas',
+            items: [
+              'Texto no resultado ou no teste vai entre aspas duplas; números, referências e fórmulas vão sem aspas.',
+              'Os resultados podem ser cálculos: pagar 5% de comissão se bateu a meta, ou zero.',
+              'Para deixar a célula "vazia" quando o teste falha, use duas aspas duplas seguidas (texto vazio) — cuidado: CONT.VALORES conta essa célula.',
+              'Comparação de texto não diferencia maiúsculas: "sim" e "SIM" são iguais para o SE.',
+              'O teste pode ser a própria função lógica: um teste que já devolve VERDADEIRO ou FALSO não precisa de "igual a VERDADEIRO".'
+            ] },
+          { h: 'SEs aninhados',
+            p: 'Para mais de duas saídas, coloca-se um SE dentro do argumento de falso do outro. O Excel avalia na ordem e para no primeiro teste verdadeiro — por isso a ordem dos testes importa: do maior para o menor, ou do mais específico para o mais geral. O Excel permite até 64 níveis, mas passar de três ou quatro deixa a fórmula difícil de manter; nesses casos use SES (próxima aula) ou uma tabela de faixas com PROCX (Módulo 09).',
+            code: '=SE(A2>=90;"A";SE(A2>=80;"B";SE(A2>=70;"C";"D")))' },
+          { h: 'SEERRO e SENÃODISP',
+            items: [
+              '<strong>SEERRO</strong> (IFERROR) — devolve o valor normalmente, mas se ele for qualquer erro (divisão por zero, valor não disponível, referência inválida...) devolve o que você indicar: zero, texto vazio ou uma mensagem.',
+              '<strong>SENÃODISP</strong> (IFNA) — trata só o erro de valor não disponível (o famoso N/D das funções de procura), deixando os outros erros aparecerem. É mais seguro: não esconde erros de fórmula de verdade.',
+              'Não use SEERRO para "limpar" planilhas por hábito: um erro escondido vira um número errado silencioso.'
+            ],
+            code: '=SEERRO(B2/C2;0)                      → zero em vez de erro de divisão por zero\n=SENÃODISP(PROCV(A2;Tabela;2;0);"Não encontrado")' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Na coluna Situação, exiba Aprovado quando a nota for maior ou igual a 7 e Reprovado caso contrário" — SE com os textos exatamente como no enunciado (maiúsculas e acentos contam na conferência visual).',
+              '"Calcule o bônus de 10% para quem ultrapassou a meta em H1" — SE com cálculo e referência absoluta à meta.',
+              'Verifique a borda do teste: "maior que" é diferente de "maior ou igual".'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função SE', u: `${SUP}/excel/functions/if-function` },
+          { t: 'Microsoft Suporte — Função SEERRO', u: `${SUP}/excel/functions/iferror-function` },
+          { t: 'Microsoft Suporte — Função SENÃODISP', u: `${SUP}/excel/functions/ifna-function` }
+        ]
+      },
+      {
+        id: 'xl-e-ou-ses-parametro', title: 'E, OU, NÃO, SES e PARÂMETRO',
+        desc: 'Combinar condições com E, OU e NÃO dentro do SE, substituir SEs aninhados por SES e escolher resultados por correspondência exata com PARÂMETRO.',
+        objetivos: [
+          'Combinar várias condições com E, OU e NÃO',
+          'Reescrever SEs aninhados com SES, incluindo um resultado padrão',
+          'Usar PARÂMETRO para mapear valores em resultados'
+        ],
+        body: 'Regras de negócio raramente têm uma condição só: "bônus para quem bateu a meta de vendas E a de clientes", "frete grátis se o pedido passar de R$ 300 OU o cliente for VIP". As funções E, OU e NÃO montam essas regras; SES e PARÂMETRO deixam fórmulas com muitas saídas legíveis. Todas estão na lista da prova Expert.',
+        content: [
+          { h: 'E, OU e NÃO',
+            items: [
+              '<strong>E</strong> (AND) — VERDADEIRO só se <strong>todas</strong> as condições forem verdadeiras.',
+              '<strong>OU</strong> (OR) — VERDADEIRO se <strong>pelo menos uma</strong> for verdadeira.',
+              '<strong>NÃO</strong> (NOT) — inverte: VERDADEIRO vira FALSO e vice-versa.',
+              'E e OU aceitam até 255 condições. Sozinhas, só devolvem VERDADEIRO ou FALSO; o uso comum é como teste lógico do SE.'
+            ],
+            code: '=E(B2>=8500;C2>=5)                      → bateu as duas metas?\n=SE(E(B2>=$B$7;C2>=$B$5);B2*$B$8;0)    → bônus só com as duas metas\n=SE(OU(D2>300;E2="VIP");"Frete grátis";"Frete pago")\n=SE(NÃO(F2="Cancelado");G2;0)',
+            img: { src: `${XL_IMG}/m07/se-e-bonus.png`, alt: 'Cálculo de bônus com SE e E', caption: 'Comissão com OU (basta uma meta) e bônus com E (as duas metas) — imagem original em inglês.', source: `${SUP}/excel/functions/and-function` } },
+          { h: 'SES: vários testes sem aninhar',
+            p: '<strong>SES</strong> (IFS) recebe pares de teste e resultado e devolve o resultado do <strong>primeiro teste verdadeiro</strong>. São até 127 pares. Se nenhum teste for verdadeiro, o resultado é o erro de valor não disponível — por isso, para ter um "senão", o último teste é simplesmente VERDADEIRO.',
+            code: 'SES(teste1; resultado1; [teste2; resultado2]; ...)\n\n=SES(A2>89;"A";A2>79;"B";A2>69;"C";A2>59;"D";VERDADEIRO;"F")',
+            img: { src: `${XL_IMG}/m07/ses-notas.png`, alt: 'Exemplo de SES convertendo notas em conceitos', caption: 'SES: notas viram conceitos; VERDADEIRO no fim funciona como "senão".', source: `${SUP}/excel/functions/ifs-function` } },
+          { h: 'PARÂMETRO: correspondência exata',
+            p: '<strong>PARÂMETRO</strong> (SWITCH) compara uma expressão com uma lista de valores e devolve o resultado do primeiro valor igual. Um último argumento sem par funciona como padrão; sem padrão e sem correspondência, o resultado é o erro de valor não disponível. É ideal para códigos: 1 vira Domingo, 2 vira Segunda-feira. Diferença para SES: PARÂMETRO só testa igualdade com uma expressão; SES aceita qualquer teste (maior que, entre faixas, condições combinadas).',
+            code: 'PARÂMETRO(expressão; valor1; resultado1; [valor2; resultado2]; ...; [padrão])\n\n=PARÂMETRO(DIA.DA.SEMANA(A2);1;"Domingo";7;"Sábado";"Dia útil")',
+            img: { src: `${XL_IMG}/m07/parametro-argumentos.png`, alt: 'Os argumentos da função PARÂMETRO numerados', caption: '1 a expressão, 2 o valor procurado, 3 o resultado, 4 o padrão.', source: `${SUP}/excel/functions/switch-function` } },
+          { h: 'Qual usar',
+            items: [
+              'Duas saídas: SE.',
+              'Várias faixas ou condições diferentes: SES (ou SEs aninhados).',
+              'Um código com vários valores exatos: PARÂMETRO.',
+              'Condições combinadas: E / OU dentro do teste do SE ou do SES.',
+              'Muitas faixas que mudam com o tempo (tabela de comissão, faixas do imposto de renda): uma tabela auxiliar com PROCX aproximado é mais fácil de manter que qualquer fórmula lógica (Módulo 09).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'A MO-211 pede "operações lógicas usando funções aninhadas, incluindo SE, SES, PARÂMETRO, E, OU e NÃO" — espere tarefas como "exiba Premium quando o valor for maior que 1000 e o cliente for da região Sul".',
+              'Em SES, confira a ordem dos testes: o primeiro verdadeiro vence.',
+              'A prova Expert é em inglês: IF, IFS, SWITCH, AND, OR, NOT, com vírgula como separador.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função E', u: `${SUP}/excel/functions/and-function` },
+          { t: 'Microsoft Suporte — Função OU', u: `${SUP}/excel/functions/or-function` },
+          { t: 'Microsoft Suporte — Função NÃO', u: `${SUP}/excel/functions/not-function` },
+          { t: 'Microsoft Suporte — Função SES', u: `${SUP}/excel/functions/ifs-function` },
+          { t: 'Microsoft Suporte — Função PARÂMETRO', u: `${SUP}/excel/functions/switch-function` }
+        ]
+      },
+      {
+        id: 'xl-agregacoes-condicionais', title: 'Somar, contar e calcular com critérios: SOMASES, CONT.SES e companhia',
+        desc: 'CONT.SE, SOMASE e MÉDIASE com um critério; CONT.SES, SOMASES, MÉDIASES, MÁXIMOSES e MÍNIMOSES com vários; como escrever critérios com operadores, curingas, datas e referências.',
+        objetivos: [
+          'Escrever critérios com texto, números, operadores, curingas e referências a células',
+          'Usar as versões de um critério e de vários critérios sem confundir a ordem dos argumentos',
+          'Montar um quadro-resumo com agregações condicionais'
+        ],
+        body: '"Quanto o vendedor Diogo vendeu de maçãs?" "Quantos pedidos do Sul passaram de R$ 5 mil em setembro?" "Qual foi a maior venda da loja 3?" Essas perguntas se respondem com as funções condicionais de agregação, que somam, contam, calculam média, máximo ou mínimo só das linhas que atendem aos critérios. Todas estão na lista da prova Expert — e são, junto com PROCX, as funções mais usadas em relatórios reais.',
+        content: [
+          { h: 'Como se escreve um critério',
+            items: [
+              '<strong>Igualdade</strong> — o valor sozinho: "Sul", 32, ou uma referência a uma célula que contém o valor.',
+              '<strong>Comparação</strong> — operador e valor entre aspas: "maior que 5000" se escreve com o sinal de maior e o número, tudo entre aspas; "diferente de Cancelado", com os sinais de menor e maior juntos.',
+              '<strong>Operador com referência</strong> — o operador fica entre aspas e é unido à célula com o e comercial. Esse é o erro mais comum: colocar a referência dentro das aspas faz o Excel procurar o texto "E1", e não o valor da célula.',
+              '<strong>Curingas</strong> — asterisco (qualquer sequência) e interrogação (um caractere): "começa com A", "contém Ltda".',
+              '<strong>Datas</strong> — como números: "maior ou igual a" unido à célula com a data inicial, ou à função DATA.',
+              'Critérios de texto não diferenciam maiúsculas e minúsculas.'
+            ],
+            code: '">5000"          "<>Cancelado"         ">="&E1\n"A*"             "*Ltda*"              ">="&DATA(2026;9;1)' },
+          { h: 'Um critério: CONT.SE, SOMASE e MÉDIASE',
+            p: 'Atenção à ordem: nas funções de um critério, o <strong>intervalo a somar vem por último</strong> (e é opcional — se omitido, soma o próprio intervalo testado).',
+            code: 'CONT.SE(intervalo; critério)\nSOMASE(intervalo; critério; [intervalo_soma])\nMÉDIASE(intervalo; critério; [intervalo_média])\n\n=CONT.SE(C2:C500;"Sul")                 → quantos pedidos do Sul\n=SOMASE(C2:C500;"Sul";F2:F500)           → valor vendido no Sul\n=SOMASE(F2:F500;">5000")                 → soma dos pedidos acima de 5000\n=MÉDIASE(B2:B500;"Diogo";F2:F500)        → ticket médio do Diogo' },
+          { h: 'Vários critérios: CONT.SES, SOMASES, MÉDIASES, MÁXIMOSES, MÍNIMOSES',
+            p: 'Nas versões com vários critérios, o <strong>intervalo a calcular vem primeiro</strong>, seguido de pares intervalo de critério e critério (até 127 pares). Todos os critérios precisam ser atendidos ao mesmo tempo (lógica E). Os intervalos precisam ter o mesmo tamanho. CONT.SES não tem intervalo a calcular — só pares.',
+            code: 'SOMASES(intervalo_soma; intervalo_crit1; crit1; [intervalo_crit2; crit2]; ...)\nCONT.SES(intervalo_crit1; crit1; [intervalo_crit2; crit2]; ...)\nMÉDIASES(intervalo_média; intervalo_crit1; crit1; ...)\nMÁXIMOSES(intervalo_máximo; intervalo_crit1; crit1; ...)\nMÍNIMOSES(intervalo_mínimo; intervalo_crit1; crit1; ...)\n\n=SOMASES(A2:A9;B2:B9;"A*";C2:C9;"Diogo")          → produtos que começam com A vendidos pelo Diogo\n=CONT.SES(C2:C500;"Sul";F2:F500;">5000")\n=MÁXIMOSES(F2:F500;D2:D500;3)                      → maior venda da loja 3\n=SOMASES(F2:F500;A2:A500;">="&H1;A2:A500;"<="&H2) → vendas entre as datas de H1 e H2' },
+          { h: 'Lógica OU com essas funções',
+            p: 'Os critérios das funções com SES são sempre E. Para "Sul OU Norte", some duas fórmulas: a soma do Sul mais a soma do Norte. Com mais valores, a forma compacta é passar uma lista entre chaves como critério e envolver tudo em SOMA — o Microsoft 365 calcula cada item e SOMA junta os resultados.',
+            code: '=SOMASE(C2:C500;"Sul";F2:F500)+SOMASE(C2:C500;"Norte";F2:F500)\n=SOMA(SOMASES(F2:F500;C2:C500;{"Sul";"Norte"}))' },
+          { h: 'Quadro-resumo: o uso de verdade',
+            p: 'O padrão profissional é um quadro com os critérios nas bordas — regiões nas linhas, meses nas colunas — e uma única fórmula SOMASES copiada para todo o quadro, com referências mistas (Módulo 06) apontando para o título da linha e o da coluna. Com os dados numa tabela do Excel, as referências estruturadas fazem o quadro acompanhar a base conforme ela cresce.',
+            code: 'B5: =SOMASES(tbVendas[Valor];tbVendas[Região];$A5;tbVendas[Mês];B$4)' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'A MO-211 lista SOMASE, MÉDIASE, CONT.SE, SOMASES, MÉDIASES, CONT.SES, MÁXIMOSES e MÍNIMOSES. A pegadinha clássica é a ordem dos argumentos: intervalo de soma por último em SOMASE, primeiro em SOMASES.',
+              '"Calcule o total vendido pela região informada em J2" — use a referência J2 como critério, não o texto digitado.',
+              'Em inglês: COUNTIF, SUMIF, AVERAGEIF, COUNTIFS, SUMIFS, AVERAGEIFS, MAXIFS, MINIFS.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função CONT.SE', u: `${SUP}/excel/get-started/use-the-countif-function-in-microsoft-excel` },
+          { t: 'Microsoft Suporte — Função SOMASE', u: `${SUP}/excel/functions/sumif-function` },
+          { t: 'Microsoft Suporte — Função SOMASES', u: `${SUP}/excel/functions/sumifs-function` },
+          { t: 'Microsoft Suporte — Função CONT.SES', u: `${SUP}/excel/functions/countifs-function` },
+          { t: 'Microsoft Suporte — Função MÉDIASE', u: `${SUP}/excel/functions/averageif-function` },
+          { t: 'Microsoft Suporte — Função MÉDIASES', u: `${SUP}/excel/functions/averageifs-function` },
+          { t: 'Microsoft Suporte — Função MÁXIMOSES', u: `${SUP}/excel/functions/maxifs-function` },
+          { t: 'Microsoft Suporte — Função MÍNIMOSES', u: `${SUP}/excel/functions/minifs-function` }
+        ]
+      },
+      {
+        id: 'xl-funcao-let', title: 'LET: variáveis dentro da fórmula',
+        desc: 'Dar nomes a cálculos intermediários dentro de uma fórmula para ela ficar legível e mais rápida.',
+        objetivos: [
+          'Escrever uma fórmula LET com um ou mais pares nome e valor',
+          'Reescrever uma fórmula repetitiva usando LET',
+          'Conhecer as regras de nomes das variáveis'
+        ],
+        body: 'Fórmulas longas costumam repetir o mesmo pedaço várias vezes — e o Excel calcula esse pedaço em cada repetição. A função LET permite dar um nome a um cálculo dentro da própria fórmula, como uma variável: fica mais fácil de ler, de corrigir e mais rápida. LET faz parte da lista de funções aninhadas da prova Expert.',
+        content: [
+          { h: 'A sintaxe',
+            p: 'LET recebe pares de <strong>nome</strong> e <strong>valor</strong> e, por último, o <strong>cálculo</strong> que usa esses nomes. O último argumento é sempre o resultado. São até 126 pares.',
+            code: 'LET(nome1; valor1; [nome2; valor2; ...]; cálculo)\n\n=LET(x;1;x+1)                        → 2' },
+          { h: 'Antes e depois',
+            p: 'Sem LET, a mesma soma condicional aparece duas vezes (uma no teste, outra no resultado) e é calculada duas vezes. Com LET, ela é calculada uma vez e a regra de negócio fica legível.',
+            code: 'Antes:\n=SE(SOMASES(F:F;B:B;H2)>Meta;SOMASES(F:F;B:B;H2)*5%;0)\n\nDepois:\n=LET(vendas;SOMASES(F:F;B:B;H2);\n     SE(vendas>Meta;vendas*5%;0))' },
+          { h: 'Regras dos nomes',
+            items: [
+              'Começam com letra; seguem as mesmas regras dos nomes definidos (sem espaços, não podem parecer referência de célula; "c" e "r" sozinhos não valem).',
+              'Valem só dentro daquela fórmula — não aparecem no Gerenciador de Nomes nem conflitam com os nomes da pasta.',
+              'Um nome pode usar os nomes definidos antes dele: preço, depois imposto calculado sobre o preço, depois o total.',
+              'Para escrever LETs longos, Alt+Enter quebra linhas dentro da barra de fórmulas e deixa cada variável numa linha.'
+            ],
+            code: '=LET(preco;B2; imposto;preco*18%; total;preco+imposto; ARRED(total;2))' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Tarefas com LET costumam pedir para "definir a variável X como ... e retornar ..." — siga os nomes do enunciado.',
+              'Lembre-se de que o último argumento precisa ser um cálculo; terminar com um par nome e valor gera erro.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função LET', u: `${SUP}/excel/functions/let-function` }
+        ]
+      }
+    ]
   }
 ];

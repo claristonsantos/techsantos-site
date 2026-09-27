@@ -66,7 +66,7 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Referenciar intervalos nomeados e tabelas nomeadas em fórmulas | xl-nomes-definidos, xl-referencias-estruturadas | ✅ |
 | Cálculos com MÉDIA, MÁXIMO, MÍNIMO e SOMA | xl-funcoes-basicas | ✅ |
 | Contar células com CONT.NÚM, CONT.VALORES e CONTAR.VAZIO | xl-funcoes-basicas | ✅ |
-| Operações condicionais com SE | — (Módulo 07) | ⬜ |
+| Operações condicionais com SE | xl-funcao-se | ✅ |
 | Funções de texto | — (Módulo 08) | ⬜ |
 
 ⬜ ⬜ Gráficos
@@ -83,4 +83,11 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Referenciar dados em outras pastas de trabalho | xl-referencias, xl-power-query-basico | ✅ |
 | Remover registros duplicados | xl-texto-colunas-duplicatas | ✅ |
 
-⬜ Opções e configurações da pasta de trabalho · ⬜ Demais itens de dados · ⬜ Fórmulas e macros avançadas · ⬜ Gráficos e tabelas avançados
+### Fórmulas e macros avançadas
+| Habilidade | Aula(s) | Status |
+|---|---|---|
+| Operações lógicas aninhadas: SE, SES, PARÂMETRO, SOMASE, MÉDIASE, CONT.SE, SOMASES, MÉDIASES, CONT.SES, MÁXIMOSES, MÍNIMOSES, E, OU, NÃO | xl-funcao-se, xl-e-ou-ses-parametro, xl-agregacoes-condicionais | ✅ |
+| Usar a função LET | xl-funcao-let | ✅ |
+| Demais (procura, datas, análise de hipóteses, auditoria, macros) | — (Módulos 08, 09, 13, 14, 16) | ⬜ |
+
+⬜ Opções e configurações da pasta de trabalho · ⬜ Demais itens de dados · ⬜ Gráficos e tabelas avançados

@@ -59,3 +59,7 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m06/copiar-formula.gif | Fórmula sendo copiada de A1 para duas células abaixo e para a direita | https://support.microsoft.com/pt-br/excel/switch-between-relative-absolute-and-mixed-references |
 | /assets/img/curso-excel/m06/autosoma-formula.jpg | Fórmula criada ao clicar em Soma Automática Base > | https://support.microsoft.com/pt-br/excel/use-autosum-to-sum-numbers-in-excel |
 | /assets/img/curso-excel/m06/gerenciador-de-nomes.png | Caixa de diálogo Gerenciador de Nomes | https://support.microsoft.com/pt-br/excel/use-the-name-manager-in-excel |
+| /assets/img/curso-excel/m07/se-orcamento.png | A fórmula na célula D2 é =SE(C2>B2;Ultrapassou o Orçamento;Dentro do Orçamento) | https://support.microsoft.com/pt-br/excel/functions/if-function |
+| /assets/img/curso-excel/m07/ses-notas.png | Função SES Exemplo de notas. A fórmula na célula B2 é  =SES(A2>89,A,A2>79,B,A2>69,C,A2>59,D,VERDADEIRO,F) | https://support.microsoft.com/pt-br/excel/functions/ifs-function |
+| /assets/img/curso-excel/m07/parametro-argumentos.png | Detalhamento dos argumentos das funções SWITCH | https://support.microsoft.com/pt-br/excel/functions/switch-function |
+| /assets/img/curso-excel/m07/se-e-bonus.png | Exemplo de cálculo de Bônus de Vendas com as funções SE e E. A fórmula na célula E14 é =SE(E(B14>=$B$7,C14>=$B$5),B14*$B$8,0) | https://support.microsoft.com/pt-br/excel/functions/and-function |
