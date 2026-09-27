@@ -20,7 +20,7 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | 10 | DAX para a prova | ✅ publicado |
 | 11 | Direct Lake e otimização de modelos | ✅ publicado |
 | 12 | Segurança e governança | ✅ publicado |
-| 13 | Ciclo de vida: Git, .pbip, pipelines de implantação, XMLA | ⬜ |
+| 13 | Ciclo de vida: Git, .pbip, pipelines de implantação, XMLA | ✅ publicado |
 | 14 | Monitoramento, erros e otimização | ⬜ |
 | 15 | Projeto final e simulados | ⬜ |
 
@@ -62,7 +62,13 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Implementar controles de acesso no nível do item | fab-seg-workspace-item | ✅ |
 | Aplicar rótulos de confidencialidade a itens | fab-governanca | ✅ |
 | Aprovar (endossar) itens | fab-governanca | ✅ |
-| Demais habilidades | módulos 13–15 | ⬜ |
+| Configurar o controle de versões para um workspace | fab-git | ✅ |
+| Criar e gerenciar um projeto do Power BI Desktop (.pbip) | fab-pbip-projetos | ✅ |
+| Criar e configurar pipelines de implantação | fab-pipelines-implantacao | ✅ |
+| Executar análise de impacto de dependências downstream | fab-xmla-reutilizaveis | ✅ |
+| Implantar e gerenciar modelos semânticos usando o ponto de extremidade XMLA | fab-xmla-reutilizaveis | ✅ |
+| Criar e atualizar ativos reutilizáveis (.pbit, .pbids, modelos compartilhados) | fab-xmla-reutilizaveis | ✅ |
+| Demais habilidades | nenhuma pendente em módulos novos — M14/M15 revisam e aprofundam | ✅ |
 
 ## DP-700
 
@@ -115,4 +121,9 @@ Atualize este mapa a cada módulo publicado. Status: ✅ coberta · 🟡 parcial
 | Aplicar rótulos de confidencialidade a itens | fab-governanca | ✅ |
 | Endossar itens | fab-governanca | ✅ |
 | Implementar e usar logs de auditoria do Microsoft Fabric | fab-governanca | ✅ |
-| Demais habilidades | módulos 13–15 | ⬜ |
+| Configurar controle de versão | fab-git | ✅ |
+| Implementar projetos de banco de dados | fab-pbip-projetos | ✅ |
+| Criar e configurar pipelines de implantação | fab-pipelines-implantacao | ✅ |
+| Monitorar a atualização do modelo semântico | (M14) | ⬜ |
+| Otimizar um pipeline | (M14) | ⬜ |
+| Demais habilidades | M14/M15 revisam e aprofundam | ✅ |

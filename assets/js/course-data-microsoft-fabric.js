@@ -4083,5 +4083,224 @@ GRANT UNMASK TO [auditoria@empresa.com];` },
         ]
       }
     ]
+  },
+  {
+    id: 'fab-m13', title: 'Módulo 13 · Ciclo de vida: Git, .pbip, pipelines de implantação e XMLA', kind: 'video',
+    lessons: [
+      {
+        id: 'fab-git', title: 'Controle de versão: integração do workspace com o Git',
+        desc: 'Conectar um workspace ao Azure DevOps ou GitHub, confirmar e atualizar alterações, trabalhar com branches e workspaces por desenvolvedor, e o que a biblioteca de variáveis resolve.',
+        objetivos: [
+          'Conectar um workspace a um repositório Git',
+          'Confirmar (commit) e atualizar (update) alterações',
+          'Organizar o desenvolvimento com branches e workspaces isolados',
+          'Usar bibliotecas de variáveis para configurações por ambiente'
+        ],
+        body: 'Cobre “Configurar o controle de versões para um workspace” (DP-600) e “Configurar controle de versão” (DP-700). O Fabric guarda as definições dos itens como arquivos de texto num repositório Git — histórico, revisão e reversão de mudanças como em qualquer projeto de software.',
+        content: [
+          { h: 'Conectando o workspace',
+            items: [
+              'Provedores suportados: <strong>Azure DevOps</strong> (nuvem) e <strong>GitHub</strong>. Exige capacidade Fabric e as configurações de locatário habilitadas pelo administrador.',
+              'Nas <strong>Configurações do workspace → Integração do Git</strong>: organização, projeto/repositório, <strong>branch</strong> e pasta.',
+              'Só o <strong>Administrador</strong> do workspace conecta ou desconecta. Depois, quem tem permissão trabalha normalmente.',
+              'Cada workspace fica ligado a <strong>um único branch</strong>.',
+              'Nem todo item é suportado; os principais (lakehouse, notebook, pipeline, Dataflow Gen2, warehouse, modelo semântico, relatório, eventhouse…) já são. Os <strong>dados</strong> não vão para o Git — só as definições.'
+            ],
+            img: { src: `${FAB_IMG}/m13/git-conectar-branch.png`, alt: 'Conexão do workspace a um branch do GitHub', caption: 'Integração do Git nas configurações do workspace: repositório, branch e pasta.', source: `${LEARN}/cicd/git-integration/git-get-started` } },
+          { h: 'Confirmar e atualizar',
+            items: [
+              'Editar no workspace salva só no workspace. O painel <strong>Controle do código-fonte</strong> mostra os itens alterados; você seleciona e faz o <strong>commit</strong> com uma mensagem.',
+              'Quando alguém confirma no branch conectado, o workspace avisa; <strong>Atualizar tudo</strong> traz as mudanças do Git para o workspace.',
+              'Se o mesmo item mudou dos dois lados, há <strong>conflito</strong>: escolha a versão (workspace ou Git) ou resolva no próprio Git.',
+              'Pull requests, revisão de código e histórico acontecem no Azure DevOps/GitHub, como em qualquer repositório.'
+            ] },
+          { h: 'Processos de desenvolvimento',
+            items: [
+              '<strong>Workspace com branch por desenvolvedor</strong> — cada pessoa tem seu workspace ligado ao seu branch; quando termina, abre pull request para o branch principal. Evita que um sobrescreva o trabalho do outro num workspace compartilhado.',
+              '<strong>Desenvolvimento local</strong> — clonar o repositório e editar os arquivos em ferramentas cliente (Power BI Desktop com .pbip, VS Code), depois fazer push.',
+              'Opções do painel: <strong>Ramificar para outro workspace</strong> e <strong>Alternar branch</strong> (por padrão exigem Administrador; pode ser liberado a Membros e Colaboradores).',
+              'O branch principal geralmente alimenta o workspace de desenvolvimento do pipeline de implantação (próxima aula).'
+            ] },
+          { h: 'Biblioteca de variáveis',
+            p: 'Uma <strong>biblioteca de variáveis</strong> é um item que guarda valores (textos, números, IDs de lakehouse, conexões) com um <strong>conjunto de valores por ambiente</strong> (desenvolvimento, teste, produção). Pipelines, trabalhos de cópia, notebooks e atalhos leem a variável em vez de um valor fixo; ao implantar em outro estágio, o conjunto ativo muda e os itens passam a apontar para os recursos daquele ambiente. É o jeito moderno de parametrizar o CI/CD no Fabric.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Quem pode conectar o workspace ao Git → Administrador do workspace.',
+              'Dois desenvolvedores se sobrescrevendo no mesmo workspace → um workspace por desenvolvedor, cada um no seu branch.',
+              'Levar mudanças de outra pessoa (já no Git) para o workspace → Atualizar do Git.',
+              'Pipeline deve usar o lakehouse de teste no estágio de teste e o de produção em produção → biblioteca de variáveis (ou regras de implantação).',
+              'Dados das tabelas vão para o repositório? → Não; só as definições dos itens.'
+            ] }
+        ],
+        recursos: [
+          { t: 'O que é a integração do Git do Fabric', u: `${LEARN}/cicd/git-integration/intro-to-git-integration` },
+          { t: 'Começar com a integração do Git', u: `${LEARN}/cicd/git-integration/git-get-started` },
+          { t: 'Processos de desenvolvimento com branches', u: `${LEARN}/cicd/git-integration/manage-branches` },
+          { t: 'Biblioteca de variáveis', u: `${LEARN}/cicd/variable-library/variable-library-overview` },
+          { t: 'Visão geral de CI/CD no Fabric', u: `${LEARN}/cicd/cicd-overview` }
+        ]
+      },
+      {
+        id: 'fab-pipelines-implantacao', title: 'Pipelines de implantação',
+        desc: 'Estágios, emparelhamento de itens, comparação, implantação completa, seletiva e retroativa, regras de implantação e automação por API.',
+        objetivos: [
+          'Criar um pipeline de implantação e atribuir workspaces aos estágios',
+          'Entender o emparelhamento e a comparação entre estágios',
+          'Configurar regras de implantação por estágio'
+        ],
+        body: 'Cobre “Criar e configurar pipelines de implantação” (as duas provas). O pipeline de implantação leva o conteúdo de um workspace para o próximo — desenvolvimento → teste → produção — sem copiar e colar.',
+        content: [
+          { h: 'Estrutura',
+            items: [
+              'De <strong>2 a 10 estágios</strong>; o padrão sugerido é 3: Desenvolvimento, Teste e Produção. Os nomes podem ser alterados.',
+              'Cada estágio é um <strong>workspace</strong> (numa capacidade Fabric). Você pode atribuir um workspace existente ou deixar o pipeline criar ao implantar num estágio vazio.',
+              'Implantar exige ser pelo menos <strong>Colaborador</strong> no estágio de origem e, num estágio de destino já existente, também no destino.'
+            ] },
+          { h: 'Emparelhamento e comparação',
+            items: [
+              '<strong>Emparelhamento</strong> liga um item de um estágio ao item correspondente no estágio seguinte. Itens emparelhados são <strong>substituídos</strong> na implantação; itens sem par são <strong>criados</strong> (clonados) no destino.',
+              'Ao implantar num estágio vazio, as relações entre itens se mantêm: o relatório passa a apontar para a cópia do modelo no novo estágio.',
+              'A <strong>comparação</strong> marca cada item: <strong>Novo</strong> (só na origem), <strong>Diferente</strong> (mudou desde a última implantação) ou <strong>Igual</strong>. Dá para abrir a revisão de mudanças lado a lado antes de implantar.'
+            ],
+            img: { src: `${FAB_IMG}/m13/itens-emparelhados.png`, alt: 'Estágios adjacentes com itens emparelhados', caption: 'Itens emparelhados entre estágios adjacentes do pipeline de implantação.', source: `${LEARN}/cicd/deployment-pipelines/intro-to-deployment-pipelines` } },
+          { h: 'Tipos de implantação',
+            items: [
+              '<strong>Implantar tudo</strong> — todo o conteúdo do estágio vai para o próximo.',
+              '<strong>Implantação seletiva</strong> — só os itens escolhidos (com opção de incluir os itens relacionados).',
+              '<strong>Implantação retroativa</strong> — do estágio posterior para o anterior (por exemplo, trazer uma correção feita em teste de volta para o desenvolvimento); só é possível implantando <strong>todos</strong> os itens.',
+              'É possível deixar uma anotação na implantação e ver o histórico de implantações de cada estágio.',
+              'Automação: as <strong>APIs REST</strong> de pipelines de implantação permitem implantar a partir do Azure DevOps ou GitHub Actions.'
+            ],
+            img: { src: `${FAB_IMG}/m13/comparar-estagios.png`, alt: 'Pipeline de implantação com três estágios e indicador de diferenças', caption: 'Três estágios com o indicador de diferenças e a opção de comparar antes de implantar.', source: `${LEARN}/cicd/deployment-pipelines/compare-pipeline-content` } },
+          { h: 'Regras de implantação',
+            items: [
+              'Cada estágio pode apontar para recursos diferentes (banco de teste × banco de produção). <strong>Regras de implantação</strong>, definidas no estágio de destino, trocam essas configurações na hora de implantar.',
+              '<strong>Regras de fonte de dados</strong> — trocam o servidor/banco de um modelo semântico ou dataflow (só entre fontes do mesmo tipo).',
+              '<strong>Regras de parâmetro</strong> — trocam o valor de parâmetros do Power Query.',
+              '<strong>Regras de lakehouse padrão</strong> — para notebooks apontarem para o lakehouse do estágio.',
+              'Só o <strong>proprietário do item</strong> cria a regra; ela passa a valer na próxima implantação (até lá o item aparece como Diferente).',
+              'Para itens que as regras não cobrem, use bibliotecas de variáveis.'
+            ],
+            img: { src: `${FAB_IMG}/m13/regras-implantacao.png`, alt: 'Tipos de regras de implantação', caption: 'Regras de implantação: fonte de dados e parâmetros por item, no estágio de destino.', source: `${LEARN}/cicd/deployment-pipelines/create-rules` } },
+          { h: 'Git e pipeline juntos',
+            p: 'O desenho mais comum: o workspace de <strong>desenvolvimento</strong> está ligado ao branch principal do Git (onde os pull requests são aprovados); o pipeline de implantação promove o conteúdo para <strong>teste</strong> e <strong>produção</strong>, com regras ou bibliotecas de variáveis trocando as conexões. Alternativa: cada estágio ligado a um branch e a promoção feita no próprio Git.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Modelo em produção deve usar o banco de produção, e o de teste o banco de teste → regra de fonte de dados no estágio correspondente.',
+              'Implantar só um relatório corrigido, sem levar o resto → implantação seletiva.',
+              'Trazer o conteúdo de produção de volta para o desenvolvimento → implantação retroativa (todos os itens).',
+              'Quantos estágios um pipeline aceita → de 2 a 10.',
+              'Regra criada mas não aplicada → ela só vale na próxima implantação.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Introdução aos pipelines de implantação', u: `${LEARN}/cicd/deployment-pipelines/intro-to-deployment-pipelines` },
+          { t: 'Implantar conteúdo', u: `${LEARN}/cicd/deployment-pipelines/deploy-content` },
+          { t: 'Comparar conteúdo entre estágios', u: `${LEARN}/cicd/deployment-pipelines/compare-pipeline-content` },
+          { t: 'Criar regras de implantação', u: `${LEARN}/cicd/deployment-pipelines/create-rules` }
+        ]
+      },
+      {
+        id: 'fab-pbip-projetos', title: 'Projetos do Power BI (.pbip) e projetos de banco de dados',
+        desc: 'Salvar relatórios e modelos como projeto .pbip com TMDL e PBIR, editar fora do Desktop, e versionar o warehouse como projeto de banco de dados SQL.',
+        objetivos: [
+          'Criar e gerenciar um projeto do Power BI Desktop (.pbip)',
+          'Entender as pastas .SemanticModel e .Report e o formato TMDL',
+          'Implementar projetos de banco de dados para o warehouse'
+        ],
+        body: 'Cobre “Criar e gerenciar um projeto do Power BI Desktop (.pbip)” (DP-600) e “Implementar projetos de banco de dados” (DP-700). A ideia é a mesma nos dois: transformar um arquivo binário em pastas de texto que o Git consegue comparar.',
+        content: [
+          { h: 'O que muda do .pbix para o .pbip',
+            items: [
+              'O <strong>.pbix</strong> é um único arquivo binário: o Git não mostra o que mudou nem permite mesclar.',
+              'Em <strong>Arquivo → Salvar como → Projeto do Power BI (.pbip)</strong>, o Desktop grava uma pasta com um arquivo .pbip e duas subpastas: <strong>NomeDoProjeto.SemanticModel</strong> (a definição do modelo) e <strong>NomeDoProjeto.Report</strong> (a definição do relatório).',
+              'O modelo pode ser salvo no formato <strong>TMDL</strong> (Tabular Model Definition Language) — uma pasta <em>definition</em> com um arquivo de texto por tabela, legível e fácil de comparar — em vez do antigo model.bim (JSON).',
+              'O relatório pode usar o formato <strong>PBIR</strong>, com um arquivo por página e por visual.',
+              'Os dados importados ficam num cache local que o .gitignore gerado já exclui.'
+            ],
+            img: { src: `${FAB_IMG}/m13/salvar-pbip.png`, alt: 'Salvar como projeto do Power BI', caption: 'Salvar como → Projeto do Power BI (.pbip).', source: 'https://learn.microsoft.com/pt-br/power-bi/developer/projects/projects-overview' } },
+          { h: 'Trabalhando com o projeto',
+            items: [
+              'Abra pelo arquivo .pbip (ou pelo .pbir de um relatório específico).',
+              'Edite fora do Desktop com VS Code, Tabular Editor ou scripts — por exemplo, renomear uma medida em vários lugares ou revisar uma alteração de DAX num pull request. Alterações inválidas podem impedir o Desktop de abrir o projeto.',
+              'Publique com a integração do Git do Fabric (o workspace lê as mesmas pastas), com APIs ou normalmente pelo Desktop.',
+              'A exibição TMDL do Desktop permite aplicar scripts TMDL ao modelo, inclusive funções de segurança e OLS (Módulo 12).'
+            ] },
+          { h: 'Projetos de banco de dados (warehouse)',
+            items: [
+              'Um <strong>projeto de banco de dados SQL</strong> (.sqlproj) guarda o esquema do warehouse como arquivos .sql — tabelas, exibições, funções e procedimentos, uma pasta por esquema.',
+              'Criado no VS Code com a extensão <strong>SQL Database Projects</strong>, do zero ou importando um warehouse existente.',
+              'O projeto é <strong>compilado</strong> (validação das dependências e da sintaxe) e <strong>publicado</strong> no warehouse — a ferramenta calcula as diferenças e gera o script de alteração (DacFx / SqlPackage).',
+              'Com o Git, a publicação vira um passo automatizado de CI/CD no Azure DevOps ou GitHub Actions. A integração do Git do workspace também guarda o warehouse nesse formato.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Versionar relatório e modelo no Git com diferenças legíveis → salvar como .pbip com TMDL.',
+              'Onde fica a definição do modelo num projeto → pasta .SemanticModel (definition em TMDL ou model.bim).',
+              'Versionar e implantar o esquema do warehouse com revisão de código → projeto de banco de dados SQL (.sqlproj) no VS Code.',
+              'Alterar dezenas de medidas de uma vez sem abrir o Desktop → editar o TMDL do projeto.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Projetos do Power BI Desktop', u: 'https://learn.microsoft.com/pt-br/power-bi/developer/projects/projects-overview' },
+          { t: 'Pasta do modelo semântico no projeto', u: 'https://learn.microsoft.com/pt-br/power-bi/developer/projects/projects-dataset' },
+          { t: 'Projetos de warehouse no VS Code', u: `${LEARN}/data-warehouse/develop-warehouse-project` },
+          { t: 'Desenvolvimento e implantação do warehouse', u: `${LEARN}/data-warehouse/development-deployment` }
+        ]
+      },
+      {
+        id: 'fab-xmla-reutilizaveis', title: 'Ponto de extremidade XMLA, ativos reutilizáveis e análise de impacto',
+        desc: 'Gerenciar modelos pelo ponto de extremidade XMLA, reutilizar com .pbit, .pbids e modelos compartilhados, e medir o impacto de uma mudança antes de fazê-la.',
+        objetivos: [
+          'Conectar ferramentas ao modelo pelo ponto de extremidade XMLA',
+          'Criar modelos de relatório (.pbit), arquivos de fonte (.pbids) e modelos compartilhados',
+          'Executar análise de impacto de itens a jusante'
+        ],
+        body: 'Cobre “Implantar e gerenciar modelos semânticos usando o ponto de extremidade XMLA”, “Criar e atualizar ativos reutilizáveis” e “Executar análise de impacto de dependências downstream” (DP-600).',
+        content: [
+          { h: 'Ponto de extremidade XMLA',
+            items: [
+              'Todo workspace numa capacidade (Fabric, Premium, PPU) expõe um endereço XMLA: <code>powerbi://api.powerbi.com/v1.0/myorg/NomeDoWorkspace</code> (nas configurações do workspace).',
+              'Por ele, ferramentas do Analysis Services enxergam os modelos: <strong>SSMS</strong> (scripts, partições, rastreamento), <strong>Tabular Editor</strong>, <strong>DAX Studio</strong>, Excel, ALM Toolkit.',
+              '<strong>Somente leitura</strong> é o padrão; o administrador da capacidade habilita <strong>leitura e gravação</strong> nas configurações da capacidade para permitir implantar e alterar modelos.',
+              'Com leitura e gravação: implantar modelos (Tabular Editor, scripts TMSL/TMDL), atualizar partições específicas, criar partições personalizadas e fazer atualizações sem o limite de tempo do agendamento.',
+              'Recomenda-se o formato de modelo grande para operações de gravação pelo XMLA.',
+              'Cuidado: um modelo alterado pelo XMLA não pode mais ser baixado como .pbix pelo serviço.'
+            ] },
+          { h: 'Ativos reutilizáveis',
+            items: [
+              '<strong>.pbit (modelo de relatório)</strong> — Arquivo → Exportar → Modelo do Power BI. Leva páginas, visuais, modelo (tabelas, relacionamentos, medidas) e consultas, <strong>sem os dados</strong>. Quem abre informa parâmetros e credenciais e ganha um relatório pronto com os próprios dados. Ótimo para padronizar layout e modelo.',
+              '<strong>.pbids (arquivo de fonte de dados)</strong> — um JSON com a conexão pronta (servidor, banco). Ao abrir, o Desktop pede as credenciais e já vai para o navegador de tabelas. Suporta <strong>uma</strong> fonte por arquivo. Ideal para autores iniciantes.',
+              '<strong>Modelo semântico compartilhado</strong> — publique um modelo e dê permissão <strong>Criar</strong> (Build): vários relatórios (em vários workspaces) usam o mesmo modelo por conexão dinâmica. Endosse-o (Certificado) para ser encontrado. Um único lugar para as regras de negócio.',
+              'Também: temas de relatório (JSON) e bibliotecas de visuais para padronizar a aparência.'
+            ] },
+          { h: 'Linhagem e análise de impacto',
+            items: [
+              'A <strong>exibição de linhagem</strong> do workspace mostra a cadeia: fonte → lakehouse/warehouse → modelo → relatório → painel.',
+              'A <strong>análise de impacto</strong> de um item (no cartão da linhagem ou nos detalhes do item) lista os itens e workspaces afetados — só os filhos diretos ou <strong>todos os itens a jusante</strong> —, com contagem de visualizações.',
+              '<strong>Notificar contatos</strong> envia um e-mail aos responsáveis pelos itens afetados antes da mudança.',
+              'Para ver a análise de impacto de um modelo é preciso permissão de gravação nele; itens de workspaces sem acesso aparecem sem nome.'
+            ],
+            img: { src: `${FAB_IMG}/m13/analise-impacto.png`, alt: 'Painel de análise de impacto', caption: 'Análise de impacto: itens e workspaces afetados por uma mudança, com opção de notificar contatos.', source: `${LEARN}/governance/impact-analysis` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              'Implantar um modelo pelo Tabular Editor falha por permissão → habilitar XMLA leitura e gravação na capacidade.',
+              'Atualizar só uma partição de uma tabela grande → XMLA (SSMS/TMSL).',
+              'Distribuir um relatório padrão sem os dados → .pbit.',
+              'Facilitar a conexão de novos autores a um banco → .pbids.',
+              'Antes de mudar uma coluna do lakehouse, saber quais relatórios quebram → análise de impacto (todos os itens a jusante) e notificar contatos.',
+              'Evitar dez cópias do mesmo modelo → modelo compartilhado com permissão Criar.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Conectividade com o ponto de extremidade XMLA', u: 'https://learn.microsoft.com/pt-br/fabric/enterprise/powerbi/service-premium-connect-tools' },
+          { t: 'Modelos de relatório (.pbit)', u: 'https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-templates' },
+          { t: 'Fontes de dados e arquivos PBIDS', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/desktop-data-sources' },
+          { t: 'Modelos semânticos entre workspaces', u: 'https://learn.microsoft.com/pt-br/power-bi/connect-data/service-datasets-across-workspaces' },
+          { t: 'Análise de impacto', u: `${LEARN}/governance/impact-analysis` },
+          { t: 'Linhagem no Fabric', u: `${LEARN}/governance/lineage` }
+        ]
+      }
+    ]
   }
 ];
