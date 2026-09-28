@@ -113,7 +113,11 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Executar análise de hipóteses com Atingir Meta e Gerenciador de Cenários | xl-analise-hipoteses | ✅ |
 | Prever dados usando E, SE e NPER | xl-funcoes-financeiras | ✅ |
 | Calcular dados financeiros com PGTO | xl-funcoes-financeiras | ✅ |
-| Demais (auditoria, macros) | — (Módulos 14, 16) | ⬜ |
+| Rastrear precedentes e dependentes | xl-auditoria | ✅ |
+| Monitorar células e fórmulas com a Janela de Inspeção | xl-auditoria | ✅ |
+| Validar fórmulas com regras de verificação de erros | xl-erros-formulas | ✅ |
+| Avaliar fórmulas | xl-auditoria | ✅ |
+| Macros simples (gravar, nomear, editar) | — (Módulo 16) | ⬜ |
 
 ### Gráficos e tabelas avançados
 | Habilidade | Aula(s) | Status |
@@ -131,4 +135,9 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Aplicar estilos a gráficos dinâmicos | xl-grafico-dinamico | ✅ |
 | Detalhar dados de gráficos dinâmicos | xl-grafico-dinamico | ✅ |
 
-⬜ Opções e configurações da pasta de trabalho (Módulos 15 e 16)
+### Opções e configurações da pasta de trabalho
+| Habilidade | Aula(s) | Status |
+|---|---|---|
+| Configurar opções de cálculo de fórmulas | xl-calculo-circular | ✅ |
+| Referenciar dados em outras pastas de trabalho | xl-referencias, xl-power-query-basico | ✅ |
+| Demais (macros, versões, proteção, restringir edição) | — (Módulos 15 e 16) | ⬜ |

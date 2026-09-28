@@ -2846,5 +2846,151 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m14', title: 'Módulo 14 · Auditoria de fórmulas, erros e opções de cálculo', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-auditoria', title: 'Rastrear precedentes e dependentes, Janela de Inspeção e Avaliar Fórmula',
+        desc: 'Descobrir de onde vem e para onde vai cada valor, acompanhar células distantes enquanto edita e executar uma fórmula aninhada passo a passo.',
+        objetivos: [
+          'Rastrear precedentes e dependentes e remover as setas',
+          'Monitorar células com a Janela de Inspeção',
+          'Depurar fórmulas com Avaliar Fórmula'
+        ],
+        body: 'Planilhas herdadas de outra pessoa costumam ter fórmulas que dependem de fórmulas que dependem de fórmulas. Antes de mudar qualquer coisa, é preciso saber o que alimenta aquele total e o que ele alimenta. As ferramentas do grupo Fórmulas > Auditoria de Fórmulas fazem esse mapeamento — rastrear precedentes e dependentes, Janela de Inspeção e Avaliar Fórmula são três habilidades da prova Expert.',
+        content: [
+          { h: 'Rastrear Precedentes e Rastrear Dependentes',
+            items: [
+              '<strong>Precedentes</strong> são as células das quais a fórmula depende. Selecione a fórmula e clique em <strong>Rastrear Precedentes</strong>: setas azuis partem das células usadas até a fórmula (intervalos aparecem contornados). Clique de novo para o nível anterior — os precedentes dos precedentes.',
+              '<strong>Dependentes</strong> são as fórmulas que usam a célula selecionada. <strong>Rastrear Dependentes</strong> desenha setas da célula para cada fórmula que a utiliza — essencial antes de apagar ou alterar um valor.',
+              'Setas <strong>vermelhas</strong> indicam células que causam erro. Uma seta <strong>preta pontilhada</strong> com um ícone de planilha indica ligação com outra planilha ou pasta; dê duplo clique nela para abrir a lista de destinos em Ir para.',
+              'Duplo clique numa seta azul leva à célula da outra ponta.',
+              '<strong>Remover Setas</strong> tira todas; a seta ao lado do botão remove só as de precedentes ou só as de dependentes, um nível por vez.',
+              'Qualquer edição (alterar a fórmula, inserir linhas) apaga as setas — rastreie de novo depois.'
+            ] },
+          { h: 'Janela de Inspeção',
+            p: 'Em planilhas grandes, a célula que você quer acompanhar está longe de onde você está editando. Fórmulas > <strong>Janela de Inspeção</strong> > <strong>Adicionar Inspeção</strong> e selecione as células: a janela mostra, para cada uma, a Pasta, a Planilha, o Nome, a Célula, o Valor e a Fórmula, atualizados em tempo real enquanto você altera outras partes (até de outras planilhas). A janela pode ser encaixada embaixo da tela. <strong>Excluir Inspeção</strong> remove a célula da lista.',
+            img: { src: `${XL_IMG}/m14/janela-inspecao.png`, alt: 'Janela de Inspeção acompanhando uma célula', caption: 'Janela de Inspeção: pasta, planilha, célula, valor e fórmula de cada item (imagem original em inglês).', source: `${SUP}/excel/watch-a-formula-and-its-result-by-using-the-watch-window` } },
+          { h: 'Avaliar Fórmula',
+            p: 'Selecione a célula com a fórmula e use Fórmulas > <strong>Avaliar Fórmula</strong>. A caixa mostra a fórmula com a próxima parte a ser calculada <strong>sublinhada</strong>; cada clique em <strong>Avaliar</strong> substitui essa parte pelo resultado (em itálico), na ordem em que o Excel calcula. <strong>Etapa Interna</strong> mostra a fórmula de uma célula referenciada, e <strong>Etapa Externa</strong> volta. <strong>Reiniciar</strong> começa de novo. É a forma de encontrar em qual pedaço de um SE aninhado o cálculo desanda.',
+            code: '=SE(MÉDIA(F2:F5)>50;SOMA(G2:G5);0)\n→ =SE(40>50;SOMA(G2:G5);0)\n→ =SE(FALSO;SOMA(G2:G5);0)\n→ 0' },
+          { h: 'Um truque rápido: F9 dentro da fórmula',
+            p: 'Editando uma fórmula na barra de fórmulas, selecione um trecho (uma função inteira, por exemplo) e pressione F9: o Excel mostra o resultado daquele trecho. Pressione <strong>Esc</strong> para sair sem gravar — se pressionar Enter, o trecho vira um valor fixo na fórmula.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Mostre as células que dependem de B5" — Rastrear Dependentes com B5 selecionada (a prova confere as setas).',
+              '"Adicione a célula H20 da planilha Resumo à Janela de Inspeção" — Adicionar Inspeção.',
+              '"Remova as setas de rastreamento" — Remover Setas.',
+              'Avaliar Fórmula é ferramenta de diagnóstico; nas tarefas, o que costuma ser pedido é corrigir a fórmula que ela revela.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Exibir as relações entre fórmulas e células', u: `${SUP}/excel/display-the-relationships-between-formulas-and-cells` },
+          { t: 'Microsoft Suporte — Janela de Inspeção', u: `${SUP}/excel/watch-a-formula-and-its-result-by-using-the-watch-window` },
+          { t: 'Microsoft Suporte — Avaliar uma fórmula aninhada uma etapa de cada vez', u: `${SUP}/excel/evaluate-a-nested-formula-one-step-at-a-time` }
+        ]
+      },
+      {
+        id: 'xl-erros-formulas', title: 'Os erros do Excel e a Verificação de Erros',
+        desc: 'O que significa cada valor de erro e como corrigir, o triângulo verde, as regras de verificação e a caixa Verificação de Erros.',
+        objetivos: [
+          'Identificar a causa de cada valor de erro',
+          'Usar a Verificação de Erros e o botão de aviso da célula',
+          'Configurar as regras de verificação e redefinir erros ignorados'
+        ],
+        body: 'Todo erro do Excel começa com uma cerquilha e diz, com poucas letras, o que deu errado. Saber ler esses códigos transforma uma planilha "quebrada" num problema de cinco minutos. A verificação de erros é habilidade da prova Expert, e os próprios erros aparecem em qualquer tarefa com fórmula.',
+        content: [
+          { h: 'Os valores de erro',
+            items: [
+              '<strong>#DIV/0!</strong> — divisão por zero ou por célula vazia. Trate a entrada (SE o divisor for zero...) ou use SEERRO.',
+              '<strong>#N/D</strong> — valor não disponível: a procura (PROCX, PROCV, CORRESP) não encontrou o valor. Confira grafia, espaços sobrando (ARRUMAR) e tipos (número x texto). SENÃODISP ou o argumento se_não_encontrada do PROCX tratam o caso legítimo.',
+              '<strong>#NOME?</strong> — o Excel não reconhece um nome: função digitada errada, nome definido inexistente, texto sem aspas, ou função em inglês no Excel em português.',
+              '<strong>#REF!</strong> — referência inválida: a célula usada pela fórmula foi excluída (linha, coluna ou planilha apagada, ou colagem por cima). Desfaça, ou refaça a referência. PROCV pedindo uma coluna maior que o intervalo também dá #REF!.',
+              '<strong>#VALOR!</strong> — tipo errado: somar texto com número, uma data digitada como texto, argumentos incompatíveis, intervalos de tamanhos diferentes.',
+              '<strong>#NÚM!</strong> — número impossível ou grande demais: raiz de negativo, TAXA ou NPER sem solução, resultado fora dos limites do Excel.',
+              '<strong>#NULO!</strong> — interseção vazia: um espaço entre dois intervalos que não se cruzam (em geral, faltou o ponto e vírgula ou os dois-pontos).',
+              '<strong>#DESPEJAR!</strong> e <strong>#CALC!</strong> — de matrizes dinâmicas: área de despejo ocupada, ou matriz vazia (Módulo 09).',
+              '<strong>####</strong> — não é erro de fórmula: a coluna é estreita demais para o número ou a data (ou a data/hora é negativa).'
+            ],
+            img: { src: `${XL_IMG}/m14/ref-coluna-excluida.png`, alt: 'Erro #REF! causado pela exclusão de uma coluna', caption: 'Excluir uma coluna usada na fórmula transforma a referência em #REF!.', source: `${SUP}/excel/how-to-correct-a-ref-error` } },
+          { h: 'O triângulo verde e o botão de aviso',
+            p: 'Com a verificação em segundo plano ligada, células suspeitas ganham um <strong>triângulo verde</strong> no canto superior esquerdo. Selecione a célula e clique no ícone de aviso ao lado: a primeira linha descreve o problema e as opções corrigem (Converter em Número, Copiar Fórmula de Cima, Atualizar Fórmula para Incluir Células), explicam (Ajuda sobre este Erro), mostram as etapas (Mostrar Etapas de Cálculo, que abre Avaliar Fórmula) ou <strong>Ignorar Erro</strong>.',
+            img: { src: `${XL_IMG}/m14/formula-inconsistente.png`, alt: 'Aviso de fórmula inconsistente com as vizinhas', caption: 'Fórmula inconsistente: a única diferente das vizinhas recebe o aviso.', source: `${SUP}/excel/detect-formula-errors-in-excel` } },
+          { h: 'As regras de verificação',
+            p: 'Em Arquivo > Opções > Fórmulas, seção <strong>Verificação de Erros</strong>, ficam a caixa Habilitar verificação de erros em segundo plano, a cor do indicador e o botão <strong>Redefinir Erros Ignorados</strong>; em <strong>Regras de verificação do Excel</strong>, cada regra pode ser ligada ou desligada. As principais:',
+            items: [
+              'Células que contêm fórmulas que resultam em erro.',
+              '<strong>Fórmulas inconsistentes</strong> com outras fórmulas da região (a da linha 4 soma a linha 10, enquanto as vizinhas somam a própria linha).',
+              '<strong>Fórmulas que omitem células</strong> numa região (o total não inclui a linha que você acrescentou logo acima).',
+              '<strong>Números formatados como texto</strong> ou precedidos de apóstrofo.',
+              'Fórmulas que se referem a células vazias; células desbloqueadas que contêm fórmulas; dados inválidos segundo a validação.'
+            ] },
+          { h: 'A caixa Verificação de Erros',
+            p: 'Fórmulas > <strong>Verificação de Erros</strong> percorre a planilha de erro em erro, mostrando a célula, a fórmula e o tipo de problema, com botões para ajuda, Mostrar Etapas de Cálculo, Ignorar Erro, <strong>Editar na Barra de Fórmulas</strong> e Anterior/Próximo. A seta do botão tem ainda <strong>Rastrear Erro</strong> (setas até a origem do erro) e <strong>Referências Circulares</strong> (próxima aula).',
+            img: { src: `${XL_IMG}/m14/verificacao-erros.png`, alt: 'Caixa Verificação de Erros', caption: 'Verificação de Erros: percorra os erros da planilha um a um.', source: `${SUP}/excel/detect-formula-errors-in-excel` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Use a verificação de erros para localizar e corrigir o erro na planilha Vendas" — a caixa Verificação de Erros, e depois a correção que ela sugere.',
+              '"Configure o Excel para não sinalizar números armazenados como texto" — Opções > Fórmulas > desmarque a regra.',
+              'Em inglês os erros são #DIV/0!, #N/A, #NAME?, #REF!, #VALUE!, #NUM!, #NULL!, #SPILL! e #CALC!.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Detectar erros de fórmula', u: `${SUP}/excel/detect-formula-errors-in-excel` },
+          { t: 'Microsoft Suporte — Corrigir o erro #DIV/0!', u: `${SUP}/excel/how-to-correct-a-div-0-error` },
+          { t: 'Microsoft Suporte — Corrigir o erro #N/D', u: `${SUP}/excel/how-to-correct-a-n-a-error` },
+          { t: 'Microsoft Suporte — Corrigir o erro #NOME?', u: `${SUP}/excel/how-to-correct-a-name-error` },
+          { t: 'Microsoft Suporte — Corrigir o erro #REF!', u: `${SUP}/excel/how-to-correct-a-ref-error` },
+          { t: 'Microsoft Suporte — Corrigir o erro #VALOR!', u: `${SUP}/excel/how-to-correct-a-value-error` },
+          { t: 'Microsoft Suporte — Corrigir o erro #NÚM!', u: `${SUP}/excel/how-to-correct-a-num-error` }
+        ]
+      },
+      {
+        id: 'xl-calculo-circular', title: 'Opções de cálculo, recálculo manual e referências circulares',
+        desc: 'Cálculo automático, automático exceto tabelas de dados e manual; F9 e seus atalhos; referências circulares acidentais e intencionais; cálculo iterativo e precisão.',
+        objetivos: [
+          'Configurar as opções de cálculo da pasta de trabalho',
+          'Recalcular manualmente com F9, Shift+F9 e Ctrl+Alt+F9',
+          'Encontrar referências circulares e habilitar o cálculo iterativo quando elas forem intencionais'
+        ],
+        body: 'Por padrão, o Excel recalcula tudo a cada alteração. Em pastas pesadas, isso trava o trabalho — e às vezes alguém deixa o cálculo manual ligado, e a planilha passa a mostrar resultados velhos sem avisar. Entender as opções de cálculo evita as duas situações. "Configurar opções de cálculo de fórmulas" é habilidade da prova Expert, na parte de opções da pasta de trabalho.',
+        content: [
+          { h: 'As opções de cálculo',
+            p: 'Fórmulas > Cálculo > <strong>Opções de Cálculo</strong> (ou Arquivo > Opções > Fórmulas):',
+            items: [
+              '<strong>Automático</strong> — o padrão: toda alteração recalcula as fórmulas dependentes.',
+              '<strong>Automático, exceto para tabelas de dados</strong> — as tabelas de dados de análise de hipóteses (Módulo 13), que são pesadas, só recalculam com F9.',
+              '<strong>Manual</strong> — nada recalcula até você mandar. A barra de status mostra <strong>Calcular</strong> quando há fórmulas desatualizadas. Na tela de Opções, <strong>Recalcular pasta de trabalho antes de salvar</strong> fica disponível.',
+              'Atenção: a opção vale para o aplicativo, e a primeira pasta aberta na sessão define o modo — abrir um arquivo salvo em Manual pode deixar as outras pastas em Manual também.'
+            ],
+            img: { src: `${XL_IMG}/m14/grupo-calculo.png`, alt: 'Grupo Cálculo da guia Fórmulas', caption: 'Fórmulas > Cálculo: Opções de Cálculo, Calcular Agora e Calcular Planilha.', source: `${SUP}/excel/change-formula-recalculation-iteration-or-precision-in-excel` } },
+          { h: 'Recalcular à mão',
+            items: [
+              '<strong>F9</strong> (Calcular Agora) — recalcula o que mudou em todas as pastas abertas.',
+              '<strong>Shift+F9</strong> (Calcular Planilha) — só a planilha ativa.',
+              '<strong>Ctrl+Alt+F9</strong> — recalcula todas as fórmulas de todas as pastas abertas, tenham mudado ou não.',
+              '<strong>Ctrl+Shift+Alt+F9</strong> — reconstrói a árvore de dependências e recalcula tudo (último recurso quando algo parece não atualizar).'
+            ] },
+          { h: 'Referências circulares',
+            p: 'Uma referência circular acontece quando uma fórmula depende, direta ou indiretamente, do próprio resultado — a soma de B1 a B10 digitada em B10, por exemplo. O Excel mostra um aviso na primeira vez e a barra de status passa a exibir <strong>Referências Circulares</strong> com o endereço de uma delas. Para achar todas: Fórmulas > seta de Verificação de Erros > <strong>Referências Circulares</strong>, que lista as células; corrija uma de cada vez (Rastrear Precedentes ajuda a ver o ciclo) até a barra de status parar de mostrá-las.',
+            img: { src: `${XL_IMG}/m14/referencia-circular.jpg`, alt: 'Fórmula que causa referência circular', caption: 'A fórmula inclui a própria célula: referência circular.', source: `${SUP}/excel/remove-or-allow-a-circular-reference-in-excel` } },
+          { h: 'Cálculo iterativo: quando a circularidade é de propósito',
+            p: 'Alguns modelos financeiros são circulares de propósito (juros que dependem do saldo que depende dos juros). Em Arquivo > Opções > Fórmulas, marque <strong>Habilitar cálculo iterativo</strong>: o Excel recalcula o ciclo repetidamente até parar em <strong>Máximo de Iterações</strong> (padrão 100) ou quando a diferença entre duas rodadas for menor que o <strong>Número Máximo de Alterações</strong> (padrão 0,001). Ligue só quando souber que o ciclo converge — senão, erros reais de circularidade passam despercebidos.' },
+          { h: 'Precisão conforme exibido',
+            p: 'O Excel calcula com até 15 dígitos significativos, independentemente do formato. A opção <strong>Definir precisão conforme exibido</strong> (Arquivo > Opções > Avançado, seção Ao calcular esta pasta de trabalho) faz o Excel <strong>gravar</strong> os valores como estão exibidos — e os decimais escondidos se perdem para sempre. Prefira ARRED nas fórmulas (Módulo 06).' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Configure a pasta de trabalho para que as fórmulas sejam recalculadas apenas manualmente" — Opções de Cálculo > Manual.',
+              '"Habilite o cálculo iterativo com no máximo 50 iterações" — Opções > Fórmulas.',
+              '"Localize e corrija a referência circular" — Verificação de Erros > Referências Circulares.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Alterar o recálculo, a iteração ou a precisão', u: `${SUP}/excel/change-formula-recalculation-iteration-or-precision-in-excel` },
+          { t: 'Microsoft Suporte — Remover ou permitir uma referência circular', u: `${SUP}/excel/remove-or-allow-a-circular-reference-in-excel` }
+        ]
+      }
+    ]
   }
 ];

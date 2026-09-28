@@ -106,3 +106,9 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m13/resumo-cenario.png | Captura de tela que mostra o Resumo do Cenário com referências de célula | https://support.microsoft.com/pt-br/excel/switch-between-various-sets-of-values-by-using-scenarios |
 | /assets/img/curso-excel/m13/tabela-dados-uma-variavel.gif | Tabela de dados com uma só variável | https://support.microsoft.com/pt-br/excel/calculate-multiple-results-by-using-a-data-table |
 | /assets/img/curso-excel/m13/planilha-previsao.png | Captura de tela da caixa de diálogo Criar Planilha de Previsão com as Opções recolhidas | https://support.microsoft.com/pt-br/excel/create-a-forecast-in-excel-for-windows |
+| /assets/img/curso-excel/m14/janela-inspecao.png | Barra de ferramentas Janela do Relógio | https://support.microsoft.com/pt-br/excel/watch-a-formula-and-its-result-by-using-the-watch-window |
+| /assets/img/curso-excel/m14/formula-inconsistente.png | O Excel exibe um erro quando uma fórmula não corresponde ao padrão de fórmulas adjacentes. | https://support.microsoft.com/pt-br/excel/detect-formula-errors-in-excel |
+| /assets/img/curso-excel/m14/verificacao-erros.png | Verificação de Erros | https://support.microsoft.com/pt-br/excel/detect-formula-errors-in-excel |
+| /assets/img/curso-excel/m14/referencia-circular.jpg | Uma fórmula que causa uma referência circular no Excel | https://support.microsoft.com/pt-br/excel/remove-or-allow-a-circular-reference-in-excel |
+| /assets/img/curso-excel/m14/grupo-calculo.png | Grupo Cálculo | https://support.microsoft.com/pt-br/excel/change-formula-recalculation-iteration-or-precision-in-excel |
+| /assets/img/curso-excel/m14/ref-coluna-excluida.png | Exemplo do erro #REF! causado pela exclusão de uma coluna. | https://support.microsoft.com/pt-br/excel/how-to-correct-a-ref-error |
