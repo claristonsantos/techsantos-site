@@ -573,6 +573,10 @@ PRONUNCIATION_FIXES = [
     (r"#NAME\?", "erro Nêim"),
     (r"#(?:VALUE|Váliu)!", "erro Váliu"),
     (r"#NULL!", "erro Nâl"),
+    # Curso Excel, rodada 15 (Módulo 15). Ficaram na leitura padrão:
+    # AutoRecuperação e AutoSalvamento. O PDF já foi trocado pela regra acima.
+    (r"\bMicrosoft Print to (?:PDF|Pê Dê Éfe)", "Máicrossoft Prínt tu Pê Dê Éfe"),
+    (r"\bthreads?\b", "tréd"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
