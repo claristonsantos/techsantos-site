@@ -540,6 +540,15 @@ PRONUNCIATION_FIXES = [
     (r"\bMATRIZALEATÓRIA\b", "Matriz Aleatória"),
     (r"\bCLASSIFICARPOR\b", "Classificar Por"),
     # Curso Excel, rodada 10 (Módulo 10): MOD e LIN na leitura padrão — sem regra.
+    # Curso Excel, rodada 11 (Módulo 11). Ficaram na leitura padrão: XY,
+    # WordArt, Bing, Combo, Secondary Axis, Funnel.
+    (r"\bCEPs\b", "Céps"),
+    (r"\bR²", "Érre ao quadrado"),
+    (r"\bHistogram\b", "Ístograma"),
+    (r"\bBox and Whisker\b", "Bóks end Uísker"),
+    (r"\bWaterfall\b", "Uóter Fól"),
+    (r"\bSunburst\b", "Sân Bârst"),
+    (r"\bFilled Map\b", "Fíld Még"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
