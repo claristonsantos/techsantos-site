@@ -18,22 +18,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    if ($action === 'move') {
+        // Renumera tudo em passos de 10 na ordem atual e troca a regra com a vizinha.
+        $id = (int)($_POST['id'] ?? 0);
+        $dir = ($_POST['dir'] ?? '') === 'up' ? -1 : 1;
+        $ids = $pdo->query('SELECT id FROM social_auto_reply_rules ORDER BY prioridade ASC, id ASC')->fetchAll(PDO::FETCH_COLUMN);
+        $pos = array_search($id, array_map('intval', $ids), true);
+        if ($pos !== false && isset($ids[$pos + $dir])) {
+            [$ids[$pos], $ids[$pos + $dir]] = [$ids[$pos + $dir], $ids[$pos]];
+        }
+        $upd = $pdo->prepare('UPDATE social_auto_reply_rules SET prioridade = ? WHERE id = ?');
+        foreach (array_values($ids) as $i => $ruleId) {
+            $upd->execute([($i + 1) * 10, (int)$ruleId]);
+        }
+        header('Location: /admin/social_auto_reply.php?msg=' . urlencode('Ordem atualizada.'));
+        exit;
+    }
+
     if ($action === 'save') {
         $id = (int)($_POST['id'] ?? 0);
         $palavraChave = trim((string)($_POST['palavra_chave'] ?? ''));
         $mensagem = trim((string)($_POST['mensagem'] ?? ''));
         $ativo = isset($_POST['ativo']) ? 1 : 0;
+        $prioridade = max(1, min(9999, (int)($_POST['prioridade'] ?? 100)));
 
         if ($palavraChave === '' || $mensagem === '') {
             $error = 'Preencha a palavra-chave e a mensagem.';
         } elseif ($id === 0) {
-            $pdo->prepare('INSERT INTO social_auto_reply_rules (palavra_chave, mensagem, ativo) VALUES (?, ?, ?)')
-                ->execute([$palavraChave, $mensagem, $ativo]);
+            $pdo->prepare('INSERT INTO social_auto_reply_rules (palavra_chave, mensagem, ativo, prioridade) VALUES (?, ?, ?, ?)')
+                ->execute([$palavraChave, $mensagem, $ativo, $prioridade]);
             header('Location: /admin/social_auto_reply.php?msg=' . urlencode('Regra criada.'));
             exit;
         } else {
-            $pdo->prepare('UPDATE social_auto_reply_rules SET palavra_chave=?, mensagem=?, ativo=? WHERE id=?')
-                ->execute([$palavraChave, $mensagem, $ativo, $id]);
+            $pdo->prepare('UPDATE social_auto_reply_rules SET palavra_chave=?, mensagem=?, ativo=?, prioridade=? WHERE id=?')
+                ->execute([$palavraChave, $mensagem, $ativo, $prioridade, $id]);
             header('Location: /admin/social_auto_reply.php?msg=' . urlencode('Regra atualizada.'));
             exit;
         }
@@ -51,7 +69,8 @@ if (isset($_GET['msg']) && !$error) {
     $msg = (string)$_GET['msg'];
 }
 
-$rules = $pdo->query('SELECT * FROM social_auto_reply_rules ORDER BY criado_em DESC')->fetchAll();
+// Mesma ordem em que o webhook verifica as regras (menor prioridade primeiro).
+$rules = $pdo->query('SELECT * FROM social_auto_reply_rules ORDER BY prioridade ASC, id ASC')->fetchAll();
 $log = $pdo->query('SELECT * FROM social_auto_reply_log ORDER BY criado_em DESC LIMIT 50')->fetchAll();
 
 admin_head('Auto-resposta de comentários');
@@ -61,6 +80,7 @@ admin_topbar('social_auto_reply');
   <div class="admin-head"><h1>Auto-resposta de comentários</h1></div>
   <p style="color:var(--ink-soft); max-width:70ch; margin-bottom:1.5rem;">
     Quando alguém comenta uma das palavras-chave abaixo num post do Facebook ou Instagram, o site responde automaticamente no privado com a mensagem configurada.
+    As regras são verificadas de cima para baixo e só a primeira que casar responde — use as setas para mudar a ordem.
     <strong>Ainda não está no ar de verdade nem no Facebook nem no Instagram.</strong> Confirmado em 14/07/2026: enquanto o app da Meta não for publicado, nenhum evento de comentário real chega no webhook — nem dos próprios administradores/testadores (a Meta só entrega eventos de teste disparados manualmente no painel enquanto o app estiver "Não publicado"). Falta concluir a <strong>Verificação de Empresa</strong> e publicar o app em developers.facebook.com para essa função funcionar de verdade.
   </p>
 
@@ -83,6 +103,11 @@ admin_topbar('social_auto_reply');
         <textarea id="mensagem" name="mensagem" rows="4" required><?= $editRow ? htmlspecialchars($editRow['mensagem'], ENT_QUOTES) : '' ?></textarea>
       </div>
       <div class="field">
+        <label for="prioridade">Prioridade (menor número é verificado primeiro — quando um comentário tem mais de uma palavra-chave, vale a regra de menor número)</label>
+        <input type="number" id="prioridade" name="prioridade" min="1" max="9999" style="max-width:10rem;"
+               value="<?= $editRow ? (int)$editRow['prioridade'] : 100 ?>">
+      </div>
+      <div class="field">
         <label><input type="checkbox" name="ativo" <?= (!$editRow || $editRow['ativo']) ? 'checked' : '' ?>> Regra ativa</label>
       </div>
       <button type="submit" class="btn btn-primary"><?= $editRow ? 'Salvar alterações' : 'Criar regra' ?></button>
@@ -92,13 +117,27 @@ admin_topbar('social_auto_reply');
 
   <div class="table-wrap" style="margin-bottom:2.5rem;">
     <table class="data-table">
-      <thead><tr><th>Palavra-chave</th><th>Mensagem</th><th>Status</th><th></th></tr></thead>
+      <thead><tr><th>Ordem</th><th>Palavra-chave</th><th>Mensagem</th><th>Status</th><th></th></tr></thead>
       <tbody>
         <?php if (!$rules): ?>
-          <tr class="empty-row"><td colspan="4">Nenhuma regra cadastrada ainda.</td></tr>
+          <tr class="empty-row"><td colspan="5">Nenhuma regra cadastrada ainda.</td></tr>
         <?php endif; ?>
-        <?php foreach ($rules as $r): ?>
+        <?php foreach ($rules as $i => $r): ?>
           <tr>
+            <td style="white-space:nowrap;">
+              <span title="Prioridade <?= (int)$r['prioridade'] ?>"><?= $i + 1 ?>º</span>
+              <?php foreach (['up' => '↑', 'down' => '↓'] as $dir => $arrow): ?>
+                <?php if (($dir === 'up' && $i > 0) || ($dir === 'down' && $i < count($rules) - 1)): ?>
+                <form method="post" style="display:inline">
+                  <?= csrf_field() ?>
+                  <input type="hidden" name="action" value="move">
+                  <input type="hidden" name="dir" value="<?= $dir ?>">
+                  <input type="hidden" name="id" value="<?= (int)$r['id'] ?>">
+                  <button type="submit" title="<?= $dir === 'up' ? 'Subir' : 'Descer' ?>" aria-label="<?= $dir === 'up' ? 'Subir' : 'Descer' ?> <?= htmlspecialchars($r['palavra_chave'], ENT_QUOTES) ?>"><?= $arrow ?></button>
+                </form>
+                <?php endif; ?>
+              <?php endforeach; ?>
+            </td>
             <td><strong><?= htmlspecialchars($r['palavra_chave'], ENT_QUOTES) ?></strong></td>
             <td><?= htmlspecialchars(mb_strimwidth($r['mensagem'], 0, 70, '…'), ENT_QUOTES) ?></td>
             <td><span class="badge <?= $r['ativo'] ? 'on' : 'off' ?>"><?= $r['ativo'] ? 'ativa' : 'inativa' ?></span></td>
