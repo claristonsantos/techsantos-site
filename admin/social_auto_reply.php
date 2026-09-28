@@ -81,7 +81,6 @@ admin_topbar('social_auto_reply');
   <p style="color:var(--ink-soft); max-width:70ch; margin-bottom:1.5rem;">
     Quando alguém comenta uma das palavras-chave abaixo num post do Facebook ou Instagram, o site responde automaticamente no privado com a mensagem configurada.
     As regras são verificadas de cima para baixo e só a primeira que casar responde — use as setas para mudar a ordem.
-    <strong>Ainda não está no ar de verdade nem no Facebook nem no Instagram.</strong> Confirmado em 14/07/2026: enquanto o app da Meta não for publicado, nenhum evento de comentário real chega no webhook — nem dos próprios administradores/testadores (a Meta só entrega eventos de teste disparados manualmente no painel enquanto o app estiver "Não publicado"). Falta concluir a <strong>Verificação de Empresa</strong> e publicar o app em developers.facebook.com para essa função funcionar de verdade.
   </p>
 
   <?php if (isset($msg)): ?><div class="alert alert-success"><?= htmlspecialchars($msg, ENT_QUOTES) ?></div><?php endif; ?>
