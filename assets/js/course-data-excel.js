@@ -2650,5 +2650,201 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m13', title: 'Módulo 13 · Análise de dados: subtotais, consolidação e análise de hipóteses', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-subtotais-estrutura', title: 'Subtotais e estrutura de tópicos: agrupar e desagrupar',
+        desc: 'O comando Subtotal, a função SUBTOTAL, agrupar linhas e colunas manualmente e por AutoTópicos, e os níveis de estrutura de tópicos.',
+        objetivos: [
+          'Inserir subtotais automáticos por grupo com o comando Subtotal',
+          'Agrupar e desagrupar linhas e colunas e usar os botões de nível',
+          'Entender a função SUBTOTAL e por que ela ignora outros subtotais'
+        ],
+        body: 'Antes das tabelas dinâmicas, relatórios com total por grupo eram feitos com o comando Subtotal — e ele continua útil quando o resultado precisa ficar na própria lista, com os detalhes a um clique de distância. A estrutura de tópicos (os botões 1, 2, 3 e os sinais de mais e menos na margem) também serve para esconder colunas de detalhe num orçamento. "Agrupar e desagrupar dados" e "calcular dados inserindo subtotais e totais" estão na prova Expert.',
+        content: [
+          { h: 'O comando Subtotal',
+            items: [
+              '<strong>Classifique primeiro</strong> pela coluna que define os grupos (Região, Esporte): o Subtotal cria um total a cada mudança de valor, então itens espalhados geram subtotais repetidos.',
+              'Com uma célula na lista, use Dados > Estrutura de Tópicos > <strong>Subtotal</strong>.',
+              '<strong>A cada alteração em</strong> — a coluna dos grupos. <strong>Usar função</strong> — Soma, Contagem, Média, Máx, Mín... <strong>Adicionar subtotal a</strong> — as colunas numéricas a totalizar.',
+              '<strong>Substituir subtotais atuais</strong> — desmarque para acrescentar um segundo nível (subtotais por Região e, dentro, por Vendedor — classifique pelas duas colunas antes) ou uma segunda função.',
+              '<strong>Quebra de página entre grupos</strong> e <strong>Resumir abaixo dos dados</strong> (total embaixo de cada grupo).',
+              '<strong>Remover Todos</strong>, na mesma caixa, tira os subtotais e a estrutura.',
+              'O comando não funciona dentro de tabelas do Excel — converta em intervalo antes (Módulo 05), ou use tabela dinâmica.'
+            ],
+            img: { src: `${XL_IMG}/m13/subtotais-esporte.gif`, alt: 'Lista com subtotais por esporte e total geral', caption: 'Um subtotal a cada mudança na coluna Esporte, mais o total geral.', source: `${SUP}/excel/insert-subtotals-in-a-list-of-data-in-a-worksheet` } },
+          { h: 'A função SUBTOTAL',
+            p: 'O comando escreve fórmulas <strong>SUBTOTAL</strong>, cujo primeiro argumento é o código da função: 1 a 11 (9 é soma, 1 média, 2 contar números, 3 contar valores, 4 máximo, 5 mínimo) consideram linhas ocultas manualmente; 101 a 111 ignoram as linhas ocultas. As duas famílias ignoram as linhas escondidas por filtro e ignoram outras fórmulas SUBTOTAL do intervalo — por isso o total geral não soma os subtotais duas vezes. É a mesma função da Linha de Totais das tabelas (Módulo 05) e a melhor escolha para totais que devem respeitar filtros.',
+            code: '=SUBTOTAL(9;D2:D200)      → soma só as linhas visíveis após o filtro\n=SUBTOTAL(109;D2:D200)    → soma ignorando também as linhas ocultas à mão' },
+          { h: 'Os controles de estrutura de tópicos',
+            items: [
+              'Os <strong>botões de nível</strong> (1, 2, 3...) no canto superior esquerdo: 1 mostra só o total geral, 2 os subtotais, 3 tudo.',
+              'Os sinais de <strong>menos</strong> e <strong>mais</strong> na margem recolhem e expandem cada grupo.',
+              'Dados > <strong>Ocultar Detalhe</strong> e <strong>Mostrar Detalhe</strong> fazem o mesmo para o grupo da célula ativa.'
+            ],
+            img: { src: `${XL_IMG}/m13/estrutura-tres-niveis.png`, alt: 'Dados com estrutura de tópicos de três níveis', caption: 'Estrutura de tópicos: botões de nível e sinais de mais e menos na margem.', source: `${SUP}/excel/outline-group-data-in-a-worksheet` } },
+          { h: 'Agrupar e desagrupar manualmente',
+            items: [
+              'Selecione as linhas (ou colunas) de detalhe — sem a linha de total — e use Dados > <strong>Agrupar</strong> (atalho Shift+Alt+seta para a direita); <strong>Desagrupar</strong> com Shift+Alt+seta para a esquerda.',
+              'Grupos dentro de grupos criam níveis (até oito).',
+              'Agrupar colunas é o jeito limpo de esconder os meses e deixar só os trimestres num orçamento — melhor que ocultar, porque o leitor vê que há algo recolhido e expande com um clique.',
+              'Agrupar > <strong>AutoTópicos</strong> cria a estrutura sozinho quando há linhas ou colunas de fórmulas de resumo ao lado dos detalhes.',
+              'Desagrupar > <strong>Limpar Tópicos</strong> remove toda a estrutura sem apagar dados.',
+              'O iniciador do grupo Estrutura de Tópicos define se as linhas de resumo ficam abaixo e as colunas de resumo à direita do detalhe.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Insira subtotais que somem a coluna Valor a cada mudança de Região" — classifique por Região e use Subtotal.',
+              '"Agrupe as colunas B a M" / "Desagrupe as linhas 5 a 10" — Agrupar e Desagrupar na guia Dados.',
+              '"Recolha a estrutura para mostrar apenas os subtotais" — botão de nível 2.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Inserir subtotais em uma lista de dados', u: `${SUP}/excel/insert-subtotals-in-a-list-of-data-in-a-worksheet` },
+          { t: 'Microsoft Suporte — Estrutura de tópicos (agrupar) dados', u: `${SUP}/excel/outline-group-data-in-a-worksheet` },
+          { t: 'Microsoft Suporte — Função SUBTOTAL', u: `${SUP}/excel/functions/subtotal-function` }
+        ]
+      },
+      {
+        id: 'xl-consolidar', title: 'Consolidar dados de várias planilhas',
+        desc: 'Resumir dados de várias planilhas ou pastas com o comando Consolidar, por posição ou por categoria, com e sem vínculos com a origem.',
+        objetivos: [
+          'Consolidar por posição e por categoria',
+          'Usar rótulos da linha superior e da coluna esquerda',
+          'Escolher entre Consolidar, referência 3D e Power Query'
+        ],
+        body: 'Cada filial manda sua planilha de vendas, cada departamento seu orçamento — e alguém precisa do total da empresa. O comando Consolidar junta e resume vários intervalos, de planilhas ou pastas diferentes, numa tabela só. "Consolidar dados" está na lista da prova Expert.',
+        content: [
+          { h: 'Por posição',
+            p: 'Quando todas as planilhas têm <strong>exatamente o mesmo layout</strong> (produtos nas mesmas linhas, meses nas mesmas colunas). Na planilha de destino, clique na célula onde o resultado começa e use Dados > Ferramentas de Dados > <strong>Consolidar</strong>. Escolha a <strong>Função</strong> (Soma, Média, Contagem, Máx...), selecione cada intervalo em <strong>Referência</strong> e clique em <strong>Adicionar</strong> — os intervalos vão para Todas as referências. OK gera o resultado. Aqui, vale só a posição: a primeira célula de cada intervalo é somada com a primeira das outras.' },
+          { h: 'Por categoria',
+            p: 'Quando os rótulos são os mesmos, mas <strong>a ordem ou a quantidade de itens muda</strong> entre as planilhas (uma filial vende produtos que a outra não vende). Faça igual, mas selecione os intervalos com os rótulos e marque, em <strong>Usar rótulos na</strong>, <strong>Linha superior</strong> e/ou <strong>Coluna esquerda</strong>. O Excel casa os itens pelo nome; um rótulo que só existe numa planilha entra mesmo assim, como linha ou coluna nova. Rótulos precisam ser idênticos — "Média" e "Méd." são itens diferentes.' },
+          { h: 'Vínculos com a origem',
+            p: 'Com <strong>Criar vínculos com dados de origem</strong> marcado, o resultado vira fórmulas ligadas às planilhas de origem e ganha uma estrutura de tópicos com os detalhes de cada fonte recolhidos embaixo de cada total; alterou uma filial, o consolidado muda. Sem a opção, o resultado são valores fixos — para atualizar, é preciso consolidar de novo (a caixa lembra as referências). Não é possível ligar vínculos quando a origem e o destino estão na mesma planilha.' },
+          { h: 'Alternativas',
+            items: [
+              '<strong>Referência 3D</strong> (Módulo 06) — para planilhas idênticas numa mesma pasta, uma fórmula de soma com o intervalo de planilhas faz a consolidação por posição e se atualiza sozinha.',
+              '<strong>Power Query</strong> (Módulo 04) — para empilhar listas de vários arquivos ou planilhas (Acrescentar consultas ou Obter Dados de Pasta) e depois resumir com tabela dinâmica. É a solução mais robusta quando os dados chegam todo mês.',
+              '<strong>Tabela dinâmica</strong> — depois de empilhar tudo numa lista só.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Consolide os dados das planilhas Norte, Sul e Leste na célula A1 da planilha Total, somando os valores e usando os rótulos da linha superior e da coluna esquerda" — Consolidar, três referências, duas caixas de rótulo.',
+              'Se a tarefa pedir que o resultado se atualize com as origens, marque Criar vínculos com dados de origem.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Combinar dados de várias planilhas', u: `${SUP}/excel/combine-data-from-multiple-sheets` }
+        ]
+      },
+      {
+        id: 'xl-analise-hipoteses', title: 'Análise de hipóteses: Atingir Meta, Cenários, Tabela de Dados e Previsão',
+        desc: 'Descobrir o valor de entrada que produz um resultado, salvar e comparar conjuntos de valores com o Gerenciador de Cenários, testar muitas combinações com Tabela de Dados e projetar com a Planilha de Previsão.',
+        objetivos: [
+          'Usar Atingir Meta para encontrar o valor de entrada necessário',
+          'Criar, mostrar e resumir cenários',
+          'Montar tabelas de dados de uma e duas variáveis e criar uma planilha de previsão'
+        ],
+        body: '"Quanto preciso vender para lucrar 50 mil?" "E se o custo subir 10% e o preço cair 5%?" "Qual taxa de juros deixa a parcela em 900 reais?" A análise de hipóteses do Excel responde perguntas assim sem refazer a planilha. Atingir Meta e o Gerenciador de Cenários estão nominalmente na prova Expert.',
+        content: [
+          { h: 'Os três recursos',
+            p: 'Ficam em Dados > Previsão > <strong>Teste de Hipóteses</strong>. <strong>Cenários</strong> e <strong>Tabela de Dados</strong> partem de valores de entrada e mostram os resultados possíveis. <strong>Atingir Meta</strong> faz o caminho inverso: parte do resultado desejado e descobre a entrada. Todos exigem que o resultado seja uma <strong>fórmula</strong> que dependa das células de entrada.' },
+          { h: 'Atingir Meta',
+            items: [
+              '<strong>Definir célula</strong> — a célula com a fórmula do resultado (a parcela, o lucro).',
+              '<strong>Para valor</strong> — o resultado desejado (menos 900, se a parcela é negativa como no PGTO; 50000 de lucro).',
+              '<strong>Alternando célula</strong> — a única célula de entrada que o Excel pode mudar (a taxa, o volume de vendas). Ela precisa conter um valor, não uma fórmula.',
+              'O Excel testa valores até chegar ao resultado e pergunta se você quer manter a solução (OK) ou voltar ao valor original (Cancelar).',
+              'Só uma célula variável. Para várias variáveis e restrições (orçamento máximo, quantidades inteiras), use o suplemento <strong>Solver</strong> (ativado em Arquivo > Opções > Suplementos).'
+            ],
+            code: 'B1: 100000  (valor do empréstimo)\nB2: 180     (meses)\nB3: vazio   (taxa anual — é o que queremos descobrir)\nB4: =PGTO(B3/12;B2;B1)\n\nAtingir Meta: Definir célula B4 · Para valor -900 · Alternando célula B3\n→ B3 recebe a taxa anual que resulta numa parcela de 900' },
+          { h: 'Gerenciador de Cenários',
+            items: [
+              'Um cenário é um conjunto salvo de valores para as <strong>células variáveis</strong> (até 32 por cenário): Pior caso, Caso provável, Melhor caso.',
+              'Teste de Hipóteses > <strong>Gerenciador de Cenários</strong> > <strong>Adicionar</strong>: dê um nome, informe as células variáveis e, na tela seguinte, os valores do cenário. Repita para cada cenário.',
+              '<strong>Mostrar</strong> — substitui os valores na planilha pelos do cenário escolhido (a planilha passa a mostrar aquele caso).',
+              '<strong>Resumir</strong> — cria uma planilha de relatório com todos os cenários lado a lado, informando as <strong>células de resultado</strong> que você quer comparar. Com nomes definidos nas células, o relatório fica legível (mostra "Receita" em vez de B2).',
+              '<strong>Mesclar</strong> traz cenários de outras pastas de trabalho (cada gerente cria o seu). Editar e Excluir ajustam os existentes.'
+            ],
+            img: { src: `${XL_IMG}/m13/gerenciador-cenarios.png`, alt: 'Caixa Gerenciador de Cenários', caption: 'Gerenciador de Cenários: adicionar, mostrar, mesclar e resumir.', source: `${SUP}/excel/switch-between-various-sets-of-values-by-using-scenarios` } },
+          { h: 'O relatório de resumo',
+            img: { src: `${XL_IMG}/m13/resumo-cenario.png`, alt: 'Relatório Resumo do Cenário comparando pior e melhor caso', caption: 'Resumo do cenário: valores das células variáveis e do resultado em cada caso.', source: `${SUP}/excel/switch-between-various-sets-of-values-by-using-scenarios` } },
+          { h: 'Tabela de Dados',
+            p: 'Para testar muitos valores de uma ou duas entradas de uma vez. <strong>Uma variável</strong>: liste os valores de entrada numa coluna, coloque a fórmula do resultado na célula acima e à direita da lista, selecione o bloco e use Teste de Hipóteses > <strong>Tabela de Dados</strong>, informando a <strong>Célula de entrada da coluna</strong>. <strong>Duas variáveis</strong>: valores de uma entrada na coluna, da outra na linha, a fórmula no canto onde elas se cruzam; informe as duas células de entrada. O resultado é uma fórmula de matriz especial (TABELA) que se recalcula sozinha; não dá para editar uma célula isolada dela.',
+            img: { src: `${XL_IMG}/m13/tabela-dados-uma-variavel.gif`, alt: 'Tabela de dados de uma variável', caption: 'Tabela de dados de uma variável: cada linha testa um valor de entrada.', source: `${SUP}/excel/calculate-multiple-results-by-using-a-data-table` } },
+          { h: 'Planilha de Previsão',
+            p: 'Com uma série histórica (datas em intervalos regulares e valores), Dados > Previsão > <strong>Planilha de Previsão</strong> cria uma planilha nova com a projeção, os limites de confiança e um gráfico. Escolha o <strong>Fim da Previsão</strong>; em Opções, o intervalo de confiança, a sazonalidade e como tratar pontos faltantes. Por trás está a função PREVISÃO.ETS (suavização exponencial).',
+            img: { src: `${XL_IMG}/m13/planilha-previsao.png`, alt: 'Caixa Criar Planilha de Previsão com o gráfico da projeção', caption: 'Planilha de Previsão: histórico, projeção e limites de confiança (tela da versão em português de Portugal).', source: `${SUP}/excel/create-a-forecast-in-excel-for-windows` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Use Atingir Meta para que a célula D10 seja 25000 alterando a célula B4" — os três campos, na ordem da caixa.',
+              '"Crie um cenário chamado Otimista que altere B2 e B3 para 12000 e 0,15" e "crie um relatório de resumo de cenário com a célula de resultado B10".',
+              'Mostrar um cenário altera a planilha — a prova confere os valores das células depois da tarefa.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Introdução à análise de hipóteses', u: `${SUP}/excel/introduction-to-what-if-analysis` },
+          { t: 'Microsoft Suporte — Usar Atingir Meta', u: `${SUP}/excel/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value` },
+          { t: 'Microsoft Suporte — Alternar entre conjuntos de valores com cenários', u: `${SUP}/excel/switch-between-various-sets-of-values-by-using-scenarios` },
+          { t: 'Microsoft Suporte — Calcular vários resultados com uma tabela de dados', u: `${SUP}/excel/calculate-multiple-results-by-using-a-data-table` },
+          { t: 'Microsoft Suporte — Criar uma previsão no Excel', u: `${SUP}/excel/create-a-forecast-in-excel-for-windows` }
+        ]
+      },
+      {
+        id: 'xl-funcoes-financeiras', title: 'Funções financeiras: PGTO, NPER, VP, VF e TAXA',
+        desc: 'Calcular parcela, número de períodos, valor presente, valor futuro e taxa de financiamentos e investimentos — e a convenção de sinais que confunde todo mundo.',
+        objetivos: [
+          'Calcular parcelas com PGTO e prazos com NPER',
+          'Usar VP, VF e TAXA e a convenção de sinais de entrada e saída de dinheiro',
+          'Combinar funções financeiras com SE e E em projeções'
+        ],
+        body: 'Financiamento de carro, empréstimo para capital de giro, meta de investimento: as funções financeiras respondem quanto pagar por mês, em quantos meses se quita uma dívida e quanto um aporte mensal vira no futuro. A prova Expert pede "calcular dados usando a função PGTO" e "prever dados usando as funções E, SE e NPER".',
+        content: [
+          { h: 'Os cinco elementos',
+            p: 'Todas as funções giram em torno de cinco valores; você informa quatro e a função calcula o quinto:',
+            items: [
+              '<strong>taxa</strong> — a taxa de juros <strong>por período</strong>. Juros anuais com parcelas mensais: taxa anual dividida por 12.',
+              '<strong>nper</strong> — o número total de períodos (anos vezes 12, para parcelas mensais).',
+              '<strong>pgto</strong> — o pagamento de cada período.',
+              '<strong>vp</strong> — o valor presente (o valor financiado, o capital inicial).',
+              '<strong>vf</strong> — o valor futuro (o saldo desejado ao final; zero, para quitar a dívida — é o padrão).',
+              '<strong>tipo</strong> (opcional) — 0 para pagamento no fim do período (padrão), 1 para pagamento no início.'
+            ] },
+          { h: 'A convenção de sinais',
+            p: 'O Excel trata dinheiro que sai do seu bolso como negativo e dinheiro que entra como positivo. Ao financiar 30 mil (entram 30 mil, positivo), a parcela sai negativa. Se preferir ver a parcela positiva, coloque um sinal de menos antes da função ou informe o valor presente como negativo. Misturar os sinais errados faz NPER e TAXA darem erro (não há solução).' },
+          { h: 'PGTO e NPER',
+            code: 'PGTO(taxa; nper; vp; [vf]; [tipo])\nNPER(taxa; pgto; vp; [vf]; [tipo])\n\n=PGTO(1,5%;48;30000)             → cerca de -881,25 (parcela de um financiamento de 30 mil em 48 meses a 1,5% ao mês)\n=PGTO(12%/12;60;0;100000)        → cerca de -1.224,44: aporte mensal para juntar 100 mil em 5 anos a 12% ao ano\n=NPER(1,5%;-1000;30000)          → quantos meses pagando 1.000 por mês para quitar 30 mil (cerca de 40,2)' },
+          { h: 'VP, VF e TAXA',
+            items: [
+              '<strong>VP</strong> (PV) — quanto dá para financiar hoje com uma parcela que cabe no orçamento.',
+              '<strong>VF</strong> (FV) — quanto um investimento vai valer: aportes mensais durante N meses a uma taxa.',
+              '<strong>TAXA</strong> (RATE) — a taxa implícita de uma operação: quem vende a prazo "sem juros" com desconto à vista está cobrando juros; TAXA revela quanto.'
+            ],
+            code: 'VP(taxa; nper; pgto; [vf]; [tipo])\nVF(taxa; nper; pgto; [vp]; [tipo])\nTAXA(nper; pgto; vp; [vf]; [tipo]; [estimativa])\n\n=VP(1,5%;48;-900)                 → quanto dá para financiar pagando 900 por mês\n=VF(1%;120;-500)                  → 500 por mês durante 10 anos a 1% ao mês (cerca de 115 mil)\n=TAXA(10;-100;900)                → 10 × 100 contra 900 à vista: cerca de 1,96% ao mês' },
+          { h: 'Previsão com E, SE e NPER',
+            p: 'Combinando funções lógicas e financeiras, a planilha decide sozinha: o financiamento cabe no orçamento e no prazo máximo da política da empresa?',
+            code: 'B1: 30000 (valor)   B2: 1,5% (taxa ao mês)   B3: 1000 (parcela possível)   B4: 36 (prazo máximo)\n\n=SE(E(B3>B1*B2;NPER(B2;-B3;B1)<=B4);\n    "Aprovado em "&ARREDONDAR.PARA.CIMA(NPER(B2;-B3;B1);0)&" meses";\n    "Fora da política")',
+            items: [
+              'O primeiro teste (a parcela precisa ser maior que os juros do mês) evita o erro de NPER quando a parcela nunca quitaria a dívida.',
+              'ARREDONDAR.PARA.CIMA transforma 40,2 meses em 41 parcelas.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Em B5, calcule o pagamento mensal de um empréstimo com taxa anual em B2, prazo em anos em B3 e valor em B1" — PGTO com a taxa dividida por 12 e o prazo multiplicado por 12: converta taxa e prazo para meses.',
+              '"Em C8, exiba Sim se o número de períodos for menor que 60 e o valor for maior que 10000" — E, SE e NPER.',
+              'Em inglês: PMT, NPER, PV, FV, RATE.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função PGTO', u: `${SUP}/excel/functions/pmt-function` },
+          { t: 'Microsoft Suporte — Função NPER', u: `${SUP}/excel/functions/nper-function` },
+          { t: 'Microsoft Suporte — Função VP', u: `${SUP}/excel/functions/pv-function` },
+          { t: 'Microsoft Suporte — Função VF', u: `${SUP}/excel/functions/fv-function` },
+          { t: 'Microsoft Suporte — Função TAXA', u: `${SUP}/excel/functions/rate-function` }
+        ]
+      }
+    ]
   }
 ];

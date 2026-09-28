@@ -97,6 +97,8 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Criar regras personalizadas de formatação condicional | xl-formatacao-condicional-regras | ✅ |
 | Criar regras de formatação condicional com fórmulas | xl-formatacao-condicional-regras | ✅ |
 | Gerenciar regras de formatação condicional | xl-formatacao-condicional-regras | ✅ |
+| Agrupar e desagrupar dados | xl-subtotais-estrutura | ✅ |
+| Calcular dados inserindo subtotais e totais | xl-subtotais-estrutura | ✅ |
 
 ### Fórmulas e macros avançadas
 | Habilidade | Aula(s) | Status |
@@ -107,7 +109,11 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Calcular datas com DIA.DA.SEMANA e DIATRABALHO | xl-funcoes-data, xl-dias-uteis | ✅ |
 | Procurar dados com PROCX, PROCV, PROCH, CORRESP e ÍNDICE | xl-procx, xl-procv-proch, xl-indice-corresp | ✅ |
 | Resumir dados com FILTRO e CLASSIFICARPOR (matrizes dinâmicas) | xl-matrizes-dinamicas | ✅ |
-| Demais (análise de hipóteses, auditoria, macros) | — (Módulos 13, 14, 16) | ⬜ |
+| Consolidar dados | xl-consolidar | ✅ |
+| Executar análise de hipóteses com Atingir Meta e Gerenciador de Cenários | xl-analise-hipoteses | ✅ |
+| Prever dados usando E, SE e NPER | xl-funcoes-financeiras | ✅ |
+| Calcular dados financeiros com PGTO | xl-funcoes-financeiras | ✅ |
+| Demais (auditoria, macros) | — (Módulos 14, 16) | ⬜ |
 
 ### Gráficos e tabelas avançados
 | Habilidade | Aula(s) | Status |
@@ -125,4 +131,4 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Aplicar estilos a gráficos dinâmicos | xl-grafico-dinamico | ✅ |
 | Detalhar dados de gráficos dinâmicos | xl-grafico-dinamico | ✅ |
 
-⬜ Opções e configurações da pasta de trabalho (Módulos 15 e 16) · ⬜ Agrupar/desagrupar e subtotais (Módulo 13)
+⬜ Opções e configurações da pasta de trabalho (Módulos 15 e 16)

@@ -100,3 +100,9 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m12/formato-compacto.jpg | Tabela Dinâmica em formato compacto | https://support.microsoft.com/pt-br/excel/design-the-layout-and-format-of-a-pivottable |
 | /assets/img/curso-excel/m12/formato-tabela.jpg | Tabela Dinâmica em formato de tabela | https://support.microsoft.com/pt-br/excel/design-the-layout-and-format-of-a-pivottable |
 | /assets/img/curso-excel/m12/exploracao-rapida.png | Galeria Exploração Rápida | https://support.microsoft.com/pt-br/excel/drill-into-pivottable-data |
+| /assets/img/curso-excel/m13/estrutura-tres-niveis.png | Dados com uma estrutura de tópicos de três níveis | https://support.microsoft.com/pt-br/excel/outline-group-data-in-a-worksheet |
+| /assets/img/curso-excel/m13/subtotais-esporte.gif | Lista do Excel com subtotais de Esporte e um total geral | https://support.microsoft.com/pt-br/excel/insert-subtotals-in-a-list-of-data-in-a-worksheet |
+| /assets/img/curso-excel/m13/gerenciador-cenarios.png | Captura de tela que mostra o Gerenciador de Cenários. | https://support.microsoft.com/pt-br/excel/switch-between-various-sets-of-values-by-using-scenarios |
+| /assets/img/curso-excel/m13/resumo-cenario.png | Captura de tela que mostra o Resumo do Cenário com referências de célula | https://support.microsoft.com/pt-br/excel/switch-between-various-sets-of-values-by-using-scenarios |
+| /assets/img/curso-excel/m13/tabela-dados-uma-variavel.gif | Tabela de dados com uma só variável | https://support.microsoft.com/pt-br/excel/calculate-multiple-results-by-using-a-data-table |
+| /assets/img/curso-excel/m13/planilha-previsao.png | Captura de tela da caixa de diálogo Criar Planilha de Previsão com as Opções recolhidas | https://support.microsoft.com/pt-br/excel/create-a-forecast-in-excel-for-windows |
