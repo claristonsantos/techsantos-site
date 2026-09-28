@@ -59,7 +59,13 @@ function handle_comment(PDO $pdo, string $plataforma, string $commentId, string 
         return; // already processed (Meta may retry the same event)
     }
 
-    $rules = $pdo->query("SELECT * FROM social_auto_reply_rules WHERE ativo = 1")->fetchAll();
+    // Menor prioridade vence: regras específicas (EXCEL, FABRIC) passam na frente
+    // das genéricas (CURSO, QUERO) quando o comentário casa com mais de uma.
+    try {
+        $rules = $pdo->query("SELECT * FROM social_auto_reply_rules WHERE ativo = 1 ORDER BY prioridade ASC, id ASC")->fetchAll();
+    } catch (PDOException $e) {
+        $rules = $pdo->query("SELECT * FROM social_auto_reply_rules WHERE ativo = 1 ORDER BY id ASC")->fetchAll();
+    }
     $matched = null;
     $textoLower = mb_strtolower($texto);
     foreach ($rules as $rule) {
