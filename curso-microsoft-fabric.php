@@ -582,6 +582,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Microsoft Fabric', currency: '
       <div class="footer-col">
         <h4>Cursos</h4>
         <a href="/curso-microsoft-fabric.php">Microsoft Fabric (DP-600 e DP-700)</a>
+        <a href="/curso-excel.php">Excel do zero ao avançado (MO-210 e MO-211)</a>
         <a href="/curso-power-bi.php">Curso completo de Power BI</a>
         <a href="/login.php">Área do Aluno</a>
       </div>

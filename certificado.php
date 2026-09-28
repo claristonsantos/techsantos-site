@@ -19,8 +19,9 @@ if (preg_match('/^[A-Z0-9]{4,20}$/', $codigo)) {
 $certConteudo = [
     'power-bi' => 'modelagem de dados, Power Query, DAX, construção de relatórios e publicação em Power BI',
     'microsoft-fabric' => 'OneLake, lakehouse e warehouse, Data Factory, Dataflows Gen2, Spark, Real-Time Intelligence, modelos semânticos, DAX, Direct Lake, segurança, governança e ciclo de vida no Microsoft Fabric, com base nas certificações DP-600 e DP-700',
+    'excel' => 'interface, formatação, importação e validação de dados, tabelas, fórmulas e referências, funções lógicas, de texto, de data e de procura, matrizes dinâmicas, formatação condicional, gráficos, tabelas dinâmicas, análise de hipóteses, auditoria, proteção e macros no Microsoft Excel, com base nas certificações MO-210 e MO-211',
 ];
-$certPaginaCurso = ['power-bi' => '/curso-power-bi.php'];
+$certPaginaCurso = ['power-bi' => '/curso-power-bi.php', 'microsoft-fabric' => '/curso-microsoft-fabric.php', 'excel' => '/curso-excel.php'];
 ?>
 <!doctype html>
 <html lang="pt-BR">

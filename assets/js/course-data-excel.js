@@ -3548,5 +3548,75 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-simulado-mo210', title: 'Simulado final · MO-210 (Excel Associate)', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-simulado-mo210-instrucoes', title: 'Como fazer o simulado MO-210',
+        desc: 'Instruções do simulado final da MO-210: 40 questões distribuídas pelos pesos oficiais da prova Excel Associate. Conclua esta aula para liberar o simulado.',
+        objetivos: [
+          'Revisar todas as áreas da prova Excel Associate',
+          'Identificar os temas que ainda precisam de revisão antes de agendar a prova'
+        ],
+        body: 'O simulado tem 40 questões distribuídas pelas cinco áreas da MO-210, na mesma proporção da prova oficial. A aprovação no simulado é com 70% de acertos, e você pode refazer quantas vezes quiser; depois de cada tentativa, a correção mostra o que você acertou e errou. Atenção: a prova oficial é prática — você executa tarefas no Excel. O simulado é de múltipla escolha e mede se você sabe qual recurso usar e onde ele fica; a agilidade vem de refazer no Excel as tarefas das seções "Como isso cai na prova".',
+        content: [
+          { h: 'Como fazer',
+            items: [
+              'Reserve 60 minutos sem interrupção e faça a primeira tentativa sem consultar as aulas.',
+              'Para cada questão, imagine-se fazendo a tarefa no Excel: qual guia, qual comando, qual caixa.',
+              'Anote as questões de dúvida e revise-as pelo tema.',
+              'Marque esta aula como concluída para liberar o link do simulado no menu do módulo.'
+            ] },
+          { h: 'Distribuição das questões',
+            items: [
+              'Gerenciar planilhas e pastas de trabalho — 5 questões.',
+              'Gerenciar células e intervalos de dados — 9 questões.',
+              'Gerenciar tabelas e dados de tabela — 7 questões.',
+              'Operações com fórmulas e funções — 10 questões.',
+              'Gerenciar gráficos — 9 questões.'
+            ] },
+          { h: 'Depois do simulado',
+            p: 'Para cada questão errada, volte à aula do tema e refaça no Excel as tarefas da seção "Como isso cai na prova", cronometrando. Aprovado nos dois simulados finais (MO-210 e MO-211), você recebe o certificado de conclusão do curso.' }
+        ],
+        recursos: [
+          { t: 'Microsoft Learn — Excel Associate (Microsoft 365 Apps)', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/mos-excel-associate-m365-apps/' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'xl-simulado-mo211', title: 'Simulado final · MO-211 (Excel Expert)', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-simulado-mo211-instrucoes', title: 'Como fazer o simulado MO-211',
+        desc: 'Instruções do simulado final da MO-211: 40 questões distribuídas pelos pesos oficiais da prova Excel Expert. Conclua esta aula para liberar o simulado.',
+        objetivos: [
+          'Revisar todas as áreas da prova Excel Expert',
+          'Identificar os temas que ainda precisam de revisão antes de agendar a prova'
+        ],
+        body: 'O simulado tem 40 questões distribuídas pelas quatro áreas da MO-211, na mesma proporção da prova oficial, com aprovação a partir de 70% de acertos e tentativas ilimitadas. Como a prova oficial é prática e em inglês, use o simulado para fixar os conceitos e, depois, refaça as tarefas no Excel lembrando dos nomes em inglês citados nas aulas.',
+        content: [
+          { h: 'Como fazer',
+            items: [
+              'Reserve 60 minutos sem interrupção e faça a primeira tentativa sem consultar as aulas.',
+              'Nas questões de fórmula, confira a ordem dos argumentos e o tipo de referência — são as pegadinhas mais comuns.',
+              'Marque esta aula como concluída para liberar o link do simulado no menu do módulo.'
+            ] },
+          { h: 'Distribuição das questões',
+            items: [
+              'Gerenciar opções e configurações da pasta de trabalho — 5 questões.',
+              'Gerenciar e formatar dados — 13 questões.',
+              'Criar fórmulas e macros avançadas — 11 questões.',
+              'Gerenciar gráficos e tabelas avançados — 11 questões.'
+            ] },
+          { h: 'Depois do simulado',
+            p: 'Revise pelo tema cada questão errada e refaça as tarefas no Excel. Aprovado nos dois simulados finais (MO-210 e MO-211), você recebe o certificado de conclusão do curso.' }
+        ],
+        recursos: [
+          { t: 'Microsoft Learn — Exame MO-211: Excel Expert (Microsoft 365 Apps)', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/exams/mo-211/' }
+        ]
+      }
+    ]
   }
 ];

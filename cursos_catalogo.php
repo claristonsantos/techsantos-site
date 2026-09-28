@@ -29,6 +29,17 @@ const CURSOS_VITRINE = [
             'Acesso liberado automaticamente após a confirmação do pagamento',
         ],
     ],
+    'excel' => [
+        'pagina' => '/curso-excel.php',
+        'imagem' => '/assets/img/curso-excel/m09/procx-basico.jpg',
+        'resumo' => 'Excel do zero ao avançado, preparatório para as certificações MO-210 e MO-211: fórmulas, PROCX, tabelas dinâmicas, gráficos, análise de hipóteses e macros.',
+        'itens' => [
+            '17 módulos e 68 aulas com teoria completa, imagens oficiais da Microsoft e áudio (modo podcast) em todas as aulas',
+            'Conteúdo mapeado habilidade por habilidade nas provas MO-210 (Associate) e MO-211 (Expert)',
+            'Avaliação em cada módulo, 2 simulados finais de 40 questões e certificado de conclusão',
+            'Acesso liberado automaticamente após a confirmação do pagamento',
+        ],
+    ],
 ];
 
 function curso_vitrine(string $slug): array

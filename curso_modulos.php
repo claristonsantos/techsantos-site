@@ -22,6 +22,7 @@ const MODULOS_POWER_BI = [
 const CERTIFICADO_AVALIACOES = [
     'power-bi' => ['encerramento'],
     'microsoft-fabric' => ['fab-simulado-dp600', 'fab-simulado-dp700'],
+    'excel' => ['xl-simulado-mo210', 'xl-simulado-mo211'],
 ];
 
 function avaliacoes_do_certificado(string $cursoSlug): array

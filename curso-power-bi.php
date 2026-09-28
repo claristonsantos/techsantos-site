@@ -643,6 +643,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <h4>Curso</h4>
         <a href="/curso-power-bi.php">Curso completo de Power BI</a>
         <a href="/curso-microsoft-fabric.php">Curso Microsoft Fabric (DP-600 e DP-700)</a>
+        <a href="/curso-excel.php">Curso Excel do zero ao avançado (MO-210 e MO-211)</a>
         <a href="/aula-gratis.php">Assistir aula grátis</a>
         <a href="/comprar.php">Matricule-se</a>
         <a href="/login.php">Área do Aluno</a>
