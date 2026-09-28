@@ -549,6 +549,8 @@ PRONUNCIATION_FIXES = [
     (r"\bWaterfall\b", "Uóter Fól"),
     (r"\bSunburst\b", "Sân Bârst"),
     (r"\bFilled Map\b", "Fíld Még"),
+    # Curso Excel, rodada 12 (Módulo 12): drill down, drill up e Grupo1 na
+    # leitura padrão — sem regra.
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
