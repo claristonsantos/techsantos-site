@@ -2232,5 +2232,210 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m11', title: 'Módulo 11 · Gráficos', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-graficos-criar', title: 'Criar gráficos e escolher o tipo certo',
+        desc: 'Os principais tipos de gráfico e quando usar cada um, Gráficos Recomendados, criação rápida com Alt+F1 e F11, planilhas de gráfico e como mover e redimensionar.',
+        objetivos: [
+          'Escolher o tipo de gráfico adequado à pergunta que ele deve responder',
+          'Criar gráficos por Gráficos Recomendados, pela galeria e por atalho',
+          'Criar planilhas de gráfico e mover gráficos entre planilhas'
+        ],
+        body: 'Um gráfico bom responde a uma pergunta em três segundos: qual loja vendeu mais, como a receita evoluiu no ano, quanto cada categoria pesa no total. A escolha do tipo é metade do trabalho. A seção de gráficos vale de 20 a 25% da prova Associate — a mesma importância das fórmulas.',
+        content: [
+          { h: 'Qual tipo para qual pergunta',
+            items: [
+              '<strong>Colunas</strong> — comparar valores entre categorias (vendas por loja) ou poucos períodos. Colunas empilhadas mostram a composição de cada total.',
+              '<strong>Barras</strong> — o mesmo que colunas, na horizontal; melhor quando os nomes das categorias são longos ou há muitas categorias (um ranking).',
+              '<strong>Linhas</strong> — evolução ao longo do tempo, principalmente com muitos pontos (12 meses, 52 semanas).',
+              '<strong>Pizza e Rosca</strong> — partes de um todo, com poucas fatias (até cinco ou seis); a soma precisa ser 100% de algo que faça sentido.',
+              '<strong>Dispersão (XY)</strong> — relação entre duas variáveis numéricas (investimento em anúncio × vendas).',
+              '<strong>Área</strong> — evolução com ênfase no volume acumulado.',
+              'Tipos especiais — combinação, histograma, caixa estreita, cascata, funil, explosão solar, mapa — na aula de gráficos avançados.'
+            ] },
+          { h: 'Criar um gráfico',
+            items: [
+              'Selecione os dados, incluindo os títulos das colunas e os rótulos das linhas (sem totais, que distorcem a escala).',
+              '<strong>Inserir > Gráficos Recomendados</strong> mostra sugestões com prévia; a guia <strong>Todos os Gráficos</strong> tem todos os tipos e subtipos.',
+              'Ou escolha direto nos botões do grupo Gráficos da guia Inserir (Colunas, Linhas, Pizza, Barras...).',
+              '<strong>Alt+F1</strong> cria na hora um gráfico do tipo padrão (colunas agrupadas) na própria planilha.',
+              '<strong>F11</strong> cria o gráfico padrão numa <strong>planilha de gráfico</strong> nova.',
+              'A Análise Rápida (Ctrl+Q) também tem uma guia Gráficos.'
+            ] },
+          { h: 'Gráfico incorporado x planilha de gráfico',
+            p: 'Um gráfico <strong>incorporado</strong> flutua sobre as células de uma planilha comum. Uma <strong>planilha de gráfico</strong> é uma guia que contém só o gráfico, ocupando a janela inteira — boa para apresentar. Para converter, use Design do Gráfico > Local > <strong>Mover Gráfico</strong>: escolha <strong>Nova planilha</strong> (e dê um nome) ou <strong>Objeto em</strong> outra planilha existente. É o mesmo comando para levar um gráfico de uma planilha para outra.' },
+          { h: 'Mover e redimensionar',
+            items: [
+              'Arraste pela borda (área do gráfico) para mover; arraste as alças dos cantos para redimensionar.',
+              'Segure Alt ao arrastar para alinhar com as bordas das células; Shift mantém a proporção ao redimensionar.',
+              'Para medidas exatas, use Formatar > Tamanho (altura e largura).',
+              'Em Formatar Área do Gráfico > Propriedades, escolha se o gráfico se move e se redimensiona com as células (importa ao inserir linhas ou filtrar).'
+            ] },
+          { h: 'Os elementos de um gráfico',
+            p: 'O vocabulário que as tarefas da prova usam: 1 título do gráfico, 2 área de plotagem, 3 legenda, 4 títulos dos eixos, 5 rótulos do eixo, 6 marcas de escala, 7 linhas de grade. Todos aparecem, somem e são formatados pelo botão de mais (Elementos do Gráfico) ao lado do gráfico ou por Design do Gráfico > Adicionar Elemento de Gráfico (aula 3).',
+            img: { src: `${XL_IMG}/m11/elementos-do-grafico.gif`, alt: 'Gráfico de colunas com os elementos numerados', caption: '1 título, 2 área de plotagem, 3 legenda, 4 títulos dos eixos, 5 rótulos do eixo, 6 marcas de escala, 7 linhas de grade.', source: `${SUP}/excel/get-started/create-a-chart-from-start-to-finish` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Crie um gráfico de colunas agrupadas com os dados de A3:D9" — Inserir > Colunas > Colunas Agrupadas; confira se o gráfico pegou títulos e rótulos.',
+              '"Mova o gráfico para uma nova planilha chamada Resumo" — Mover Gráfico > Nova planilha.',
+              '"Crie uma planilha de gráfico" — F11 ou Mover Gráfico.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Criar um gráfico do início ao fim', u: `${SUP}/excel/get-started/create-a-chart-from-start-to-finish` },
+          { t: 'Microsoft Suporte — Tipos de gráficos disponíveis', u: `${SUP}/excel/available-chart-types-in-office` },
+          { t: 'Microsoft Suporte — Mover ou redimensionar um gráfico', u: `${SUP}/excel/move-or-resize-a-chart` }
+        ]
+      },
+      {
+        id: 'xl-graficos-dados', title: 'Os dados do gráfico: séries, Selecionar Dados e Alternar Linha/Coluna',
+        desc: 'Adicionar, editar e remover séries, mudar os rótulos do eixo, alternar linhas e colunas, trocar o tipo do gráfico e tratar células ocultas e vazias.',
+        objetivos: [
+          'Adicionar e remover séries de dados',
+          'Usar a caixa Selecionar Fonte de Dados e o Alternar Linha/Coluna',
+          'Alterar o tipo de gráfico e controlar células ocultas e vazias'
+        ],
+        body: 'Depois de criado, o gráfico continua ligado às células: mudou o número, mudou o gráfico. Mas incluir o mês novo, tirar uma série, trocar o que vai no eixo e o que vai na legenda exige saber como o Excel organiza os dados de um gráfico. "Adicionar séries de dados" e "alternar entre linhas e colunas" estão na prova Associate.',
+        content: [
+          { h: 'Séries e categorias',
+            p: 'Um gráfico tem <strong>séries</strong> (cada conjunto de valores com a mesma cor, listado na legenda — Violinos, Violoncelos, Tubas) e <strong>categorias</strong> (os rótulos do eixo horizontal — Jan, Fev, Mar). Ao selecionar o gráfico, o Excel contorna na planilha as áreas usadas: os nomes das séries, os rótulos das categorias e os valores plotados.',
+            img: { src: `${XL_IMG}/m11/areas-dos-dados.png`, alt: 'Intervalo de dados com as áreas do gráfico destacadas', caption: 'Ao selecionar o gráfico, a planilha destaca rótulos das categorias, nomes das séries e valores; arraste as alças para incluir mais dados.', source: `${SUP}/excel/get-started/update-the-data-in-an-existing-chart` } },
+          { h: 'Incluir e excluir dados',
+            items: [
+              '<strong>Arrastando</strong> — com o gráfico selecionado, arraste a alça do canto dos intervalos destacados na planilha para incluir linhas ou colunas novas.',
+              '<strong>Copiando e colando</strong> — copie o intervalo da nova série (com o título) e cole sobre o gráfico: vira uma série nova.',
+              '<strong>Tabela do Excel como origem</strong> — linhas novas na tabela entram no gráfico automaticamente.',
+              '<strong>Filtros do gráfico</strong> — o botão de funil ao lado do gráfico esconde séries ou categorias sem excluí-las dos dados.'
+            ] },
+          { h: 'A caixa Selecionar Fonte de Dados',
+            p: 'Design do Gráfico > <strong>Selecionar Dados</strong> (ou botão direito no gráfico) abre a caixa com o controle total:',
+            items: [
+              '<strong>Intervalo de dados do gráfico</strong> — o intervalo inteiro, que pode ser redefinido de uma vez.',
+              '<strong>Entradas de Legenda (Série)</strong> — Adicionar (informando o nome e os valores da série), Editar, Remover e as setas que mudam a ordem das séries.',
+              '<strong>Rótulos do Eixo Horizontal (Categoria)</strong> — Editar para escolher outro intervalo de rótulos; as caixas de seleção ocultam categorias.',
+              '<strong>Alternar Linha/Coluna</strong> — o mesmo botão da faixa de opções.',
+              '<strong>Células Ocultas e Vazias</strong> — mostrar células vazias como lacunas, zero ou (em linhas) ligar os pontos; e se os dados de linhas e colunas ocultas aparecem no gráfico (por padrão, não aparecem — por isso um filtro na tabela muda o gráfico).'
+            ] },
+          { h: 'Alternar Linha/Coluna',
+            p: 'O Excel decide sozinho o que vira série e o que vira categoria (em geral, o lado com mais itens vai para o eixo). Design do Gráfico > <strong>Alternar Linha/Coluna</strong> inverte: em vez de meses no eixo e instrumentos na legenda (vendas por mês), instrumentos no eixo e meses na legenda (vendas por instrumento). Escolha a versão que responde à pergunta do gráfico.' },
+          { h: 'Alterar o tipo do gráfico',
+            p: 'Design do Gráfico > <strong>Alterar Tipo de Gráfico</strong> troca o tipo mantendo dados e boa parte da formatação. Na categoria Combinação, cada série pode ter um tipo diferente (aula de gráficos avançados).' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Adicione a série Abril (E3:E9) ao gráfico" — Selecionar Dados > Adicionar, ou arraste a alça do intervalo.',
+              '"Altere o gráfico para que os produtos apareçam no eixo horizontal" — Alternar Linha/Coluna.',
+              '"Remova a série Total do gráfico" — Selecionar Dados > Remover (não apague os dados da planilha).'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Atualizar os dados de um gráfico existente', u: `${SUP}/excel/get-started/update-the-data-in-an-existing-chart` },
+          { t: 'Microsoft Suporte — Alterar o tipo de gráfico de um gráfico existente', u: `${SUP}/excel/change-the-chart-type-of-an-existing-chart` }
+        ]
+      },
+      {
+        id: 'xl-graficos-elementos', title: 'Elementos, layouts, estilos e texto alternativo',
+        desc: 'Adicionar e formatar título, eixos, legenda, rótulos de dados, linhas de grade e linha de tendência; Layout Rápido, estilos e cores; o painel Formatar; texto alternativo para acessibilidade.',
+        objetivos: [
+          'Adicionar, remover e posicionar elementos do gráfico',
+          'Aplicar layouts rápidos, estilos e cores, e formatar eixos e séries no painel Formatar',
+          'Adicionar texto alternativo a gráficos'
+        ],
+        body: 'Um gráfico recém-criado quase sempre precisa de ajustes: título que diga a conclusão, rótulos nos valores importantes, eixo começando no lugar certo, legenda onde não atrapalhe. A prova Associate cobra "adicionar e modificar elementos do gráfico", "aplicar layouts e estilos" e "adicionar texto alternativo para acessibilidade".',
+        content: [
+          { h: 'Adicionar e remover elementos',
+            p: 'Com o gráfico selecionado, use o botão <strong>Elementos do Gráfico</strong> (o sinal de mais ao lado do gráfico) ou Design do Gráfico > <strong>Adicionar Elemento de Gráfico</strong>. Cada elemento tem suas posições:',
+            items: [
+              '<strong>Título do Gráfico</strong> — Acima do Gráfico ou Sobreposição Centralizada; clique no título para editar ou, na barra de fórmulas, digite o sinal de igual e clique numa célula para o título acompanhar o conteúdo dela.',
+              '<strong>Títulos dos Eixos</strong> — horizontal e vertical (primário e secundário).',
+              '<strong>Legenda</strong> — à direita, acima, à esquerda, abaixo ou nenhuma.',
+              '<strong>Rótulos de Dados</strong> — o valor sobre cada coluna ou ponto; em Mais Opções, mostrar o nome da categoria, a porcentagem (pizza) ou um valor de células.',
+              '<strong>Tabela de Dados</strong> — os números embaixo do gráfico; <strong>Linhas de Grade</strong>; <strong>Barras de Erros</strong>.',
+              '<strong>Linha de Tendência</strong> — Linear, Exponencial, Previsão Linear, Média Móvel; nas opções, prever períodos à frente e exibir a equação e o R².',
+              'Para remover um elemento, selecione-o no gráfico e pressione Delete.'
+            ] },
+          { h: 'Layout Rápido, estilos e cores',
+            items: [
+              'Design do Gráfico > <strong>Layout Rápido</strong> — combinações prontas de elementos (Layout 1 a 11, conforme o tipo).',
+              '<strong>Estilos de Gráfico</strong> — a galeria da guia Design do Gráfico (ou o pincel ao lado do gráfico) muda cores, fundos e efeitos de uma vez.',
+              '<strong>Alterar Cores</strong> — paletas coloridas ou monocromáticas, baseadas no tema da pasta (Módulo 03).'
+            ] },
+          { h: 'O painel Formatar',
+            p: 'Duplo clique (ou Ctrl+1) em qualquer elemento abre o painel <strong>Formatar</strong> daquele elemento. Os mais usados:',
+            items: [
+              '<strong>Formatar Eixo</strong> — limites Mínimo e Máximo, Unidades principais, formato de número do eixo, Unidades de exibição (Milhares, Milhões), escala logarítmica, categorias em ordem inversa (útil em gráficos de barras de ranking).',
+              '<strong>Formatar Série de Dados</strong> — Largura do Espaçamento entre colunas, Sobreposição de Séries, eixo principal ou secundário, cores e marcadores.',
+              '<strong>Formatar Ponto de Dados</strong> — clique duas vezes, com uma pausa, numa coluna para selecionar só ela e destacar com outra cor.',
+              'A guia <strong>Formatar</strong> tem Estilos de Forma, Preenchimento, Contorno, Efeitos e WordArt para qualquer elemento selecionado.'
+            ] },
+          { h: 'Texto alternativo',
+            p: 'Leitores de tela não enxergam o gráfico; o texto alternativo diz a quem não vê o que ele mostra. Clique com o botão direito na borda do gráfico (na área do gráfico, não num elemento) e escolha <strong>Exibir Texto Alternativo</strong> (ou Formatar > Texto Alt). No painel, escreva uma ou duas frases com a conclusão e os números principais ("Vendas cresceram de R$ 120 mil em janeiro para R$ 180 mil em junho; junho foi o melhor mês"). Objetos puramente decorativos podem ser marcados como <strong>Decorativo</strong>. O Verificador de Acessibilidade (Revisão > Verificar Acessibilidade) aponta gráficos e imagens sem texto alternativo.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Adicione rótulos de dados na extremidade externa" — Adicionar Elemento > Rótulos de Dados > Extremidade Externa.',
+              '"Aplique o Layout 5 e o Estilo 8" — Layout Rápido e Estilos de Gráfico, pelos nomes que aparecem ao passar o mouse.',
+              '"Adicione o texto alternativo Vendas por região ao gráfico" — Exibir Texto Alternativo, com o texto exato do enunciado.',
+              '"Altere o título do gráfico para ..." — edite o título, sem criar uma caixa de texto por cima.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Alterar o layout ou o estilo de um gráfico', u: `${SUP}/powerpoint/change-the-layout-or-style-of-a-chart` },
+          { t: 'Microsoft Suporte — Formatar elementos de um gráfico', u: `${SUP}/office/format-elements-of-a-chart` },
+          { t: 'Microsoft Suporte — Adicionar uma legenda a um gráfico', u: `${SUP}/excel/add-a-legend-to-a-chart` },
+          { t: 'Microsoft Suporte — Adicionar texto alternativo a uma forma, imagem ou gráfico', u: `${SUP}/accessibility/office-accessibility/add-alternative-text-to-a-shape-picture-chart-smartart-graphic-or-other-object` }
+        ]
+      },
+      {
+        id: 'xl-graficos-avancados', title: 'Gráficos avançados: combinação, eixo duplo, histograma, caixa estreita, cascata, funil, explosão solar e mapa',
+        desc: 'Os gráficos da prova Expert: quando usar cada um, como criar e as opções que fazem diferença.',
+        objetivos: [
+          'Criar gráficos de combinação com eixo secundário',
+          'Criar e configurar histograma, caixa estreita, cascata, funil, explosão solar e mapa',
+          'Escolher o gráfico avançado adequado a cada análise'
+        ],
+        body: 'A prova Expert cobra um conjunto de gráficos especializados: eixo duplo, combinação, caixa estreita, funil, histograma, explosão solar, cascata e mapa. Cada um responde a um tipo de pergunta que os gráficos comuns respondem mal — distribuição, composição hierárquica, ponte entre dois totais, etapas de um processo, geografia.',
+        content: [
+          { h: 'Combinação e eixo secundário',
+            p: 'Quando as séries têm escalas muito diferentes (vendas em milhares e preço médio em reais) ou naturezas diferentes (valor e percentual), a série menor fica achatada. A solução é o <strong>gráfico de combinação</strong> com <strong>eixo secundário</strong>: Design do Gráfico > Alterar Tipo de Gráfico > <strong>Combinação</strong> — para cada série, escolha o tipo (Colunas Agrupadas, Linha...) e marque <strong>Eixo Secundário</strong> para a série da outra escala. A escala secundária aparece à direita; dê títulos aos dois eixos para ninguém ler errado.',
+            img: { src: `${XL_IMG}/m11/combinacao-eixo-secundario.jpg`, alt: 'Gráfico de combinação com vendas em colunas e preço médio em linha no eixo secundário', caption: 'Combinação: vendas em colunas (eixo principal, à esquerda) e preço médio em linha (eixo secundário, à direita).', source: `${SUP}/office/excelexp/add-or-remove-a-secondary-axis-in-a-chart-in-excel` } },
+          { h: 'Histograma',
+            p: 'Mostra a <strong>distribuição</strong> de uma variável: quantos pedidos ficaram entre 0 e 100 reais, entre 100 e 200, e assim por diante. Selecione uma coluna de números e use Inserir > Gráfico Estatístico > <strong>Histograma</strong>. Em Formatar Eixo (eixo horizontal), configure os <strong>compartimentos</strong>: Automático, Por categoria (texto), <strong>Largura do compartimento</strong>, <strong>Número de compartimentos</strong>, e os compartimentos de <strong>estouro</strong> (tudo acima de um valor) e <strong>estouro negativo</strong> (tudo abaixo). No mesmo menu fica o <strong>Pareto</strong>: colunas em ordem decrescente com a linha do percentual acumulado.',
+            img: { src: `${XL_IMG}/m11/histograma-eixo.png`, alt: 'Painel Formatar Eixo com as opções de compartimento do histograma', caption: 'Formatar Eixo do histograma: largura, número e compartimentos de estouro.', source: `${SUP}/excel/create-a-histogram` } },
+          { h: 'Caixa estreita (caixa e bigodes)',
+            p: 'Mostra a distribuição em <strong>quartis</strong>: a caixa vai do primeiro ao terceiro quartil, a linha dentro dela é a mediana, o X é a média, os "bigodes" mostram a variação fora da caixa e pontos isolados são valores atípicos (exceções). Ótimo para comparar grupos (tempo de entrega por transportadora, notas por turma). Inserir > Gráfico Estatístico > <strong>Caixa e Caixa Estreita</strong>; em Formatar Série de Dados você mostra ou oculta pontos internos, pontos de exceção, marcadores de média e linha de média, e escolhe o cálculo do quartil (mediana inclusiva ou exclusiva).',
+            img: { src: `${XL_IMG}/m11/caixa-estreita.png`, alt: 'Gráfico de caixa estreita comparando grupos', caption: 'Caixa estreita: quartis, mediana, média e exceções de cada grupo.', source: `${SUP}/excel/create-a-box-and-whisker-chart` } },
+          { h: 'Cascata',
+            p: 'A <strong>cascata</strong> (ou gráfico de ponte) mostra como um valor inicial chega a um final pelos aumentos e reduções intermediários: receita bruta, menos impostos, menos custos, mais outras receitas, igual a lucro. Inserir > <strong>Inserir Gráfico de Cascata, Funil, Ações, Superfície ou Radar</strong> > Cascata. Os totais e subtotais precisam "encostar" no eixo: clique duas vezes, com pausa, na coluna do total e marque <strong>Definir como total</strong> (também no menu de atalho). Mostrar linhas de conexão liga cada coluna à seguinte.',
+            img: { src: `${XL_IMG}/m11/cascata.png`, alt: 'Gráfico de cascata com aumentos, reduções e totais', caption: 'Cascata: aumentos e reduções flutuam; totais partem do eixo.', source: `${SUP}/excel/create-a-waterfall-chart` } },
+          { h: 'Funil',
+            p: 'Mostra valores em <strong>etapas sucessivas</strong> de um processo que vai afunilando: visitantes, leads, propostas, vendas. Uma coluna com as etapas, outra com os valores, e Inserir > Cascata, Funil... > <strong>Funil</strong>. As barras ficam centralizadas e decrescentes.',
+            img: { src: `${XL_IMG}/m11/funil.png`, alt: 'Gráfico de funil de um pipeline de vendas', caption: 'Funil: cada etapa do pipeline de vendas.', source: `${SUP}/excel/create-a-funnel-chart-based-on-excel-data` } },
+          { h: 'Explosão solar',
+            p: 'Para <strong>dados hierárquicos</strong> (categoria > subcategoria > produto; região > estado > cidade): cada nível é um anel, o mais interno é o topo da hierarquia, e o tamanho de cada fatia é proporcional ao valor. As colunas da planilha ficam em ordem de nível, da esquerda para a direita, com o valor na última. Inserir > <strong>Inserir Gráfico de Hierarquia</strong> > Explosão Solar. O mapa de árvore, no mesmo menu, compara tamanhos com retângulos.',
+            img: { src: `${XL_IMG}/m11/explosao-solar.png`, alt: 'Gráfico de explosão solar com três níveis', caption: 'Explosão solar: cada anel é um nível da hierarquia.', source: `${SUP}/excel/create-a-sunburst-chart-in-office` } },
+          { h: 'Mapa',
+            p: 'O <strong>gráfico de mapa</strong> colore países, estados, municípios ou CEPs por valor (gradiente) ou categoria (cores diferentes). Uma coluna com os locais — escritos de forma inequívoca; inclua uma coluna de país ou estado se houver nomes repetidos — e outra com os valores; Inserir > <strong>Mapas</strong> > Mapa Preenchido. Os locais são reconhecidos pelo serviço online do Bing, então é preciso estar conectado.',
+            img: { src: `${XL_IMG}/m11/mapa-valores.png`, alt: 'Gráfico de mapa colorindo países por valor', caption: 'Mapa preenchido: a cor de cada país acompanha o valor.', source: `${SUP}/excel/create-a-map-chart-in-excel` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Altere o gráfico para que a série Margem seja uma linha no eixo secundário" — Alterar Tipo de Gráfico > Combinação.',
+              '"Crie um histograma com largura de compartimento de 50" — Formatar Eixo.',
+              '"Defina a coluna Lucro Líquido como total" — Definir como total no ponto de dados da cascata.',
+              'Em inglês: Combo, Secondary Axis, Histogram, Box and Whisker, Waterfall, Funnel, Sunburst, Filled Map.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Adicionar ou remover um eixo secundário', u: `${SUP}/office/excelexp/add-or-remove-a-secondary-axis-in-a-chart-in-excel` },
+          { t: 'Microsoft Suporte — Criar um histograma', u: `${SUP}/excel/create-a-histogram` },
+          { t: 'Microsoft Suporte — Criar um gráfico de caixa estreita', u: `${SUP}/excel/create-a-box-and-whisker-chart` },
+          { t: 'Microsoft Suporte — Criar um gráfico de cascata', u: `${SUP}/excel/create-a-waterfall-chart` },
+          { t: 'Microsoft Suporte — Criar um gráfico de funil', u: `${SUP}/excel/create-a-funnel-chart-based-on-excel-data` },
+          { t: 'Microsoft Suporte — Criar um gráfico de explosão solar', u: `${SUP}/excel/create-a-sunburst-chart-in-office` },
+          { t: 'Microsoft Suporte — Criar um gráfico de mapa', u: `${SUP}/excel/create-a-map-chart-in-excel` }
+        ]
+      }
+    ]
   }
 ];

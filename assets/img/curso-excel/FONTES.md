@@ -81,3 +81,12 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m10/conjuntos-de-icones.jpg | Conjunto de ícones diferentes para os mesmos dados | https://support.microsoft.com/pt-br/excel/use-conditional-formatting-to-highlight-information-in-excel |
 | /assets/img/curso-excel/m10/linhas-alternadas.jpg | Todas as outras linhas têm sombreado azul | https://support.microsoft.com/pt-br/excel/use-conditional-formatting-to-highlight-information-in-excel |
 | /assets/img/curso-excel/m10/gerenciador-de-regras.png | Caixa de diálogo Gerenciador de Regras de Formatação Condicional | https://support.microsoft.com/pt-br/excel/use-conditional-formatting-to-highlight-information-in-excel |
+| /assets/img/curso-excel/m11/elementos-do-grafico.gif | Um gráfico do Office com balões | https://support.microsoft.com/pt-br/excel/get-started/create-a-chart-from-start-to-finish |
+| /assets/img/curso-excel/m11/areas-dos-dados.png | Campos de dados no Excel | https://support.microsoft.com/pt-br/excel/get-started/update-the-data-in-an-existing-chart |
+| /assets/img/curso-excel/m11/combinacao-eixo-secundario.jpg | Gráfico de combinação com vendas e preço médio nos eixos primário e secundário | https://support.microsoft.com/pt-br/office/excelexp/add-or-remove-a-secondary-axis-in-a-chart-in-excel |
+| /assets/img/curso-excel/m11/caixa-estreita.png | Exemplo de gráfico Caixa e Caixa Estreita | https://support.microsoft.com/pt-br/excel/create-a-box-and-whisker-chart |
+| /assets/img/curso-excel/m11/cascata.png | Imagem de um gráfico de Cascata no Office 2016 para Windows | https://support.microsoft.com/pt-br/excel/create-a-waterfall-chart |
+| /assets/img/curso-excel/m11/histograma-eixo.png | Painel de tarefas Formatar Eixo | https://support.microsoft.com/pt-br/excel/create-a-histogram |
+| /assets/img/curso-excel/m11/funil.png | Captura de tela que mostra o gráfico de funil mostrando o pipeline de vendas; estágios listados na primeira coluna, valores na segunda. | https://support.microsoft.com/pt-br/excel/create-a-funnel-chart-based-on-excel-data |
+| /assets/img/curso-excel/m11/explosao-solar.png | Imagem de um gráfico multinível no Office 2016 para Windows | https://support.microsoft.com/pt-br/excel/create-a-sunburst-chart-in-office |
+| /assets/img/curso-excel/m11/mapa-valores.png | Gráfico de mapa do Excel exibindo valores com Países por Receita Fiscal % | https://support.microsoft.com/pt-br/excel/create-a-map-chart-in-excel |
