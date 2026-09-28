@@ -539,6 +539,7 @@ PRONUNCIATION_FIXES = [
     (r"\bALEATÓRIOENTRE\b", "Aleatório Entre"),
     (r"\bMATRIZALEATÓRIA\b", "Matriz Aleatória"),
     (r"\bCLASSIFICARPOR\b", "Classificar Por"),
+    # Curso Excel, rodada 10 (Módulo 10): MOD e LIN na leitura padrão — sem regra.
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
