@@ -3350,5 +3350,203 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m17', title: 'Módulo 17 · Projeto final e guia das provas MOS', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-projeto-final', title: 'Projeto final: o relatório comercial da Papelaria Serra Dourada',
+        desc: 'Um estudo de caso completo, do arquivo CSV ao relatório protegido: importar, limpar, calcular frete, comissão e prazo de entrega, resumir com tabela dinâmica e gráficos, e preparar para imprimir e compartilhar.',
+        objetivos: [
+          'Aplicar num caso real as habilidades de todos os módulos, sem roteiro de cliques',
+          'Decidir quais recursos usar para cada pergunta do negócio',
+          'Conferir o próprio trabalho com os números de controle'
+        ],
+        body: 'A Papelaria Serra Dourada, distribuidora de material de escritório com sede em Itumbiara (GO), vende para escolas, escritórios e órgãos públicos de Goiás e do Triângulo Mineiro. O gerente comercial recebe do sistema um CSV com os pedidos e hoje monta o relatório mensal à mão, em dois dias. Você foi contratado para transformar isso num arquivo que se atualiza sozinho. As etapas abaixo dizem o que o negócio precisa — não como fazer: escolher o caminho faz parte do projeto, exatamente como na prova e no trabalho. A resolução comentada está na aula seguinte; tente antes de olhar.',
+        content: [
+          { h: 'Os dados',
+            p: 'Copie o conteúdo abaixo para o Bloco de Notas e salve como <code>vendas_serra_dourada.csv</code>, com codificação UTF-8. São 30 pedidos de setembro e outubro de 2026, separados por ponto e vírgula. Os feriados que valem para a empresa no período são 07/09/2026, 12/10/2026 e 02/11/2026.',
+            code: "Pedido;Data;Cliente;Cidade;UF;Vendedor;Categoria;Produto;Qtd;PrecoUnit\nP1001;01/09/2026;Clínica Bem Viver;Uberlândia;MG;Diego Souza;Papel;Papel Kraft rolo;5;64,0\nP1002;03/09/2026;Escritório Contábil Vale;Goiânia;GO;Ana Paula;Escrita;Marca-texto kit 6;2;19,9\nP1003;03/09/2026;Construtora Paranaíba;Caldas Novas;GO;Ana Paula;Papel;Papel Kraft rolo;20;64,0\nP1004;07/09/2026;Clínica Bem Viver;Uberlândia;MG;Carla Reis;Escrita;Marca-texto kit 6;12;19,9\nP1005;08/09/2026;Clínica Bem Viver;Uberlândia;MG;Carla Reis;Informática;Toner compatível;3;119,0\nP1006;08/09/2026;Construtora Paranaíba;Caldas Novas;GO;Bruno Lima;Organização;Pasta suspensa cx 10;20;37,0\nP1007;09/09/2026;Colégio Aurora;Itumbiara;GO;Diego Souza;Organização;Arquivo morto 10 un;10;55,0\nP1008;11/09/2026;Escritório Contábil Vale;Goiânia;GO;Ana Paula;Informática;Toner compatível;20;119,0\nP1009;14/09/2026;Escritório Contábil Vale;Goiânia;GO;Diego Souza;Informática;Toner compatível;8;119,0\nP1010;16/09/2026;Colégio Aurora;Itumbiara;GO;Ana Paula;Escrita;Marca-texto kit 6;5;19,9\nP1011;16/09/2026;Prefeitura de Buriti Alegre;Buriti Alegre;GO;Diego Souza;Informática;Pen drive 64 GB;5;45,9\nP1012;17/09/2026;Escritório Contábil Vale;Goiânia;GO;Carla Reis;Informática;Pen drive 64 GB;20;45,9\nP1013;21/09/2026;Construtora Paranaíba;Caldas Novas;GO;Diego Souza;Informática;Pen drive 64 GB;12;45,9\nP1014;22/09/2026;Construtora Paranaíba;Caldas Novas;GO;Ana Paula;Organização;Pasta suspensa cx 10;2;37,0\nP1015;23/09/2026;Escritório Contábil Vale;Goiânia;GO;Bruno Lima;Informática;Pen drive 64 GB;10;45,9\nP1016;24/09/2026;Escritório Contábil Vale;Goiânia;GO;Diego Souza;Informática;Pen drive 64 GB;20;45,9\nP1017;24/09/2026;Construtora Paranaíba;Caldas Novas;GO;Ana Paula;Organização;Arquivo morto 10 un;20;55,0\nP1018;28/09/2026;Construtora Paranaíba;Caldas Novas;GO;Diego Souza;Informática;Pen drive 64 GB;5;45,9\nP1019;30/09/2026;Escritório Contábil Vale;Goiânia;GO;Carla Reis;Organização;Pasta suspensa cx 10;20;37,0\nP1020;30/09/2026;Colégio Aurora;Itumbiara;GO;Diego Souza;Informática;Toner compatível;5;119,0\nP1021;30/09/2026;Escritório Contábil Vale;Goiânia;GO;Ana Paula;Papel;Resma A4 500 folhas;20;28,9\nP1022;01/10/2026;Colégio Aurora;Itumbiara;GO;Carla Reis;Papel;Papel Kraft rolo;2;64,0\nP1023;02/10/2026;Livraria Cerrado;Uberlândia;MG;Diego Souza;Papel;Resma A4 500 folhas;10;28,9\nP1024;05/10/2026;Colégio Aurora;Itumbiara;GO;Carla Reis;Informática;Pen drive 64 GB;5;45,9\nP1025;05/10/2026;Prefeitura de Buriti Alegre;Buriti Alegre;GO;Carla Reis;Escrita;Caneta esferográfica cx 50;5;42,5\nP1026;07/10/2026;Prefeitura de Buriti Alegre;Buriti Alegre;GO;Diego Souza;Escrita;Caneta esferográfica cx 50;5;42,5\nP1027;07/10/2026;Escritório Contábil Vale;Goiânia;GO;Ana Paula;Informática;Toner compatível;3;119,0\nP1028;08/10/2026;Clínica Bem Viver;Uberlândia;MG;Diego Souza;Papel;Resma A4 500 folhas;2;28,9\nP1029;09/10/2026;Construtora Paranaíba;Caldas Novas;GO;Ana Paula;Informática;Pen drive 64 GB;10;45,9\nP1030;12/10/2026;Escritório Contábil Vale;Goiânia;GO;Bruno Lima;Escrita;Caneta esferográfica cx 50;5;42,5" },
+          { h: 'Etapa 1 — Trazer e organizar os dados',
+            items: [
+              'Importe o CSV para uma pasta de trabalho nova, garantindo acentos corretos, datas como datas e valores como números (Módulo 04).',
+              'Os dados devem ficar numa tabela do Excel chamada tbVendas, numa planilha chamada Base (Módulos 01 e 05).',
+              'Crie uma planilha Parametros com a lista de feriados (nome definido Feriados), a tabela de comissão por faixa de valor do pedido — a partir de 0: 2%; a partir de 1.000: 3%; a partir de 2.000: 4% — e a meta do bimestre, R$ 20.000 (Módulos 06 e 09).'
+            ] },
+          { h: 'Etapa 2 — Calcular',
+            p: 'Acrescente à tabela as colunas calculadas abaixo. Todas devem funcionar para pedidos novos colados no fim da tabela.',
+            items: [
+              '<strong>Total</strong> — quantidade vezes preço unitário.',
+              '<strong>Frete</strong> — pedidos de MG pagam 35 reais; pedidos de GO a partir de 500 reais têm frete grátis; os demais pagam 20 reais.',
+              '<strong>Comissao</strong> — o total do pedido vezes o percentual da faixa, buscado na tabela de comissão (nada de SEs com números digitados).',
+              '<strong>Entrega</strong> — 5 dias úteis depois da data do pedido, sem contar fins de semana e feriados.',
+              '<strong>Mes</strong> — o nome do mês do pedido, por extenso (setembro, outubro).'
+            ] },
+          { h: 'Etapa 3 — Resumir e analisar',
+            items: [
+              'Numa planilha Resumo, monte uma tabela dinâmica com o total por vendedor e por mês, com o percentual de cada vendedor no total, e uma segmentação por UF.',
+              'Ao lado, com fórmulas (não com tabela dinâmica): a lista de clientes sem repetição em ordem alfabética, o total comprado por cada um e a quantidade de pedidos de cada um (Módulos 07 e 09).',
+              'Calcule quanto falta vender para atingir a meta do bimestre e use Atingir Meta para descobrir o valor de pedidos de outubro necessário para bater a meta (Módulo 13).',
+              'A diretoria avalia financiar uma máquina de etiquetas de R$ 18.000 em 12 parcelas a 1,8% ao mês: calcule a parcela (Módulo 13).'
+            ] },
+          { h: 'Etapa 4 — Visualizar',
+            items: [
+              'Um gráfico de colunas do total por categoria de produto, com rótulos de dados e texto alternativo (Módulo 11).',
+              'Um gráfico de combinação com o total por vendedor em colunas e a comissão em linha no eixo secundário (Módulo 11).',
+              'Na tabela tbVendas, destaque em vermelho claro a linha inteira dos pedidos com total acima de 2.000 reais e aplique barras de dados na coluna Total (Módulo 10).'
+            ] },
+          { h: 'Etapa 5 — Entregar',
+            items: [
+              'A planilha Resumo deve imprimir em uma página de largura, em paisagem, com rodapé "Página X de Y" e o nome do arquivo (Módulo 15).',
+              'A planilha Parametros deve ficar protegida, com só a célula da meta editável; a estrutura da pasta deve ficar protegida para ninguém excluir planilhas (Módulo 15).',
+              'Grave uma macro chamada AtualizarRelatorio que atualize todas as consultas e tabelas dinâmicas e volte para a planilha Resumo; coloque-a num botão e salve a pasta no formato que preserva macros (Módulo 16).',
+              'Antes de enviar, inspecione o documento e remova informações pessoais (Módulo 01).'
+            ] },
+          { h: 'Números de controle',
+            p: 'Use estes valores para conferir o seu trabalho. Se algum não bater, a diferença está em algum cálculo — investigue com as ferramentas de auditoria (Módulo 14).',
+            items: [
+              '30 pedidos; faturamento total de R$ 15.506,70 (setembro R$ 13.348,90; outubro R$ 2.157,80).',
+              'Maior vendedora: Ana Paula, com R$ 6.367,30. Maior categoria: Informática, com R$ 8.634,30.',
+              '6 clientes distintos; o maior cliente é o Escritório Contábil Vale, com R$ 7.554,30.',
+              '12 pedidos com frete grátis; soma dos fretes: R$ 435,00. Comissão total: R$ 381,53.',
+              'O pedido P1008 (R$ 2.380,00) tem comissão de R$ 95,20; o pedido P1001 deve ser entregue em 09/09/2026.',
+              'Parcela da máquina: R$ 1.681,24 (em valor negativo, na convenção do Excel).'
+            ] },
+          { h: 'Como avaliar o seu projeto',
+            items: [
+              'Os números de controle batem.',
+              'Nenhuma fórmula tem número "chumbado" que deveria estar na planilha Parametros.',
+              'Colar um pedido novo no fim da tabela atualiza tudo depois de um clique no botão da macro.',
+              'Alguém que nunca viu o arquivo entende o relatório impresso sem precisar de você.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Importar ou exportar arquivos de texto', u: `${SUP}/excel/get-started/import-or-export-text-txt-or-csv-files` },
+          { t: 'Microsoft Suporte — Criar uma Tabela Dinâmica', u: `${SUP}/excel/get-started/create-a-pivottable-to-analyze-worksheet-data` }
+        ]
+      },
+      {
+        id: 'xl-projeto-resolucao', title: 'Projeto final: resolução comentada',
+        desc: 'Uma resolução possível de cada etapa do caso Papelaria Serra Dourada, com as fórmulas, os caminhos e os motivos de cada escolha.',
+        objetivos: [
+          'Comparar a sua solução com uma resolução de referência',
+          'Entender por que cada recurso foi escolhido',
+          'Identificar alternativas igualmente corretas'
+        ],
+        body: 'Se você chegou aqui depois de tentar o projeto, ótimo: compare. Existem várias soluções certas — o que importa é o resultado bater, as fórmulas não dependerem de números digitados e o arquivo continuar funcionando quando os dados crescerem. Abaixo, uma resolução de referência, etapa por etapa.',
+        content: [
+          { h: 'Etapa 1 — Importação e parâmetros',
+            items: [
+              'Dados > De Texto/CSV, Origem do Arquivo 65001: Unicode (UTF-8), delimitador ponto e vírgula; em Transformar Dados, confira os tipos (Data como data, Qtd como número inteiro, PrecoUnit como decimal) e use Fechar e Carregar Para uma tabela na planilha Base. Renomeie a tabela para tbVendas (Design da Tabela > Nome da Tabela).',
+              'Por ser uma consulta, a base pode ser atualizada com um CSV novo (mesmo nome, mesma pasta) sem refazer nada.',
+              'Na planilha Parametros: feriados em A2:A4 com o nome Feriados; tabela de comissão com os limites 0, 1000 e 2000 numa coluna e 2%, 3% e 4% na outra (tabela tbComissao); a meta numa célula com o nome Meta.'
+            ] },
+          { h: 'Etapa 2 — Colunas calculadas',
+            p: 'Digitadas na primeira linha de cada coluna nova da tabela, viram colunas calculadas e se estendem sozinhas. A comissão usa PROCX com modo -1 (exato ou o próximo menor), porque a tabela está montada pelos limites inferiores.',
+            code: 'Total:     =[@Qtd]*[@PrecoUnit]\nFrete:     =SES([@UF]="MG";35;[@Total]>=500;0;VERDADEIRO;20)\nComissao:  =[@Total]*PROCX([@Total];tbComissao[Limite];tbComissao[Percentual];;-1)\nEntrega:   =DIATRABALHO([@Data];5;Feriados)\nMes:       =TEXTO([@Data];"mmmm")' },
+          { h: 'Etapa 3 — Resumos',
+            items: [
+              'Tabela dinâmica de tbVendas: Vendedor em Linhas, Mes em Colunas, Total em Valores duas vezes — a segunda com Mostrar Valores Como > % do Total Geral. Análise de Tabela Dinâmica > Inserir Segmentação de Dados > UF.',
+              'Lista de clientes e totais com matrizes dinâmicas, como abaixo.',
+              'Meta: a diferença é a meta menos a soma da coluna Total (R$ 4.493,30 faltando). Para o Atingir Meta, monte uma célula com setembro + outubro, sendo outubro uma célula de valor: Definir célula = a soma, Para valor = 20000, Alternando célula = outubro → R$ 6.651,10.',
+              'Parcela: PGTO com taxa 1,8%, 12 períodos e 18000.'
+            ],
+            code: 'H2: =CLASSIFICAR(ÚNICO(tbVendas[Cliente]))\nI2: =SOMASES(tbVendas[Total];tbVendas[Cliente];H2#)\nJ2: =CONT.SES(tbVendas[Cliente];H2#)\n\nFalta para a meta:  =Meta-SOMA(tbVendas[Total])\nParcela:            =PGTO(1,8%;12;18000)        → -1.681,24' },
+          { h: 'Etapa 4 — Gráficos e formatação condicional',
+            items: [
+              'Gráfico por categoria: a partir de uma segunda tabela dinâmica (Categoria em Linhas, Total em Valores) ou de um SOMASES sobre ÚNICO; Inserir > Colunas; Adicionar Elemento > Rótulos de Dados; botão direito na borda > Exibir Texto Alternativo, com uma frase que diga a conclusão (Informática responde por mais da metade do faturamento).',
+              'Combinação: com os totais e as comissões por vendedor lado a lado, Alterar Tipo de Gráfico > Combinação, Comissão como Linha com Eixo Secundário.',
+              'Linha inteira em vermelho: selecione os dados da tabela (sem o cabeçalho) e crie a regra com fórmula abaixo; barras de dados: selecione a coluna Total > Formatação Condicional > Barras de Dados.'
+            ],
+            code: 'Regra (célula ativa na primeira linha de dados):  =$K2>2000\n(K é a coluna Total; o cifrão trava a coluna e deixa a linha livre)' },
+          { h: 'Etapa 5 — Entrega',
+            items: [
+              'Resumo: Layout da Página > Orientação Paisagem; Largura 1 página; Inserir > Cabeçalho e Rodapé > Rodapé com Número de Página, o texto "de", Número de Páginas e Nome do Arquivo.',
+              'Parametros: selecione a célula Meta > Ctrl+1 > Proteção > desmarque Bloqueado; Revisão > Proteger Planilha. Revisão > Proteger Pasta de Trabalho > Estrutura.',
+              'Macro: Desenvolvedor > Gravar Macro, nome AtualizarRelatorio, armazenar nesta pasta; Dados > Atualizar Tudo; clique na guia Resumo; Parar Gravação. Inserir > Formas, botão direito > Atribuir Macro. Salvar Como > Pasta de Trabalho Habilitada para Macro.',
+              'Arquivo > Informações > Verificar Problemas > Inspecionar Documento > remova Propriedades do Documento e Informações Pessoais (mantenha o resto: planilhas ocultas e dados XML fazem parte do arquivo).'
+            ],
+            code: "Sub AtualizarRelatorio()\n    ActiveWorkbook.RefreshAll\n    Sheets(\"Resumo\").Select\n    Range(\"A1\").Select\nEnd Sub" },
+          { h: 'Detalhes que valem ouro',
+            items: [
+              'O pedido P1004 foi lançado em 07/09, feriado: DIATRABALHO conta a partir do dia seguinte e entrega em 14/09. O P1030, lançado em 12/10, entrega em 19/10.',
+              'A proteção da planilha Parametros impede que um clique errado mude a comissão de todo mundo — mas não é segurança; o arquivo com dados de clientes deve ficar numa pasta com acesso restrito.',
+              'Se o gerente pedir o relatório de novembro, basta substituir o CSV e clicar no botão.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Função PROCX', u: `${SUP}/excel/functions/xlookup-function` },
+          { t: 'Microsoft Suporte — Função DIATRABALHO', u: `${SUP}/excel/functions/workday-function` }
+        ]
+      },
+      {
+        id: 'xl-guia-provas', title: 'Guia das provas MO-210 e MO-211: formato, estratégia e revisão final',
+        desc: 'Como são as provas Microsoft Office Specialist de Excel, idiomas, tempo, agendamento, como as tarefas são corrigidas, estratégia de prova e um checklist de revisão por área.',
+        objetivos: [
+          'Saber como funcionam as provas MOS e como se inscrever',
+          'Adotar uma estratégia de tempo e de leitura de tarefas',
+          'Revisar os pontos mais cobrados de cada área'
+        ],
+        body: 'As certificações Microsoft Office Specialist (MOS) de Excel têm dois níveis: Excel Associate (prova MO-210, sucessora da MO-200) e Excel Expert (prova MO-211). Diferente das provas de múltipla escolha, elas são práticas: você recebe arquivos do Excel abertos e executa tarefas. Esta aula fecha o curso com o que você precisa saber para marcar a prova com segurança.',
+        content: [
+          { h: 'As duas certificações',
+            items: [
+              '<strong>Excel Associate — MO-210</strong>: planilhas e pastas de trabalho, células e intervalos, tabelas, fórmulas e funções básicas, gráficos. Módulos 01 a 11 e 15.',
+              '<strong>Excel Expert — MO-211</strong>: opções e proteção da pasta, formatação e validação avançadas, fórmulas avançadas (lógicas, procura, datas, análise de hipóteses, auditoria), macros, gráficos avançados, tabelas e gráficos dinâmicos. Módulos 02 a 16. A Microsoft recomenda cerca de 150 horas de prática para esse nível.',
+              'Não é obrigatório ter a Associate para fazer a Expert, mas a Expert pressupõe tudo o que a Associate cobra.',
+              'O mapa completo habilidade por habilidade está no material do curso; todas as habilidades das duas provas foram cobertas nos módulos.'
+            ] },
+          { h: 'Formato e logística',
+            items: [
+              'A prova é aplicada pela <strong>Certiport</strong>, em centros autorizados (Certiport Authorized Testing Centers) ou em modalidades on-line quando disponíveis — agende pela página da certificação no Microsoft Learn.',
+              'A MO-210 tem <strong>50 minutos</strong> e é oferecida em vários idiomas, <strong>incluindo português do Brasil</strong>.',
+              'A MO-211 é oferecida <strong>somente em inglês</strong> (em setembro de 2026): você fará as tarefas com o Excel e os enunciados em inglês. Os nomes em inglês citados nas aulas — XLOOKUP, SUMIFS, PivotTable, Goal Seek — existem exatamente para isso.',
+              'O preço depende do país; confira no agendamento.',
+              'A nota vai de 1 a 1.000, e a aprovação costuma exigir 700 — confirme o critério vigente com o centro de provas.'
+            ] },
+          { h: 'Como as tarefas funcionam',
+            items: [
+              'A prova é dividida em <strong>projetos</strong>: cada projeto é uma pasta de trabalho com um conjunto de tarefas numeradas no painel inferior.',
+              'Cada tarefa é corrigida pelo <strong>resultado no arquivo</strong> (o valor, o formato, a configuração), não pelo caminho: atalho, faixa de opções ou menu de contexto valem igualmente.',
+              'Faça <strong>só o que a tarefa pede</strong>. Formatar algo a mais, mudar outra célula ou deixar uma caixa aberta pode invalidar a tarefa.',
+              'É possível marcar tarefas para revisão e voltar a elas dentro do tempo; há também a opção de reiniciar o projeto, que desfaz tudo o que foi feito nele.',
+              'Não é necessário salvar o arquivo, a menos que a tarefa peça (por exemplo, salvar em outro formato).'
+            ] },
+          { h: 'Estratégia de prova',
+            items: [
+              '<strong>Leia a tarefa inteira</strong> antes de clicar: nomes de planilha, intervalos exatos, nomes de tabelas e textos entre aspas são literais.',
+              '<strong>Confira a planilha ativa</strong> antes de cada tarefa.',
+              '<strong>Use a Caixa de Nome</strong> para ir e selecionar intervalos citados.',
+              '<strong>Não trave numa tarefa</strong>: marque para revisão, siga e volte no fim. O tempo é o maior inimigo.',
+              '<strong>Digite exatamente</strong> nomes e textos pedidos — maiúsculas, acentos e espaços contam.',
+              '<strong>Referências, não valores</strong>: quando a tarefa fala em "o valor da célula B2", a fórmula deve usar B2.',
+              '<strong>Treine com o relógio</strong>: refaça as seções "Como isso cai na prova" de cada aula como tarefas cronometradas.'
+            ] },
+          { h: 'Checklist final — Associate (MO-210)',
+            items: [
+              'Importar .txt e .csv; hiperlinks; Localizar; Caixa de Nome e nomes definidos.',
+              'Configurar página, área de impressão, títulos, cabeçalho e rodapé; propriedades; salvar em outros formatos; Inspecionar Documento, Acessibilidade e Compatibilidade.',
+              'Colar Especial; Preenchimento Automático; inserir e excluir linhas, colunas e células; mesclar; alinhamento, orientação, recuo e quebra de texto; formatos de número; estilos; Pincel; Limpar Formatos.',
+              'Tabela: criar, estilo, opções de estilo, Linha de Totais, converter em intervalo, filtrar e classificar por várias colunas.',
+              'Referências relativas, absolutas e mistas; SOMA, MÉDIA, MÁXIMO, MÍNIMO; CONT.NÚM, CONT.VALORES, CONTAR.VAZIO; SE; ESQUERDA, DIREITA, EXT.TEXTO, MAIÚSCULA, MINÚSCULA, NÚM.CARACT, CONCAT, UNIRTEXTO.',
+              'Gráficos: criar, planilha de gráfico, séries, alternar linha/coluna, elementos, layouts, estilos e texto alternativo; minigráficos; formatação condicional interna.'
+            ] },
+          { h: 'Checklist final — Expert (MO-211)',
+            items: [
+              'Macros: habilitar, gravar, nomear, editar, copiar entre pastas; referências a outras pastas; opções de cálculo; versões; restringir edição; proteger planilha, intervalos e estrutura.',
+              'Preenchimento Relâmpago, séries avançadas, MATRIZALEATÓRIA; formatos personalizados; validação de dados; agrupar e subtotais; remover duplicatas; regras condicionais personalizadas, com fórmula e gerenciamento de regras.',
+              'SE, SES, PARÂMETRO, E, OU, NÃO, LET; SOMASE(S), MÉDIASE(S), CONT.SE(S), MÁXIMOSES, MÍNIMOSES; PROCX, PROCV, PROCH, CORRESP, ÍNDICE; AGORA, HOJE, DIA.DA.SEMANA, DIATRABALHO; FILTRO, CLASSIFICARPOR.',
+              'Consolidar, Atingir Meta, Gerenciador de Cenários, previsão com E, SE e NPER, PGTO; rastrear precedentes e dependentes, Janela de Inspeção, verificação de erros, Avaliar Fórmula.',
+              'Gráficos de eixo duplo, combinação, caixa estreita, funil, histograma, mapa, explosão solar e cascata; tabelas dinâmicas (criar, campos, segmentações, agrupar, campos calculados, formatar valores); gráficos dinâmicos (criar, opções, estilos, detalhar).'
+            ] },
+          { h: 'Depois do curso',
+            p: 'Faça as avaliações de cada módulo e os dois simulados finais: o simulado MO-210 e o simulado MO-211. As provas oficiais são práticas, e os simulados do curso são teóricos (perguntas sobre qual recurso usar e o que acontece em cada situação) — eles medem se você domina os conceitos; a velocidade vem de refazer as tarefas no Excel. Ao ser aprovado nos dois simulados, você recebe o certificado de conclusão do curso.' }
+        ],
+        recursos: [
+          { t: 'Microsoft Learn — Excel Associate (Microsoft 365 Apps)', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/mos-excel-associate-m365-apps/' },
+          { t: 'Microsoft Learn — Exame MO-211: Excel Expert (Microsoft 365 Apps)', u: 'https://learn.microsoft.com/pt-br/credentials/certifications/exams/mo-211/' }
+        ]
+      }
+    ]
   }
 ];
