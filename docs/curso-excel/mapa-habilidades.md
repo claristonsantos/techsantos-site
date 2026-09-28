@@ -12,18 +12,18 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Pesquisar dados na pasta de trabalho | xl-localizar-substituir-links | ✅ |
 | Navegar para células, intervalos ou elementos nomeados | xl-navegar-selecionar, xl-nomes-definidos | ✅ |
 | Inserir e remover hiperlinks | xl-localizar-substituir-links | ✅ |
-| Modificar a configuração de página | — (Módulo 15) | ⬜ |
+| Modificar a configuração de página | xl-configurar-pagina | ✅ |
 | Ajustar altura de linha e largura de coluna | xl-planilhas-linhas-colunas | ✅ |
-| Personalizar cabeçalhos e rodapés | — (Módulo 15) | ⬜ |
+| Personalizar cabeçalhos e rodapés | xl-cabecalho-imprimir | ✅ |
 | Personalizar a Barra de Ferramentas de Acesso Rápido | xl-exibicao-janelas | ✅ |
 | Exibir e modificar modos de exibição | xl-exibicao-janelas | ✅ |
 | Congelar linhas e colunas | xl-exibicao-janelas | ✅ |
 | Alterar opções de exibição de janelas | xl-exibicao-janelas | ✅ |
 | Modificar propriedades básicas da pasta de trabalho | xl-salvar-formatos | ✅ |
 | Exibir fórmulas | xl-exibicao-janelas | ✅ |
-| Definir área de impressão | — (Módulo 15) | ⬜ |
+| Definir área de impressão | xl-configurar-pagina | ✅ |
 | Salvar pastas de trabalho em formatos alternativos | xl-salvar-formatos | ✅ |
-| Configurar definições de impressão | — (Módulo 15) | ⬜ |
+| Configurar definições de impressão | xl-configurar-pagina, xl-cabecalho-imprimir | ✅ |
 | Inspecionar pastas de trabalho (problemas) | xl-salvar-formatos (Inspecionar Documento, Acessibilidade, Compatibilidade) | ✅ |
 
 ### Gerenciar células e intervalos de dados
@@ -140,4 +140,8 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 |---|---|---|
 | Configurar opções de cálculo de fórmulas | xl-calculo-circular | ✅ |
 | Referenciar dados em outras pastas de trabalho | xl-referencias, xl-power-query-basico | ✅ |
-| Demais (macros, versões, proteção, restringir edição) | — (Módulos 15 e 16) | ⬜ |
+| Gerenciar versões da pasta de trabalho | xl-colaboracao-versoes | ✅ |
+| Restringir edição | xl-proteger | ✅ |
+| Proteger planilhas e intervalos de células | xl-proteger | ✅ |
+| Proteger a estrutura da pasta de trabalho | xl-proteger | ✅ |
+| Demais (copiar macros entre pastas, habilitar macros) | — (Módulo 16) | ⬜ |

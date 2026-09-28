@@ -2992,5 +2992,204 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m15', title: 'Módulo 15 · Impressão, colaboração e proteção', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-configurar-pagina', title: 'Configurar a página: margens, orientação, área de impressão, títulos e escala',
+        desc: 'Preparar a planilha para o papel ou PDF: margens, orientação, tamanho, área de impressão, linhas de título repetidas, ajuste de escala, linhas de grade e a caixa Configurar Página.',
+        objetivos: [
+          'Definir margens, orientação, tamanho do papel e centralização',
+          'Definir, adicionar e limpar a área de impressão',
+          'Repetir linhas de título em cada página e ajustar a escala para caber'
+        ],
+        body: 'Uma planilha que fica ótima na tela pode sair em 14 páginas com a última coluna sozinha numa folha. Configurar a página resolve: o que imprimir, em que orientação, com os títulos repetidos em cada folha e numa escala que caiba. "Modificar a configuração de página", "definir área de impressão" e "configurar definições de impressão" estão na prova Associate.',
+        content: [
+          { h: 'A guia Layout da Página',
+            items: [
+              '<strong>Margens</strong> — Normal, Larga, Estreita ou <strong>Margens Personalizadas</strong> (que abre a guia Margens da caixa Configurar Página, com topo, base, esquerda, direita, cabeçalho, rodapé e as caixas <strong>Centralizar na página: Horizontalmente / Verticalmente</strong>).',
+              '<strong>Orientação</strong> — Retrato ou Paisagem. Tabelas largas quase sempre ficam melhor em paisagem.',
+              '<strong>Tamanho</strong> — A4, Carta, Ofício...',
+              '<strong>Quebras</strong> — Inserir, Remover e Redefinir quebras de página (Módulo 01).',
+              '<strong>Plano de Fundo</strong> — uma imagem atrás das células, só na tela (não é impressa).'
+            ] },
+          { h: 'Área de impressão',
+            p: 'Por padrão, o Excel imprime tudo o que tem conteúdo. Para imprimir só uma parte, selecione o intervalo e use Layout da Página > <strong>Área de Impressão</strong> > <strong>Definir Área de Impressão</strong>. Com uma área já definida, selecione outro intervalo e use <strong>Adicionar à Área de Impressão</strong> (intervalos separados saem em páginas separadas). <strong>Limpar Área de Impressão</strong> volta ao padrão. A área fica salva com a planilha e aparece como um nome definido (Área de impressão, com sublinhados no lugar dos espaços) no Gerenciador de Nomes.',
+            img: { src: `${XL_IMG}/m15/definir-area-impressao.jpg`, alt: 'Menu Área de Impressão com Definir Área de Impressão', caption: 'Layout da Página > Área de Impressão > Definir Área de Impressão.', source: `${SUP}/excel/set-or-clear-a-print-area-on-a-worksheet` } },
+          { h: 'Imprimir Títulos',
+            p: 'Numa lista de 500 linhas, só a primeira página teria o cabeçalho. Layout da Página > <strong>Imprimir Títulos</strong> abre a guia Planilha da caixa Configurar Página: em <strong>Linhas a repetir na parte superior</strong>, selecione a linha (ou linhas) de cabeçalho; em <strong>Colunas a repetir à esquerda</strong>, as colunas de identificação (em tabelas largas). Elas passam a sair em todas as páginas. Não confunda com a opção Títulos em Opções de Planilha, que imprime as letras das colunas e os números das linhas.',
+            img: { src: `${XL_IMG}/m15/imprimir-titulos.png`, alt: 'Botão Imprimir Títulos no grupo Configurar Página', caption: 'Layout da Página > Configurar Página > Imprimir Títulos.', source: `${SUP}/excel/print-rows-with-column-headers-on-top-of-every-page` } },
+          { h: 'Dimensionar para Ajustar',
+            p: 'No grupo <strong>Dimensionar para Ajustar</strong>, <strong>Largura</strong> e <strong>Altura</strong> dizem em quantas páginas o conteúdo deve caber: Largura 1 página e Altura Automático é a configuração clássica — todas as colunas numa folha de largura, quantas folhas forem necessárias para baixo. <strong>Escala</strong> define um percentual fixo (só editável com Largura e Altura em Automático). Na caixa Configurar Página, guia Página, as mesmas opções aparecem como Ajustar para e Ajustar para X página(s) de largura por Y de altura. Lembre: com Ajustar para páginas, as quebras manuais são ignoradas.',
+            img: { src: `${XL_IMG}/m15/dimensionar-ajustar.png`, alt: 'Grupo Dimensionar para Ajustar', caption: 'Largura, Altura e Escala.', source: `${SUP}/excel/scale-a-worksheet` } },
+          { h: 'Opções de Planilha e a guia Planilha',
+            items: [
+              '<strong>Linhas de Grade: Imprimir</strong> — por padrão, as linhas de grade não são impressas; marque para imprimir (ou aplique bordas).',
+              '<strong>Títulos: Imprimir</strong> — imprime letras de colunas e números de linhas (útil para revisar fórmulas no papel).',
+              'Na guia Planilha da caixa Configurar Página: <strong>Comentários e anotações</strong> (Nenhum, No final da planilha, Como exibido), <strong>Erros de célula como</strong> (exibido, em branco, traços ou N/D), <strong>Qualidade de rascunho</strong>, <strong>Preto e branco</strong> e a <strong>Ordem da página</strong> (Abaixo e depois acima ou Acima e depois abaixo).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Configure a planilha para imprimir em paisagem, em uma página de largura" — Orientação + Largura 1 página.',
+              '"Defina a área de impressão como A1:H40" / "Repita a linha 3 no topo de cada página impressa".',
+              '"Centralize horizontalmente na página" — Margens Personalizadas.',
+              'Tarefas de configuração de página valem para a planilha ativa; se pedirem para várias planilhas, agrupe as guias (Ctrl+clique) antes — e desagrupe depois.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Definir ou limpar uma área de impressão', u: `${SUP}/excel/set-or-clear-a-print-area-on-a-worksheet` },
+          { t: 'Microsoft Suporte — Imprimir linhas com cabeçalhos em todas as páginas', u: `${SUP}/excel/print-rows-with-column-headers-on-top-of-every-page` },
+          { t: 'Microsoft Suporte — Dimensionar uma planilha', u: `${SUP}/excel/scale-a-worksheet` },
+          { t: 'Microsoft Suporte — Definir margens da página', u: `${SUP}/excel/set-page-margins-before-printing-a-worksheet` },
+          { t: 'Microsoft Suporte — Imprimir linhas de grade', u: `${SUP}/excel/print-gridlines-in-a-worksheet` }
+        ]
+      },
+      {
+        id: 'xl-cabecalho-imprimir', title: 'Cabeçalho, rodapé e as configurações de impressão',
+        desc: 'Cabeçalhos e rodapés prontos e personalizados com número de página, data, nome do arquivo e da planilha; primeira página diferente; a tela Imprimir e suas opções.',
+        objetivos: [
+          'Inserir e personalizar cabeçalhos e rodapés com elementos automáticos',
+          'Usar primeira página diferente e páginas pares e ímpares diferentes',
+          'Configurar a impressão: o que imprimir, páginas, cópias e dimensionamento'
+        ],
+        body: 'Página 3 de 12, o nome do relatório, a data de emissão: é o cabeçalho e o rodapé que tornam um impresso ou PDF profissional — e evitam folhas soltas sem identificação. "Personalizar cabeçalhos e rodapés" é habilidade da prova Associate.',
+        content: [
+          { h: 'Inserir cabeçalho e rodapé',
+            items: [
+              'Inserir > Texto > <strong>Cabeçalho e Rodapé</strong> muda para o modo Layout da Página e posiciona o cursor no cabeçalho, que tem três seções: esquerda, centro e direita. Clique numa seção e digite.',
+              'A guia <strong>Cabeçalho e Rodapé</strong> (contextual) oferece cabeçalhos e rodapés prontos e os <strong>elementos</strong>: Número de Página, Número de Páginas, Data Atual, Hora Atual, Caminho do Arquivo, Nome do Arquivo, Nome da Planilha e Imagem (um logotipo, com Formatar Imagem para ajustar).',
+              'Os elementos são códigos que se atualizam na impressão — não digite o número da página à mão.',
+              'Ir para Rodapé / Ir para Cabeçalho alternam entre os dois. Para sair, clique numa célula e volte ao modo Normal.',
+              'Também dá para editar pela caixa Configurar Página, guia Cabeçalho/Rodapé, com Personalizar Cabeçalho e Personalizar Rodapé — a forma usada para planilhas de gráfico.'
+            ],
+            code: 'Rodapé centro:  Página &[Página] de &[Páginas]\nCabeçalho esquerda:  &[Guia]          (nome da planilha)\nCabeçalho direita:  &[Data]',
+            img: { src: `${XL_IMG}/m15/guia-cabecalho-rodape.png`, alt: 'Guia Cabeçalho e Rodapé com os elementos', caption: 'A guia contextual Cabeçalho e Rodapé e seus elementos.', source: `${SUP}/excel/headers-and-footers-in-a-worksheet` } },
+          { h: 'Opções de cabeçalho e rodapé',
+            items: [
+              '<strong>Primeira Página Diferente</strong> — a capa do relatório sem cabeçalho, ou com outro cabeçalho.',
+              '<strong>Diferentes em Páginas Pares e Ímpares</strong> — números de página alternando à direita e à esquerda para impressão frente e verso.',
+              '<strong>Dimensionar com Documento</strong> — o cabeçalho acompanha a escala de impressão da planilha.',
+              '<strong>Alinhar com Margens da Página</strong> — as seções esquerda e direita alinham com as margens.'
+            ],
+            img: { src: `${XL_IMG}/m15/cabecalho-personalizado.png`, alt: 'Caixa Cabeçalho personalizado com as três seções', caption: 'Cabeçalho personalizado: seções esquerda, central e direita, com botões para cada elemento.', source: `${SUP}/excel/headers-and-footers-in-a-worksheet` } },
+          { h: 'A tela Imprimir',
+            p: 'Arquivo > <strong>Imprimir</strong> reúne a visualização e as configurações:',
+            items: [
+              '<strong>O que imprimir</strong> — Imprimir Planilhas Ativas (as selecionadas; Ctrl+clique nas guias para várias), Imprimir Pasta de Trabalho Inteira ou <strong>Imprimir Seleção</strong>. Com uma tabela selecionada, aparece Imprimir Tabela Selecionada. A opção <strong>Ignorar Área de Impressão</strong> imprime tudo mesmo com área definida.',
+              '<strong>Páginas</strong> de/até, número de <strong>Cópias</strong>, <strong>Agrupado</strong> (1,2,3 1,2,3) ou desagrupado, e frente e verso (se a impressora aceitar).',
+              'Orientação, tamanho do papel, margens e <strong>dimensionamento</strong> (Sem Dimensionamento, Ajustar Planilha em Uma Página, Ajustar Todas as Colunas em Uma Página, Ajustar Todas as Linhas em Uma Página) — os mesmos da guia Layout da Página.',
+              '<strong>Configurar Página</strong>, no fim da lista, abre a caixa completa. O botão Mostrar Margens, na visualização, permite arrastar as margens.',
+              'Para PDF, escolha a impressora Microsoft Print to PDF ou use Salvar Como > PDF (Módulo 01).'
+            ],
+            img: { src: `${XL_IMG}/m15/configuracoes-impressao.png`, alt: 'Configurações da tela Imprimir', caption: 'Arquivo > Imprimir > Configurações: planilhas ativas, pasta inteira ou seleção.', source: `${SUP}/excel/get-started/print-a-worksheet-or-workbook` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Adicione um rodapé com o nome do arquivo à esquerda e o número da página à direita" — elementos Nome do Arquivo e Número de Página nas seções certas.',
+              '"Configure para que o cabeçalho não apareça na primeira página" — Primeira Página Diferente.',
+              '"Configure a impressão para imprimir a pasta de trabalho inteira" — a prova confere a configuração, não o papel.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Cabeçalhos e rodapés em uma planilha', u: `${SUP}/excel/headers-and-footers-in-a-worksheet` },
+          { t: 'Microsoft Suporte — Imprimir uma planilha ou pasta de trabalho', u: `${SUP}/excel/get-started/print-a-worksheet-or-workbook` }
+        ]
+      },
+      {
+        id: 'xl-colaboracao-versoes', title: 'Comentários, anotações, coautoria e versões',
+        desc: 'Comentários encadeados e anotações, compartilhar e editar ao mesmo tempo, histórico de versões, AutoRecuperação e recuperar pastas não salvas.',
+        objetivos: [
+          'Usar comentários encadeados e anotações, com menções e resolução',
+          'Compartilhar uma pasta de trabalho e trabalhar em coautoria',
+          'Gerenciar versões: histórico, AutoRecuperação e pastas não salvas'
+        ],
+        body: 'Planilhas raramente são obra de uma pessoa só. O Excel do Microsoft 365 permite conversar dentro das células, editar a mesma pasta ao mesmo tempo que os colegas e voltar para uma versão de ontem quando algo dá errado. "Gerenciar versões de pastas de trabalho" está na prova Expert; comentários e compartilhamento completam o trabalho colaborativo.',
+        content: [
+          { h: 'Comentários x anotações',
+            items: [
+              '<strong>Comentário</strong> (encadeado) — uma conversa: botão direito > <strong>Novo Comentário</strong> (ou Revisão > Novo Comentário). Os outros respondem no mesmo fio. Digite a arroba e o nome de alguém para <strong>mencioná-lo</strong>: a pessoa recebe um e-mail. Quando o assunto termina, <strong>Resolver thread</strong> encerra a conversa (ela continua visível e pode ser reaberta).',
+              '<strong>Anotação</strong> — o antigo "comentário": um bilhete amarelo, sem respostas, para explicar uma célula. Botão direito > <strong>Nova Anotação</strong> ou <strong>Shift+F2</strong>. Em Revisão > Anotações: Mostrar/Ocultar, Mostrar Todas as Anotações e Converter em Comentários.',
+              'Células com comentário têm um marcador roxo no canto; com anotação, um triângulo vermelho.',
+              'Revisão > <strong>Mostrar Comentários</strong> abre o painel com todos os fios da planilha. Excluir fica no mesmo grupo (ou botão direito > Excluir Comentário).'
+            ],
+            img: { src: `${XL_IMG}/m15/comentario-encadeado.png`, alt: 'Célula com um comentário encadeado e resposta', caption: 'Comentário encadeado: conversa com respostas dentro da célula.', source: `${SUP}/excel/the-difference-between-threaded-comments-and-notes` } },
+          { h: 'A anotação',
+            img: { src: `${XL_IMG}/m15/anotacao.png`, alt: 'Célula com uma anotação', caption: 'Anotação: um bilhete sem respostas.', source: `${SUP}/excel/the-difference-between-threaded-comments-and-notes` } },
+          { h: 'Compartilhar e coautoria',
+            items: [
+              'Salve a pasta no <strong>OneDrive</strong> ou no <strong>SharePoint</strong> e use o botão <strong>Compartilhar</strong> (canto superior direito): convide pessoas por e-mail ou copie um link, escolhendo se podem <strong>editar</strong> ou só <strong>exibir</strong>.',
+              'Com o arquivo na nuvem, várias pessoas editam ao mesmo tempo (<strong>coautoria</strong>): as iniciais de quem está no arquivo aparecem no alto, e a célula que cada um está editando fica destacada com a cor da pessoa. O AutoSalvamento precisa estar ligado.',
+              'Recursos antigos, como a "pasta de trabalho compartilhada" dos Excel antigos, foram substituídos pela coautoria.',
+              '<strong>Modos de exibição de planilha</strong> (Exibir > Modos de Exibição de Planilha) deixam cada pessoa filtrar e classificar sem atrapalhar a tela dos outros.'
+            ] },
+          { h: 'Versões',
+            items: [
+              '<strong>Histórico de Versões</strong> — para arquivos no OneDrive ou SharePoint: clique no nome do arquivo na barra de título (ou Arquivo > Informações > Histórico de Versões). Abra uma versão antiga em outra janela para comparar e use <strong>Restaurar</strong> para voltar a ela.',
+              '<strong>AutoRecuperação</strong> — para arquivos locais: em Arquivo > Opções > Salvar, <strong>Salvar informações de AutoRecuperação a cada X minutos</strong> e <strong>Manter a última versão AutoRecuperada se eu fechar sem salvar</strong>. Se o Excel travar, o painel Recuperação de Documentos aparece ao reabrir.',
+              '<strong>Gerenciar Pasta de Trabalho</strong> (Arquivo > Informações) — lista versões salvas automaticamente, incluindo a rotulada "quando fechei sem salvar", e oferece <strong>Recuperar Pastas de Trabalho Não Salvas</strong>.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Adicione a anotação Conferir com o financeiro à célula D8" — Nova Anotação (não Novo Comentário, a menos que a tarefa diga comentário).',
+              '"Responda ao comentário da célula B4" / "Resolva o comentário".',
+              '"Configure o Excel para salvar informações de AutoRecuperação a cada 5 minutos" — Opções > Salvar.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Comentários encadeados e anotações', u: `${SUP}/excel/the-difference-between-threaded-comments-and-notes` },
+          { t: 'Microsoft Suporte — Inserir comentários e anotações', u: `${SUP}/excel/insert-comments-and-notes-in-excel` },
+          { t: 'Microsoft Suporte — Coautoria em pastas de trabalho', u: `${SUP}/excel/get-started/collaborate-on-excel-workbooks-at-the-same-time-with-co-authoring` },
+          { t: 'Microsoft Suporte — Compartilhar a pasta de trabalho', u: `${SUP}/excel/get-started/share-your-excel-workbook-with-others` },
+          { t: 'Microsoft Suporte — Exibir versões anteriores de arquivos do Office', u: `${SUP}/office/collab-files/view-previous-versions-of-office-files` },
+          { t: 'Microsoft Suporte — Recuperar uma versão anterior de um arquivo do Office', u: `${SUP}/office/collab-files/recover-an-earlier-version-of-an-office-file` }
+        ]
+      },
+      {
+        id: 'xl-proteger', title: 'Proteger planilhas, intervalos, estrutura e arquivo',
+        desc: 'Bloquear e desbloquear células, proteger a planilha escolhendo o que os usuários podem fazer, permitir edição de intervalos, proteger a estrutura, criptografar com senha, senha de gravação e Marcar como Final.',
+        objetivos: [
+          'Proteger uma planilha deixando só as células de entrada editáveis, e ocultar fórmulas',
+          'Permitir edição de intervalos e proteger a estrutura da pasta de trabalho',
+          'Diferenciar proteção de planilha, de pasta e de arquivo'
+        ],
+        body: 'Proteção no Excel tem três camadas, e confundir uma com a outra é o erro mais comum: proteger a planilha impede alterar células; proteger a pasta impede mexer nas planilhas (inserir, excluir, reexibir); proteger o arquivo impede abrir. "Restringir edição", "proteger planilhas e intervalos" e "proteger a estrutura da pasta de trabalho" são habilidades da prova Expert.',
+        content: [
+          { h: 'Bloqueado e Oculto',
+            p: 'Toda célula nasce com a propriedade <strong>Bloqueado</strong> marcada (Formatar Células > guia <strong>Proteção</strong>), mas isso só vale quando a planilha é protegida. Por isso a proteção é em duas etapas: primeiro <strong>desmarque Bloqueado</strong> nas células de entrada (onde os usuários vão digitar); depois proteja a planilha. A caixa <strong>Oculto</strong> na mesma guia esconde a fórmula da barra de fórmulas quando a planilha estiver protegida (o resultado continua visível).',
+            img: { src: `${XL_IMG}/m15/protecao-formatar-celulas.png`, alt: 'Guia Proteção da caixa Formatar Células', caption: 'Formatar Células > Proteção: Bloqueado e Oculto.', source: `${SUP}/excel/protect-a-worksheet` } },
+          { h: 'Proteger Planilha',
+            p: 'Revisão > <strong>Proteger Planilha</strong>. A senha é opcional (sem ela, qualquer um desprotege). A lista <strong>Permitir que todos os usuários desta planilha possam</strong> define exceções: selecionar células bloqueadas e desbloqueadas (marcadas por padrão), formatar células, colunas e linhas, inserir e excluir colunas e linhas, inserir hiperlinks, classificar, usar AutoFiltro, usar tabela e gráfico dinâmicos, editar objetos e cenários. Em planilha protegida, Tab pula de uma célula desbloqueada para a próxima — um formulário improvisado. <strong>Desproteger Planilha</strong> pede a senha.',
+            img: { src: `${XL_IMG}/m15/proteger-planilha-caixa.png`, alt: 'Caixa Proteger Planilha com a lista de permissões', caption: 'Proteger Planilha: senha opcional e o que os usuários ainda podem fazer (imagem original em inglês).', source: `${SUP}/excel/protect-a-worksheet` } },
+          { h: 'Permitir Edição de Intervalos',
+            p: 'Para liberar intervalos diferentes para pessoas diferentes numa planilha protegida: Revisão > <strong>Permitir Edição de Intervalos</strong> (com a planilha desprotegida) > <strong>Novo</strong>: dê um título, informe o intervalo e, opcionalmente, uma <strong>senha do intervalo</strong> (quem souber edita aquele trecho) ou permissões de usuários do Windows/domínio. Depois proteja a planilha — o botão Proteger Planilha está na mesma caixa.' },
+          { h: 'Proteger Pasta de Trabalho (estrutura)',
+            p: 'Revisão > <strong>Proteger Pasta de Trabalho</strong>, com a caixa <strong>Estrutura</strong> marcada e senha opcional: ninguém insere, exclui, renomeia, move, copia, oculta ou reexibe planilhas. É a forma de uma planilha oculta ficar realmente oculta (Módulo 01). O conteúdo das células continua editável — para isso, proteja também as planilhas.' },
+          { h: 'Proteger o arquivo',
+            items: [
+              '<strong>Criptografar com Senha</strong> — Arquivo > Informações > Proteger Pasta de Trabalho > Criptografar com Senha: sem a senha, o arquivo não abre. É a única das camadas que é segurança de verdade. Se a senha for perdida, a Microsoft não recupera.',
+              '<strong>Senha de gravação</strong> — Salvar Como > Mais opções > <strong>Ferramentas</strong> > <strong>Opções Gerais</strong>: Senha de proteção (para abrir), <strong>Senha de gravação</strong> (sem ela, o arquivo abre só como leitura) e <strong>Recomendável somente leitura</strong> (o Excel sugere abrir como leitura, mas a pessoa pode recusar).',
+              '<strong>Marcar como Final</strong> — Proteger Pasta de Trabalho > Marcar como Final: o arquivo abre como somente leitura com uma barra avisando que é a versão final. Qualquer um clica em Editar Mesmo Assim; é um aviso, não uma trava.',
+              '<strong>Sempre Abrir Somente Leitura</strong>, no mesmo menu, tem efeito parecido.'
+            ] },
+          { h: 'Proteção não é segurança',
+            p: 'Proteger planilha e estrutura evita alterações acidentais e organiza o uso, mas senhas de planilha são fracas e existem ferramentas que as removem. Dados confidenciais pedem arquivo criptografado e permissões de acesso no OneDrive/SharePoint, não só proteção de planilha.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Proteja a planilha permitindo que os usuários editem apenas B2:B20 e usem o AutoFiltro" — desbloqueie B2:B20, proteja e marque Usar AutoFiltro.',
+              '"Oculte as fórmulas da coluna F" — Oculto na guia Proteção + proteger a planilha.',
+              '"Impeça que os usuários adicionem ou excluam planilhas" — Proteger Pasta de Trabalho (estrutura).',
+              '"Marque a pasta de trabalho como final" / "Exija senha para modificar o arquivo" — Informações e Opções Gerais.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Proteger uma planilha', u: `${SUP}/excel/protect-a-worksheet` },
+          { t: 'Microsoft Suporte — Bloquear ou desbloquear áreas de uma planilha protegida', u: `${SUP}/excel/get-started/lock-or-unlock-specific-areas-of-a-protected-worksheet` },
+          { t: 'Microsoft Suporte — Proteger uma pasta de trabalho', u: `${SUP}/excel/protect-a-workbook` },
+          { t: 'Microsoft Suporte — Proteger um arquivo do Excel', u: `${SUP}/excel/get-started/protect-an-excel-file` },
+          { t: 'Microsoft Suporte — Restringir alterações a arquivos no Excel', u: `${SUP}/excel/restrict-changes-to-files-in-excel` },
+          { t: 'Microsoft Suporte — Evitar alterações na versão final de um arquivo', u: `${SUP}/office/collab-files/help-prevent-changes-to-a-final-version-of-a-file` }
+        ]
+      }
+    ]
   }
 ];

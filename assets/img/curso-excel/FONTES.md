@@ -112,3 +112,13 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m14/referencia-circular.jpg | Uma fórmula que causa uma referência circular no Excel | https://support.microsoft.com/pt-br/excel/remove-or-allow-a-circular-reference-in-excel |
 | /assets/img/curso-excel/m14/grupo-calculo.png | Grupo Cálculo | https://support.microsoft.com/pt-br/excel/change-formula-recalculation-iteration-or-precision-in-excel |
 | /assets/img/curso-excel/m14/ref-coluna-excluida.png | Exemplo do erro #REF! causado pela exclusão de uma coluna. | https://support.microsoft.com/pt-br/excel/how-to-correct-a-ref-error |
+| /assets/img/curso-excel/m15/definir-area-impressao.jpg | Definir Área de Impressão | https://support.microsoft.com/pt-br/excel/set-or-clear-a-print-area-on-a-worksheet |
+| /assets/img/curso-excel/m15/imprimir-titulos.png | Na guia Layout da página, clique em Imprimir títulos | https://support.microsoft.com/pt-br/excel/print-rows-with-column-headers-on-top-of-every-page |
+| /assets/img/curso-excel/m15/cabecalho-personalizado.png | Caixa de diálogo de Cabeçalho personalizado Configuração de página | https://support.microsoft.com/pt-br/excel/headers-and-footers-in-a-worksheet |
+| /assets/img/curso-excel/m15/guia-cabecalho-rodape.png | Guia Design da Faixa de Opções de Cabeçalhos & Rodapés | https://support.microsoft.com/pt-br/excel/headers-and-footers-in-a-worksheet |
+| /assets/img/curso-excel/m15/dimensionar-ajustar.png | Dimensionar para Ajustar | https://support.microsoft.com/pt-br/excel/scale-a-worksheet |
+| /assets/img/curso-excel/m15/configuracoes-impressao.png | Em Configurações, clique em Imprimir Toda a Planilha | https://support.microsoft.com/pt-br/excel/get-started/print-a-worksheet-or-workbook |
+| /assets/img/curso-excel/m15/protecao-formatar-celulas.png | Guia Proteção na caixa de diálogo Formatar Células | https://support.microsoft.com/pt-br/excel/protect-a-worksheet |
+| /assets/img/curso-excel/m15/proteger-planilha-caixa.png | Caixa de diálogo Proteger Planilha | https://support.microsoft.com/pt-br/excel/protect-a-worksheet |
+| /assets/img/curso-excel/m15/anotacao.png | Célula com $1.234,00 e um comentário herdado mais antigo anexado: Dave Ludwig: Esta figura está correta? | https://support.microsoft.com/pt-br/excel/the-difference-between-threaded-comments-and-notes |
+| /assets/img/curso-excel/m15/comentario-encadeado.png | Célula com $1.234,00 e um comentário encadeado anexado: Dave Ludwig: Este número está correto? Amy Smith: Deixe-me marcar... e assim por diante | https://support.microsoft.com/pt-br/excel/the-difference-between-threaded-comments-and-notes |
