@@ -2077,5 +2077,160 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m10', title: 'Módulo 10 · Formatação condicional e minigráficos', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-formatacao-condicional', title: 'Formatação condicional: as regras prontas',
+        desc: 'Realçar células por valor, texto, data e duplicatas; primeiros e últimos, acima da média; barras de dados, escalas de cor e conjuntos de ícones; Análise Rápida e como limpar regras.',
+        objetivos: [
+          'Aplicar as regras de Realçar Regras das Células e de Primeiros/Últimos',
+          'Usar barras de dados, escalas de cor e conjuntos de ícones',
+          'Remover formatação condicional de células ou da planilha inteira'
+        ],
+        body: 'Formatação condicional pinta as células automaticamente de acordo com o valor: estoque abaixo do mínimo em vermelho, as dez maiores vendas em verde, uma barra proporcional ao faturamento de cada loja. Quando o valor muda, a cor muda junto. Aplicar e remover as regras prontas é habilidade da prova Associate.',
+        content: [
+          { h: 'Onde fica',
+            p: 'Selecione as células e use Página Inicial > Estilos > <strong>Formatação Condicional</strong>. O menu tem cinco grupos de regras prontas, além de Nova Regra, Limpar Regras e Gerenciar Regras. Passar o mouse sobre uma opção já mostra a prévia na planilha.',
+            img: { src: `${XL_IMG}/m10/exemplo-formatacao-condicional.png`, alt: 'Planilha com formatação condicional aplicada', caption: 'A cor acompanha o valor: se o número mudar, a formatação muda junto.', source: `${SUP}/excel/use-conditional-formatting-to-highlight-information-in-excel` } },
+          { h: 'Realçar Regras das Células',
+            items: [
+              '<strong>É Maior do que</strong>, <strong>É Menor do que</strong>, <strong>Está Entre</strong>, <strong>É Igual a</strong> — compare com um valor digitado ou com uma célula (clique nela; a referência pode ser absoluta).',
+              '<strong>Texto que Contém</strong> — pinta células com um trecho de texto ("Ltda", "Atrasado").',
+              '<strong>Uma Data que Ocorre</strong> — Ontem, Hoje, Amanhã, Nos Últimos 7 Dias, Semana Passada, Este Mês, Próximo Mês... (se atualiza a cada dia).',
+              '<strong>Valores Duplicados</strong> — Duplicados ou Exclusivos; ótimo para achar cadastros repetidos antes de usar Remover Duplicatas.',
+              'Em cada caixa você escolhe um formato pronto (Preenchimento Vermelho Claro e Texto Vermelho Escuro...) ou Formato Personalizado.'
+            ] },
+          { h: 'Regras de Primeiros/Últimos',
+            p: '<strong>10 Primeiros Itens</strong>, <strong>10% Primeiros</strong>, <strong>10 Últimos Itens</strong>, <strong>10% Últimos</strong> (o número 10 pode ser trocado), <strong>Acima da Média</strong> e <strong>Abaixo da Média</strong>. A regra se recalcula sozinha: se os dados mudarem, outras células passam a ser as dez maiores.' },
+          { h: 'Barras de dados, escalas de cor e conjuntos de ícones',
+            items: [
+              '<strong>Barras de Dados</strong> — uma barra dentro da célula, proporcional ao valor, com preenchimento gradual ou sólido. Valores negativos ganham barra para o outro lado, em outra cor.',
+              '<strong>Escalas de Cor</strong> — um gradiente de duas ou três cores (verde para os maiores, vermelho para os menores, por exemplo), como um mapa de calor.',
+              '<strong>Conjuntos de Ícones</strong> — setas, sinais de trânsito, bandeiras, estrelas: cada ícone representa uma faixa de valores (por padrão, terços do intervalo para três ícones).'
+            ],
+            img: { src: `${XL_IMG}/m10/conjuntos-de-icones.jpg`, alt: 'O mesmo conjunto de dados com diferentes conjuntos de ícones', caption: 'Conjuntos de ícones: cada ícone marca uma faixa de valores.', source: `${SUP}/excel/use-conditional-formatting-to-highlight-information-in-excel` } },
+          { h: 'Escala de duas cores',
+            img: { src: `${XL_IMG}/m10/escala-duas-cores.jpg`, alt: 'Escala de duas cores aplicada a um intervalo', caption: 'Escala de duas cores: o tom indica a posição do valor entre o menor e o maior.', source: `${SUP}/excel/use-conditional-formatting-to-highlight-information-in-excel` } },
+          { h: 'Barras de dados com valores negativos',
+            img: { src: `${XL_IMG}/m10/barras-positivo-negativo.jpg`, alt: 'Barras de dados com valores positivos e negativos', caption: 'Barras de dados: positivos para um lado, negativos para o outro.', source: `${SUP}/excel/use-conditional-formatting-to-highlight-information-in-excel` } },
+          { h: 'Análise Rápida (Ctrl+Q)',
+            p: 'Ao selecionar um intervalo de dados, aparece no canto inferior direito o botão <strong>Análise Rápida</strong> (ou pressione Ctrl+Q). A guia Formatação oferece barras, escalas, ícones, Maior que e 10% Primeiros com prévia instantânea — é o caminho mais rápido para as regras mais comuns.',
+            img: { src: `${XL_IMG}/m10/analise-rapida-formatacao.jpg`, alt: 'Guia Formatação da Análise Rápida', caption: 'Análise Rápida > Formatação.', source: `${SUP}/excel/use-conditional-formatting-to-highlight-information-in-excel` } },
+          { h: 'Remover formatação condicional',
+            items: [
+              'Formatação Condicional > <strong>Limpar Regras</strong> > <strong>Limpar Regras das Células Selecionadas</strong> ou <strong>Limpar Regras da Planilha Inteira</strong> (também há opções para a tabela e a tabela dinâmica selecionadas).',
+              'Limpar Formatos (Módulo 03) também remove, junto com toda a outra formatação.',
+              'Para remover só uma regra entre várias, use o Gerenciador de Regras (próxima aula).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Aplique formatação condicional às células D2:D50 para exibir valores maiores que 1000 com Preenchimento Verde e Texto Verde Escuro" — Realçar Regras > É Maior do que, com o formato exato.',
+              '"Remova a formatação condicional da planilha Vendas" — Limpar Regras da Planilha Inteira (com a planilha certa ativa).',
+              'A MO-200/MO-210 cobra aplicar e remover regras internas; a MO-211 cobra regras personalizadas e com fórmula.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Usar formatação condicional para realçar informações', u: `${SUP}/excel/use-conditional-formatting-to-highlight-information-in-excel` },
+          { t: 'Microsoft Suporte — Barras de dados, escalas de cor e conjuntos de ícones', u: `${SUP}/excel/use-data-bars-color-scales-and-icon-sets-to-highlight-data` }
+        ]
+      },
+      {
+        id: 'xl-formatacao-condicional-regras', title: 'Regras personalizadas, regras com fórmula e o Gerenciador de Regras',
+        desc: 'Criar e editar regras na caixa Nova Regra, pintar a linha inteira com uma fórmula, controlar a ordem e o Parar se Verdadeiro no Gerenciador de Regras.',
+        objetivos: [
+          'Criar regras personalizadas e ajustar barras e ícones em Editar Regra',
+          'Escrever regras com fórmula, incluindo a que pinta a linha inteira',
+          'Gerenciar precedência, intervalo de aplicação e Parar se Verdadeiro'
+        ],
+        body: 'As regras prontas resolvem o básico; o resto — pintar a linha inteira do pedido atrasado, destacar clientes de uma região escolhida numa célula, faixas próprias para os ícones — sai da caixa Nova Regra, principalmente do tipo "usar uma fórmula". Criar regras personalizadas, regras com fórmula e gerenciá-las são três habilidades da prova Expert.',
+        content: [
+          { h: 'A caixa Nova Regra',
+            p: 'Formatação Condicional > <strong>Nova Regra</strong> oferece seis tipos: Formatar todas as células com base em seus valores (escalas, barras, ícones com controle total); Formatar apenas células que contenham; Formatar apenas os primeiros ou últimos valores; Formatar apenas valores acima ou abaixo da média; Formatar apenas valores exclusivos ou duplicados; e <strong>Usar uma fórmula para determinar quais células devem ser formatadas</strong>.' },
+          { h: 'Ajustar barras e ícones',
+            items: [
+              'Nas barras de dados e escalas, defina o que é o mínimo e o máximo: Menor/Maior Valor, Número, Porcentagem, Fórmula ou Percentil. Com Número, a barra de 100% fica fixa num valor-meta.',
+              'Nos ícones, cada faixa tem um valor e um tipo (Número, Porcentagem, Fórmula, Percentil). Troque para Número para usar limites reais: seta verde para 100% da meta ou mais, amarela para 80% ou mais, vermelha para o resto.',
+              '<strong>Ordem Inversa de Ícones</strong> e <strong>Mostrar Somente Ícone</strong> (ou Mostrar Somente Barra, nas barras) — o segundo esconde o número e deixa só o indicador.'
+            ] },
+          { h: 'Regras com fórmula',
+            p: 'A fórmula deve resultar em VERDADEIRO ou FALSO, e é escrita <strong>para a primeira célula do intervalo selecionado</strong> (a célula ativa): o Excel a "copia" para as outras, ajustando as referências relativas. Por isso o tipo de referência é tudo:',
+            items: [
+              'Para pintar a <strong>linha inteira</strong> conforme uma coluna, selecione a tabela a partir da linha 2 e trave só a coluna: cifrão antes da letra da coluna de status, linha livre.',
+              'Para comparar com uma célula de parâmetro (a meta, a região escolhida), trave a célula inteira.',
+              'Qualquer função vale: HOJE para vencimentos, CONT.SE para duplicatas, E e OU para condições combinadas, MOD e LIN para linhas alternadas.'
+            ],
+            code: 'Seleção A2:F200, célula ativa A2:\n=$F2="Atrasado"                      → pinta a linha inteira dos pedidos atrasados\n=$C2=$J$1                            → linhas da região escolhida em J1\n=E($D2>=2000000;$E2>0)                → duas condições\n=$G2<HOJE()                          → vencidos\n=MOD(LIN();2)=0                      → linhas alternadas',
+            img: { src: `${XL_IMG}/m10/linhas-alternadas.jpg`, alt: 'Linhas alternadas sombreadas com regra de fórmula', caption: 'Regra com fórmula: uma linha sim, outra não.', source: `${SUP}/excel/use-conditional-formatting-to-highlight-information-in-excel` } },
+          { h: 'O Gerenciador de Regras',
+            p: 'Formatação Condicional > <strong>Gerenciar Regras</strong> lista as regras, com a coluna Formato, o <strong>Aplica-se a</strong> e o <strong>Parar se Verdadeiro</strong>. Na lista <strong>Mostrar regras de formatação para</strong>, troque de Seleção Atual para Esta Planilha (ou outra planilha, tabela ou tabela dinâmica) para ver todas. Ali você cria (Nova Regra), edita, exclui, muda a ordem com as setas e ajusta o intervalo de cada regra no Aplica-se a.',
+            img: { src: `${XL_IMG}/m10/gerenciador-de-regras.png`, alt: 'Gerenciador de Regras de Formatação Condicional', caption: 'O Gerenciador: regras na ordem de avaliação, intervalo e Parar se Verdadeiro.', source: `${SUP}/excel/use-conditional-formatting-to-highlight-information-in-excel` } },
+          { h: 'Precedência e conflitos',
+            items: [
+              'As regras são avaliadas de cima para baixo. Se duas regras verdadeiras <strong>conflitarem</strong> (fonte vermelha x fonte verde), vale a de cima.',
+              'Se <strong>não conflitarem</strong> (uma põe negrito, outra cor), as duas se aplicam.',
+              '<strong>Parar se Verdadeiro</strong> — quando a regra marcada é verdadeira, as regras abaixo dela não são avaliadas para aquela célula — útil para impedir que uma barra ou um ícone apareça nas células que já receberam um destaque mais importante.',
+              'Formatação condicional tem prioridade sobre a formatação manual quando as duas definem a mesma propriedade; a formatação manual não aparece no Gerenciador.',
+              'Copiar e colar células (ou usar o Pincel) cria regras novas para o destino — é comum acumular regras repetidas; revise o Gerenciador de vez em quando.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Crie uma regra que formate em vermelho as linhas cujo status seja Cancelado" — Nova Regra com fórmula, coluna travada.',
+              '"Altere a regra existente para aplicar-se a B2:B100" — Gerenciar Regras > Aplica-se a.',
+              '"Altere a ordem das regras para que a regra X seja avaliada primeiro" — setas do Gerenciador.',
+              '"Configure os ícones para mostrar seta verde para valores maiores ou iguais a 500" — Editar Regra, tipo Número.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Usar formatação condicional para realçar informações', u: `${SUP}/excel/use-conditional-formatting-to-highlight-information-in-excel` }
+        ]
+      },
+      {
+        id: 'xl-minigraficos', title: 'Minigráficos: tendências dentro da célula',
+        desc: 'Inserir minigráficos de Linha, Coluna e Ganhos/Perdas, destacar pontos, formatar, ajustar o eixo, agrupar e remover.',
+        objetivos: [
+          'Inserir minigráficos para uma ou várias linhas de dados',
+          'Destacar ponto alto, baixo, negativos, primeiro e último, e formatar cores e estilo',
+          'Ajustar eixos, tratar células vazias, agrupar, desagrupar e limpar'
+        ],
+        body: 'Um minigráfico é um gráfico do tamanho de uma célula, colocado ao lado dos números que ele representa. Numa tabela de vendas mensais por loja, uma coluna de minigráficos mostra de relance quem está crescendo e quem está caindo — sem ocupar espaço de um gráfico inteiro. "Inserir minigráficos" é habilidade da prova Associate.',
+        content: [
+          { h: 'Os três tipos',
+            items: [
+              '<strong>Linha</strong> — a tendência ao longo do tempo.',
+              '<strong>Coluna</strong> — compara a altura de cada período.',
+              '<strong>Ganhos/Perdas</strong> — só indica positivo (para cima) ou negativo (para baixo), sem proporção: bom para meses acima ou abaixo da meta.'
+            ] },
+          { h: 'Inserir',
+            items: [
+              'Selecione a célula (ou a coluna de células) onde os minigráficos vão ficar e use <strong>Inserir > Minigráficos</strong> > Linha, Coluna ou Ganhos/Perdas.',
+              'Na caixa Criar Minigráficos, informe o <strong>Intervalo de dados</strong> (os valores) e confira o <strong>Intervalo de locais</strong> (onde desenhar). Selecionando várias linhas de dados e várias células de local de uma vez, o Excel cria um minigráfico por linha, já agrupados.',
+              'Também dá para criar um e arrastar a alça de preenchimento para as linhas de baixo.',
+              'Os minigráficos ficam no fundo da célula: dá para digitar texto por cima, e aumentar a linha ou a coluna aumenta o gráfico.'
+            ] },
+          { h: 'A guia Minigráfico',
+            p: 'Com um minigráfico selecionado, a guia <strong>Minigráfico</strong> oferece:',
+            items: [
+              '<strong>Editar Dados</strong> — mudar os intervalos do grupo ou de um minigráfico só; e <strong>Células Ocultas e Vazias</strong> — mostrar vazios como lacunas, zero ou ligar os pontos com linha, e se dados em linhas ou colunas ocultas entram.',
+              '<strong>Tipo</strong> — trocar entre Linha, Coluna e Ganhos/Perdas.',
+              '<strong>Mostrar</strong> — Ponto Alto, Ponto Baixo, Pontos Negativos, Primeiro Ponto, Último Ponto e Marcadores (todos os pontos, só no tipo Linha).',
+              '<strong>Estilo</strong>, <strong>Cor do Minigráfico</strong> (e espessura da linha) e <strong>Cor do Marcador</strong> para cada tipo de ponto.',
+              '<strong>Eixo</strong> — por padrão, cada minigráfico usa o próprio mínimo e máximo, o que faz uma loja pequena parecer tão grande quanto uma grande. Escolha <strong>Mesmo para Todos os Minigráficos</strong> nos valores mínimo e máximo do eixo vertical para compará-los de verdade; Mostrar Eixo desenha a linha do zero quando há negativos.',
+              '<strong>Agrupar</strong> e <strong>Desagrupar</strong> — minigráficos agrupados compartilham formatação; desagrupe para formatar um diferente.',
+              '<strong>Limpar</strong> — remove os minigráficos selecionados ou o grupo (a tecla Delete não os apaga).'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Insira minigráficos de linha em N2:N10 que mostrem os dados de B2:M10" — Inserir > Minigráficos > Linha, com os dois intervalos.',
+              '"Exiba o ponto alto dos minigráficos" / "altere para colunas" — guia Minigráfico.',
+              '"Remova os minigráficos" — Limpar, não Delete.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Usar minigráficos para mostrar tendências', u: `${SUP}/excel/get-started/use-sparklines-to-show-data-trends` }
+        ]
+      }
+    ]
   }
 ];

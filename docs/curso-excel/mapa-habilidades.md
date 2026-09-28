@@ -43,7 +43,9 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Limpar formatação de células | xl-estilos-pincel-limpar | ✅ |
 | Definir um intervalo nomeado | xl-nomes-definidos | ✅ |
 | Nomear uma tabela | xl-tabelas-criar | ✅ |
-| Demais (minigráficos, formatação condicional) | — (Módulo 10) | ⬜ |
+| Inserir minigráficos | xl-minigraficos | ✅ |
+| Aplicar formatação condicional interna | xl-formatacao-condicional | ✅ |
+| Remover formatação condicional | xl-formatacao-condicional | ✅ |
 
 ### Gerenciar tabelas e dados de tabela
 | Habilidade | Aula(s) | Status |
@@ -84,6 +86,9 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Configurar a validação de dados | xl-validacao-dados | ✅ |
 | Referenciar dados em outras pastas de trabalho | xl-referencias, xl-power-query-basico | ✅ |
 | Remover registros duplicados | xl-texto-colunas-duplicatas | ✅ |
+| Criar regras personalizadas de formatação condicional | xl-formatacao-condicional-regras | ✅ |
+| Criar regras de formatação condicional com fórmulas | xl-formatacao-condicional-regras | ✅ |
+| Gerenciar regras de formatação condicional | xl-formatacao-condicional-regras | ✅ |
 
 ### Fórmulas e macros avançadas
 | Habilidade | Aula(s) | Status |
