@@ -60,7 +60,6 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Classificar dados por várias colunas | xl-classificar | ✅ |
 | Nomear tabela (seção de células/intervalos) | xl-tabelas-criar | ✅ |
 
-### Demais áreas Associate
 ### Operações com fórmulas e funções
 | Habilidade | Aula(s) | Status |
 |---|---|---|
@@ -73,7 +72,16 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Formatar texto com MAIÚSCULA, MINÚSCULA e NÚM.CARACT | xl-texto-extrair, xl-texto-limpar-juntar | ✅ |
 | Formatar texto com CONCAT e UNIRTEXTO | xl-texto-limpar-juntar | ✅ |
 
-⬜ ⬜ Gráficos
+### Gerenciar gráficos
+| Habilidade | Aula(s) | Status |
+|---|---|---|
+| Criar gráficos | xl-graficos-criar | ✅ |
+| Criar planilhas de gráfico | xl-graficos-criar | ✅ |
+| Adicionar séries de dados aos gráficos | xl-graficos-dados | ✅ |
+| Alternar entre linhas e colunas nos dados de origem | xl-graficos-dados | ✅ |
+| Adicionar e modificar elementos do gráfico | xl-graficos-elementos | ✅ |
+| Aplicar layouts e estilos de gráfico | xl-graficos-elementos | ✅ |
+| Adicionar texto alternativo aos gráficos para acessibilidade | xl-graficos-elementos | ✅ |
 
 ## Expert (MO-211)
 ### Gerenciar e formatar dados
@@ -101,4 +109,11 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Resumir dados com FILTRO e CLASSIFICARPOR (matrizes dinâmicas) | xl-matrizes-dinamicas | ✅ |
 | Demais (análise de hipóteses, auditoria, macros) | — (Módulos 13, 14, 16) | ⬜ |
 
-⬜ Opções e configurações da pasta de trabalho · ⬜ Demais itens de dados · ⬜ Gráficos e tabelas avançados
+### Gráficos e tabelas avançados
+| Habilidade | Aula(s) | Status |
+|---|---|---|
+| Criar e modificar gráficos de eixo duplo | xl-graficos-avancados | ✅ |
+| Criar e modificar gráficos de caixa estreita, combinação, funil, histograma, mapa, explosão solar e cascata | xl-graficos-avancados | ✅ |
+| Tabelas dinâmicas e gráficos dinâmicos | — (Módulo 12) | ⬜ |
+
+⬜ Opções e configurações da pasta de trabalho (Módulos 15 e 16) · ⬜ Agrupar/desagrupar e subtotais (Módulo 13)
