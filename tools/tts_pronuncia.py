@@ -551,6 +551,16 @@ PRONUNCIATION_FIXES = [
     (r"\bFilled Map\b", "Fíld Még"),
     # Curso Excel, rodada 12 (Módulo 12): drill down, drill up e Grupo1 na
     # leitura padrão — sem regra.
+    # Curso Excel, rodada 13 (Módulo 13). Ficou na leitura padrão: PGTO.
+    (r"\bNPER\b", "Ênê Pér"),
+    (r"\bVP\b", "Vê Pê"),
+    (r"\bVF\b", "Vê Éfe"),
+    (r"\bPMT\b", "Pê Ême Tê"),
+    (r"\bPV\b", "Pê Vê"),
+    (r"\bFV\b", "Éfe Vê"),
+    (r"\bRATE\b", "Rêit"),
+    (r"\bPREVISÃO\.ETS\b", "Previsão ponto É Tê Ésse"),
+    (r"\bSolver\b", "Sólver"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
