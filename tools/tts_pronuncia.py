@@ -526,6 +526,19 @@ PRONUNCIATION_FIXES = [
     (r'"YD"', '"Ípsilon Dê"'),
     (r'"MD"', '"Ême Dê"'),
     (r'"Y"', '"Ípsilon"'),
+    # Curso Excel, rodada 9 (Módulo 09). Ficaram na leitura padrão: MATCH,
+    # #DESPEJAR!, #SPILL! e #CALC!.
+    (r"\bXLOOKUP\b", "Éks Lúk Âp"),
+    (r"\bVLOOKUP\b", "Vê Lúk Âp"),
+    (r"\bHLOOKUP\b", "Agá Lúk Âp"),
+    (r"\bXMATCH\b", "Éks Métch"),
+    (r"\bRANDARRAY\b", "Rénd Arrêi"),
+    (r"\bCORRESPX\b", "Corresp Xis"),
+    (r"\bPROCH\b", "Proc Agá"),
+    (r"\bDESLOC\b", "Des Loc"),
+    (r"\bALEATÓRIOENTRE\b", "Aleatório Entre"),
+    (r"\bMATRIZALEATÓRIA\b", "Matriz Aleatória"),
+    (r"\bCLASSIFICARPOR\b", "Classificar Por"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
