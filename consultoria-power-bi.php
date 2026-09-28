@@ -96,7 +96,7 @@
 <header class="site">
   <div class="nav-row">
     <a class="brand" href="/"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a>
-    <nav class="links"><a href="/">Home</a><a href="/sobre.html">Sobre</a><a href="/servicos.html" aria-current="page">Serviços</a><a href="/projetos.html">Projetos</a><a href="/blog/">Blog</a><a href="/contato.html">Contato</a></nav>
+    <nav class="links"><a href="/">Home</a><a href="/sobre.html">Sobre</a><a href="/servicos.html" aria-current="page">Serviços</a><a href="/cursos.php">Cursos</a><a href="/projetos.html">Projetos</a><a href="/blog/">Blog</a><a href="/contato.html">Contato</a></nav>
     <div class="nav-actions"><a class="btn btn-primary desktop-only" href="#diagnostico">Solicitar diagnóstico</a><button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div>
   </div>
 </header>

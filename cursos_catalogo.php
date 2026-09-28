@@ -9,6 +9,7 @@ require_once __DIR__ . '/db.php';
  */
 const CURSOS_VITRINE = [
     'power-bi' => [
+        'etiqueta' => 'Do zero ao certificado',
         'pagina' => '/curso-power-bi.php',
         'imagem' => '/assets/img/promo-curso-1.jpg',
         'resumo' => 'Modelagem, Power Query, DAX e relatórios, do zero ao dashboard pronto para apresentar.',
@@ -19,6 +20,7 @@ const CURSOS_VITRINE = [
         ],
     ],
     'microsoft-fabric' => [
+        'etiqueta' => 'Preparatório DP-600 e DP-700',
         'pagina' => '/curso-microsoft-fabric.php',
         'imagem' => '/assets/img/curso-fabric/m01/arquitetura-fabric.png',
         'resumo' => 'Preparatório completo para as certificações DP-600 e DP-700: OneLake, lakehouse, warehouse, Spark, Real-Time Intelligence, modelos semânticos e DAX.',
@@ -30,6 +32,7 @@ const CURSOS_VITRINE = [
         ],
     ],
     'excel' => [
+        'etiqueta' => 'Do zero ao avançado · MO-210 e MO-211',
         'pagina' => '/curso-excel.php',
         'imagem' => '/assets/img/curso-excel/m09/procx-basico.jpg',
         'resumo' => 'Excel do zero ao avançado, preparatório para as certificações MO-210 e MO-211: fórmulas, PROCX, tabelas dinâmicas, gráficos, análise de hipóteses e macros.',
@@ -44,7 +47,7 @@ const CURSOS_VITRINE = [
 
 function curso_vitrine(string $slug): array
 {
-    return CURSOS_VITRINE[$slug] ?? ['pagina' => '/', 'imagem' => '/assets/img/logo.jpg', 'resumo' => '', 'itens' => []];
+    return CURSOS_VITRINE[$slug] ?? ['etiqueta' => '', 'pagina' => '/', 'imagem' => '/assets/img/logo.jpg', 'resumo' => '', 'itens' => []];
 }
 
 /** Curso pelo slug, só se puder ser vendido (ativo e com preço). */
@@ -65,4 +68,18 @@ function cursos_a_venda(PDO $pdo): array
 function preco_formatado(?int $centavos): ?string
 {
     return $centavos ? number_format($centavos / 100, 2, ',', '.') : null;
+}
+
+/** Ordem de apresentação no catálogo público: a trilha Excel → Power BI → Fabric. */
+const CURSOS_ORDEM = ['excel', 'power-bi', 'microsoft-fabric'];
+
+function cursos_a_venda_ordenados(PDO $pdo): array
+{
+    $cursos = cursos_a_venda($pdo);
+    usort($cursos, function (array $a, array $b): int {
+        $ia = array_search($a['slug'], CURSOS_ORDEM, true);
+        $ib = array_search($b['slug'], CURSOS_ORDEM, true);
+        return ($ia === false ? 99 : $ia) <=> ($ib === false ? 99 : $ib);
+    });
+    return $cursos;
 }

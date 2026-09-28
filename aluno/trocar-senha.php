@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="auth-shell">
   <div class="auth-card">
-    <a class="auth-brand" href="/curso-power-bi.php">
+    <a class="auth-brand" href="/aluno/">
       <img src="/assets/img/logo.jpg" alt="Tech Santos BR" />
       <span>TECH <em>SANTOS BR</em></span>
     </a>

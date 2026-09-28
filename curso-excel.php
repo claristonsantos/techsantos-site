@@ -62,8 +62,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
       <a href="sobre.html">Sobre</a>
       <a href="servicos.html">Serviços</a>
       <a href="treinamentos.html">Treinamentos</a>
-      <a href="/curso-power-bi.php">Curso Power BI</a>
-      <a href="/curso-microsoft-fabric.php">Curso Fabric</a>
+      <a href="/cursos.php">Cursos</a>
       <a href="blog/index.php">Blog</a>
       <a href="contato.html">Contato</a>
       <a href="/login.php">Área do Aluno</a>
@@ -601,6 +600,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
       </div>
       <div class="footer-col">
         <h4>Cursos</h4>
+        <a href="/cursos.php">Todos os cursos</a>
         <a href="/curso-excel.php">Excel do zero ao avançado (MO-210 e MO-211)</a>
         <a href="/curso-microsoft-fabric.php">Microsoft Fabric (DP-600 e DP-700)</a>
         <a href="/curso-power-bi.php">Curso completo de Power BI</a>

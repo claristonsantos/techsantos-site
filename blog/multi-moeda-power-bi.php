@@ -60,7 +60,7 @@ declare(strict_types=1);
     </a>
     <nav class="links">
       <a href="/">Home</a>
-      <a href="/curso-power-bi.php">Curso</a>
+      <a href="/cursos.php">Cursos</a>
       <a href="/blog/index.php" aria-current="page">Blog</a>
       <a href="/contato.html">Contato</a>
       <a href="/login.php">Área do Aluno</a>
@@ -165,10 +165,13 @@ declare(strict_types=1);
         </div>
       </div>
       <div class="footer-col">
-        <h4>Curso</h4>
+        <h4>Cursos</h4>
+        <a href="/cursos.php">Todos os cursos</a>
         <a href="/curso-power-bi.php">Curso completo de Power BI</a>
+        <a href="/curso-excel.php">Curso Excel do zero ao avançado (MO-210 e MO-211)</a>
+        <a href="/curso-microsoft-fabric.php">Curso Microsoft Fabric (DP-600 e DP-700)</a>
         <a href="/aula-gratis.php">Assistir aula grátis</a>
-        <a href="/comprar.php">Matricule-se</a>
+        <a href="/cursos.php">Matricule-se</a>
         <a href="/login.php">Área do Aluno</a>
       </div>
       <div class="footer-col">

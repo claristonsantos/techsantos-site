@@ -77,7 +77,8 @@ $videoUrl = 'https://media.techsantos.com.br/reels/' . $article['video'];
   <div class="nav-row">
     <a class="brand" href="/"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a>
     <nav class="links">
-      <a href="/">Home</a><a href="/curso-power-bi.php">Curso</a><a href="/blog/" aria-current="page">Blog</a><a href="/contato.html">Contato</a><a href="/login.php">Área do Aluno</a>
+      <a href="/">Home</a>
+      <a href="/cursos.php">Cursos</a><a href="/blog/" aria-current="page">Blog</a><a href="/contato.html">Contato</a><a href="/login.php">Área do Aluno</a>
     </nav>
     <div class="nav-actions">
       <a class="btn btn-primary desktop-only" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a>
@@ -127,7 +128,7 @@ $videoUrl = 'https://media.techsantos.com.br/reels/' . $article['video'];
           <a href="https://br.linkedin.com/company/techsantos-br" target="_blank" rel="noopener" aria-label="TECH SANTOS BR no LinkedIn"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 100 3.92 1.96 1.96 0 000-3.92zM20.44 20h-3.37v-5.6c0-1.34-.03-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.68V8.5h3.24v1.57h.05c.45-.85 1.55-1.74 3.19-1.74 3.41 0 4.04 2.24 4.04 5.16V20z"/></svg></a>
         </div>
       </div>
-      <div class="footer-col"><h4>Curso</h4><a href="/curso-power-bi.php">Curso completo de Power BI</a><a href="/aula-gratis.php">Assistir aula grátis</a><a href="/comprar.php">Matricule-se</a><a href="/login.php">Área do Aluno</a></div>
+      <div class="footer-col"><h4>Cursos</h4><a href="/cursos.php">Todos os cursos</a><a href="/curso-power-bi.php">Curso completo de Power BI</a><a href="/aula-gratis.php">Assistir aula grátis</a><a href="/cursos.php">Matricule-se</a><a href="/login.php">Área do Aluno</a></div>
       <div class="footer-col"><h4>Empresa</h4><a href="/sobre.html">Sobre</a><a href="/servicos.html">Serviços</a><a href="/treinamentos.html">Treinamentos</a><a href="/projetos.html">Projetos</a><a href="/blog/">Blog</a></div>
       <div class="footer-col"><h4>Contato</h4><a href="mailto:claristonsantos@techsantos.com.br">claristonsantos@techsantos.com.br</a><a href="https://wa.me/5564992905785" target="_blank" rel="noopener">(64) 99290-5785</a><span>Itumbiara-GO</span></div>
     </div>

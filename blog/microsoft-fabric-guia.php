@@ -50,7 +50,8 @@
   <div class="nav-row">
     <a class="brand" href="/"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a>
     <nav class="links">
-      <a href="/">Home</a><a href="/curso-power-bi.php">Curso</a><a href="/blog/" aria-current="page">Blog</a><a href="/contato.html">Contato</a><a href="/login.php">Área do Aluno</a>
+      <a href="/">Home</a>
+      <a href="/cursos.php">Cursos</a><a href="/blog/" aria-current="page">Blog</a><a href="/contato.html">Contato</a><a href="/login.php">Área do Aluno</a>
     </nav>
     <div class="nav-actions">
       <a class="btn btn-primary desktop-only" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a>
@@ -144,7 +145,7 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand"><a class="brand" href="/"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a><p>Consultoria e treinamento em Power BI, Excel e Microsoft Fabric. Itumbiara-GO, atendimento para todo o Brasil.</p></div>
-      <div class="footer-col"><h4>Curso</h4><a href="/curso-power-bi.php">Curso completo de Power BI</a><a href="/aula-gratis.php">Assistir aula grátis</a><a href="/comprar.php">Matricule-se</a></div>
+      <div class="footer-col"><h4>Cursos</h4><a href="/cursos.php">Todos os cursos</a><a href="/curso-power-bi.php">Curso completo de Power BI</a><a href="/aula-gratis.php">Assistir aula grátis</a><a href="/cursos.php">Matricule-se</a></div>
       <div class="footer-col"><h4>Empresa</h4><a href="/sobre.html">Sobre</a><a href="/servicos.html">Serviços</a><a href="/projetos.html">Projetos</a><a href="/blog/">Blog</a></div>
       <div class="footer-col"><h4>Contato</h4><a href="mailto:claristonsantos@techsantos.com.br">claristonsantos@techsantos.com.br</a><a href="https://wa.me/5564992905785" target="_blank" rel="noopener">(64) 99290-5785</a><span>Itumbiara-GO</span></div>
     </div>
