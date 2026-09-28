@@ -577,6 +577,13 @@ PRONUNCIATION_FIXES = [
     # AutoRecuperação e AutoSalvamento. O PDF já foi trocado pela regra acima.
     (r"\bMicrosoft Print to (?:PDF|Pê Dê Éfe)", "Máicrossoft Prínt tu Pê Dê Éfe"),
     (r"\bthreads?\b", "tréd"),
+    # Curso Excel, rodada 16 (Módulo 16). Ficaram na leitura padrão: Visual
+    # Basic for Applications, Sub, End Sub e nomes de macro em CamelCase.
+    (r"\bProject Explorer\b", "Prójekt Eksplórer"),
+    (r"\bVBAProject\b", "Vê Bê Á Prójekt"),
+    (r"\bPERSONAL\.XLSB\b", "Pérsonal ponto xis éle ésse bê"),
+    (r"\bXLSTART\b", "Xis Éle Stárt"),
+    (r"\.bas\b", " ponto bás"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
