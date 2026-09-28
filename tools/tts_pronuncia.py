@@ -584,6 +584,17 @@ PRONUNCIATION_FIXES = [
     (r"\bPERSONAL\.XLSB\b", "Pérsonal ponto xis éle ésse bê"),
     (r"\bXLSTART\b", "Xis Éle Stárt"),
     (r"\.bas\b", " ponto bás"),
+    # Curso Excel, rodada 17 (Módulo 17). Ficaram na leitura padrão: Expert e
+    # nomes de macro em CamelCase.
+    (r"\bCertiport\b", "Sértipórt"),
+    (r"\bAuthorized Testing Centers\b", "Ótoraizd Tésting Sénters"),
+    (r"\bOffice Specialist\b", "Ófis Spéshalist"),
+    (r"\bGoal Seek\b", "Gôul Sík"),
+    (r"\bPivotTable\b", "Pívot Têibol"),
+    (r"\bMicrosoft Learn\b", "Máicrossoft Lârn"),
+    (r"\bUF\b", "U Éfe"),
+    (r"\bGO\b", "Gê Ô"),
+    (r"\bMG\b", "Ême Gê"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
