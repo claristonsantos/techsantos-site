@@ -114,6 +114,15 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 |---|---|---|
 | Criar e modificar gráficos de eixo duplo | xl-graficos-avancados | ✅ |
 | Criar e modificar gráficos de caixa estreita, combinação, funil, histograma, mapa, explosão solar e cascata | xl-graficos-avancados | ✅ |
-| Tabelas dinâmicas e gráficos dinâmicos | — (Módulo 12) | ⬜ |
+| Criar tabelas dinâmicas | xl-tabela-dinamica-criar | ✅ |
+| Modificar seleções de campo e opções | xl-tabela-dinamica-criar, xl-tabela-dinamica-organizar | ✅ |
+| Criar segmentações de dados | xl-tabela-dinamica-organizar | ✅ |
+| Agrupar dados da tabela dinâmica | xl-tabela-dinamica-organizar | ✅ |
+| Adicionar campos calculados | xl-tabela-dinamica-valores | ✅ |
+| Formatar dados (configurações do campo de valor, Mostrar Valores Como) | xl-tabela-dinamica-valores | ✅ |
+| Criar gráficos dinâmicos | xl-grafico-dinamico | ✅ |
+| Manipular opções em gráficos dinâmicos existentes | xl-grafico-dinamico | ✅ |
+| Aplicar estilos a gráficos dinâmicos | xl-grafico-dinamico | ✅ |
+| Detalhar dados de gráficos dinâmicos | xl-grafico-dinamico | ✅ |
 
 ⬜ Opções e configurações da pasta de trabalho (Módulos 15 e 16) · ⬜ Agrupar/desagrupar e subtotais (Módulo 13)

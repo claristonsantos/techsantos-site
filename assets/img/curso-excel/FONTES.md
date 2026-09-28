@@ -90,3 +90,13 @@ Todas as imagens são da documentação oficial da Microsoft (Learn e Suporte).
 | /assets/img/curso-excel/m11/funil.png | Captura de tela que mostra o gráfico de funil mostrando o pipeline de vendas; estágios listados na primeira coluna, valores na segunda. | https://support.microsoft.com/pt-br/excel/create-a-funnel-chart-based-on-excel-data |
 | /assets/img/curso-excel/m11/explosao-solar.png | Imagem de um gráfico multinível no Office 2016 para Windows | https://support.microsoft.com/pt-br/excel/create-a-sunburst-chart-in-office |
 | /assets/img/curso-excel/m11/mapa-valores.png | Gráfico de mapa do Excel exibindo valores com Países por Receita Fiscal % | https://support.microsoft.com/pt-br/excel/create-a-map-chart-in-excel |
+| /assets/img/curso-excel/m12/criar-tabela-dinamica.png | Tabela Dinâmica de um Intervalo ou de uma Tabela | https://support.microsoft.com/pt-br/excel/get-started/create-a-pivottable-to-analyze-worksheet-data |
+| /assets/img/curso-excel/m12/configuracoes-campo-valor.png | Diálogo de Configurações do Campo de Valor do Excel | https://support.microsoft.com/pt-br/excel/get-started/create-a-pivottable-to-analyze-worksheet-data |
+| /assets/img/curso-excel/m12/painel-campos.png | Painel de Campos da Tabela Dinâmica no Excel para Windows | https://support.microsoft.com/pt-br/excel/get-started/use-the-field-list-to-arrange-fields-in-a-pivottable |
+| /assets/img/curso-excel/m12/datas-agrupadas.jpg | Datas agrupadas por meses e trimestres | https://support.microsoft.com/pt-br/excel/get-started/group-or-ungroup-data-in-a-pivottable |
+| /assets/img/curso-excel/m12/mostrar-valores-como.png | Mostrar Valores como | https://support.microsoft.com/pt-br/excel/show-different-calculations-in-pivottable-value-fields |
+| /assets/img/curso-excel/m12/mesmo-campo-valor-e-percentual.png | O mesmo campo, com valores e porcentagens | https://support.microsoft.com/pt-br/excel/show-different-calculations-in-pivottable-value-fields |
+| /assets/img/curso-excel/m12/campos-itens-conjuntos.jpg | Menu Campos, Itens e Conjuntos para adicionar um campo calculado | https://support.microsoft.com/pt-br/excel/calculate-values-in-a-pivottable |
+| /assets/img/curso-excel/m12/formato-compacto.jpg | Tabela Dinâmica em formato compacto | https://support.microsoft.com/pt-br/excel/design-the-layout-and-format-of-a-pivottable |
+| /assets/img/curso-excel/m12/formato-tabela.jpg | Tabela Dinâmica em formato de tabela | https://support.microsoft.com/pt-br/excel/design-the-layout-and-format-of-a-pivottable |
+| /assets/img/curso-excel/m12/exploracao-rapida.png | Galeria Exploração Rápida | https://support.microsoft.com/pt-br/excel/drill-into-pivottable-data |

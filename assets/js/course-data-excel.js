@@ -2437,5 +2437,218 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m12', title: 'Módulo 12 · Tabelas dinâmicas e gráficos dinâmicos', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-tabela-dinamica-criar', title: 'Criar uma tabela dinâmica e organizar os campos',
+        desc: 'Preparar os dados, inserir a tabela dinâmica, o painel Campos da Tabela Dinâmica e suas quatro áreas, atualizar e alterar a fonte de dados.',
+        objetivos: [
+          'Preparar uma base e criar uma tabela dinâmica a partir de tabela ou intervalo',
+          'Montar o relatório arrastando campos para Linhas, Colunas, Valores e Filtros',
+          'Atualizar a tabela dinâmica e alterar a fonte de dados'
+        ],
+        body: 'Tabela dinâmica é a ferramenta que resume milhares de linhas em segundos: vendas por região e mês, quantidade por produto, ticket médio por vendedor — tudo arrastando campos, sem uma fórmula. É o recurso mais pedido em vagas que exigem Excel e uma parte grande da seção "gráficos e tabelas avançados" da prova Expert (25 a 30%).',
+        content: [
+          { h: 'Antes de criar: a base certa',
+            items: [
+              'Dados em formato de lista: <strong>uma linha de cabeçalho</strong>, um registro por linha, um tipo de dado por coluna.',
+              'Sem linhas ou colunas totalmente vazias, sem células mescladas, sem subtotais no meio dos dados.',
+              'Datas como datas e números como números (Módulos 03 e 04).',
+              'Transforme a base em <strong>tabela do Excel</strong> (Módulo 05): as linhas novas passam a entrar na tabela dinâmica bastando atualizar, sem mudar a fonte.'
+            ] },
+          { h: 'Inserir a tabela dinâmica',
+            items: [
+              'Clique numa célula da base e use <strong>Inserir > Tabela Dinâmica</strong> (Da Tabela/Intervalo). Confira a tabela ou o intervalo sugerido.',
+              'Escolha o local: <strong>Nova Planilha</strong> (o mais comum) ou <strong>Planilha Existente</strong>, indicando a célula.',
+              '<strong>Adicionar estes dados ao Modelo de Dados</strong> — necessário para relacionar várias tabelas e para a opção Contagem Distinta.',
+              'A seta do botão oferece outras fontes: dados externos, o Modelo de Dados da pasta e conjuntos de dados do Power BI.',
+              '<strong>Tabelas Dinâmicas Recomendadas</strong> (Inserir) sugere resumos prontos, com prévia.'
+            ],
+            img: { src: `${XL_IMG}/m12/criar-tabela-dinamica.png`, alt: 'Caixa para criar tabela dinâmica a partir de tabela ou intervalo', caption: 'Inserir > Tabela Dinâmica: a origem e o local do relatório.', source: `${SUP}/excel/get-started/create-a-pivottable-to-analyze-worksheet-data` } },
+          { h: 'O painel Campos da Tabela Dinâmica',
+            p: 'À direita aparece o painel com a lista de campos (as colunas da base) e quatro áreas. Marcar a caixa de um campo coloca texto em <strong>Linhas</strong> e números em <strong>Valores</strong>; arrastar dá controle total:',
+            items: [
+              '<strong>Linhas</strong> — os itens que aparecem um embaixo do outro (regiões, vendedores).',
+              '<strong>Colunas</strong> — os itens que viram colunas (meses, anos).',
+              '<strong>Valores</strong> — o que é calculado (soma das vendas, contagem de pedidos).',
+              '<strong>Filtros</strong> — um filtro acima do relatório que vale para a tabela inteira.',
+              'Vários campos na mesma área criam níveis (Região e, dentro dela, Vendedor); a ordem na área define a hierarquia.',
+              'Para remover, desmarque o campo ou arraste-o para fora do painel. Se o painel sumir, clique na tabela dinâmica ou use Análise de Tabela Dinâmica > Lista de Campos.'
+            ],
+            img: { src: `${XL_IMG}/m12/painel-campos.png`, alt: 'Painel Campos da Tabela Dinâmica com as quatro áreas', caption: 'O painel de campos e as áreas Filtros, Colunas, Linhas e Valores (imagem original em inglês).', source: `${SUP}/excel/get-started/use-the-field-list-to-arrange-fields-in-a-pivottable` } },
+          { h: 'Atualizar e alterar a fonte',
+            items: [
+              'A tabela dinâmica <strong>não</strong> se atualiza sozinha quando a base muda. Clique com o botão direito nela > <strong>Atualizar</strong> (Alt+F5), ou Análise de Tabela Dinâmica > Atualizar > <strong>Atualizar Tudo</strong> (Ctrl+Alt+F5) para todas.',
+              'Em Opções da Tabela Dinâmica > Dados, marque <strong>Atualizar dados ao abrir o arquivo</strong>.',
+              'Se a base não for tabela do Excel e crescer, use Análise de Tabela Dinâmica > <strong>Alterar Fonte de Dados</strong> e informe o novo intervalo.',
+              'Para mover ou excluir o relatório: Análise de Tabela Dinâmica > Ações > Mover Tabela Dinâmica, ou selecionar a tabela inteira (Selecionar > Tabela Dinâmica Inteira) e pressionar Delete.'
+            ] },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Crie uma tabela dinâmica na célula A3 de uma nova planilha que mostre o total de vendas por região e produto" — Nova Planilha; Região e Produto em Linhas; Vendas em Valores.',
+              '"Atualize a tabela dinâmica para refletir os novos dados" — Atualizar; se a fonte não cresceu sozinha, Alterar Fonte de Dados.',
+              'A MO-211 cobra "criar tabelas dinâmicas" e "modificar seleções de campos e opções".'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Criar uma Tabela Dinâmica', u: `${SUP}/excel/get-started/create-a-pivottable-to-analyze-worksheet-data` },
+          { t: 'Microsoft Suporte — Usar a Lista de Campos', u: `${SUP}/excel/get-started/use-the-field-list-to-arrange-fields-in-a-pivottable` },
+          { t: 'Microsoft Suporte — Atualizar dados da Tabela Dinâmica', u: `${SUP}/excel/refresh-pivottable-data` },
+          { t: 'Microsoft Suporte — Alterar a fonte de dados de uma Tabela Dinâmica', u: `${SUP}/excel/change-the-source-data-for-a-pivottable` }
+        ]
+      },
+      {
+        id: 'xl-tabela-dinamica-valores', title: 'Valores: resumir, Mostrar Valores Como e campos calculados',
+        desc: 'Trocar a função de resumo, formatar números, mostrar percentuais, diferenças e acumulados, criar campos calculados e ver os registros por trás de um número.',
+        objetivos: [
+          'Alterar a função de resumo e o formato nas Configurações do Campo de Valor',
+          'Usar Mostrar Valores Como para percentuais, diferenças, acumulados e classificação',
+          'Criar campos calculados e detalhar um valor'
+        ],
+        body: 'A soma é só o começo. A mesma tabela dinâmica mostra a média do pedido, a quantidade de pedidos, a participação de cada região no total, o crescimento sobre o mês anterior e o acumulado do ano — e ainda calcula campos que não existem na base, como margem. "Formatar dados" (as configurações do campo de valor) e "adicionar campos calculados" são habilidades da prova Expert.',
+        content: [
+          { h: 'Configurações do Campo de Valor',
+            p: 'Clique com o botão direito num número da tabela dinâmica > <strong>Configurações do Campo de Valor</strong> (ou na seta do campo, na área Valores). A caixa tem:',
+            items: [
+              '<strong>Nome Personalizado</strong> — troque "Soma de Vendas" por "Vendas" (não pode ser idêntico ao nome do campo; um espaço no fim resolve).',
+              '<strong>Resumir valores por</strong> — Soma (padrão para números), Contagem (padrão para texto), Média, Máx, Mín, Produto, Contar Números, DesvPad, Var... e <strong>Contagem Distinta</strong> quando os dados estão no Modelo de Dados.',
+              '<strong>Mostrar Valores Como</strong> — a outra guia (abaixo).',
+              '<strong>Formato do Número</strong> — o formato definido aqui fica no campo e sobrevive às atualizações (formatar as células diretamente pode se perder).'
+            ],
+            img: { src: `${XL_IMG}/m12/configuracoes-campo-valor.png`, alt: 'Caixa Configurações do Campo de Valor', caption: 'Configurações do Campo de Valor: nome, função de resumo e Formato do Número.', source: `${SUP}/excel/get-started/create-a-pivottable-to-analyze-worksheet-data` } },
+          { h: 'Mostrar Valores Como',
+            p: 'Botão direito no valor > <strong>Mostrar Valores Como</strong>. As opções mais úteis:',
+            items: [
+              '<strong>% do Total Geral</strong>, <strong>% do Total da Coluna</strong>, <strong>% do Total da Linha</strong> — participação de cada item.',
+              '<strong>% do Total de Linhas Pai</strong> — a participação dentro do grupo (cada vendedor dentro da sua região).',
+              '<strong>% de</strong> e <strong>Diferença de</strong> / <strong>% Diferença de</strong> — comparação com um item base: com o campo Mês e o item base (anterior), mostra o crescimento mês a mês.',
+              '<strong>Total Acumulado em</strong> e <strong>% Total Acumulado em</strong> — o acumulado ao longo de um campo (acumulado do ano).',
+              '<strong>Classificar do Menor para o Maior</strong> e <strong>do Maior para o Menor</strong> — a posição de cada item (ranking).',
+              '<strong>Índice</strong> — a importância relativa de cada célula.'
+            ],
+            img: { src: `${XL_IMG}/m12/mostrar-valores-como.png`, alt: 'Menu Mostrar Valores Como', caption: 'Mostrar Valores Como: percentuais, diferenças, acumulados e classificação.', source: `${SUP}/excel/show-different-calculations-in-pivottable-value-fields` } },
+          { h: 'O mesmo campo duas vezes',
+            p: 'Arraste o mesmo campo para Valores duas vezes: um mostra o valor, o outro a porcentagem do total (ou o acumulado). Renomeie os dois para o cabeçalho ficar claro.',
+            img: { src: `${XL_IMG}/m12/mesmo-campo-valor-e-percentual.png`, alt: 'Tabela dinâmica com o mesmo campo como valor e como porcentagem', caption: 'Um campo, duas visões: valor e porcentagem.', source: `${SUP}/excel/show-different-calculations-in-pivottable-value-fields` } },
+          { h: 'Campos calculados',
+            p: 'Análise de Tabela Dinâmica > Cálculos > <strong>Campos, Itens e Conjuntos</strong> > <strong>Campo Calculado</strong>. Dê um nome e escreva a fórmula usando os campos da lista (Inserir Campo). O campo novo aparece na lista e vai para Valores. Atenção: a fórmula opera sobre as <strong>somas</strong> dos campos, não linha a linha — margem como lucro dividido por receita funciona bem (a razão das somas é a margem certa), mas preço vezes quantidade dá errado (a soma dos preços vezes a soma das quantidades); para esses casos, crie a coluna na base e use o campo resultante. O <strong>Item Calculado</strong>, no mesmo menu, cria um item novo dentro de um campo (como "Sul + Sudeste").',
+            code: 'Nome: Margem\nFórmula: =Lucro/Receita\n\nNome: Comissão\nFórmula: =Vendas*3%',
+            img: { src: `${XL_IMG}/m12/campos-itens-conjuntos.jpg`, alt: 'Menu Campos, Itens e Conjuntos com a opção Campo Calculado', caption: 'Campos, Itens e Conjuntos > Campo Calculado.', source: `${SUP}/excel/calculate-values-in-a-pivottable` } },
+          { h: 'Ver os registros por trás de um número',
+            p: 'Dê duplo clique num valor da tabela dinâmica (ou botão direito > <strong>Mostrar Detalhes</strong>): o Excel cria uma planilha nova com todas as linhas da base que compõem aquele número. É o jeito de auditar um total estranho. A planilha criada é uma cópia — pode ser excluída depois.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Altere o campo para mostrar a média em vez da soma e formate como moeda sem casas decimais" — Configurações do Campo de Valor.',
+              '"Exiba as vendas como porcentagem do total da coluna" — Mostrar Valores Como.',
+              '"Adicione um campo calculado chamado Bonus que calcule 5% das vendas" — Campo Calculado, com o nome exato.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Mostrar cálculos diferentes em campos de valor', u: `${SUP}/excel/show-different-calculations-in-pivottable-value-fields` },
+          { t: 'Microsoft Suporte — Calcular valores em uma Tabela Dinâmica', u: `${SUP}/excel/calculate-values-in-a-pivottable` }
+        ]
+      },
+      {
+        id: 'xl-tabela-dinamica-organizar', title: 'Agrupar, filtrar, segmentar e formatar a tabela dinâmica',
+        desc: 'Agrupar datas e números, filtros de rótulo, de valor e 10 primeiros, segmentações e linha do tempo, classificação, layouts de relatório, subtotais, totais e estilos.',
+        objetivos: [
+          'Agrupar datas por mês, trimestre e ano, e números por faixas',
+          'Filtrar com filtros de rótulo e de valor, segmentação de dados e linha do tempo',
+          'Escolher o layout do relatório e configurar subtotais, totais e estilos'
+        ],
+        body: 'Com os campos no lugar, o trabalho passa a ser de apresentação: vendas por trimestre em vez de por dia, só os dez maiores clientes, botões para o gerente filtrar sozinho, um layout que dê para copiar para outro lugar. Agrupar dados, criar segmentações e modificar opções da tabela dinâmica estão na lista da prova Expert.',
+        content: [
+          { h: 'Agrupar datas',
+            p: 'Ao colocar um campo de data em Linhas ou Colunas, o Excel agrupa automaticamente em anos, trimestres e meses. Para mudar, clique com o botão direito numa data > <strong>Agrupar</strong> e escolha em <strong>Por</strong>: Segundos, Minutos, Horas, Dias, Meses, Trimestres, Anos (vários ao mesmo tempo), com Começar em e Terminar em. <strong>Desagrupar</strong> volta às datas individuais.',
+            img: { src: `${XL_IMG}/m12/datas-agrupadas.jpg`, alt: 'Tabela dinâmica com datas agrupadas por meses e trimestres', caption: 'Datas agrupadas por trimestre e mês.', source: `${SUP}/excel/get-started/group-or-ungroup-data-in-a-pivottable` } },
+          { h: 'Agrupar números e itens',
+            items: [
+              '<strong>Números</strong> — botão direito > Agrupar, com Começar em, Terminar em e Por (o tamanho da faixa): idades de 10 em 10, pedidos de 500 em 500 reais.',
+              '<strong>Itens escolhidos</strong> — selecione itens com Ctrl, clique com o botão direito > Agrupar: nasce um grupo ("Grupo1") que você renomeia digitando na célula; o campo ganha uma versão agrupada ("Região2").'
+            ] },
+          { h: 'Filtrar',
+            items: [
+              '<strong>A seta de Rótulos de Linha</strong> — marcar e desmarcar itens, <strong>Filtros de Rótulo</strong> (começa com, contém) e <strong>Filtros de Valor</strong> (vendas maiores que 10 mil; <strong>10 Primeiros</strong> — primeiros ou últimos N itens, por cento ou soma).',
+              '<strong>Área Filtros</strong> — o filtro acima do relatório; a opção Mostrar Páginas do Filtro de Relatório cria uma planilha para cada item.',
+              '<strong>Segmentação de Dados</strong> (Análise de Tabela Dinâmica > Inserir Segmentação de Dados) — botões visuais por campo; Ctrl+clique para vários; o botão de seleção múltipla; Limpar Filtro no canto. Em <strong>Conexões de Relatório</strong>, uma segmentação passa a filtrar várias tabelas dinâmicas da mesma fonte ao mesmo tempo.',
+              '<strong>Linha do Tempo</strong> (Inserir Linha do Tempo) — uma segmentação especial para datas: arraste para escolher um período, por dias, meses, trimestres ou anos.'
+            ] },
+          { h: 'Classificar',
+            p: 'Clique com o botão direito num valor > Classificar > do Maior para o Menor para ordenar os itens pelo resultado (o ranking de vendedores). Pela seta de Rótulos de Linha, Mais Opções de Classificação permite classificar por outro campo de valor. Itens podem ser arrastados manualmente para outra posição.' },
+          { h: 'Layout e estilo',
+            items: [
+              'Design > <strong>Layout do Relatório</strong>: <strong>Formato Compacto</strong> (padrão; todos os campos de linha numa coluna, recuados), <strong>Formato de Estrutura de Tópicos</strong> e <strong>Formato de Tabela</strong> (cada campo em sua coluna — o melhor para copiar e reutilizar os dados). <strong>Repetir Todos os Rótulos de Itens</strong> preenche os rótulos em todas as linhas.',
+              '<strong>Subtotais</strong> — não mostrar, mostrar no início ou no final do grupo. <strong>Totais Gerais</strong> — desativados, para linhas e colunas, só linhas ou só colunas.',
+              '<strong>Linhas em Branco</strong> — inserir uma linha vazia depois de cada item.',
+              '<strong>Estilos de Tabela Dinâmica</strong> e as <strong>Opções de Estilo</strong> (Cabeçalhos de Linha, Cabeçalhos de Coluna, Linhas e Colunas em Tiras).',
+              '<strong>Opções da Tabela Dinâmica</strong> (botão direito): Para células vazias, mostrar (zero, por exemplo); Para valores de erro, mostrar; Ajustar automaticamente a largura das colunas ao atualizar; Preservar a formatação da célula ao atualizar.'
+            ],
+            img: { src: `${XL_IMG}/m12/formato-tabela.jpg`, alt: 'Tabela dinâmica no formato de tabela', caption: 'Formato de Tabela: cada campo de linha em sua própria coluna.', source: `${SUP}/excel/design-the-layout-and-format-of-a-pivottable` } },
+          { h: 'Formato compacto',
+            img: { src: `${XL_IMG}/m12/formato-compacto.jpg`, alt: 'Tabela dinâmica no formato compacto', caption: 'Formato Compacto (padrão): os campos de linha recuados numa única coluna.', source: `${SUP}/excel/design-the-layout-and-format-of-a-pivottable` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Agrupe as datas por trimestre e ano" — Agrupar, com os dois marcados.',
+              '"Insira uma segmentação para o campo Categoria e conecte-a às duas tabelas dinâmicas" — Inserir Segmentação de Dados + Conexões de Relatório.',
+              '"Exiba a tabela dinâmica em formato de tabela sem subtotais" — Layout do Relatório + Subtotais.',
+              '"Mostre os 5 produtos com mais vendas" — Filtros de Valor > 10 Primeiros, trocando por 5.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Agrupar ou desagrupar dados em uma Tabela Dinâmica', u: `${SUP}/excel/get-started/group-or-ungroup-data-in-a-pivottable` },
+          { t: 'Microsoft Suporte — Filtrar dados em uma Tabela Dinâmica', u: `${SUP}/excel/get-started/filter-data-in-a-pivottable` },
+          { t: 'Microsoft Suporte — Usar segmentações de dados para filtrar dados', u: `${SUP}/excel/get-started/use-slicers-to-filter-data` },
+          { t: 'Microsoft Suporte — Classificar dados em uma Tabela Dinâmica', u: `${SUP}/excel/sort-data-in-a-pivottable-or-pivotchart` },
+          { t: 'Microsoft Suporte — Criar o layout e o formato de uma Tabela Dinâmica', u: `${SUP}/excel/design-the-layout-and-format-of-a-pivottable` }
+        ]
+      },
+      {
+        id: 'xl-grafico-dinamico', title: 'Gráficos dinâmicos: criar, filtrar, estilizar e detalhar',
+        desc: 'Criar gráficos dinâmicos a partir da base ou de uma tabela dinâmica, usar os botões de campo, formatar, e fazer drill down com Exploração Rápida e expandir/recolher.',
+        objetivos: [
+          'Criar gráficos dinâmicos e entender a ligação com a tabela dinâmica',
+          'Filtrar e reorganizar pelo próprio gráfico, e aplicar estilos',
+          'Detalhar (drill down) e resumir (drill up) os dados de um gráfico dinâmico'
+        ],
+        body: 'O gráfico dinâmico é o gráfico de uma tabela dinâmica: mudou o campo, filtrou, agrupou — o gráfico acompanha. Combinado com segmentações, vira um painel interativo simples. Criar gráficos dinâmicos, manipular suas opções, aplicar estilos e detalhar dados são as quatro habilidades de gráficos dinâmicos da prova Expert.',
+        content: [
+          { h: 'Criar',
+            items: [
+              'A partir de uma tabela dinâmica: clique nela e use Análise de Tabela Dinâmica > <strong>Gráfico Dinâmico</strong> (ou Inserir > Gráfico Dinâmico) e escolha o tipo.',
+              'Direto da base: Inserir > <strong>Gráfico Dinâmico</strong> cria a tabela dinâmica e o gráfico juntos.',
+              'Os campos em Linhas viram o <strong>eixo</strong> (categorias); os campos em Colunas viram a <strong>legenda</strong> (séries); Valores são os números plotados. No painel, as áreas passam a se chamar Eixo e Legenda.',
+              'Nem todo tipo de gráfico é aceito: histograma, caixa estreita, cascata, funil, explosão solar, mapa de árvore e mapa não funcionam como gráfico dinâmico.'
+            ] },
+          { h: 'Manipular pelo gráfico',
+            items: [
+              'Os <strong>botões de campo</strong> sobre o gráfico filtram e classificam como as setas da tabela dinâmica. Para esconder na apresentação: Análise de Gráfico Dinâmico > <strong>Botões de Campo</strong> (ou botão direito num botão > Ocultar Todos os Botões de Campo no Gráfico).',
+              'Filtrar ou mudar campos no gráfico muda a tabela dinâmica, e vice-versa — os dois estão sempre em sincronia.',
+              'Segmentações e linhas do tempo inseridas pelo gráfico filtram o gráfico e a tabela.',
+              'Alterar Tipo de Gráfico, Alternar Linha/Coluna, elementos, <strong>Layout Rápido</strong> e <strong>Estilos</strong> funcionam como em qualquer gráfico (Módulo 11) — pela guia Design.'
+            ] },
+          { h: 'Detalhar: drill down e drill up',
+            items: [
+              'Com vários campos no eixo (Ano > Trimestre > Mês, ou Categoria > Produto), use os botões <strong>Expandir Campo Inteiro</strong> e <strong>Recolher Campo Inteiro</strong> (sinal de mais e de menos no canto do gráfico, ou Análise de Gráfico Dinâmico) para descer ou subir um nível de detalhe.',
+              'Botão direito num item do gráfico > <strong>Expandir/Recolher</strong> > Expandir / Recolher / Expandir para o campo seguinte.',
+              'Em tabelas dinâmicas baseadas no Modelo de Dados, a <strong>Exploração Rápida</strong> (a lupa que aparece ao selecionar um item) detalha o item escolhido pelo campo que você indicar — Fazer Busca Detalhada desce, e o botão de busca acima volta.',
+              'Dê duplo clique num valor da tabela dinâmica ligada para ver os registros de origem (Mostrar Detalhes).'
+            ],
+            img: { src: `${XL_IMG}/m12/exploracao-rapida.png`, alt: 'Galeria de Exploração Rápida', caption: 'Exploração Rápida: escolha o campo pelo qual detalhar o item selecionado.', source: `${SUP}/excel/drill-into-pivottable-data` } },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Crie um gráfico dinâmico de colunas empilhadas a partir da tabela dinâmica Vendas" — Gráfico Dinâmico com o subtipo exato.',
+              '"Oculte os botões de campo do gráfico" — Botões de Campo.',
+              '"Detalhe o gráfico para mostrar os trimestres de 2026" — Expandir o item 2026 ou Expandir Campo Inteiro.',
+              '"Aplique o Estilo 6 ao gráfico dinâmico" — Design > Estilos de Gráfico.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Criar um Gráfico Dinâmico', u: `${SUP}/excel/get-started/create-a-pivotchart` },
+          { t: 'Microsoft Suporte — Detalhar dados da Tabela Dinâmica', u: `${SUP}/excel/drill-into-pivottable-data` }
+        ]
+      }
+    ]
   }
 ];
