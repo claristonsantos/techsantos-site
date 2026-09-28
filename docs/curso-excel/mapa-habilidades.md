@@ -117,7 +117,9 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Monitorar células e fórmulas com a Janela de Inspeção | xl-auditoria | ✅ |
 | Validar fórmulas com regras de verificação de erros | xl-erros-formulas | ✅ |
 | Avaliar fórmulas | xl-auditoria | ✅ |
-| Macros simples (gravar, nomear, editar) | — (Módulo 16) | ⬜ |
+| Gravar macros simples | xl-macros-gravar | ✅ |
+| Nomear macros simples | xl-macros-gravar | ✅ |
+| Editar macros simples | xl-macros-editar | ✅ |
 
 ### Gráficos e tabelas avançados
 | Habilidade | Aula(s) | Status |
@@ -144,4 +146,5 @@ Lista oficial em `habilidades-oficiais-mo210-mo211.md`. Atualizar a cada módulo
 | Restringir edição | xl-proteger | ✅ |
 | Proteger planilhas e intervalos de células | xl-proteger | ✅ |
 | Proteger a estrutura da pasta de trabalho | xl-proteger | ✅ |
-| Demais (copiar macros entre pastas, habilitar macros) | — (Módulo 16) | ⬜ |
+| Copiar macros entre pastas de trabalho | xl-macros-editar | ✅ |
+| Habilitar macros em uma pasta de trabalho | xl-macros-seguranca | ✅ |

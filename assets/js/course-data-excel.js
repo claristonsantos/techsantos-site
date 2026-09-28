@@ -3191,5 +3191,164 @@ const COURSE = [
         ]
       }
     ]
+  },
+  {
+    id: 'xl-m16', title: 'Módulo 16 · Macros: gravar, editar e usar com segurança', kind: 'video',
+    lessons: [
+      {
+        id: 'xl-macros-gravar', title: 'Gravar e executar macros',
+        desc: 'Mostrar a guia Desenvolvedor, gravar uma macro com nome, atalho, local e descrição, referências relativas, executar por atalho, pela caixa Macro, por botão e salvar como .xlsm.',
+        objetivos: [
+          'Exibir a guia Desenvolvedor e gravar uma macro',
+          'Escolher nome, tecla de atalho, local de armazenamento e referências relativas',
+          'Executar macros de várias formas e salvar a pasta no formato certo'
+        ],
+        body: 'Toda segunda-feira, a mesma sequência: importar o relatório, apagar as três primeiras linhas, formatar datas, aplicar o filtro, ajustar colunas. Uma macro grava essa sequência e a repete com um atalho. Não é preciso saber programar para começar: o Gravador de Macros escreve o código por você. "Gravar macros simples" e "nomear macros simples" estão na prova Expert.',
+        content: [
+          { h: 'A guia Desenvolvedor',
+            p: 'Os comandos de macro ficam na guia <strong>Desenvolvedor</strong>, oculta por padrão. Para exibi-la: Arquivo > Opções > <strong>Personalizar Faixa de Opções</strong> e, em Guias Principais, marque <strong>Desenvolvedor</strong>. Alguns comandos também estão em Exibir > Macros (Exibir Macros, Gravar Macro, Usar Referências Relativas).',
+            img: { src: `${XL_IMG}/m16/guia-desenvolvedor.png`, alt: 'Guia Desenvolvedor na faixa de opções', caption: 'A guia Desenvolvedor, com o grupo Código.', source: `${SUP}/excel/automate-tasks-with-the-macro-recorder` } },
+          { h: 'Gravar uma macro',
+            items: [
+              'Desenvolvedor > Código > <strong>Gravar Macro</strong> (ou o botão de gravação à esquerda da barra de status).',
+              '<strong>Nome da macro</strong> — começa com letra; letras, números e sublinhado; <strong>sem espaços</strong>; não pode parecer referência de célula. Use nomes que digam o que a macro faz: <code>FormatarDatas</code>, <code>Relatorio_Semanal</code>.',
+              '<strong>Tecla de atalho</strong> — Ctrl mais uma letra; digitando a letra em maiúscula, o atalho vira Ctrl+Shift+letra. Cuidado: o atalho da macro substitui o do Excel enquanto a pasta estiver aberta (usar Ctrl+Z faria perder o Desfazer). Prefira Ctrl+Shift.',
+              '<strong>Armazenar macro em</strong> — <strong>Esta pasta de trabalho</strong> (a macro vai junto com o arquivo), <strong>Nova pasta de trabalho</strong> ou <strong>Pasta de Trabalho Pessoal de Macros</strong> (disponível em qualquer arquivo que você abrir neste computador — próxima aula).',
+              '<strong>Descrição</strong> — opcional, mas ajuda a lembrar o que a macro faz.',
+              'Clique em OK e faça as ações; tudo é registrado, inclusive os erros e os cliques desnecessários. Termine com <strong>Parar Gravação</strong>.'
+            ],
+            img: { src: `${XL_IMG}/m16/gravar-macro.png`, alt: 'Caixa Gravar Macro preenchida', caption: 'Gravar macro: nome, tecla de atalho, local e descrição.', source: `${SUP}/excel/automate-tasks-with-the-macro-recorder` } },
+          { h: 'Referências absolutas ou relativas',
+            p: 'Por padrão, o gravador registra endereços fixos: se você clicou em A2 durante a gravação, a macro sempre vai para A2. Com <strong>Usar Referências Relativas</strong> ligado (botão da guia Desenvolvedor, antes de começar a gravar), ela registra deslocamentos a partir da célula ativa — "uma linha abaixo", "duas colunas à direita" —, e funciona a partir de onde você estiver. Macros que processam "a linha atual" precisam de referências relativas; macros que formatam um relatório de layout fixo, de absolutas.' },
+          { h: 'Dicas para uma boa gravação',
+            items: [
+              'Ensaie antes: tudo o que você fizer entra no código.',
+              'Prefira várias macros curtas a uma longa.',
+              'Uma macro gravada atua no intervalo gravado; se a lista crescer, use atalhos como Ctrl+Shift+seta durante a gravação ou transforme os dados em tabela do Excel.',
+              'Macros não podem ser desfeitas com Ctrl+Z — teste numa cópia do arquivo.'
+            ] },
+          { h: 'Executar',
+            items: [
+              '<strong>Tecla de atalho</strong> definida na gravação.',
+              '<strong>Caixa Macro</strong> — Desenvolvedor > Macros (ou <strong>Alt+F8</strong>): escolha a macro e clique em <strong>Executar</strong>. A mesma caixa tem <strong>Opções</strong> (trocar atalho e descrição), <strong>Editar</strong>, <strong>Excluir</strong> e <strong>Depurar</strong>.',
+              '<strong>Barra de Ferramentas de Acesso Rápido</strong> ou um grupo personalizado na faixa de opções — escolha "Macros" em Escolher comandos em (Módulo 01).',
+              '<strong>Botão ou forma na planilha</strong> — insira uma forma (Inserir > Formas) ou um Botão de Controle de Formulário (Desenvolvedor > Inserir), clique com o botão direito > <strong>Atribuir Macro</strong>.'
+            ],
+            img: { src: `${XL_IMG}/m16/caixa-macro.png`, alt: 'Caixa de diálogo Macro com a lista de macros', caption: 'Caixa Macro (Alt+F8): executar, editar, excluir e opções.', source: `${SUP}/excel/automate-tasks-with-the-macro-recorder` } },
+          { h: 'Salvar: .xlsm',
+            p: 'Uma pasta com macros precisa ser salva como <strong>Pasta de Trabalho Habilitada para Macro (.xlsm)</strong> ou Binária (.xlsb). Se você salvar como .xlsx, o Excel avisa que o projeto VBA não pode ser salvo nesse formato — e, confirmando, as macros são perdidas (Módulo 01).' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Grave uma macro chamada FormatarCabecalho, armazenada nesta pasta de trabalho, que aplique negrito e preenchimento amarelo a A1:F1" — nome exato, local certo, e pare a gravação.',
+              '"Atribua o atalho Ctrl+Shift+R à macro Relatorio" — Macros > Opções.',
+              '"Salve a pasta de trabalho de modo que as macros sejam mantidas" — .xlsm.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Início rápido: criar uma macro', u: `${SUP}/excel/get-started-with-excel/quick-start-create-a-macro` },
+          { t: 'Microsoft Suporte — Automatizar tarefas com o Gravador de Macros', u: `${SUP}/excel/automate-tasks-with-the-macro-recorder` },
+          { t: 'Microsoft Suporte — Executar uma macro no Excel', u: `${SUP}/excel/run-a-macro-in-excel` },
+          { t: 'Microsoft Suporte — Mostrar a guia Desenvolvedor', u: `${SUP}/office/add-ins/show-the-developer-tab` },
+          { t: 'Microsoft Suporte — Atribuir uma macro a um botão', u: `${SUP}/excel/assign-a-macro-to-a-form-or-a-control-button` }
+        ]
+      },
+      {
+        id: 'xl-macros-editar', title: 'Editar macros no Editor do VBA e copiar macros entre pastas',
+        desc: 'O Editor do Visual Basic, módulos e procedimentos, ler e alterar o código gravado, renomear e excluir macros, copiar módulos entre pastas e a Pasta de Trabalho Pessoal de Macros.',
+        objetivos: [
+          'Navegar no Editor do VBA e ler o código gerado pelo gravador',
+          'Fazer edições simples: mudar valores, renomear, comentar e testar passo a passo',
+          'Copiar macros entre pastas de trabalho e usar a Pasta de Trabalho Pessoal de Macros'
+        ],
+        body: 'O gravador escreve código VBA (Visual Basic for Applications). Abrir esse código e fazer pequenos ajustes — trocar uma cor, corrigir um intervalo, apagar um passo gravado por engano — é muito mais rápido do que gravar tudo de novo. "Editar macros simples" e "copiar macros entre pastas de trabalho" são habilidades da prova Expert.',
+        content: [
+          { h: 'O Editor do Visual Basic',
+            items: [
+              'Abra com <strong>Alt+F11</strong>, Desenvolvedor > <strong>Visual Basic</strong>, ou Macros > selecione a macro > <strong>Editar</strong> (que já abre no código dela).',
+              '<strong>Project Explorer</strong> (à esquerda; Ctrl+R se não aparecer) — cada pasta aberta é um projeto (VBAProject) com as planilhas, <code>EstaPasta_de_trabalho</code> e a pasta <strong>Módulos</strong>. As macros gravadas ficam em Módulo1, Módulo2...',
+              '<strong>Janela Propriedades</strong> (F4) — é onde se renomeia um módulo (Relatorios, em vez de Módulo1).',
+              'A janela de código mostra os procedimentos do módulo selecionado.'
+            ],
+            img: { src: `${XL_IMG}/m16/modulo-vba.jpg`, alt: 'Editor do VBA com duas macros num módulo', caption: 'Editor do VBA: projetos à esquerda, código do módulo à direita.', source: `${SUP}/excel/copy-a-macro-module-to-another-workbook` } },
+          { h: 'Lendo uma macro gravada',
+            p: 'Cada macro é um procedimento que começa em Sub, seguido do nome e de parênteses, e termina em End Sub. Linhas que começam com apóstrofo são <strong>comentários</strong> (em verde), ignorados na execução — o gravador coloca a descrição ali. O resto são instruções que o Excel executa de cima para baixo.',
+            code: "Sub FormatarCabecalho()\n'\n' FormatarCabecalho Macro\n' Negrito e fundo amarelo no cabeçalho\n'\n    Range(\"A1:F1\").Select\n    Selection.Font.Bold = True\n    With Selection.Interior\n        .Color = 65535          ' amarelo\n    End With\n    Columns(\"A:F\").AutoFit\nEnd Sub" },
+          { h: 'Edições simples',
+            items: [
+              '<strong>Trocar um valor</strong> — o intervalo entre aspas (A1 até F1 para A1 até H1), um texto, uma cor.',
+              '<strong>Apagar um passo gravado por engano</strong> — exclua as linhas correspondentes (em geral, uma seleção desnecessária seguida de uma ação).',
+              '<strong>Renomear a macro</strong> — altere o nome depois de Sub (sem espaços). Atalhos e botões ligados ao nome antigo precisam ser refeitos.',
+              '<strong>Comentar</strong> — coloque um apóstrofo no início de uma linha para desativá-la sem apagar.',
+              '<strong>Testar</strong> — com o cursor dentro da macro, <strong>F5</strong> executa; <strong>F8</strong> executa uma linha por vez (a próxima fica em amarelo), com a planilha ao lado para ver o efeito de cada passo.',
+              '<strong>Excluir</strong> — no Excel, Alt+F8 > selecione > Excluir; ou apague do Sub ao End Sub no editor.',
+              'Salve pelo próprio editor (Ctrl+S salva a pasta de trabalho) ou volte ao Excel com Alt+F11.'
+            ] },
+          { h: 'Copiar macros entre pastas de trabalho',
+            items: [
+              'Abra as duas pastas (a de origem e a de destino).',
+              'No Editor do VBA, no Project Explorer, <strong>arraste o módulo</strong> da pasta de origem para o projeto da pasta de destino: uma cópia do módulo, com todas as suas macros, é criada.',
+              'Alternativa: botão direito no módulo > <strong>Exportar Arquivo</strong> (gera um arquivo .bas) e, no destino, Arquivo > <strong>Importar Arquivo</strong>.',
+              'Para copiar só uma macro: copie o texto de Sub até End Sub e cole num módulo da outra pasta.',
+              'Salve a pasta de destino como .xlsm.'
+            ],
+            img: { src: `${XL_IMG}/m16/copiar-modulo.jpg`, alt: 'Project Explorer com o módulo sendo copiado para outra pasta', caption: 'Arraste o módulo de um projeto para o outro no Project Explorer.', source: `${SUP}/excel/copy-a-macro-module-to-another-workbook` } },
+          { h: 'Pasta de Trabalho Pessoal de Macros',
+            p: 'Gravando com <strong>Armazenar macro em: Pasta de Trabalho Pessoal de Macros</strong>, o Excel cria o arquivo PERSONAL.XLSB, uma pasta oculta aberta automaticamente sempre que o Excel inicia (fica na pasta XLSTART do seu perfil). As macros dali ficam disponíveis em qualquer arquivo. Ao fechar o Excel, ele pergunta se deve salvar as alterações na pasta pessoal — responda Sim. Para editar, ela aparece no Project Explorer como VBAProject (PERSONAL.XLSB); para vê-la no Excel, Exibir > Reexibir.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Edite a macro AjustarRelatorio para que ela aplique o formato também à coluna G" — Macros > Editar, altere o intervalo no código e salve.',
+              '"Copie a macro Limpar da pasta Modelos.xlsm para a pasta atual" — arraste o módulo no Project Explorer.',
+              '"Renomeie a macro Macro1 para FormatarDatas" — altere o nome no Sub.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Editar uma macro', u: `${SUP}/excel/edit-a-macro` },
+          { t: 'Microsoft Suporte — Copiar um módulo de macro para outra pasta de trabalho', u: `${SUP}/excel/copy-a-macro-module-to-another-workbook` },
+          { t: 'Microsoft Suporte — Criar e salvar macros numa única pasta de trabalho', u: `${SUP}/excel/create-and-save-all-your-macros-in-a-single-workbook` }
+        ]
+      },
+      {
+        id: 'xl-macros-seguranca', title: 'Segurança de macros: habilitar com critério',
+        desc: 'Por que macros são bloqueadas, a barra de aviso e Habilitar Conteúdo, as configurações da Central de Confiabilidade, documentos e locais confiáveis e macros de arquivos da internet.',
+        objetivos: [
+          'Habilitar macros de uma pasta de trabalho pela barra de aviso',
+          'Conhecer as configurações de macro da Central de Confiabilidade',
+          'Usar locais confiáveis e desbloquear arquivos baixados de fontes seguras'
+        ],
+        body: 'Macros podem fazer qualquer coisa que você faria no computador — inclusive apagar arquivos e instalar programas. Por isso macros vindas de fora são uma das principais portas de entrada de vírus, e o Excel as bloqueia por padrão. Saber habilitar macros confiáveis sem abrir a porta para as outras é habilidade da prova Expert ("habilitar macros em uma pasta de trabalho").',
+        content: [
+          { h: 'A barra de aviso',
+            p: 'Ao abrir uma pasta com macros, uma barra amarela de <strong>Aviso de Segurança</strong> informa que as macros foram desabilitadas. Se você confia na origem do arquivo, clique em <strong>Habilitar Conteúdo</strong>: o arquivo passa a ser um <strong>documento confiável</strong> e não perguntará de novo neste computador. Pelo Arquivo > Informações, o mesmo botão oferece Habilitar Todo o Conteúdo ou Opções Avançadas (habilitar só nesta sessão).',
+            img: { src: `${XL_IMG}/m16/barra-aviso-macros.png`, alt: 'Barra de aviso de macros desabilitadas', caption: 'A barra de aviso: macros desabilitadas até você habilitar o conteúdo.', source: `${SUP}/office/vba/enable-or-disable-macros-in-microsoft-365-files` } },
+          { h: 'Configurações de macro',
+            p: 'Arquivo > Opções > <strong>Central de Confiabilidade</strong> > Configurações da Central de Confiabilidade > <strong>Configurações de Macro</strong> (ou Desenvolvedor > <strong>Segurança de Macro</strong>):',
+            items: [
+              '<strong>Desabilitar macros VBA sem notificação</strong> — tudo bloqueado, sem aviso.',
+              '<strong>Desabilitar macros VBA com notificação</strong> — o padrão: bloqueia e mostra a barra de aviso.',
+              '<strong>Desabilitar macros VBA, exceto as assinadas digitalmente</strong> — macros assinadas por um editor confiável rodam.',
+              '<strong>Habilitar macros VBA</strong> — não recomendado: qualquer código roda sem perguntar.',
+              'Caixa separada para as antigas macros do Excel 4.0 e a opção <strong>Confiar no acesso ao modelo de objeto do projeto VBA</strong>, para desenvolvedores.'
+            ],
+            img: { src: `${XL_IMG}/m16/central-confiabilidade.png`, alt: 'Configurações de macro da Central de Confiabilidade', caption: 'Central de Confiabilidade > Configurações de Macro.', source: `${SUP}/office/vba/enable-or-disable-macros-in-microsoft-365-files` } },
+          { h: 'Locais e documentos confiáveis',
+            items: [
+              '<strong>Locais Confiáveis</strong> (na Central de Confiabilidade) — pastas cujos arquivos abrem com macros habilitadas, sem aviso. Crie uma pasta só para as suas planilhas com macro e adicione-a aqui, em vez de afrouxar a configuração geral.',
+              '<strong>Documentos Confiáveis</strong> — a lista dos arquivos em que você clicou Habilitar Conteúdo; pode ser limpa na Central de Confiabilidade.'
+            ] },
+          { h: 'Arquivos vindos da internet',
+            p: 'Arquivos baixados da internet ou recebidos por e-mail recebem a <strong>Marca da Web</strong>, e o Excel bloqueia suas macros com uma barra vermelha de <strong>Risco de Segurança</strong> — sem botão de habilitar. Se o arquivo é de fonte confiável: feche-o, clique com o botão direito nele no Explorador de Arquivos > <strong>Propriedades</strong> > guia Geral > marque <strong>Desbloquear</strong> > OK; ou salve-o num local confiável. Na dúvida, não desbloqueie.' },
+          { h: 'Como isso cai na prova',
+            items: [
+              '"Habilite as macros da pasta de trabalho" — Habilitar Conteúdo na barra de aviso.',
+              '"Configure o Excel para desabilitar todas as macros com notificação" — Central de Confiabilidade > Configurações de Macro.',
+              'Na prova as pastas são confiáveis; na vida real, habilite só o que você sabe de onde veio.'
+            ] }
+        ],
+        recursos: [
+          { t: 'Microsoft Suporte — Habilitar ou desabilitar macros em arquivos do Microsoft 365', u: `${SUP}/office/vba/enable-or-disable-macros-in-microsoft-365-files` },
+          { t: 'Microsoft Suporte — Alterar as configurações de segurança de macro no Excel', u: `${SUP}/excel/change-macro-security-settings-in-excel` }
+        ]
+      }
+    ]
   }
 ];
