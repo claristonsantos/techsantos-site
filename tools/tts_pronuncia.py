@@ -561,6 +561,18 @@ PRONUNCIATION_FIXES = [
     (r"\bRATE\b", "Rêit"),
     (r"\bPREVISÃO\.ETS\b", "Previsão ponto É Tê Ésse"),
     (r"\bSolver\b", "Sólver"),
+    # Curso Excel, rodada 14 (Módulo 14): todos os códigos de erro em B.
+    # #VALUE! já passou pela regra de VALUE acima, por isso casa as duas grafias.
+    (r"#DIV/0!", "erro divisão por zero"),
+    (r"#N/D", "erro Ene Dê"),
+    (r"#NOME\?", "erro nome"),
+    (r"#VALOR!", "erro valor"),
+    (r"#NÚM!", "erro núm"),
+    (r"#NULO!", "erro nulo"),
+    (r"#N/A", "erro Ên Á"),
+    (r"#NAME\?", "erro Nêim"),
+    (r"#(?:VALUE|Váliu)!", "erro Váliu"),
+    (r"#NULL!", "erro Nâl"),
     # "Agora" foi testado em 2026-07-14 (3 opções comparadas) e a pronúncia
     # padrão do edge-tts já soa correta - não precisa de substituição.
     # Mantido documentado aqui para não ser re-testado à toa depois.
