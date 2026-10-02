@@ -84,7 +84,8 @@ declare(strict_types=1);
   .sidebar-lesson .lbl { flex: 1; line-height: 1.3; }
   .sidebar-lesson.locked { color: var(--ink-faint); }
 
-  .app-main { padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3.5rem) 5rem; max-width: 760px; }
+  .app-main { padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3.5rem) 5rem; max-width: 760px; min-width: 0; } /* sem min-width:0 o item do grid cresce além da tela no celular */
+  .app-shell { max-width: 100vw; overflow-x: hidden; }
   .lesson-breadcrumb { font-size: 0.78rem; color: var(--ink-faint); font-weight: 500; }
   .lesson-title { font-size: clamp(1.35rem, 1.2vw + 1rem, 1.85rem); margin: 0.4rem 0 1.5rem; font-family: 'Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0; }
 
@@ -153,7 +154,7 @@ declare(strict_types=1);
   .whats-capture form { display: flex; gap: 0.5rem; flex-wrap: wrap; }
   .whats-capture input[type="tel"] {
     font-family: 'Plex Sans', sans-serif; font-size: 0.88rem; padding: 0.55rem 0.75rem;
-    border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); width: 170px;
+    border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); width: 170px; max-width: 100%; flex: 1 1 150px;
   }
   .whats-capture .dismiss {
     font-size: 0.78rem; color: var(--ink-faint); background: none; border: none; cursor: pointer; text-decoration: underline;
@@ -164,6 +165,10 @@ declare(strict_types=1);
   .sidebar-backdrop { display: none; }
   @media (max-width: 560px) {
     .student-topbar { padding-inline: 0.75rem; }
+    .student-brand span { font-size: 0.8rem; }
+    .student-brand { min-width: 0; }
+    .student-brand span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .student-topbar > div:first-child { min-width: 0; }
     .topbar-actions { gap: 0.4rem; }
     .topbar-actions .btn-ghost { display: none; }
     .topbar-actions .btn-primary { padding: 0.55rem 0.75rem; font-size: 0.8rem; }
