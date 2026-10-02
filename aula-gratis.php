@@ -106,6 +106,13 @@ declare(strict_types=1);
     display: flex; justify-content: space-between; gap: 0.5rem;
   }
 
+  .free-steps { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: -0.6rem 0 1.1rem; }
+  .free-steps span { font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); background: var(--surface-2); border-radius: 999px; padding: 0.35rem 0.75rem; }
+  .free-steps span b { color: var(--green-strong); margin-right: 0.3rem; }
+  .unmute-btn { position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 3; display: flex; align-items: center; gap: 0.5rem;
+    background: var(--green); color: #08210A; border: none; border-radius: 999px; padding: 0.7rem 1.2rem; font-weight: 800; font-size: 0.95rem; cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0,0,0,.35); animation: pulse-un 1.6s ease-in-out infinite; }
+  @keyframes pulse-un { 0%,100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.05); } }
   .objectives { background: var(--surface-2); border-radius: 6px; padding: 1.1rem 1.3rem; margin-bottom: 1.5rem; }
   .objectives .kicker { font-size: 0.78rem; font-weight: 700; color: var(--ink); margin-bottom: 0.65rem; }
   .objectives ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
@@ -252,7 +259,7 @@ function whatsCaptureHtml(gate) {
     ? 'Deixe seu WhatsApp e assista agora às aulas 2 e 3 do curso — sem cadastro, sem cartão.'
     : 'Deixe seu WhatsApp para liberar as aulas 2 e 3 agora e receber dicas práticas de Power BI.';
   return `
-    <div class="whats-capture ${gate ? 'is-visible whats-gate' : 'is-deferred'}" id="whatsCapture" aria-live="polite">
+    <div class="whats-capture is-visible${gate ? ' whats-gate' : ''}" id="whatsCapture" aria-live="polite">
       <div class="txt">
         <strong>${title}</strong>
         <span>${text}</span>
@@ -381,16 +388,20 @@ function renderLesson(id) {
       ${whatsCaptureHtml(true)}
     `;
   } else if (isFree(lesson.id)) {
+    const autoMuted = lesson.id === FREE_LESSON_IDS[0];
     mediaBlock = `
+      <div class="free-steps"><span><b>1</b>Assista à aula 1 agora</span><span><b>2</b>Deixe seu WhatsApp</span><span><b>3</b>Libere as aulas 2 e 3</span></div>
       <div class="player">
-        <video class="player-video" controls preload="metadata" playsinline>
+        <video class="player-video" controls preload="${autoMuted ? 'auto' : 'metadata'}" playsinline ${autoMuted ? 'muted autoplay' : ''}>
           <source src="https://media.techsantos.com.br/previews/${lesson.id}.mp4#t=0.5" type="video/mp4">
         </video>
         <div class="player-placeholder">
           <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="18" height="18" ')}</div>
           <div class="caption"><span>${lesson.title}</span><span>Amostra gratuita</span></div>
         </div>
+        ${autoMuted ? '<button class="unmute-btn" type="button" id="unmuteBtn">🔊 Toque para ouvir a aula</button>' : ''}
       </div>
+      ${whatsCaptureHtml()}
       ${lesson.objetivos ? `
       <div class="objectives">
         <div class="kicker">O que você vai aprender</div>
@@ -401,7 +412,6 @@ function renderLesson(id) {
         <p>${lesson.desc}</p>
         ${lesson.body ? `<p>${lesson.body}</p>` : ''}
       </div>
-      ${whatsCaptureHtml()}
     `;
   } else {
     mediaBlock = `
@@ -435,12 +445,31 @@ function renderLesson(id) {
   const placeholderEl = main.querySelector('.player-placeholder');
   if (videoEl && placeholderEl) {
     const progressSent = new Set();
+    const hidePlaceholder = () => { placeholderEl.style.display = 'none'; };
     const lessonParams = () => ({
       lesson_id: lesson.id,
       lesson_title: lesson.title,
       content_type: 'free_lesson'
     });
+    const unmuteBtn = main.querySelector('#unmuteBtn');
+    const userStarted = () => !videoEl.muted || !unmuteBtn;
+    if (unmuteBtn) {
+      unmuteBtn.addEventListener('click', () => {
+        videoEl.muted = false;
+        videoEl.currentTime = 0;
+        unmuteBtn.remove();
+        hidePlaceholder();
+        const p = videoEl.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+        if (!progressSent.has('start')) {
+          progressSent.add('start');
+          if (typeof window.techSantosTrack === 'function') window.techSantosTrack('video_start', lessonParams(), 'FreeLessonStarted', false);
+        }
+      });
+      videoEl.addEventListener('volumechange', () => { if (!videoEl.muted && unmuteBtn.isConnected) unmuteBtn.remove(); });
+    }
     videoEl.addEventListener('play', () => {
+      if (!userStarted()) return;
       if (progressSent.has('start')) return;
       progressSent.add('start');
       if (typeof window.techSantosTrack === 'function') {
@@ -450,6 +479,7 @@ function renderLesson(id) {
     videoEl.addEventListener('timeupdate', () => {
       if (!videoEl.duration) return;
       const percent = Math.floor((videoEl.currentTime / videoEl.duration) * 100);
+      if (!userStarted()) return;
       [25, 50, 75].forEach((milestone) => {
         const key = String(milestone);
         if (percent >= milestone && !progressSent.has(key)) {
@@ -474,7 +504,6 @@ function renderLesson(id) {
     // Chrome mobile com economia de dados o preload não acontece antes de um
     // toque, então o vídeo nunca aparecia: 25 visitantes em 90 dias, 2 plays.
     // Agora o vídeo fica sempre no DOM e a capa é o botão de play.
-    const hidePlaceholder = () => { placeholderEl.style.display = 'none'; };
     placeholderEl.addEventListener('click', () => {
       hidePlaceholder();
       const p = videoEl.play();
