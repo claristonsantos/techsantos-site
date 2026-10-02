@@ -647,3 +647,120 @@ function meta_instagram_exchange_long_lived(string $shortLivedToken, ?string &$e
         'access_token' => $shortLivedToken,
     ], $error);
 }
+
+/*
+ * ---------------------------------------------------------------------------
+ * Threads API (graph.threads.net). Usa o caso de uso "Acessar a API do Threads"
+ * do app da Meta, que tem App ID/Secret próprios (META_THREADS_APP_ID/SECRET).
+ * Token de usuário de longa duração (60 dias), renovado todo dia por
+ * cron_threads_token.php — renovação só funciona enquanto o token não expirou.
+ * Constantes podem ainda não existir no config.php antes da primeira conexão.
+ * ---------------------------------------------------------------------------
+ */
+function threads_cfg(string $name): string
+{
+    return defined($name) ? (string)constant($name) : '';
+}
+
+function threads_redirect_uri(): string
+{
+    return 'https://techsantos.com.br/admin/social_setup.php';
+}
+
+function threads_graph_url(string $path): string
+{
+    return 'https://graph.threads.net/v1.0/' . ltrim($path, '/');
+}
+
+function meta_threads_authorize_url(): string
+{
+    return 'https://threads.net/oauth/authorize?' . http_build_query([
+        'client_id' => threads_cfg('META_THREADS_APP_ID'),
+        'redirect_uri' => threads_redirect_uri(),
+        'scope' => 'threads_basic,threads_content_publish',
+        'response_type' => 'code',
+        'state' => 'threads',
+    ]);
+}
+
+function meta_threads_exchange_code(string $code, ?string &$error = null): ?array
+{
+    return meta_http_post('https://graph.threads.net/oauth/access_token', [
+        'client_id' => threads_cfg('META_THREADS_APP_ID'),
+        'client_secret' => threads_cfg('META_THREADS_APP_SECRET'),
+        'grant_type' => 'authorization_code',
+        'redirect_uri' => threads_redirect_uri(),
+        'code' => $code,
+    ], $error);
+}
+
+function meta_threads_exchange_long_lived(string $shortLivedToken, ?string &$error = null): ?array
+{
+    return meta_http_get('https://graph.threads.net/access_token', [
+        'grant_type' => 'th_exchange_token',
+        'client_secret' => threads_cfg('META_THREADS_APP_SECRET'),
+        'access_token' => $shortLivedToken,
+    ], $error);
+}
+
+/** Renova o token de longa duração (precisa ter mais de 24h e ainda não ter expirado). */
+function meta_threads_refresh_token(string $token, ?string &$error = null): ?array
+{
+    return meta_http_get('https://graph.threads.net/refresh_access_token', [
+        'grant_type' => 'th_refresh_token',
+        'access_token' => $token,
+    ], $error);
+}
+
+function meta_threads_me(string $token, ?string &$error = null): ?array
+{
+    return meta_http_get(threads_graph_url('me'), ['fields' => 'id,username', 'access_token' => $token], $error);
+}
+
+/**
+ * Cria um container do Threads. $mediaType: TEXT, IMAGE, VIDEO ou CAROUSEL.
+ * Itens de carrossel passam $isCarouselItem=true (sem texto); o pai CAROUSEL
+ * recebe os ids dos filhos em $children.
+ */
+function meta_threads_create_container(string $mediaType, string $text, ?string $mediaUrl, ?string &$error = null, bool $isCarouselItem = false, array $children = []): ?string
+{
+    $fields = ['media_type' => $mediaType, 'access_token' => threads_cfg('META_THREADS_TOKEN')];
+    if ($text !== '' && !$isCarouselItem) $fields['text'] = $text;
+    if ($mediaType === 'IMAGE') $fields['image_url'] = (string)$mediaUrl;
+    if ($mediaType === 'VIDEO') $fields['video_url'] = (string)$mediaUrl;
+    if ($isCarouselItem) $fields['is_carousel_item'] = 'true';
+    if ($children) $fields['children'] = implode(',', $children);
+    $res = meta_http_post(threads_graph_url(threads_cfg('META_THREADS_USER_ID') . '/threads'), $fields, $error);
+    return $res === null ? null : (string)($res['id'] ?? '');
+}
+
+function meta_threads_container_status(string $containerId, ?string &$error = null): ?string
+{
+    $res = meta_http_get(threads_graph_url($containerId), ['fields' => 'status,error_message', 'access_token' => threads_cfg('META_THREADS_TOKEN')], $error);
+    if ($res === null) return null;
+    if (($res['status'] ?? '') === 'ERROR') $error = (string)($res['error_message'] ?? 'erro no processamento');
+    return (string)($res['status'] ?? '');
+}
+
+/** Espera o container ficar FINISHED (vídeo/carrossel podem levar alguns segundos). */
+function meta_threads_wait_finished(string $containerId, int $maxSeconds, ?string &$error = null): bool
+{
+    $deadline = time() + $maxSeconds;
+    do {
+        $status = meta_threads_container_status($containerId, $error);
+        if ($status === 'FINISHED') return true;
+        if ($status === 'ERROR' || $status === 'EXPIRED') return false;
+        sleep(5);
+    } while (time() < $deadline);
+    $error = $error ?: 'container ainda processando';
+    return false;
+}
+
+function meta_threads_publish(string $containerId, ?string &$error = null): ?string
+{
+    $res = meta_http_post(threads_graph_url(threads_cfg('META_THREADS_USER_ID') . '/threads_publish'), [
+        'creation_id' => $containerId,
+        'access_token' => threads_cfg('META_THREADS_TOKEN'),
+    ], $error);
+    return $res === null ? null : (string)($res['id'] ?? '');
+}

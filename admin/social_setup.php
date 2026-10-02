@@ -10,42 +10,39 @@ $result = null;
 $igError = null;
 $igResult = null;
 
-/**
- * Grava um define('NOME', '...') no config.php do servidor. O config.php fica
- * fora do git, então antes o token era mostrado na tela, colado no chat e
- * aplicado por script — expondo a credencial. Agora o callback do OAuth grava
- * direto aqui (troca atômica via arquivo temporário + rename).
- */
-function config_set_define(string $name, string $value, ?string &$error = null): bool
-{
-    $path = __DIR__ . '/../config.php';
-    $src = @file_get_contents($path);
-    if ($src === false) { $error = 'não consegui ler config.php'; return false; }
-    $line = "define('" . $name . "', " . var_export($value, true) . ");";
-    $pattern = "/define\\(\\s*'" . preg_quote($name, '/') . "'\\s*,\\s*'[^']*'\\s*\\);/";
-    $existed = (bool)preg_match($pattern, $src);
-    $new = $existed
-        ? preg_replace($pattern, str_replace(['\\', '$'], ['\\\\', '\\$'], $line), $src, 1)
-        : rtrim($src) . "\n" . $line . "\n";
-    // Trava: config.php quebrado derruba o site inteiro. Só troca o arquivo se
-    // a contagem de define( bater e a linha nova estiver lá.
-    $expected = substr_count($src, 'define(') + ($existed ? 0 : 1);
-    if (!is_string($new) || substr_count($new, 'define(') !== $expected || strpos($new, $line) === false || strpos($new, '<?php') !== 0) {
-        $error = 'verificação de segurança falhou, config.php não foi alterado';
-        return false;
-    }
-    $tmp = $path . '.tmp-' . bin2hex(random_bytes(4));
-    if (@file_put_contents($tmp, $new, LOCK_EX) === false || !@rename($tmp, $path)) {
-        @unlink($tmp);
-        $error = 'não consegui gravar config.php';
-        return false;
-    }
-    if (function_exists('opcache_invalidate')) @opcache_invalidate($path, true);
-    return true;
-}
+require_once __DIR__ . '/../config_writer.php';
 
+$thError = null;
+$thResult = null;
+$thMsg = null;
+
+// Threads OAuth callback (mesma URL de retorno, identificada por state=threads)
+if (isset($_GET['code']) && ($_GET['state'] ?? '') === 'threads') {
+    $apiError = null;
+    $exchange = meta_threads_exchange_code((string)$_GET['code'], $apiError);
+    if ($exchange === null) {
+        $thError = 'Falha ao trocar o código do Threads por um token: ' . $apiError;
+    } else {
+        $long = meta_threads_exchange_long_lived((string)($exchange['access_token'] ?? ''), $apiError);
+        if ($long === null) {
+            $thError = 'Token curto do Threads obtido, mas falhou ao trocar por um de longa duração: ' . $apiError;
+        } else {
+            $newToken = (string)($long['access_token'] ?? '');
+            $me = meta_threads_me($newToken, $apiError);
+            if ($me === null) {
+                $thError = 'Token novo do Threads obtido, mas o teste /me falhou: ' . $apiError;
+            } elseif (!config_set_define('META_THREADS_TOKEN', $newToken, $apiError)
+                || !config_set_define('META_THREADS_USER_ID', (string)($me['id'] ?? ''), $apiError)) {
+                $thError = 'Token do Threads válido, mas falhou ao gravar no servidor: ' . $apiError;
+            } else {
+                $thResult = ['username' => (string)($me['username'] ?? ''), 'id' => (string)($me['id'] ?? ''), 'days' => (int)round(((int)($long['expires_in'] ?? 0)) / 86400)];
+            }
+        }
+    }
+} elseif (isset($_GET['error']) && ($_GET['state'] ?? '') === 'threads') {
+    $thError = 'Login do Threads cancelado ou negado: ' . (string)($_GET['error_description'] ?? $_GET['error']);
 // Instagram OAuth callback (Meta redirects back here with ?code=... or ?error=...)
-if (isset($_GET['code'])) {
+} elseif (isset($_GET['code'])) {
     $apiError = null;
     $exchange = meta_instagram_exchange_code((string)$_GET['code'], $apiError);
 
@@ -84,7 +81,25 @@ if (isset($_GET['code'])) {
     $igError = 'Login do Instagram cancelado ou negado: ' . (string)($_GET['error_description'] ?? $_GET['error']);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'threads_app') {
+    csrf_check();
+    $appId = trim((string)($_POST['threads_app_id'] ?? ''));
+    $appSecret = trim((string)($_POST['threads_app_secret'] ?? ''));
+    $apiError = null;
+    if (!preg_match('/^\d{6,25}$/', $appId) || !preg_match('/^[A-Za-z0-9]{16,64}$/', $appSecret)) {
+        $thError = 'Confira o ID e a Chave Secreta do app do Threads (ID só números; chave só letras e números).';
+    } elseif (!config_set_define('META_THREADS_APP_ID', $appId, $apiError) || !config_set_define('META_THREADS_APP_SECRET', $appSecret, $apiError)) {
+        $thError = 'Não consegui gravar no servidor: ' . $apiError;
+    } else {
+        header('Location: /admin/social_setup.php?threads_app=ok');
+        exit;
+    }
+}
+if (isset($_GET['threads_app'])) {
+    $thMsg = 'App do Threads salvo no servidor. Agora clique em “Conectar com Threads”.';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') !== 'threads_app') {
     csrf_check();
     $shortToken = trim((string)($_POST['short_token'] ?? ''));
 
@@ -118,11 +133,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-admin_head('Configurar Meta (Facebook/Instagram)');
+admin_head('Configurar Meta (Facebook/Instagram/Threads)');
 admin_topbar('social');
 ?>
 <main class="admin-main">
-  <div class="admin-head"><h1>Configurar Meta (Facebook/Instagram)</h1><a class="btn btn-ghost on-light" href="/admin/social_posts.php">← Fila de posts</a></div>
+  <div class="admin-head"><h1>Configurar Meta (Facebook/Instagram/Threads)</h1><a class="btn btn-ghost on-light" href="/admin/social_posts.php">← Fila de posts</a></div>
 
   <div class="buy-card" style="max-width:760px; margin-bottom:1.5rem;">
     <h2 style="font-size:1.1rem; margin-bottom:0.75rem;">Instagram</h2>
@@ -140,6 +155,33 @@ admin_topbar('social');
       </div>
     <?php else: ?>
       <a class="btn btn-primary" href="<?= htmlspecialchars(meta_instagram_authorize_url(), ENT_QUOTES) ?>">Conectar com Instagram</a>
+    <?php endif; ?>
+  </div>
+
+  <div class="buy-card" style="max-width:760px; margin-bottom:1.5rem;">
+    <h2 style="font-size:1.1rem; margin-bottom:0.75rem;">Threads</h2>
+    <p style="color:var(--ink-soft); font-size:0.9rem; margin-bottom:1rem;">
+      Usa o caso de uso “Acessar a API do Threads” do app da Meta. URL de retorno a cadastrar no app: <code><?= htmlspecialchars(threads_redirect_uri(), ENT_QUOTES) ?></code>. O token vale 60 dias e é renovado automaticamente todo dia.
+    </p>
+    <?php if ($thError): ?><div class="alert alert-error"><?= htmlspecialchars($thError, ENT_QUOTES) ?></div><?php endif; ?>
+    <?php if ($thMsg): ?><div class="alert alert-success"><?= htmlspecialchars($thMsg, ENT_QUOTES) ?></div><?php endif; ?>
+    <?php if ($thResult): ?>
+      <div style="padding:1rem; background:var(--surface-2); border-radius:6px;">
+        <p style="font-weight:700; margin-bottom:0.5rem; color:var(--green-strong);">✓ Threads conectado e token salvo no servidor.</p>
+        <p style="font-size:0.88rem; color:var(--ink-soft);">Conta: <strong>@<?= htmlspecialchars($thResult['username'], ENT_QUOTES) ?></strong> · ID <code><?= htmlspecialchars($thResult['id'], ENT_QUOTES) ?></code> · válido por <?= (int)$thResult['days'] ?> dias (renovação diária automática).</p>
+      </div>
+    <?php else: ?>
+      <form method="post" novalidate style="margin-bottom:1rem;">
+        <?= csrf_field() ?>
+        <input type="hidden" name="action" value="threads_app">
+        <div class="field"><label for="threads_app_id">ID do app do Threads <?= threads_cfg('META_THREADS_APP_ID') !== '' ? '(já salvo — preencha só para trocar)' : '' ?></label><input type="text" id="threads_app_id" name="threads_app_id" autocomplete="off"></div>
+        <div class="field"><label for="threads_app_secret">Chave secreta do app do Threads</label><input type="password" id="threads_app_secret" name="threads_app_secret" autocomplete="off"></div>
+        <button type="submit" class="btn btn-ghost on-light">1. Salvar app do Threads</button>
+      </form>
+      <?php if (threads_cfg('META_THREADS_APP_ID') !== '' && threads_cfg('META_THREADS_APP_SECRET') !== ''): ?>
+        <a class="btn btn-primary" href="<?= htmlspecialchars(meta_threads_authorize_url(), ENT_QUOTES) ?>">2. Conectar com Threads</a>
+        <?php if (threads_cfg('META_THREADS_TOKEN') !== ''): ?><p style="font-size:0.82rem; color:var(--ink-faint); margin-top:0.5rem;">Já existe um token salvo. Só reconecte se a publicação parar.</p><?php endif; ?>
+      <?php endif; ?>
     <?php endif; ?>
   </div>
 

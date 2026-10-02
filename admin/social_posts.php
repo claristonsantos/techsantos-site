@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $canal = (string)($_POST['canal'] ?? '');
         $legenda = trim((string)($_POST['legenda'] ?? ''));
         $imagemUrl = trim((string)($_POST['imagem_url'] ?? ''));
-        $allowedTypes = $canal === 'facebook' ? ['feed', 'reels'] : ['feed', 'story', 'reels'];
+        $allowedTypes = $canal === 'instagram' ? ['feed', 'story', 'reels'] : ['feed', 'reels'];
         $requestedType = (string)($_POST['tipo'] ?? 'feed');
         $tipo = in_array($requestedType, $allowedTypes, true) ? $requestedType : 'feed';
         $linkUrl = $canal === 'facebook' && $tipo === 'feed' ? trim((string)($_POST['link_url'] ?? '')) : '';
@@ -48,9 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Com link preenchido, o Facebook usa a própria página de destino como
         // preview (card clicável) — a imagem enviada por nós fica dispensável
         // só nesse caso específico (ver meta_schedule_facebook_post()).
-        $imagemDispensavel = $canal === 'facebook' && $tipo === 'feed' && $linkUrl !== '';
+        $imagemDispensavel = ($canal === 'facebook' && $tipo === 'feed' && $linkUrl !== '') || ($canal === 'threads' && $tipo === 'feed'); // Threads aceita post só de texto
 
-        if (!in_array($canal, ['facebook', 'instagram'], true) || $legenda === '' || (!$imagemDispensavel && $imagemUrl === '') || $agendadoPara === '') {
+        if (!in_array($canal, ['facebook', 'instagram', 'threads'], true) || $legenda === '' || (!$imagemDispensavel && $imagemUrl === '') || $agendadoPara === '') {
             $error = 'Preencha canal, legenda, imagem (ou link, no Facebook) e data/hora.';
         } elseif ($imagemUrl !== '' && !filter_var($imagemUrl, FILTER_VALIDATE_URL)) {
             $error = 'A imagem precisa ser uma URL pública (ex.: um link de assets/img/ do próprio site).';
@@ -65,6 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Configure a integração do Facebook primeiro em Configurar Meta.';
             } elseif ($canal === 'instagram' && META_IG_TOKEN === '') {
                 $error = 'Configure a integração do Instagram primeiro em Configurar Meta.';
+            } elseif ($canal === 'threads' && threads_cfg('META_THREADS_TOKEN') === '') {
+                $error = 'Conecte o Threads primeiro em Configurar Meta.';
+            } elseif ($canal === 'threads' && mb_strlen($legenda) > 500) {
+                $error = 'No Threads o texto tem limite de 500 caracteres.';
             } else {
                 // Editing an existing pendente/erro/agendado_meta row: clear it out first
                 // (cancelling the old Meta-side schedule if there was one), then treat as new.
@@ -99,8 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $pdo->prepare('UPDATE social_posts SET meta_post_id = ? WHERE id = ?')->execute([$postId, $pdo->lastInsertId()]);
                     }
                 } else {
-                    // Instagram has no native scheduling — queued here, published later by social_publish_cron.php
-                    $ins->execute(['instagram', $tipo, $midiaTipo, $legenda, $imagemUrl, null, date('Y-m-d H:i:s', $scheduledTs), 'pendente']);
+                    // Instagram e Threads não têm agendamento nativo — ficam na fila e o social_publish_cron.php publica na hora.
+                    $ins->execute([$canal, $tipo, $midiaTipo, $legenda, $imagemUrl, null, date('Y-m-d H:i:s', $scheduledTs), 'pendente']);
                 }
 
                 if (!$error) {
@@ -124,7 +128,7 @@ if (isset($_GET['msg']) && !$error) {
 }
 
 $busca = trim((string)($_GET['busca'] ?? ''));
-$canalFiltro = in_array(($_GET['canal_filtro'] ?? ''), ['facebook','instagram'], true) ? (string)$_GET['canal_filtro'] : '';
+$canalFiltro = in_array(($_GET['canal_filtro'] ?? ''), ['facebook','instagram','threads'], true) ? (string)$_GET['canal_filtro'] : '';
 $statusFiltro = in_array(($_GET['status_filtro'] ?? ''), ['pendente','processando','agendado_meta','publicado','erro'], true) ? (string)$_GET['status_filtro'] : '';
 $tipoFiltro = in_array(($_GET['tipo_filtro'] ?? ''), ['feed','story','reels'], true) ? (string)$_GET['tipo_filtro'] : '';
 $pagina = max(1, (int)($_GET['pagina'] ?? 1)); $porPagina = 25;
@@ -178,6 +182,7 @@ admin_topbar('social');
           <select id="canal" name="canal" required onchange="toggleTipoField()">
             <option value="facebook" <?= ($editRow['canal'] ?? '') === 'facebook' ? 'selected' : '' ?>>Facebook</option>
             <option value="instagram" <?= ($editRow['canal'] ?? '') === 'instagram' ? 'selected' : '' ?>>Instagram</option>
+            <option value="threads" <?= ($editRow['canal'] ?? '') === 'threads' ? 'selected' : '' ?>>Threads</option>
           </select>
         </div>
         <div class="field">
@@ -224,7 +229,7 @@ admin_topbar('social');
 
   <form class="admin-filter-bar" method="get" aria-label="Filtros de publicações">
     <div class="field"><label for="busca">Buscar na legenda</label><input type="search" id="busca" name="busca" placeholder="Palavra ou campanha" value="<?= htmlspecialchars($busca, ENT_QUOTES) ?>"></div>
-    <div class="field"><label for="canal_filtro">Canal</label><select id="canal_filtro" name="canal_filtro"><option value="">Todos</option><option value="facebook" <?= $canalFiltro==='facebook'?'selected':'' ?>>Facebook</option><option value="instagram" <?= $canalFiltro==='instagram'?'selected':'' ?>>Instagram</option></select></div>
+    <div class="field"><label for="canal_filtro">Canal</label><select id="canal_filtro" name="canal_filtro"><option value="">Todos</option><option value="facebook" <?= $canalFiltro==='facebook'?'selected':'' ?>>Facebook</option><option value="instagram" <?= $canalFiltro==='instagram'?'selected':'' ?>>Instagram</option><option value="threads" <?= $canalFiltro==='threads'?'selected':'' ?>>Threads</option></select></div>
     <div class="field"><label for="tipo_filtro">Tipo</label><select id="tipo_filtro" name="tipo_filtro"><option value="">Todos</option><?php foreach(['feed'=>'Feed','story'=>'Story','reels'=>'Reels'] as $v=>$l): ?><option value="<?= $v ?>" <?= $tipoFiltro===$v?'selected':'' ?>><?= $l ?></option><?php endforeach; ?></select></div>
     <div class="field"><label for="status_filtro">Status</label><select id="status_filtro" name="status_filtro"><option value="">Todos</option><?php foreach(['pendente'=>'Pendente','processando'=>'Processando','agendado_meta'=>'Agendado','publicado'=>'Publicado','erro'=>'Erro'] as $v=>$l): ?><option value="<?= $v ?>" <?= $statusFiltro===$v?'selected':'' ?>><?= $l ?></option><?php endforeach; ?></select></div>
     <div class="admin-filter-actions"><button class="btn btn-primary" type="submit">Filtrar</button><a class="btn btn-ghost on-light" href="/admin/social_posts.php">Limpar</a></div>
@@ -328,7 +333,7 @@ admin_topbar('social');
       }
 
       document.getElementById('previewCaption').textContent = btn.dataset.legenda;
-      document.getElementById('previewChan').textContent = btn.dataset.canal === 'facebook' ? 'Facebook' : 'Instagram';
+      document.getElementById('previewChan').textContent = btn.dataset.canal === 'facebook' ? 'Facebook' : (btn.dataset.canal === 'threads' ? 'Threads' : 'Instagram');
       document.getElementById('previewDialog').showModal();
     }
 

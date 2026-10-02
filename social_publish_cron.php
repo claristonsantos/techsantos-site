@@ -26,7 +26,7 @@ $pdo = db();
 // and this cron fires the actual publish at the right time.
 $due = $pdo->query(
     "SELECT * FROM social_posts WHERE status = 'pendente' AND agendado_para <= NOW()"
-    . " AND (canal = 'instagram' OR (canal = 'facebook' AND tipo = 'story'))"
+    . " AND (canal = 'instagram' OR canal = 'threads' OR (canal = 'facebook' AND tipo = 'story'))"
 )->fetchAll();
 
 foreach ($due as $post) {
@@ -43,6 +43,47 @@ foreach ($due as $post) {
     $claim->execute([$post['id']]);
     if ($claim->rowCount() === 0) {
         echo "post {$post['id']}: já reivindicado por outra execução do cron, pulando\n";
+        continue;
+    }
+
+    // Threads: container → (espera processar) → publish, tudo síncrono. Texto
+    // puro quando não há mídia; vídeo pode levar alguns segundos para ficar
+    // FINISHED, imagem costuma ser imediata mas a Meta recomenda esperar.
+    if ($post['canal'] === 'threads') {
+        $text = (string)$post['legenda'];
+        $containerId = null;
+        if ($post['tipo'] === 'carousel') {
+            $urls = json_decode((string)$post['carousel_urls'], true);
+            $children = [];
+            foreach (is_array($urls) ? array_slice($urls, 0, 10) : [] as $u) {
+                $isVid = (bool)preg_match('/\.(mp4|mov)(\?|$)/i', (string)$u);
+                $child = meta_threads_create_container($isVid ? 'VIDEO' : 'IMAGE', '', (string)$u, $error, true);
+                if ($child === null || !meta_threads_wait_finished($child, 90, $error)) { $children = []; break; }
+                $children[] = $child;
+            }
+            if (count($children) >= 2) {
+                $containerId = meta_threads_create_container('CAROUSEL', $text, null, $error, false, $children);
+            } elseif ($error === null) {
+                $error = 'carrossel do Threads precisa de 2 a 10 itens';
+            }
+        } elseif ((string)$post['imagem_url'] === '') {
+            $containerId = meta_threads_create_container('TEXT', $text, null, $error);
+        } else {
+            $containerId = meta_threads_create_container($post['midia_tipo'] === 'video' ? 'VIDEO' : 'IMAGE', $text, (string)$post['imagem_url'], $error);
+        }
+        $publishedId = null;
+        if ($containerId !== null && $containerId !== '' && meta_threads_wait_finished($containerId, 120, $error)) {
+            $publishedId = meta_threads_publish($containerId, $error);
+        }
+        if ($publishedId === null || $publishedId === '') {
+            $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+                ->execute([mb_substr('Threads: ' . ($error ?? 'falha desconhecida'), 0, 500), $post['id']]);
+            echo "post {$post['id']}: falha ao publicar no Threads — {$error}\n";
+        } else {
+            $pdo->prepare("UPDATE social_posts SET status = 'publicado', meta_post_id = ? WHERE id = ?")
+                ->execute([$publishedId, $post['id']]);
+            echo "post {$post['id']}: publicado no Threads ({$publishedId})\n";
+        }
         continue;
     }
 
