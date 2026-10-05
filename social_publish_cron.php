@@ -46,9 +46,11 @@ foreach ($due as $post) {
         continue;
     }
 
-    // Threads: container → (espera processar) → publish, tudo síncrono. Texto
-    // puro quando não há mídia; vídeo pode levar alguns segundos para ficar
-    // FINISHED, imagem costuma ser imediata mas a Meta recomenda esperar.
+    // Threads em duas etapas: aqui só cria o container e marca 'processando';
+    // a Fase 3 (no fim deste arquivo) publica quando ele estiver FINISHED.
+    // Antes era tudo síncrono e o cron era interrompido pelo limite de tempo
+    // do servidor esperando o vídeo processar — o post saía, mas o status
+    // ficava preso em 'processando' (posts 327 e 329, 03-04/10/2026).
     if ($post['canal'] === 'threads') {
         $text = (string)$post['legenda'];
         $containerId = null;
@@ -58,7 +60,7 @@ foreach ($due as $post) {
             foreach (is_array($urls) ? array_slice($urls, 0, 10) : [] as $u) {
                 $isVid = (bool)preg_match('/\.(mp4|mov)(\?|$)/i', (string)$u);
                 $child = meta_threads_create_container($isVid ? 'VIDEO' : 'IMAGE', '', (string)$u, $error, true);
-                if ($child === null || !meta_threads_wait_finished($child, 90, $error)) { $children = []; break; }
+                if ($child === null || !meta_threads_wait_finished($child, 25, $error)) { $children = []; break; }
                 $children[] = $child;
             }
             if (count($children) >= 2) {
@@ -71,18 +73,13 @@ foreach ($due as $post) {
         } else {
             $containerId = meta_threads_create_container($post['midia_tipo'] === 'video' ? 'VIDEO' : 'IMAGE', $text, (string)$post['imagem_url'], $error);
         }
-        $publishedId = null;
-        if ($containerId !== null && $containerId !== '' && meta_threads_wait_finished($containerId, 120, $error)) {
-            $publishedId = meta_threads_publish($containerId, $error);
-        }
-        if ($publishedId === null || $publishedId === '') {
+        if ($containerId === null || $containerId === '') {
             $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
-                ->execute([mb_substr('Threads: ' . ($error ?? 'falha desconhecida'), 0, 500), $post['id']]);
-            echo "post {$post['id']}: falha ao publicar no Threads — {$error}\n";
+                ->execute([mb_substr('Threads: ' . ($error ?? 'falha ao criar container'), 0, 500), $post['id']]);
+            echo "post {$post['id']}: falha ao criar container no Threads — {$error}\n";
         } else {
-            $pdo->prepare("UPDATE social_posts SET status = 'publicado', meta_post_id = ? WHERE id = ?")
-                ->execute([$publishedId, $post['id']]);
-            echo "post {$post['id']}: publicado no Threads ({$publishedId})\n";
+            $pdo->prepare("UPDATE social_posts SET meta_container_id = ? WHERE id = ?")->execute([$containerId, $post['id']]);
+            echo "post {$post['id']}: container do Threads criado ({$containerId}), publica na próxima etapa\n";
         }
         continue;
     }
@@ -230,4 +227,34 @@ foreach ($fbScheduled as $post) {
 
 if (!$due && !$processing && !$fbScheduled) {
     echo "nada pendente\n";
+}
+
+// Phase 3: Threads — publica containers criados na Fase 1 assim que ficarem
+// FINISHED (texto e imagem costumam ficar prontos na hora; vídeo em segundos
+// ou minutos). Nada de esperar aqui dentro: se ainda processa, tenta na
+// próxima rodada do cron.
+$threadsProcessing = $pdo->query(
+    "SELECT * FROM social_posts WHERE canal = 'threads' AND status = 'processando' AND meta_container_id IS NOT NULL"
+)->fetchAll();
+foreach ($threadsProcessing as $post) {
+    $error = null;
+    $status = meta_threads_container_status($post['meta_container_id'], $error);
+    if ($status === 'FINISHED') {
+        $publishedId = meta_threads_publish($post['meta_container_id'], $error);
+        if ($publishedId === null || $publishedId === '') {
+            $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+                ->execute([mb_substr('Threads: ' . ($error ?? 'falha ao publicar'), 0, 500), $post['id']]);
+            echo "post {$post['id']}: falha ao publicar no Threads — {$error}\n";
+        } else {
+            $pdo->prepare("UPDATE social_posts SET status = 'publicado', meta_post_id = ? WHERE id = ?")
+                ->execute([$publishedId, $post['id']]);
+            echo "post {$post['id']}: publicado no Threads ({$publishedId})\n";
+        }
+    } elseif ($status === 'ERROR' || $status === 'EXPIRED') {
+        $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+            ->execute([mb_substr('Threads: ' . ($error ?: $status), 0, 500), $post['id']]);
+        echo "post {$post['id']}: container do Threads com {$status}\n";
+    } else {
+        echo "post {$post['id']}: Threads ainda processando ({$status})\n";
+    }
 }

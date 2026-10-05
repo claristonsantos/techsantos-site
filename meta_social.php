@@ -677,7 +677,7 @@ function meta_threads_authorize_url(): string
     return 'https://threads.net/oauth/authorize?' . http_build_query([
         'client_id' => threads_cfg('META_THREADS_APP_ID'),
         'redirect_uri' => threads_redirect_uri(),
-        'scope' => 'threads_basic,threads_content_publish',
+        'scope' => 'threads_basic,threads_content_publish,threads_manage_insights',
         'response_type' => 'code',
         'state' => 'threads',
     ]);
