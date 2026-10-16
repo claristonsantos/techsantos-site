@@ -5,6 +5,7 @@ require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/_partials.php';
 require_once __DIR__ . '/../lead_pipeline.php';
 require_admin();
+whatsapp_leads_ensure_email(db());
 csrf_token();
 
 $pdo = db();
@@ -58,14 +59,14 @@ $pagina = max(1, (int)($_GET['pagina'] ?? 1));
 $porPagina = 30;
 $where = [];
 $params = [];
-if ($busca !== '') { $where[] = '(w.telefone LIKE ? OR w.origem LIKE ?)'; $like = '%' . $busca . '%'; $params = [$like,$like]; }
+if ($busca !== '') { $where[] = '(w.telefone LIKE ? OR w.email LIKE ? OR w.origem LIKE ?)'; $like = '%' . $busca . '%'; $params = [$like,$like,$like]; }
 if ($periodo !== 'todos') $where[] = 'w.criado_em >= DATE_SUB(NOW(), INTERVAL ' . (int)$periodo . ' DAY)';
 if ($status !== '') { $where[] = "COALESCE(p.status,'novo') = ?"; $params[] = $status; }
 $whereSql = $where ? ' WHERE ' . implode(' AND ', $where) : '';
 $fromSql = ' FROM whatsapp_leads w LEFT JOIN whatsapp_lead_pipeline p ON p.lead_id=w.id';
 $count = $pdo->prepare('SELECT COUNT(*)' . $fromSql . $whereSql); $count->execute($params); $totalLeads = (int)$count->fetchColumn();
 $paginas = max(1, (int)ceil($totalLeads / $porPagina)); $pagina = min($pagina, $paginas); $offset = ($pagina - 1) * $porPagina;
-$stmt = $pdo->prepare("SELECT w.id,w.telefone,w.origem,w.criado_em,COALESCE(p.status,'novo') AS pipeline_status,p.ultimo_contato_em,p.proxima_acao_em,p.observacoes" . $fromSql . $whereSql . ' ORDER BY CASE WHEN p.proxima_acao_em IS NOT NULL AND p.proxima_acao_em <= NOW() THEN 0 ELSE 1 END, w.criado_em DESC LIMIT ' . $porPagina . ' OFFSET ' . $offset);
+$stmt = $pdo->prepare("SELECT w.id,w.telefone,w.email,w.origem,w.criado_em,COALESCE(p.status,'novo') AS pipeline_status,p.ultimo_contato_em,p.proxima_acao_em,p.observacoes" . $fromSql . $whereSql . ' ORDER BY CASE WHEN p.proxima_acao_em IS NOT NULL AND p.proxima_acao_em <= NOW() THEN 0 ELSE 1 END, w.criado_em DESC LIMIT ' . $porPagina . ' OFFSET ' . $offset);
 $stmt->execute($params); $leads = $stmt->fetchAll();
 
 $editarId = max(0, (int)($_GET['editar'] ?? ($_POST['lead_id'] ?? 0)));
@@ -113,7 +114,7 @@ admin_head('Leads do curso'); admin_topbar('leads_curso');
   <div class="table-wrap"><table class="data-table"><thead><tr><th>Captado em</th><th>WhatsApp</th><th>Origem</th><th>Etapa</th><th>Próxima ação</th><th>Ações</th></tr></thead><tbody>
     <?php if(!$leads): ?><tr class="empty-row"><td colspan="6">Nenhum lead encontrado com estes filtros.</td></tr><?php endif; ?>
     <?php foreach($leads as $lead): ?><?php $origin=course_lead_origin((string)$lead['origem']); ?>
-      <tr><td><?= date('d/m/Y H:i',strtotime((string)$lead['criado_em'])) ?><small>#<?= (int)$lead['id'] ?></small></td><td><strong><?= htmlspecialchars(course_lead_phone((string)$lead['telefone']),ENT_QUOTES) ?></strong></td><td><?= htmlspecialchars($origin['source'],ENT_QUOTES) ?><small><?= htmlspecialchars($origin['campaign'],ENT_QUOTES) ?></small></td><td><span class="admin-status status-<?= $statusTones[$lead['pipeline_status']]??'neutral' ?>"><?= htmlspecialchars($statusLabels[$lead['pipeline_status']]??$lead['pipeline_status'],ENT_QUOTES) ?></span><?php if($lead['ultimo_contato_em']): ?><small>Contato: <?= date('d/m H:i',strtotime((string)$lead['ultimo_contato_em'])) ?></small><?php endif; ?></td><td><?= $lead['proxima_acao_em']?date('d/m/Y H:i',strtotime((string)$lead['proxima_acao_em'])):'—' ?></td><td class="actions"><a href="?editar=<?= (int)$lead['id'] ?>">Gerenciar</a><a href="<?= htmlspecialchars(course_lead_whatsapp_url((string)$lead['telefone']),ENT_QUOTES) ?>" target="_blank" rel="noopener">WhatsApp</a></td></tr>
+      <tr><td><?= date('d/m/Y H:i',strtotime((string)$lead['criado_em'])) ?><small>#<?= (int)$lead['id'] ?></small></td><td><strong><?= htmlspecialchars(course_lead_phone((string)$lead['telefone']),ENT_QUOTES) ?></strong><?php if(!empty($lead['email'])): ?><small><?= htmlspecialchars((string)$lead['email'],ENT_QUOTES) ?></small><?php endif; ?></td><td><?= htmlspecialchars($origin['source'],ENT_QUOTES) ?><small><?= htmlspecialchars($origin['campaign'],ENT_QUOTES) ?></small></td><td><span class="admin-status status-<?= $statusTones[$lead['pipeline_status']]??'neutral' ?>"><?= htmlspecialchars($statusLabels[$lead['pipeline_status']]??$lead['pipeline_status'],ENT_QUOTES) ?></span><?php if($lead['ultimo_contato_em']): ?><small>Contato: <?= date('d/m H:i',strtotime((string)$lead['ultimo_contato_em'])) ?></small><?php endif; ?></td><td><?= $lead['proxima_acao_em']?date('d/m/Y H:i',strtotime((string)$lead['proxima_acao_em'])):'—' ?></td><td class="actions"><a href="?editar=<?= (int)$lead['id'] ?>">Gerenciar</a><a href="<?= htmlspecialchars(course_lead_whatsapp_url((string)$lead['telefone']),ENT_QUOTES) ?>" target="_blank" rel="noopener">WhatsApp</a></td></tr>
     <?php endforeach; ?>
   </tbody></table></div>
   <?php admin_pagination($pagina,$paginas,$totalLeads); ?>

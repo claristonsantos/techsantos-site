@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/lead_pipeline.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -15,6 +16,9 @@ $data = json_decode($raw, true) ?? $_POST;
 
 $telefoneRaw = trim((string)($data['telefone'] ?? ''));
 $origem = trim((string)($data['origem'] ?? 'aula-gratis'));
+// E-mail é opcional: se vier inválido, o lead é salvo só com o telefone.
+$email = mb_strtolower(trim((string)($data['email'] ?? '')));
+$email = ($email !== '' && strlen($email) <= 190 && filter_var($email, FILTER_VALIDATE_EMAIL)) ? $email : null;
 
 // Mantém só dígitos; exige um telefone brasileiro plausível (10-11 dígitos,
 // com ou sem DDI 55).
@@ -28,8 +32,9 @@ if ($digits === null || strlen($digits) < 10 || strlen($digits) > 13) {
 $origem = mb_substr($origem !== '' ? $origem : 'aula-gratis', 0, 100);
 
 $pdo = db();
-$stmt = $pdo->prepare('INSERT INTO whatsapp_leads (telefone, origem) VALUES (?, ?)');
-$stmt->execute([$digits, $origem]);
+whatsapp_leads_ensure_email($pdo);
+$stmt = $pdo->prepare('INSERT INTO whatsapp_leads (telefone, email, origem) VALUES (?, ?, ?)');
+$stmt->execute([$digits, $email, $origem]);
 $leadId = (int)$pdo->lastInsertId();
 
 echo json_encode(['ok' => true]);
@@ -47,8 +52,8 @@ try {
     send_html_email(
         'claristonsantos@techsantos.com.br',
         'Novo lead (aula grátis): ' . $digits,
-        '<p>Novo lead #' . $leadId . ' deixou o WhatsApp na aula grátis.</p><p><strong>Telefone:</strong> ' . $digits . '<br><strong>Origem:</strong> ' . $origemHtml . '</p><p><a href="' . $wa . '">Abrir conversa no WhatsApp</a> · <a href="https://techsantos.com.br/admin/leads-curso.php">Pipeline de leads</a></p>',
-        "Novo lead #{$leadId}: {$digits} ({$origem})\nWhatsApp: {$wa}"
+        '<p>Novo lead #' . $leadId . ' deixou o WhatsApp na aula grátis.</p><p><strong>Telefone:</strong> ' . $digits . '<br><strong>E-mail:</strong> ' . ($email !== null ? htmlspecialchars($email, ENT_QUOTES) : 'não informado') . '<br><strong>Origem:</strong> ' . $origemHtml . '</p><p><a href="' . $wa . '">Abrir conversa no WhatsApp</a> · <a href="https://techsantos.com.br/admin/leads-curso.php">Pipeline de leads</a></p>',
+        "Novo lead #{$leadId}: {$digits} ({$origem})\nE-mail: " . ($email ?? 'não informado') . "\nWhatsApp: {$wa}"
     );
 } catch (Throwable $e) {
     error_log('aviso lead ' . $leadId . ': ' . $e->getMessage());

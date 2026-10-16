@@ -158,7 +158,7 @@ $comboAtivo = promo_combo_ativa();
   .whats-capture .txt strong { display: block; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.15rem; }
   .whats-capture .txt span { font-size: 0.8rem; color: var(--ink-soft); }
   .whats-capture form { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .whats-capture input[type="tel"] {
+  .whats-capture input[type="tel"], .whats-capture input[type="email"] {
     font-family: 'Plex Sans', sans-serif; font-size: 0.88rem; padding: 0.55rem 0.75rem;
     border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); width: 170px; max-width: 100%; flex: 1 1 150px;
   }
@@ -279,6 +279,7 @@ function whatsCaptureHtml(gate) {
       </div>
       <form id="whatsCaptureForm">
         <input type="tel" id="whatsCaptureInput" aria-label="WhatsApp com DDD" placeholder="(DDD) 9xxxx-xxxx" autocomplete="tel" required>
+        <input type="email" id="whatsCaptureEmail" aria-label="E-mail (opcional)" placeholder="E-mail (opcional)" autocomplete="email">
         <button class="btn btn-primary" type="submit" style="font-size:0.85rem;padding:0.55rem 1rem;">Liberar aulas</button>
         ${gate ? '' : '<button class="dismiss" type="button" id="whatsCaptureDismiss">Agora não</button>'}
       </form>
@@ -304,6 +305,8 @@ function wireWhatsCapture() {
     e.preventDefault();
     const input = document.getElementById('whatsCaptureInput');
     const telefone = input.value.trim();
+    const emailInput = document.getElementById('whatsCaptureEmail');
+    const email = emailInput ? emailInput.value.trim() : '';
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
     try {
@@ -311,7 +314,7 @@ function wireWhatsCapture() {
       const res = await fetch('/capturar_whatsapp_lead.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ telefone, origem: attribution.origin }),
+        body: JSON.stringify({ telefone, email, origem: attribution.origin }),
       });
       if (res.ok) {
         if (typeof window.techSantosTrack === 'function') {

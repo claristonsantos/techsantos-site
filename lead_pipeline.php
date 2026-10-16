@@ -15,6 +15,17 @@ function lead_pipeline_ensure_schema(PDO $pdo): void
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 }
 
+/** whatsapp_leads ganhou e-mail opcional (16/10/2026) para follow-up de quem não responde no WhatsApp. */
+function whatsapp_leads_ensure_email(PDO $pdo): void
+{
+    static $done = false;
+    if ($done) return;
+    $done = true;
+    if (!$pdo->query("SHOW COLUMNS FROM whatsapp_leads LIKE 'email'")->fetchColumn()) {
+        $pdo->exec("ALTER TABLE whatsapp_leads ADD COLUMN email VARCHAR(190) NULL AFTER telefone");
+    }
+}
+
 function lead_pipeline_local_phone(string $raw): string
 {
     $digits = preg_replace('/\D/', '', $raw) ?? '';
