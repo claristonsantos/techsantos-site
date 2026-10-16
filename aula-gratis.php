@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/promo_combo.php';
+$comboAtivo = promo_combo_ativa();
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -110,10 +112,11 @@ declare(strict_types=1);
   .free-steps { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: -0.6rem 0 1.1rem; }
   .free-steps span { font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); background: var(--surface-2); border-radius: 999px; padding: 0.35rem 0.75rem; }
   .free-steps span b { color: var(--green-strong); margin-right: 0.3rem; }
-  .unmute-btn { position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 3; display: flex; align-items: center; gap: 0.5rem;
-    background: var(--green); color: #08210A; border: none; border-radius: 999px; padding: 0.7rem 1.2rem; font-weight: 800; font-size: 0.95rem; cursor: pointer;
+  .unmute-btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; display: flex; align-items: center; gap: 0.5rem;
+    background: var(--green); color: #08210A; border: none; border-radius: 999px; padding: 1rem 1.6rem; font-weight: 800; font-size: 1.15rem; cursor: pointer;
     box-shadow: 0 8px 24px rgba(0,0,0,.35); animation: pulse-un 1.6s ease-in-out infinite; }
-  @keyframes pulse-un { 0%,100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.05); } }
+  @keyframes pulse-un { 0%,100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.06); } }
+  .combo-cta { margin: 0.6rem 0 1.4rem; }
   .objectives { background: var(--surface-2); border-radius: 6px; padding: 1.1rem 1.3rem; margin-bottom: 1.5rem; }
   .objectives .kicker { font-size: 0.78rem; font-weight: 700; color: var(--ink); margin-bottom: 0.65rem; }
   .objectives ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
@@ -218,6 +221,8 @@ declare(strict_types=1);
 </div>
 
 <script>
+// Combo Mês dos Professores: faixa + botão de compra abaixo do player enquanto a promo vale.
+const COMBO_HTML = <?= json_encode($comboAtivo ? promo_combo_banner() . '<div class="combo-cta"><a class="btn btn-primary" href="/comprar.php" data-course-cta="aula_gratis_combo">Quero o combo Power BI + Excel</a></div>' : '', JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>;
 const FREE_LESSON_IDS = ['apresentacao-curso', 'introducao', 'normalizacao-desnormalizacao'];
 </script>
 <script src="/assets/js/course-data.js"></script>
@@ -406,6 +411,7 @@ function renderLesson(id) {
         </div>
         ${autoMuted ? '<button class="unmute-btn" type="button" id="unmuteBtn">🔊 Toque para ouvir a aula</button>' : ''}
       </div>
+      ${COMBO_HTML}
       ${whatsCaptureHtml()}
       ${lesson.objetivos ? `
       <div class="objectives">
@@ -438,9 +444,10 @@ function renderLesson(id) {
     </div>
     <div class="preview-cta">
       <h2>Gostou? O curso completo tem mais 43 aulas como essas.</h2>
+      ${COMBO_HTML ? '<p><strong>Até 31/10:</strong> comprando o Power BI, o curso de Excel completo vem junto, de presente.</p>' : ''}
       <p>13 módulos, do primeiro conceito de modelagem até relatórios publicados — com avaliações por módulo e certificado de conclusão.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="/comprar.php">Comprar o curso</a>
+        <a class="btn btn-primary" href="/comprar.php" data-course-cta="aula_gratis_final_buy">${COMBO_HTML ? 'Comprar e levar o Excel de presente' : 'Comprar o curso'}</a>
         <a class="btn btn-ghost" href="https://wa.me/5564992905785?text=${encodeURIComponent('Olá! Assisti a aula grátis do curso de Power BI e tenho uma dúvida antes de comprar.')}" target="_blank" rel="noopener">Falar no WhatsApp</a>
       </div>
     </div>
