@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/promo_combo.php';
 
 $stmt = db()->prepare("SELECT preco_centavos FROM cursos WHERE slug = 'power-bi'");
 $stmt->execute();
@@ -83,6 +84,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <span>à vista · cartão em até 12x ou Pix · acesso vitalício</span>
       </div>
       <?php endif; ?>
+      <?= promo_combo_banner() ?>
       <div class="hero-cta">
         <a class="btn btn-primary" href="/aula-gratis.php" data-course-cta="hero_preview">Assistir 3 aulas grátis</a>
         <a class="btn btn-ghost" href="/comprar.php" data-course-cta="hero_buy">Começar agora<?= $precoFormatado ? ' por R$ ' . $precoFormatado : '' ?></a>
@@ -593,6 +595,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
           <?php if ($precoFormatado): ?>
           <p class="price">R$ <?= $precoFormatado ?><small>à vista ou parcelado em até 12x no cartão · acesso vitalício</small></p>
           <?php endif; ?>
+          <?= promo_combo_banner() ?>
           <div class="hero-cta">
             <a class="btn btn-primary" href="/comprar.php" data-course-cta="final_buy">Começar agora</a>
             <a class="btn btn-ghost" href="/aula-gratis.php" data-course-cta="final_preview">Assistir aula grátis antes</a>

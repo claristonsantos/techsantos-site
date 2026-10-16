@@ -4,10 +4,11 @@ require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
 require_once __DIR__ . '/lead_pipeline.php';
 require_once __DIR__ . '/matriculas.php';
+require_once __DIR__ . '/promo_combo.php';
 
 function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?string $paymentId = null): array
 {
-    $pdo = db(); $senhaGerada = null; $pedido = null; $alunoId = null;
+    $pdo = db(); $senhaGerada = null; $pedido = null; $alunoId = null; $bonusId = null;
     // Fora da transação: CREATE TABLE faria commit implícito no MySQL.
     matriculas_ensure_schema($pdo);
     try {
@@ -39,6 +40,7 @@ function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?stri
             $alunoId = (int)$pdo->lastInsertId();
         }
         matricular($pdo, $alunoId, (int)$pedido['curso_id']);
+        $bonusId = promo_combo_aplicar($pdo, $pedido, $alunoId);
         $pdo->prepare("UPDATE pedidos SET status='pago', aluno_id=?, mercadopago_payment_id=COALESCE(?,mercadopago_payment_id), webhook_processado_em=NOW(), webhook_ultimo_erro=NULL, atualizado_em=NOW() WHERE id=?")->execute([$alunoId,$paymentId,$pedidoId]);
         $pdo->commit();
     } catch (Throwable $e) {
@@ -51,6 +53,7 @@ function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?stri
     if ($senhaGerada !== null) {
         $cursoStmt=$pdo->prepare('SELECT nome FROM cursos WHERE id=?'); $cursoStmt->execute([$pedido['curso_id']]);
         $cursoNome=$cursoStmt->fetchColumn() ?: 'Power BI Completo';
+        if ($bonusId !== null) $cursoNome .= ' + curso de Excel (bônus Mês dos Professores)';
         $ok=send_enrollment_email($pedido['email'],$pedido['nome'],$senhaGerada,['nome'=>$cursoNome]);
         $pdo->prepare("UPDATE pedidos SET email_status=?, email_tentativas=email_tentativas+1, email_enviado_em=IF(?,NOW(),email_enviado_em), email_ultimo_erro=? WHERE id=?")->execute([$ok?'enviado':'falha',$ok?1:0,$ok?null:'SMTP não confirmou o envio',$pedidoId]);
         return ['status'=>'processado','pedido_id'=>$pedidoId,'aluno_id'=>$alunoId,'email_enviado'=>$ok];

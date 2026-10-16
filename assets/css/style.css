@@ -694,3 +694,5 @@ footer.site.footer-compact .footer-bottom { justify-content: center; border-top:
 .course-card .course-home-proof { margin-top: 0; color: var(--ink-soft); }
 .course-card .course-home-proof strong { color: var(--ink); }
 .course-card .course-home-proof a { color: var(--green-strong); }
+.promo-combo { margin-top: 1.1rem; padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid #f5b301; background: rgba(245, 179, 1, 0.14); color: inherit; font-size: 0.95rem; line-height: 1.45; }
+.promo-combo strong { font-weight: 700; }

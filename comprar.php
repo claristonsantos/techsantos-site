@@ -4,6 +4,7 @@ require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/mercadopago.php';
 require_once __DIR__ . '/cursos_catalogo.php';
 require_once __DIR__ . '/matriculas.php';
+require_once __DIR__ . '/promo_combo.php';
 
 // Precisa iniciar a sessão AQUI, antes de qualquer saída de HTML — o
 // formulário só chama csrf_field() lá embaixo, no meio do body, e a essa
@@ -168,6 +169,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
     <?php if ($precoFormatado): ?>
       <p class="buy-price">R$ <?= $precoFormatado ?> <small>à vista, ou parcelado em até 12x no cartão</small></p>
     <?php endif; ?>
+    <?= $slug === PROMO_COMBO_CURSO_PAGO ? promo_combo_banner() : '' ?>
     <ul class="buy-includes">
       <?php foreach ($vitrine['itens'] as $item): ?>
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg><span><?= htmlspecialchars($item, ENT_QUOTES) ?></span></li>
