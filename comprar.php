@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <link rel="canonical" href="https://techsantos.com.br<?= htmlspecialchars($urlCompra, ENT_QUOTES) ?>" />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/style.css?v=20261016" />
 <link rel="stylesheet" href="assets/css/admin.css" />
 <?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>

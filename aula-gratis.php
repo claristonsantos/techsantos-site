@@ -25,7 +25,7 @@ $comboAtivo = promo_combo_ativa();
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" href="/assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
-<link rel="stylesheet" href="/assets/css/style.css" />
+<link rel="stylesheet" href="/assets/css/style.css?v=20261016" />
 <?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <style>
@@ -117,6 +117,8 @@ $comboAtivo = promo_combo_ativa();
     box-shadow: 0 8px 24px rgba(0,0,0,.35); animation: pulse-un 1.6s ease-in-out infinite; }
   @keyframes pulse-un { 0%,100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.06); } }
   .combo-cta { margin: 0.6rem 0 1.4rem; }
+  /* Repetido aqui de style.css: o CSS global fica 7 dias em cache no navegador. */
+  .promo-combo { margin-top: 1.1rem; padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid #f5b301; background: rgba(245, 179, 1, 0.14); font-size: 0.95rem; line-height: 1.45; }
   .objectives { background: var(--surface-2); border-radius: 6px; padding: 1.1rem 1.3rem; margin-bottom: 1.5rem; }
   .objectives .kicker { font-size: 0.78rem; font-weight: 700; color: var(--ink); margin-bottom: 0.65rem; }
   .objectives ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }

@@ -31,7 +31,7 @@ $whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Power BI e ten
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/style.css?v=20261016" />
 <?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($precoCentavos): ?>
