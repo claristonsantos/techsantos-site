@@ -19,12 +19,12 @@ $whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Excel e tenho 
 {"@context": "https://schema.org", "@type": "Course", "name": "Excel do zero ao avançado — Preparatório MO-210 e MO-211", "description": "Curso completo de Microsoft Excel (Microsoft 365) em português, do zero ao avançado, alinhado às certificações Microsoft Office Specialist Excel Associate (MO-210) e Excel Expert (MO-211): fórmulas, PROCX, tabelas dinâmicas, gráficos, análise de hipóteses e macros.", "provider": {"@type": "Organization", "name": "TECH SANTOS BR", "url": "https://techsantos.com.br/"}, "inLanguage": "pt-BR", "url": "https://techsantos.com.br/curso-excel.php"}
 </script>
 <title>Curso Excel do zero ao avançado — Preparatório MO-210 e MO-211 | TECH SANTOS BR</title>
-<meta name="description" content="Curso completo de Excel em português, do zero ao avançado e mapeado nas provas MO-210 e MO-211: 17 módulos, 68 aulas com teoria, imagens oficiais da Microsoft e áudio em todas as aulas, avaliações, 2 simulados finais e certificado." />
+<meta name="description" content="Curso completo de Excel em português, do zero ao avançado e mapeado nas provas MO-210 e MO-211: 17 módulos, 68 videoaulas com demonstração no Excel, teoria, imagens oficiais da Microsoft e áudio em todas as aulas, avaliações, 2 simulados finais e certificado." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="pt_BR" />
 <meta property="og:url" content="https://techsantos.com.br/curso-excel.php" />
 <meta property="og:title" content="Curso Excel do zero ao avançado — Preparatório MO-210 e MO-211" />
-<meta property="og:description" content="17 módulos, 68 aulas com teoria completa, imagens oficiais e áudio, avaliações em todos os módulos, 2 simulados finais e certificado. Com Clariston Santos." />
+<meta property="og:description" content="17 módulos, 68 videoaulas com teoria completa, imagens oficiais e áudio, avaliações em todos os módulos, 2 simulados finais e certificado. Com Clariston Santos." />
 <meta property="og:image" content="https://techsantos.com.br/assets/img/curso-excel/m09/procx-basico.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
@@ -97,8 +97,8 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
       </div>
       <p class="hero-assurance">Acesso imediato · suporte direto com o instrutor · garantia de satisfação</p>
       <div class="kpi-row">
-        <div class="kpi-tile"><div class="kpi-num">68</div><div class="kpi-label">aulas com teoria completa, em 17 módulos</div></div>
-        <div class="kpi-tile"><div class="kpi-num">5h30</div><div class="kpi-label">de áudio: cada aula também em modo podcast</div></div>
+        <div class="kpi-tile"><div class="kpi-num">68</div><div class="kpi-label">videoaulas com demonstração no Excel, em 17 módulos</div></div>
+        <div class="kpi-tile"><div class="kpi-num">3h50</div><div class="kpi-label">de vídeo, e cada aula também em áudio (modo podcast)</div></div>
         <div class="kpi-tile"><div class="kpi-num">208</div><div class="kpi-label">questões: avaliação em cada módulo e 2 simulados finais</div></div>
         <div class="kpi-tile"><div class="kpi-num">120+</div><div class="kpi-label">imagens oficiais da documentação da Microsoft</div></div>
       </div>
@@ -183,8 +183,8 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
           <p class="proof-t">teoria completa em cada aula, com as imagens oficiais da documentação da Microsoft e os nomes das funções em português e em inglês</p>
         </div>
         <div class="proof-card">
-          <p class="proof-num">Áudio</p>
-          <p class="proof-t">cada aula também em modo podcast, com velocidade ajustável — dá para revisar no trânsito</p>
+          <p class="proof-num">Vídeo</p>
+          <p class="proof-t">cada aula em vídeo com a demonstração no Excel, e também em modo podcast para revisar no trânsito</p>
         </div>
         <div class="proof-card">
           <p class="proof-num">Prática</p>
@@ -195,7 +195,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
           <p class="proof-t">avaliação em cada módulo, 2 simulados finais (MO-210 e MO-211) e certificado de conclusão verificável</p>
         </div>
       </div>
-      <p class="honest-note"><strong>Sobre as videoaulas:</strong> o curso já está completo em texto, imagens e áudio. As videoaulas estão sendo gravadas e entram nas próprias aulas conforme ficam prontas, sem custo adicional para quem já é aluno.</p>
+      <p class="honest-note"><strong>Assista antes de comprar:</strong> as aulas dos Módulos 1 a 3 estão abertas no YouTube, na <a href="https://www.youtube.com/playlist?list=PLb_7bebyeB5s" target="_blank" rel="noopener" data-course-cta="excel_youtube_playlist">playlist gratuita do curso</a>.</p>
     </div>
   </section>
 
@@ -541,7 +541,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
         </div>
         <div class="faq-item">
           <h3>O curso tem vídeo?</h3>
-          <p>O conteúdo completo está em texto com imagens oficiais e em áudio (modo podcast) em todas as aulas. As videoaulas estão sendo gravadas e entram no curso conforme ficam prontas, sem custo extra para quem já é aluno.</p>
+          <p>Sim. As 68 aulas têm videoaula com a demonstração no Excel, além do texto com imagens oficiais e do áudio em modo podcast. As aulas dos Módulos 1 a 3 estão abertas no YouTube, na <a href="https://www.youtube.com/playlist?list=PLb_7bebyeB5s" target="_blank" rel="noopener">playlist gratuita</a>, para você conhecer o curso antes de comprar.</p>
         </div>
         <div class="faq-item">
           <h3>A prova está incluída?</h3>
@@ -553,7 +553,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
         </div>
         <div class="faq-item">
           <h3>Por quanto tempo tenho acesso?</h3>
-          <p>Acesso vitalício, incluindo as atualizações do conteúdo e as videoaulas que forem adicionadas.</p>
+          <p>Acesso vitalício, incluindo as atualizações do conteúdo e das videoaulas.</p>
         </div>
         <div class="faq-item">
           <h3>Já sou aluno de outro curso. Como compro?</h3>
