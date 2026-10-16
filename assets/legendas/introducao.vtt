@@ -1,0 +1,442 @@
+WEBVTT
+
+1
+00:00:02.940 --> 00:00:06.960
+Olá pessoal, bem-vindo ao
+curso da TECH SANTOS BR.
+
+2
+00:00:06.960 --> 00:00:13.940
+Esse curso traz o conteúdo do
+Power BI do básico ao avançado.
+
+3
+00:00:13.940 --> 00:00:19.740
+No término desse curso você vai
+ser capaz de construir um painel,
+
+4
+00:00:19.740 --> 00:00:25.360
+um dashboard, outros falam relatório,
+Construir um relatório utilizando a
+
+5
+00:00:25.360 --> 00:00:30.900
+ferramenta Power BI, publicar esse
+relatório e compartilhar com outras pessoas.
+
+6
+00:00:30.900 --> 00:00:47.400
+Então o que é esse novo caminho
+para trabalhar com dados?
+
+7
+00:00:47.400 --> 00:00:52.360
+Então, o que o Power BI
+agregou para o Excel?
+
+8
+00:00:52.360 --> 00:00:59.420
+No Excel, você já tinha desde a versão
+2010, algumas ferramentas embutidas
+
+9
+00:00:59.420 --> 00:01:06.820
+no Excel, como Power Query, que
+é o Discover, que é você acessar,
+
+10
+00:01:06.820 --> 00:01:11.420
+transformar um dado público ou interno
+em um conjunto de dados com Power Query,
+
+11
+00:01:11.420 --> 00:01:16.120
+Análise, que é a modelagem de
+dados através do Power Pivot.
+
+12
+00:01:16.120 --> 00:01:20.790
+E o visualizar, que são através
+do Power View e do Power Map.
+
+13
+00:01:20.980 --> 00:01:23.700
+O que o Power BI veio agregar nisso?
+
+14
+00:01:23.700 --> 00:01:29.480
+Veio agregar a parte de
+colaborar com outras pessoas.
+
+15
+00:01:29.480 --> 00:01:33.060
+Você pode utilizar o Office
+365 para você fazer isso,
+
+16
+00:01:33.060 --> 00:01:35.770
+ou também você pode
+utilizar outras maneiras.
+
+17
+00:01:35.800 --> 00:01:42.760
+Compartilhando o link público ou fazendo
+embed desse link dentro de um site,
+
+18
+00:01:42.760 --> 00:01:46.200
+seu site ou algum outro tipo.
+
+19
+00:01:46.200 --> 00:01:50.500
+Então ali você pode compartilhar, se
+você tiver o Office 365 também você pode
+
+20
+00:01:50.500 --> 00:01:52.030
+utilizar o SharePoint.
+
+21
+00:01:52.300 --> 00:01:56.178
+Você consegue compartilhar esses dados
+de reportes com o Power BI Sites e
+
+22
+00:01:56.178 --> 00:02:00.878
+o SharePoint. Ele tem também
+os questions and answers,
+
+23
+00:02:00.878 --> 00:02:05.098
+que são perguntas e respostas, onde
+você consegue fazer algumas perguntas
+
+24
+00:02:05.098 --> 00:02:06.398
+para o seu conjunto de dados.
+
+25
+00:02:06.398 --> 00:02:15.778
+Tipo, qual loja tem o faturamento maior,
+qual vendedor tem o faturamento maior
+
+26
+00:02:15.778 --> 00:02:23.318
+no best-sell, entre outras perguntas
+que você consegue fazer e o Power BI,
+
+27
+00:02:23.318 --> 00:02:28.978
+ele tem uma inteligência artificial por
+trás que vai fazer isso e te dar essa
+
+28
+00:02:28.978 --> 00:02:33.378
+resposta. Mobile, onde você
+consegue acessar o via mobile,
+
+29
+00:02:33.378 --> 00:02:40.448
+compartilhar seu dashboard e as pessoas
+conseguem visualizar via mobile.
+
+30
+00:02:40.498 --> 00:02:43.138
+Então é uma ferramenta
+que era muito abrangente,
+
+31
+00:02:43.138 --> 00:02:45.988
+gerenciável e confiável.
+
+32
+00:02:48.378 --> 00:02:55.978
+Nesse novo caminho para trabalhar
+com dados, inteligência de negócios,
+
+33
+00:02:55.978 --> 00:02:58.328
+análise self-service e poder da nuvem.
+
+34
+00:02:58.418 --> 00:03:01.578
+Então, eu vou falar um pouco
+do que tem dentro do Power BI,
+
+35
+00:03:01.578 --> 00:03:05.158
+mas também já tem no Excel.
+
+36
+00:03:05.158 --> 00:03:08.828
+Que é a parte de Discover,
+Analyze e Visualize.
+
+37
+00:03:08.898 --> 00:03:12.728
+Que é descobrir, analisar e visualizar.
+
+38
+00:03:13.718 --> 00:03:19.458
+Então, dentro do Excel, você já
+tinha, como eu falei anteriormente,
+
+39
+00:03:19.458 --> 00:03:23.928
+o Power Query. Então, o Power Query é
+uma ferramenta para tratamento de dados.
+
+40
+00:03:24.218 --> 00:03:27.678
+Que é o ETL, o Extract, Transform e Load.
+
+41
+00:03:27.678 --> 00:03:31.538
+Que é extrair, transformar
+e carregar os seus dados.
+
+42
+00:03:31.538 --> 00:03:37.548
+Já havia desde 2010 no Excel e
+ele está integrado ao Power BI.
+
+43
+00:03:37.578 --> 00:03:41.925
+Então o Power BI está
+integrado com o Power Query.
+
+44
+00:03:42.815 --> 00:03:51.715
+O Analisar, que é o Power Pivot,
+que também tem dentro do Excel,
+
+45
+00:03:51.715 --> 00:03:56.755
+onde você vai fazer os relacionamentos
+entre as suas tabelas e fazer as medidas
+
+46
+00:03:56.755 --> 00:04:00.795
+que você vai utilizar nos seus visuais.
+
+47
+00:04:00.795 --> 00:04:07.395
+O Power View também está
+integrado com o Power BI,
+
+48
+00:04:07.395 --> 00:04:13.835
+de uma maneira mais fácil, mais simples
+e visualmente mais interativa para
+
+49
+00:04:13.835 --> 00:04:18.355
+você utilizar, mas também
+está integrado ao Power BI.
+
+50
+00:04:18.355 --> 00:04:24.795
+E você também tem o Power Maps no Power
+BI, que também ele já tinha no Excel.
+
+51
+00:04:24.795 --> 00:04:30.295
+O que o Power BI agregou com o Excel?
+
+52
+00:04:30.295 --> 00:04:36.495
+Que é utilizar o poder da nuvem, então
+você consegue compartilhar esse relatório,
+
+53
+00:04:36.495 --> 00:04:41.515
+essas informações de uma maneira
+mais fácil, ágil e interativa.
+
+54
+00:04:41.515 --> 00:04:45.795
+Então o seu usuário final consegue
+interagir com o seu relatório.
+
+55
+00:04:45.795 --> 00:04:50.955
+Onde consegue navegar,
+entrar dentro dos dados,
+
+56
+00:04:50.955 --> 00:04:57.755
+fazer hierarquias, então consegue,
+você consegue compartilhar um gráfico,
+
+57
+00:04:57.755 --> 00:05:00.475
+consegue descer um nível, dois
+níveis e ver outras informações.
+
+58
+00:05:00.475 --> 00:05:03.955
+Então é muito interativo
+para o usuário final.
+
+59
+00:05:03.955 --> 00:05:08.895
+Então isso que o Power BI veio agregar
+a tudo isso da Microsoft e da TECH
+
+60
+00:05:08.895 --> 00:05:14.715
+SANTOS BR, veio trazer uma ferramenta
+de BI, Para você trabalhar isso ou na
+
+61
+00:05:14.715 --> 00:05:19.915
+sua empresa ou pessoal,
+você pode trabalhar com ele.
+
+62
+00:05:19.915 --> 00:05:24.755
+Então você tem BI Sites, que você pode
+criar BI Sites e compartilhar com pessoas
+
+63
+00:05:24.755 --> 00:05:27.755
+utilizando o SharePoint.
+
+64
+00:05:27.755 --> 00:05:31.935
+Queries compartilhadas, você pode
+compartilhar seus conjuntos de dados,
+
+65
+00:05:31.935 --> 00:05:35.133
+você pode compartilhar dentro da
+empresa seu conjunto de dados,
+
+66
+00:05:35.133 --> 00:05:38.093
+a partir do momento que
+você subir aquele conjunto,
+
+67
+00:05:38.093 --> 00:05:41.673
+você pode compartilhar com
+outras pessoas dentro da empresa,
+
+68
+00:05:41.673 --> 00:05:45.493
+ela não vai precisar mais entrar
+no sistema, baixar uma planilha,
+
+69
+00:05:45.493 --> 00:05:50.233
+baixar um CSV, ela consegue conectar
+o Excel nesse conjunto de dados,
+
+70
+00:05:50.233 --> 00:05:53.433
+ou o Power BI nesse conjunto
+de dados que foi compartilhado,
+
+71
+00:05:53.433 --> 00:05:57.733
+e também usufruir desses dados
+para fazer um novo report,
+
+72
+00:05:57.733 --> 00:05:58.523
+ou alguma
+
+73
+00:05:59.193 --> 00:06:03.013
+O que é o Power BI?
+
+74
+00:06:03.013 --> 00:06:04.743
+O Power BI é uma ferramenta que
+permite fazer refresh de dados.
+
+75
+00:06:07.533 --> 00:06:13.253
+Você publica o relatório
+para o Cloud e faz refresh.
+
+76
+00:06:13.253 --> 00:06:16.893
+Você pode configurar
+automaticamente, de algumas maneiras,
+
+77
+00:06:16.893 --> 00:06:19.383
+como a gente vai ensinar no curso.
+
+78
+00:06:19.473 --> 00:06:23.543
+E também, normalmente, você
+pode fazer esse refresh.
+
+79
+00:06:24.213 --> 00:06:26.373
+E acesso via mobile, né?
+
+80
+00:06:26.373 --> 00:06:30.923
+Então você pode acessar esses
+dados via mobile também.
+
+81
+00:06:31.553 --> 00:06:36.013
+E Natural Language Query, que são as
+perguntas que você pode fazer perguntas ao seu
+
+82
+00:06:36.013 --> 00:06:40.013
+conjunto de dados. Está
+integrado no Power BI.
+
+83
+00:06:40.013 --> 00:06:45.573
+E aqui mostrando para você, né, os
+dados onde você acessa o Power Query no
+
+84
+00:06:45.573 --> 00:06:48.983
+Excel, Power Pivot e o Power Maps.
+
+85
+00:06:49.193 --> 00:06:53.173
+E o Power BI também tem
+uma aba separada na edição.
+
+86
+00:06:53.173 --> 00:06:57.393
+Então nesse curso você vai aprender
+Power BI básico e avançado.
+
+87
+00:06:57.393 --> 00:07:02.253
+Então a gente vai começar
+falando um pouco de Power Query,
+
+88
+00:07:02.253 --> 00:07:05.833
+ITL, depois a gente vai um
+pouquinho em modelagem de dados,
+
+89
+00:07:05.833 --> 00:07:13.453
+depois Power Pivot, depois a gente vai
+entrar em DAX e também no final a gente
+
+90
+00:07:13.453 --> 00:07:14.733
+vai entrar em compartilhamento.
+
+91
+00:07:14.733 --> 00:07:17.353
+Como você vai compartilhar esse relatório.
+
+92
+00:07:17.353 --> 00:07:23.483
+Espero que vocês gostem do
+curso e até a próxima aula.

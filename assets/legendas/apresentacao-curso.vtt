@@ -1,0 +1,523 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.900
+Olá, tudo bem?
+
+2
+00:00:01.900 --> 00:00:06.510
+Eu sou o Clariston, fundador da TECH SANTOS
+e instrutor certificado pela Microsoft.
+
+3
+00:00:07.080 --> 00:00:10.680
+E essa é a introdução do
+curso completo de Power BI.
+
+4
+00:00:10.680 --> 00:00:15.730
+Antes de mostrar o que tem dentro do
+curso, deixa eu te fazer uma pergunta.
+
+5
+00:00:15.940 --> 00:00:18.800
+Quantas vezes por semana
+você abre uma planilha,
+
+6
+00:00:18.800 --> 00:00:24.360
+arrasta o mesmo PROCV para baixo ou
+refaz uma tabela dinâmica? O que você já
+
+7
+00:00:24.360 --> 00:00:30.280
+fez mês passado ou mês atrasado e vai
+continuar fazendo do mesmo jeito mês
+
+8
+00:00:30.280 --> 00:00:34.560
+que vem? Se você trabalha com
+dados, seja na área financeira,
+
+9
+00:00:34.560 --> 00:00:40.120
+contábil, comercial ou qualquer
+lugar onde alguém te pede,
+
+10
+00:00:40.120 --> 00:00:42.420
+mande esse relatório atualizado.
+
+11
+00:00:42.420 --> 00:00:44.900
+Você já sentiu esse trabalho repetitivo?
+
+12
+00:00:44.900 --> 00:00:48.000
+É, o Power BI existe
+exatamente para resolver isso.
+
+13
+00:00:48.000 --> 00:00:52.480
+Você monta uma vez e depois
+é só clicar e atualizar.
+
+14
+00:00:52.480 --> 00:00:58.740
+Esse curso não é sobre decorar botão,
+é sobre te ensinar a pensar como uma
+
+15
+00:00:58.740 --> 00:01:06.020
+pessoa de dados, a estruturar a
+informação direto antes de sair clicando,
+
+16
+00:01:06.020 --> 00:01:10.360
+que é a parte que realmente separa
+quem usa o Power BI superficialmente e
+
+17
+00:01:10.360 --> 00:01:13.060
+quem constrói coisa que dura.
+
+18
+00:01:13.060 --> 00:01:14.660
+Para quem é esse curso?
+
+19
+00:01:14.660 --> 00:01:18.080
+Esse curso é para você que
+já usa o Excel no dia a dia,
+
+20
+00:01:18.080 --> 00:01:22.880
+planilha, tabela dinâmica, PROCV,
+e também dar o próximo passo.
+
+21
+00:01:22.880 --> 00:01:26.960
+E também para a pessoa que não
+tem nenhum conhecimento de Excel.
+
+22
+00:01:26.960 --> 00:01:29.520
+A gente vai ensinar do básico ao avançado.
+
+23
+00:01:29.520 --> 00:01:32.940
+Não importa se você é do financeiro,
+fechando um DRE todo mês,
+
+24
+00:01:32.940 --> 00:01:36.260
+se é da área comercial,
+consolidando vendas, vários times,
+
+25
+00:01:36.260 --> 00:01:39.900
+ou se você é um analista que
+quer se profissionalizar,
+
+26
+00:01:39.900 --> 00:01:41.000
+o que já faz.
+
+27
+00:01:41.000 --> 00:01:45.320
+Seu trabalho envolve transformar
+dado bruto em decisão,
+
+28
+00:01:45.320 --> 00:01:47.400
+esse curso foi feito para você.
+
+29
+00:01:47.400 --> 00:01:52.980
+Não precisa saber nada de Power BI
+antes, a gente começa do absoluto zero.
+
+30
+00:01:52.980 --> 00:01:57.880
+Visão geral da sua jornada, serão
+três módulos de três a quatro minutos.
+
+31
+00:01:57.880 --> 00:02:02.066
+Deixa eu te mostrar o caminho
+completo que a gente vai percorrer.
+
+32
+00:02:02.066 --> 00:02:07.326
+Então a gente tem todos os módulos,
+todos os módulos com vídeo,
+
+33
+00:02:07.326 --> 00:02:10.746
+vídeos de 5, 6 a 7 minutos.
+
+34
+00:02:10.746 --> 00:02:15.846
+A gente tem a base do
+módulo 1 ao módulo 2.
+
+35
+00:02:15.846 --> 00:02:19.226
+A gente começa pela parte que a
+maioria dos cursos de Power BI pula,
+
+36
+00:02:19.226 --> 00:02:20.706
+modelagem de dados.
+
+37
+00:02:20.706 --> 00:02:25.086
+Antes de importar qualquer
+coisa, o que você vai entender,
+
+38
+00:02:25.086 --> 00:02:28.086
+o que é uma tabela única,
+o que é granularidade,
+
+39
+00:02:28.086 --> 00:02:31.566
+como organizar seus dados,
+esquema estrela, dimensão,
+
+40
+00:02:31.566 --> 00:02:37.406
+isso que separa um relatório rápido de
+um relatório que trava com muitos dados.
+
+41
+00:02:37.406 --> 00:02:41.706
+Depois, no módulo 2, você aprende
+a examinar o perfil dos dados.
+
+42
+00:02:41.706 --> 00:02:45.526
+Perfil dos dados do módulo 2.
+
+43
+00:02:45.526 --> 00:02:50.246
+E o módulo 3, 4 e 5 é aqui onde você
+aprende a parte consome mais do seu dia
+
+44
+00:02:50.246 --> 00:02:53.686
+a dia, que é a parte de
+qualquer pessoa de dados,
+
+45
+00:02:53.686 --> 00:02:57.106
+que é conectar, limpar, transformar,
+conectar uma pasta inteira,
+
+46
+00:02:57.106 --> 00:03:00.466
+Excel, SharePoint, dividir
+coluna, tratar erro,
+
+47
+00:03:00.466 --> 00:03:02.706
+mesclar, acrescentar consultas.
+
+48
+00:03:02.706 --> 00:03:08.986
+Então tudo isso está
+dentro do módulo 3, 4 e 5,
+
+49
+00:03:08.986 --> 00:03:14.466
+ok? Para você estruturar
+do zero o seu ETL.
+
+50
+00:03:14.466 --> 00:03:20.726
+O terceiro bloco a gente tem a parte
+de desempenho e a parte de DAX.
+
+51
+00:03:20.726 --> 00:03:26.406
+O que é a DAX? A DAX é a
+linguagem de métricas do Power BI.
+
+52
+00:03:26.406 --> 00:03:29.706
+Então a gente vai ver contexto
+de filtro, contexto de linha,
+
+53
+00:03:29.706 --> 00:03:34.516
+calculate, inteligência de
+dados temporais, DATEADD.
+
+54
+00:03:34.546 --> 00:03:39.886
+Nesse módulo, honestamente, é o que vai
+separar quem só sabe montar um gráfico
+
+55
+00:03:39.886 --> 00:03:43.306
+e quem sabe responder
+qualquer pergunta de negócio,
+
+56
+00:03:43.306 --> 00:03:44.796
+com a medida.
+
+57
+00:03:44.926 --> 00:03:51.386
+O quarto bloco que a gente
+tem é a parte de criação.
+
+58
+00:03:51.386 --> 00:03:55.332
+Então aqui você vai transformar seu
+modelo em um relatório de verdade.
+
+59
+00:03:55.332 --> 00:03:59.512
+Escolha qual visual certo, qual
+pergunta, formatação condicional,
+
+60
+00:03:59.512 --> 00:04:02.222
+bookmarks.
+
+61
+00:04:02.692 --> 00:04:05.792
+E no módulo 9, a gente fala
+um pouquinho de IA também.
+
+62
+00:04:05.792 --> 00:04:08.052
+O Power BI tem alguns recursos de IA.
+
+63
+00:04:08.052 --> 00:04:11.292
+Então a gente pode explorar
+um pouco também de IA,
+
+64
+00:04:11.292 --> 00:04:15.412
+com insights automático,
+explorando dados com filtro.
+
+65
+00:04:15.412 --> 00:04:19.312
+Todos os módulos, a
+gente tem as vídeo aulas.
+
+66
+00:04:19.312 --> 00:04:24.272
+No módulo 10, a gente tem
+laboratórios práticos.
+
+67
+00:04:24.272 --> 00:04:30.792
+Então, nesse módulo 10, a gente
+vai construir do zero um dashboard,
+
+68
+00:04:30.792 --> 00:04:34.072
+nesse modelo onde você vai
+receber a base de dados,
+
+69
+00:04:34.072 --> 00:04:39.532
+todo o material para você
+construir e no módulo 10,
+
+70
+00:04:39.532 --> 00:04:43.432
+no módulo 9 e no módulo 8, a gente já
+falou um pouquinho desse dashboard.
+
+71
+00:04:43.432 --> 00:04:51.072
+No módulo 11, não adianta nada, você
+tem um relatório bom se ele não sai do
+
+72
+00:04:51.072 --> 00:04:52.312
+seu computador.
+
+73
+00:04:52.312 --> 00:04:58.152
+A gente vai falar sobre Workspaces,
+a gente vai falar sobre apps,
+
+74
+00:04:58.152 --> 00:04:59.912
+vamos falar sobre segurança
+em nível de linha,
+
+75
+00:04:59.912 --> 00:05:04.672
+atualização programada e como levar isso
+para a produção e manter funcionando
+
+76
+00:05:04.672 --> 00:05:06.032
+meses depois.
+
+77
+00:05:06.032 --> 00:05:11.912
+E a gente tem o estudo final de
+caso, mais um para você montar,
+
+78
+00:05:11.912 --> 00:05:17.752
+a gente tem as bases, tem toda a instrução
+para você montar outro relatório.
+
+79
+00:05:17.752 --> 00:05:25.112
+No módulo, os dois módulos, no final
+do relatório você vai ter o Power BI
+
+80
+00:05:25.112 --> 00:05:26.352
+e os arquivos para você.
+
+81
+00:05:26.352 --> 00:05:34.032
+E o módulo 13 é a conclusão do
+curso com a avaliação final.
+
+82
+00:05:34.032 --> 00:05:37.532
+Se você for aprovado, você
+pode emitir seu certificado.
+
+83
+00:05:37.532 --> 00:05:43.972
+Certificado já verificado,
+eu sou autorizado Microsoft,
+
+84
+00:05:43.972 --> 00:05:45.572
+treinado, certificado.
+
+85
+00:05:45.572 --> 00:05:50.332
+Você vai ter um certificado aí,
+de um curso de Power BI completo.
+
+86
+00:05:50.332 --> 00:05:53.942
+Também, em adicional, a
+gente tem uma apostila.
+
+87
+00:05:54.452 --> 00:05:58.799
+Então, a apostila, ela vai cobrir
+toda a parte teórica do curso.
+
+88
+00:05:58.799 --> 00:06:05.119
+Então, essa apostila vai te
+falar desde a parte de Power BI,
+
+89
+00:06:05.119 --> 00:06:10.419
+normalização e desnormalização, a gente
+vai falar o que é uma tabela normalizada,
+
+90
+00:06:10.419 --> 00:06:16.079
+granularidade, entidades
+de negócios, Star Schema,
+
+91
+00:06:16.079 --> 00:06:21.239
+relacionamentos, porque a
+modelagem é útil, funções,
+
+92
+00:06:21.239 --> 00:06:22.119
+perfil de dados.
+
+93
+00:06:22.119 --> 00:06:27.119
+Então é uma apostila extensa
+com conteúdo teórico do curso.
+
+94
+00:06:27.119 --> 00:06:30.839
+Então não somente as vídeo
+aulas, mas os exercícios,
+
+95
+00:06:30.839 --> 00:06:36.619
+mas também você tem uma apostila
+para você ter uma base teórica,
+
+96
+00:06:36.619 --> 00:06:49.459
+O curso é 100% EAD, com
+matrícula aberta o ano inteiro.
+
+97
+00:06:49.459 --> 00:06:53.019
+Assim que você se matricula,
+o acesso é liberado na hora,
+
+98
+00:06:53.019 --> 00:06:54.819
+você estuda no seu ritmo.
+
+99
+00:06:54.819 --> 00:06:58.759
+No seu horário, a turma não
+tem data de início nem fim.
+
+100
+00:06:58.759 --> 00:07:01.459
+Cada módulo tem própria avaliação, com
+nota mínima Avaliação com nota mínima
+
+101
+00:07:01.459 --> 00:07:06.159
+de 70%. Você passou um módulo,
+você avança para o próximo módulo.
+
+102
+00:07:06.159 --> 00:07:10.019
+Ele bloqueia a sequência, só para garantir
+se você vai chegar no laboratório prático
+
+103
+00:07:10.019 --> 00:07:13.459
+e realmente você viu o
+conteúdo, o conteúdo do curso.
+
+104
+00:07:13.459 --> 00:07:17.639
+No final tem a avaliação, eu mostrei,
+reuni as perguntas do módulo e você
+
+105
+00:07:17.639 --> 00:07:19.559
+recebe o certificado.
+
+106
+00:07:19.559 --> 00:07:22.819
+Então isso é isso, modelagem
+de dados, Power Query,
+
+107
+00:07:22.819 --> 00:07:27.319
+DAX, relatório, análise avançada de
+IA, dois blocos de laboratório prático,
+
+108
+00:07:27.319 --> 00:07:29.709
+publicação, governança.
+
+109
+00:07:30.099 --> 00:07:33.229
+Tudo com apostila própria
+e certificado final.

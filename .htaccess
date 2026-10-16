@@ -16,3 +16,5 @@ RedirectMatch 301 ^/assets/videos-preview/(.+)$ https://media.techsantos.com.br/
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 </IfModule>
+
+AddType text/vtt .vtt

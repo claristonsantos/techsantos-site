@@ -1,0 +1,341 @@
+WEBVTT
+
+1
+00:00:01.480 --> 00:00:06.730
+Hello guys, bem-vindo ao curso
+da TECH SANTOS BR de Power BI.
+
+2
+00:00:06.740 --> 00:00:11.580
+Nessa aula a gente vai falar um pouco
+de normalização e desnormalização de
+
+3
+00:00:11.580 --> 00:00:13.300
+tabelas.
+
+4
+00:00:13.300 --> 00:00:15.510
+O que isso vem a ser?
+
+5
+00:00:17.960 --> 00:00:20.500
+Então, normalização
+versus desnormalização.
+
+6
+00:00:20.500 --> 00:00:23.680
+A normalização é o processo
+de organizar as colunas,
+
+7
+00:00:23.680 --> 00:00:32.140
+os atributos e tabelas no seu
+banco de dados O que é isso?
+
+8
+00:00:32.140 --> 00:00:38.140
+É você organizar suas tabelas de uma
+forma que você tenha bem definido o que
+
+9
+00:00:38.140 --> 00:00:43.120
+é fato, o que é dimensão, qual que
+são as chaves dentro dessas tabelas,
+
+10
+00:00:43.120 --> 00:00:48.740
+como elas se relacionam e qual é
+o sentido desse relacionamento,
+
+11
+00:00:48.740 --> 00:00:52.100
+desse filtro. Então
+isso é uma normalização.
+
+12
+00:00:52.100 --> 00:00:56.640
+Você tem que ter em mente quando
+você começar o seu relatório,
+
+13
+00:00:56.640 --> 00:01:01.720
+que você tem que ter bem
+claro o seu modelo de dados.
+
+14
+00:01:01.720 --> 00:01:05.160
+Quais são as tabelas, que a gente vai
+falar um pouco mais à frente o que é
+
+15
+00:01:05.160 --> 00:01:06.730
+fato e que é dimensão.
+
+16
+00:01:07.100 --> 00:01:11.730
+Como elas se relacionam para
+você fazer essa normalização.
+
+17
+00:01:11.800 --> 00:01:13.160
+O que é desnormalização?
+
+18
+00:01:13.160 --> 00:01:14.500
+É o contrário da normalização.
+
+19
+00:01:14.500 --> 00:01:19.270
+Isso aumenta a redundância de dados,
+com o objetivo de melhorar o desempenho
+
+20
+00:01:19.270 --> 00:01:23.150
+do modelo de dados. Como
+falei um pouco anteriormente,
+
+21
+00:01:23.150 --> 00:01:28.150
+para você entender melhor
+um dado, visualmente,
+
+22
+00:01:28.150 --> 00:01:30.890
+uma pessoa que é leiga,
+ela vai querer ver o que?
+
+23
+00:01:30.890 --> 00:01:35.510
+O nome do cliente, endereço,
+valor que foi vendido,
+
+24
+00:01:35.510 --> 00:01:39.200
+quantidade de produto,
+tudo em uma tabela só.
+
+25
+00:01:39.350 --> 00:01:43.190
+Isso gera vários problemas que a gente
+já falou um pouco na primeira aula
+
+26
+00:01:43.190 --> 00:01:45.000
+de modelagem de dados.
+
+27
+00:01:45.330 --> 00:01:49.530
+Um exemplo disso é uma tabela
+que está com normalização.
+
+28
+00:01:49.530 --> 00:01:53.620
+Então aqui você tem o código da empresa.
+
+29
+00:01:54.030 --> 00:02:00.270
+Então, aqui você tem, se repetem mais,
+você tem uma tabela que você tem todos
+
+30
+00:02:00.270 --> 00:02:01.890
+os dados da empresa.
+
+31
+00:02:01.890 --> 00:02:08.030
+O nome, endereço, todas as granularidades
+possíveis que você tem nessa tabela
+
+32
+00:02:08.030 --> 00:02:09.330
+de empresa.
+
+33
+00:02:09.330 --> 00:02:12.210
+Então, isso não precisa
+estar em uma tabela somente.
+
+34
+00:02:12.210 --> 00:02:15.890
+Então, você tem uma tabela separada
+que você tem todas essas informações.
+
+35
+00:02:15.890 --> 00:02:21.090
+Isso torna o seu modelo de dados
+mais robusto e também você tem,
+
+36
+00:02:21.090 --> 00:02:27.670
+como eu te falei, um poder analítico
+maior dentro desse relatório,
+
+37
+00:02:27.670 --> 00:02:30.170
+dessa modelagem de dados
+que você está trabalhando.
+
+38
+00:02:30.170 --> 00:02:36.100
+Então, sempre tenha em mente que você
+precisa construir um modelo de dados,
+
+39
+00:02:36.100 --> 00:02:40.700
+não é pegar todas as informações,
+colocar uma tabela no Excel e já trazer
+
+40
+00:02:40.700 --> 00:02:41.280
+para o Power BI.
+
+41
+00:02:41.280 --> 00:02:46.980
+Aquilo já estruturado em um
+tabelão só, com um monte de linha,
+
+42
+00:02:46.980 --> 00:02:50.740
+isso vai pesar seu relatório, você
+não vai conseguir ter um performance,
+
+43
+00:02:50.740 --> 00:02:53.780
+você não vai conseguir ter
+um poder analítico melhor.
+
+44
+00:02:53.780 --> 00:02:56.340
+Então, quando você está
+pensando nesse relatório,
+
+45
+00:02:56.340 --> 00:03:00.340
+pense e definir muito bem suas tabelas
+e trazer as tabelas para dentro do
+
+46
+00:03:00.340 --> 00:03:06.400
+Power BI e utilizar o Power Query
+para fazer todo esse trabalho de ETL,
+
+47
+00:03:06.400 --> 00:03:12.940
+que é o extrair, transformar e carregar
+e já trazer esse modelo de dados para
+
+48
+00:03:12.940 --> 00:03:14.800
+dentro do Power BI.
+
+49
+00:03:14.800 --> 00:03:17.600
+Então isso é uma normalização.
+
+50
+00:03:17.600 --> 00:03:21.000
+Quando você pensar em normalizar,
+você já tem que ter isso em mente,
+
+51
+00:03:21.000 --> 00:03:27.120
+de trazer esses dados estruturados e
+entender qual é o relacionamento e as
+
+52
+00:03:27.120 --> 00:03:31.970
+chaves, os atributos chaves para
+você relacionar essas tabelas.
+
+53
+00:03:32.260 --> 00:03:36.580
+Uma desnormalização na
+tabela é você ter um tabelão.
+
+54
+00:03:36.580 --> 00:03:38.960
+Então aqui você tem preço,
+você tem quantidade,
+
+55
+00:03:38.960 --> 00:03:43.780
+você tem nome do produto,
+tem cor, nome da fábrica,
+
+56
+00:03:43.780 --> 00:03:50.770
+Nome da Brand, cores, nome
+da fábrica, nome da empresa,
+
+57
+00:03:50.770 --> 00:03:54.640
+subcategoria.
+
+58
+00:03:54.750 --> 00:04:01.170
+Você tem várias colunas aqui.
+
+59
+00:04:01.170 --> 00:04:04.860
+Nome do produto poderia
+estar na tabela de produto.
+
+60
+00:04:05.090 --> 00:04:08.050
+CUR, poderia estar na tabela de produto.
+
+61
+00:04:08.050 --> 00:04:11.790
+Fábrica, o nome da fábrica poderia
+estar na tabela da fábrica.
+
+62
+00:04:11.790 --> 00:04:14.910
+Nome da empresa na
+mesma tabela dessa aqui.
+
+63
+00:04:14.910 --> 00:04:18.800
+Subcategoria na tabela de produto e
+produto categoria em outra tabela.
+
+64
+00:04:19.410 --> 00:04:22.890
+Então você teria aqui, no
+mínimo aqui, vendo aqui,
+
+65
+00:04:22.890 --> 00:04:27.270
+você teria uma entidade
+que seria a manufacturer,
+
+66
+00:04:27.270 --> 00:04:31.560
+que é a fábrica, e outra
+entidade que seria produto.
+
+67
+00:04:31.670 --> 00:04:36.910
+Então você teria essas duas entidades e
+uma tabela fato que seria a sua tabela
+
+68
+00:04:36.910 --> 00:04:40.010
+mesmo, a sua tabela de
+vendas, a sua tabela de fato.
+
+69
+00:04:40.010 --> 00:04:43.510
+Então sempre que você
+pensar em conjunto de dados,
+
+70
+00:04:43.510 --> 00:04:49.930
+pense na modelagem de dados e também na
+desnormalização de uma tabela e normalização
+
+71
+00:04:49.930 --> 00:04:57.280
+de uma tabela. Então essa aula de hoje
+da TECH SANTOS BR e até a próxima aula.

@@ -97,6 +97,7 @@ $comboAtivo = promo_combo_ativa();
     position: relative; overflow: hidden; margin-bottom: 1.5rem;
   }
   .player-video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+  .player-video::cue { font-size: 1.15em; font-weight: 600; background: rgba(0,0,0,.78); color: #fff; }
   .player-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; background: #14161A; }
   .player-placeholder .play-btn {
     width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,.12);
@@ -406,6 +407,7 @@ function renderLesson(id) {
       <div class="player">
         <video class="player-video" controls preload="${autoMuted ? 'auto' : 'metadata'}" playsinline ${autoMuted ? 'muted autoplay' : ''}>
           <source src="https://media.techsantos.com.br/previews/${lesson.id}.mp4#t=0.5" type="video/mp4">
+          <track kind="captions" srclang="pt-BR" label="Português" src="/assets/legendas/${lesson.id}.vtt?v=20261016" ${autoMuted ? 'default' : ''}>
         </video>
         <div class="player-placeholder">
           <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="18" height="18" ')}</div>
@@ -456,6 +458,12 @@ function renderLesson(id) {
   `;
 
   const videoEl = main.querySelector('.player-video');
+  // Legenda ligada enquanto o vídeo está mudo (autoplay); com som, fica no botão CC do player.
+  if (videoEl && videoEl.textTracks && videoEl.textTracks[0]) {
+    const syncCaptions = () => { videoEl.textTracks[0].mode = videoEl.muted ? 'showing' : 'hidden'; };
+    syncCaptions();
+    videoEl.addEventListener('volumechange', syncCaptions);
+  }
   const placeholderEl = main.querySelector('.player-placeholder');
   if (videoEl && placeholderEl) {
     const progressSent = new Set();
