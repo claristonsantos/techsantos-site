@@ -58,3 +58,14 @@ try {
 } catch (Throwable $e) {
     error_log('aviso lead ' . $leadId . ': ' . $e->getMessage());
 }
+
+// Primeiro e-mail da sequência de nutrição (as etapas 2 e 3 saem pelo cron do carrinho).
+if ($email !== null) {
+    try {
+        require_once __DIR__ . '/lead_nutricao.php';
+        nutricao_ensure($pdo);
+        nutricao_enviar($pdo, ['id' => $leadId, 'email' => $email], 1);
+    } catch (Throwable $e) {
+        error_log('nutricao lead ' . $leadId . ': ' . $e->getMessage());
+    }
+}

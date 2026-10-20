@@ -249,6 +249,8 @@ const GATED_LESSON_IDS = FREE_LESSON_IDS.slice(1);
 const WHATS_DONE_KEY = 'ts_whats_lead_done';
 function storageGet(key) { try { return localStorage.getItem(key); } catch { return null; } }
 function storageSet(key, value) { try { localStorage.setItem(key, value); } catch {} }
+// Link dos e-mails de nutrição (?liberado=1): o lead já deixou o contato, então libera as aulas em qualquer aparelho.
+if (new URLSearchParams(location.search).get('liberado') === '1') { try { localStorage.setItem(WHATS_DONE_KEY, '1'); } catch (e) {} }
 function isUnlocked() { return !!storageGet(WHATS_DONE_KEY); }
 function isGated(lessonId) { return GATED_LESSON_IDS.includes(lessonId) && !isUnlocked(); }
 function leadAttribution() {
