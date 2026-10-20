@@ -1,0 +1,52 @@
+{
+  "aula-trecho-coluna-exemplo.mp4": {
+    "id": "eNAS1kjBC_0",
+    "publish_at": "2026-10-22T12:00:00-03:00",
+    "title": "Digite o exemplo e o Power Query escreve a fórmula #Shorts"
+  },
+  "aula-trecho-fabric-espelhamento.mp4": {
+    "id": "Crq95JC6t-Q",
+    "publish_at": "2026-10-23T12:00:00-03:00",
+    "title": "Espelhamento no Microsoft Fabric é de graça? #Shorts"
+  },
+  "aula-trecho-directquery.mp4": {
+    "id": "Z3whYn0pMMs",
+    "publish_at": "2026-10-24T12:00:00-03:00",
+    "title": "DirectQuery ou Import no Power BI? #Shorts"
+  },
+  "aula-trecho-fabric-atalho.mp4": {
+    "id": "iZAr8TwWDIM",
+    "publish_at": "2026-10-25T12:00:00-03:00",
+    "title": "Apagou o atalho no Fabric. E o dado? #Shorts"
+  },
+  "aula-trecho-tipo-de-dado.mp4": {
+    "id": "WK_fnGqYy6E",
+    "publish_at": "2026-10-26T12:00:00-03:00",
+    "title": "Error ao juntar colunas no Power Query? #Shorts"
+  },
+  "aula-trecho-fabric-endpoint-rls.mp4": {
+    "id": "345f7mYFw-0",
+    "publish_at": "2026-10-27T12:00:00-03:00",
+    "title": "RLS no endpoint SQL não protege o Spark #Shorts"
+  },
+  "aula-trecho-esquema-estrela.mp4": {
+    "id": "GxbY1QYOTz8",
+    "publish_at": "2026-10-28T12:00:00-03:00",
+    "title": "Fato ou dimensão? O Power BI prefere estrela #Shorts"
+  },
+  "aula-trecho-fabric-arquivos-pequenos.mp4": {
+    "id": "in_b34hdP5A",
+    "publish_at": "2026-10-29T12:00:00-03:00",
+    "title": "Lakehouse lento depois de meses? #Shorts"
+  },
+  "aula-trecho-app-power-bi.mp4": {
+    "id": "0UQRjNs8HAs",
+    "publish_at": "2026-10-30T12:00:00-03:00",
+    "title": "Vários relatórios num link só: app do Power BI #Shorts"
+  },
+  "aula-trecho-fabric-chave-substituta.mp4": {
+    "id": "Gyestn-32Zo",
+    "publish_at": "2026-10-31T12:00:00-03:00",
+    "title": "Por que não usar o ID da origem na dimensão? #Shorts"
+  }
+}
