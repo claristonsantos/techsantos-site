@@ -397,13 +397,17 @@ function meta_publish_instagram_carousel(array $imageUrls, string $caption, ?str
         return null;
     }
 
+    // Item .mp4 vira VIDEO no carrossel: é o jeito de ter música, já que a API não
+    // acessa a biblioteca de músicas do app (cada lâmina é um vídeo curto com a trilha).
     $childIds = [];
+    $hasVideo = false;
     foreach ($imageUrls as $url) {
+        $isVideo = (bool)preg_match('/\.(mp4|mov)(\?|$)/i', (string)$url);
+        $hasVideo = $hasVideo || $isVideo;
         $data = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/media'), [
             'access_token' => META_IG_TOKEN,
-            'image_url' => $url,
             'is_carousel_item' => 'true',
-        ], $error);
+        ] + ($isVideo ? ['media_type' => 'VIDEO', 'video_url' => $url] : ['image_url' => $url]), $error);
         if ($data === null || empty($data['id'])) {
             return null;
         }
@@ -411,7 +415,7 @@ function meta_publish_instagram_carousel(array $imageUrls, string $caption, ?str
     }
 
     foreach ($childIds as $childId) {
-        if (!meta_wait_instagram_container_finished($childId, $error)) {
+        if (!meta_wait_instagram_container_finished($childId, $error, $hasVideo ? 180 : 30)) {
             return null;
         }
     }
@@ -427,7 +431,7 @@ function meta_publish_instagram_carousel(array $imageUrls, string $caption, ?str
     }
     $parentId = (string)$parent['id'];
 
-    if (!meta_wait_instagram_container_finished($parentId, $error)) {
+    if (!meta_wait_instagram_container_finished($parentId, $error, $hasVideo ? 180 : 30)) {
         return null;
     }
 
@@ -440,9 +444,9 @@ function meta_publish_instagram_carousel(array $imageUrls, string $caption, ?str
  * social_publish_cron.php across cron ticks instead, since video can take
  * much longer than 30s to process.
  */
-function meta_wait_instagram_container_finished(string $containerId, ?string &$error = null): bool
+function meta_wait_instagram_container_finished(string $containerId, ?string &$error = null, int $timeoutSeconds = 30): bool
 {
-    $deadline = microtime(true) + 30;
+    $deadline = microtime(true) + $timeoutSeconds;
     while (microtime(true) < $deadline) {
         $status = meta_get_instagram_container_status($containerId, $error);
         if ($status === 'FINISHED') {
