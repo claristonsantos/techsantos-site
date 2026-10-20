@@ -8,7 +8,7 @@ require_once __DIR__ . '/aulas_particulares_config.php';
 // Toda comunicação de aula vai em cópia pro dono — pedido explícito depois de
 // um aluno relatar não ter recebido o link de pagamento; com a cópia, dá pra
 // conferir o que realmente saiu em cada e-mail sem depender só do log.
-const AULAS_CC_EMAIL = 'claristonsantos@techsantos.com.br';
+const AULAS_CC_EMAIL = OWNER_COPY_EMAIL;
 
 function aulas_automation_ensure(PDO $pdo): void
 {

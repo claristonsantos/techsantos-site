@@ -51,8 +51,27 @@ function smtp_command($sock, string $cmd): string
  * Gmail/Hotmail. Talking SMTP directly to Hostinger's authenticated mail
  * server is what actually delivers it.
  */
+// Cópia de tudo que é enviado a clientes vai para o dono como um e-mail SEPARADO (não CC):
+// um CC na mesma mensagem chegou a não aparecer na caixa dele; a cópia própria, com o
+// destinatário no assunto, sempre chega e fica fácil de achar.
+const OWNER_COPY_EMAIL = 'claristonsantos@techsantos.com.br';
+
 function send_html_email(string $toEmail, string $subject, string $html, string $text, ?string $ccEmail = null): bool
 {
+    $ok = smtp_send_message($toEmail, $subject, $html, $text);
+    if ($ok && $ccEmail !== null && strcasecmp($ccEmail, $toEmail) !== 0) {
+        $aviso = '<div style="font-family:Arial,sans-serif;font-size:13px;background:#FFF6DA;border:1px solid #F5B301;border-radius:6px;padding:10px 14px;margin:12px">'
+            . 'Cópia do e-mail enviado para <strong>' . htmlspecialchars($toEmail, ENT_QUOTES) . '</strong> em ' . date('d/m/Y H:i') . ' (horário do servidor, UTC).</div>';
+        if (!smtp_send_message($ccEmail, '[Cópia] ' . $subject . ' → ' . $toEmail, $aviso . $html, "Cópia do e-mail enviado para {$toEmail}.\n\n" . $text)) {
+            error_log("Cópia para {$ccEmail} falhou (original para {$toEmail} foi enviado)");
+        }
+    }
+    return $ok;
+}
+
+function smtp_send_message(string $toEmail, string $subject, string $html, string $text): bool
+{
+    $ccEmail = null;
     $errno = 0;
     $errstr = '';
     $ctx = stream_context_create(['ssl' => ['verify_peer' => true, 'verify_peer_name' => true]]);
@@ -298,7 +317,7 @@ Facebook: {$sFace}
 LinkedIn: {$sLinked}
 TEXT;
 
-    return send_html_email($toEmail, $subject, $html, $text);
+    return send_html_email($toEmail, $subject, $html, $text, OWNER_COPY_EMAIL);
 }
 
 function send_admin_credentials_email(string $toEmail, string $toName, string $usuario, string $senha): bool
@@ -383,5 +402,5 @@ function send_student_reengagement_email(string $toEmail, string $toName, int $c
     $subject = $completed ? 'Continue seu curso de Power BI de onde parou' : 'Seu primeiro resultado em Power BI está a 20 minutos';
     $html = '<!doctype html><html><body style="margin:0;background:#f4f6f8;font-family:Arial,sans-serif;color:#15243b"><table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:28px"><table width="100%" style="max-width:600px;background:#fff;border-radius:12px;overflow:hidden"><tr><td style="background:#0f2440;color:#fff;padding:24px 32px"><strong>TECH SANTOS BR</strong></td></tr><tr><td style="padding:32px"><h1 style="font-size:23px">Olá, ' . $firstName . '.</h1><p>Seu progresso está salvo: <strong>' . $completed . ' de 63 aulas (' . $percent . '%)</strong>.</p><p>Ao entrar, a área do aluno mostra exatamente a próxima aula ou avaliação recomendada. Você não precisa procurar onde parou.</p><p style="margin:28px 0"><a href="https://techsantos.com.br/aluno/" style="background:#75df4b;color:#10213a;text-decoration:none;font-weight:bold;padding:13px 20px;border-radius:8px">Retomar meu curso</a></p><p style="font-size:13px;color:#667085">Este lembrete corresponde à faixa de ' . $inactiveDays . ' dias de inatividade e não será repetido nesta faixa.</p></td></tr>' . email_footer_html() . '</table></td></tr></table></body></html>';
     $text = "Olá, {$toName}.\n\nSeu progresso está salvo: {$completed} de 63 aulas ({$percent}%).\nRetome exatamente de onde parou: https://techsantos.com.br/aluno/";
-    return send_html_email($toEmail, $subject, $html, $text);
+    return send_html_email($toEmail, $subject, $html, $text, OWNER_COPY_EMAIL);
 }
