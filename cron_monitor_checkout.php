@@ -34,8 +34,10 @@ function checar_checkout(): array
         CURLOPT_HEADER => true,
     ];
 
+    // O CDN da Hostinger (hcdn) às vezes responde 307 apontando pra própria URL;
+    // o navegador segue sozinho, então o monitor também segue.
     $ch = curl_init('https://techsantos.com.br/comprar.php');
-    curl_setopt_array($ch, $baseOpts);
+    curl_setopt_array($ch, $baseOpts + [CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 3]);
     $getResponse = curl_exec($ch);
     $getError = curl_error($ch);
     curl_close($ch);
@@ -83,7 +85,13 @@ function checar_checkout(): array
     return [true, 'ok'];
 }
 
-[$ok, $detalhe] = checar_checkout();
+// Até 3 tentativas: um 307 avulso do CDN no POST (ou uma falha de rede passageira)
+// não é checkout quebrado. Só alerta se falhar as 3 vezes.
+for ($tentativa = 1; $tentativa <= 3; $tentativa++) {
+    [$ok, $detalhe] = checar_checkout();
+    if ($ok) break;
+    if ($tentativa < 3) sleep(10);
+}
 
 // O teste bem-sucedido cria um pedido real (e chama a API de produção do
 // Mercado Pago) — limpa esse rastro de teste a cada execução.
