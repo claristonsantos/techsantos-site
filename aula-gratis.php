@@ -226,7 +226,9 @@ $comboAtivo = promo_combo_ativa();
 <script>
 // Combo Mês dos Professores: faixa + botão de compra abaixo do player enquanto a promo vale.
 const COMBO_HTML = <?= json_encode($comboAtivo ? promo_combo_banner() . '<div class="combo-cta"><a class="btn btn-primary" href="/comprar.php" data-course-cta="aula_gratis_combo">Quero o combo Power BI + Excel</a></div>' : '', JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>;
-const FREE_LESSON_IDS = ['apresentacao-curso', 'introducao', 'normalizacao-desnormalizacao'];
+// Aula 1 é uma aula prática (mesclar consultas, o "PROCV do Power Query") e não o tour do curso:
+// quem chega por um Reel de técnica precisa ver técnica logo de cara (36 visitas e 1 play em 14 dias com o tour).
+const FREE_LESSON_IDS = ['mesclar-consultas', 'introducao', 'normalizacao-desnormalizacao'];
 </script>
 <script src="/assets/js/course-data.js"></script>
 <script>
@@ -506,7 +508,17 @@ function renderLesson(id) {
     videoEl.addEventListener('timeupdate', () => {
       if (!videoEl.duration) return;
       const percent = Math.floor((videoEl.currentTime / videoEl.duration) * 100);
-      if (!userStarted()) return;
+      // Quem assiste sem som (autoplay mudo com legenda) também conta: antes isso não era medido.
+      if (!userStarted()) {
+        [10, 30, 60].forEach((sec) => {
+          const key = 'm' + sec;
+          if (videoEl.currentTime >= sec && !progressSent.has(key)) {
+            progressSent.add(key);
+            if (typeof window.techSantosTrack === 'function') window.techSantosTrack('video_muted_watch', { ...lessonParams(), seconds: sec });
+          }
+        });
+        return;
+      }
       [25, 50, 75].forEach((milestone) => {
         const key = String(milestone);
         if (percent >= milestone && !progressSent.has(key)) {

@@ -1,0 +1,674 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.400
+Olá pessoal, bem-vindos a mais uma aula
+do curso de Power BI da TECH SANTOS BR.
+
+2
+00:00:05.400 --> 00:00:08.500
+Hoje a gente vai falar um pouco sobre
+mesclar consultas, o famoso Merge
+
+3
+00:00:08.500 --> 00:00:11.600
+Queries.
+
+4
+00:00:11.600 --> 00:00:15.000
+É uma das ferramentas mais poderosas do
+Power Query.
+
+5
+00:00:15.000 --> 00:00:18.500
+A gente já viu mesclar colunas lá atrás,
+lembra?
+
+6
+00:00:18.500 --> 00:00:21.850
+Então aquilo junta textos de duas
+colunas dentro de uma mesma tabela, tipo
+
+7
+00:00:21.850 --> 00:00:25.200
+nome e sobrenome,
+
+8
+00:00:25.200 --> 00:00:27.300
+virando um nome completo.
+
+9
+00:00:27.300 --> 00:00:30.000
+Então mesclar consultas é bem diferente.
+
+10
+00:00:30.000 --> 00:00:35.300
+Aqui a gente está juntando duas tabelas
+inteiras com base em uma coluna chave.
+
+11
+00:00:35.300 --> 00:00:38.300
+Elas têm um comum.
+
+12
+00:00:38.300 --> 00:00:42.750
+Então, se lembra, você já usou PROCV no
+Excel, então você precisa de ter uma
+
+13
+00:00:42.750 --> 00:00:47.200
+referência para você conseguir trazer um
+valor.
+
+14
+00:00:47.200 --> 00:00:52.100
+Ou também você já ouviu falar em Join,
+Banco de Dados, exatamente essa ideia.
+
+15
+00:00:52.100 --> 00:00:54.600
+Só que dentro do Power Query é um jeito
+visual que fica gravado com etapas da
+
+16
+00:00:54.600 --> 00:00:57.100
+consulta.
+
+17
+00:00:57.100 --> 00:01:00.000
+Então a gente vai abrir o...
+
+18
+00:01:00.000 --> 00:01:04.600
+O Power BI aqui, então dentro do Power
+BI a gente pode ter mais de uma
+
+19
+00:01:04.600 --> 00:01:09.200
+consulta.
+
+20
+00:01:09.200 --> 00:01:12.800
+Exemplo aqui a gente tem uma tabela de
+alunos e cidades.
+
+21
+00:01:12.800 --> 00:01:16.800
+A gente poderia ter outras coisas,
+exemplo vendas e vendedores, e que
+
+22
+00:01:16.800 --> 00:01:20.800
+possuem códigos em comum, chaves em
+comum.
+
+23
+00:01:20.800 --> 00:01:24.700
+Aqui a gente tem uma ID dos alunos, e
+aqui a gente também tem uma ID dos
+
+24
+00:01:24.700 --> 00:01:28.600
+alunos, mas aqui a gente tem a cidade.
+
+25
+00:01:28.600 --> 00:01:30.000
+Então, a gente tem uma formação
+abrangente.
+
+26
+00:01:30.000 --> 00:01:35.400
+Mais uma tabela, no caso aqui uma tabela
+A e tabela B.
+
+27
+00:01:35.400 --> 00:01:37.900
+Então como funciona o mesclar consultas?
+
+28
+00:01:37.900 --> 00:01:43.000
+Exemplo, eu tenho os alunos aqui e eu
+quero trazer a cidade.
+
+29
+00:01:43.000 --> 00:01:47.800
+Então dentro do Power Query a gente tem
+essa possibilidade de mesclar consultas.
+
+30
+00:01:47.800 --> 00:01:49.700
+Por quê? Porque a gente tem uma chave
+comum.
+
+31
+00:01:49.700 --> 00:01:53.700
+E dentro disso a gente tem algumas
+opções de join.
+
+32
+00:01:53.700 --> 00:02:00.000
+Se a gente vir aqui, página inicial,
+aqui ela está colocando.
+
+33
+00:02:00.000 --> 00:02:05.600
+Mas eu vou aumentar aqui, mesclar
+consultas, mesclar como uma nova.
+
+34
+00:02:05.600 --> 00:02:08.300
+Pra gente ver. O que é o mesclar como
+uma nova?
+
+35
+00:02:08.300 --> 00:02:11.200
+Se eu mesclar a consulta aqui, ele só
+vai me criar aqui nessa tabela, ele vai
+
+36
+00:02:11.200 --> 00:02:14.100
+modificar minha tabela alunos.
+
+37
+00:02:14.100 --> 00:02:16.450
+Mas eu vou criar uma nova tabela. Eu
+quero uma tabela aqui onde eu tenho
+
+38
+00:02:16.450 --> 00:02:18.800
+todos os dados.
+
+39
+00:02:18.800 --> 00:02:22.400
+Então o que eu vou fazer? Eu vou mesclar
+alunos e cidades.
+
+40
+00:02:22.400 --> 00:02:25.000
+E aqui embaixo eu tenho opção.
+
+41
+00:02:25.000 --> 00:02:26.300
+O que significa isso?
+
+42
+00:02:26.300 --> 00:02:28.500
+Então algumas opções aqui.
+
+43
+00:02:28.500 --> 00:02:30.000
+Eu tenho que
+
+44
+00:02:30.000 --> 00:02:33.000
+Externa esquerda, o que é externa
+esquerda? É o famoso left join. O que é
+
+45
+00:02:33.000 --> 00:02:36.000
+o left join? Dentro de SQL, o que é o
+left join? Ele mantém todas as linhas da
+
+46
+00:02:36.000 --> 00:02:39.000
+primeira tabela, essa tabela aqui, e
+retorna todos os dados correspondentes
+
+47
+00:02:39.000 --> 00:02:42.000
+da segunda tabela, no caso seria essa
+tabela aqui.
+
+48
+00:02:53.800 --> 00:02:59.300
+Então, um exemplo que eu tenho o meu ID,
+
+49
+00:02:59.300 --> 00:03:00.000
+então o exemplo
+
+50
+00:03:00.000 --> 00:03:04.600
+1, 2, 3, 4, 5, ele vai me trazer as
+cidades.
+
+51
+00:03:04.600 --> 00:03:07.600
+Eu tenho 5 aqui, ele vai me trazer.
+
+52
+00:03:07.600 --> 00:03:11.000
+Só que se a gente nota que a gente tem 6
+aqui.
+
+53
+00:03:11.000 --> 00:03:13.600
+Então, um aluno aqui, ele já não vai
+trazer. Por quê?
+
+54
+00:03:13.600 --> 00:03:16.400
+Porque as minhas correspondentes são de
+1 a 5.
+
+55
+00:03:16.400 --> 00:03:21.400
+Então, se a gente clicar em OK aqui,
+você vai notar que a Fabiola,
+
+56
+00:03:21.400 --> 00:03:25.900
+vamos ver aqui, Fabiola aqui, Letícia,
+vamos ver qual que não tem aqui.
+
+57
+00:03:25.900 --> 00:03:30.000
+A gente tem mais coisas aqui.
+
+58
+00:03:30.000 --> 00:03:34.300
+Tem 6 aqui e aqui a gente tem 7.
+
+59
+00:03:34.300 --> 00:03:37.900
+Então o que aconteceu aqui? Ele trouxe
+só os correspondentes.
+
+60
+00:03:37.900 --> 00:03:40.550
+Aquele valor lá que eu tinha lá do
+Alessandro, ele não vai estar na minha
+
+61
+00:03:40.550 --> 00:03:43.200
+tabela. Por quê?
+
+62
+00:03:43.200 --> 00:03:48.500
+Porque eu fiz um left join ou uma
+externa esquerda.
+
+63
+00:03:48.500 --> 00:03:53.800
+Se eu fazer esse também, uma juntão
+interna, só fica as duas tabelas.
+
+64
+00:03:53.800 --> 00:03:56.000
+Seria um inner join, seria mais ou menos
+a mesma coisa.
+
+65
+00:03:56.000 --> 00:04:00.000
+E se eu fazer um externo à direita, ele
+traria tudo?
+
+66
+00:04:00.000 --> 00:04:08.200
+A segunda tabela, então, exemplo, aqui é
+o externo esquerdo.
+
+67
+00:04:08.200 --> 00:04:12.050
+Se eu fizer esse exemplo com o inner
+join, ele vai ser a mesma coisa porque
+
+68
+00:04:12.050 --> 00:04:15.900
+ele vai trazer os valores
+correspondentes das duas tabelas.
+
+69
+00:04:15.900 --> 00:04:20.100
+Então, ele seria mais ou menos o left
+join.
+
+70
+00:04:20.100 --> 00:04:24.400
+O externo direita seria o right join.
+
+71
+00:04:24.400 --> 00:04:30.000
+Exemplo, se eu pegar aqui cidade e
+colocar aqui o meu externo diretor,
+
+72
+00:04:30.000 --> 00:04:33.750
+Ele já me fala aqui, tá? Então o que é o
+externo direita, né? Ele mantém tudo da
+
+73
+00:04:33.750 --> 00:04:37.500
+segunda tabela.
+
+74
+00:04:37.500 --> 00:04:42.400
+Então se eu der um OK, primeiro eu
+preciso selecionar, tá? Meus valores,
+
+75
+00:04:42.400 --> 00:04:47.300
+então ID com ID, ele vai me dar aqui a
+correspondência.
+
+76
+00:04:47.300 --> 00:04:49.500
+Quando eu clico aqui, ele vai me trazer.
+Tá vendo que ele trouxe aqui uma linha?
+
+77
+00:04:49.500 --> 00:04:51.700
+Por quê?
+
+78
+00:04:51.700 --> 00:04:55.850
+Ele vai manter os dados da direita.
+Então quando eu trazer meu nome, o
+
+79
+00:04:55.850 --> 00:05:00.000
+Alessandro, ele vai me retornar aqui.
+
+80
+00:05:00.000 --> 00:05:02.900
+Trazer o nome e cidade.
+
+81
+00:05:02.900 --> 00:05:06.600
+Então o que ele vai me trazer aqui? Ele
+vai me trazer o Alessandro.
+
+82
+00:05:06.600 --> 00:05:14.400
+Porque eu fiz uma externa direita.
+
+83
+00:05:14.400 --> 00:05:18.500
+Tem algumas opções também, externa
+completa, seria o Full Alter.
+
+84
+00:05:18.500 --> 00:05:22.700
+Que seria o que? Ele ia juntar as duas
+tabelas e ia trazer todos os dados.
+
+85
+00:05:22.700 --> 00:05:26.500
+Nesse caso aqui, ele mantém as duas e
+traz todos os dados.
+
+86
+00:05:26.500 --> 00:05:30.000
+Então, exemplo, se a gente fizer aqui um
+mesclar consulta,
+
+87
+00:05:30.000 --> 00:05:35.550
+Como nova, vou pegar aqui alunos,
+cidade, vou ter minha chave, externa
+
+88
+00:05:35.550 --> 00:05:41.100
+completa, que seria o, no caso a gente
+está falando o Walter Joy.
+
+89
+00:05:41.100 --> 00:05:45.400
+Então a externa completa, ele vai ser
+mais ou menos a direita, ele vai manter
+
+90
+00:05:45.400 --> 00:05:49.700
+toda a minha tabela.
+
+91
+00:05:49.700 --> 00:06:00.000
+E também eu tenho outras opções aqui
+também.
+
+92
+00:06:00.000 --> 00:06:04.800
+A gente tem várias opções aqui entre
+mesclar consultas. Então eu tenho que
+
+93
+00:06:04.800 --> 00:06:09.600
+selecionar meus IDs e eu tenho também
+algumas outras opções.
+
+94
+00:06:09.600 --> 00:06:13.567
+Interna, apenas as linhas
+correspondências, seria no caso aqui o
+
+95
+00:06:13.567 --> 00:06:17.533
+Left Join. Antes esquerda ele vai manter
+só as linhas apenas da primeira e antes
+
+96
+00:06:17.533 --> 00:06:21.500
+direita ele vai manter só as linhas da
+segunda.
+
+97
+00:06:21.500 --> 00:06:25.750
+M, CSV, consulta, análise de dados,
+análise de dados, análise de dados,
+
+98
+00:06:25.750 --> 00:06:30.000
+análise de dados,
+
+99
+00:06:30.000 --> 00:06:35.800
+É bom até para a gente fixar.
+
+100
+00:06:35.800 --> 00:06:38.900
+Eu gosto sempre de usar uma nova, mas
+nos casos reais você vai usar, no caso
+
+101
+00:06:38.900 --> 00:06:42.000
+aí,
+
+102
+00:06:42.000 --> 00:06:46.600
+você vai usar uma tabela para você
+trazer informação de outra.
+
+103
+00:06:46.600 --> 00:06:50.300
+Aqui a gente está fazendo uma nova para
+a gente fazer os testes.
+
+104
+00:06:50.300 --> 00:06:53.150
+Antidireita, então pensa, a segunda
+tabela é a tabela da direita, então vai
+
+105
+00:06:53.150 --> 00:06:56.000
+trazer o que? Só uma linha.
+
+106
+00:06:56.000 --> 00:07:00.000
+Por quê? Porque ele vai trazer somente o
+correspondente da tabela direita.
+
+107
+00:07:00.000 --> 00:07:02.800
+Então vai trazer somente o Alessandro.
+
+108
+00:07:02.800 --> 00:07:09.500
+Aqui você pode fazer várias coisas
+usando aqui a antedireita.
+
+109
+00:07:09.500 --> 00:07:11.200
+Mesclar consultas.
+
+110
+00:07:11.200 --> 00:07:16.700
+Outra possibilidade também no mesclar
+consultas, você pode exemplar, eu tenho
+
+111
+00:07:16.700 --> 00:07:22.200
+uma tabela lá com nomes de produto, mas
+o cliente digita.
+
+112
+00:07:22.200 --> 00:07:26.100
+M, CSV, consulta, acrescentar, tabela de
+dados, tabela de dados, tabela de dados,
+
+113
+00:07:26.100 --> 00:07:30.000
+tabela de dados,
+
+114
+00:07:30.000 --> 00:07:34.000
+Com acento. E aí eu quero ter uma
+correspondência difusa. Eu quero
+
+115
+00:07:34.000 --> 00:07:38.000
+permitir um grau de, por exemplo,
+ignorar maiúscula, minúscula, um grau de
+
+116
+00:07:38.000 --> 00:07:42.000
+confiança.
+
+117
+00:07:43.100 --> 00:07:46.500
+Então dentro aqui também de mesclar
+consultas, a gente pode colocar também
+
+118
+00:07:46.500 --> 00:07:49.900
+um grau de confiança.
+
+119
+00:07:49.900 --> 00:07:53.700
+Aí ele vai aceitar, por exemplo,
+maiúscula com minúscula, etc. Então você
+
+120
+00:07:53.700 --> 00:07:57.500
+também consegue fazer isso.
+
+121
+00:07:57.500 --> 00:08:00.000
+Aí você vai clicar aqui, usar com os
+
+122
+00:08:00.000 --> 00:08:06.000
+correspondência difusa e ele vai te
+pedir um grau aqui, será 0.9, eu quero
+
+123
+00:08:06.000 --> 00:08:12.000
+90%, então ele vai utilizar esses 90% na
+correspondência difusa.
+
+124
+00:08:30.000 --> 00:08:37.100
+Acontece, correspondência difusa precisa
+ser um campo de texto, tá?
+
+125
+00:08:37.100 --> 00:08:41.200
+Realmente, ID ele não vai fazer por quê?
+Porque o ID ele é numérico, então não
+
+126
+00:08:41.200 --> 00:08:45.300
+tem como um ser dois, o dois ser um, não
+tem como.
+
+127
+00:08:45.300 --> 00:08:50.100
+Então, realmente. Mas aqui dá pra gente
+fazer um teste aqui.
+
+128
+00:08:50.100 --> 00:08:51.950
+Então, o que a gente pode usar aqui só
+pra gente fazer um teste? A gente pode
+
+129
+00:08:51.950 --> 00:08:53.800
+usar o nome.
+
+130
+00:08:53.800 --> 00:09:00.000
+O sal correspondente se difusa, 0,00...
+
+131
+00:09:00.000 --> 00:09:12.000
+E aí a gente pode trazer o valor da
+outra tabela aqui.
+
+132
+00:09:17.100 --> 00:09:21.800
+Então a gente consegue também fazer
+isso.
+
+133
+00:09:21.800 --> 00:09:25.200
+Então a gente repara que a gente criou
+uma coluna nova com o ícone dentro da
+
+134
+00:09:25.200 --> 00:09:28.600
+tabela, funcionários, encapçada.
+
+135
+00:09:28.600 --> 00:09:30.000
+Depois a gente clica aqui em expandir.
+
+136
+00:09:30.000 --> 00:09:35.100
+A gente expande e a gente tem exemplo
+aqui agora o aluno nome.
+
+137
+00:09:35.100 --> 00:09:39.000
+Então é isso pessoal, mesclar consultas
+é um jeito de Power Query para fazer o
+
+138
+00:09:39.000 --> 00:09:42.900
+que o Excel a gente resolveria com Power
+QV, com Indesco Resp,
+
+139
+00:09:42.900 --> 00:09:46.000
+só que de uma forma visual e
+reutilizável.
+
+140
+00:09:46.000 --> 00:09:49.667
+Então ela atualiza sozinha todas as
+vezes que a origem de dados muda, a
+
+141
+00:09:49.667 --> 00:09:53.333
+gente baixa o arquivo, por exemplo, se
+você quiser baixar o arquivo também para
+
+142
+00:09:53.333 --> 00:09:57.000
+te encarar na aula.
+
+143
+00:09:57.000 --> 00:10:00.000
+Então é isso, até a próxima aula.
+
+144
+00:10:00.000 --> 00:10:00.800
+Obrigado.
