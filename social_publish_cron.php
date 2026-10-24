@@ -29,8 +29,16 @@ $due = $pdo->query(
     . " AND (canal = 'instagram' OR canal = 'threads' OR (canal = 'facebook' AND tipo = 'story'))"
 )->fetchAll();
 
+// Carrossel é lento (lâminas em vídeo levam minutos para processar). Um por execução:
+// em 22/10 o carrossel do Instagram e o do Threads caíram na mesma execução, o servidor
+// encerrou o cron no meio e os dois ficaram presos em 'processando'. O próximo sai no minuto seguinte.
+$carrosselFeito = false;
 foreach ($due as $post) {
     $error = null;
+    if ($post['tipo'] === 'carousel') {
+        if ($carrosselFeito) continue;
+        $carrosselFeito = true;
+    }
 
     // Atomic claim BEFORE any Meta API call — closes a real race that
     // caused triple-duplicate carousel posts on 2026-07-22: the carousel
