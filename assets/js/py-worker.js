@@ -2,7 +2,7 @@
 // fora da thread da página, para que um loop infinito possa ser interrompido
 // (a página encerra o worker por tempo limite). Mensagens:
 //   entrada: { id, codigo, arquivos: {nome: texto}, testes: [{py, msg}] }
-//   saída:   { id, ok, saida, erro, imagens: [png base64], testes: [{ok, msg}] }
+//   saída:   { id, ok, saida, erro, imagens: [png base64], arquivos: [[nome, base64]], testes: [{ok, msg}] }
 const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
 importScripts(PYODIDE + 'pyodide.js');
 
@@ -12,7 +12,10 @@ async function iniciar() {
   return py;
 }
 
-const PACOTES = { pandas: 'pandas', numpy: 'numpy', matplotlib: 'matplotlib', openpyxl: 'openpyxl' };
+// Bibliotecas da distribuição do Pyodide (loadPackage) e as que vêm do PyPI (micropip).
+const PACOTES = { pandas: 'pandas', numpy: 'numpy', matplotlib: 'matplotlib' };
+const PYPI = { openpyxl: 'openpyxl' };
+const instalados = new Set();
 
 self.onmessage = async (ev) => {
   const { id, codigo, arquivos = {}, testes = [] } = ev.data;
@@ -22,6 +25,12 @@ self.onmessage = async (ev) => {
     // carrega só as bibliotecas que o código usa
     const precisa = Object.keys(PACOTES).filter(p => new RegExp('\\b(import|from)\\s+' + p).test(codigo + '\n' + testes.map(t => t.py).join('\n')));
     if (precisa.length) await py.loadPackage(precisa.map(p => PACOTES[p]));
+    const doPypi = Object.keys(PYPI).filter(p => !instalados.has(p) && new RegExp('\\b(import|from)\\s+' + p).test(codigo + '\n' + testes.map(t => t.py).join('\n')));
+    if (doPypi.length) {
+      await py.loadPackage('micropip');
+      const micropip = py.pyimport('micropip');
+      for (const p of doPypi) { await micropip.install(PYPI[p]); instalados.add(p); }
+    }
     for (const [nome, texto] of Object.entries(arquivos)) py.FS.writeFile(nome, texto);
     let saida = '';
     py.setStdout({ batched: s => { saida += s + '\n'; } });
@@ -40,7 +49,9 @@ try:
     matplotlib.use('AGG')
 except Exception:
     pass
-import contextlib
+import contextlib, os
+# arquivos que já existiam (para devolver ao aluno só o que o código dele gerou)
+__antes = {f: os.path.getmtime(f) for f in os.listdir('.') if os.path.isfile(f)}
 __buf = io.StringIO()
 try:
     with contextlib.redirect_stdout(__buf):
@@ -71,11 +82,16 @@ if __erro is None:
             __res_testes.append(True)
         except Exception:
             __res_testes.append(False)
-[__erro, __imgs, __res_testes]
+__gerados = []
+for f in sorted(os.listdir('.')):
+    if os.path.isfile(f) and f.lower().endswith(('.xlsx', '.csv', '.json', '.txt')) and (f not in __antes or os.path.getmtime(f) != __antes[f]):
+        with open(f, 'rb') as fh:
+            __gerados.append([f, base64.b64encode(fh.read()).decode()])
+[__erro, __imgs, __res_testes, __gerados]
 `);
-    const [erro, imagens, rt] = res.toJs();
+    const [erro, imagens, rt, gerados] = res.toJs();
     res.destroy();
-    self.postMessage({ id, ok: !erro && rt.every(Boolean), saida: saida.replace(/\n$/, ''), erro, imagens, testes: testes.map((t, i) => ({ ok: !!rt[i], msg: t.msg })) });
+    self.postMessage({ id, ok: !erro && rt.every(Boolean), saida: saida.replace(/\n$/, ''), erro, imagens, arquivos: gerados, testes: testes.map((t, i) => ({ ok: !!rt[i], msg: t.msg })) });
   } catch (e) {
     self.postMessage({ id, ok: false, saida: '', erro: String(e && e.message || e), imagens: [], testes: [] });
   }

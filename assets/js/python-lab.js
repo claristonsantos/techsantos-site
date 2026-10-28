@@ -33,6 +33,8 @@
     if (r.saida) h += `<pre class="lab-saida">${esc(r.saida)}</pre>`;
     if (r.erro) h += `<pre class="lab-saida lab-erro">${esc(r.erro)}</pre>`;
     (r.imagens || []).forEach(b => { h += `<img class="lab-img" src="data:image/png;base64,${b}" alt="Gráfico gerado pelo código">`; });
+    // arquivos que o código gerou (Excel, CSV...): o aluno baixa e abre no próprio computador
+    (r.arquivos || []).forEach(([nome, b64]) => { h += `<a class="lab-arquivo" download="${esc(nome)}" href="data:application/octet-stream;base64,${b64}">⬇ Baixar ${esc(nome)}</a>`; });
     if (!h) h = '<pre class="lab-saida lab-vazia">(o código rodou sem imprimir nada)</pre>';
     return h;
   }

@@ -35,3 +35,4 @@
 .lab-ver-solucao { margin-top: 0.6rem; font: 600 0.9rem Inter, system-ui, sans-serif; padding: 0.45rem 0.9rem; border-radius: 8px; border: 2px dashed var(--line); background: transparent; color: var(--ink-soft); cursor: pointer; }
 .lab-solucao { margin-top: 0.6rem; }
 .lab-solucao pre { margin: 0.4rem 0 0; padding: 0.75rem 1rem; border-radius: 8px; background: #0F1B2D; color: #E6EDF3; font: 0.9rem/1.5 'Plex Mono', Consolas, monospace; white-space: pre; overflow-x: auto; }
+.lab-arquivo { display: inline-block; margin: 0.6rem 0.5rem 0 0; padding: 0.45rem 0.9rem; border-radius: 8px; background: var(--green-soft); color: var(--green-strong); font-weight: 600; text-decoration: none; border: 1px solid var(--green); }
