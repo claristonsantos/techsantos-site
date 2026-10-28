@@ -1379,4 +1379,197 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m08', title: 'Módulo 08 · Viagem: aeroporto, hotel, restaurante, conselhos e direções (A2)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-aeroporto-hotel', title: 'No aeroporto e no hotel',
+        desc: 'O vocabulário e as frases prontas para fazer check-in, passar pela imigração, embarcar e se hospedar num hotel.',
+        objetivos: [
+          'Entender e usar as palavras do aeroporto: boarding pass, gate, luggage, delayed',
+          'Responder às perguntas da imigração',
+          'Fazer check-in e check-out no hotel e pedir algo na recepção'
+        ],
+        body: 'Viajar é a razão número um para aprender inglês — e o aeroporto é o primeiro lugar onde você vai precisar dele. A boa notícia: as conversas de aeroporto e hotel são muito previsíveis. Com as frases desta aula você resolve quase tudo.',
+        content: [
+          { h: 'No check-in',
+            items: [
+              `${EN('Can I see your passport, please?')} (Posso ver seu passaporte?) · ${EN('Do you have any bags to check?')} (Vai despachar alguma mala?)`,
+              `${EN('luggage')} / ${EN('baggage')} (bagagem — incontável!) · ${EN('carry-on')} (bagagem de mão) · ${EN('checked bag')} (mala despachada).`,
+              `${EN('boarding pass')} (cartão de embarque) · ${EN('gate')} (portão) · ${EN('aisle seat')} (corredor) · ${EN('window seat')} (janela).`,
+              `${EN('Your flight is delayed.')} (Seu voo está atrasado.) · ${EN('cancelled')} (cancelado) · ${EN('on time')} (no horário) · ${EN('boarding')} (embarque).`
+            ] },
+          { h: 'Na imigração',
+            items: [
+              `${EN("What's the purpose of your visit?")} — ${EN("I'm here on vacation.")} / ${EN("I'm here on business.")} (a passeio / a trabalho)`,
+              `${EN('How long are you staying?')} — ${EN('For two weeks.')} (Por duas semanas.)`,
+              `${EN('Where are you staying?')} — ${EN("At the Plaza Hotel.")} · Responda curto e direto; não precisa explicar demais.`
+            ] },
+          { h: 'No hotel',
+            items: [
+              `${EN('I have a reservation under the name Silva.')} (Tenho uma reserva no nome de Silva.)`,
+              `${EN("I'd like to check in.")} · ${EN('What time is check-out?')} · ${EN('Is breakfast included?')} (O café da manhã está incluído?)`,
+              `Problemas: ${EN("The air conditioning isn't working.")} · ${EN('Could I have another towel?')} · ${EN("What's the Wi-Fi password?")}`
+            ] },
+          { h: 'Falsos amigos de viagem',
+            p: `${EN('lunch')} é almoço, não lanche (lanche é ${EN('snack')}). ${EN('Exit')} é a saída. E nas portas: ${EN('pull')} é puxe e ${EN('push')} é empurre — o contrário do que muita gente imagina!` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['boarding pass', 'cartão de embarque'], ['gate', 'portão'], ['delayed', 'atrasado'], ['carry-on', 'bagagem de mão'], ['aisle seat', 'assento no corredor']] },
+          { t: 'escolha', q: `O oficial pergunta ${EN("What's the purpose of your visit?")} Você vai a passeio:`, op: ["I'm here on vacation.", "I'm here for vacations.", 'I came to visit purpose.'], a: 0 },
+          { t: 'escolha', q: `${EN('How long are you staying?')}`, op: ['For two weeks.', 'Two weeks ago.', 'Since two weeks.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['I have two bags.', 'I have two luggages.', 'I have two baggages.'], a: 0, exp: 'luggage e baggage são incontáveis. Para contar, use bags ou pieces of luggage.' },
+          { t: 'escolha', q: `Numa porta está escrito ${EN('PULL')}. O que fazer?`, op: ['Puxar', 'Empurrar', 'Apertar'], a: 0, opPt: true, exp: 'pull = puxe; push = empurre. Falso amigo clássico.' },
+          { t: 'montar', pt: 'Eu tenho uma reserva no nome de Silva.', en: 'I have a reservation under the name Silva', extra: ['in', 'on'] },
+          { t: 'montar', pt: 'O café da manhã está incluído?', en: 'Is breakfast included?', extra: ['coffee', 'the'] },
+          { t: 'escolha', ouvir: 'Your flight is delayed.', op: ['Your flight is delayed.', 'Your flight is cancelled.', 'Your flight is on time.'], a: 0 },
+          { t: 'escolha', ouvir: 'Do you have any bags to check?', op: ['Do you have any bags to check?', 'Can I check your passport?', 'Do you want a window seat?'], a: 0 },
+          { t: 'digitar', pt: 'Eu gostaria de fazer o check-in.', en: "I'd like to check in", alt: ['I would like to check in'] },
+          { t: 'digitar', ouvir: "What's the Wi-Fi password?", en: "What's the Wi-Fi password", alt: ['What is the Wi-Fi password', "What's the wifi password"] },
+          { t: 'falar', en: "I'm here on vacation." },
+          { t: 'falar', en: 'What time is check-out?' }
+        ]
+      },
+      {
+        id: 'en-restaurante', title: 'No restaurante: would like e como pedir',
+        desc: 'Do "mesa para dois" até pedir a conta: as frases do restaurante e o would like, o jeito educado de pedir qualquer coisa.',
+        objetivos: [
+          'Pedir de forma educada com I\'d like e Could I have...?',
+          'Entender as perguntas do garçom',
+          'Pedir a conta, perguntar sobre ingredientes e reclamar com educação'
+        ],
+        body: 'Em restaurante, a diferença entre soar educado e soar grosso está numa palavra. "I want a beer" é direto demais; "I\'d like a beer, please" é o padrão. Esta aula é o roteiro completo de uma refeição, do começo ao fim.',
+        content: [
+          { h: 'Would like: querer, com educação',
+            items: [
+              `${EN("I'd like")} = ${EN('I would like')} (eu gostaria): ${EN("I'd like the chicken, please.")}`,
+              `${EN('Would you like...?')} (Você gostaria...?) — ${EN('Would you like something to drink?')} — ${EN("Yes, I'd like a juice.")}`,
+              `Também educado: ${EN('Could I have the menu?')} · ${EN("I'll have the fish.")} (Vou querer o peixe.)`,
+              `Evite ${EN('I want')} com garçom — não é errado, mas soa infantil ou ríspido.`
+            ] },
+          { h: 'Chegando e pedindo',
+            items: [
+              `${EN('A table for two, please.')} · ${EN('Do you have a reservation?')}`,
+              `${EN('Are you ready to order?')} — ${EN('Not yet. Could we have a few more minutes?')}`,
+              `${EN('What do you recommend?')} · ${EN("What's in this dish?")} (O que vai neste prato?)`,
+              `${EN('starter')} / ${EN('appetizer')} (entrada) · ${EN('main course')} (prato principal) · ${EN('dessert')} (sobremesa — cuidado: ${EN('desert')} é deserto).`
+            ] },
+          { h: 'Restrições e problemas',
+            items: [
+              `${EN("I'm allergic to peanuts.")} · ${EN("I'm vegetarian.")} · ${EN('Does it have gluten?')}`,
+              `${EN('Excuse me, this is cold.')} · ${EN("I didn't order this.")} — sempre começando com ${EN('Excuse me')}.`
+            ] },
+          { h: 'A conta e a gorjeta',
+            p: `${EN('Could we have the check, please?')} (EUA) ou ${EN('the bill')} (Reino Unido). ${EN('Can I pay by card?')} Nos Estados Unidos a gorjeta (${EN('tip')}) não vem na conta e costuma ficar entre 15% e 20% — é parte do salário do garçom.` }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual é o jeito educado de pedir?', op: ["I'd like the chicken, please.", 'I want the chicken.', 'Give me the chicken.'], a: 0 },
+          { t: 'lacuna', frase: '___ you like something to drink?', op: ['Would', 'Do', 'Are'], a: 0, pt: 'Você gostaria de algo para beber?' },
+          { t: 'lacuna', frase: 'A table ___ two, please.', op: ['for', 'to', 'of'], a: 0, pt: 'Uma mesa para dois, por favor.' },
+          { t: 'escolha', q: 'Como pedir a conta nos Estados Unidos?', op: ['Could we have the check, please?', 'Could we have the count, please?', 'Give the account.'], a: 0 },
+          { t: 'escolha', q: `O que é ${EN('dessert')}?`, op: ['sobremesa', 'deserto', 'entrada'], a: 0, opPt: true, exp: 'dessert (dois s) = sobremesa. desert (um s) = deserto.' },
+          { t: 'pares', pares: [['starter', 'entrada'], ['main course', 'prato principal'], ['dessert', 'sobremesa'], ['tip', 'gorjeta'], ['check', 'conta']] },
+          { t: 'montar', pt: 'O que você recomenda?', en: 'What do you recommend?', extra: ['are', 'recommends'] },
+          { t: 'montar', pt: 'Eu sou alérgico a amendoim.', en: "I'm allergic to peanuts", extra: ['of', 'have'] },
+          { t: 'escolha', ouvir: 'Are you ready to order?', op: ['Are you ready to order?', 'Do you have a reservation?', 'Would you like dessert?'], a: 0 },
+          { t: 'digitar', pt: 'Vou querer o peixe.', en: "I'll have the fish", alt: ["I'd like the fish", 'I will have the fish'] },
+          { t: 'digitar', ouvir: "Excuse me, I didn't order this.", en: "Excuse me, I didn't order this", alt: ['Excuse me, I did not order this'] },
+          { t: 'falar', en: "I'd like a coffee, please." },
+          { t: 'falar', en: 'Could we have the check, please?' }
+        ]
+      },
+      {
+        id: 'en-should-have-to', title: 'Should, could e have to: conselhos e obrigações',
+        desc: 'Como dar conselho (should), sugerir opções (could) e falar de obrigação (have to e must) — e a diferença entre don\'t have to e mustn\'t.',
+        objetivos: [
+          'Dar e pedir conselhos com should e shouldn\'t',
+          'Sugerir possibilidades com could',
+          'Falar de obrigação com have to e must, e de proibição com mustn\'t'
+        ],
+        body: 'Numa viagem você vai pedir e receber muitos conselhos: "você devia visitar tal lugar", "você tem que levar o passaporte". O inglês tem um verbo para cada nível de força — e uma armadilha famosa entre don\'t have to e mustn\'t.',
+        content: [
+          { h: 'Should: conselho',
+            items: [
+              `${EN('You should visit Central Park.')} (Você deveria visitar o Central Park.) · ${EN("You shouldn't drink tap water there.")}`,
+              `Pedir conselho: ${EN('What should I do?')} · ${EN('Should I take a taxi?')}`,
+              `Como can e will: igual para todas as pessoas e verbo puro depois — ${EN('she should go')}, nunca "shoulds" nem "should to go".`
+            ] },
+          { h: 'Could: possibilidade e sugestão',
+            p: `Mais suave que should, para dar opções: ${EN('You could take the subway, or you could walk.')} (Você poderia pegar o metrô ou ir a pé.) Lembra que ${EN('could')} também é o pedido educado: ${EN('Could you help me?')}` },
+          { h: 'Have to e must: obrigação',
+            items: [
+              `${EN('have to')}: obrigação que vem de fora, regra — ${EN('You have to show your passport.')} · com he/she: ${EN('She has to work on Saturday.')}`,
+              `${EN('must')}: obrigação forte, comum em avisos e regras escritas — ${EN('Passengers must wear seat belts.')}`,
+              `No passado só existe ${EN('had to')}: ${EN('I had to wait two hours.')} (Tive que esperar duas horas.)`
+            ] },
+          { h: 'A armadilha: don\'t have to × mustn\'t',
+            items: [
+              `${EN("You don't have to pay.")} = não é obrigatório, é grátis — pode pagar se quiser.`,
+              `${EN("You mustn't smoke here.")} = é proibido.`,
+              `Os sentidos são completamente diferentes, embora em português os dois pareçam "não precisa / não pode".`
+            ] }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'You ___ visit Central Park. It\'s beautiful!', op: ['should', 'must', 'have'], a: 0, pt: 'Você deveria visitar o Central Park. É lindo!' },
+          { t: 'lacuna', frase: 'You ___ show your passport.', op: ['have to', 'should to', 'has to'], a: 0, pt: 'Você tem que mostrar o passaporte.' },
+          { t: 'lacuna', frase: 'She ___ to work on Saturday.', op: ['has', 'have', 'must'], a: 0, pt: 'Ela tem que trabalhar no sábado.' },
+          { t: 'lacuna', frase: 'I ___ to wait two hours yesterday.', op: ['had', 'have', 'must'], a: 0, pt: 'Eu tive que esperar duas horas ontem.' },
+          { t: 'escolha', q: `O que significa ${EN("You don't have to pay.")}`, op: ['Não é obrigatório pagar.', 'É proibido pagar.', 'Você não pode pagar.'], a: 0, opPt: true, exp: `don't have to = não é obrigatório. mustn't = é proibido.` },
+          { t: 'escolha', q: `O que significa ${EN("You mustn't smoke here.")}`, op: ['É proibido fumar aqui.', 'Você não precisa fumar aqui.', 'Você deveria fumar aqui.'], a: 0, opPt: true },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['She should go.', 'She shoulds go.', 'She should to go.'], a: 0 },
+          { t: 'montar', pt: 'O que eu devo fazer?', en: 'What should I do?', extra: ['must', 'have'] },
+          { t: 'montar', pt: 'Você poderia pegar o metrô.', en: 'You could take the subway', extra: ['should', 'to'] },
+          { t: 'pares', pares: [['should', 'conselho'], ['could', 'sugestão / possibilidade'], ['have to', 'obrigação'], ["don't have to", 'não é obrigatório'], ["mustn't", 'proibido']] },
+          { t: 'digitar', ouvir: "You shouldn't drink tap water.", en: "You shouldn't drink tap water", alt: ['You should not drink tap water'] },
+          { t: 'falar', en: 'You should visit the museum.' },
+          { t: 'falar', en: 'I had to wait two hours.' }
+        ]
+      },
+      {
+        id: 'en-direcoes', title: 'Pedindo e dando direções',
+        desc: 'Como perguntar o caminho com educação e entender as respostas: go straight, turn left, take the second right, it\'s on your left.',
+        objetivos: [
+          'Perguntar o caminho com Excuse me, how do I get to...?',
+          'Entender e dar instruções com go straight, turn, take, cross',
+          'Descrever onde fica o lugar: on your left, at the end of, past the bank'
+        ],
+        body: 'Mesmo com GPS no celular, pedir informação na rua continua sendo uma das conversas mais comuns de uma viagem — e uma ótima chance de praticar. As respostas usam sempre as mesmas poucas expressões, e é isso que você vai treinar aqui.',
+        content: [
+          { h: 'Perguntando',
+            items: [
+              `${EN('Excuse me, how do I get to the train station?')} (Com licença, como eu chego à estação de trem?)`,
+              `${EN('Is there a pharmacy near here?')} · ${EN("Where's the nearest subway station?")}`,
+              `${EN('Is it far?')} (É longe?) — ${EN("It's a five-minute walk.")} (Fica a cinco minutos a pé.)`
+            ] },
+          { h: 'As instruções',
+            items: [
+              `${EN('Go straight')} / ${EN('Go straight ahead')} (siga em frente) · ${EN('Go down this street')} (desça esta rua).`,
+              `${EN('Turn left')} / ${EN('Turn right')} (vire à esquerda / direita) · ${EN('at the corner')} · ${EN('at the traffic lights')} (no semáforo).`,
+              `${EN('Take the second right.')} (Pegue a segunda à direita.) · ${EN('Cross the street.')} (Atravesse a rua.)`,
+              `${EN('Go past the bank.')} (Passe pelo banco.) · ${EN('until you see a church')} (até ver uma igreja).`
+            ] },
+          { h: 'Chegando',
+            p: `${EN("It's on your left.")} (Fica à sua esquerda.) · ${EN("It's at the end of the street.")} (no fim da rua) · ${EN("It's across from the park.")} · ${EN("You can't miss it!")} (Não tem como errar!)` },
+          { h: 'Se não entender',
+            p: `${EN('Sorry, could you say that again?')} · ${EN('Could you speak more slowly, please?')} · ${EN('Can you show me on the map?')} — pedir para repetir é normal e educado, ninguém espera que turista entenda tudo de primeira.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['turn left', 'virar à esquerda'], ['go straight', 'seguir em frente'], ['cross the street', 'atravessar a rua'], ['traffic lights', 'semáforo'], ['corner', 'esquina']] },
+          { t: 'montar', pt: 'Com licença, como eu chego à estação?', en: 'Excuse me how do I get to the station?', extra: ['arrive', 'go'] },
+          { t: 'lacuna', frase: 'Take the second ___.', op: ['right', 'rights', 'righter'], a: 0, pt: 'Pegue a segunda à direita.' },
+          { t: 'lacuna', frase: "It's ___ your left.", op: ['on', 'in', 'at'], a: 0, pt: 'Fica à sua esquerda.' },
+          { t: 'lacuna', frase: "It's at the end ___ the street.", op: ['of', 'in', 'on'], a: 0, pt: 'Fica no fim da rua.' },
+          { t: 'escolha', q: `O que significa ${EN("You can't miss it!")}`, op: ['Não tem como errar!', 'Você não pode perder isso!', 'Você não pode ir lá!'], a: 0, opPt: true },
+          { t: 'escolha', q: 'Você não entendeu. Como pedir para repetir?', op: ['Sorry, could you say that again?', 'Repeat.', 'What you said?'], a: 0 },
+          { t: 'escolha', ouvir: 'Go straight and turn left at the traffic lights.', op: ['Siga em frente e vire à esquerda no semáforo.', 'Vire à direita e siga em frente.', 'Atravesse a rua no semáforo.'], a: 0, opPt: true },
+          { t: 'escolha', ouvir: "It's a five-minute walk.", op: ['Fica a cinco minutos a pé.', 'São cinco ruas.', 'Fica a cinco quilômetros.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'É longe?', en: 'Is it far?', alt: ['Is it far'] },
+          { t: 'digitar', ouvir: 'Could you speak more slowly, please?', en: 'Could you speak more slowly please', alt: ['Could you speak more slowly, please', 'Could you speak more slowly please?'] },
+          { t: 'falar', en: 'Excuse me, how do I get to the station?' },
+          { t: 'falar', en: 'Go straight and turn right.' }
+        ]
+      }
+    ]
+  }
 ];
