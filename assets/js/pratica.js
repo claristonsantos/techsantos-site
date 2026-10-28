@@ -22,6 +22,9 @@
   const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const embaralhar = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const normalizar = s => String(s || '').toLowerCase().replace(/[’‘`]/g, "'").replace(/[.,!?;:"“”()]/g, ' ').replace(/\s+/g, ' ').trim();
+  // Contrações valem igual à forma longa (o reconhecimento de voz devolve "I am" para "I'm").
+  const CONTRACOES = [[/\bcan't\b/g, 'cannot'], [/\bwon't\b/g, 'will not'], [/\bi'm\b/g, 'i am'], [/n't\b/g, ' not'], [/'re\b/g, ' are'], [/'ll\b/g, ' will'], [/'ve\b/g, ' have'], [/'d\b/g, ' would'], [/\b(he|she|it|that|what|where|who|how|there|here)'s\b/g, '$1 is']];
+  const expandir = s => CONTRACOES.reduce((t, [re, por]) => t.replace(re, por), normalizar(s)).replace(/\s+/g, ' ').trim();
   const textoFalado = s => String(s || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 
   // ---------- áudio ----------
@@ -114,11 +117,11 @@
   }
   // 'ok' | 'quase' (erro de digitação) | 'errado'
   function conferirTexto(resposta, aceitas) {
-    const r = normalizar(resposta);
+    const r = expandir(resposta);
     if (!r) return 'errado';
     let melhor = Infinity;
     for (const a of aceitas) {
-      const n = normalizar(a);
+      const n = expandir(a);
       if (r === n) return 'ok';
       melhor = Math.min(melhor, distancia(r, n));
     }
@@ -299,7 +302,7 @@
   };
 
   function similaridade(a, b) {
-    const x = normalizar(a).split(' '), y = normalizar(b).split(' ');
+    const x = expandir(a).split(' '), y = expandir(b).split(' ');
     if (!y.length) return 0;
     const pool = x.slice(); let hit = 0;
     y.forEach(w => { const k = pool.indexOf(w); if (k >= 0) { hit++; pool.splice(k, 1); } });
