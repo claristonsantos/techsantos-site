@@ -1572,4 +1572,190 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m09', title: 'Módulo 09 · Present perfect: experiências, for/since, already/yet e a diferença para o passado (B1)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-pp-experiencias', title: 'Present perfect: Have you ever...?',
+        desc: 'O tempo verbal que não existe igual em português: have/has + particípio para experiências de vida, com ever e never.',
+        objetivos: [
+          'Formar o present perfect com have/has + particípio passado',
+          'Falar de experiências de vida com ever e never',
+          'Usar been e gone corretamente'
+        ],
+        body: 'Começa o nível B1, e com ele o tempo verbal mais temido por brasileiros: o present perfect. Ele não tem equivalente exato em português, mas a ideia é simples. Nesta primeira aula, o uso mais fácil: experiências de vida, sem dizer quando aconteceram.',
+        content: [
+          { h: 'A forma: have / has + particípio',
+            items: [
+              `${EN("I've visited Paris.")} (Eu já visitei Paris.) — ${EN("I've")} = ${EN('I have')}.`,
+              `${EN("She's seen that movie.")} — com he/she/it: ${EN('has')} (${EN("she's")} aqui é ${EN('she has')}, não ${EN('she is')}).`,
+              `Particípio dos regulares: igual ao passado — ${EN('visit → visited')}, ${EN('work → worked')}.`,
+              `Irregulares têm uma terceira forma: ${EN('see → saw → seen')} · ${EN('go → went → gone')} · ${EN('eat → ate → eaten')} · ${EN('be → was → been')} · ${EN('do → did → done')}.`
+            ] },
+          { h: 'Experiências de vida: ever e never',
+            items: [
+              `${EN('Have you ever been to Japan?')} (Você já foi ao Japão? — em algum momento da vida)`,
+              `${EN("Yes, I have.")} / ${EN("No, I haven't.")} · ${EN("I've never eaten sushi.")} (Eu nunca comi sushi.)`,
+              `O importante é a experiência, não o momento. Se disser quando, muda de tempo: ${EN('I went to Japan in 2019.')}`,
+              `${EN('never')} já é negativo: ${EN("I've never seen it")} — nunca "I haven't never".`
+            ] },
+          { h: 'Been ou gone?',
+            items: [
+              `${EN("She's been to London.")} = ela já foi e voltou (experiência).`,
+              `${EN("She's gone to London.")} = ela foi e está lá agora.`,
+              `Por isso a pergunta de experiência é ${EN('Have you ever been to...?')}`
+            ] },
+          { h: 'Particípios que você vai usar sempre',
+            p: `${EN('been')} (ser/estar/ir) · ${EN('done')} (fazer) · ${EN('seen')} (ver) · ${EN('eaten')} (comer) · ${EN('had')} (ter) · ${EN('made')} (fazer) · ${EN('written')} (escrever) · ${EN('taken')} (pegar) · ${EN('met')} (conhecer pessoa) · ${EN('tried')} (experimentar).` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "I've ___ Paris twice.", op: ['visited', 'visit', 'visiting'], a: 0, pt: 'Eu já visitei Paris duas vezes.' },
+          { t: 'lacuna', frase: 'She ___ seen that movie.', op: ['has', 'have', 'is'], a: 0, pt: 'Ela já viu esse filme.' },
+          { t: 'lacuna', frase: 'Have you ever ___ to Japan?', op: ['been', 'gone', 'went'], a: 0, pt: 'Você já foi ao Japão?', exp: 'Para experiência (foi e voltou), use been.' },
+          { t: 'pares', pares: [['see', 'seen'], ['eat', 'eaten'], ['go', 'gone'], ['write', 'written'], ['do', 'done']] },
+          { t: 'escolha', q: `Responda: ${EN('Have you ever eaten sushi?')} (não)`, op: ["No, I haven't.", "No, I didn't.", "No, I don't."], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["I've never seen it.", "I haven't never seen it.", "I never have seen it."], a: 0 },
+          { t: 'escolha', q: `O que significa ${EN("She's gone to London.")}`, op: ['Ela foi para Londres e está lá.', 'Ela já esteve em Londres.', 'Ela vai para Londres.'], a: 0, opPt: true },
+          { t: 'montar', pt: 'Você já experimentou comida brasileira?', en: 'Have you ever tried Brazilian food?', extra: ['Did', 'try'] },
+          { t: 'montar', pt: 'Eu nunca andei de avião.', en: "I've never been on a plane", extra: ["haven't", 'went'] },
+          { t: 'escolha', ouvir: "I've met her before.", op: ["I've met her before.", 'I met her yesterday.', "I'll meet her later."], a: 0 },
+          { t: 'digitar', pt: 'Ela já foi ao Brasil.', en: "She's been to Brazil", alt: ['She has been to Brazil'] },
+          { t: 'falar', en: 'Have you ever been to London?' },
+          { t: 'falar', en: "I've never eaten sushi." }
+        ]
+      },
+      {
+        id: 'en-pp-for-since', title: 'For e since: desde quando?',
+        desc: 'O present perfect para algo que começou no passado e continua até agora — e o erro mais comum de brasileiro: "I live here for ten years".',
+        objetivos: [
+          'Usar o present perfect para situações que continuam até hoje',
+          'Escolher entre for (período) e since (ponto de partida)',
+          'Perguntar How long have you...?'
+        ],
+        body: '"Eu moro aqui há dez anos." Em português usamos o presente. Em inglês, quem diz "I live here for ten years" erra: para algo que começou no passado e continua até agora, o inglês usa o present perfect. É o uso mais importante desse tempo verbal.',
+        content: [
+          { h: 'Do passado até agora',
+            items: [
+              `${EN("I've lived here for ten years.")} (Eu moro aqui há dez anos — e continuo morando.)`,
+              `${EN("She's worked at the bank since 2019.")} (Ela trabalha no banco desde 2019.)`,
+              `Erro clássico: "I live here for ten years" ou "I am here since Monday". Com duração até hoje, é present perfect.`
+            ] },
+          { h: 'For × since',
+            items: [
+              `${EN('for')} + período (quanto tempo): ${EN('for two years')} · ${EN('for a long time')} · ${EN('for three months')}.`,
+              `${EN('since')} + ponto de partida (desde quando): ${EN('since 2019')} · ${EN('since Monday')} · ${EN('since I was a child')}.`,
+              `Dica: se dá para dizer "há", é ${EN('for')}; se dá para dizer "desde", é ${EN('since')}.`
+            ] },
+          { h: 'How long...?',
+            p: `${EN('How long have you lived here?')} (Há quanto tempo você mora aqui?) · ${EN('How long have you known her?')} (Há quanto tempo você a conhece?) — ${EN("I've known her since college.")}` },
+          { h: 'Com o verbo to be',
+            p: `${EN("I've been here since Monday.")} (Estou aqui desde segunda.) · ${EN("We've been married for five years.")} (Somos casados há cinco anos.) · ${EN("How long have you been a teacher?")}` }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Como se diz "Eu moro aqui há dez anos"?', op: ["I've lived here for ten years.", 'I live here for ten years.', 'I lived here since ten years.'], a: 0, exp: 'Algo que começou no passado e continua: present perfect + for.' },
+          { t: 'lacuna', frase: "She's worked here ___ 2019.", op: ['since', 'for', 'ago'], a: 0, pt: 'Ela trabalha aqui desde 2019.' },
+          { t: 'lacuna', frase: "We've been married ___ five years.", op: ['for', 'since', 'during'], a: 0, pt: 'Somos casados há cinco anos.' },
+          { t: 'lacuna', frase: "I've known her ___ college.", op: ['since', 'for', 'from'], a: 0, pt: 'Eu a conheço desde a faculdade.' },
+          { t: 'pares', pares: [['for two years', 'há dois anos'], ['since Monday', 'desde segunda'], ['for a long time', 'há muito tempo'], ['since 2019', 'desde 2019'], ['How long?', 'Há quanto tempo?']] },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["I've been here since Monday.", "I'm here since Monday.", 'I am here for Monday.'], a: 0 },
+          { t: 'montar', pt: 'Há quanto tempo você mora aqui?', en: 'How long have you lived here?', extra: ['do', 'live'] },
+          { t: 'montar', pt: 'Ele é professor há vinte anos.', en: "He's been a teacher for twenty years", extra: ['since', 'is'] },
+          { t: 'escolha', ouvir: "I've studied English for three years.", op: ["I've studied English for three years.", 'I studied English three years ago.', "I'll study English for three years."], a: 0 },
+          { t: 'digitar', pt: 'Eu conheço o Ben há muito tempo.', en: "I've known Ben for a long time", alt: ['I have known Ben for a long time'] },
+          { t: 'digitar', ouvir: 'How long have you been a teacher?', en: 'How long have you been a teacher' },
+          { t: 'falar', en: "I've lived here for ten years." },
+          { t: 'falar', en: 'How long have you worked there?' }
+        ]
+      },
+      {
+        id: 'en-pp-already-yet-just', title: 'Already, yet e just',
+        desc: 'Três palavrinhas que acompanham o present perfect para falar de coisas recentes: já, ainda não e acabei de.',
+        objetivos: [
+          'Usar already para "já" (antes do esperado)',
+          'Usar yet em perguntas ("já?") e negativas ("ainda não")',
+          'Usar just para "acabou de"'
+        ],
+        body: 'No trabalho e no dia a dia, o present perfect aparece o tempo todo com três palavras: "você já mandou o e-mail?", "ainda não", "acabei de mandar". Saber a posição de cada uma é o que faz você soar natural.',
+        content: [
+          { h: 'Already: já',
+            items: [
+              `${EN("I've already sent the email.")} (Eu já mandei o e-mail.) — entre ${EN('have')} e o particípio.`,
+              `Indica que aconteceu, muitas vezes antes do esperado: ${EN("She's already finished!")} (Ela já terminou!)`
+            ] },
+          { h: 'Yet: já? / ainda não',
+            items: [
+              `Em pergunta = já: ${EN('Have you finished the report yet?')} (Você já terminou o relatório?)`,
+              `Em negativa = ainda não: ${EN("I haven't finished it yet.")} (Ainda não terminei.)`,
+              `${EN('yet')} vai no fim da frase. Resposta curta muito usada: ${EN('Not yet.')} (Ainda não.)`
+            ] },
+          { h: 'Just: acabou de',
+            items: [
+              `${EN("I've just arrived.")} (Acabei de chegar.) · ${EN("He's just called.")} (Ele acabou de ligar.)`,
+              `Mesma posição de ${EN('already')}: entre ${EN('have')} e o particípio.`
+            ] },
+          { h: 'E no inglês americano?',
+            p: `Nos Estados Unidos é comum ouvir essas palavras com o passado simples: ${EN('Did you eat yet?')} · ${EN('I just arrived.')} Os dois estão certos; o present perfect é o padrão das provas e do inglês britânico, e entendê-lo deixa você preparado para os dois.` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "I've ___ sent the email.", op: ['already', 'yet', 'still'], a: 0, pt: 'Eu já mandei o e-mail.' },
+          { t: 'lacuna', frase: "I haven't finished it ___.", op: ['yet', 'already', 'just'], a: 0, pt: 'Ainda não terminei.' },
+          { t: 'lacuna', frase: 'Have you finished the report ___?', op: ['yet', 'already', 'just'], a: 0, pt: 'Você já terminou o relatório?', exp: 'Em perguntas, "já" no fim da frase é yet.' },
+          { t: 'lacuna', frase: "I've ___ arrived.", op: ['just', 'yet', 'ever'], a: 0, pt: 'Acabei de chegar.' },
+          { t: 'pares', pares: [['already', 'já'], ['yet (pergunta)', 'já?'], ['not yet', 'ainda não'], ['just', 'acabou de'], ['never', 'nunca']] },
+          { t: 'escolha', q: `Responda que ainda não: ${EN('Have you seen the new movie yet?')}`, op: ['Not yet.', 'Already not.', 'Yet no.'], a: 0 },
+          { t: 'montar', pt: 'Ele acabou de ligar.', en: "He's just called", extra: ['yet', 'already'] },
+          { t: 'montar', pt: 'Você já almoçou?', en: 'Have you had lunch yet?', extra: ['already', 'Did'] },
+          { t: 'escolha', ouvir: "She's already finished!", op: ["She's already finished!", "She hasn't finished yet.", "She's just started."], a: 0 },
+          { t: 'digitar', pt: 'Eu ainda não terminei.', en: "I haven't finished yet", alt: ['I have not finished yet'] },
+          { t: 'digitar', ouvir: "I've just arrived.", en: "I've just arrived", alt: ['I have just arrived'] },
+          { t: 'falar', en: "I haven't finished it yet." },
+          { t: 'falar', en: "I've already sent the email." }
+        ]
+      },
+      {
+        id: 'en-pp-vs-passado', title: 'Present perfect ou passado simples?',
+        desc: 'A regra que resolve de vez a dúvida: tempo terminado e definido usa o passado; tempo indefinido ou que continua usa o present perfect.',
+        objetivos: [
+          'Escolher entre present perfect e passado simples',
+          'Reconhecer as palavras que pedem cada tempo',
+          'Contar uma experiência: present perfect para introduzir, passado para os detalhes'
+        ],
+        body: 'Fechando o módulo, a pergunta que todo aluno faz: quando é "I went" e quando é "I\'ve been"? A resposta está numa única pergunta — o momento está definido e terminado? Se sim, passado simples. Se não, present perfect.',
+        content: [
+          { h: 'A regra de ouro',
+            items: [
+              `Momento definido e terminado → passado simples: ${EN('I went to Paris in 2019.')} · ${EN('I saw her yesterday.')}`,
+              `Momento indefinido, ou período que ainda não acabou → present perfect: ${EN("I've been to Paris.")} · ${EN("I've seen her this week.")}`,
+              `Nunca misture: "I've seen her yesterday" está errado — ${EN('yesterday')} é um momento terminado.`
+            ] },
+          { h: 'Palavras-pista',
+            items: [
+              `Passado simples: ${EN('yesterday')}, ${EN('last week')}, ${EN('in 2019')}, ${EN('two days ago')}, ${EN('when I was a child')}, ${EN('What time...?')}, ${EN('When...?')}`,
+              `Present perfect: ${EN('ever')}, ${EN('never')}, ${EN('already')}, ${EN('yet')}, ${EN('just')}, ${EN('for')}, ${EN('since')}, ${EN('this week')} (ainda não acabou), ${EN('so far')} (até agora).`,
+              `Pergunta com ${EN('When')} sempre vai para o passado: ${EN('When did you arrive?')} — nunca "When have you arrived?"`
+            ] },
+          { h: 'Como as conversas funcionam',
+            p: `O present perfect abre o assunto; o passado conta os detalhes: ${EN('— Have you ever been to Rio?')} ${EN("— Yes, I have. I went there last year. It was amazing!")} A pergunta é sobre experiência; a resposta, com quando e como, vai para o passado.` },
+          { h: 'Morar, trabalhar: terminou ou não?',
+            p: `${EN("I've lived in São Paulo for five years.")} = ainda moro lá. ${EN('I lived in São Paulo for five years.')} = morei, não moro mais. Uma letra muda a história.` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'I ___ to Paris in 2019.', op: ['went', "'ve been", 'have gone'], a: 0, pt: 'Eu fui a Paris em 2019.', exp: 'in 2019 é um momento definido e terminado: passado simples.' },
+          { t: 'lacuna', frase: "I ___ to Paris twice.", op: ["'ve been", 'went', 'go'], a: 0, pt: 'Eu já fui a Paris duas vezes.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['I saw her yesterday.', "I've seen her yesterday.", 'I have saw her yesterday.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['When did you arrive?', 'When have you arrived?', 'When you arrived?'], a: 0, exp: 'Perguntas com When pedem o passado simples.' },
+          { t: 'escolha', q: `${EN("I lived in São Paulo for five years.")} significa:`, op: ['Morei em São Paulo, não moro mais.', 'Moro em São Paulo há cinco anos.', 'Vou morar em São Paulo.'], a: 0, opPt: true },
+          { t: 'pares', pares: [['yesterday', 'passado simples'], ['ever', 'present perfect'], ['two days ago', 'passado simples'], ['since 2020', 'present perfect'], ['last week', 'passado simples']] },
+          { t: 'montar', pt: 'Você já foi ao Rio? Sim, fui no ano passado.', en: 'Have you ever been to Rio? Yes I went there last year', extra: ['Did', 'gone'] },
+          { t: 'lacuna', frase: "I ___ three cups of coffee this morning.", op: ['had', "'ve had", 'have'], a: 0, pt: 'Eu tomei três xícaras de café hoje de manhã. (já é tarde, a manhã acabou)', exp: 'Se a manhã já terminou, o período está fechado: passado simples. Ainda de manhã, daria para dizer I\'ve had.' },
+          { t: 'escolha', ouvir: "I've worked here since 2020.", op: ['Trabalho aqui desde 2020.', 'Trabalhei aqui em 2020.', 'Vou trabalhar aqui em 2020.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Eu a vi ontem.', en: 'I saw her yesterday' },
+          { t: 'digitar', ouvir: "Have you ever been to Rio?", en: 'Have you ever been to Rio' },
+          { t: 'falar', en: 'Yes, I have. I went there last year.' },
+          { t: 'falar', en: 'When did you arrive?' }
+        ]
+      }
+    ]
+  }
 ];
