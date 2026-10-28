@@ -3143,4 +3143,96 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m17', title: 'Módulo 17 · Revisão geral, teste final e certificado', kind: 'video',
+    lessons: [
+      {
+        id: 'en-revisao-geral', title: 'Revisão geral: do A1 ao C1',
+        desc: 'Um mapa de tudo o que você aprendeu no curso, nível por nível, com os pontos que mais caem e mais confundem.',
+        objetivos: [
+          'Revisar os pontos-chave de cada nível do curso',
+          'Identificar os erros mais comuns de quem fala português',
+          'Saber como continuar evoluindo depois do curso'
+        ],
+        body: 'Você chegou ao fim! Antes do teste final, uma revisão de todo o caminho — do primeiro "hello" até uma negociação em inglês. Use esta aula como checklist: se algum ponto parecer fraco, volte à aula correspondente e refaça a prática.',
+        content: [
+          { h: 'A1 · Primeiros passos, família, rotina e cidade',
+            items: [
+              `Verbo to be (${EN('I am')}, ${EN('she is')}, ${EN('they are')}) e idade com to be: ${EN("I'm 30 years old.")}`,
+              `Possessivos (${EN('his')} × ${EN('her')} pelo dono), ${EN("'s")} de posse e ${EN('have')} / ${EN('has')}.`,
+              `Presente simples com -s na terceira pessoa e os ajudantes ${EN('do')} / ${EN('does')}.`,
+              `${EN('There is')} / ${EN('there are')} (nunca "have" para existência), preposições de lugar e ${EN('can')}.`
+            ] },
+          { h: 'A2 · Passado, futuro, comparações e viagem',
+            items: [
+              `Passado: ${EN('was')} / ${EN('were')}, -ed (com os três sons), irregulares e ${EN("didn't")} + forma base.`,
+              `Futuro: ${EN('going to')} (plano), ${EN('will')} (decisão na hora) e presente contínuo (compromisso marcado).`,
+              `Comparativos e superlativos, ${EN('much')} / ${EN('many')}, ${EN('too')} / ${EN('enough')} e nada de dupla negação.`,
+              `Viagem: aeroporto, restaurante (${EN("I'd like")}), ${EN('should')} / ${EN('have to')} e direções.`
+            ] },
+          { h: 'B1 e B2 · Present perfect, condicionais, trabalho e estruturas avançadas',
+            items: [
+              `Present perfect para experiências e para o que continua: ${EN("I've lived here for ten years.")}`,
+              `Condicionais: nada de ${EN('will')} depois de ${EN('if')} / ${EN('when')}; second e third conditional; ${EN('wish')}.`,
+              `Phrasal verbs, -ing × to, e-mails, reuniões, telefone e small talk.`,
+              `Voz passiva, reported speech, orações relativas, idioms e falsos cognatos.`
+            ] },
+          { h: 'C1 · Fluência profissional e como continuar',
+            items: [
+              `Registro formal × informal, apresentações, entrevistas e negociação diplomática.`,
+              `Continue ouvindo todo dia: séries com legenda em inglês, podcasts e a técnica de ${EN('shadowing')}.`,
+              `Fale sempre que puder — erros fazem parte. E volte às práticas deste curso: a fila de revisão é o seu melhor treino.`
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["I'm 30 years old.", 'I have 30 years.', 'I have 30 years old.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["She doesn't work on Sundays.", "She doesn't works on Sundays.", "She don't work on Sundays."], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["There's a bank near here.", 'Have a bank near here.', 'It has a bank near here.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["I didn't go to work.", "I didn't went to work.", "I don't went to work."], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["I've lived here for ten years.", 'I live here for ten years.', 'I lived here since ten years.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["If it rains, I'll stay home.", "If it will rain, I'll stay home.", 'If it rain, I stay home.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["I didn't see anything.", "I didn't see nothing.", "I didn't saw nothing."], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['I agree.', 'I am agree.', 'I agreed with.'], a: 0 },
+          { t: 'pares', pares: [['actually', 'na verdade'], ['pretend', 'fingir'], ['parents', 'pai e mãe'], ['library', 'biblioteca'], ['attend', 'comparecer']] },
+          { t: 'montar', pt: 'Se eu fosse você, eu aceitaria o emprego.', en: "If I were you I'd take the job", extra: ['was', 'will'] },
+          { t: 'digitar', ouvir: "I'm looking forward to seeing you.", en: "I'm looking forward to seeing you", alt: ['I am looking forward to seeing you'] },
+          { t: 'falar', en: "I've been studying English, and I'm ready for the test." },
+          { t: 'falar', en: 'Thank you for everything!' }
+        ]
+      },
+      {
+        id: 'en-teste-final-instrucoes', title: 'Teste final e certificado: como funciona',
+        desc: 'Como é o teste final de 40 questões, a nota para aprovação e como emitir o seu certificado de conclusão.',
+        objetivos: [
+          'Entender o formato do teste final',
+          'Saber a nota mínima e como refazer',
+          'Emitir o certificado de conclusão'
+        ],
+        body: 'O teste final tem 40 questões de múltipla escolha, cobrindo do A1 ao C1: gramática, vocabulário, situações reais e uma questão de leitura de e-mail. A aprovação é com 70% de acertos, e você pode refazer quantas vezes precisar. Ao ser aprovado, o certificado de conclusão fica disponível na sua área do aluno.',
+        content: [
+          { h: 'O formato',
+            items: [
+              `40 questões de múltipla escolha, com 4 alternativas cada.`,
+              `Distribuição: níveis A1 e A2 (16 questões), B1 e B2 (16), C1 (4) e leitura de um e-mail profissional (4).`,
+              `Sem limite de tempo: faça com calma, num lugar tranquilo.`
+            ] },
+          { h: 'Aprovação e certificado',
+            items: [
+              `Nota mínima: 70% (28 acertos).`,
+              `Não passou? Revise as aulas indicadas e refaça — não há limite de tentativas.`,
+              `Aprovado, o certificado de conclusão fica disponível na área do aluno, com seu nome e a carga do curso.`
+            ] },
+          { h: 'Dicas para o teste',
+            items: [
+              `Leia a frase inteira antes de escolher: muitas questões dependem de uma palavra-pista (${EN('yesterday')}, ${EN('since')}, ${EN('if')}).`,
+              `Desconfie da alternativa que é tradução literal do português — ela costuma ser a pegadinha.`,
+              `Nas questões de leitura, volte ao texto: a resposta está lá.`
+            ] },
+          { h: 'Parabéns!',
+            p: `Você estudou 64 aulas, praticou mais de 800 exercícios e acompanhou a Lia, a Ava e o Ben do primeiro ${EN('hello')} até uma negociação. ${EN('Good luck on the test!')} (Boa sorte no teste!)` }
+        ]
+      }
+    ]
+  }
 ];

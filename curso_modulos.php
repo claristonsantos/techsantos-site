@@ -23,6 +23,7 @@ const CERTIFICADO_AVALIACOES = [
     'power-bi' => ['encerramento'],
     'microsoft-fabric' => ['fab-simulado-dp600', 'fab-simulado-dp700'],
     'excel' => ['xl-simulado-mo210', 'xl-simulado-mo211'],
+    'ingles' => ['en-m17'],
 ];
 
 function avaliacoes_do_certificado(string $cursoSlug): array

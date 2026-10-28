@@ -31,6 +31,18 @@ const CURSOS_VITRINE = [
             'Acesso liberado automaticamente após a confirmação do pagamento',
         ],
     ],
+    'ingles' => [
+        'etiqueta' => 'Do básico ao avançado · A1 ao C1',
+        'pagina' => '/curso-ingles.php',
+        'imagem' => '/assets/img/curso-ingles/capa.jpg',
+        'resumo' => 'Inglês do zero à fluência profissional, com videoaulas em conversa com personagens, prática interativa estilo Duolingo e áudio nativo em todas as frases.',
+        'itens' => [
+            '17 módulos e 66 aulas do A1 ao C1, com videoaulas em formato de conversa e teoria completa em português',
+            'Mais de 800 exercícios interativos: ouvir, montar frases, ligar pares, escrever e falar com reconhecimento de voz',
+            'Inglês para o trabalho e para dados e tecnologia: e-mails, reuniões, apresentações, Excel e Power BI',
+            'Avaliação em cada módulo, teste final de 40 questões e certificado de conclusão',
+        ],
+    ],
     'excel' => [
         'etiqueta' => 'Do zero ao avançado · MO-210 e MO-211',
         'pagina' => '/curso-excel.php',
@@ -71,7 +83,7 @@ function preco_formatado(?int $centavos): ?string
 }
 
 /** Ordem de apresentação no catálogo público: a trilha Excel → Power BI → Fabric. */
-const CURSOS_ORDEM = ['excel', 'power-bi', 'microsoft-fabric'];
+const CURSOS_ORDEM = ['excel', 'power-bi', 'microsoft-fabric', 'ingles'];
 
 function cursos_a_venda_ordenados(PDO $pdo): array
 {

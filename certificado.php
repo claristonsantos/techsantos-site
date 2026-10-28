@@ -20,8 +20,9 @@ $certConteudo = [
     'power-bi' => 'modelagem de dados, Power Query, DAX, construção de relatórios e publicação em Power BI',
     'microsoft-fabric' => 'OneLake, lakehouse e warehouse, Data Factory, Dataflows Gen2, Spark, Real-Time Intelligence, modelos semânticos, DAX, Direct Lake, segurança, governança e ciclo de vida no Microsoft Fabric, com base nas certificações DP-600 e DP-700',
     'excel' => 'interface, formatação, importação e validação de dados, tabelas, fórmulas e referências, funções lógicas, de texto, de data e de procura, matrizes dinâmicas, formatação condicional, gráficos, tabelas dinâmicas, análise de hipóteses, auditoria, proteção e macros no Microsoft Excel, com base nas certificações MO-210 e MO-211',
+    'ingles' => 'inglês do nível A1 ao C1: conversação, gramática, compreensão oral, vocabulário do dia a dia, viagem, inglês no trabalho (e-mails, reuniões, ligações e apresentações), inglês para dados e tecnologia, entrevistas e negociação',
 ];
-$certPaginaCurso = ['power-bi' => '/curso-power-bi.php', 'microsoft-fabric' => '/curso-microsoft-fabric.php', 'excel' => '/curso-excel.php'];
+$certPaginaCurso = ['power-bi' => '/curso-power-bi.php', 'microsoft-fabric' => '/curso-microsoft-fabric.php', 'excel' => '/curso-excel.php', 'ingles' => '/curso-ingles.php'];
 ?>
 <!doctype html>
 <html lang="pt-BR">
