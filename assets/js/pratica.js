@@ -10,6 +10,7 @@
 //   pares    { pares:[[en, pt], ...] }        ligar inglês ↔ português
 //   digitar  { pt?, ouvir?, en, alt?:[] }     escrever a tradução ou o que ouviu
 //   falar    { en }                           repetir em voz alta (reconhecimento de voz do navegador)
+// Qualquer tipo aceita `exp`: explicação mostrada quando o aluno erra.
 //
 // Áudio: tools/ingles_audio.py grava cada frase em inglês em
 // /assets/audio/ingles/<sha1(frase)[:12]>.mp3 (voz neural nativa). Sem o arquivo,
@@ -157,7 +158,7 @@
       return {
         titulo: 'Traduza para o inglês',
         html: `<p class="pr-enunciado pr-pt">${esc(ex.pt)}</p>
-          <div class="pr-montagem" aria-label="Sua resposta"></div>
+          <div class="pr-montagem-linha"><div class="pr-montagem" aria-label="Sua resposta"></div><span class="pr-pontuacao" lang="en">${esc((ex.en.match(/[.!?]$/) || [''])[0])}</span></div>
           <div class="pr-banco">${fichas.map(f => `<button type="button" class="pr-ficha" data-f="${f.i}">${esc(f.t)}</button>`).join('')}</div>`,
         montar(el, api) {
           const area = el.querySelector('.pr-montagem');
@@ -251,7 +252,15 @@
               ouvido.textContent = '“' + texto + '”';
               api.pronto(true);
             };
-            r.onerror = () => { ouvido.textContent = 'Não consegui ouvir. Confira o microfone e tente de novo.'; };
+            r.onerror = e => {
+              ouvido.textContent = {
+                'not-allowed': 'O navegador bloqueou o microfone. Clique no cadeado ao lado do endereço do site, permita o microfone e tente de novo.',
+                'service-not-allowed': 'O navegador bloqueou o microfone. Clique no cadeado ao lado do endereço do site, permita o microfone e tente de novo.',
+                'no-speech': 'Não ouvi nada. Toque no botão e fale logo em seguida, perto do microfone.',
+                'audio-capture': 'Nenhum microfone encontrado neste aparelho.',
+                'network': 'O reconhecimento de voz precisa de internet e funciona melhor no Chrome. Tente de novo ou toque em "Não posso falar agora".'
+              }[e.error] || 'Não consegui ouvir. Confira o microfone e tente de novo.';
+            };
             r.onend = () => { mic.classList.remove('gravando'); mic.textContent = '🎤 Tentar de novo'; };
             r.start();
           });
@@ -354,7 +363,7 @@
       } else {
         fila.push(atual);
         rodape.className = 'pr-rodape pr-errado';
-        msg.innerHTML = `<strong>Resposta correta:</strong><span lang="en">${esc(r.certa)}</span>`;
+        msg.innerHTML = `<strong>Resposta correta:</strong><span lang="en">${esc(r.certa)}</span>${atual.ex.exp ? `<em class="pr-exp">${atual.ex.exp}</em>` : ''}`;
         somErro();
       }
       if (r.falar) falar(r.falar);

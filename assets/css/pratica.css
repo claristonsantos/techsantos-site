@@ -36,7 +36,10 @@
 .pr-opcao.sel, .pr-par.sel { border-color: var(--pr-blue); background: rgba(47, 127, 216, 0.1); }
 .pr-k { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 6px; border: 2px solid var(--line); font-size: 0.8rem; color: var(--ink-faint); flex-shrink: 0; }
 
-.pr-montagem { min-height: 3.4rem; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.6rem 0; border-bottom: 2px solid var(--line); border-top: 2px solid var(--line); margin-bottom: 1.2rem; }
+.pr-montagem-linha { display: flex; align-items: center; gap: 0.3rem; border-bottom: 2px solid var(--line); border-top: 2px solid var(--line); margin-bottom: 1.2rem; }
+.pr-montagem { flex: 1; min-height: 3.4rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; padding: 0.6rem 0; }
+.pr-montagem:empty + .pr-pontuacao { visibility: hidden; }
+.pr-pontuacao { font-size: 1.4rem; font-weight: 700; color: var(--ink-soft); padding-right: 0.4rem; }
 .pr-banco { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
 .pr-ficha { padding: 0.5rem 0.9rem; font-size: 1.05rem; }
 .pr-ficha.usada { background: var(--surface-2); color: transparent; border-color: var(--surface-2); pointer-events: none; }
@@ -66,6 +69,7 @@
 .pr-msg { display: flex; flex-direction: column; gap: 0.15rem; }
 .pr-msg strong { font-size: 1.1rem; }
 .pr-msg span { font-size: 1.05rem; }
+.pr-exp { font-style: normal; font-size: 0.92rem; color: var(--ink-soft); margin-top: 0.2rem; }
 .pr-certo { background: var(--green-soft); border-top-color: var(--green); }
 .pr-certo .pr-msg { color: var(--green-strong); }
 .pr-errado { background: var(--pr-red-soft); border-top-color: var(--pr-red); }
