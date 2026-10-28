@@ -70,7 +70,7 @@ try:
     with contextlib.redirect_stdout(__buf):
         exec(compile(__codigo_aluno, 'seu_codigo.py', 'exec'), __ns)
 except SyntaxError as e:
-    __erro = f"SyntaxError: {e.msg} (linha {e.lineno})"
+    __erro = f"{type(e).__name__}: {e.msg} (linha {e.lineno})"  # IndentationError é um tipo de SyntaxError
 except Exception as e:
     tb = traceback.extract_tb(e.__traceback__)
     linha = next((f.lineno for f in reversed(tb) if f.filename == 'seu_codigo.py'), None)
