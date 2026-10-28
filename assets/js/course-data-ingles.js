@@ -1944,4 +1944,200 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m11', title: 'Módulo 11 · Phrasal verbs e verbos com -ing ou to (B1)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-phrasal-basico', title: 'Phrasal verbs: o que são e como funcionam',
+        desc: 'Verbo + partícula com sentido novo: wake up, turn on, put on, pick up — e onde colocar o objeto (turn it on).',
+        objetivos: [
+          'Entender o que é um phrasal verb e por que o sentido muda',
+          'Usar os phrasal verbs da rotina: wake up, get up, turn on/off, put on, take off',
+          'Saber onde vai o objeto: turn on the light / turn it on'
+        ],
+        body: 'Phrasal verbs são verbos que ganham uma partícula — up, on, off, out — e com ela um sentido novo. "Give" é dar; "give up" é desistir. Eles estão em toda conversa de nativo, e é por isso que muita gente entende o livro mas não entende a série. A boa notícia: os mais usados são poucas dezenas.',
+        content: [
+          { h: 'Verbo + partícula = sentido novo',
+            items: [
+              `${EN('look')} (olhar) → ${EN('look for')} (procurar) · ${EN('look after')} (cuidar de)`,
+              `${EN('give')} (dar) → ${EN('give up')} (desistir)`,
+              `Às vezes o sentido é lógico (${EN('come back')} = voltar), às vezes não (${EN('give up')}). Aprenda cada um como uma palavra nova, dentro de uma frase.`
+            ] },
+          { h: 'Os da rotina',
+            items: [
+              `${EN('wake up')} (acordar) · ${EN('get up')} (levantar) · ${EN('get dressed')} (se vestir)`,
+              `${EN('turn on')} / ${EN('turn off')} (ligar / desligar aparelho ou luz) — ${EN('Turn off the TV.')}`,
+              `${EN('put on')} (vestir, colocar) / ${EN('take off')} (tirar roupa; e também decolar) — ${EN('Put on your jacket.')}`,
+              `${EN('pick up')} (pegar, buscar alguém) — ${EN("I'll pick you up at eight.")} (Te busco às oito.)`
+            ] },
+          { h: 'Onde vai o objeto',
+            items: [
+              `Com substantivo, pode ir antes ou depois da partícula: ${EN('Turn on the light.')} = ${EN('Turn the light on.')}`,
+              `Com pronome (it, them, me, you), ele vai <strong>no meio</strong>: ${EN('Turn it on.')} — nunca "turn on it".`,
+              `${EN('Put it on.')} · ${EN('Pick me up.')} · ${EN('Take them off.')}`
+            ] },
+          { h: 'Inseparáveis',
+            p: `Alguns não se separam nunca, mesmo com pronome: ${EN('look after')} → ${EN('I look after my sister.')} / ${EN('I look after her.')} · ${EN('get on the bus')} (entrar no ônibus) / ${EN('get off the bus')} (descer). Na dúvida, a forma com o pronome no fim só é certa nos inseparáveis.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['wake up', 'acordar'], ['turn off', 'desligar'], ['put on', 'vestir'], ['take off', 'tirar (roupa)'], ['pick up', 'buscar alguém']] },
+          { t: 'lacuna', frase: 'Please turn ___ the TV. I want to sleep.', op: ['off', 'on', 'up'], a: 0, pt: 'Por favor, desligue a TV. Quero dormir.' },
+          { t: 'lacuna', frase: "It's cold. Put ___ your jacket.", op: ['on', 'off', 'up'], a: 0, pt: 'Está frio. Vista a jaqueta.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['Turn it on.', 'Turn on it.', 'Turn it.'], a: 0, exp: 'Com pronome (it, them, me), ele vai no meio do phrasal verb.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["I'll pick you up at eight.", "I'll pick up you at eight.", "I'll up pick you at eight."], a: 0 },
+          { t: 'escolha', q: `O que significa ${EN('give up')}?`, op: ['desistir', 'dar para cima', 'devolver'], a: 0, opPt: true },
+          { t: 'montar', pt: 'Tire os sapatos, por favor.', en: 'Take off your shoes please', extra: ['out', 'put'] },
+          { t: 'montar', pt: 'Eu levanto às sete.', en: 'I get up at seven', extra: ['wake', 'on'] },
+          { t: 'escolha', ouvir: 'Can you turn the light off?', op: ['Você pode apagar a luz?', 'Você pode acender a luz?', 'Você pode trocar a luz?'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Ligue o computador.', en: 'Turn on the computer', alt: ['Turn the computer on'] },
+          { t: 'digitar', ouvir: 'I look after my little sister.', en: 'I look after my little sister' },
+          { t: 'falar', en: 'Turn it off, please.' },
+          { t: 'falar', en: "I'll pick you up at eight." }
+        ]
+      },
+      {
+        id: 'en-phrasal-trabalho', title: 'Phrasal verbs do trabalho e do dia a dia',
+        desc: 'Os phrasal verbs que mais aparecem em e-mails, reuniões e na vida: look for, find out, figure out, give up, run out of, set up, call back e catch up.',
+        objetivos: [
+          'Usar look for, find out e figure out',
+          'Usar give up, run out of e set up',
+          'Usar call back e catch up em situações de trabalho'
+        ],
+        body: 'Numa reunião em inglês, você vai ouvir "let\'s figure it out", "we ran out of time", "I\'ll call you back". Esses phrasal verbs são o vocabulário real do dia a dia profissional, e quase nenhum livro básico ensina. Aqui estão os mais frequentes.',
+        content: [
+          { h: 'Procurar, descobrir, entender',
+            items: [
+              `${EN('look for')} = procurar: ${EN("I'm looking for a new job.")}`,
+              `${EN('find out')} = descobrir (uma informação): ${EN("I'll find out what time the meeting starts.")}`,
+              `${EN('figure out')} = entender, resolver (um problema): ${EN("Let's figure it out together.")} (Vamos resolver juntos.)`
+            ] },
+          { h: 'Desistir, acabar, montar',
+            items: [
+              `${EN('give up')} = desistir / largar: ${EN("Don't give up!")} · ${EN('I gave up smoking.')} (Parei de fumar.)`,
+              `${EN('run out of')} = ficar sem, acabar: ${EN('We ran out of coffee.')} (Acabou o café.) · ${EN("We're running out of time.")}`,
+              `${EN('set up')} = configurar, montar, marcar: ${EN("Let's set up a meeting.")} · ${EN('I set up the new laptop.')}`
+            ] },
+          { h: 'Telefone e atualização',
+            items: [
+              `${EN('call back')} = retornar a ligação: ${EN("I'll call you back in five minutes.")}`,
+              `${EN('catch up')} = colocar a conversa em dia / se atualizar: ${EN("Let's catch up over coffee.")} · ${EN('I need to catch up on my emails.')}`,
+              `${EN('follow up')} = dar seguimento: ${EN("I'm following up on my last email.")} — frase clássica de e-mail profissional.`
+            ] },
+          { h: 'Dica de estudo',
+            p: `Agrupe os phrasal verbs por situação, não por partícula. Decorar "todos com up" confunde; aprender "os do telefone" ou "os da reunião" fica na memória, porque você já imagina onde vai usar.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['look for', 'procurar'], ['find out', 'descobrir'], ['give up', 'desistir'], ['run out of', 'ficar sem'], ['call back', 'retornar a ligação']] },
+          { t: 'lacuna', frase: "I'm looking ___ a new job.", op: ['for', 'at', 'after'], a: 0, pt: 'Estou procurando um emprego novo.' },
+          { t: 'lacuna', frase: 'We ran out ___ coffee.', op: ['of', 'from', 'off'], a: 0, pt: 'Acabou o café.' },
+          { t: 'lacuna', frase: "I'll call you ___ in five minutes.", op: ['back', 'up', 'off'], a: 0, pt: 'Te retorno a ligação em cinco minutos.' },
+          { t: 'escolha', q: 'Qual o melhor phrasal verb para "Vamos resolver isso juntos"?', op: ["Let's figure it out together.", "Let's find it out together.", "Let's look it for together."], a: 0, exp: 'figure out = entender/resolver um problema. find out = descobrir uma informação.' },
+          { t: 'escolha', q: `O que significa ${EN("Let's catch up over coffee.")}`, op: ['Vamos colocar o papo em dia tomando um café.', 'Vamos pegar um café.', 'Vamos correr atrás do café.'], a: 0, opPt: true },
+          { t: 'montar', pt: 'Não desista!', en: "Don't give up!", extra: ['out', 'stop'] },
+          { t: 'montar', pt: 'Vamos marcar uma reunião.', en: "Let's set up a meeting", extra: ['make', 'on'] },
+          { t: 'escolha', ouvir: "We're running out of time.", op: ['Nosso tempo está acabando.', 'Estamos correndo contra o tempo.', 'Estamos atrasados.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Eu vou descobrir a que horas começa.', en: "I'll find out what time it starts", alt: ['I will find out what time it starts'] },
+          { t: 'digitar', ouvir: "I'm following up on my last email.", en: "I'm following up on my last email", alt: ['I am following up on my last email'] },
+          { t: 'falar', en: "Let's figure it out together." },
+          { t: 'falar', en: "I'll call you back in five minutes." }
+        ]
+      },
+      {
+        id: 'en-gerundio-infinitivo', title: 'Gerúndio ou infinitivo: enjoy doing, want to do',
+        desc: 'Depois de alguns verbos vem -ing, depois de outros vem to + verbo. As listas essenciais e a regra das preposições.',
+        objetivos: [
+          'Usar -ing depois de enjoy, finish, avoid, mind e suggest',
+          'Usar to + verbo depois de want, need, decide, plan, hope e would like',
+          'Usar -ing depois de preposições e com verbos que aceitam os dois'
+        ],
+        body: 'Por que é "I enjoy cooking" e não "I enjoy to cook"? Por que "I want to travel" e não "I want traveling"? Em inglês, o verbo que vem primeiro decide a forma do segundo. Não há lógica escondida — mas os verbos mais comuns cabem em duas listas curtas.',
+        content: [
+          { h: 'Verbo + -ing',
+            items: [
+              `${EN('enjoy')} (gostar de) · ${EN('finish')} (terminar) · ${EN('avoid')} (evitar) · ${EN('mind')} (se importar) · ${EN('suggest')} (sugerir) · ${EN('keep')} (continuar) · ${EN('miss')} (sentir falta)`,
+              `${EN('I enjoy cooking.')} · ${EN('I finished working at six.')} · ${EN('Would you mind closing the window?')} (Você se importaria de fechar a janela?)`,
+              `${EN('Keep going!')} (Continue!) · ${EN('I miss living by the beach.')}`
+            ] },
+          { h: 'Verbo + to + verbo',
+            items: [
+              `${EN('want')} · ${EN('need')} · ${EN('decide')} · ${EN('plan')} · ${EN('hope')} · ${EN('promise')} · ${EN('learn')} · ${EN('would like')}`,
+              `${EN('I want to travel.')} · ${EN('She decided to quit.')} · ${EN("I'd like to order.")} · ${EN("I'm learning to drive.")}`
+            ] },
+          { h: 'Depois de preposição: sempre -ing',
+            items: [
+              `${EN("I'm interested in learning Spanish.")} · ${EN("She's good at cooking.")}`,
+              `${EN('Thanks for helping me.')} · ${EN("I'm thinking about moving.")}`,
+              `Atenção: ${EN('look forward to')} termina em preposição, então: ${EN("I'm looking forward to seeing you.")} (Estou ansioso para te ver.) — nunca "to see".`
+            ] },
+          { h: 'Os que aceitam os dois',
+            p: `${EN('like')}, ${EN('love')}, ${EN('hate')}, ${EN('start')}, ${EN('begin')} aceitam as duas formas quase sem mudança: ${EN('I like swimming')} = ${EN('I like to swim')} · ${EN('It started raining')} = ${EN('It started to rain')}. Mas ${EN('stop')} muda o sentido: ${EN('I stopped smoking')} (parei de fumar) × ${EN('I stopped to smoke')} (parei para fumar).` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'I enjoy ___.', op: ['cooking', 'to cook', 'cook'], a: 0, pt: 'Eu gosto de cozinhar.' },
+          { t: 'lacuna', frase: 'I want ___ to Japan.', op: ['to travel', 'traveling', 'travel'], a: 0, pt: 'Eu quero viajar para o Japão.' },
+          { t: 'lacuna', frase: 'Would you mind ___ the window?', op: ['closing', 'to close', 'close'], a: 0, pt: 'Você se importaria de fechar a janela?' },
+          { t: 'lacuna', frase: "I'm looking forward to ___ you.", op: ['seeing', 'see', 'saw'], a: 0, pt: 'Estou ansioso para te ver.', exp: 'look forward to termina em preposição (to), então o verbo depois vai para -ing.' },
+          { t: 'lacuna', frase: 'She decided ___ her job.', op: ['to quit', 'quitting', 'quit'], a: 0, pt: 'Ela decidiu largar o emprego.' },
+          { t: 'escolha', q: `O que significa ${EN('I stopped smoking.')}`, op: ['Parei de fumar.', 'Parei para fumar.', 'Comecei a fumar.'], a: 0, opPt: true },
+          { t: 'pares', pares: [['enjoy', '+ -ing'], ['want', '+ to'], ['finish', '+ -ing'], ['decide', '+ to'], ['avoid', '+ -ing']] },
+          { t: 'montar', pt: 'Ela é boa em cozinhar.', en: "She's good at cooking", extra: ['to', 'cook'] },
+          { t: 'montar', pt: 'Obrigado por me ajudar.', en: 'Thanks for helping me', extra: ['to', 'help'] },
+          { t: 'escolha', ouvir: 'I miss living by the beach.', op: ['Sinto falta de morar na praia.', 'Perdi minha casa na praia.', 'Quero morar na praia.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Eu gostaria de pedir.', en: "I'd like to order", alt: ['I would like to order'] },
+          { t: 'falar', en: "I'm looking forward to seeing you." },
+          { t: 'falar', en: 'I enjoy learning English.' }
+        ]
+      },
+      {
+        id: 'en-phrasal-conversa', title: 'Phrasal verbs da conversa: get along, hang out, show up',
+        desc: 'Os phrasal verbs das relações e da vida social, os que aparecem em séries e conversas entre amigos.',
+        objetivos: [
+          'Usar get along with, hang out, show up e turn down',
+          'Usar put off, come up with e work out',
+          'Reconhecer phrasal verbs em conversas rápidas'
+        ],
+        body: 'Fechando o módulo, os phrasal verbs que aparecem nas conversas entre amigos e em toda série americana. Eles são o que faz a fala de um nativo parecer "rápida demais" — quando você conhece os mais comuns, a série fica bem mais fácil.',
+        content: [
+          { h: 'Relações',
+            items: [
+              `${EN('get along with')} = se dar bem com: ${EN('I get along with my boss.')}`,
+              `${EN('hang out')} = passar tempo junto, sair: ${EN('We hung out at the mall.')} · ${EN("Let's hang out this weekend.")}`,
+              `${EN('break up')} = terminar (namoro): ${EN('They broke up last month.')}`,
+              `${EN('make up')} = fazer as pazes: ${EN('They had a fight, but they made up.')}`
+            ] },
+          { h: 'Compromissos',
+            items: [
+              `${EN('show up')} = aparecer, comparecer: ${EN("He didn't show up to the meeting.")}`,
+              `${EN('put off')} = adiar: ${EN("Don't put it off until tomorrow.")}`,
+              `${EN('turn down')} = recusar (convite, oferta): ${EN('She turned down the job offer.')}`,
+              `${EN('call off')} = cancelar: ${EN('They called off the party.')}`
+            ] },
+          { h: 'Ideias e resultados',
+            items: [
+              `${EN('come up with')} = ter (uma ideia), bolar: ${EN('She came up with a great idea.')}`,
+              `${EN('work out')} = dar certo / malhar: ${EN('Everything worked out in the end.')} · ${EN('I work out three times a week.')}`,
+              `${EN('end up')} = acabar (fazendo algo): ${EN('We ended up staying home.')}`
+            ] },
+          { h: 'Revisão do módulo',
+            p: `Rotina: ${EN('wake up')}, ${EN('turn off')}, ${EN('pick up')}. Trabalho: ${EN('figure out')}, ${EN('run out of')}, ${EN('call back')}, ${EN('follow up')}. Conversa: ${EN('hang out')}, ${EN('show up')}, ${EN('put off')}, ${EN('come up with')}. E a regra: ${EN('enjoy doing')}, ${EN('want to do')}, preposição + -ing.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['get along with', 'se dar bem com'], ['hang out', 'sair, passar tempo junto'], ['show up', 'aparecer'], ['put off', 'adiar'], ['turn down', 'recusar']] },
+          { t: 'pares', pares: [['break up', 'terminar namoro'], ['make up', 'fazer as pazes'], ['call off', 'cancelar'], ['come up with', 'ter uma ideia'], ['end up', 'acabar fazendo']] },
+          { t: 'lacuna', frase: "He didn't show ___ to the meeting.", op: ['up', 'off', 'out'], a: 0, pt: 'Ele não apareceu na reunião.' },
+          { t: 'lacuna', frase: 'She turned ___ the job offer.', op: ['down', 'off', 'up'], a: 0, pt: 'Ela recusou a oferta de emprego.' },
+          { t: 'lacuna', frase: 'I get along ___ my boss.', op: ['with', 'to', 'for'], a: 0, pt: 'Eu me dou bem com meu chefe.' },
+          { t: 'escolha', q: `${EN('Everything worked out in the end.')} significa:`, op: ['No fim, deu tudo certo.', 'No fim, todo mundo malhou.', 'No fim, tudo acabou.'], a: 0, opPt: true },
+          { t: 'escolha', q: `O que significa ${EN('put off')}?`, op: ['adiar', 'desligar', 'colocar fora'], a: 0, opPt: true },
+          { t: 'montar', pt: 'Ela teve uma ótima ideia.', en: 'She came up with a great idea', extra: ['had', 'on'] },
+          { t: 'montar', pt: 'A gente acabou ficando em casa.', en: 'We ended up staying home', extra: ['stay', 'finished'] },
+          { t: 'escolha', ouvir: "Let's hang out this weekend.", op: ['Vamos sair neste fim de semana.', 'Vamos pendurar isso no fim de semana.', 'Vamos esperar o fim de semana.'], a: 0, opPt: true },
+          { t: 'digitar', ouvir: 'They called off the party.', en: 'They called off the party', alt: ['They called the party off'] },
+          { t: 'falar', en: "Don't put it off until tomorrow." },
+          { t: 'falar', en: 'I get along with my boss.' }
+        ]
+      }
+    ]
+  }
 ];
