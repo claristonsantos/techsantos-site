@@ -25,6 +25,8 @@ self.onmessage = async (ev) => {
     // carrega só as bibliotecas que o código usa
     const precisa = Object.keys(PACOTES).filter(p => new RegExp('\\b(import|from)\\s+' + p).test(codigo + '\n' + testes.map(t => t.py).join('\n')));
     if (precisa.length) await py.loadPackage(precisa.map(p => PACOTES[p]));
+    // tabelas inteiras na saída (o padrão de 80 colunas esconde colunas com "...")
+    if (precisa.includes('pandas')) py.runPython("import pandas\npandas.set_option('display.width', 200)\npandas.set_option('display.max_columns', 30)");
     const doPypi = Object.keys(PYPI).filter(p => !instalados.has(p) && new RegExp('\\b(import|from)\\s+' + p).test(codigo + '\n' + testes.map(t => t.py).join('\n')));
     if (doPypi.length) {
       await py.loadPackage('micropip');
