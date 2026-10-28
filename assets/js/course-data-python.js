@@ -1980,4 +1980,196 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'py-m11', title: 'Módulo 11 · pandas III: agrupar, cruzar e resumir', kind: 'video',
+    lessons: [
+      {
+        id: 'py-groupby', title: 'groupby: totais por categoria',
+        desc: 'Agrupar a base e calcular soma, média e contagem por grupo — o "Subtotal" e a tabela dinâmica do Excel, em uma linha de código.',
+        objetivos: [
+          'Agrupar com groupby e calcular sum, mean, count',
+          'Calcular várias medidas de uma vez com agg',
+          'Transformar o resultado em tabela com reset_index e ordenar'
+        ],
+        body: 'Faturamento por vendedor, ticket médio por região, pedidos por categoria: a maior parte dos relatórios é "uma conta por grupo". O groupby separa a base em grupos, calcula em cada um e junta o resultado — a ideia que está por trás de toda tabela dinâmica.',
+        content: [
+          { h: 'Uma medida por grupo',
+            p: '<code>df.groupby("coluna_do_grupo")["coluna_da_conta"].sum()</code> — leia como: "agrupe por vendedor, pegue o faturamento, some".',
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\npor_vendedor = df.groupby("vendedor")["faturamento"].sum()\nprint(por_vendedor.sort_values(ascending=False).round(2))' },
+          { h: 'Várias medidas com agg',
+            items: [
+              '<code>agg</code> recebe pares <code>nome_novo=("coluna", "função")</code>.',
+              'Funções comuns: <code>"sum"</code>, <code>"mean"</code>, <code>"count"</code>, <code>"max"</code>, <code>"min"</code>, <code>"nunique"</code>.',
+              '<code>reset_index()</code> transforma o grupo (que vira índice) de volta numa coluna normal.'
+            ],
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\nresumo = df.groupby("regiao").agg(\n    pedidos=("pedido", "count"),\n    faturamento=("faturamento", "sum"),\n    ticket_medio=("faturamento", "mean")\n).reset_index()\nprint(resumo.round(2))' },
+          { h: 'Agrupando por duas colunas',
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\nitens = df.groupby(["regiao", "categoria"])["quantidade"].sum().reset_index()\nprint(itens.head(8))' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Como ler df.groupby("regiao")["faturamento"].sum()?', op: ['Agrupe por região, pegue o faturamento e some', 'Some todas as regiões e agrupe o faturamento', 'Filtre a região com maior faturamento'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'df.groupby("vendedor")["pedido"].___()', op: ['count', 'sum', 'len'], a: 0, pt: 'Conte os pedidos de cada vendedor.' },
+          { t: 'escolha', q: 'O que reset_index() faz depois de um groupby?', op: ['Transforma o grupo (índice) numa coluna normal', 'Apaga o resultado', 'Ordena do maior para o menor'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'df.groupby("regiao").agg(media=("faturamento", "___"))', op: ['mean', 'avg', 'media'], a: 0, pt: 'Calcule a média do faturamento por região.' },
+          { t: 'escolha', q: 'Qual o equivalente do groupby no Excel?', op: ['A tabela dinâmica', 'O PROCV', 'A formatação condicional'], a: 0 },
+          { t: 'ordenar', q: 'Monte o ranking de faturamento por categoria.', linhas: ['df["faturamento"] = df["quantidade"] * df["preco_unit"]', 'ranking = df.groupby("categoria")["faturamento"].sum()', 'print(ranking.sort_values(ascending=False))'] }
+        ],
+        desafios: [
+          { titulo: 'Resumo por categoria',
+            cenario: 'Monte para a diretoria o DataFrame <code>resumo</code>, uma linha por <code>categoria</code>, com as colunas <code>categoria</code>, <code>pedidos</code> (quantidade de pedidos), <code>itens</code> (soma das quantidades) e <code>faturamento</code> (soma de quantidade × preço, 2 casas), ordenado do maior para o menor faturamento. Guarde também em <code>melhor_vendedor</code> o vendedor de maior faturamento no semestre.',
+            arquivos: { 'vendas_2026.csv': PY_ARQ['vendas_2026.csv'] },
+            inicial: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\n\nresumo = None\nmelhor_vendedor = ""\n\nprint(resumo)\nprint(melhor_vendedor)\n',
+            testes: [
+              { py: 'assert list(resumo.columns) == ["categoria", "pedidos", "itens", "faturamento"]', msg: 'resumo com as colunas pedidas' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_e["f"] = _e["quantidade"] * _e["preco_unit"]\n_g = _e.groupby("categoria").agg(p=("pedido", "count"), i=("quantidade", "sum"), f=("f", "sum"))\n_r = resumo.set_index("categoria")\nassert len(_r) == len(_g) and all(_r.loc[c, "pedidos"] == _g.loc[c, "p"] and _r.loc[c, "itens"] == _g.loc[c, "i"] and abs(_r.loc[c, "faturamento"] - round(_g.loc[c, "f"], 2)) < 0.01 for c in _g.index)', msg: 'pedidos, itens e faturamento corretos' },
+              { py: 'assert list(resumo["faturamento"]) == sorted(resumo["faturamento"], reverse=True)', msg: 'ordenado do maior para o menor faturamento' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_e["f"] = _e["quantidade"] * _e["preco_unit"]\nassert melhor_vendedor == _e.groupby("vendedor")["f"].sum().idxmax()', msg: 'melhor_vendedor correto' }
+            ],
+            dicas: ['df.groupby("categoria").agg(pedidos=("pedido", "count"), itens=("quantidade", "sum"), faturamento=("faturamento", "sum")).', 'Depois: .reset_index(), .round(2) e .sort_values("faturamento", ascending=False).', 'melhor_vendedor = df.groupby("vendedor")["faturamento"].sum().idxmax().'],
+            solucao: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\n\nresumo = df.groupby("categoria").agg(\n    pedidos=("pedido", "count"),\n    itens=("quantidade", "sum"),\n    faturamento=("faturamento", "sum")\n).reset_index()\nresumo["faturamento"] = resumo["faturamento"].round(2)\nresumo = resumo.sort_values("faturamento", ascending=False)\n\nmelhor_vendedor = df.groupby("vendedor")["faturamento"].sum().idxmax()\n\nprint(resumo)\nprint(melhor_vendedor)' }
+        ]
+      },
+      {
+        id: 'py-merge', title: 'merge: cruzando tabelas (o PROCV do pandas)',
+        desc: 'Juntar vendas e cadastro de clientes pela chave cliente_id, entender left e inner join e encontrar quem ficou sem par.',
+        objetivos: [
+          'Cruzar duas tabelas com pd.merge pela coluna-chave',
+          'Escolher entre how="left" e how="inner"',
+          'Encontrar registros sem correspondência'
+        ],
+        body: 'A venda tem o código do cliente; o nome, a cidade e o segmento estão no cadastro. No Excel você faria um PROCV para cada coluna. No pandas, um merge traz todas as colunas do cadastro de uma vez — e ainda mostra quais vendas apontam para clientes que não existem no cadastro.',
+        content: [
+          { h: 'As duas tabelas',
+            p: '<code>vendas_2026.csv</code> tem a coluna <code>cliente_id</code>; <code>clientes.csv</code> tem <code>cliente_id</code>, <code>nome</code>, <code>cidade</code>, <code>uf</code> e <code>segmento</code>.',
+            code: 'import pandas as pd\n\nclientes = pd.read_csv("clientes.csv")\nprint(clientes.head())\nprint(len(clientes), "clientes cadastrados")' },
+          { h: 'pd.merge',
+            items: [
+              '<code>pd.merge(vendas, clientes, on="cliente_id", how="left")</code>: junta pela coluna em comum.',
+              '<code>how="left"</code> mantém <strong>todas</strong> as vendas; quem não tem cadastro fica com NaN nas colunas do cliente (como o #N/D do PROCV).',
+              '<code>how="inner"</code> mantém só as vendas que têm par nas duas tabelas.'
+            ],
+            code: 'import pandas as pd\n\nvendas = pd.read_csv("vendas_2026.csv")\nclientes = pd.read_csv("clientes.csv")\ncompleto = pd.merge(vendas, clientes, on="cliente_id", how="left")\nprint(completo[["pedido", "cliente_id", "nome", "uf"]].head())\nprint(len(vendas), len(completo))' },
+          { h: 'Quem ficou sem par?',
+            p: 'Depois do merge left, as vendas sem cadastro têm <code>nome</code> vazio. Isso é um problema de qualidade de dados para reportar, não para esconder.',
+            code: 'import pandas as pd\n\nvendas = pd.read_csv("vendas_2026.csv")\nclientes = pd.read_csv("clientes.csv")\ncompleto = pd.merge(vendas, clientes, on="cliente_id", how="left")\nsem = completo[completo["nome"].isna()]\nprint(len(sem), "vendas sem cadastro:", sorted(sem["cliente_id"].unique()))' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual função do Excel o merge substitui?', op: ['PROCV / PROCX', 'SOMA', 'CONT.SE'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'pd.merge(vendas, clientes, ___="cliente_id", how="left")', op: ['on', 'by', 'key'], a: 0, pt: 'Informe a coluna em comum entre as tabelas.' },
+          { t: 'escolha', q: 'Com how="left", o que acontece com uma venda cujo cliente não está no cadastro?', op: ['Fica na tabela, com NaN nas colunas do cliente', 'É removida', 'Dá erro no merge'], a: 0 },
+          { t: 'escolha', q: 'E com how="inner"?', op: ['A venda sem cadastro é removida', 'A venda fica com NaN', 'O cliente é criado automaticamente'], a: 0 },
+          { t: 'escolha', q: 'Se vendas tem 240 linhas e cada cliente_id aparece uma vez no cadastro, quantas linhas tem o merge left?', op: ['240', 'O número de clientes', '240 vezes o número de clientes'], a: 0 },
+          { t: 'pares', pares: [['how="left"', 'mantém todas as vendas'], ['how="inner"', 'só quem tem par'], ['on="cliente_id"', 'coluna-chave'], ['NaN depois do merge', 'sem correspondência']] }
+        ],
+        desafios: [
+          { titulo: 'Vendas por estado e furos no cadastro',
+            cenario: 'Cruze <code>vendas_2026.csv</code> com <code>clientes.csv</code> pela coluna <code>cliente_id</code>, mantendo <strong>todas</strong> as vendas, em <code>completo</code>. Guarde em <code>sem_cadastro</code> quantas vendas não encontraram cliente no cadastro, e em <code>fat_por_uf</code> o faturamento (quantidade × preço) por <code>uf</code> — só das vendas com cadastro —, do maior para o menor, arredondado com 2 casas.',
+            arquivos: { 'vendas_2026.csv': PY_ARQ['vendas_2026.csv'], 'clientes.csv': PY_ARQ['clientes.csv'] },
+            inicial: 'import pandas as pd\n\nvendas = pd.read_csv("vendas_2026.csv")\nclientes = pd.read_csv("clientes.csv")\n\ncompleto = None\nsem_cadastro = 0\nfat_por_uf = None\n\nprint(sem_cadastro)\nprint(fat_por_uf)\n',
+            testes: [
+              { py: 'import pandas as pd\nassert isinstance(completo, pd.DataFrame) and len(completo) == len(pd.read_csv("vendas_2026.csv")) and "uf" in completo.columns', msg: 'completo mantém todas as vendas, com as colunas do cliente' },
+              { py: 'import pandas as pd\n_c = set(pd.read_csv("clientes.csv")["cliente_id"])\nassert sem_cadastro == (~pd.read_csv("vendas_2026.csv")["cliente_id"].isin(_c)).sum()', msg: 'sem_cadastro correto' },
+              { py: 'import pandas as pd\n_m = pd.merge(pd.read_csv("vendas_2026.csv"), pd.read_csv("clientes.csv"), on="cliente_id")\n_f = (_m["quantidade"] * _m["preco_unit"]).groupby(_m["uf"]).sum().round(2)\nassert len(fat_por_uf) == len(_f) and all(abs(fat_por_uf[u] - _f[u]) < 0.01 for u in _f.index)', msg: 'fat_por_uf correto' },
+              { py: 'assert list(fat_por_uf.values) == sorted(fat_por_uf.values, reverse=True)', msg: 'fat_por_uf do maior para o menor' }
+            ],
+            dicas: ['completo = pd.merge(vendas, clientes, on="cliente_id", how="left").', 'Sem cadastro: completo["nome"].isna().sum().', 'Crie o faturamento em completo, depois agrupe por "uf" (o groupby ignora as linhas com uf vazia), some, arredonde e ordene.'],
+            solucao: 'import pandas as pd\n\nvendas = pd.read_csv("vendas_2026.csv")\nclientes = pd.read_csv("clientes.csv")\n\ncompleto = pd.merge(vendas, clientes, on="cliente_id", how="left")\nsem_cadastro = completo["nome"].isna().sum()\n\ncompleto["faturamento"] = completo["quantidade"] * completo["preco_unit"]\nfat_por_uf = completo.groupby("uf")["faturamento"].sum().round(2).sort_values(ascending=False)\n\nprint(sem_cadastro)\nprint(fat_por_uf)' }
+        ]
+      },
+      {
+        id: 'py-pivot', title: 'pivot_table: a tabela dinâmica',
+        desc: 'Montar tabelas cruzadas (mês × região, categoria × vendedor) com pivot_table, totais e percentuais.',
+        objetivos: [
+          'Criar tabelas cruzadas com pivot_table (index, columns, values, aggfunc)',
+          'Preencher combinações vazias com fill_value e somar totais com margins',
+          'Ler e extrair resultados de uma tabela cruzada'
+        ],
+        body: 'Quando a pergunta tem duas dimensões — "faturamento por mês e por região" — o groupby devolve uma lista comprida. O pivot_table devolve a tabela cruzada, igualzinha à tabela dinâmica do Excel: um eixo nas linhas, outro nas colunas, o valor no meio.',
+        content: [
+          { h: 'Montando a tabela',
+            items: [
+              '<code>index</code> — o que vai nas linhas; <code>columns</code> — o que vai nas colunas.',
+              '<code>values</code> — a coluna calculada; <code>aggfunc</code> — a conta (<code>"sum"</code>, <code>"mean"</code>, <code>"count"</code>).',
+              '<code>fill_value=0</code> coloca 0 onde não houve venda, em vez de NaN.'
+            ],
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\ndf["mes"] = pd.to_datetime(df["data"]).dt.month\ntabela = df.pivot_table(index="mes", columns="regiao", values="faturamento", aggfunc="sum", fill_value=0)\nprint(tabela.round(0))' },
+          { h: 'Totais com margins',
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ntabela = df.pivot_table(index="vendedor", columns="categoria", values="quantidade",\n                        aggfunc="sum", fill_value=0, margins=True, margins_name="Total")\nprint(tabela)' },
+          { h: 'Lendo a tabela',
+            items: [
+              '<code>tabela.loc[3, "Sul"]</code> — o valor da linha 3 (março) na coluna Sul.',
+              '<code>tabela.sum(axis=1)</code> soma cada linha; <code>tabela.sum()</code> soma cada coluna.',
+              '<code>tabela.sum(axis=1).idxmax()</code> — a linha com o maior total.'
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Em pivot_table, o que vai em columns?', op: ['O que aparece nas colunas da tabela cruzada', 'A coluna que será somada', 'A lista de colunas a remover'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'df.pivot_table(index="mes", columns="regiao", values="faturamento", aggfunc="sum", ___=0)', op: ['fill_value', 'fillna', 'empty'], a: 0, pt: 'Mostre 0 onde não houve venda.' },
+          { t: 'escolha', q: 'O que margins=True acrescenta?', op: ['Linha e coluna de totais', 'Bordas na tabela', 'Uma coluna de percentuais'], a: 0 },
+          { t: 'escolha', q: 'O que tabela.sum(axis=1) calcula?', op: ['O total de cada linha', 'O total de cada coluna', 'O total geral'], a: 0 },
+          { t: 'escolha', q: 'Numa tabela com meses nas linhas e regiões nas colunas, como pegar o valor de março no Sul?', op: ['tabela.loc[3, "Sul"]', 'tabela["Sul", 3]', 'tabela[3]["mes"]'], a: 0 },
+          { t: 'pares', pares: [['index', 'linhas'], ['columns', 'colunas'], ['values', 'valor calculado'], ['aggfunc', 'tipo de conta']] }
+        ],
+        desafios: [
+          { titulo: 'Mês a mês por categoria',
+            cenario: 'Monte <code>tabela</code>: uma pivot_table com os <strong>meses</strong> (número de 1 a 6) nas linhas, as <strong>categorias</strong> nas colunas e a soma do faturamento (quantidade × preço) no meio, com 0 onde não houve venda. Depois guarde <code>mes_maior</code> (o mês de maior faturamento total) e <code>notebooks_marco</code> (faturamento de Notebooks em março, 2 casas).',
+            arquivos: { 'vendas_2026.csv': PY_ARQ['vendas_2026.csv'] },
+            inicial: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\n\ntabela = None\nmes_maior = 0\nnotebooks_marco = 0\n\nprint(tabela)\nprint(mes_maior, notebooks_marco)\n',
+            testes: [
+              { py: 'import pandas as pd\nassert isinstance(tabela, pd.DataFrame) and sorted(tabela.index) == [1, 2, 3, 4, 5, 6] and set(tabela.columns) == set(pd.read_csv("vendas_2026.csv")["categoria"])', msg: 'meses nas linhas e categorias nas colunas' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_e["f"] = _e["quantidade"] * _e["preco_unit"]\n_e["m"] = pd.to_datetime(_e["data"]).dt.month\n_t = _e.pivot_table(index="m", columns="categoria", values="f", aggfunc="sum", fill_value=0)\nassert all(abs(tabela.loc[m, c] - _t.loc[m, c]) < 0.01 for m in _t.index for c in _t.columns)', msg: 'valores da tabela corretos (com 0 nas células vazias)' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_e["f"] = _e["quantidade"] * _e["preco_unit"]\n_m = pd.to_datetime(_e["data"]).dt.month\nassert int(mes_maior) == _e.groupby(_m)["f"].sum().idxmax()', msg: 'mes_maior correto' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_x = _e[(pd.to_datetime(_e["data"]).dt.month == 3) & (_e["categoria"] == "Notebooks")]\nassert abs(notebooks_marco - round((_x["quantidade"] * _x["preco_unit"]).sum(), 2)) < 0.01', msg: 'notebooks_marco correto' }
+            ],
+            dicas: ['Crie as colunas faturamento e mes (pd.to_datetime(df["data"]).dt.month) antes da pivot_table.', 'df.pivot_table(index="mes", columns="categoria", values="faturamento", aggfunc="sum", fill_value=0).', 'mes_maior = tabela.sum(axis=1).idxmax(); notebooks_marco = round(tabela.loc[3, "Notebooks"], 2).'],
+            solucao: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\ndf["mes"] = pd.to_datetime(df["data"]).dt.month\n\ntabela = df.pivot_table(index="mes", columns="categoria", values="faturamento", aggfunc="sum", fill_value=0)\nmes_maior = tabela.sum(axis=1).idxmax()\nnotebooks_marco = round(tabela.loc[3, "Notebooks"], 2)\n\nprint(tabela.round(2))\nprint(mes_maior, notebooks_marco)' }
+        ]
+      },
+      {
+        id: 'py-analise-projeto', title: 'Projeto: análise de clientes para a diretoria',
+        desc: 'Combinar merge, groupby e percentuais para responder quem são os melhores clientes, quanto pesa cada segmento e como as vendas evoluíram mês a mês.',
+        objetivos: [
+          'Encadear merge e groupby numa análise completa',
+          'Calcular participação percentual de cada grupo',
+          'Medir a variação mês a mês com pct_change'
+        ],
+        body: 'A diretoria vai decidir onde investir no segundo semestre e fez três perguntas: quem são os 5 maiores clientes, quanto cada segmento representa no faturamento e se as vendas estão crescendo. Você tem tudo o que precisa para responder — com números que qualquer um pode conferir rodando o script de novo.',
+        content: [
+          { h: 'Participação percentual',
+            p: 'Divida cada total pela soma de todos e multiplique por 100. O resultado soma 100%.',
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\npor_regiao = df.groupby("regiao")["faturamento"].sum()\nparticipacao = (por_regiao / por_regiao.sum() * 100).round(1)\nprint(participacao.sort_values(ascending=False))\nprint("Soma:", participacao.sum())' },
+          { h: 'Variação mês a mês',
+            items: [
+              '<code>pct_change()</code> calcula a variação de cada valor em relação ao anterior: (atual − anterior) / anterior.',
+              'O primeiro mês não tem anterior, então fica NaN.',
+              'Multiplique por 100 para ler em %.'
+            ],
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\nmensal = df.groupby(pd.to_datetime(df["data"]).dt.month)["faturamento"].sum()\nprint(mensal.round(2))\nprint((mensal.pct_change() * 100).round(1))' },
+          { h: 'nlargest',
+            p: '<code>serie.nlargest(5)</code> é um atalho para "ordenar do maior para o menor e pegar 5".' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Como calcular a participação de cada região no total?', op: ['por_regiao / por_regiao.sum() * 100', 'por_regiao.sum() / 100', 'por_regiao.mean() * 100'], a: 0 },
+          { t: 'escolha', q: 'O que pct_change() calcula?', op: ['A variação percentual em relação ao valor anterior', 'O percentual de cada valor no total', 'A média móvel'], a: 0 },
+          { t: 'escolha', q: 'Se o faturamento foi 100 em janeiro e 120 em fevereiro, qual o pct_change de fevereiro?', op: ['0.2', '20', '1.2'], a: 0, exp: '(120 - 100) / 100 = 0.2. Multiplicando por 100, lemos 20%.' },
+          { t: 'lacuna', codigo: true, frase: 'top5 = por_cliente.___(5)', op: ['nlargest', 'head_max', 'top'], a: 0, pt: 'Pegue os 5 maiores valores.' },
+          { t: 'ordenar', q: 'Monte a análise de participação por segmento.', linhas: ['base = pd.merge(vendas, clientes, on="cliente_id")', 'base["faturamento"] = base["quantidade"] * base["preco_unit"]', 'por_segmento = base.groupby("segmento")["faturamento"].sum()', 'part = por_segmento / por_segmento.sum() * 100', 'print(part.round(1))'] }
+        ],
+        desafios: [
+          { titulo: 'As três perguntas da diretoria',
+            cenario: 'Com <code>vendas_2026.csv</code> e <code>clientes.csv</code>, considerando só as vendas de clientes <strong>cadastrados</strong>:<br>1) <code>top5</code>: DataFrame com as colunas <code>nome</code>, <code>uf</code> e <code>faturamento</code> dos 5 clientes de maior faturamento, do maior para o menor;<br>2) <code>part_segmento</code>: Series com a participação % de cada <code>segmento</code> no faturamento, 1 casa decimal;<br>3) <code>variacao</code>: Series com a variação % do faturamento mês a mês (meses 1 a 6), 1 casa decimal (o mês 1 fica vazio).',
+            arquivos: { 'vendas_2026.csv': PY_ARQ['vendas_2026.csv'], 'clientes.csv': PY_ARQ['clientes.csv'] },
+            inicial: 'import pandas as pd\n\nvendas = pd.read_csv("vendas_2026.csv")\nclientes = pd.read_csv("clientes.csv")\n\ntop5 = None\npart_segmento = None\nvariacao = None\n\nprint(top5)\nprint(part_segmento)\nprint(variacao)\n',
+            testes: [
+              { py: 'import pandas as pd\n_m = pd.merge(pd.read_csv("vendas_2026.csv"), pd.read_csv("clientes.csv"), on="cliente_id")\n_m["f"] = _m["quantidade"] * _m["preco_unit"]\n_t = _m.groupby(["nome", "uf"])["f"].sum().nlargest(5).reset_index()\nassert list(top5.columns) == ["nome", "uf", "faturamento"] and list(top5["nome"]) == list(_t["nome"]) and all(abs(a - b) < 0.01 for a, b in zip(top5["faturamento"], _t["f"]))', msg: 'top5 correto (colunas, ordem e valores)' },
+              { py: 'import pandas as pd\n_m = pd.merge(pd.read_csv("vendas_2026.csv"), pd.read_csv("clientes.csv"), on="cliente_id")\n_s = (_m["quantidade"] * _m["preco_unit"]).groupby(_m["segmento"]).sum()\n_p = (_s / _s.sum() * 100).round(1)\nassert len(part_segmento) == len(_p) and all(abs(part_segmento[s] - _p[s]) < 0.05 for s in _p.index)', msg: 'part_segmento correto' },
+              { py: 'import pandas as pd\n_m = pd.merge(pd.read_csv("vendas_2026.csv"), pd.read_csv("clientes.csv"), on="cliente_id")\n_v = ((_m["quantidade"] * _m["preco_unit"]).groupby(pd.to_datetime(_m["data"]).dt.month).sum().pct_change() * 100).round(1)\nassert list(variacao.index) == list(_v.index) and pd.isna(variacao.iloc[0]) and all(abs(a - b) < 0.05 for a, b in zip(variacao.iloc[1:], _v.iloc[1:]))', msg: 'variacao mês a mês correta' }
+            ],
+            dicas: ['base = pd.merge(vendas, clientes, on="cliente_id") (o inner padrão já deixa só os cadastrados); crie base["faturamento"].', 'top5: base.groupby(["nome", "uf"])["faturamento"].sum().nlargest(5).reset_index().', 'part_segmento: (s / s.sum() * 100).round(1). variacao: agrupe por pd.to_datetime(base["data"]).dt.month, some, .pct_change() * 100 e .round(1).'],
+            solucao: 'import pandas as pd\n\nvendas = pd.read_csv("vendas_2026.csv")\nclientes = pd.read_csv("clientes.csv")\n\nbase = pd.merge(vendas, clientes, on="cliente_id")\nbase["faturamento"] = base["quantidade"] * base["preco_unit"]\n\ntop5 = base.groupby(["nome", "uf"])["faturamento"].sum().nlargest(5).reset_index()\n\npor_segmento = base.groupby("segmento")["faturamento"].sum()\npart_segmento = (por_segmento / por_segmento.sum() * 100).round(1)\n\nmensal = base.groupby(pd.to_datetime(base["data"]).dt.month)["faturamento"].sum()\nvariacao = (mensal.pct_change() * 100).round(1)\n\nprint(top5)\nprint(part_segmento)\nprint(variacao)' }
+        ]
+      }
+    ]
+  }
 ];
