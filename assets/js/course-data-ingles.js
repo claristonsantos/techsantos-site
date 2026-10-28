@@ -1178,4 +1178,205 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m07', title: 'Módulo 07 · Comparações e quantidades: comparativos, superlativos, much/many, some/any (A2)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-comparativos', title: 'Comparativos: bigger, more expensive, better',
+        desc: 'Como comparar duas coisas em inglês: -er para palavras curtas, more para as longas, os irregulares e o as... as.',
+        objetivos: [
+          'Formar o comparativo com -er e com more',
+          'Usar than para comparar e os irregulares better, worse e farther',
+          'Dizer que duas coisas são iguais com as... as e not as... as'
+        ],
+        body: 'Esta casa é maior, aquele celular é mais caro, o meu inglês está melhor. Comparar é parte de toda decisão — de compras a viagens. Em inglês, a regra depende do tamanho do adjetivo.',
+        content: [
+          { h: 'Adjetivos curtos: -er + than',
+            items: [
+              `Uma sílaba: + ${EN('er')} — ${EN('tall → taller')} · ${EN('cheap → cheaper')}: ${EN('My brother is taller than me.')} (Meu irmão é mais alto que eu.)`,
+              `Terminados em -e: só ${EN('r')} — ${EN('nice → nicer')} · ${EN('large → larger')}.`,
+              `Consoante-vogal-consoante: dobra — ${EN('big → bigger')} · ${EN('hot → hotter')}.`,
+              `Terminados em -y: ${EN('ier')} — ${EN('easy → easier')} · ${EN('happy → happier')} · ${EN('busy → busier')}.`
+            ] },
+          { h: 'Adjetivos longos: more',
+            items: [
+              `Duas sílabas ou mais (fora os de -y): ${EN('more')} + adjetivo — ${EN('expensive → more expensive')} · ${EN('interesting → more interesting')}.`,
+              `${EN('This phone is more expensive than that one.')} (Este celular é mais caro que aquele.)`,
+              `O contrário: ${EN('less')} — ${EN('less expensive')} (menos caro).`,
+              `Nunca os dois juntos: "more cheaper" está errado.`
+            ] },
+          { h: 'Os irregulares',
+            p: `${EN('good → better')} (melhor) · ${EN('bad → worse')} (pior) · ${EN('far → farther')} (mais longe). ${EN('My English is better now.')} · ${EN('The traffic is worse today.')}` },
+          { h: 'Igual e diferente: as... as',
+            items: [
+              `${EN('as')} + adjetivo + ${EN('as')} = tão... quanto: ${EN("She's as tall as her mother.")}`,
+              `Negativa: ${EN("It isn't as expensive as I thought.")} (Não é tão caro quanto eu pensava.)`,
+              `Intensificar: ${EN('much bigger')} (bem maior) · ${EN('a little cheaper')} (um pouco mais barato).`
+            ] }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'My brother is ___ than me.', op: ['taller', 'more tall', 'tallest'], a: 0, pt: 'Meu irmão é mais alto que eu.' },
+          { t: 'lacuna', frase: 'This phone is ___ than that one.', op: ['more expensive', 'expensiver', 'most expensive'], a: 0, pt: 'Este celular é mais caro que aquele.' },
+          { t: 'lacuna', frase: 'My English is ___ now.', op: ['better', 'gooder', 'more good'], a: 0, pt: 'Meu inglês está melhor agora.' },
+          { t: 'pares', pares: [['big', 'bigger'], ['easy', 'easier'], ['good', 'better'], ['bad', 'worse'], ['far', 'farther']] },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['This one is cheaper.', 'This one is more cheaper.', 'This one is more cheap.'], a: 0, exp: 'cheap é curto: cheaper. Nunca use more junto com -er.' },
+          { t: 'escolha', q: 'Como se diz "tão alta quanto a mãe"?', op: ['as tall as her mother', 'so tall than her mother', 'tall as her mother'], a: 0 },
+          { t: 'escolha', ouvir: "It isn't as expensive as I thought.", op: ["It isn't as expensive as I thought.", "It's more expensive than I thought.", "It isn't expensive at all."], a: 0 },
+          { t: 'montar', pt: 'O trânsito está pior hoje.', en: 'The traffic is worse today', extra: ['badder', 'more'] },
+          { t: 'montar', pt: 'O Rio é mais quente que São Paulo.', en: 'Rio is hotter than São Paulo', extra: ['more', 'that'] },
+          { t: 'digitar', pt: 'Escreva o comparativo de "happy".', en: 'happier' },
+          { t: 'digitar', ouvir: 'This hotel is much bigger.', en: 'This hotel is much bigger' },
+          { t: 'falar', en: 'My English is better now.' },
+          { t: 'falar', en: 'This one is cheaper than that one.' }
+        ]
+      },
+      {
+        id: 'en-superlativos', title: 'Superlativos: the biggest, the most beautiful, the best',
+        desc: 'Como dizer que algo é o mais — o maior, o mais caro, o melhor — e as preposições que vêm depois.',
+        objetivos: [
+          'Formar o superlativo com the + -est e com the most',
+          'Usar os irregulares the best, the worst e the farthest',
+          'Completar com in (lugares e grupos) e of (períodos e quantidades)'
+        ],
+        body: 'Depois de comparar duas coisas, vem o superlativo: o maior de todos, o melhor do mundo. A lógica é a mesma da aula passada — curto ganha uma terminação, longo ganha uma palavra antes — e sempre com the.',
+        content: [
+          { h: 'Curtos: the + -est',
+            items: [
+              `${EN('tall → the tallest')} · ${EN('cheap → the cheapest')}: ${EN("He's the tallest in the family.")}`,
+              `Mesmas regras de escrita: ${EN('big → the biggest')} · ${EN('nice → the nicest')} · ${EN('easy → the easiest')}.`
+            ] },
+          { h: 'Longos: the most',
+            items: [
+              `${EN('the most expensive')} · ${EN('the most beautiful')} · ${EN('the most interesting')}.`,
+              `${EN("It's the most beautiful beach in Brazil.")} (É a praia mais bonita do Brasil.)`,
+              `O contrário: ${EN('the least')} — ${EN('the least expensive')} (o menos caro).`
+            ] },
+          { h: 'Irregulares',
+            p: `${EN('good → better → the best')} · ${EN('bad → worse → the worst')} · ${EN('far → farther → the farthest')}. ${EN("It's the best pizza in town!")} · ${EN('That was the worst day of my life.')}` },
+          { h: 'In ou of depois do superlativo?',
+            items: [
+              `${EN('in')} para lugares e grupos: ${EN('the best restaurant in the city')} · ${EN('the tallest in my class')} — nunca "of the city".`,
+              `${EN('of')} para períodos e quantidades: ${EN('the best day of my life')} · ${EN('the cheapest of the three')}.`,
+              `Com experiência de vida, use ${EN('ever')}: ${EN("It's the best movie I've ever seen.")} (É o melhor filme que eu já vi.) — essa estrutura você vai aprofundar no módulo 9.`
+            ] }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "He's the ___ in the family.", op: ['tallest', 'taller', 'most tall'], a: 0, pt: 'Ele é o mais alto da família.' },
+          { t: 'lacuna', frase: "It's the ___ beach in Brazil.", op: ['most beautiful', 'beautifulest', 'more beautiful'], a: 0, pt: 'É a praia mais bonita do Brasil.' },
+          { t: 'lacuna', frase: "It's the ___ pizza in town!", op: ['best', 'goodest', 'better'], a: 0, pt: 'É a melhor pizza da cidade!' },
+          { t: 'lacuna', frase: 'the best restaurant ___ the city', op: ['in', 'of', 'at'], a: 0, pt: 'o melhor restaurante da cidade', exp: 'Lugares e grupos: in. Mesmo que em português seja "da cidade".' },
+          { t: 'lacuna', frase: 'That was the worst day ___ my life.', op: ['of', 'in', 'on'], a: 0, pt: 'Aquele foi o pior dia da minha vida.' },
+          { t: 'pares', pares: [['big', 'the biggest'], ['good', 'the best'], ['bad', 'the worst'], ['easy', 'the easiest'], ['far', 'the farthest']] },
+          { t: 'escolha', ouvir: "It's the best movie I've ever seen.", op: ["It's the best movie I've ever seen.", "It's a better movie than I saw.", "It's the worst movie I've ever seen."], a: 0 },
+          { t: 'montar', pt: 'Este é o hotel mais barato.', en: 'This is the cheapest hotel', extra: ['most', 'cheaper'] },
+          { t: 'montar', pt: 'Ela é a mais inteligente da turma.', en: "She's the smartest in the class", extra: ['of', 'more'] },
+          { t: 'digitar', pt: 'Escreva o superlativo de "good".', en: 'the best', alt: ['best'] },
+          { t: 'digitar', ouvir: 'This is the most expensive car.', en: 'This is the most expensive car' },
+          { t: 'falar', en: "It's the best pizza in town!" },
+          { t: 'falar', en: 'This is the cheapest of the three.' }
+        ]
+      },
+      {
+        id: 'en-contaveis', title: 'Contáveis e incontáveis: much, many, a lot of',
+        desc: 'A diferença entre o que se conta e o que não se conta em inglês, e como falar de quantidade: much, many, a lot of, a few e a little.',
+        objetivos: [
+          'Distinguir substantivos contáveis e incontáveis',
+          'Usar many com contáveis e much com incontáveis, e a lot of com os dois',
+          'Perguntar How many / How much e usar a few e a little'
+        ],
+        body: 'Em inglês, algumas palavras não aceitam número nem plural: você não diz "two waters" nem "an advice". Saber o que é contável muda as palavras de quantidade — e evita alguns dos erros mais comuns de brasileiro.',
+        content: [
+          { h: 'Contável × incontável',
+            items: [
+              `Contáveis têm plural e aceitam a/an: ${EN('a book, two books')} · ${EN('an apple')} · ${EN('three people')}.`,
+              `Incontáveis não têm plural: ${EN('water')}, ${EN('money')}, ${EN('time')}, ${EN('rice')}, ${EN('milk')}, ${EN('traffic')}.`,
+              `Pegadinhas — incontáveis em inglês, contáveis em português: ${EN('information')} (informações), ${EN('advice')} (conselhos), ${EN('news')} (notícias), ${EN('furniture')} (móveis), ${EN('homework')}. Diga ${EN('some advice')}, ${EN('a piece of advice')} — nunca "advices".`
+            ] },
+          { h: 'Many, much, a lot of',
+            items: [
+              `${EN('many')} + contáveis: ${EN("There aren't many people here.")}`,
+              `${EN('much')} + incontáveis: ${EN("I don't have much time.")}`,
+              `${EN('a lot of')} serve para os dois e é o mais natural em frases afirmativas: ${EN('I have a lot of friends.')} · ${EN('She drinks a lot of coffee.')}`,
+              `Na prática: much e many aparecem mais em perguntas e negativas.`
+            ] },
+          { h: 'How many? How much?',
+            p: `${EN('How many brothers do you have?')} (contável) · ${EN('How much water do you drink?')} (incontável) · ${EN('How much is it?')} — preço também usa ${EN('much')}, porque dinheiro é incontável.` },
+          { h: 'Poucos e pouco: a few, a little',
+            items: [
+              `${EN('a few')} + contáveis: ${EN('I have a few questions.')} (algumas perguntas)`,
+              `${EN('a little')} + incontáveis: ${EN('Can I have a little milk?')} (um pouco de leite)`,
+              `Sem o ${EN('a')}, o sentido fica negativo: ${EN('few people came')} (pouca gente veio — quase ninguém).`
+            ] }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "I don't have ___ time.", op: ['much', 'many', 'a few'], a: 0, pt: 'Eu não tenho muito tempo.' },
+          { t: 'lacuna', frase: "There aren't ___ people here.", op: ['many', 'much', 'a little'], a: 0, pt: 'Não tem muita gente aqui.' },
+          { t: 'lacuna', frase: 'How ___ brothers do you have?', op: ['many', 'much', 'lot'], a: 0, pt: 'Quantos irmãos você tem?' },
+          { t: 'lacuna', frase: 'I have a ___ questions.', op: ['few', 'little', 'much'], a: 0, pt: 'Eu tenho algumas perguntas.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['Can you give me some advice?', 'Can you give me some advices?', 'Can you give me an advice?'], a: 0, exp: 'advice é incontável em inglês: some advice ou a piece of advice.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['I need some information.', 'I need some informations.', 'I need an information.'], a: 0 },
+          { t: 'pares', pares: [['water', 'incontável'], ['book', 'contável'], ['money', 'incontável'], ['person', 'contável'], ['news', 'incontável']] },
+          { t: 'escolha', ouvir: 'How much water do you drink?', op: ['How much water do you drink?', 'How many waters do you drink?', 'How much is the water?'], a: 0 },
+          { t: 'montar', pt: 'Ela toma muito café.', en: 'She drinks a lot of coffee', extra: ['many', 'much'] },
+          { t: 'montar', pt: 'Posso tomar um pouco de leite?', en: 'Can I have a little milk?', extra: ['few', 'many'] },
+          { t: 'digitar', pt: 'Eu não tenho muito dinheiro.', en: "I don't have much money", alt: ["I don't have a lot of money", 'I do not have much money'] },
+          { t: 'falar', en: 'How many people are there?' },
+          { t: 'falar', en: "I don't have much time." }
+        ]
+      },
+      {
+        id: 'en-some-any-too', title: 'Something, anything, nothing e too / enough',
+        desc: 'As palavras compostas com some, any e no (alguém, nada, algum lugar) e como dizer "demais" e "suficiente".',
+        objetivos: [
+          'Usar something, anything, nothing, someone, anyone, nobody, somewhere',
+          'Evitar a dupla negação do português',
+          'Dizer que algo é demais com too e suficiente com enough'
+        ],
+        body: 'Fechando o módulo: as palavras para "alguma coisa", "nada", "ninguém" e "algum lugar", e duas palavras que ajudam muito em compras e reclamações — too (demais) e enough (suficiente). Atenção especial à dupla negação, que o português usa e o inglês não.',
+        content: [
+          { h: 'Some-, any-, no- + thing / one / where',
+            items: [
+              `Coisas: ${EN('something')} (alguma coisa) · ${EN('anything')} (qualquer coisa / nada, em negativas) · ${EN('nothing')} (nada).`,
+              `Pessoas: ${EN('someone')} / ${EN('somebody')} · ${EN('anyone')} / ${EN('anybody')} · ${EN('no one')} / ${EN('nobody')}.`,
+              `Lugares: ${EN('somewhere')} · ${EN('anywhere')} · ${EN('nowhere')}.`,
+              `Mesma regra de some e any: afirmativa → some-: ${EN("I'd like something to eat.")} · pergunta e negativa → any-: ${EN('Is anybody home?')}`
+            ] },
+          { h: 'Nada de dupla negação',
+            items: [
+              `Português: "Eu não vi nada" (duas negações). Inglês: só uma — ${EN("I didn't see anything.")} ou ${EN('I saw nothing.')}`,
+              `Nunca "I didn't see nothing" — soa errado (e, em alguns contextos, como fala muito informal ou de música).`,
+              `${EN("There's nobody here.")} = ${EN("There isn't anybody here.")}`
+            ] },
+          { h: 'Too: demais (problema)',
+            items: [
+              `${EN('too')} + adjetivo = mais do que deveria: ${EN("It's too expensive.")} (É caro demais — não vou comprar.)`,
+              `${EN("This shirt is too small.")} · ${EN("It's too late.")}`,
+              `Com substantivo: ${EN('too much')} (incontável) e ${EN('too many')} (contável): ${EN('too much sugar')} · ${EN('too many people')}.`
+            ] },
+          { h: 'Enough: suficiente',
+            items: [
+              `Depois do adjetivo: ${EN("It isn't big enough.")} (Não é grande o suficiente.)`,
+              `Antes do substantivo: ${EN("We don't have enough time.")} · ${EN('Is there enough food?')}`,
+              `Pronúncia: ${EN('enough')} soa "ináf".`
+            ] }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "I didn't see ___.", op: ['anything', 'nothing', 'something'], a: 0, pt: 'Eu não vi nada.', exp: `Em inglês só uma negação por frase: didn't + anything. Ou: I saw nothing.` },
+          { t: 'lacuna', frase: "I'd like ___ to eat.", op: ['something', 'anything', 'nothing'], a: 0, pt: 'Eu queria alguma coisa para comer.' },
+          { t: 'lacuna', frase: 'Is ___ home?', op: ['anybody', 'somebody', 'nobody'], a: 0, pt: 'Tem alguém em casa?' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["There's nobody here.", "There isn't nobody here.", "There's not nobody here."], a: 0 },
+          { t: 'lacuna', frase: "It's ___ expensive. I won't buy it.", op: ['too', 'enough', 'very much'], a: 0, pt: 'É caro demais. Não vou comprar.' },
+          { t: 'lacuna', frase: "It isn't big ___.", op: ['enough', 'too', 'much'], a: 0, pt: 'Não é grande o suficiente.', exp: 'enough vem DEPOIS do adjetivo (big enough) e ANTES do substantivo (enough time).' },
+          { t: 'lacuna', frase: 'There are too ___ people here.', op: ['many', 'much', 'enough'], a: 0, pt: 'Tem gente demais aqui.' },
+          { t: 'pares', pares: [['something', 'alguma coisa'], ['nothing', 'nada'], ['somebody', 'alguém'], ['nobody', 'ninguém'], ['somewhere', 'algum lugar']] },
+          { t: 'montar', pt: 'Nós não temos tempo suficiente.', en: "We don't have enough time", extra: ['too', 'much'] },
+          { t: 'montar', pt: 'Esta camisa é pequena demais.', en: 'This shirt is too small', extra: ['enough', 'very'] },
+          { t: 'digitar', ouvir: "I don't know anybody here.", en: "I don't know anybody here", alt: ["I don't know anyone here"] },
+          { t: 'falar', en: "It's too expensive." },
+          { t: 'falar', en: "I didn't see anything." }
+        ]
+      }
+    ]
+  }
 ];

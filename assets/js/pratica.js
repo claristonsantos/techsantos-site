@@ -199,7 +199,9 @@
               if (sel) sel.classList.remove('sel');
               sel = b; b.classList.add('sel'); return;
             }
-            if (sel.dataset.i === b.dataset.i) {
+            // Compara pelo texto, não pelo índice: dois pares podem ter a mesma resposta (water/money → incontável).
+            const iEn = Number((sel.dataset.lado === 'en' ? sel : b).dataset.i), iPt = Number((sel.dataset.lado === 'pt' ? sel : b).dataset.i);
+            if (ex.pares[iEn][1] === ex.pares[iPt][1]) {
               [sel, b].forEach(x => { x.classList.remove('sel'); x.classList.add('feito'); });
               bip([[700, 0.08]]);
               feitos++;
