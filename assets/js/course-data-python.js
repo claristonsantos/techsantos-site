@@ -1774,4 +1774,210 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'py-m10', title: 'Módulo 10 · pandas II: limpeza e tratamento de dados', kind: 'video',
+    lessons: [
+      {
+        id: 'py-limpeza-diagnostico', title: 'Diagnóstico: vazios e duplicados',
+        desc: 'Encontrar células vazias e linhas duplicadas, decidir o que fazer com elas e medir a base antes e depois da limpeza.',
+        objetivos: [
+          'Contar valores vazios com isna().sum()',
+          'Encontrar e remover duplicados com duplicated e drop_duplicates',
+          'Remover ou preencher vazios com dropna e fillna'
+        ],
+        body: 'Base de dados real chega suja: pedido exportado duas vezes, quantidade em branco, texto com espaço sobrando. Se você soma sem olhar, o relatório sai errado e ninguém percebe. O primeiro passo de toda análise é o diagnóstico — e o pandas faz isso em poucas linhas.',
+        content: [
+          { h: 'A base suja',
+            p: 'O arquivo <code>vendas_sujas.csv</code> é a exportação de abril do sistema antigo: datas no formato brasileiro, preços como texto ("R$ 799,00"), regiões com espaços e maiúsculas, linhas duplicadas e quantidades em branco. Veja:',
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\nprint(df.head(8))\nprint(df.dtypes)' },
+          { h: 'Valores vazios',
+            items: [
+              'Célula vazia no CSV vira <code>NaN</code> ("not a number") no pandas.',
+              '<code>df.isna().sum()</code> conta os vazios de cada coluna.',
+              '<code>df["quantidade"].isna()</code> marca True nas linhas com quantidade vazia — dá para usar como filtro.'
+            ],
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\nprint(df.isna().sum())\nprint(df[df["quantidade"].isna()][["pedido", "produto", "quantidade"]])' },
+          { h: 'Duplicados',
+            items: [
+              '<code>df.duplicated()</code> marca True nas linhas que repetem uma linha anterior (todas as colunas iguais).',
+              '<code>df.duplicated().sum()</code> conta quantas são.',
+              '<code>df.drop_duplicates()</code> devolve a tabela sem elas — guarde o resultado numa variável.'
+            ],
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\nprint("Duplicadas:", df.duplicated().sum())\nsem_dup = df.drop_duplicates()\nprint(len(df), "->", len(sem_dup))' },
+          { h: 'Remover ou preencher?',
+            items: [
+              '<code>df.dropna(subset=["quantidade"])</code> remove as linhas sem quantidade.',
+              '<code>df["quantidade"].fillna(1)</code> preenche os vazios com 1.',
+              'A decisão é de negócio, não técnica: pergunte a quem conhece o processo e deixe a regra escrita no código.'
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Como uma célula vazia do CSV aparece no pandas?', op: ['NaN', '0', '""'], a: 0 },
+          { t: 'escolha', q: 'O que df.isna().sum() mostra?', op: ['Quantos vazios existem em cada coluna', 'O total da tabela', 'Quantas linhas estão completas'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'df = df.___()', op: ['drop_duplicates', 'duplicated', 'unique'], a: 0, pt: 'Remova as linhas repetidas.' },
+          { t: 'escolha', q: 'Qual o problema deste código?', codigo: 'df.drop_duplicates()\nprint(len(df))', op: ['O resultado não foi guardado: df continua com os duplicados', 'drop_duplicates não existe', 'len não funciona com DataFrame'], a: 0, exp: 'A maioria dos métodos do pandas devolve uma tabela nova. Use df = df.drop_duplicates().' },
+          { t: 'lacuna', codigo: true, frase: 'df = df.dropna(subset=[___])', op: ['"quantidade"', 'quantidade', '0'], a: 0, pt: 'Remova só as linhas sem quantidade.' },
+          { t: 'pares', pares: [['isna()', 'marca os vazios'], ['duplicated()', 'marca as repetidas'], ['dropna()', 'remove linhas com vazio'], ['fillna(1)', 'preenche vazios com 1']] }
+        ],
+        desafios: [
+          { titulo: 'Quanto da base está comprometida?',
+            cenario: 'Antes de usar <code>vendas_sujas.csv</code>, o gestor quer saber o tamanho do problema. Leia o arquivo e preencha: <code>linhas_total</code> (linhas lidas), <code>duplicadas</code> (linhas repetidas), <code>sem_quantidade</code> (linhas com quantidade vazia, <strong>contadas depois de remover as duplicadas</strong>) e <code>limpo</code>: o DataFrame sem duplicadas e sem as linhas com quantidade vazia.',
+            arquivos: { 'vendas_sujas.csv': PY_ARQ['vendas_sujas.csv'] },
+            inicial: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\n\nlinhas_total = 0\nduplicadas = 0\nsem_quantidade = 0\nlimpo = df\n\nprint(linhas_total, duplicadas, sem_quantidade, len(limpo))\n',
+            testes: [
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv")\nassert linhas_total == len(_e) and duplicadas == _e.duplicated().sum()', msg: 'linhas_total e duplicadas corretos' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv").drop_duplicates()\nassert sem_quantidade == _e["quantidade"].isna().sum()', msg: 'sem_quantidade correto (contado sem as duplicadas)' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv").drop_duplicates().dropna(subset=["quantidade"])\nassert len(limpo) == len(_e) and not limpo.duplicated().any() and limpo["quantidade"].notna().all()', msg: 'limpo sem duplicadas e sem quantidade vazia' }
+            ],
+            dicas: ['linhas_total = len(df) e duplicadas = df.duplicated().sum().', 'Remova as duplicadas primeiro: sem_dup = df.drop_duplicates(); depois sem_dup["quantidade"].isna().sum().', 'limpo = sem_dup.dropna(subset=["quantidade"]).'],
+            solucao: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\n\nlinhas_total = len(df)\nduplicadas = df.duplicated().sum()\nsem_dup = df.drop_duplicates()\nsem_quantidade = sem_dup["quantidade"].isna().sum()\nlimpo = sem_dup.dropna(subset=["quantidade"])\n\nprint(linhas_total, duplicadas, sem_quantidade, len(limpo))' }
+        ]
+      },
+      {
+        id: 'py-limpeza-texto', title: 'Padronizando textos e convertendo preços',
+        desc: 'Os métodos .str do pandas: tirar espaços, padronizar maiúsculas e transformar "R$ 1.299,90" em número.',
+        objetivos: [
+          'Padronizar texto com .str.strip() e .str.title()',
+          'Trocar trechos de texto com .str.replace',
+          'Converter a coluna limpa em número com astype(float)'
+        ],
+        body: 'Para o computador, "Sudeste", "sudeste" e "  SUDESTE " são três regiões diferentes — e o seu total por região sai partido em três. Preço com "R$" e vírgula não é número, então não soma. Nesta aula você padroniza as colunas de texto da base inteira de uma vez.',
+        content: [
+          { h: 'O acessor .str',
+            items: [
+              'Os métodos de texto que você conhece (strip, upper, title, replace) existem para a coluna inteira com <code>.str</code> na frente.',
+              '<code>df["regiao"].str.strip()</code> tira os espaços das pontas de todas as linhas.',
+              '<code>.str.title()</code> deixa a primeira letra de cada palavra maiúscula: "CENTRO-OESTE" vira "Centro-Oeste".'
+            ],
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\nprint("Antes:", df["regiao"].unique())\ndf["regiao"] = df["regiao"].str.strip().str.title()\nprint("Depois:", df["regiao"].unique())' },
+          { h: 'Preço em texto vira número',
+            p: 'Encadeie as trocas: tirar o "R$", tirar espaços, trocar a vírgula por ponto — e então converter com <code>astype(float)</code>.',
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\nprint(df["preco_unit"].head(6).tolist())\npreco = (df["preco_unit"].str.replace("R$", "")\n                         .str.strip()\n                         .str.replace(",", "."))\ndf["preco_unit"] = preco.astype(float)\nprint(df["preco_unit"].head(6).tolist())\nprint(df["preco_unit"].dtype)' },
+          { h: 'Cuidado com o separador de milhar',
+            items: [
+              'Se aparecer "1.299,90", tire o ponto <strong>antes</strong> de trocar a vírgula: <code>.str.replace(".", "").str.replace(",", ".")</code>.',
+              'Mas atenção: num valor já no formato "799.0", tirar o ponto estraga o número. Olhe os dados (<code>unique()</code>) antes de escolher as trocas.',
+              'Se o <code>astype(float)</code> der ValueError, a mensagem mostra o texto que não pôde ser convertido — é a pista do que falta limpar.'
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Por que "Sul" e " sul" aparecem como valores diferentes?', op: ['Espaço e maiúsculas tornam os textos diferentes para o computador', 'É um erro do pandas', 'Porque a coluna é numérica'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'df["regiao"] = df["regiao"].___.strip()', op: ['str', 'text', 'dt'], a: 0, pt: 'Tire os espaços das pontas em todas as linhas da coluna.' },
+          { t: 'escolha', q: 'Qual o resultado de "CENTRO-OESTE".title()?', op: ['Centro-Oeste', 'Centro-oeste', 'CENTRO-OESTE'], a: 0 },
+          { t: 'escolha', q: 'O que falta para converter "R$ 49,90" em número?', codigo: 'texto.replace("R$", "").strip()', op: ['Trocar a vírgula por ponto', 'Nada, já é número', 'Tirar o 9 final'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'df["preco_unit"] = preco.___(float)', op: ['astype', 'convert', 'to'], a: 0, pt: 'Converta a coluna de texto já limpa em número decimal.' },
+          { t: 'ordenar', q: 'Monte a limpeza da coluna de preço.', linhas: ['preco = df["preco_unit"].str.replace("R$", "")', 'preco = preco.str.strip().str.replace(",", ".")', 'df["preco_unit"] = preco.astype(float)'] }
+        ],
+        desafios: [
+          { titulo: 'Padronize regiões, vendedores e preços',
+            cenario: 'Na <code>vendas_sujas.csv</code>, deixe <code>df</code> com: <code>regiao</code> e <code>vendedor</code> sem espaços nas pontas e com a primeira letra de cada palavra maiúscula ("Centro-Oeste", "Fábio"); e <code>preco_unit</code> como número (float). Depois guarde em <code>regioes</code> a lista ordenada das regiões distintas e em <code>preco_medio</code> a média de <code>preco_unit</code>, arredondada com 2 casas.',
+            arquivos: { 'vendas_sujas.csv': PY_ARQ['vendas_sujas.csv'] },
+            inicial: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\n\n# padronize regiao e vendedor\n# converta preco_unit em número\n\nregioes = sorted(df["regiao"].unique())\npreco_medio = 0\nprint(regioes)\nprint(preco_medio)\n',
+            testes: [
+              { py: 'assert set(df["regiao"]) == {"Centro-Oeste", "Sudeste", "Nordeste", "Sul", "Norte"} & set(df["regiao"]) and all(r == r.strip().title() for r in df["regiao"])', msg: 'regiao padronizada' },
+              { py: 'assert all(v == v.strip().title() for v in df["vendedor"])', msg: 'vendedor padronizado' },
+              { py: 'import pandas as pd\nassert pd.api.types.is_float_dtype(df["preco_unit"])', msg: 'preco_unit numérico' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv")\n_p = _e["preco_unit"].str.replace("R$", "").str.strip().str.replace(",", ".").astype(float)\nassert abs(preco_medio - round(_p.mean(), 2)) < 0.01 and regioes == sorted(_e["regiao"].str.strip().str.title().unique())', msg: 'regioes e preco_medio corretos' }
+            ],
+            dicas: ['df["regiao"] = df["regiao"].str.strip().str.title() — e o mesmo para vendedor.', 'Preço: .str.replace("R$", ""), depois .str.strip() e .str.replace(",", "."). Termine com .astype(float).', 'Calcule regioes e preco_medio só depois de limpar: round(df["preco_unit"].mean(), 2).'],
+            solucao: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\n\ndf["regiao"] = df["regiao"].str.strip().str.title()\ndf["vendedor"] = df["vendedor"].str.strip().str.title()\npreco = df["preco_unit"].str.replace("R$", "").str.strip().str.replace(",", ".")\ndf["preco_unit"] = preco.astype(float)\n\nregioes = sorted(df["regiao"].unique())\npreco_medio = round(df["preco_unit"].mean(), 2)\nprint(regioes)\nprint(preco_medio)' }
+        ]
+      },
+      {
+        id: 'py-limpeza-datas', title: 'Datas brasileiras, tipos e regras de preenchimento',
+        desc: 'Converter "15/04/2026" em data com o formato certo, preencher vazios por regra de negócio e acertar o tipo das colunas.',
+        objetivos: [
+          'Converter datas dia/mês/ano com pd.to_datetime e format',
+          'Preencher vazios com fillna seguindo uma regra definida',
+          'Ajustar tipos com astype(int) e renomear colunas com rename'
+        ],
+        body: 'A data "03/04/2026" é 3 de abril ou 4 de março? Para o pandas, sem instrução, pode ser qualquer um — e o erro passa despercebido. Nesta aula você diz exatamente o formato da data, aplica as regras do negócio para os vazios e deixa cada coluna com o tipo certo.',
+        content: [
+          { h: 'Datas com formato explícito',
+            items: [
+              '<code>pd.to_datetime(df["data"], format="%d/%m/%Y")</code>: <code>%d</code> dia, <code>%m</code> mês, <code>%Y</code> ano com 4 dígitos.',
+              'Com o formato informado, não há ambiguidade entre dia e mês.',
+              'Depois da conversão, <code>.dt.day</code>, <code>.dt.month</code> e <code>.dt.day_name()</code> funcionam.'
+            ],
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\ndf["data"] = pd.to_datetime(df["data"], format="%d/%m/%Y")\nprint(df["data"].head())\nprint(df["data"].dt.day.head().tolist())' },
+          { h: 'Preenchendo por regra',
+            p: 'O comercial informou: quando a quantidade vem vazia, o pedido foi de <strong>1 unidade</strong>. Depois de preencher, a coluna pode virar inteiro:',
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\nprint(df["quantidade"].dtype, "| vazios:", df["quantidade"].isna().sum())\ndf["quantidade"] = df["quantidade"].fillna(1).astype(int)\nprint(df["quantidade"].dtype, "| vazios:", df["quantidade"].isna().sum())' },
+          { h: 'Renomeando colunas',
+            items: [
+              '<code>df.rename(columns={"preco_unit": "preco"})</code> troca nomes de colunas — guarde o resultado.',
+              'Por que <code>quantidade</code> era <code>float64</code>? Uma coluna de inteiros com NaN vira decimal, porque NaN é um valor decimal.'
+            ],
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\ndf = df.rename(columns={"preco_unit": "preco", "regiao": "região"})\nprint(list(df.columns))' }
+        ],
+        pratica: [
+          { t: 'lacuna', codigo: true, frase: 'pd.to_datetime(df["data"], format="___")', op: ['%d/%m/%Y', '%m/%d/%Y', '%Y-%m-%d'], a: 0, pt: 'Converta datas no formato 15/04/2026.' },
+          { t: 'escolha', q: 'Por que uma coluna de quantidades inteiras aparece como float64?', op: ['Porque tem valores vazios (NaN)', 'Porque o CSV só guarda decimais', 'É um erro na leitura'], a: 0 },
+          { t: 'escolha', q: 'O que acontece?', codigo: 'df["quantidade"].astype(int)  # a coluna ainda tem NaN', op: ['Dá erro: NaN não pode virar inteiro', 'Os NaN viram 0', 'Os NaN são removidos'], a: 0, exp: 'Preencha (fillna) ou remova (dropna) os vazios antes do astype(int).' },
+          { t: 'lacuna', codigo: true, frase: 'df = df.rename(___={"preco_unit": "preco"})', op: ['columns', 'names', 'index'], a: 0, pt: 'Renomeie a coluna preco_unit.' },
+          { t: 'escolha', q: 'Quem deve decidir se a quantidade vazia vira 1 ou se a linha é removida?', op: ['A área de negócio que conhece o processo', 'O pandas, automaticamente', 'Tanto faz, o resultado é o mesmo'], a: 0 },
+          { t: 'ordenar', q: 'Monte o tratamento da quantidade.', linhas: ['df["quantidade"] = df["quantidade"].fillna(1)', 'df["quantidade"] = df["quantidade"].astype(int)', 'print(df["quantidade"].sum())'] }
+        ],
+        desafios: [
+          { titulo: 'Datas e quantidades corretas',
+            cenario: 'Em <code>vendas_sujas.csv</code>: converta <code>data</code> (formato dia/mês/ano) em data de verdade; aplique a regra do comercial (quantidade vazia = 1 unidade) e deixe <code>quantidade</code> como inteiro. Depois guarde <code>itens_total</code> (soma das quantidades) e <code>dia_mais_pedidos</code>: o <strong>dia do mês</strong> (número de 1 a 31) com mais linhas na base.',
+            arquivos: { 'vendas_sujas.csv': PY_ARQ['vendas_sujas.csv'] },
+            inicial: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\n\n# converta a data e trate a quantidade\n\nitens_total = 0\ndia_mais_pedidos = 0\nprint(itens_total, dia_mais_pedidos)\n',
+            testes: [
+              { py: 'import pandas as pd\nassert pd.api.types.is_datetime64_any_dtype(df["data"]) and df["data"].dt.month.eq(4).all()', msg: 'data convertida (dia/mês/ano)' },
+              { py: 'import pandas as pd\nassert pd.api.types.is_integer_dtype(df["quantidade"]) and len(df) == len(pd.read_csv("vendas_sujas.csv"))', msg: 'quantidade inteira, sem perder linhas' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv")\nassert itens_total == int(_e["quantidade"].fillna(1).sum())', msg: 'itens_total correto' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv")\nassert int(dia_mais_pedidos) == pd.to_datetime(_e["data"], format="%d/%m/%Y").dt.day.value_counts().idxmax()', msg: 'dia_mais_pedidos correto' }
+            ],
+            dicas: ['df["data"] = pd.to_datetime(df["data"], format="%d/%m/%Y").', 'df["quantidade"] = df["quantidade"].fillna(1).astype(int); depois itens_total = df["quantidade"].sum().', 'O dia com mais linhas: df["data"].dt.day.value_counts().idxmax().'],
+            solucao: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv")\n\ndf["data"] = pd.to_datetime(df["data"], format="%d/%m/%Y")\ndf["quantidade"] = df["quantidade"].fillna(1).astype(int)\n\nitens_total = df["quantidade"].sum()\ndia_mais_pedidos = df["data"].dt.day.value_counts().idxmax()\nprint(itens_total, dia_mais_pedidos)' }
+        ]
+      },
+      {
+        id: 'py-limpeza-projeto', title: 'Projeto: a função de limpeza reutilizável',
+        desc: 'Juntar todos os tratamentos numa função limpar(df) — a mesma limpeza aplicada a cada nova exportação, sem refazer nada à mão.',
+        objetivos: [
+          'Organizar a limpeza numa função que recebe e devolve um DataFrame',
+          'Validar o resultado com assert antes de usar',
+          'Exportar a base limpa e calcular os indicadores'
+        ],
+        body: 'No mês que vem chega outra exportação com os mesmos defeitos. Em vez de repetir a limpeza no Excel, você escreve uma vez a função limpar(df) e ela vale para todos os meses. Junte as funções do Módulo 06 com o pandas e você tem um pipeline de dados de verdade.',
+        content: [
+          { h: 'A limpeza numa função',
+            p: 'A função recebe a tabela crua e devolve a tabela tratada. O <code>.copy()</code> no início evita alterar a tabela original por engano.',
+            code: 'import pandas as pd\n\ndef limpar_regiao(df):\n    df = df.copy()\n    df["regiao"] = df["regiao"].str.strip().str.title()\n    return df\n\ncru = pd.read_csv("vendas_sujas.csv")\ntratado = limpar_regiao(cru)\nprint(cru["regiao"].nunique(), "->", tratado["regiao"].nunique(), "regiões")' },
+          { h: 'Validando com assert',
+            items: [
+              '<code>assert condicao, "mensagem"</code> interrompe o programa se a condição for falsa.',
+              'Coloque no fim da limpeza as regras que a base limpa precisa cumprir: sem duplicados, sem vazios, preço positivo.',
+              'Se uma exportação nova vier com um defeito diferente, o assert avisa na hora — em vez de um relatório errado chegar à diretoria.'
+            ],
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_sujas.csv").drop_duplicates()\nassert not df.duplicated().any(), "ainda há duplicados"\nprint("Validação ok:", len(df), "linhas")' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Por que colocar a limpeza numa função?', op: ['Para aplicar a mesma limpeza a cada nova exportação sem refazer', 'Porque o pandas exige funções', 'Para o código rodar mais rápido'], a: 0 },
+          { t: 'escolha', q: 'Para que serve df = df.copy() no início da função?', op: ['Não alterar por engano a tabela original de quem chamou a função', 'Duplicar as linhas', 'Salvar a tabela num arquivo'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: '___ df["preco_unit"].gt(0).all(), "preço inválido"', op: ['assert', 'if', 'check'], a: 0, pt: 'Interrompa o programa se houver preço menor ou igual a zero.' },
+          { t: 'escolha', q: 'O que acontece quando a condição do assert é falsa?', op: ['O programa para com AssertionError e a mensagem', 'O assert corrige os dados', 'Nada, só aparece um aviso'], a: 0 },
+          { t: 'ordenar', q: 'Monte a função de limpeza.', linhas: ['def limpar(df):', '    df = df.drop_duplicates()', '    return df', 'base = limpar(pd.read_csv("vendas_sujas.csv"))'] }
+        ],
+        desafios: [
+          { titulo: 'Pipeline de limpeza de abril',
+            cenario: 'Escreva a função <code>limpar(df)</code> que recebe o DataFrame cru de <code>vendas_sujas.csv</code> e devolve a base tratada: sem duplicadas; <code>data</code> como data (dia/mês/ano); <code>regiao</code> e <code>vendedor</code> padronizados (sem espaços, iniciais maiúsculas); <code>preco_unit</code> numérico; <code>quantidade</code> vazia = 1, como inteiro; e uma coluna nova <code>faturamento</code> (quantidade × preço). Depois: <code>base = limpar(pd.read_csv("vendas_sujas.csv"))</code>, grave <code>vendas_abril_limpo.csv</code> (sem índice) e guarde <code>fat_abril</code> (soma do faturamento, 2 casas).',
+            arquivos: { 'vendas_sujas.csv': PY_ARQ['vendas_sujas.csv'] },
+            inicial: 'import pandas as pd\n\ndef limpar(df):\n    df = df.copy()\n    # 1) duplicadas  2) data  3) regiao e vendedor  4) preco_unit  5) quantidade  6) faturamento\n    return df\n\nbase = limpar(pd.read_csv("vendas_sujas.csv"))\nfat_abril = 0\n\n# grave vendas_abril_limpo.csv\nprint(len(base), fat_abril)\n',
+            testes: [
+              { py: 'import pandas as pd\n_b = limpar(pd.read_csv("vendas_sujas.csv"))\nassert not _b.duplicated().any() and len(_b) == len(pd.read_csv("vendas_sujas.csv").drop_duplicates())', msg: 'limpar remove as duplicadas (e só elas)' },
+              { py: 'import pandas as pd\n_b = limpar(pd.read_csv("vendas_sujas.csv"))\nassert pd.api.types.is_datetime64_any_dtype(_b["data"]) and _b["data"].dt.month.eq(4).all() and all(x == x.strip().title() for x in list(_b["regiao"]) + list(_b["vendedor"]))', msg: 'datas e textos tratados' },
+              { py: 'import pandas as pd\n_b = limpar(pd.read_csv("vendas_sujas.csv"))\nassert pd.api.types.is_integer_dtype(_b["quantidade"]) and pd.api.types.is_float_dtype(_b["preco_unit"]) and ((_b["faturamento"] - _b["quantidade"] * _b["preco_unit"]).abs() < 0.001).all()', msg: 'quantidade, preco_unit e faturamento corretos' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv").drop_duplicates()\n_f = (_e["quantidade"].fillna(1) * _e["preco_unit"].str.replace("R$", "").str.strip().str.replace(",", ".").astype(float)).sum()\nassert abs(fat_abril - round(_f, 2)) < 0.01', msg: 'fat_abril correto' },
+              { py: 'import pandas as pd\n_g = pd.read_csv("vendas_abril_limpo.csv")\nassert "faturamento" in _g.columns and len(_g) == len(pd.read_csv("vendas_sujas.csv").drop_duplicates()) and not any(c.startswith("Unnamed") for c in _g.columns)', msg: 'vendas_abril_limpo.csv gravado sem a coluna de índice' }
+            ],
+            dicas: ['Dentro da função, um passo por linha, sempre guardando: df = df.drop_duplicates(); df["data"] = pd.to_datetime(df["data"], format="%d/%m/%Y")...', 'Preço: df["preco_unit"].str.replace("R$", "").str.strip().str.replace(",", ".").astype(float). Quantidade: .fillna(1).astype(int).', 'Fora da função: fat_abril = round(base["faturamento"].sum(), 2) e base.to_csv("vendas_abril_limpo.csv", index=False).'],
+            solucao: 'import pandas as pd\n\ndef limpar(df):\n    df = df.copy()\n    df = df.drop_duplicates()\n    df["data"] = pd.to_datetime(df["data"], format="%d/%m/%Y")\n    df["regiao"] = df["regiao"].str.strip().str.title()\n    df["vendedor"] = df["vendedor"].str.strip().str.title()\n    preco = df["preco_unit"].str.replace("R$", "").str.strip().str.replace(",", ".")\n    df["preco_unit"] = preco.astype(float)\n    df["quantidade"] = df["quantidade"].fillna(1).astype(int)\n    df["faturamento"] = df["quantidade"] * df["preco_unit"]\n    return df\n\nbase = limpar(pd.read_csv("vendas_sujas.csv"))\nfat_abril = round(base["faturamento"].sum(), 2)\n\nbase.to_csv("vendas_abril_limpo.csv", index=False)\nprint(len(base), fat_abril)' }
+        ]
+      }
+    ]
+  }
 ];
