@@ -2172,4 +2172,206 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'py-m12', title: 'Módulo 12 · Gráficos com matplotlib', kind: 'video',
+    lessons: [
+      {
+        id: 'py-graf-barras', title: 'Gráfico de barras: comparando categorias',
+        desc: 'O primeiro gráfico com matplotlib: barras verticais e horizontais, título, rótulos dos eixos e ordenação para facilitar a leitura.',
+        objetivos: [
+          'Criar gráficos de barras com plt.bar e plt.barh',
+          'Colocar título e nomes nos eixos',
+          'Ordenar as barras e escolher entre vertical e horizontal'
+        ],
+        body: 'Uma tabela com seis números exige leitura; um gráfico de barras ordenado mostra o ranking num relance. O matplotlib é a biblioteca de gráficos mais usada do Python — e a base do gráfico que o próprio pandas desenha. Nesta aula você faz o gráfico mais útil de todos: barras comparando categorias.',
+        content: [
+          { h: 'Barras verticais',
+            items: [
+              'Importe com <code>import matplotlib.pyplot as plt</code>.',
+              '<code>plt.bar(rotulos, valores)</code> desenha uma barra por item.',
+              '<code>plt.title</code>, <code>plt.xlabel</code> e <code>plt.ylabel</code> explicam o que o gráfico mostra.',
+              'No laboratório o gráfico aparece embaixo da saída. No seu computador, termine com <code>plt.show()</code>.'
+            ],
+            code: 'import matplotlib.pyplot as plt\n\nmeses = ["Jan", "Fev", "Mar", "Abr"]\npedidos = [38, 41, 35, 47]\n\nplt.bar(meses, pedidos, color="#2F7FD8")\nplt.title("Pedidos por mês")\nplt.ylabel("Pedidos")\nplt.show()' },
+          { h: 'Barras horizontais e ordenadas',
+            items: [
+              'Nomes longos (vendedores, produtos) ficam melhores em barras <strong>horizontais</strong>: <code>plt.barh</code>.',
+              'Ordene os valores: o olho compara comprimentos com muito mais precisão quando eles estão em sequência.',
+              'No <code>barh</code> o primeiro item fica embaixo — ordene do menor para o maior para o maior ficar no topo.'
+            ],
+            code: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\npor_categoria = df.groupby("categoria")["faturamento"].sum().sort_values()\n\nplt.barh(por_categoria.index, por_categoria.values, color="#2F7FD8")\nplt.title("Faturamento por categoria (1º semestre)")\nplt.xlabel("R$")\nplt.show()' },
+          { h: 'Por que não pizza?',
+            p: 'Gráfico de pizza obriga o olho a comparar ângulos, e somos ruins nisso: duas fatias de 22% e 26% parecem iguais. Para comparar categorias, barras ordenadas são quase sempre a melhor escolha. Também evite cores diferentes para cada barra quando todas medem a mesma coisa — uma cor só, e o comprimento conta a história.' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Como o matplotlib é importado por convenção?', op: ['import matplotlib.pyplot as plt', 'import matplotlib as plt', 'import plot'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'plt.___(vendedores, valores)', op: ['barh', 'pie', 'line'], a: 0, pt: 'Desenhe barras horizontais.' },
+          { t: 'escolha', q: 'Quando preferir barras horizontais?', op: ['Quando os rótulos são longos, como nomes de produtos', 'Quando há datas no eixo', 'Nunca, as verticais são sempre melhores'], a: 0 },
+          { t: 'escolha', q: 'Para comparar o faturamento de 6 vendedores, qual gráfico é mais fácil de ler?', op: ['Barras ordenadas', 'Pizza com 6 fatias', 'Pizza 3D'], a: 0 },
+          { t: 'escolha', q: 'Num plt.barh com os valores em ordem crescente, onde fica a maior barra?', op: ['No topo', 'Embaixo', 'No meio'], a: 0 },
+          { t: 'pares', pares: [['plt.bar', 'barras verticais'], ['plt.barh', 'barras horizontais'], ['plt.title', 'título'], ['plt.xlabel', 'nome do eixo x']] }
+        ],
+        desafios: [
+          { titulo: 'Ranking de vendedores',
+            cenario: 'Faça um gráfico de <strong>barras horizontais</strong> com o faturamento (quantidade × preço) de cada vendedor no semestre, a partir de <code>vendas_2026.csv</code>: uma barra por vendedor, o <strong>maior no topo</strong>, um título que contenha a palavra <code>Faturamento</code> e o eixo x identificado.',
+            arquivos: { 'vendas_2026.csv': PY_ARQ['vendas_2026.csv'] },
+            inicial: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\n\n# some o faturamento por vendedor, ordene e desenhe as barras horizontais\n\nplt.show()\n',
+            testes: [
+              { py: 'import matplotlib.pyplot as plt\nimport pandas as pd\n_ax = plt.gcf().axes[0]\nassert len(_ax.patches) == pd.read_csv("vendas_2026.csv")["vendedor"].nunique()', msg: 'uma barra por vendedor' },
+              { py: 'import matplotlib.pyplot as plt\nimport pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_s = (_e["quantidade"] * _e["preco_unit"]).groupby(_e["vendedor"]).sum()\n_ax = plt.gcf().axes[0]\n_w = [p.get_width() for p in _ax.patches]\nassert sorted(round(w, 2) for w in _w) == sorted(round(v, 2) for v in _s.values) and all(p.get_height() < 1 for p in _ax.patches)', msg: 'barras horizontais com os valores certos' },
+              { py: 'import matplotlib.pyplot as plt\n_ax = plt.gcf().axes[0]\n_p = sorted(_ax.patches, key=lambda p: p.get_y())\nassert [p.get_width() for p in _p] == sorted(p.get_width() for p in _p)', msg: 'maior faturamento no topo' },
+              { py: 'import matplotlib.pyplot as plt\n_ax = plt.gcf().axes[0]\nassert "faturamento" in _ax.get_title().lower() and _ax.get_xlabel().strip() != ""', msg: 'título com "Faturamento" e eixo x identificado' }
+            ],
+            dicas: ['por_vendedor = df.groupby("vendedor")["faturamento"].sum().sort_values() — em ordem crescente, para o maior ficar no topo.', 'plt.barh(por_vendedor.index, por_vendedor.values).', 'plt.title("Faturamento por vendedor") e plt.xlabel("R$").'],
+            solucao: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\n\npor_vendedor = df.groupby("vendedor")["faturamento"].sum().sort_values()\n\nplt.barh(por_vendedor.index, por_vendedor.values, color="#2F7FD8")\nplt.title("Faturamento por vendedor (1º semestre)")\nplt.xlabel("R$")\nplt.show()' }
+        ]
+      },
+      {
+        id: 'py-graf-linhas', title: 'Gráfico de linhas: evolução no tempo',
+        desc: 'Linhas para mostrar tendência ao longo dos meses, várias séries no mesmo gráfico com legenda e o cuidado com o eixo que não começa no zero.',
+        objetivos: [
+          'Mostrar evolução no tempo com plt.plot',
+          'Comparar séries no mesmo gráfico com label e legend',
+          'Controlar o eixo y para não exagerar variações'
+        ],
+        body: 'Barra compara categorias; linha mostra o caminho ao longo do tempo. "As vendas estão subindo?" é uma pergunta de linha. Nesta aula você desenha a evolução mensal, compara categorias no mesmo gráfico e aprende o truque de eixo que faz uma variação de 2% parecer um salto — para não cair nele.',
+        content: [
+          { h: 'Uma linha',
+            code: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\nmensal = df.groupby(pd.to_datetime(df["data"]).dt.month)["faturamento"].sum()\n\nplt.plot(mensal.index, mensal.values, marker="o", color="#2F7FD8")\nplt.title("Faturamento mensal")\nplt.xlabel("Mês")\nplt.ylim(bottom=0)\nplt.show()' },
+          { h: 'Várias linhas com legenda',
+            items: [
+              'Chame <code>plt.plot</code> uma vez por série, cada uma com <code>label="..."</code>.',
+              '<code>plt.legend()</code> mostra a legenda com esses nomes.',
+              'Mais de 4 ou 5 linhas viram um emaranhado: destaque as principais ou faça gráficos separados.'
+            ],
+            code: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["mes"] = pd.to_datetime(df["data"]).dt.month\nitens = df.pivot_table(index="mes", columns="categoria", values="quantidade", aggfunc="sum", fill_value=0)\n\nfor categoria in ["Periféricos", "Acessórios"]:\n    plt.plot(itens.index, itens[categoria], marker="o", label=categoria)\nplt.title("Itens vendidos por mês")\nplt.legend()\nplt.show()' },
+          { h: 'O eixo y que engana',
+            items: [
+              'O matplotlib ajusta o eixo y aos dados. Se os valores vão de 980 a 1000, a linha parece despencar — mas a queda é de 2%.',
+              'Para totais (faturamento, pedidos), comece o eixo no zero: <code>plt.ylim(bottom=0)</code>.',
+              'Nunca coloque duas medidas de escalas diferentes no mesmo gráfico com dois eixos y: faça dois gráficos.'
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual gráfico usar para mostrar a evolução das vendas ao longo dos meses?', op: ['Linhas', 'Pizza', 'Barras empilhadas de categorias'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'plt.plot(meses, valores, ___="Notebooks")', op: ['label', 'name', 'title'], a: 0, pt: 'Dê um nome à série para aparecer na legenda.' },
+          { t: 'escolha', q: 'O que plt.legend() faz?', op: ['Mostra a legenda com os labels de cada série', 'Coloca título no gráfico', 'Mostra os valores em cada ponto'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'plt.ylim(___=0)', op: ['bottom', 'min', 'start'], a: 0, pt: 'Faça o eixo y começar no zero.' },
+          { t: 'escolha', q: 'Faturamento (milhares de R$) e número de pedidos (dezenas) no mesmo gráfico: o que fazer?', op: ['Dois gráficos separados', 'Um gráfico com dois eixos y', 'Somar as duas medidas'], a: 0 },
+          { t: 'ordenar', q: 'Monte o gráfico de linha mensal.', linhas: ['mensal = df.groupby("mes")["faturamento"].sum()', 'plt.plot(mensal.index, mensal.values, marker="o")', 'plt.show()'] }
+        ],
+        desafios: [
+          { titulo: 'Notebooks x Monitores',
+            cenario: 'O gerente de produto quer comparar, mês a mês, o faturamento de <strong>Notebooks</strong> e de <strong>Monitores</strong>. Faça um gráfico com <strong>duas linhas</strong> (uma por categoria, meses 1 a 6 no eixo x), cada uma com <code>label</code> igual ao nome da categoria, legenda visível, título e o eixo y começando em 0.',
+            arquivos: { 'vendas_2026.csv': PY_ARQ['vendas_2026.csv'] },
+            inicial: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\ndf["mes"] = pd.to_datetime(df["data"]).dt.month\n\n# monte a tabela mês x categoria e desenhe as duas linhas\n\nplt.show()\n',
+            testes: [
+              { py: 'import matplotlib.pyplot as plt\n_ax = plt.gcf().axes[0]\nassert sorted(l.get_label() for l in _ax.get_lines()) == ["Monitores", "Notebooks"]', msg: 'duas linhas: Notebooks e Monitores' },
+              { py: 'import matplotlib.pyplot as plt\nimport pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_e["f"] = _e["quantidade"] * _e["preco_unit"]\n_e["m"] = pd.to_datetime(_e["data"]).dt.month\n_t = _e.pivot_table(index="m", columns="categoria", values="f", aggfunc="sum", fill_value=0)\n_ax = plt.gcf().axes[0]\nfor _l in _ax.get_lines():\n    assert list(_l.get_xdata()) == [1, 2, 3, 4, 5, 6]\n    assert all(abs(a - b) < 0.01 for a, b in zip(_l.get_ydata(), _t[_l.get_label()].values))', msg: 'valores mensais corretos em cada linha' },
+              { py: 'import matplotlib.pyplot as plt\n_ax = plt.gcf().axes[0]\nassert _ax.get_legend() is not None and _ax.get_title().strip() != ""', msg: 'legenda e título' },
+              { py: 'import matplotlib.pyplot as plt\nassert plt.gcf().axes[0].get_ylim()[0] == 0', msg: 'eixo y começando em 0' }
+            ],
+            dicas: ['tabela = df.pivot_table(index="mes", columns="categoria", values="faturamento", aggfunc="sum", fill_value=0).', 'for cat in ["Notebooks", "Monitores"]: plt.plot(tabela.index, tabela[cat], marker="o", label=cat).', 'Depois: plt.title(...), plt.legend() e plt.ylim(bottom=0).'],
+            solucao: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\ndf["mes"] = pd.to_datetime(df["data"]).dt.month\n\ntabela = df.pivot_table(index="mes", columns="categoria", values="faturamento", aggfunc="sum", fill_value=0)\n\nfor cat in ["Notebooks", "Monitores"]:\n    plt.plot(tabela.index, tabela[cat], marker="o", label=cat)\nplt.title("Faturamento mensal: Notebooks x Monitores")\nplt.xlabel("Mês")\nplt.legend()\nplt.ylim(bottom=0)\nplt.show()' }
+        ]
+      },
+      {
+        id: 'py-graf-acabamento', title: 'Acabamento profissional e salvando a imagem',
+        desc: 'fig e ax, valores nas barras, eixo em reais, bordas limpas e savefig para usar o gráfico em apresentações e relatórios.',
+        objetivos: [
+          'Trabalhar com fig, ax = plt.subplots()',
+          'Mostrar valores nas barras e formatar o eixo em R$',
+          'Limpar bordas e salvar o gráfico em PNG com savefig'
+        ],
+        body: 'O gráfico padrão comunica, mas parece rascunho. Com poucos ajustes — valores escritos nas barras, eixo em "R$ mil", sem bordas desnecessárias — ele fica pronto para a apresentação da diretoria. E com savefig ele vira um arquivo de imagem que você coloca no PowerPoint ou manda por e-mail.',
+        content: [
+          { h: 'fig e ax',
+            items: [
+              '<code>fig, ax = plt.subplots(figsize=(8, 4))</code> cria a figura (o "quadro") e o eixo (a área do gráfico).',
+              'Com o <code>ax</code>, os comandos ganham o prefixo <code>set_</code>: <code>ax.set_title</code>, <code>ax.set_xlabel</code>.',
+              'É o jeito recomendado: deixa claro em qual gráfico cada comando atua — essencial quando houver mais de um.'
+            ],
+            code: 'import matplotlib.pyplot as plt\n\nfig, ax = plt.subplots(figsize=(7, 3.5))\nax.bar(["Jan", "Fev", "Mar"], [52300, 61800, 58900], color="#2F7FD8")\nax.set_title("Faturamento do trimestre")\nplt.show()' },
+          { h: 'Valores nas barras e eixo em R$',
+            items: [
+              '<code>barras = ax.bar(...)</code> guarda as barras; <code>ax.bar_label(barras, labels=[...])</code> escreve um texto sobre cada uma.',
+              'Para formatar o eixo, use um <code>FuncFormatter</code>: uma função que recebe o número e devolve o texto.',
+              '<code>ax.spines[["top", "right"]].set_visible(False)</code> remove as bordas de cima e da direita.'
+            ],
+            code: 'import matplotlib.pyplot as plt\nfrom matplotlib.ticker import FuncFormatter\n\nmeses = ["Jan", "Fev", "Mar"]\nvalores = [52300, 61800, 58900]\n\nfig, ax = plt.subplots(figsize=(7, 3.5))\nbarras = ax.bar(meses, valores, color="#2F7FD8")\nax.bar_label(barras, labels=[f"R$ {v/1000:.1f} mil" for v in valores], padding=3)\nax.yaxis.set_major_formatter(FuncFormatter(lambda v, pos: f"R$ {v/1000:.0f} mil"))\nax.spines[["top", "right"]].set_visible(False)\nax.set_title("Faturamento do trimestre")\nplt.show()' },
+          { h: 'Salvando a imagem',
+            items: [
+              '<code>fig.savefig("grafico.png", dpi=150, bbox_inches="tight")</code> grava a imagem.',
+              '<code>dpi</code> controla a resolução (150 é bom para slides); <code>bbox_inches="tight"</code> corta a margem branca.',
+              'No laboratório, o PNG gravado aparece com o botão ⬇ Baixar.'
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Em fig, ax = plt.subplots(), o que é o ax?', op: ['A área do gráfico, onde os dados são desenhados', 'O arquivo de imagem', 'O título do gráfico'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'ax.___("Faturamento por região")', op: ['set_title', 'title', 'titulo'], a: 0, pt: 'Coloque o título usando o ax.' },
+          { t: 'escolha', q: 'O que ax.bar_label(barras) faz?', op: ['Escreve o valor sobre cada barra', 'Coloca legenda no gráfico', 'Muda a cor das barras'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'fig.savefig("vendas.png", ___=150, bbox_inches="tight")', op: ['dpi', 'size', 'quality'], a: 0, pt: 'Salve com resolução de 150 pontos por polegada.' },
+          { t: 'escolha', q: 'Para que serve bbox_inches="tight" no savefig?', op: ['Cortar a margem branca em volta do gráfico', 'Deixar a imagem menor em bytes', 'Salvar sem o título'], a: 0 },
+          { t: 'ordenar', q: 'Monte o gráfico salvo em arquivo.', linhas: ['fig, ax = plt.subplots()', 'barras = ax.bar(regioes, valores)', 'ax.bar_label(barras)', 'fig.savefig("regioes.png", dpi=150)'] }
+        ],
+        desafios: [
+          { titulo: 'Gráfico pronto para o slide',
+            cenario: 'Prepare o gráfico de faturamento por <strong>região</strong> (quantidade × preço) de <code>vendas_2026.csv</code> para a apresentação: use <code>fig, ax = plt.subplots()</code>; barras verticais ordenadas do maior para o menor; o valor escrito sobre cada barra; sem as bordas de cima e da direita; um título; e salve como <code>faturamento_regioes.png</code> com <code>dpi=150</code>.',
+            arquivos: { 'vendas_2026.csv': PY_ARQ['vendas_2026.csv'] },
+            inicial: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\npor_regiao = df.groupby("regiao")["faturamento"].sum()\n\n# fig, ax = plt.subplots() ...\n\nplt.show()\n',
+            testes: [
+              { py: 'import matplotlib.pyplot as plt\nimport pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_s = (_e["quantidade"] * _e["preco_unit"]).groupby(_e["regiao"]).sum().sort_values(ascending=False)\n_ax = plt.gcf().axes[0]\n_p = sorted(_ax.patches, key=lambda p: p.get_x())\nassert len(_p) == len(_s) and all(abs(p.get_height() - v) < 0.01 for p, v in zip(_p, _s.values))', msg: 'barras verticais por região, do maior para o menor' },
+              { py: 'import matplotlib.pyplot as plt\n_ax = plt.gcf().axes[0]\nassert len([t for t in _ax.texts if t.get_text().strip()]) >= len(_ax.patches)', msg: 'valor escrito sobre cada barra' },
+              { py: 'import matplotlib.pyplot as plt\n_ax = plt.gcf().axes[0]\nassert not _ax.spines["top"].get_visible() and not _ax.spines["right"].get_visible() and _ax.get_title().strip() != ""', msg: 'sem bordas de cima e da direita, com título' },
+              { py: 'from PIL import Image\n_i = Image.open("faturamento_regioes.png")\nassert _i.info.get("dpi", (0,))[0] > 140', msg: 'faturamento_regioes.png salvo com dpi 150' }
+            ],
+            dicas: ['Ordene antes: por_regiao = por_regiao.sort_values(ascending=False). Depois fig, ax = plt.subplots() e barras = ax.bar(por_regiao.index, por_regiao.values).', 'ax.bar_label(barras, labels=[f"R$ {v/1000:.0f} mil" for v in por_regiao.values]) e ax.spines[["top", "right"]].set_visible(False).', 'ax.set_title(...) e fig.savefig("faturamento_regioes.png", dpi=150, bbox_inches="tight").'],
+            solucao: 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom matplotlib.ticker import FuncFormatter\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\npor_regiao = df.groupby("regiao")["faturamento"].sum().sort_values(ascending=False)\n\nfig, ax = plt.subplots(figsize=(8, 4))\nbarras = ax.bar(por_regiao.index, por_regiao.values, color="#2F7FD8")\nax.bar_label(barras, labels=[f"R$ {v/1000:.0f} mil" for v in por_regiao.values], padding=3)\nax.yaxis.set_major_formatter(FuncFormatter(lambda v, pos: f"R$ {v/1000:.0f} mil"))\nax.spines[["top", "right"]].set_visible(False)\nax.set_title("Faturamento por região (1º semestre)")\nfig.savefig("faturamento_regioes.png", dpi=150, bbox_inches="tight")\nplt.show()' }
+        ]
+      },
+      {
+        id: 'py-graf-projeto', title: 'Projeto: painel com dois gráficos',
+        desc: 'Vários gráficos na mesma figura com plt.subplots(1, 2): a evolução mensal e o ranking de produtos lado a lado, salvos num único painel.',
+        objetivos: [
+          'Criar figuras com mais de um gráfico (subplots)',
+          'Escolher o tipo certo de gráfico para cada pergunta',
+          'Montar e salvar um painel para o relatório mensal'
+        ],
+        body: 'Um relatório gerencial costuma ter a mesma estrutura: como estamos ao longo do tempo e o que mais contribui. Com plt.subplots(1, 2) os dois gráficos dividem a mesma imagem, alinhados e com o mesmo acabamento — um painel gerado por script, idêntico todo mês.',
+        content: [
+          { h: 'Dois gráficos lado a lado',
+            items: [
+              '<code>fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))</code>: 1 linha, 2 colunas de gráficos.',
+              'Cada <code>ax</code> recebe seus próprios comandos: <code>ax1.plot(...)</code>, <code>ax2.barh(...)</code>.',
+              '<code>fig.suptitle("...")</code> dá um título geral; <code>fig.tight_layout()</code> evita sobreposições.'
+            ],
+            code: 'import matplotlib.pyplot as plt\n\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 3.5))\nax1.plot([1, 2, 3], [10, 14, 13], marker="o", color="#2F7FD8")\nax1.set_title("Evolução")\nax2.barh(["A", "B", "C"], [3, 5, 8], color="#2F7FD8")\nax2.set_title("Ranking")\nfig.suptitle("Meu primeiro painel")\nfig.tight_layout()\nplt.show()' },
+          { h: 'nlargest para o ranking',
+            code: 'import pandas as pd\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\ntop5 = df.groupby("produto")["faturamento"].sum().nlargest(5)\nprint(top5.round(2))' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que plt.subplots(1, 2) cria?', op: ['Uma figura com 2 gráficos lado a lado', 'Dois arquivos de imagem', 'Um gráfico com 2 linhas'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'fig.___("Relatório de junho")', op: ['suptitle', 'set_title', 'title_all'], a: 0, pt: 'Dê um título geral à figura com vários gráficos.' },
+          { t: 'escolha', q: 'Para que serve fig.tight_layout()?', op: ['Ajustar os espaços para títulos e rótulos não se sobreporem', 'Diminuir a imagem', 'Juntar os dois gráficos num só'], a: 0 },
+          { t: 'escolha', q: 'Num painel, qual par de gráficos responde "como evoluímos e o que mais vendeu"?', op: ['Linha mensal + barras dos produtos', 'Duas pizzas', 'Linha mensal + linha dos produtos'], a: 0 },
+          { t: 'ordenar', q: 'Monte o painel com dois gráficos.', linhas: ['fig, (ax1, ax2) = plt.subplots(1, 2)', 'ax2.barh(top5.index, top5.values)', 'fig.tight_layout()', 'fig.savefig("painel.png")'] }
+        ],
+        desafios: [
+          { titulo: 'Painel do semestre',
+            cenario: 'Monte <code>painel.png</code> com <strong>dois gráficos</strong> na mesma figura (<code>plt.subplots(1, 2)</code>), a partir de <code>vendas_2026.csv</code>:<br>• à esquerda, uma <strong>linha</strong> com o faturamento mensal (meses 1 a 6);<br>• à direita, <strong>barras horizontais</strong> com os 5 produtos de maior faturamento, o maior no topo;<br>cada gráfico com seu título. Salve com <code>fig.savefig("painel.png", dpi=150, bbox_inches="tight")</code>.',
+            arquivos: { 'vendas_2026.csv': PY_ARQ['vendas_2026.csv'] },
+            inicial: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\n\nmensal = None\ntop5 = None\n\n# fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))\n\nplt.show()\n',
+            testes: [
+              { py: 'import matplotlib.pyplot as plt\nassert len(plt.gcf().axes) == 2', msg: 'figura com dois gráficos' },
+              { py: 'import matplotlib.pyplot as plt\nimport pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_m = (_e["quantidade"] * _e["preco_unit"]).groupby(pd.to_datetime(_e["data"]).dt.month).sum()\n_l = plt.gcf().axes[0].get_lines()\nassert len(_l) == 1 and list(_l[0].get_xdata()) == list(_m.index) and all(abs(a - b) < 0.01 for a, b in zip(_l[0].get_ydata(), _m.values))', msg: 'linha do faturamento mensal à esquerda' },
+              { py: 'import matplotlib.pyplot as plt\nimport pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_t = (_e["quantidade"] * _e["preco_unit"]).groupby(_e["produto"]).sum().nlargest(5)\n_p = sorted(plt.gcf().axes[1].patches, key=lambda p: p.get_y(), reverse=True)\nassert len(_p) == 5 and all(abs(p.get_width() - v) < 0.01 for p, v in zip(_p, _t.values))', msg: 'top 5 produtos em barras horizontais, o maior no topo' },
+              { py: 'import matplotlib.pyplot as plt, os\nassert all(a.get_title().strip() for a in plt.gcf().axes) and os.path.exists("painel.png")', msg: 'títulos nos dois gráficos e painel.png salvo' }
+            ],
+            dicas: ['mensal = df.groupby(pd.to_datetime(df["data"]).dt.month)["faturamento"].sum() e top5 = df.groupby("produto")["faturamento"].sum().nlargest(5).', 'nlargest vem do maior para o menor; no barh o primeiro fica embaixo. Use top5.sort_values() antes do barh para o maior ficar no topo.', 'ax1.plot(mensal.index, mensal.values, marker="o"); ax2.barh(...); ax1.set_title(...); ax2.set_title(...); fig.savefig(...).'],
+            solucao: 'import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv("vendas_2026.csv")\ndf["faturamento"] = df["quantidade"] * df["preco_unit"]\n\nmensal = df.groupby(pd.to_datetime(df["data"]).dt.month)["faturamento"].sum()\ntop5 = df.groupby("produto")["faturamento"].sum().nlargest(5).sort_values()\n\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))\nax1.plot(mensal.index, mensal.values, marker="o", color="#2F7FD8")\nax1.set_title("Faturamento mensal")\nax1.set_xlabel("Mês")\nax1.set_ylim(bottom=0)\nax2.barh(top5.index, top5.values, color="#2F7FD8")\nax2.set_title("Top 5 produtos")\nfor ax in (ax1, ax2):\n    ax.spines[["top", "right"]].set_visible(False)\nfig.suptitle("Painel do 1º semestre")\nfig.tight_layout()\nfig.savefig("painel.png", dpi=150, bbox_inches="tight")\nplt.show()' }
+        ]
+      }
+    ]
+  }
 ];

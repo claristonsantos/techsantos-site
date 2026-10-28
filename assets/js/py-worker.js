@@ -48,6 +48,7 @@ self.onmessage = async (ev) => {
 import sys, traceback, io, base64, warnings
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 warnings.filterwarnings('ignore', category=FutureWarning)
+warnings.filterwarnings('ignore', message='.*non-GUI backend.*')
 __ns = {'__name__': '__main__'}
 __erro = None
 __imgs = []
@@ -78,9 +79,9 @@ try:
     import matplotlib.pyplot as plt
     for n in plt.get_fignums():
         b = io.BytesIO(); plt.figure(n).savefig(b, format='png', dpi=90, bbox_inches='tight'); __imgs.append(base64.b64encode(b.getvalue()).decode())
-    plt.close('all')
 except Exception:
     pass
+# os testes rodam antes de fechar as figuras, para poderem conferir os gráficos
 __res_testes = []
 if __erro is None:
     for t in __testes:
@@ -89,9 +90,14 @@ if __erro is None:
             __res_testes.append(True)
         except Exception:
             __res_testes.append(False)
+try:
+    import matplotlib.pyplot as plt
+    plt.close('all')
+except Exception:
+    pass
 __gerados = []
 for f in sorted(os.listdir('.')):
-    if os.path.isfile(f) and f.lower().endswith(('.xlsx', '.csv', '.json', '.txt')) and (f not in __antes or os.path.getmtime(f) != __antes[f]):
+    if os.path.isfile(f) and f.lower().endswith(('.xlsx', '.csv', '.json', '.txt', '.png')) and (f not in __antes or os.path.getmtime(f) != __antes[f]):
         with open(f, 'rb') as fh:
             __gerados.append([f, base64.b64encode(fh.read()).decode()])
 [__erro, __imgs, __res_testes, __gerados]
