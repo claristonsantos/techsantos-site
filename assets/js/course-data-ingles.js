@@ -983,4 +983,199 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m06', title: 'Módulo 06 · Futuro e planos: going to, will, presente contínuo e convites (A2)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-going-to', title: 'Going to: planos e previsões',
+        desc: 'O futuro mais usado na conversa: going to para planos já decididos e para previsões baseadas no que você está vendo.',
+        objetivos: [
+          'Falar de planos e intenções com am/is/are going to + verbo',
+          'Fazer previsões com base em evidências',
+          'Negar e perguntar com going to'
+        ],
+        body: 'Em português dizemos "vou viajar", "vou estudar". O inglês tem uma estrutura quase igual: I\'m going to travel. É o futuro dos planos — coisas que você já decidiu antes de falar.',
+        content: [
+          { h: 'A forma',
+            items: [
+              `verbo to be + ${EN('going to')} + verbo: ${EN("I'm going to travel next month.")} (Eu vou viajar mês que vem.)`,
+              `${EN("She's going to study medicine.")} · ${EN("We're going to buy a house.")}`,
+              `Na fala rápida, ${EN('going to')} vira "gonna": ${EN("I'm gonna call you.")} — ouve-se o tempo todo, mas escreva sempre a forma completa.`
+            ] },
+          { h: 'Uso 1: planos e intenções',
+            p: `Algo que você já decidiu: ${EN("I'm going to learn English this year.")} · ${EN("They're going to get married in May.")} Pergunta típica: ${EN('What are you going to do on the weekend?')} (O que você vai fazer no fim de semana?)` },
+          { h: 'Uso 2: previsão com evidência',
+            p: `Quando você vê sinais de que algo vai acontecer: ${EN("Look at those clouds. It's going to rain.")} (Olha essas nuvens. Vai chover.) · ${EN("Be careful! You're going to fall!")}` },
+          { h: 'Negativa e pergunta',
+            items: [
+              `${EN("I'm not going to work tomorrow.")} · ${EN("He isn't going to come.")}`,
+              `${EN('Are you going to travel?')} — ${EN("Yes, I am.")} / ${EN("No, I'm not.")}`,
+              `${EN('When are you going to start?')} · ${EN('Where are they going to live?')}`
+            ] },
+          { h: 'Expressões de tempo do futuro',
+            p: `${EN('tomorrow')} (amanhã) · ${EN('tonight')} (hoje à noite) · ${EN('next week')} (semana que vem) · ${EN('next year')} · ${EN('in two days')} (daqui a dois dias) · ${EN('soon')} (em breve).` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "I'm ___ to travel next month.", op: ['going', 'go', 'will'], a: 0, pt: 'Eu vou viajar mês que vem.' },
+          { t: 'lacuna', frase: "She ___ going to study medicine.", op: ["'s", "'re", "'m"], a: 0, pt: 'Ela vai estudar medicina.' },
+          { t: 'lacuna', frase: '___ you going to work tomorrow?', op: ['Are', 'Do', 'Will'], a: 0, pt: 'Você vai trabalhar amanhã?' },
+          { t: 'escolha', q: 'O céu está cheio de nuvens escuras. O que dizer?', op: ["It's going to rain.", 'It rains.', 'It rained.'], a: 0 },
+          { t: 'escolha', q: 'Como se diz "daqui a dois dias"?', op: ['in two days', 'two days ago', 'after two days ago'], a: 0, exp: 'in + tempo = daqui a. ago é para o passado (atrás).' },
+          { t: 'escolha', ouvir: "I'm gonna call you tonight.", op: ["I'm going to call you tonight.", 'I called you tonight.', 'I call you every night.'], a: 0 },
+          { t: 'montar', pt: 'O que você vai fazer no fim de semana?', en: 'What are you going to do on the weekend?', extra: ['will', 'did'] },
+          { t: 'montar', pt: 'Nós vamos comprar uma casa.', en: "We're going to buy a house", extra: ['go', 'will'] },
+          { t: 'pares', pares: [['tomorrow', 'amanhã'], ['tonight', 'hoje à noite'], ['next week', 'semana que vem'], ['soon', 'em breve'], ['in two days', 'daqui a dois dias']] },
+          { t: 'digitar', pt: 'Eu não vou trabalhar amanhã.', en: "I'm not going to work tomorrow", alt: ['I am not going to work tomorrow'] },
+          { t: 'digitar', ouvir: "They're going to get married in May.", en: "They're going to get married in May", alt: ['They are going to get married in May'] },
+          { t: 'falar', en: "I'm going to learn English this year." },
+          { t: 'falar', en: 'What are you going to do tomorrow?' }
+        ]
+      },
+      {
+        id: 'en-will', title: 'Will: decisões na hora, promessas e opiniões',
+        desc: 'Quando o futuro é decidido no momento da fala: ofertas, promessas, pedidos e previsões de opinião com will e won\'t.',
+        objetivos: [
+          'Usar will para decisões tomadas na hora e ofertas de ajuda',
+          'Fazer promessas e previsões de opinião com I think... will',
+          'Usar won\'t e entender a diferença entre will e going to'
+        ],
+        body: 'O inglês tem dois futuros principais, e a diferença é simples: going to é o plano que já existia; will é a decisão que nasce na hora. "O telefone tocou? I\'ll get it!" — eu atendo, decidi agora.',
+        content: [
+          { h: 'A forma: will + verbo',
+            items: [
+              `Igual para todas as pessoas: ${EN('I will')}, ${EN('she will')}, ${EN('they will')} — contração ${EN("I'll")}, ${EN("she'll")}, ${EN("they'll")}.`,
+              `Negativa: ${EN("won't")} (= ${EN('will not')}): ${EN("I won't forget.")} (Não vou esquecer.)`,
+              `Pergunta: ${EN('Will you help me?')} — ${EN('Yes, I will.')} / ${EN("No, I won't.")}`
+            ] },
+          { h: 'Quando usar',
+            items: [
+              `Decisão na hora: ${EN("It's cold. I'll close the window.")} · ${EN("I'll have a coffee, please.")} (pedindo num café).`,
+              `Oferta de ajuda: ${EN("I'll help you with that.")} · ${EN('Shall I open the door?')} (Quer que eu abra a porta? — mais britânico).`,
+              `Promessa: ${EN("I'll call you tomorrow.")} · ${EN("I won't tell anybody.")}`,
+              `Previsão de opinião: ${EN('I think it will rain.')} · ${EN("I don't think she'll come.")} — repare: a negação vai no think.`
+            ] },
+          { h: 'Will ou going to?',
+            items: [
+              `Plano já decidido → ${EN('going to')}: ${EN("I'm going to visit my parents on Sunday.")}`,
+              `Decisão agora → ${EN('will')}: ${EN("Oh, you're busy? I'll visit them on Saturday, then.")}`,
+              `Previsão: com evidência visível → ${EN('going to')}; com opinião → ${EN('will')}.`
+            ] },
+          { h: 'Pronúncia',
+            p: `${EN("I'll")} soa quase como "ál"; ${EN("won't")} tem o som de "ou" — "uônt" — e é diferente de ${EN('want')} (querer, "uónt"). Ouça a diferença: ${EN("I won't go.")} × ${EN('I want to go.')}` }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O telefone toca. Você decide atender agora:', op: ["I'll get it!", "I'm going to get it!", 'I get it!'], a: 0, exp: 'Decisão tomada no momento da fala: will.' },
+          { t: 'escolha', q: 'Você já comprou a passagem para Paris. Qual frase?', op: ["I'm going to travel to Paris.", "I'll travel to Paris.", 'I travel to Paris.'], a: 0, exp: 'Plano decidido antes de falar: going to.' },
+          { t: 'lacuna', frase: "I ___ forget, I promise.", op: ["won't", "don't", "wasn't"], a: 0, pt: 'Eu não vou esquecer, prometo.' },
+          { t: 'lacuna', frase: "I don't think she ___ come.", op: ['will', "won't", 'is'], a: 0, pt: 'Acho que ela não vem.', exp: `Em inglês a negação vai no think: I don't think she will come.` },
+          { t: 'escolha', ouvir: "I won't go.", op: ["I won't go.", 'I want to go.', "I wasn't going."], a: 0 },
+          { t: 'escolha', ouvir: 'I want to go.', op: ['I want to go.', "I won't go.", "I'll go."], a: 0 },
+          { t: 'montar', pt: 'Eu te ligo amanhã.', en: "I'll call you tomorrow", extra: ['going', 'calling'] },
+          { t: 'montar', pt: 'Eu vou querer um café, por favor.', en: "I'll have a coffee please", extra: ['want', 'going'] },
+          { t: 'pares', pares: [["I'll", 'I will'], ["won't", 'will not'], ["she'll", 'she will'], ["they'll", 'they will'], ["we'll", 'we will']] },
+          { t: 'digitar', pt: 'Eu te ajudo com isso.', en: "I'll help you with that", alt: ['I will help you with that'] },
+          { t: 'digitar', ouvir: 'I think it will rain.', en: 'I think it will rain', alt: ["I think it'll rain"] },
+          { t: 'falar', en: "I'll call you tomorrow." },
+          { t: 'falar', en: "Don't worry, I won't forget." }
+        ]
+      },
+      {
+        id: 'en-presente-continuo', title: 'Presente contínuo: o que está acontecendo agora',
+        desc: 'Am/is/are + -ing para o que está acontecendo neste momento, as regras de escrita do -ing e a diferença para o presente simples.',
+        objetivos: [
+          'Formar o presente contínuo com am/is/are + verbo -ing',
+          'Aplicar as regras de escrita do -ing',
+          'Escolher entre presente simples (rotina) e contínuo (agora)'
+        ],
+        body: 'No módulo 3 você aprendeu o presente simples, da rotina. Agora vem o presente contínuo, do que está acontecendo neste instante — o nosso "estou fazendo". A estrutura é igualzinha ao português: estar + gerúndio.',
+        content: [
+          { h: 'A forma: to be + -ing',
+            items: [
+              `${EN("I'm working.")} (Estou trabalhando.) · ${EN("She's sleeping.")} · ${EN("They're watching TV.")}`,
+              `Negativa: ${EN("I'm not working now.")} · ${EN("He isn't listening.")}`,
+              `Pergunta: ${EN('Are you working?')} — ${EN('Yes, I am.')} · ${EN('What are you doing?')} (O que você está fazendo?)`
+            ] },
+          { h: 'Regras de escrita do -ing',
+            items: [
+              `A maioria: + ing — ${EN('work → working')} · ${EN('play → playing')}.`,
+              `Terminados em -e mudo: tira o e — ${EN('make → making')} · ${EN('write → writing')}.`,
+              `Consoante-vogal-consoante curto: dobra — ${EN('run → running')} · ${EN('swim → swimming')} · ${EN('sit → sitting')}.`,
+              `-ie vira -ying: ${EN('lie → lying')} · ${EN('die → dying')}.`
+            ] },
+          { h: 'Simples ou contínuo?',
+            items: [
+              `Rotina, hábito, fato → simples: ${EN('I work from home.')} (todo dia)`,
+              `Agora, neste momento, temporário → contínuo: ${EN("I'm working from home this week.")}`,
+              `Palavras-pista: ${EN('now')}, ${EN('right now')}, ${EN('at the moment')}, ${EN('Look!')}, ${EN('Listen!')} → contínuo; ${EN('every day')}, ${EN('usually')}, ${EN('always')} → simples.`
+            ] },
+          { h: 'Verbos que não vão para o -ing',
+            p: `Verbos de estado — gostar, saber, querer, precisar, entender — ficam no simples mesmo falando de agora: ${EN('I want a coffee now.')} (não "I\'m wanting") · ${EN('I understand.')} · ${EN('I know.')} · ${EN('I like it.')}` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "She's ___ right now.", op: ['sleeping', 'sleep', 'sleeps'], a: 0, pt: 'Ela está dormindo agora.' },
+          { t: 'lacuna', frase: 'What ___ you doing?', op: ['are', 'do', 'is'], a: 0, pt: 'O que você está fazendo?' },
+          { t: 'pares', pares: [['run', 'running'], ['make', 'making'], ['swim', 'swimming'], ['play', 'playing'], ['lie', 'lying']] },
+          { t: 'escolha', q: 'Qual frase fala de ROTINA?', op: ['I work from home.', "I'm working from home.", "I'm work from home."], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['I want a coffee now.', "I'm wanting a coffee now.", 'I wanting a coffee now.'], a: 0, exp: 'want é verbo de estado: não vai para o -ing, mesmo falando de agora.' },
+          { t: 'lacuna', frase: 'Look! It ___.', op: ["'s snowing", 'snows', 'snow'], a: 0, pt: 'Olha! Está nevando.' },
+          { t: 'escolha', ouvir: "They're watching TV.", op: ["They're watching TV.", 'They watch TV.', 'They watched TV.'], a: 0 },
+          { t: 'montar', pt: 'Eu não estou trabalhando agora.', en: "I'm not working now", extra: ["don't", 'work'] },
+          { t: 'montar', pt: 'Ele está escrevendo um e-mail.', en: "He's writing an email", extra: ['writeing', 'writes'] },
+          { t: 'digitar', pt: 'O que você está fazendo?', en: 'What are you doing?', alt: ['What are you doing'] },
+          { t: 'digitar', ouvir: "I'm working from home this week.", en: "I'm working from home this week", alt: ['I am working from home this week'] },
+          { t: 'falar', en: "I'm studying English right now." },
+          { t: 'falar', en: 'What are you doing?' }
+        ]
+      },
+      {
+        id: 'en-planos-convites', title: 'Combinando planos: compromissos e convites',
+        desc: 'O presente contínuo para compromissos marcados, e as frases para convidar, aceitar, recusar e sugerir outro dia.',
+        objetivos: [
+          'Falar de compromissos marcados com o presente contínuo',
+          'Convidar com Would you like to...? e sugerir com Let\'s / How about...?',
+          'Aceitar, recusar com educação e propor outra data'
+        ],
+        body: 'Fechando o módulo do futuro: combinar um encontro. Você vai ver que o presente contínuo também fala do futuro — de compromissos já marcados — e aprender as frases educadas para convidar e responder.',
+        content: [
+          { h: 'Presente contínuo para compromissos marcados',
+            items: [
+              `Com data, hora, ingresso comprado: ${EN("I'm meeting Ana on Friday.")} (Vou encontrar a Ana na sexta.) · ${EN("We're flying to Lisbon tomorrow.")}`,
+              `Pergunta típica: ${EN('What are you doing on Saturday?')} (O que você vai fazer no sábado?)`,
+              `Os três futuros juntos: compromisso marcado → contínuo; plano/intenção → going to; decisão agora → will.`
+            ] },
+          { h: 'Convidar e sugerir',
+            items: [
+              `${EN('Are you free on Friday?')} (Você está livre na sexta?)`,
+              `${EN('Would you like to have dinner with us?')} (Gostaria de jantar com a gente?) — educado e muito usado.`,
+              `${EN("Let's go to the movies!")} (Vamos ao cinema!) · ${EN('How about Saturday?')} / ${EN('What about seven?')} (Que tal...?)`,
+              `${EN('Do you want to...?')} — mais informal, entre amigos.`
+            ] },
+          { h: 'Aceitar e recusar',
+            items: [
+              `Aceitar: ${EN("I'd love to!")} (Adoraria!) · ${EN('Sounds great!')} (Parece ótimo!) · ${EN('Sure, why not?')}`,
+              `Recusar com educação: ${EN("I'm sorry, I can't. I'm working on Friday.")} · ${EN("I'd love to, but I'm busy.")}`,
+              `Propor outra data: ${EN('Maybe next week?')} · ${EN('How about Sunday instead?')} (Que tal domingo, em vez disso?)`
+            ] },
+          { h: 'Fechando o combinado',
+            p: `${EN('See you on Saturday, then!')} (Até sábado, então!) · ${EN("Let's meet at the café at eight.")} · ${EN("I'll send you the address.")} — repare: uma decisão na hora, com will.` }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Você já marcou um jantar com a Ana na sexta. Qual frase?', op: ["I'm having dinner with Ana on Friday.", "I'll have dinner with Ana on Friday.", 'I have dinner with Ana on Friday.'], a: 0, exp: 'Compromisso já marcado: presente contínuo.' },
+          { t: 'escolha', q: 'Qual é o convite mais educado?', op: ['Would you like to have dinner with us?', 'You want dinner?', 'Come to dinner.'], a: 0 },
+          { t: 'escolha', q: 'Como aceitar com entusiasmo?', op: ["I'd love to!", "I'd like it to!", 'I love to!'], a: 0 },
+          { t: 'lacuna', frase: "___ go to the movies!", op: ["Let's", 'Lets', 'Let'], a: 0, pt: 'Vamos ao cinema!' },
+          { t: 'lacuna', frase: 'How ___ Saturday?', op: ['about', 'for', 'is'], a: 0, pt: 'Que tal sábado?' },
+          { t: 'montar', pt: 'O que você vai fazer no sábado?', en: 'What are you doing on Saturday?', extra: ['do', 'will'] },
+          { t: 'montar', pt: 'Desculpa, não posso. Vou trabalhar na sexta.', en: "Sorry I can't I'm working on Friday", extra: ['work', 'in'] },
+          { t: 'pares', pares: [['Sounds great!', 'Parece ótimo!'], ["I'd love to!", 'Adoraria!'], ['Are you free?', 'Você está livre?'], ['instead', 'em vez disso'], ['busy', 'ocupado']] },
+          { t: 'escolha', ouvir: 'How about Sunday instead?', op: ['How about Sunday instead?', 'How was Sunday?', 'Are you free on Sunday?'], a: 0 },
+          { t: 'digitar', pt: 'Você está livre na sexta?', en: 'Are you free on Friday?', alt: ['Are you free on Friday'] },
+          { t: 'digitar', ouvir: 'See you on Saturday, then!', en: 'See you on Saturday then', alt: ['See you on Saturday, then'] },
+          { t: 'falar', en: 'Would you like to have dinner with us?' },
+          { t: 'falar', en: "I'd love to, but I'm busy." }
+        ]
+      }
+    ]
+  }
 ];
