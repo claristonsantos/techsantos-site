@@ -37,6 +37,7 @@
     return h;
   }
   let audioAtual = null;
+  let reconAtivo = null;
   async function falar(texto, lento = false) {
     texto = textoFalado(texto);
     if (!texto) return;
@@ -241,28 +242,54 @@
           const mic = el.querySelector('.pr-microfone');
           const ouvido = el.querySelector('.pr-ouvido');
           if (!SR) { ouvido.textContent = 'Seu navegador não reconhece voz — leia a frase em voz alta e toque em Verificar.'; mic.hidden = true; api.valor(() => ex.en); api.pronto(true); return; }
-          let texto = '';
+          let texto = '', falhas = 0;
           api.valor(() => texto);
+          const MSGS = {
+            'not-allowed': 'O navegador bloqueou o microfone. Clique no cadeado ao lado do endereço do site, permita o microfone e tente de novo.',
+            'service-not-allowed': 'O serviço de voz do navegador está bloqueado. Clique no cadeado ao lado do endereço do site, permita o microfone e tente de novo.',
+            'no-speech': 'Não ouvi nada. Toque no botão, espere o "Ouvindo…" e fale perto do microfone.',
+            'audio-capture': 'O microfone não respondeu (outro programa pode estar usando). Feche reuniões/gravações abertas e tente de novo.',
+            'network': 'O reconhecimento de voz do navegador ficou sem conexão. Tente de novo em alguns segundos.',
+            'language-not-supported': 'Este navegador não reconhece voz em inglês. Use o Chrome ou o Edge atualizados.'
+          };
+          const falhou = msg => {
+            falhas++;
+            ouvido.textContent = msg;
+            // Depois de 2 falhas, deixa o aluno seguir sozinho (autoavaliação), sem travar a prática.
+            if (falhas >= 2 && !el.querySelector('.pr-autoavaliar')) {
+              const b = document.createElement('button');
+              b.type = 'button'; b.className = 'pr-autoavaliar'; b.textContent = '✓ Falei a frase em voz alta';
+              b.addEventListener('click', () => { texto = ex.en; ouvido.textContent = 'Ok! Continue praticando a pronúncia ouvindo o áudio.'; b.remove(); api.pronto(true); });
+              ouvido.after(b);
+            }
+          };
           mic.addEventListener('click', () => {
-            const r = new SR(); r.lang = 'en-US'; r.interimResults = false; r.maxAlternatives = 3;
-            mic.classList.add('gravando'); mic.textContent = '🎙️ Ouvindo…';
+            if (reconAtivo) { try { reconAtivo.abort(); } catch (e) { /* já parou */ } reconAtivo = null; }
+            // Para o áudio da frase: o microfone não pode "ouvir" o alto-falante.
+            if (audioAtual) { audioAtual.pause(); audioAtual = null; }
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            const r = new SR(); r.lang = 'en-US'; r.interimResults = false; r.maxAlternatives = 3; r.continuous = false;
+            reconAtivo = r;
+            let obteve = false, erro = false;
+            mic.classList.add('gravando'); mic.textContent = '🎙️ Ouvindo…'; ouvido.textContent = '';
             r.onresult = e => {
+              obteve = true;
               const alts = Array.from(e.results[0]).map(a => a.transcript);
               texto = alts.find(a => similaridade(a, ex.en) >= 0.75) || alts[0];
               ouvido.textContent = '“' + texto + '”';
               api.pronto(true);
             };
             r.onerror = e => {
-              ouvido.textContent = {
-                'not-allowed': 'O navegador bloqueou o microfone. Clique no cadeado ao lado do endereço do site, permita o microfone e tente de novo.',
-                'service-not-allowed': 'O navegador bloqueou o microfone. Clique no cadeado ao lado do endereço do site, permita o microfone e tente de novo.',
-                'no-speech': 'Não ouvi nada. Toque no botão e fale logo em seguida, perto do microfone.',
-                'audio-capture': 'Nenhum microfone encontrado neste aparelho.',
-                'network': 'O reconhecimento de voz precisa de internet e funciona melhor no Chrome. Tente de novo ou toque em "Não posso falar agora".'
-              }[e.error] || 'Não consegui ouvir. Confira o microfone e tente de novo.';
+              erro = true;
+              if (e.error === 'aborted') return;
+              falhou(MSGS[e.error] || `Não consegui ouvir (erro: ${e.error}). Tente de novo.`);
             };
-            r.onend = () => { mic.classList.remove('gravando'); mic.textContent = '🎤 Tentar de novo'; };
-            r.start();
+            r.onend = () => {
+              if (reconAtivo === r) reconAtivo = null;
+              mic.classList.remove('gravando'); mic.textContent = '🎤 Tentar de novo';
+              if (!obteve && !erro) falhou(MSGS['no-speech']);
+            };
+            try { r.start(); } catch (e) { mic.classList.remove('gravando'); mic.textContent = '🎤 Tentar de novo'; falhou(`Não consegui abrir o microfone (${e.name}). Tente de novo.`); }
           });
           setTimeout(() => falar(ex.en), 250);
         },
@@ -320,6 +347,7 @@
     let atual = null, estado = 'responder', getValor = () => null, teclas = null;
 
     function proximo() {
+      if (reconAtivo) { try { reconAtivo.abort(); } catch (e) { /* já parou */ } reconAtivo = null; }
       if (semFalar) fila = fila.filter(f => f.ex.t !== 'falar');
       if (!fila.length) return terminar();
       atual = fila.shift();

@@ -64,6 +64,7 @@
 .pr-microfone.gravando { background: var(--pr-blue); color: #fff; animation: pr-pulso 1s infinite; }
 @keyframes pr-pulso { 50% { box-shadow: 0 0 0 10px rgba(47, 127, 216, 0.15); } }
 .pr-ouvido { color: var(--ink-soft); min-height: 1.4em; }
+.pr-autoavaliar { font: inherit; font-weight: 600; padding: 0.6rem 1.2rem; border-radius: 999px; border: 2px solid var(--green); background: var(--green-soft); color: var(--green-strong); cursor: pointer; }
 
 .pr-rodape { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.4rem; border-top: 2px solid var(--line); background: var(--surface); }
 .pr-msg { display: flex; flex-direction: column; gap: 0.15rem; }
