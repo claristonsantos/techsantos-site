@@ -2,7 +2,7 @@
 //  - Blocos de código da aula (pre.lesson-code) ganham o botão "▶ Executar".
 //  - Desafios de cenário (aula.desafios): o aluno escreve o script, executa e
 //    o site confere com testes escondidos. Dicas em camadas e solução só depois de tentar.
-// Desafio: { titulo, cenario (html), arquivos: {nome: texto}, inicial, testes: [{py, msg}], dicas: [..], solucao }
+// Desafio: { titulo, cenario (html), arquivos: {nome: texto ou 'base64:...' para binários},inicial, testes: [{py, msg}], dicas: [..], solucao }
 (function () {
   const TEMPO_LIMITE = 20000;
   const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -80,7 +80,10 @@
     const el = document.createElement('div'); el.className = 'lab-desafio';
     el.innerHTML = `<div class="lab-topo"><span class="lab-tag">💻 Desafio ${idx + 1}</span><strong>${esc(d.titulo)}</strong></div>
       <div class="lab-cenario">${d.cenario}</div>
-      ${Object.keys(d.arquivos || {}).length ? `<div class="lab-arquivos">${Object.entries(d.arquivos).map(([n, t]) => `<details><summary>📄 ${esc(n)} (arquivo disponível no seu código)</summary><pre>${esc(t.split('\n').slice(0, 12).join('\n'))}${t.split('\n').length > 12 ? '\n…' : ''}</pre></details>`).join('')}</div>` : ''}
+      ${Object.keys(d.arquivos || {}).length ? `<div class="lab-arquivos">${Object.entries(d.arquivos).map(([n, t]) => t.startsWith('base64:')
+        // arquivo binário (planilha Excel): sem prévia em texto, o aluno baixa e abre no Excel
+        ? `<details><summary>📊 ${esc(n)} (arquivo disponível no seu código)</summary><a class="lab-arquivo" download="${esc(n)}" href="data:application/octet-stream;base64,${t.slice(7)}">⬇ Baixar ${esc(n)} para ver no Excel</a></details>`
+        : `<details><summary>📄 ${esc(n)} (arquivo disponível no seu código)</summary><pre>${esc(t.split('\n').slice(0, 12).join('\n'))}${t.split('\n').length > 12 ? '\n…' : ''}</pre></details>`).join('')}</div>` : ''}
       <textarea class="lab-editor" spellcheck="false" autocapitalize="off" autocomplete="off">${esc(salvo ?? d.inicial ?? '')}</textarea>
       <div class="lab-acoes"><button type="button" class="lab-run">▶ Executar</button><button type="button" class="lab-check">✓ Verificar</button><button type="button" class="lab-dica">💡 Dica</button><button type="button" class="lab-reset">↺ Recomeçar</button></div>
       <div class="lab-saida-box"></div><div class="lab-resultado"></div><div class="lab-dicas"></div>`;

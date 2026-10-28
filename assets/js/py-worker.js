@@ -1,7 +1,7 @@
 // Worker do laboratório de Python (curso de Python): roda o código do aluno com Pyodide
 // fora da thread da página, para que um loop infinito possa ser interrompido
 // (a página encerra o worker por tempo limite). Mensagens:
-//   entrada: { id, codigo, arquivos: {nome: texto}, testes: [{py, msg}] }
+//   entrada: { id, codigo, arquivos: {nome: texto ou 'base64:...'}, testes: [{py, msg}] }
 //   saída:   { id, ok, saida, erro, imagens: [png base64], arquivos: [[nome, base64]], testes: [{ok, msg}] }
 const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
 importScripts(PYODIDE + 'pyodide.js');
@@ -15,6 +15,8 @@ async function iniciar() {
 // Bibliotecas da distribuição do Pyodide (loadPackage) e as que vêm do PyPI (micropip).
 const PACOTES = { pandas: 'pandas', numpy: 'numpy', matplotlib: 'matplotlib' };
 const PYPI = { openpyxl: 'openpyxl' };
+// o pandas usa o openpyxl por baixo para ler e gravar .xlsx, sem o aluno importar
+const USA_PYPI = { openpyxl: /\b(import|from)\s+openpyxl|read_excel|to_excel|ExcelWriter/ };
 const instalados = new Set();
 
 self.onmessage = async (ev) => {
@@ -27,7 +29,7 @@ self.onmessage = async (ev) => {
     if (precisa.length) await py.loadPackage(precisa.map(p => PACOTES[p]));
     // tabelas inteiras na saída (o padrão de 80 colunas esconde colunas com "...")
     if (precisa.includes('pandas')) py.runPython("import pandas\npandas.set_option('display.width', 200)\npandas.set_option('display.max_columns', 30)");
-    const doPypi = Object.keys(PYPI).filter(p => !instalados.has(p) && new RegExp('\\b(import|from)\\s+' + p).test(codigo + '\n' + testes.map(t => t.py).join('\n')));
+    const doPypi = Object.keys(PYPI).filter(p => !instalados.has(p) && USA_PYPI[p].test(codigo + '\n' + testes.map(t => t.py).join('\n')));
     if (doPypi.length) {
       await py.loadPackage('micropip');
       const micropip = py.pyimport('micropip');
@@ -38,7 +40,10 @@ self.onmessage = async (ev) => {
     for (const nome of py.FS.readdir('.')) {
       if (py.FS.isFile(py.FS.stat(nome).mode)) py.FS.unlink(nome);
     }
-    for (const [nome, texto] of Object.entries(arquivos)) py.FS.writeFile(nome, texto);
+    for (const [nome, texto] of Object.entries(arquivos)) {
+      // 'base64:...' = arquivo binário (ex.: planilha .xlsx)
+      py.FS.writeFile(nome, texto.startsWith('base64:') ? Uint8Array.from(atob(texto.slice(7)), c => c.charCodeAt(0)) : texto);
+    }
     let saida = '';
     py.setStdout({ batched: s => { saida += s + '\n'; } });
     py.setStderr({ batched: s => { saida += s + '\n'; } });
