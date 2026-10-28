@@ -2542,4 +2542,207 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m14', title: 'Módulo 14 · Escuta e expressões: fala conectada, sotaques, idioms e falsos cognatos (B2)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-fala-conectada', title: 'Fala conectada: por que o nativo "come" as palavras',
+        desc: 'Gonna, wanna, gotta, as ligações entre palavras e as sílabas fracas — o que faz o inglês real soar diferente do livro.',
+        objetivos: [
+          'Reconhecer as reduções gonna, wanna, gotta, kinda e lemme',
+          'Entender como as palavras se ligam (linking) na fala',
+          'Perceber as palavras fracas: to, of, and, can, for'
+        ],
+        body: 'Você entende o professor, mas a série parece outra língua? A culpa é da fala conectada. Nativos não falam palavra por palavra: eles juntam, encurtam e enfraquecem os sons. Esta aula não é para você falar assim — é para você entender quem fala.',
+        content: [
+          { h: 'As reduções mais comuns',
+            items: [
+              `${EN('going to')} → "gonna": ${EN("I'm gonna call you.")}`,
+              `${EN('want to')} → "wanna": ${EN('Do you wanna go?')} · ${EN('got to')} → "gotta": ${EN("I've gotta go.")} (Preciso ir.)`,
+              `${EN('kind of')} → "kinda" (meio, tipo) · ${EN('let me')} → "lemme" · ${EN('don\'t know')} → "dunno".`,
+              `${EN('What do you')} → "whaddaya": ${EN('What do you want?')} soa quase "uádaiá-uónt".`
+            ] },
+          { h: 'Linking: palavras que se colam',
+            items: [
+              `Consoante + vogal se juntam: ${EN('turn it off')} soa "tur-ni-tóff" · ${EN('an apple')} soa "a-nápple".`,
+              `${EN('Check it out.')} soa "tché-ki-tâut". ${EN('Pick it up.')} soa "pi-ki-tâp".`,
+              `O t entre vogais, no inglês americano, vira um som rápido parecido com o nosso r de "caro": ${EN('water')}, ${EN('better')}, ${EN('a lot of')} ("a-ló-ra").`
+            ] },
+          { h: 'Palavras fracas',
+            items: [
+              `As palavras gramaticais quase somem: ${EN('to')} vira "tâ", ${EN('of')} vira "â", ${EN('and')} vira "n": ${EN('rock and roll')} → "rock n roll".`,
+              `${EN('can')} na afirmativa é fraco ("kn"), ${EN("can't")} é forte — você viu isso no módulo 4.`,
+              `O inglês tem ritmo de "batida": as palavras importantes (substantivos, verbos) são fortes, o resto se espreme entre elas.`
+            ] },
+          { h: 'Como treinar o ouvido',
+            p: `Assista a trechos curtos com legenda em inglês, depois sem legenda, e repita junto (a técnica chamada ${EN('shadowing')}). Melhor 5 minutos por dia do que 2 horas no fim de semana. E nos diálogos deste curso, preste atenção em como a Ava e o Ben ligam as palavras.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['gonna', 'going to'], ['wanna', 'want to'], ['gotta', 'got to'], ['kinda', 'kind of'], ['lemme', 'let me']] },
+          { t: 'escolha', ouvir: "I'm going to call you later.", op: ["I'm going to call you later.", 'I called you later.', 'I want to call you later.'], a: 0 },
+          { t: 'escolha', ouvir: 'Do you want to go?', op: ['Do you want to go?', 'Do you have to go?', 'Did you go?'], a: 0 },
+          { t: 'escolha', q: `O que significa ${EN("I've gotta go.")}`, op: ['Preciso ir.', 'Eu fui.', 'Eu consegui ir.'], a: 0, opPt: true },
+          { t: 'escolha', q: `${EN("It's kinda cold.")} significa:`, op: ['Está meio frio.', 'Está muito frio.', 'Que tipo de frio.'], a: 0, opPt: true },
+          { t: 'escolha', ouvir: 'Turn it off.', op: ['Turn it off.', 'Turn on it.', 'Turn of it.'], a: 0 },
+          { t: 'escolha', ouvir: 'Check it out.', op: ['Check it out.', 'Check out.', 'Chicken out.'], a: 0 },
+          { t: 'escolha', ouvir: 'I need a lot of water.', op: ['I need a lot of water.', 'I need a little water.', 'I need lots water.'], a: 0 },
+          { t: 'digitar', ouvir: 'Let me see.', en: 'Let me see' },
+          { t: 'digitar', ouvir: "I don't know.", en: "I don't know", alt: ['I do not know'] },
+          { t: 'digitar', ouvir: 'What do you want?', en: 'What do you want' },
+          { t: 'falar', en: 'Turn it off.' },
+          { t: 'falar', en: 'Check it out.' }
+        ]
+      },
+      {
+        id: 'en-sotaques', title: 'Inglês americano × britânico',
+        desc: 'As diferenças de pronúncia, vocabulário e escrita entre o inglês dos Estados Unidos e do Reino Unido — para você entender os dois.',
+        objetivos: [
+          'Reconhecer as principais diferenças de pronúncia entre EUA e Reino Unido',
+          'Conhecer as palavras que mudam: apartment/flat, elevator/lift',
+          'Entender as diferenças de escrita: color/colour, center/centre'
+        ],
+        body: 'Qual inglês aprender, o americano ou o britânico? Os dois são o mesmo idioma e se entendem perfeitamente. Este curso usa o americano como base, mas você vai ouvir os dois no trabalho, em séries e em viagens. Saber as diferenças evita confusão.',
+        content: [
+          { h: 'Pronúncia',
+            items: [
+              `O r depois de vogal: o americano pronuncia (${EN('car')}, ${EN('water')}); o britânico geralmente não ("cá", "uótâ").`,
+              `O t entre vogais: americano rápido e suave ("uóra"); britânico mais marcado ("uó-tâ").`,
+              `Algumas vogais: ${EN('can\'t')}, ${EN('bath')}, ${EN('dance')} — no britânico, um "a" longo e aberto, como em "cáa-nt".`
+            ] },
+          { h: 'Vocabulário que muda',
+            items: [
+              `${EN('apartment')} (EUA) × ${EN('flat')} (UK) — apartamento · ${EN('elevator')} × ${EN('lift')} — elevador.`,
+              `${EN('vacation')} × ${EN('holiday')} — férias · ${EN('cookie')} × ${EN('biscuit')} — biscoito.`,
+              `${EN('the check')} × ${EN('the bill')} — a conta · ${EN('subway')} × ${EN('underground')} / ${EN('the tube')} — metrô.`,
+              `${EN('fall')} × ${EN('autumn')} — outono · ${EN('soccer')} × ${EN('football')} — futebol!`
+            ] },
+          { h: 'Escrita',
+            items: [
+              `${EN('color')} × ${EN('colour')} · ${EN('favorite')} × ${EN('favourite')} — o britânico acrescenta u.`,
+              `${EN('center')} × ${EN('centre')} · ${EN('theater')} × ${EN('theatre')}.`,
+              `${EN('organize')} × ${EN('organise')} · ${EN('traveled')} × ${EN('travelled')}.`,
+              `Escolha um padrão e use sempre o mesmo num texto.`
+            ] },
+          { h: 'Datas',
+            p: `Atenção máxima: nos EUA a data vem mês/dia — 03/04 é 4 de março (${EN('March 4th')}). No Reino Unido, como no Brasil, dia/mês — 03/04 é 3 de abril. Em e-mails internacionais, escreva o mês por extenso: ${EN('April 3, 2026')}.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['apartment', 'flat'], ['elevator', 'lift'], ['vacation', 'holiday'], ['subway', 'underground'], ['fall', 'autumn']] },
+          { t: 'escolha', q: 'Nos EUA, a data 03/04 significa:', op: ['4 de março', '3 de abril', '30 de abril'], a: 0, opPt: true, exp: 'Nos EUA é mês/dia. Em e-mails internacionais, escreva o mês por extenso.' },
+          { t: 'escolha', q: `Para um britânico, ${EN('football')} é:`, op: ['futebol', 'futebol americano', 'basquete'], a: 0, opPt: true },
+          { t: 'escolha', q: 'Qual é a escrita britânica?', op: ['colour', 'color', 'culor'], a: 0 },
+          { t: 'escolha', q: 'Qual é a escrita americana?', op: ['center', 'centre', 'sentre'], a: 0 },
+          { t: 'escolha', q: `Num restaurante em Londres, para pedir a conta:`, op: ['Could we have the bill, please?', 'Could we have the check, please?', 'Could we have the count, please?'], a: 0 },
+          { t: 'montar', pt: 'Vamos pegar o metrô. (Londres)', en: "Let's take the tube", extra: ['subway', 'metro'] },
+          { t: 'montar', pt: 'Meu apartamento fica no terceiro andar. (EUA)', en: 'My apartment is on the third floor', extra: ['flat', 'in'] },
+          { t: 'escolha', ouvir: 'My favorite color is blue.', op: ['Minha cor favorita é azul.', 'Meu sabor favorito é blueberry.', 'Minha cor favorita é verde.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Escreva "férias" em inglês americano.', en: 'vacation', alt: ['vacations'] },
+          { t: 'digitar', pt: 'Escreva "elevador" em inglês britânico.', en: 'lift' },
+          { t: 'falar', en: "I'm on vacation." },
+          { t: 'falar', en: 'Where is the elevator?' }
+        ]
+      },
+      {
+        id: 'en-idioms', title: 'Idioms: as expressões que não se traduzem',
+        desc: 'Expressões idiomáticas do dia a dia e do trabalho: piece of cake, break the ice, under the weather, on the same page.',
+        objetivos: [
+          'Entender os idioms mais usados no dia a dia',
+          'Usar idioms do trabalho: on the same page, think outside the box',
+          'Reconhecer quando a tradução literal não faz sentido'
+        ],
+        body: 'Se alguém disser que a prova foi "a piece of cake", não espere bolo: foi moleza. Idioms são expressões cujo sentido não sai da soma das palavras. São o tempero do inglês — e aparecem em toda conversa, série e reunião.',
+        content: [
+          { h: 'Do dia a dia',
+            items: [
+              `${EN('a piece of cake')} — moleza, muito fácil: ${EN('The test was a piece of cake.')}`,
+              `${EN('under the weather')} — meio doente, indisposto: ${EN("I'm feeling a bit under the weather.")}`,
+              `${EN('break the ice')} — quebrar o gelo · ${EN('hit the road')} — pegar a estrada, ir embora.`,
+              `${EN('call it a day')} — encerrar por hoje: ${EN("Let's call it a day.")}`
+            ] },
+          { h: 'Do trabalho',
+            items: [
+              `${EN('on the same page')} — alinhados, de acordo: ${EN('Are we on the same page?')}`,
+              `${EN('think outside the box')} — pensar fora da caixa (essa existe igual em português!).`,
+              `${EN('get the ball rolling')} — dar o pontapé inicial · ${EN('back to square one')} — voltar à estaca zero.`,
+              `${EN('the bottom line')} — o resumo, o que importa no fim: ${EN('The bottom line is: we need more time.')}`
+            ] },
+          { h: 'Parecidos com o português',
+            items: [
+              `${EN('kill two birds with one stone')} — matar dois coelhos com uma cajadada (passarinhos em vez de coelhos).`,
+              `${EN("It's raining cats and dogs.")} — está chovendo canivete.`,
+              `${EN('cost an arm and a leg')} — custar os olhos da cara.`,
+              `${EN('once in a blue moon')} — muito raramente (de vez em nunca).`
+            ] },
+          { h: 'Dica',
+            p: `Não force idioms na fala — um idiom no lugar errado soa estranho. Primeiro aprenda a reconhecer. Use os mais seguros no trabalho (${EN('on the same page')}, ${EN('call it a day')}) e guarde os mais coloridos para conversas informais.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['a piece of cake', 'moleza'], ['under the weather', 'meio doente'], ['call it a day', 'encerrar por hoje'], ['break the ice', 'quebrar o gelo'], ['once in a blue moon', 'muito raramente']] },
+          { t: 'escolha', q: `${EN('The test was a piece of cake.')} significa:`, op: ['A prova foi moleza.', 'A prova teve bolo.', 'A prova foi um pedaço.'], a: 0, opPt: true },
+          { t: 'escolha', q: `${EN('Are we on the same page?')} significa:`, op: ['Estamos alinhados?', 'Estamos na mesma página do livro?', 'Estamos no mesmo andar?'], a: 0, opPt: true },
+          { t: 'escolha', q: `${EN('It cost an arm and a leg.')} significa:`, op: ['Custou os olhos da cara.', 'Custou um braço e uma perna de verdade.', 'Foi barato.'], a: 0, opPt: true },
+          { t: 'escolha', q: 'Qual idiom equivale a "matar dois coelhos com uma cajadada"?', op: ['kill two birds with one stone', 'kill two rabbits with one stick', 'hit two birds'], a: 0 },
+          { t: 'escolha', q: `O projeto falhou e vocês precisam recomeçar do zero:`, op: ["We're back to square one.", "We're on the same page.", "It's a piece of cake."], a: 0 },
+          { t: 'montar', pt: 'Vamos encerrar por hoje.', en: "Let's call it a day", extra: ['finish', 'night'] },
+          { t: 'montar', pt: 'Estou meio indisposto.', en: "I'm feeling a bit under the weather", extra: ['sick', 'over'] },
+          { t: 'escolha', ouvir: "It's raining cats and dogs.", op: ['Está chovendo muito.', 'Está chovendo bichos.', 'Os animais estão na chuva.'], a: 0, opPt: true },
+          { t: 'digitar', ouvir: "Let's get the ball rolling.", en: "Let's get the ball rolling", alt: ['Let us get the ball rolling'] },
+          { t: 'digitar', ouvir: 'The bottom line is we need more time.', en: 'The bottom line is we need more time', alt: ['The bottom line is: we need more time', 'The bottom line is, we need more time'] },
+          { t: 'falar', en: 'The test was a piece of cake.' },
+          { t: 'falar', en: "Let's call it a day." }
+        ]
+      },
+      {
+        id: 'en-falsos-cognatos', title: 'Falsos cognatos: as palavras que enganam',
+        desc: 'Palavras parecidas com o português e sentido completamente diferente: actually, pretend, push, college, library, parents.',
+        objetivos: [
+          'Reconhecer os falsos cognatos mais perigosos',
+          'Usar a palavra certa para o que você quer dizer',
+          'Evitar os erros que causam mal-entendidos'
+        ],
+        body: 'Algumas palavras parecem um presente para quem fala português — e são armadilhas. "Actually" não é "atualmente", "pretend" não é "pretender", "push" não é "puxar". Fechando o módulo, os falsos cognatos que mais geram mal-entendidos.',
+        content: [
+          { h: 'Os mais perigosos',
+            items: [
+              `${EN('actually')} = na verdade (atualmente é ${EN('currently')} / ${EN('nowadays')}).`,
+              `${EN('pretend')} = fingir (pretender é ${EN('intend')} / ${EN('plan')}).`,
+              `${EN('push')} = empurrar (puxar é ${EN('pull')}).`,
+              `${EN('eventually')} = finalmente, com o tempo (eventualmente é ${EN('occasionally')}).`
+            ] },
+          { h: 'Lugares e pessoas',
+            items: [
+              `${EN('library')} = biblioteca (livraria é ${EN('bookstore')}).`,
+              `${EN('college')} = faculdade (colégio é ${EN('high school')}).`,
+              `${EN('parents')} = pai e mãe (parentes é ${EN('relatives')}).`,
+              `${EN('costume')} = fantasia (costume é ${EN('habit')} / ${EN('custom')}).`
+            ] },
+          { h: 'No trabalho',
+            items: [
+              `${EN('assist')} = ajudar (assistir é ${EN('watch')}).`,
+              `${EN('attend')} = comparecer (atender é ${EN('answer')} o telefone ou ${EN('serve')} o cliente).`,
+              `${EN('exquisite')} = requintado, refinado (esquisito é ${EN('weird')} / ${EN('strange')}).`,
+              `${EN('resume')} = currículo nos EUA, ou retomar (resumo é ${EN('summary')}).`
+            ] },
+          { h: 'Revisão do módulo',
+            p: `Fala conectada (${EN('gonna')}, ${EN('wanna')}, linking), diferenças entre EUA e Reino Unido, idioms e falsos cognatos: tudo isso é o que separa entender o livro de entender o mundo real. Continue praticando com séries, podcasts e os diálogos deste curso.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['actually', 'na verdade'], ['pretend', 'fingir'], ['push', 'empurrar'], ['library', 'biblioteca'], ['college', 'faculdade']] },
+          { t: 'pares', pares: [['attend', 'comparecer'], ['assist', 'ajudar'], ['relatives', 'parentes'], ['bookstore', 'livraria'], ['weird', 'esquisito']] },
+          { t: 'escolha', q: 'Como se diz "Atualmente eu trabalho em São Paulo"?', op: ['Currently I work in São Paulo.', 'Actually I work in São Paulo.', 'Actual I work in São Paulo.'], a: 0, exp: 'actually = na verdade. Atualmente = currently ou nowadays.' },
+          { t: 'escolha', q: 'Como se diz "Eu pretendo viajar"?', op: ['I intend to travel.', 'I pretend to travel.', 'I pretend traveling.'], a: 0, exp: 'pretend = fingir. Pretender = intend ou plan.' },
+          { t: 'escolha', q: `${EN('I attended the meeting.')} significa:`, op: ['Eu compareci à reunião.', 'Eu atendi a reunião.', 'Eu esperei a reunião.'], a: 0, opPt: true },
+          { t: 'escolha', q: `${EN('The food was exquisite.')} significa:`, op: ['A comida estava requintada.', 'A comida estava esquisita.', 'A comida estava cara.'], a: 0, opPt: true },
+          { t: 'escolha', q: 'Como dizer "Vou à livraria comprar um livro"?', op: ["I'm going to the bookstore to buy a book.", "I'm going to the library to buy a book.", "I'm going to the librarian to buy a book."], a: 0 },
+          { t: 'montar', pt: 'Na verdade, eu sou do Brasil.', en: "Actually I'm from Brazil", extra: ['Currently', 'Really'] },
+          { t: 'montar', pt: 'Meu irmão está na faculdade.', en: 'My brother is in college', extra: ['school', 'high'] },
+          { t: 'escolha', ouvir: 'Eventually, we found the hotel.', op: ['Finalmente, encontramos o hotel.', 'Eventualmente, encontramos o hotel.', 'Às vezes encontramos o hotel.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Pode me mandar o seu currículo? (EUA)', en: 'Can you send me your resume?', alt: ['Could you send me your resume?', 'Can you send me your resume', 'Could you send me your resume'] },
+          { t: 'falar', en: "Actually, I'm from Brazil." },
+          { t: 'falar', en: 'I attended the meeting yesterday.' }
+        ]
+      }
+    ]
+  }
 ];
