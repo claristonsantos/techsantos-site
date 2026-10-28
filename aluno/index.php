@@ -439,6 +439,8 @@ const AUDIOS_DISPONIVEIS = <?= json_encode($audiosDisponiveis) ?>;
 <script src="/assets/js/course-official-gaps.js?v=20260812-2"></script>
 <?php else: ?>
 <script src="<?= htmlspecialchars($cursoDataJs, ENT_QUOTES) ?>?v=<?= (int)@filemtime(__DIR__ . '/..' . $cursoDataJs) ?>"></script>
+<link rel="stylesheet" href="/assets/css/pratica.css?v=<?= (int)@filemtime(__DIR__ . '/../assets/css/pratica.css') ?>" />
+<script src="/assets/js/pratica.js?v=<?= (int)@filemtime(__DIR__ . '/../assets/js/pratica.js') ?>"></script>
 <?php endif; ?>
 <script>
 
@@ -696,6 +698,7 @@ function renderLesson(id) {
       <div class="reading-card">
         ${lesson.content.map((block, i) => contentBlock(block, i, lesson.id)).join('')}
       </div>` : ''}
+      ${lesson.pratica && lesson.pratica.length ? '<div class="pratica-host" id="praticaHost"></div>' : ''}
       ${lesson.arquivo ? `
       <div class="resources">
         <h2>Arquivo de exercício</h2>
@@ -757,6 +760,15 @@ function renderLesson(id) {
       <div class="side right">${next ? `<a href="#${next.id}"><span class="dir">Próxima →</span><span class="t">${next.title}</span></a>` : ''}</div>
     </div></div>
   `;
+
+  // Curso de Inglês: prática interativa (assets/js/pratica.js) e palavras em inglês clicáveis.
+  if (window.Pratica) {
+    window.Pratica.ligarTexto(main);
+    window.Pratica.montar(main.querySelector('#praticaHost'), lesson, () => {
+      const btn = document.getElementById('markDoneBtn');
+      if (!progress.has(lesson.id)) btn.click(); else if (next) location.hash = next.id;
+    });
+  }
 
   const audioEl = main.querySelector('.podcast-audio');
   if (audioEl) {
