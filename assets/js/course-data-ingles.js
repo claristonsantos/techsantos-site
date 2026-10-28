@@ -795,4 +795,192 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m05', title: 'Módulo 05 · O passado: was/were, verbos regulares e irregulares, did (A2)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-was-were', title: 'Was e were: o verbo to be no passado',
+        desc: 'O passado do verbo to be para dizer onde você estava, como foi e quando nasceu — com negativa, pergunta e there was/were.',
+        objetivos: [
+          'Usar was com I, he, she, it e were com you, we, they',
+          'Negar com wasn\'t e weren\'t e perguntar com Was...? e Were...?',
+          'Usar there was / there were e dizer quando e onde nasceu'
+        ],
+        body: 'Começa o nível A2, e com ele o passado. O primeiro passo é o verbo to be — que no presente tinha três formas e no passado tem só duas. Com ele você já conta como foi o fim de semana, onde estava ontem e onde nasceu.',
+        content: [
+          { h: 'Duas formas só',
+            items: [
+              `${EN('was')} com I, he, she, it: ${EN('I was at home.')} (Eu estava em casa.) · ${EN('It was great.')} (Foi ótimo.)`,
+              `${EN('were')} com you, we, they: ${EN('We were tired.')} (Nós estávamos cansados.) · ${EN('They were at the beach.')}`,
+              `Regra prática: onde no presente era ${EN('am')} ou ${EN('is')}, agora é ${EN('was')}; onde era ${EN('are')}, agora é ${EN('were')}.`
+            ] },
+          { h: 'Negativa e pergunta',
+            items: [
+              `${EN("I wasn't hungry.")} · ${EN("They weren't at the party.")}`,
+              `${EN('Were you at work yesterday?')} — ${EN('Yes, I was.')} / ${EN("No, I wasn't.")}`,
+              `${EN('How was your weekend?')} (Como foi o seu fim de semana?) — ${EN('It was amazing!')} · ${EN('It was okay.')} · ${EN('It was terrible.')}`
+            ] },
+          { h: 'There was / there were',
+            p: `O passado do "tem" de existência: ${EN('There was a party.')} (Teve uma festa.) · ${EN('There were a lot of people.')} (Tinha muita gente.) · ${EN("There wasn't any food.")} (Não tinha comida nenhuma.)` },
+          { h: 'Nascimento',
+            p: `Em inglês "nascer" se diz com ${EN('was born')}: ${EN('I was born in 1990.')} (Eu nasci em 1990.) · ${EN('She was born in Goiânia.')} Pergunta: ${EN('Where were you born?')} — nunca "I born" nem "I borned".` },
+          { h: 'Expressões de tempo do passado',
+            p: `${EN('yesterday')} (ontem) · ${EN('last night')} (ontem à noite) · ${EN('last week')} (semana passada) · ${EN('two days ago')} (dois dias atrás) · ${EN('in 2020')} (em 2020). Atenção: ${EN('ago')} vem depois do tempo.` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'I ___ at home yesterday.', op: ['was', 'were', 'am'], a: 0, pt: 'Eu estava em casa ontem.' },
+          { t: 'lacuna', frase: 'They ___ at the beach last weekend.', op: ['were', 'was', 'are'], a: 0, pt: 'Eles estavam na praia no fim de semana passado.' },
+          { t: 'lacuna', frase: '___ you at work yesterday?', op: ['Were', 'Was', 'Did'], a: 0, pt: 'Você estava no trabalho ontem?' },
+          { t: 'escolha', q: 'Como se diz "Eu nasci em 1990"?', op: ['I was born in 1990.', 'I born in 1990.', 'I borned in 1990.'], a: 0, exp: 'Nascer em inglês é sempre com was born (ou were born).' },
+          { t: 'escolha', q: `Responda: ${EN('Was it good?')} (sim)`, op: ['Yes, it was.', 'Yes, it were.', 'Yes, it did.'], a: 0 },
+          { t: 'escolha', q: 'Como se diz "dois dias atrás"?', op: ['two days ago', 'ago two days', 'before two days'], a: 0 },
+          { t: 'montar', pt: 'Como foi o seu fim de semana?', en: 'How was your weekend?', extra: ['were', 'did'] },
+          { t: 'montar', pt: 'Tinha muita gente na festa.', en: 'There were a lot of people at the party', extra: ['had', 'was'] },
+          { t: 'pares', pares: [['yesterday', 'ontem'], ['last night', 'ontem à noite'], ['last week', 'semana passada'], ['ago', 'atrás'], ['was born', 'nasceu']] },
+          { t: 'digitar', pt: 'Nós estávamos cansados.', en: 'We were tired' },
+          { t: 'digitar', ouvir: 'Where were you born?', en: 'Where were you born' },
+          { t: 'falar', en: 'It was amazing!' },
+          { t: 'falar', en: 'I was born in Brazil.' }
+        ]
+      },
+      {
+        id: 'en-passado-regular', title: 'Passado dos verbos regulares: -ed',
+        desc: 'Como formar o passado dos verbos regulares, as regras de escrita do -ed e os três sons que ele pode ter.',
+        objetivos: [
+          'Formar o passado regular com -ed para todas as pessoas',
+          'Aplicar as regras de escrita: -d, -ied e consoante dobrada',
+          'Pronunciar o -ed como t, d ou id'
+        ],
+        body: 'A boa notícia do passado em inglês: a forma é a mesma para todo mundo. I worked, she worked, they worked — nada de -s na terceira pessoa. A maioria dos verbos é regular e ganha -ed; a dificuldade está na pronúncia, que quase nunca é "ed".',
+        content: [
+          { h: 'A forma: verbo + ed',
+            items: [
+              `${EN('work → worked')} · ${EN('play → played')} · ${EN('watch → watched')}.`,
+              `Igual para todas as pessoas: ${EN('I worked')}, ${EN('she worked')}, ${EN('they worked')} — ${EN('She worked late yesterday.')} (Ela trabalhou até tarde ontem.)`,
+              `Uso: ação que começou e terminou num momento do passado — ${EN('I watched a movie last night.')}`
+            ] },
+          { h: 'Regras de escrita',
+            items: [
+              `Terminados em -e: só -d — ${EN('live → lived')} · ${EN('like → liked')}.`,
+              `Consoante + y: -ied — ${EN('study → studied')} · ${EN('try → tried')}. Vogal + y: só -ed — ${EN('play → played')}.`,
+              `Verbo curto terminado em consoante-vogal-consoante dobra a última: ${EN('stop → stopped')} · ${EN('plan → planned')}.`
+            ] },
+          { h: 'Os três sons do -ed',
+            items: [
+              `Som de <strong>t</strong> depois de sons surdos (p, k, s, sh, ch, f): ${EN('worked')}, ${EN('watched')}, ${EN('stopped')} — "uórkt", "uótcht".`,
+              `Som de <strong>d</strong> depois de sons sonoros e vogais: ${EN('played')}, ${EN('lived')}, ${EN('called')} — "plêid".`,
+              `Sílaba extra <strong>id</strong> só depois de t ou d: ${EN('wanted')}, ${EN('needed')}, ${EN('started')} — "uónid".`,
+              `O erro mais comum de brasileiro é pronunciar "uórkéd" com sílaba a mais. Na grande maioria dos verbos, o -ed não cria sílaba nova.`
+            ] }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'She ___ late yesterday.', op: ['worked', 'works', 'work'], a: 0, pt: 'Ela trabalhou até tarde ontem.' },
+          { t: 'lacuna', frase: 'I ___ English last night.', op: ['studied', 'studyed', 'studed'], a: 0, pt: 'Eu estudei inglês ontem à noite.' },
+          { t: 'lacuna', frase: 'The bus ___ in front of the bank.', op: ['stopped', 'stoped', 'stops'], a: 0, pt: 'O ônibus parou na frente do banco.' },
+          { t: 'pares', pares: [['live', 'lived'], ['try', 'tried'], ['plan', 'planned'], ['play', 'played'], ['watch', 'watched']] },
+          { t: 'escolha', q: `Em qual verbo o -ed forma uma sílaba a mais ("id")?`, op: ['wanted', 'worked', 'played'], a: 0, exp: 'Só depois de t ou d o -ed vira uma sílaba nova: wanted, needed, started.' },
+          { t: 'escolha', q: `Em qual verbo o -ed soa como "t"?`, op: ['watched', 'played', 'needed'], a: 0 },
+          { t: 'escolha', ouvir: 'I watched a movie last night.', op: ['I watched a movie last night.', 'I watch a movie every night.', 'I want a movie tonight.'], a: 0 },
+          { t: 'montar', pt: 'Nós assistimos a um filme ontem à noite.', en: 'We watched a movie last night', extra: ['watch', 'yesterday'] },
+          { t: 'montar', pt: 'Ele morou em Londres em 2020.', en: 'He lived in London in 2020', extra: ['lives', 'on'] },
+          { t: 'digitar', pt: 'Eu liguei para a minha mãe ontem.', en: 'I called my mother yesterday', alt: ['I called my mom yesterday'] },
+          { t: 'digitar', ouvir: 'They started the meeting at nine.', en: 'They started the meeting at nine', alt: ['They started the meeting at 9'] },
+          { t: 'falar', en: 'I worked from home yesterday.' },
+          { t: 'falar', en: 'She wanted a new job.' }
+        ]
+      },
+      {
+        id: 'en-passado-irregular', title: 'Os verbos irregulares mais usados',
+        desc: 'Os 20 verbos irregulares que aparecem em quase toda conversa sobre o passado, agrupados para ficar mais fácil de lembrar.',
+        objetivos: [
+          'Usar o passado dos verbos irregulares mais frequentes',
+          'Contar o que fez no fim de semana',
+          'Reconhecer padrões que ajudam a memorizar'
+        ],
+        body: 'Os verbos irregulares não seguem a regra do -ed — e justamente os mais usados são irregulares: ir, ter, fazer, ver, comer. A boa notícia: com uns 20 verbos você cobre a maior parte das conversas. E a forma continua igual para todas as pessoas.',
+        content: [
+          { h: 'Os campeões do dia a dia',
+            items: [
+              `${EN('go → went')} (ir) · ${EN('have → had')} (ter) · ${EN('do → did')} (fazer) · ${EN('get → got')} (conseguir, chegar, receber).`,
+              `${EN('see → saw')} (ver) · ${EN('make → made')} (fazer, produzir) · ${EN('come → came')} (vir) · ${EN('take → took')} (pegar, levar).`,
+              `${EN('eat → ate')} (comer) · ${EN('drink → drank')} (beber) · ${EN('say → said')} (dizer) · ${EN('give → gave')} (dar).`
+            ] },
+          { h: 'Grupos que ajudam a lembrar',
+            items: [
+              `Terminam em -ought/-aught: ${EN('buy → bought')} (comprar) · ${EN('think → thought')} (pensar) · ${EN('bring → brought')} (trazer) · ${EN('teach → taught')} (ensinar).`,
+              `Mudam a vogal: ${EN('sing → sang')} · ${EN('swim → swam')} · ${EN('drink → drank')} · ${EN('begin → began')}.`,
+              `Iguais nas duas formas: ${EN('put → put')} · ${EN('cut → cut')} · ${EN('cost → cost')}.`,
+              `${EN('read → read')}: a escrita é igual, mas o passado se pronuncia "réd".`
+            ] },
+          { h: 'Na prática: o fim de semana',
+            p: `${EN('On Saturday I went to the beach with my family. We had lunch at a great restaurant and I ate fish. In the evening we saw a movie. On Sunday I got up late and did nothing!')}` },
+          { h: 'Dica de estudo',
+            p: `Não tente decorar listas enormes. Aprenda os irregulares dentro de frases sobre a sua vida — ${EN('Yesterday I went...')}, ${EN('Last week I bought...')} — e repita em voz alta. A memória guarda a frase, não a tabela.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['go', 'went'], ['have', 'had'], ['see', 'saw'], ['buy', 'bought'], ['eat', 'ate']] },
+          { t: 'pares', pares: [['take', 'took'], ['come', 'came'], ['think', 'thought'], ['make', 'made'], ['get', 'got']] },
+          { t: 'lacuna', frase: 'We ___ to the beach on Saturday.', op: ['went', 'goed', 'go'], a: 0, pt: 'Nós fomos à praia no sábado.' },
+          { t: 'lacuna', frase: 'I ___ a new phone last week.', op: ['bought', 'buyed', 'brought'], a: 0, pt: 'Eu comprei um celular novo semana passada.', exp: 'buy → bought (comprar). Cuidado: brought é o passado de bring (trazer).' },
+          { t: 'lacuna', frase: 'She ___ a great movie last night.', op: ['saw', 'seed', 'sees'], a: 0, pt: 'Ela viu um filme ótimo ontem à noite.' },
+          { t: 'escolha', q: 'Qual é o passado de "put"?', op: ['put', 'putted', 'pot'], a: 0 },
+          { t: 'escolha', ouvir: 'We had lunch at a great restaurant.', op: ['We had lunch at a great restaurant.', 'We have lunch at a great restaurant.', 'We ate lunch in a great restaurant.'], a: 0 },
+          { t: 'montar', pt: 'Eu levantei tarde e não fiz nada.', en: 'I got up late and did nothing', extra: ['get', 'made'] },
+          { t: 'montar', pt: 'Ele trouxe um presente para mim.', en: 'He brought a present for me', extra: ['bought', 'bring'] },
+          { t: 'digitar', pt: 'Ela me deu um livro.', en: 'She gave me a book' },
+          { t: 'digitar', ouvir: 'I took the bus to work.', en: 'I took the bus to work' },
+          { t: 'falar', en: 'I went to the beach on Saturday.' },
+          { t: 'falar', en: 'We saw a great movie.' }
+        ]
+      },
+      {
+        id: 'en-did', title: 'Did: negativa e perguntas no passado',
+        desc: 'O auxiliar did para negar e perguntar no passado — com qualquer verbo, regular ou irregular — e as perguntas para conversar sobre o que aconteceu.',
+        objetivos: [
+          'Negar no passado com didn\'t + verbo na forma base',
+          'Perguntar com Did...? e responder curto',
+          'Fazer perguntas com What, Where, When e How sobre o passado'
+        ],
+        body: 'No presente, do e does ajudavam a negar e perguntar. No passado existe um ajudante só, did, para todas as pessoas. E a regra de ouro se repete: o passado vai para o did, e o verbo volta para a forma base — mesmo os irregulares.',
+        content: [
+          { h: 'Negativa: didn\'t + forma base',
+            items: [
+              `${EN("I didn't go to the party.")} (Eu não fui à festa.) · ${EN("She didn't call me.")}`,
+              `O verbo volta à forma base: ${EN("didn't go")} — nunca "didn't went". O passado já está no ${EN("didn't")}.`,
+              `Exceção: com o verbo to be não se usa did — ${EN("I wasn't there.")}, nunca "I didn't was".`
+            ] },
+          { h: 'Perguntas de sim ou não',
+            items: [
+              `${EN('Did you see the game?')} (Você viu o jogo?) — ${EN('Yes, I did.')} / ${EN("No, I didn't.")}`,
+              `${EN('Did she like the movie?')} — de novo, forma base: ${EN('like')}, não "liked".`
+            ] },
+          { h: 'Perguntas para puxar conversa',
+            items: [
+              `${EN('What did you do on the weekend?')} (O que você fez no fim de semana?)`,
+              `${EN('Where did you go?')} · ${EN('When did you arrive?')} · ${EN('Who did you see?')}`,
+              `${EN('How was it?')} — com o verbo to be, sem did.`,
+              `${EN('What happened?')} (O que aconteceu?) — quando a pergunta é sobre o próprio sujeito, não há did.`
+            ] },
+          { h: 'Dica de conversa',
+            p: `Numa segunda-feira no trabalho, a pergunta clássica é ${EN('How was your weekend?')} seguida de ${EN('What did you do?')}. Tenha uma resposta pronta: ${EN('It was great! I went to the beach.')}` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "I didn't ___ to the party.", op: ['go', 'went', 'goes'], a: 0, pt: 'Eu não fui à festa.', exp: `Depois de didn't o verbo volta para a forma base: go, não went.` },
+          { t: 'lacuna', frase: '___ you see the game last night?', op: ['Did', 'Were', 'Do'], a: 0, pt: 'Você viu o jogo ontem à noite?' },
+          { t: 'lacuna', frase: 'Where ___ you go on vacation?', op: ['did', 'were', 'was'], a: 0, pt: 'Para onde você foi nas férias?' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["She didn't call me.", "She didn't called me.", "She don't called me."], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["I wasn't at home.", "I didn't was at home.", "I didn't be at home."], a: 0, exp: 'Com o verbo to be não se usa did: wasn\'t / weren\'t.' },
+          { t: 'escolha', q: `Responda: ${EN('Did you like the movie?')} (sim)`, op: ['Yes, I did.', 'Yes, I liked.', 'Yes, I was.'], a: 0 },
+          { t: 'montar', pt: 'O que você fez no fim de semana?', en: 'What did you do on the weekend?', extra: ['made', 'was'] },
+          { t: 'montar', pt: 'Eles não compraram o carro.', en: "They didn't buy the car", extra: ['bought', "don't"] },
+          { t: 'escolha', ouvir: 'What happened?', op: ['What happened?', 'What did happen?', 'What happens?'], a: 0 },
+          { t: 'digitar', pt: 'Quando você chegou?', en: 'When did you arrive?', alt: ['When did you arrive', 'When did you get here?'] },
+          { t: 'digitar', ouvir: "I didn't see her yesterday.", en: "I didn't see her yesterday", alt: ['I did not see her yesterday'] },
+          { t: 'falar', en: 'What did you do on the weekend?' },
+          { t: 'falar', en: "I didn't go to work yesterday." }
+        ]
+      }
+    ]
+  }
 ];
