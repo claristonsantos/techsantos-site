@@ -2944,4 +2944,203 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m16', title: 'Módulo 16 · Fluência profissional: formal e informal, apresentações, entrevista e negociação (C1)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-formal-informal', title: 'Formal × informal: o tom certo',
+        desc: 'Como a mesma ideia muda de registro conforme a situação — do chat com o colega ao e-mail para o diretor.',
+        objetivos: [
+          'Reconhecer marcas de linguagem formal e informal',
+          'Trocar palavras informais por equivalentes formais (get → receive, ask for → request)',
+          'Adaptar o tom ao canal: chat, e-mail, reunião, documento'
+        ],
+        body: 'No nível avançado, o desafio deixa de ser "estar certo" e passa a ser "soar adequado". A mesma ideia pode ser dita de forma casual ou formal, e escolher errado pode soar frio demais ou íntimo demais. Esta aula ensina a mudar de marcha.',
+        content: [
+          { h: 'O que muda do informal para o formal',
+            items: [
+              `Contrações: ${EN("I'm")}, ${EN("can't")} (informal) → ${EN('I am')}, ${EN('cannot')} (formal, especialmente na escrita).`,
+              `Phrasal verbs → verbos de uma palavra: ${EN('find out')} → ${EN('discover')} · ${EN('look into')} → ${EN('investigate')} · ${EN('put off')} → ${EN('postpone')}.`,
+              `Palavras do dia a dia → mais formais: ${EN('get')} → ${EN('receive')} / ${EN('obtain')} · ${EN('ask for')} → ${EN('request')} · ${EN('help')} → ${EN('assist')} · ${EN('need')} → ${EN('require')}.`
+            ] },
+          { h: 'A mesma ideia em dois tons',
+            items: [
+              `Informal: ${EN("Hey, can you send me the file?")} · Formal: ${EN('Could you please send me the file at your earliest convenience?')}`,
+              `Informal: ${EN("Sorry, I can't make it.")} · Formal: ${EN('Unfortunately, I will not be able to attend.')}`,
+              `Informal: ${EN("Let me know what you think.")} · Formal: ${EN('I would appreciate your feedback.')}`
+            ] },
+          { h: 'Cada canal, um tom',
+            items: [
+              `Chat com colegas (Slack, Teams): curto, contraído, informal — ${EN('Sure, will do!')} (Pode deixar!)`,
+              `E-mail interno: neutro e cordial — ${EN('Hi team, quick update:...')}`,
+              `E-mail para cliente ou diretoria: formal e completo — ${EN('Dear Ms. Lee, I am writing to inform you that...')}`,
+              `Documento oficial: formal, impessoal, voz passiva — ${EN('The results were analyzed.')}`
+            ] },
+          { h: 'O erro mais comum de brasileiro',
+            p: `Ser direto demais por tradução literal. "I want the report today" soa como uma ordem rude. Use modais e suavizadores: ${EN('Would it be possible to have the report today?')} — no inglês profissional, a gentileza está na estrutura da frase, não só no "please".` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['find out', 'discover'], ['put off', 'postpone'], ['ask for', 'request'], ['get', 'receive'], ['need', 'require']] },
+          { t: 'escolha', q: 'Qual é a versão formal de "Sorry, I can\'t make it"?', op: ['Unfortunately, I will not be able to attend.', "Sorry, I can't go.", "I won't make it, sorry."], a: 0 },
+          { t: 'escolha', q: 'Qual é a versão formal de "Let me know what you think"?', op: ['I would appreciate your feedback.', 'Tell me your opinion.', 'What do you think?'], a: 0 },
+          { t: 'escolha', q: 'No chat com um colega, qual resposta soa natural?', op: ['Sure, will do!', 'I hereby confirm that I shall do it.', 'Dear colleague, I will.'], a: 0 },
+          { t: 'escolha', q: 'Qual pedido soa adequado para um diretor?', op: ['Would it be possible to have the report today?', 'I want the report today.', 'Give me the report today.'], a: 0, exp: 'Traduzir "eu quero" ao pé da letra soa como ordem. Modais suavizam.' },
+          { t: 'lacuna', frase: 'Could you please send me the file at your earliest ___?', op: ['convenience', 'convenient', 'conveniently'], a: 0, pt: 'Você poderia me enviar o arquivo assim que possível?' },
+          { t: 'montar', pt: 'Vamos investigar o problema.', en: 'We will investigate the issue', extra: ['look', 'into'] },
+          { t: 'montar', pt: 'Infelizmente, não poderei comparecer.', en: 'Unfortunately I will not be able to attend', extra: ["can't", 'go'] },
+          { t: 'escolha', ouvir: 'I am writing to inform you that the meeting has been postponed.', op: ['Escrevo para informar que a reunião foi adiada.', 'Escrevo para informar que a reunião foi cancelada.', 'A reunião vai ser hoje.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Versão formal de "ask for": ', en: 'request' },
+          { t: 'digitar', ouvir: 'I would appreciate your feedback.', en: 'I would appreciate your feedback' },
+          { t: 'falar', en: 'Would it be possible to have the report today?' },
+          { t: 'falar', en: 'Unfortunately, I will not be able to attend.' }
+        ]
+      },
+      {
+        id: 'en-apresentacoes-pro', title: 'Apresentações: estrutura e sinalização',
+        desc: 'Como estruturar uma apresentação em inglês e guiar o público com frases de transição — e como lidar com perguntas difíceis.',
+        objetivos: [
+          'Abrir com impacto e apresentar a estrutura',
+          'Usar sinalizadores de transição: moving on, to illustrate, in conclusion',
+          'Responder perguntas, inclusive as difíceis, com segurança'
+        ],
+        body: 'Apresentar em inglês intimida até quem fala bem. O segredo dos bons apresentadores não é vocabulário raro: é estrutura clara e frases de transição que mostram ao público onde ele está. Com elas, você soa organizado mesmo com um inglês simples.',
+        content: [
+          { h: 'Abrindo',
+            items: [
+              `Gancho: uma pergunta ou dado surpreendente — ${EN('Did you know that 80% of data projects fail?')}`,
+              `${EN("Today I'd like to talk about...")} · ${EN("My presentation is divided into three parts.")}`,
+              `${EN("First, I'll... Then, I'll... Finally, I'll...")} · ${EN("Feel free to ask questions at the end.")}`
+            ] },
+          { h: 'Sinalizando as transições',
+            items: [
+              `Mudar de parte: ${EN('Moving on to...')} · ${EN("Let's turn to...")} · ${EN('This brings me to my next point.')}`,
+              `Exemplificar: ${EN('To illustrate this,...')} · ${EN('For example,...')} · ${EN('Let me give you an example.')}`,
+              `Enfatizar: ${EN("I'd like to stress that...")} · ${EN('The most important point is...')}`,
+              `Voltar: ${EN('As I mentioned earlier,...')} (Como mencionei antes...)`
+            ] },
+          { h: 'Concluindo',
+            p: `${EN('To sum up,...')} · ${EN('In conclusion,...')} · ${EN("So, the three things I'd like you to remember are...")} · ${EN('Thank you for your attention.')} — e termine com uma chamada para ação ou uma pergunta.` },
+          { h: 'Perguntas difíceis',
+            items: [
+              `Ganhar tempo: ${EN("That's a good question.")} · ${EN('Let me think about that for a second.')}`,
+              `Confirmar: ${EN('If I understand correctly, you\'re asking...')}`,
+              `Não sabe: ${EN("I don't have that information right now, but I'll find out and get back to you.")}`,
+              `Fora do tema: ${EN("That's a bit outside the scope of today's presentation, but I'm happy to discuss it later.")}`
+            ] }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['Moving on to...', 'Passando para...'], ['To illustrate this...', 'Para ilustrar...'], ['As I mentioned earlier...', 'Como mencionei antes...'], ['In conclusion...', 'Concluindo...'], ['outside the scope', 'fora do escopo']] },
+          { t: 'escolha', q: 'Como anunciar a estrutura da apresentação?', op: ['My presentation is divided into three parts.', 'My presentation has three pieces inside.', 'I will divide my presentation in three parties.'], a: 0 },
+          { t: 'escolha', q: 'Alguém faz uma pergunta que você não sabe responder:', op: ["I don't have that information right now, but I'll find out and get back to you.", "I don't know. Next.", 'This question is wrong.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase serve para mudar de parte?', op: ['This brings me to my next point.', 'Now another thing.', 'Next slide please now.'], a: 0 },
+          { t: 'lacuna', frase: "Feel ___ to ask questions at the end.", op: ['free', 'okay', 'able'], a: 0, pt: 'Fiquem à vontade para fazer perguntas no final.' },
+          { t: 'lacuna', frase: "I'd like to ___ that this is a pilot project.", op: ['stress', 'press', 'strong'], a: 0, pt: 'Gostaria de enfatizar que este é um projeto piloto.' },
+          { t: 'montar', pt: 'Hoje eu gostaria de falar sobre dados.', en: "Today I'd like to talk about data", extra: ['want', 'speak'] },
+          { t: 'montar', pt: 'Se eu entendi corretamente, você está perguntando...', en: "If I understand correctly you're asking", extra: ['correct', 'question'] },
+          { t: 'escolha', ouvir: 'Let me give you an example.', op: ['Deixa eu dar um exemplo.', 'Me dê um exemplo.', 'Vou dar exemplos depois.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Obrigado pela atenção.', en: 'Thank you for your attention', alt: ['Thanks for your attention'] },
+          { t: 'digitar', ouvir: 'Moving on to the results.', en: 'Moving on to the results' },
+          { t: 'falar', en: 'My presentation is divided into three parts.' },
+          { t: 'falar', en: "That's a good question. Let me think about that." }
+        ]
+      },
+      {
+        id: 'en-entrevista', title: 'Entrevista de emprego em inglês',
+        desc: 'As perguntas que sempre aparecem — Tell me about yourself, strengths, weaknesses — e como responder com o método STAR.',
+        objetivos: [
+          'Responder "Tell me about yourself" com uma narrativa curta',
+          'Falar de pontos fortes, fracos e conquistas com o método STAR',
+          'Fazer boas perguntas ao entrevistador'
+        ],
+        body: 'Uma vaga internacional ou numa multinacional quase sempre passa por uma entrevista em inglês. A boa notícia: as perguntas são previsíveis. Quem prepara as respostas com antecedência — e treina em voz alta — chega muito mais confiante.',
+        content: [
+          { h: 'Tell me about yourself',
+            items: [
+              `A pergunta de abertura. Não conte a vida inteira: presente, passado, futuro — em uns 90 segundos.`,
+              `Presente: ${EN("I'm a data analyst with five years of experience in retail.")}`,
+              `Passado: ${EN('Before that, I worked in finance, where I learned...')}`,
+              `Futuro: ${EN("Now I'm looking for a role where I can...")}`
+            ] },
+          { h: 'Pontos fortes e fracos',
+            items: [
+              `${EN('What are your strengths?')} — ${EN("I'm very detail-oriented.")} (detalhista) · ${EN("I'm a fast learner.")} · ${EN("I work well under pressure.")}`,
+              `${EN("What's your biggest weakness?")} — diga um ponto real e o que você faz para melhorar: ${EN("I used to have trouble delegating, so now I...")}`,
+              `Nunca responda "I'm a perfectionist" sem exemplo — os recrutadores já ouviram mil vezes.`
+            ] },
+          { h: 'O método STAR',
+            items: [
+              `Para perguntas como ${EN('Tell me about a time when you solved a problem.')}`,
+              `${EN('Situation')} (o contexto) → ${EN('Task')} (sua responsabilidade) → ${EN('Action')} (o que VOCÊ fez) → ${EN('Result')} (o resultado, com número se possível).`,
+              `${EN('Our reports took two days to update. I was asked to fix it. I automated the process with Power Query. As a result, the update now takes ten minutes.')}`
+            ] },
+          { h: 'Sua vez de perguntar',
+            p: `No fim vem ${EN('Do you have any questions for us?')} — sempre tenha duas ou três: ${EN('What does a typical day look like in this role?')} · ${EN('How do you measure success in this position?')} · ${EN('What are the next steps in the process?')}` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['strengths', 'pontos fortes'], ['weakness', 'ponto fraco'], ['detail-oriented', 'detalhista'], ['fast learner', 'aprende rápido'], ['under pressure', 'sob pressão']] },
+          { t: 'pares', pares: [['Situation', 'contexto'], ['Task', 'responsabilidade'], ['Action', 'o que você fez'], ['Result', 'resultado'], ['role', 'cargo, função']] },
+          { t: 'escolha', q: `Qual é um bom começo para ${EN('Tell me about yourself')}?`, op: ["I'm a data analyst with five years of experience in retail.", 'I was born in 1990 in a small hospital.', 'I like pizza and soccer.'], a: 0 },
+          { t: 'escolha', q: `No método STAR, o que vem em "Action"?`, op: ['O que você fez, pessoalmente.', 'O que a equipe planejava.', 'O resultado final.'], a: 0, opPt: true },
+          { t: 'escolha', q: 'Qual é uma boa pergunta para fazer ao entrevistador?', op: ['How do you measure success in this position?', 'How many vacation days do I get?', 'Do I have to work hard?'], a: 0 },
+          { t: 'lacuna', frase: 'I work well ___ pressure.', op: ['under', 'with', 'in'], a: 0, pt: 'Eu trabalho bem sob pressão.' },
+          { t: 'lacuna', frase: "I'm looking for a ___ where I can grow.", op: ['role', 'roll', 'rule'], a: 0, pt: 'Estou procurando um cargo onde eu possa crescer.' },
+          { t: 'montar', pt: 'Como resultado, a atualização agora leva dez minutos.', en: 'As a result the update now takes ten minutes', extra: ['spends', 'lasts'] },
+          { t: 'escolha', ouvir: 'What does a typical day look like in this role?', op: ['Como é um dia típico neste cargo?', 'Qual é o salário deste cargo?', 'Quantas horas eu trabalho por dia?'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Quais são os próximos passos do processo?', en: 'What are the next steps in the process?', alt: ['What are the next steps in the process', "What are the next steps?"] },
+          { t: 'digitar', ouvir: "I'm a fast learner.", en: "I'm a fast learner", alt: ['I am a fast learner'] },
+          { t: 'falar', en: "I'm a data analyst with five years of experience." },
+          { t: 'falar', en: 'How do you measure success in this position?' }
+        ]
+      },
+      {
+        id: 'en-negociacao', title: 'Negociação e linguagem diplomática',
+        desc: 'Como negociar, discordar e dizer não em inglês sem criar atrito — a arte de suavizar com could, might, perhaps e I\'m afraid.',
+        objetivos: [
+          'Fazer propostas e contrapropostas com linguagem condicional',
+          'Suavizar discordâncias e recusas (hedging)',
+          'Fechar acordos e confirmar os próximos passos'
+        ],
+        body: 'O inglês profissional, especialmente o britânico, é cheio de diplomacia: em vez de "não", diz-se "I\'m not sure that would work"; em vez de "está caro", "that\'s a bit above our budget". Fechando o conteúdo do curso, a habilidade mais sofisticada: negociar sem queimar pontes.',
+        content: [
+          { h: 'Propostas e contrapropostas',
+            items: [
+              `${EN('What if we...?')} (E se nós...?) · ${EN('How about...?')} · ${EN('Would you consider...?')}`,
+              `Condicional para negociar: ${EN('If you could reduce the price, we would sign a two-year contract.')}`,
+              `${EN("We'd be willing to...")} (Estaríamos dispostos a...) · ${EN('In return, we would need...')} (Em troca, precisaríamos...)`
+            ] },
+          { h: 'Suavizando (hedging)',
+            items: [
+              `Direto: "That's too expensive." → Diplomático: ${EN("That's a bit above our budget.")}`,
+              `Direto: "No." → Diplomático: ${EN("I'm not sure that would work for us.")}`,
+              `Palavras suavizadoras: ${EN('perhaps')} · ${EN('might')} · ${EN('a bit')} · ${EN('slightly')} · ${EN('I feel that...')} · ${EN('It seems that...')}`,
+              `${EN("I'm afraid we can't accept that.")} — recusa firme, mas educada.`
+            ] },
+          { h: 'Concordar parcialmente',
+            items: [
+              `${EN('I see where you\'re coming from, but...')} (Entendo seu ponto de vista, mas...)`,
+              `${EN('That\'s a fair point. However,...')} · ${EN('I agree to some extent.')} (Concordo em parte.)`,
+              `${EN("Let's find a middle ground.")} (Vamos achar um meio-termo.)`
+            ] },
+          { h: 'Fechando o acordo',
+            p: `${EN('I think we have a deal.')} · ${EN("So, just to confirm,...")} (Então, só para confirmar...) · ${EN("I'll send you the agreement in writing.")} · ${EN("It's a pleasure doing business with you.")} — sempre confirme por escrito o que foi combinado.` }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual é a forma diplomática de "Está caro demais"?', op: ["That's a bit above our budget.", "That's too expensive.", 'No way, too much.'], a: 0 },
+          { t: 'escolha', q: 'Qual é a forma diplomática de dizer "não"?', op: ["I'm not sure that would work for us.", 'No.', "That's a bad idea."], a: 0 },
+          { t: 'escolha', q: `${EN("Let's find a middle ground.")} significa:`, op: ['Vamos achar um meio-termo.', 'Vamos para o meio da sala.', 'Vamos dividir o terreno.'], a: 0, opPt: true },
+          { t: 'escolha', q: `${EN('I see where you\'re coming from.')} significa:`, op: ['Entendo seu ponto de vista.', 'Vejo de onde você veio.', 'Sei de onde você é.'], a: 0, opPt: true },
+          { t: 'lacuna', frase: 'If you could reduce the price, we ___ sign a two-year contract.', op: ['would', 'will', 'are'], a: 0, pt: 'Se vocês pudessem reduzir o preço, nós assinaríamos um contrato de dois anos.' },
+          { t: 'lacuna', frase: "That's a fair point. ___, we need more time.", op: ['However', 'Because', 'So'], a: 0, pt: 'É um argumento justo. No entanto, precisamos de mais tempo.' },
+          { t: 'pares', pares: [['perhaps', 'talvez'], ['slightly', 'ligeiramente'], ['willing to', 'disposto a'], ['in return', 'em troca'], ['to some extent', 'em parte']] },
+          { t: 'montar', pt: 'Estaríamos dispostos a pagar em duas parcelas.', en: "We'd be willing to pay in two installments", extra: ['will', 'parts'] },
+          { t: 'montar', pt: 'Então, só para confirmar: o prazo é maio.', en: 'So just to confirm the deadline is May', extra: ['confirming', 'term'] },
+          { t: 'escolha', ouvir: "I'm afraid we can't accept that.", op: ['Infelizmente não podemos aceitar isso.', 'Temos medo de aceitar isso.', 'Talvez possamos aceitar isso.'], a: 0, opPt: true },
+          { t: 'digitar', ouvir: 'I think we have a deal.', en: 'I think we have a deal' },
+          { t: 'falar', en: "That's a bit above our budget." },
+          { t: 'falar', en: "Let's find a middle ground." }
+        ]
+      }
+    ]
+  }
 ];
