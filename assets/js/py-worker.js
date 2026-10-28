@@ -54,6 +54,7 @@ except Exception as e:
 print(__buf.getvalue(), end='')
 # os testes enxergam o que o aluno imprimiu na variável saida (e as linhas em linhas)
 __ns['saida'] = __buf.getvalue()
+__ns['__codigo_aluno'] = __codigo_aluno  # testes podem rodar o código de novo com outros valores
 __ns['linhas'] = [l for l in __buf.getvalue().strip().splitlines()]
 try:
     import matplotlib.pyplot as plt
