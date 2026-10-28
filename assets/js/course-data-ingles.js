@@ -2346,4 +2346,200 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m13', title: 'Módulo 13 · Estruturas do B2: voz passiva, discurso indireto, orações relativas, third conditional e wish', kind: 'video',
+    lessons: [
+      {
+        id: 'en-voz-passiva', title: 'Voz passiva: It was built in 1990',
+        desc: 'Quando o foco é a ação ou o resultado, e não quem fez: to be + particípio, em todos os tempos, e quando usar by.',
+        objetivos: [
+          'Formar a voz passiva com to be + particípio',
+          'Usar a passiva no presente, passado, present perfect e futuro',
+          'Decidir quando mencionar o agente com by'
+        ],
+        body: 'Começa o nível B2. A voz passiva aparece em notícias, relatórios, manuais e e-mails formais — sempre que o importante é o que aconteceu, e não quem fez. "O relatório foi enviado", "o produto é fabricado na China". A boa notícia: a estrutura é a mesma do português.',
+        content: [
+          { h: 'A forma: to be + particípio',
+            items: [
+              `Ativa: ${EN('Someone cleans the office every day.')} → Passiva: ${EN('The office is cleaned every day.')}`,
+              `O verbo to be carrega o tempo; o particípio fica sempre igual: ${EN('is made')}, ${EN('was made')}, ${EN('has been made')}, ${EN('will be made')}.`,
+              `${EN('English is spoken all over the world.')} (O inglês é falado no mundo todo.)`
+            ] },
+          { h: 'Nos tempos mais comuns',
+            items: [
+              `Presente: ${EN('These phones are made in China.')}`,
+              `Passado: ${EN('The bridge was built in 1990.')} · ${EN('I was born in Brazil.')} — lembra? É passiva!`,
+              `Present perfect: ${EN('The report has been sent.')} (O relatório foi enviado.)`,
+              `Futuro: ${EN('The results will be announced tomorrow.')} · com modais: ${EN('It must be done today.')} · ${EN('It can be fixed.')}`
+            ] },
+          { h: 'By: só quando importa',
+            items: [
+              `${EN('The book was written by Machado de Assis.')} — o autor é informação relevante.`,
+              `${EN('My car was stolen.')} — não se sabe quem, então sem ${EN('by')}.`,
+              `Na maioria das passivas o agente não aparece: ou é óbvio, ou desconhecido, ou não importa.`
+            ] },
+          { h: 'Quando usar',
+            p: `Notícias (${EN('Three people were injured.')}), processos (${EN('The data is collected and analyzed.')}), avisos (${EN('Smoking is not allowed.')}) e e-mails formais, para soar menos pessoal: ${EN('A mistake was made.')} em vez de "You made a mistake".` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'These phones ___ made in China.', op: ['are', 'is', 'were be'], a: 0, pt: 'Estes celulares são fabricados na China.' },
+          { t: 'lacuna', frase: 'The bridge ___ built in 1990.', op: ['was', 'is', 'has'], a: 0, pt: 'A ponte foi construída em 1990.' },
+          { t: 'lacuna', frase: 'The report has ___ sent.', op: ['been', 'be', 'was'], a: 0, pt: 'O relatório foi enviado.' },
+          { t: 'lacuna', frase: 'The results will ___ announced tomorrow.', op: ['be', 'been', 'are'], a: 0, pt: 'Os resultados serão anunciados amanhã.' },
+          { t: 'escolha', q: 'Qual é a voz passiva de "They speak English here"?', op: ['English is spoken here.', 'English speaks here.', 'English is speaking here.'], a: 0 },
+          { t: 'escolha', q: 'Em qual frase o "by" é necessário?', op: ['The book was written by Machado de Assis.', 'My car was stolen by someone.', 'The office is cleaned by people.'], a: 0, exp: 'Use by só quando o agente é informação relevante. "by someone" e "by people" não acrescentam nada.' },
+          { t: 'pares', pares: [['is made', 'presente'], ['was made', 'passado'], ['has been made', 'present perfect'], ['will be made', 'futuro'], ['can be made', 'com modal']] },
+          { t: 'montar', pt: 'O inglês é falado no mundo todo.', en: 'English is spoken all over the world', extra: ['speaks', 'by'] },
+          { t: 'montar', pt: 'Meu carro foi roubado.', en: 'My car was stolen', extra: ['stole', 'by'] },
+          { t: 'escolha', ouvir: 'Smoking is not allowed.', op: ['É proibido fumar.', 'Fumar não é saudável.', 'Não é permitido fumar ainda.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Isso precisa ser feito hoje.', en: 'It must be done today', alt: ['It has to be done today', 'This must be done today', 'It needs to be done today'] },
+          { t: 'falar', en: 'The report has been sent.' },
+          { t: 'falar', en: 'The bridge was built in 1990.' }
+        ]
+      },
+      {
+        id: 'en-reported-speech', title: 'Reported speech: ele disse que...',
+        desc: 'Como contar o que outra pessoa disse: said × told, o recuo dos tempos verbais e perguntas indiretas.',
+        objetivos: [
+          'Contar o que alguém disse com said e told',
+          'Fazer o recuo dos tempos verbais (is → was, will → would)',
+          'Relatar perguntas e pedidos: She asked if..., He told me to...'
+        ],
+        body: '"Ela disse que estava cansada." Contar o que os outros disseram é uma das coisas que mais fazemos numa conversa. Em inglês, assim como em português, o verbo costuma "voltar um passo" no tempo — e há uma diferença importante entre say e tell.',
+        content: [
+          { h: 'Said × told',
+            items: [
+              `${EN('say')} sem pessoa: ${EN('She said that she was tired.')}`,
+              `${EN('tell')} com pessoa: ${EN('She told me that she was tired.')} — nunca "she said me".`,
+              `O ${EN('that')} é opcional: ${EN('She said she was tired.')}`
+            ] },
+          { h: 'O recuo dos tempos',
+            items: [
+              `${EN('"I am tired."')} → ${EN('She said she was tired.')}`,
+              `${EN('"I work here."')} → ${EN('He said he worked there.')}`,
+              `${EN('"I will call you."')} → ${EN('He said he would call me.')}`,
+              `${EN('"I can help."')} → ${EN('She said she could help.')} · ${EN('"I have finished."')} → ${EN('He said he had finished.')}`,
+              `Também mudam pronomes e lugares: ${EN('here')} → ${EN('there')}, ${EN('today')} → ${EN('that day')}, ${EN('tomorrow')} → ${EN('the next day')}.`
+            ] },
+          { h: 'Perguntas indiretas',
+            items: [
+              `Sim/não: ${EN('"Are you ready?"')} → ${EN('She asked if I was ready.')}`,
+              `Com palavra interrogativa: ${EN('"Where do you live?"')} → ${EN('He asked where I lived.')}`,
+              `Na pergunta relatada, a ordem volta a ser de afirmação: ${EN('where I lived')} — nunca "where did I live".`
+            ] },
+          { h: 'Pedidos e ordens',
+            p: `${EN('tell')} / ${EN('ask')} + pessoa + ${EN('to')} + verbo: ${EN('"Please call me."')} → ${EN('She asked me to call her.')} · ${EN('"Don\'t be late."')} → ${EN('He told me not to be late.')}` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'She ___ me that she was tired.', op: ['told', 'said', 'spoke'], a: 0, pt: 'Ela me disse que estava cansada.', exp: 'Com a pessoa logo depois (me), use tell/told. Say não leva pessoa direto.' },
+          { t: 'lacuna', frase: 'He ___ he would call me.', op: ['said', 'told', 'asked'], a: 0, pt: 'Ele disse que me ligaria.' },
+          { t: 'lacuna', frase: '"I am tired." → She said she ___ tired.', op: ['was', 'is', 'were'], a: 0, pt: 'Ela disse que estava cansada.' },
+          { t: 'lacuna', frase: '"I will help." → He said he ___ help.', op: ['would', 'will', 'can'], a: 0, pt: 'Ele disse que ajudaria.' },
+          { t: 'escolha', q: '"Where do you live?" → Como relatar?', op: ['He asked where I lived.', 'He asked where did I live.', 'He asked where do I live.'], a: 0, exp: 'Na pergunta indireta, a ordem é de afirmação e sem do/did.' },
+          { t: 'escolha', q: '"Are you ready?" → Como relatar?', op: ['She asked if I was ready.', 'She asked was I ready.', 'She said if I am ready.'], a: 0 },
+          { t: 'escolha', q: '"Don\'t be late." → Como relatar?', op: ['He told me not to be late.', "He told me don't be late.", 'He said me not be late.'], a: 0 },
+          { t: 'pares', pares: [['am / is', 'was'], ['will', 'would'], ['can', 'could'], ['today', 'that day'], ['tomorrow', 'the next day']] },
+          { t: 'montar', pt: 'Ela me pediu para ligar para ela.', en: 'She asked me to call her', extra: ['said', 'calling'] },
+          { t: 'escolha', ouvir: 'He said he had finished the report.', op: ['Ele disse que tinha terminado o relatório.', 'Ele disse que vai terminar o relatório.', 'Ele perguntou se o relatório acabou.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Ele disse que estava ocupado.', en: 'He said he was busy', alt: ['He said that he was busy'] },
+          { t: 'falar', en: 'She told me she was tired.' },
+          { t: 'falar', en: 'He asked where I lived.' }
+        ]
+      },
+      {
+        id: 'en-relativas', title: 'Orações relativas: who, which, that, where, whose',
+        desc: 'Como juntar duas frases com as palavras que equivalem ao nosso "que", "onde" e "cujo".',
+        objetivos: [
+          'Usar who para pessoas e which para coisas, e that para os dois',
+          'Usar where para lugares e whose para posse',
+          'Saber quando o pronome relativo pode ser omitido'
+        ],
+        body: '"A mulher que trabalha comigo", "o livro que eu comprei", "a cidade onde eu nasci". Em português, quase tudo é "que". Em inglês, a palavra muda conforme o que você está descrevendo — e às vezes ela simplesmente desaparece.',
+        content: [
+          { h: 'Who, which, that',
+            items: [
+              `${EN('who')} para pessoas: ${EN('The woman who works with me is from Canada.')}`,
+              `${EN('which')} para coisas e animais: ${EN('The book which I bought is great.')}`,
+              `${EN('that')} serve para os dois, e é o mais comum na fala: ${EN('The man that called you')} · ${EN('the car that I want')}`
+            ] },
+          { h: 'Where e whose',
+            items: [
+              `${EN('where')} para lugares: ${EN('This is the city where I was born.')}`,
+              `${EN('whose')} = cujo, de quem: ${EN("That's the guy whose car was stolen.")} (Aquele é o cara cujo carro foi roubado.)`
+            ] },
+          { h: 'Quando o pronome some',
+            items: [
+              `Se o pronome é o <strong>objeto</strong> (vem outro sujeito depois), dá para omitir: ${EN('The book (that) I bought')} · ${EN('The people (who) I met')}`,
+              `Se é o <strong>sujeito</strong> (vem verbo logo depois), não dá: ${EN('The woman who works with me')} — o ${EN('who')} é obrigatório.`,
+              `Por isso nativos dizem tanto ${EN('the movie we saw')} e ${EN('the guy I told you about')}.`
+            ] },
+          { h: 'Com vírgula: informação extra',
+            p: `Entre vírgulas, a oração só acrescenta informação, e aí não se usa ${EN('that')}: ${EN('My brother, who lives in London, is a doctor.')} · ${EN('Rio, which is famous for its beaches, is my favorite city.')}` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'The woman ___ works with me is from Canada.', op: ['who', 'which', 'where'], a: 0, pt: 'A mulher que trabalha comigo é do Canadá.' },
+          { t: 'lacuna', frase: 'The book ___ I bought is great.', op: ['which', 'who', 'where'], a: 0, pt: 'O livro que eu comprei é ótimo.' },
+          { t: 'lacuna', frase: 'This is the city ___ I was born.', op: ['where', 'which', 'who'], a: 0, pt: 'Esta é a cidade onde eu nasci.' },
+          { t: 'lacuna', frase: "That's the guy ___ car was stolen.", op: ['whose', 'who', "who's"], a: 0, pt: 'Aquele é o cara cujo carro foi roubado.' },
+          { t: 'escolha', q: 'Em qual frase o pronome relativo pode ser omitido?', op: ['The movie that we saw was great.', 'The woman who works here is nice.', 'The dog that bit me ran away.'], a: 0, exp: 'Só quando ele é objeto (vem outro sujeito depois: we saw).' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['My brother, who lives in London, is a doctor.', 'My brother, that lives in London, is a doctor.', 'My brother, which lives in London, is a doctor.'], a: 0, exp: 'Entre vírgulas não se usa that; para pessoa, who.' },
+          { t: 'pares', pares: [['who', 'pessoas'], ['which', 'coisas'], ['that', 'pessoas e coisas'], ['where', 'lugares'], ['whose', 'posse (cujo)']] },
+          { t: 'montar', pt: 'O cara de quem eu te falei.', en: 'The guy I told you about', extra: ['who', 'which'] },
+          { t: 'montar', pt: 'Esta é a casa onde eu moro.', en: 'This is the house where I live', extra: ['which', 'who'] },
+          { t: 'escolha', ouvir: 'The people I met in Rio were amazing.', op: ['As pessoas que conheci no Rio eram incríveis.', 'Conheci pessoas incríveis no Rio.', 'As pessoas do Rio me conheceram.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'O carro que eu quero é caro.', en: 'The car I want is expensive', alt: ['The car that I want is expensive', 'The car which I want is expensive'] },
+          { t: 'falar', en: 'The woman who works with me is from Canada.' },
+          { t: 'falar', en: 'This is the city where I was born.' }
+        ]
+      },
+      {
+        id: 'en-third-wish', title: 'Third conditional e wish: arrependimentos',
+        desc: 'Como falar do passado que não aconteceu — If I had known, I would have... — e expressar desejos com wish.',
+        objetivos: [
+          'Usar o third conditional para hipóteses sobre o passado',
+          'Usar wish + passado para desejos sobre o presente',
+          'Usar wish + past perfect para arrependimentos'
+        ],
+        body: '"Se eu tivesse estudado, teria passado." O third conditional é a ferramenta dos arrependimentos e das histórias que podiam ter sido diferentes. E o wish completa: "quem me dera", "eu queria que...". Fechando o módulo, a gramática mais sofisticada do B2.',
+        content: [
+          { h: 'Third conditional',
+            items: [
+              `if + had + particípio, would have + particípio: ${EN('If I had studied, I would have passed.')} (Se eu tivesse estudado, teria passado.)`,
+              `Fala de algo que <strong>não</strong> aconteceu: eu não estudei, então não passei.`,
+              `${EN("If you had told me, I would have helped you.")} · contrações na fala: ${EN("If I'd known, I'd have come.")}`
+            ] },
+          { h: 'Os três condicionais lado a lado',
+            items: [
+              `First (possível): ${EN("If it rains, I'll stay home.")}`,
+              `Second (imaginário, agora): ${EN("If I had money, I'd travel.")}`,
+              `Third (passado que não aconteceu): ${EN("If I had saved money, I would have traveled.")}`
+            ] },
+          { h: 'Wish sobre o presente',
+            items: [
+              `${EN('wish')} + passado = desejo de que o presente fosse diferente: ${EN('I wish I had more time.')} (Queria ter mais tempo.)`,
+              `${EN('I wish I spoke French.')} · ${EN('I wish I were taller.')} — mesma lógica do second conditional.`,
+              `${EN('If only...')} é a versão mais emotiva: ${EN('If only I knew the answer!')}`
+            ] },
+          { h: 'Wish sobre o passado: arrependimento',
+            p: `${EN('wish')} + had + particípio: ${EN("I wish I had studied more.")} (Queria ter estudado mais.) · ${EN("I wish I hadn't said that.")} (Queria não ter dito aquilo.) — a forma mais natural de expressar arrependimento em inglês.` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'If I had studied, I would have ___.', op: ['passed', 'pass', 'passing'], a: 0, pt: 'Se eu tivesse estudado, teria passado.' },
+          { t: 'lacuna', frase: 'If you ___ told me, I would have helped you.', op: ['had', 'have', 'would'], a: 0, pt: 'Se você tivesse me contado, eu teria te ajudado.' },
+          { t: 'lacuna', frase: 'I wish I ___ more time.', op: ['had', 'have', 'will have'], a: 0, pt: 'Queria ter mais tempo.' },
+          { t: 'lacuna', frase: "I wish I ___ said that.", op: ["hadn't", "didn't", "don't"], a: 0, pt: 'Queria não ter dito aquilo.', exp: 'Arrependimento sobre o passado: wish + had (not) + particípio.' },
+          { t: 'escolha', q: 'Qual frase é um third conditional?', op: ['If I had saved money, I would have traveled.', "If I have money, I'll travel.", "If I had money, I'd travel."], a: 0 },
+          { t: 'escolha', q: `${EN("If I'd known, I'd have come.")} significa:`, op: ['Se eu soubesse, teria vindo.', 'Se eu souber, eu venho.', 'Eu sabia e vim.'], a: 0, opPt: true },
+          { t: 'pares', pares: [["If it rains, I'll stay.", 'possível'], ["If I had money, I'd travel.", 'imaginário (agora)'], ['If I had known, I would have come.', 'passado que não aconteceu'], ['I wish I had more time.', 'desejo (presente)'], ['I wish I had studied.', 'arrependimento']] },
+          { t: 'montar', pt: 'Queria falar francês.', en: 'I wish I spoke French', extra: ['speak', 'will'] },
+          { t: 'montar', pt: 'Queria ter estudado mais.', en: 'I wish I had studied more', extra: ['have', 'would'] },
+          { t: 'escolha', ouvir: 'If you had called me, I would have picked you up.', op: ['Se você tivesse me ligado, eu teria te buscado.', 'Se você me ligar, eu te busco.', 'Você me ligou e eu te busquei.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Quem me dera eu soubesse a resposta!', en: 'If only I knew the answer!', alt: ['If only I knew the answer', 'I wish I knew the answer!', 'I wish I knew the answer'] },
+          { t: 'falar', en: 'I wish I had studied more.' },
+          { t: 'falar', en: "If I had known, I would have come." }
+        ]
+      }
+    ]
+  }
 ];
