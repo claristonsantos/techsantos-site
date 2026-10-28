@@ -1758,4 +1758,190 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m10', title: 'Módulo 10 · Conditionals: if, when, unless e hipóteses (B1)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-condicional-0-1', title: 'Zero e first conditional: se acontecer...',
+        desc: 'Frases com "se" para fatos que sempre acontecem e para possibilidades reais no futuro — e a regra de não usar will depois do if.',
+        objetivos: [
+          'Usar o zero conditional para fatos e regras gerais',
+          'Usar o first conditional para possibilidades reais no futuro',
+          'Evitar will depois de if'
+        ],
+        body: 'Toda decisão tem um "se": se chover, eu fico em casa; se você esquentar a água, ela ferve. Em inglês, essas frases têm estruturas fixas — e uma regra que pega quase todo brasileiro: depois do if, nada de will.',
+        content: [
+          { h: 'Zero conditional: sempre que',
+            items: [
+              `if + presente, presente — fatos, regras, coisas que sempre acontecem: ${EN('If you heat water to 100 degrees, it boils.')}`,
+              `${EN("If I drink coffee at night, I can't sleep.")} (Se eu tomo café à noite, não consigo dormir.)`,
+              `Aqui ${EN('if')} quase significa "sempre que" — dá para trocar por ${EN('when')}.`
+            ] },
+          { h: 'First conditional: possibilidade real',
+            items: [
+              `if + presente, will + verbo — algo que pode acontecer no futuro: ${EN("If it rains, I'll stay home.")} (Se chover, vou ficar em casa.)`,
+              `${EN("If you study, you'll pass the test.")} · ${EN("If she calls, I'll tell you.")}`,
+              `A ordem pode inverter, sem vírgula: ${EN("I'll stay home if it rains.")}`
+            ] },
+          { h: 'A regra de ouro: nada de will depois do if',
+            items: [
+              `Em português usamos o futuro do subjuntivo: "se chover". Em inglês, depois do ${EN('if')}, vai o presente simples: ${EN('If it rains')} — nunca "If it will rain".`,
+              `O ${EN('will')} fica na outra parte da frase, a do resultado.`,
+              `No lugar de ${EN('will')} também cabem ${EN('can')}, ${EN('should')}, ${EN('might')} ou um imperativo: ${EN("If you're tired, go to bed.")}`
+            ] }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "If it ___, I'll stay home.", op: ['rains', 'will rain', 'rained'], a: 0, pt: 'Se chover, vou ficar em casa.', exp: 'Depois do if, presente simples — nunca will.' },
+          { t: 'lacuna', frase: "If you study, you ___ pass the test.", op: ['will', 'would', 'are'], a: 0, pt: 'Se você estudar, vai passar na prova.' },
+          { t: 'lacuna', frase: 'If you heat water to 100 degrees, it ___.', op: ['boils', 'will boil', 'boiled'], a: 0, pt: 'Se você esquentar a água a 100 graus, ela ferve.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["If she calls, I'll tell you.", "If she will call, I'll tell you.", 'If she calls, I tell you tomorrow.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase é um zero conditional (fato geral)?', op: ["If I drink coffee at night, I can't sleep.", "If I see him, I'll tell him.", 'If I had money, I would travel.'], a: 0 },
+          { t: 'montar', pt: 'Se você estiver cansado, vá para a cama.', en: "If you're tired go to bed", extra: ['will', 'are'] },
+          { t: 'montar', pt: 'Eu vou ficar em casa se chover.', en: "I'll stay home if it rains", extra: ['will', 'rain'] },
+          { t: 'pares', pares: [['If it rains,', "I'll stay home."], ['If you heat ice,', 'it melts.'], ['If you study,', "you'll pass."], ["If you're tired,", 'go to bed.'], ['If she calls,', "I'll tell you."]] },
+          { t: 'escolha', ouvir: "If I finish early, I'll call you.", op: ["If I finish early, I'll call you.", 'If I finished early, I would call you.', "When I finish, I called you."], a: 0 },
+          { t: 'digitar', pt: 'Se chover, eu vou ficar em casa.', en: "If it rains, I'll stay home", alt: ['If it rains, I will stay home', "If it rains I'll stay home"] },
+          { t: 'digitar', ouvir: "If you need help, call me.", en: 'If you need help, call me', alt: ['If you need help call me'] },
+          { t: 'falar', en: "If it rains, I'll stay home." },
+          { t: 'falar', en: "If you study, you'll pass the test." }
+        ]
+      },
+      {
+        id: 'en-condicional-2', title: 'Second conditional: e se...?',
+        desc: 'Hipóteses imaginárias e situações irreais: If I had more time, I would... — e o famoso If I were you, para dar conselho.',
+        objetivos: [
+          'Usar o second conditional para hipóteses improváveis ou imaginárias',
+          'Formar a frase com if + passado e would + verbo',
+          'Dar conselho com If I were you...'
+        ],
+        body: '"Se eu ganhasse na loteria, eu viajaria pelo mundo." Para situações imaginárias, que provavelmente não vão acontecer ou não são verdade agora, o inglês usa o passado depois do if — mesmo falando do presente ou do futuro.',
+        content: [
+          { h: 'A forma: if + passado, would + verbo',
+            items: [
+              `${EN('If I won the lottery, I would travel around the world.')} (Se eu ganhasse na loteria, viajaria pelo mundo.)`,
+              `${EN("If I had more time, I'd learn to play the guitar.")} — ${EN("I'd")} = ${EN('I would')}.`,
+              `O passado aqui não fala do passado: indica que a situação é irreal ou improvável.`
+            ] },
+          { h: 'First ou second?',
+            items: [
+              `Possível, real → first: ${EN("If I have time tomorrow, I'll call you.")} (pode acontecer)`,
+              `Imaginário, improvável → second: ${EN("If I lived in Paris, I'd eat croissants every day.")} (eu não moro em Paris)`,
+              `A escolha mostra o que você acha da chance: ${EN("If I get the job, I'll buy a car.")} (acredito) × ${EN('If I got the job, I would buy a car.')} (acho difícil)`
+            ] },
+          { h: 'If I were you: conselho',
+            items: [
+              `${EN("If I were you, I'd talk to her.")} (Se eu fosse você, eu falaria com ela.)`,
+              `Com ${EN('be')}, o padrão formal usa ${EN('were')} para todas as pessoas: ${EN('If I were rich...')} · ${EN('If she were here...')} Na fala você vai ouvir ${EN('was')} também.`
+            ] },
+          { h: 'Perguntas imaginárias',
+            p: `Ótimas para puxar conversa: ${EN('What would you do if you won a million dollars?')} · ${EN('Where would you live if you could live anywhere?')} Resposta: ${EN("I'd buy a house by the beach.")}` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'If I ___ the lottery, I would travel.', op: ['won', 'win', 'will win'], a: 0, pt: 'Se eu ganhasse na loteria, eu viajaria.' },
+          { t: 'lacuna', frase: "If I had more time, I ___ learn the guitar.", op: ['would', 'will', 'am'], a: 0, pt: 'Se eu tivesse mais tempo, aprenderia violão.' },
+          { t: 'lacuna', frase: "If I ___ you, I'd talk to her.", op: ['were', 'am', 'will be'], a: 0, pt: 'Se eu fosse você, falaria com ela.' },
+          { t: 'escolha', q: 'Você NÃO mora em Paris. Qual frase?', op: ["If I lived in Paris, I'd eat croissants every day.", "If I live in Paris, I'll eat croissants every day.", 'If I lived in Paris, I eat croissants.'], a: 0, exp: 'Situação imaginária (não é verdade agora): second conditional.' },
+          { t: 'escolha', q: 'Você acredita que vai conseguir a vaga. Qual frase?', op: ["If I get the job, I'll buy a car.", 'If I got the job, I would buy a car.', 'If I will get the job, I buy a car.'], a: 0 },
+          { t: 'montar', pt: 'O que você faria se ganhasse um milhão de dólares?', en: 'What would you do if you won a million dollars?', extra: ['will', 'win'] },
+          { t: 'montar', pt: 'Se eu fosse rico, compraria uma casa na praia.', en: "If I were rich I'd buy a house by the beach", extra: ['will', 'am'] },
+          { t: 'pares', pares: [["I'd", 'I would'], ['If I were you', 'Se eu fosse você'], ['would + verbo', 'futuro do pretérito'], ['If I had', 'Se eu tivesse'], ['won', 'ganhasse']] },
+          { t: 'escolha', ouvir: "If I had a car, I'd drive to work.", op: ["If I had a car, I'd drive to work.", "If I have a car, I'll drive to work.", "I had a car and I drove to work."], a: 0 },
+          { t: 'digitar', pt: 'Se eu fosse você, eu falaria com ele.', en: "If I were you, I'd talk to him", alt: ['If I were you, I would talk to him', "If I were you I'd talk to him"] },
+          { t: 'digitar', ouvir: 'Where would you live if you could live anywhere?', en: 'Where would you live if you could live anywhere' },
+          { t: 'falar', en: "If I were you, I'd take the job." },
+          { t: 'falar', en: 'What would you do if you won the lottery?' }
+        ]
+      },
+      {
+        id: 'en-if-when', title: 'If ou when? E as orações de tempo',
+        desc: 'A diferença entre "se" e "quando" e a regra das orações de tempo: when, as soon as, before e after também pedem presente, mesmo falando do futuro.',
+        objetivos: [
+          'Escolher entre if (talvez aconteça) e when (vai acontecer)',
+          'Usar presente depois de when, as soon as, before, after e until para o futuro',
+          'Montar planos encadeados: As soon as I arrive, I\'ll call you'
+        ],
+        body: '"Quando eu chegar, eu te ligo." Em português, futuro do subjuntivo de novo. Em inglês, a mesma regra do if vale para as palavras de tempo: depois de when, as soon as, before e after, nada de will. E escolher entre if e when muda o sentido da frase.',
+        content: [
+          { h: 'If × when',
+            items: [
+              `${EN('if')}: talvez aconteça — ${EN("If I see Ben, I'll tell him.")} (talvez eu o veja)`,
+              `${EN('when')}: vai acontecer, é só questão de tempo — ${EN("When I see Ben, I'll tell him.")} (vou vê-lo com certeza)`,
+              `${EN("When I get home, I'll call you.")} — você vai chegar em casa, certo? Então é ${EN('when')}, não ${EN('if')}.`
+            ] },
+          { h: 'Orações de tempo: presente para o futuro',
+            items: [
+              `${EN("As soon as I arrive, I'll call you.")} (Assim que eu chegar, te ligo.)`,
+              `${EN("I'll have dinner before I go out.")} · ${EN("We'll talk after the meeting ends.")}`,
+              `${EN("I'll wait until you finish.")} (Vou esperar até você terminar.)`,
+              `Nunca "When I will arrive" ou "as soon as I will get" — o futuro fica só na outra parte da frase.`
+            ] },
+          { h: 'Resumo da regra',
+            p: `Depois de ${EN('if')}, ${EN('when')}, ${EN('as soon as')}, ${EN('before')}, ${EN('after')} e ${EN('until')}, use o presente simples — mesmo que a ideia seja futura. É uma das diferenças mais sistemáticas entre o português e o inglês, e dominar isso já coloca você à frente de muita gente.` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "___ I get home, I'll call you.", op: ['When', 'If', 'Will'], a: 0, pt: 'Quando eu chegar em casa, te ligo.', exp: 'Você vai chegar em casa (é certo): when.' },
+          { t: 'lacuna', frase: "As soon as I ___, I'll call you.", op: ['arrive', 'will arrive', 'arrived'], a: 0, pt: 'Assim que eu chegar, te ligo.' },
+          { t: 'lacuna', frase: "I'll wait until you ___.", op: ['finish', 'will finish', 'finished'], a: 0, pt: 'Vou esperar até você terminar.' },
+          { t: 'lacuna', frase: "___ it's sunny tomorrow, we'll go to the beach.", op: ['If', 'When', 'As soon as'], a: 0, pt: 'Se fizer sol amanhã, vamos à praia.', exp: 'Não é certo que vai fazer sol: if.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["We'll talk after the meeting ends.", "We'll talk after the meeting will end.", 'We talk after the meeting will end.'], a: 0 },
+          { t: 'pares', pares: [['as soon as', 'assim que'], ['until', 'até (que)'], ['before', 'antes de'], ['after', 'depois de'], ['when', 'quando']] },
+          { t: 'montar', pt: 'Vou jantar antes de sair.', en: "I'll have dinner before I go out", extra: ['will', 'going'] },
+          { t: 'montar', pt: 'Quando eu vir o Ben, vou contar para ele.', en: "When I see Ben I'll tell him", extra: ['will', 'If'] },
+          { t: 'escolha', ouvir: "As soon as I land, I'll text you.", op: ['Assim que eu pousar, te mando mensagem.', 'Se eu pousar, te ligo.', 'Quando pousei, te mandei mensagem.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Assim que eu chegar, eu te ligo.', en: "As soon as I arrive, I'll call you", alt: ['As soon as I arrive, I will call you', "As soon as I get there, I'll call you"] },
+          { t: 'digitar', ouvir: "I'll wait until you finish.", en: "I'll wait until you finish", alt: ['I will wait until you finish'] },
+          { t: 'falar', en: "When I get home, I'll call you." },
+          { t: 'falar', en: "As soon as I arrive, I'll text you." }
+        ]
+      },
+      {
+        id: 'en-unless-rather', title: 'Unless, in case e would rather',
+        desc: 'Três ferramentas para falar de condições e preferências: a menos que, caso, e prefiro.',
+        objetivos: [
+          'Usar unless com o sentido de "a menos que / se não"',
+          'Usar in case para precaução ("caso")',
+          'Expressar preferência com would rather e prefer'
+        ],
+        body: 'Fechando o módulo das condições, três expressões que deixam o seu inglês bem mais natural: unless (a menos que), in case (por precaução) e would rather (eu preferiria). Todas seguem a regra que você já conhece: depois delas, presente para falar do futuro.',
+        content: [
+          { h: 'Unless: a menos que',
+            items: [
+              `${EN('unless')} = ${EN('if... not')}: ${EN("I won't go unless you come with me.")} (Não vou, a menos que você venha comigo.)`,
+              `= ${EN("I won't go if you don't come with me.")}`,
+              `Cuidado: ${EN('unless')} já é negativo. Não diga "unless you don't".`
+            ] },
+          { h: 'In case: caso, por precaução',
+            items: [
+              `${EN("Take an umbrella in case it rains.")} (Leve um guarda-chuva caso chova.)`,
+              `Diferença: ${EN('if')} = só se acontecer; ${EN('in case')} = já se prepara antes. ${EN("I'll buy more food in case Ben comes.")} (compro agora, por via das dúvidas)`
+            ] },
+          { h: 'Would rather e prefer',
+            items: [
+              `${EN("I'd rather")} + verbo puro = eu preferiria: ${EN("I'd rather stay home tonight.")}`,
+              `Comparando: ${EN("I'd rather walk than take the bus.")} (Prefiro andar a pegar o ônibus.)`,
+              `Pergunta: ${EN('Would you rather have coffee or tea?')}`,
+              `${EN('prefer')} para gosto geral: ${EN('I prefer tea to coffee.')} (repare: ${EN('to')}, não "than")`
+            ] },
+          { h: 'Revisão do módulo',
+            p: `Zero: ${EN('If you heat ice, it melts.')} · First: ${EN("If it rains, I'll stay home.")} · Second: ${EN("If I had a car, I'd drive.")} · Tempo: ${EN("When I arrive, I'll call.")} · ${EN('Unless')}, ${EN('in case')}, ${EN('would rather')}. Você agora fala de hipóteses, planos e preferências.` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "I won't go ___ you come with me.", op: ['unless', 'if', 'in case'], a: 0, pt: 'Não vou, a menos que você venha comigo.' },
+          { t: 'lacuna', frase: 'Take an umbrella ___ it rains.', op: ['in case', 'unless', 'if not'], a: 0, pt: 'Leve um guarda-chuva caso chova.' },
+          { t: 'lacuna', frase: "I'd rather ___ home tonight.", op: ['stay', 'to stay', 'staying'], a: 0, pt: 'Eu prefiro ficar em casa hoje à noite.', exp: `would rather + verbo puro, sem to.` },
+          { t: 'lacuna', frase: 'I prefer tea ___ coffee.', op: ['to', 'than', 'that'], a: 0, pt: 'Eu prefiro chá a café.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["You can't come in unless you have a ticket.", "You can't come in unless you don't have a ticket.", "You can't come in unless you will have a ticket."], a: 0, exp: 'unless já é negativo: não use don\'t junto.' },
+          { t: 'escolha', q: `${EN("I'd rather walk than take the bus.")} significa:`, op: ['Prefiro andar a pegar o ônibus.', 'Eu andaria se pegasse o ônibus.', 'Prefiro o ônibus.'], a: 0, opPt: true },
+          { t: 'montar', pt: 'Você prefere café ou chá?', en: 'Would you rather have coffee or tea?', extra: ['prefer', 'than'] },
+          { t: 'montar', pt: 'Vou comprar mais comida caso o Ben venha.', en: "I'll buy more food in case Ben comes", extra: ['will', 'unless'] },
+          { t: 'pares', pares: [['unless', 'a menos que'], ['in case', 'caso, por precaução'], ["I'd rather", 'eu preferiria'], ['prefer A to B', 'preferir A a B'], ['as soon as', 'assim que']] },
+          { t: 'escolha', ouvir: "I'll be there unless it rains.", op: ['Estarei lá, a menos que chova.', 'Estarei lá caso chova.', 'Estarei lá se chover.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Eu prefiro ficar em casa.', en: "I'd rather stay home", alt: ['I would rather stay home', 'I prefer to stay home', "I'd rather stay at home"] },
+          { t: 'falar', en: "I'd rather walk than take the bus." },
+          { t: 'falar', en: 'Take an umbrella in case it rains.' }
+        ]
+      }
+    ]
+  }
 ];
