@@ -3,6 +3,18 @@ declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/../curso_modulos.php';
 require_once __DIR__ . '/../curso_licoes.php';
+
+// Enunciado "texto + linha em branco + código" (questões de programação): o trecho
+// depois da linha em branco vira um bloco de código, preservando a indentação.
+function enunciado_html(string $enunciado): string
+{
+    $partes = explode("\n\n", $enunciado, 2);
+    $html = '<p class="q-text">' . htmlspecialchars($partes[0], ENT_QUOTES) . '</p>';
+    if (isset($partes[1])) {
+        $html .= '<pre class="q-codigo">' . htmlspecialchars($partes[1], ENT_QUOTES) . '</pre>';
+    }
+    return $html;
+}
 $aluno = require_aluno();
 
 $moduloId = (string)($_GET['modulo'] ?? '');
@@ -209,6 +221,7 @@ $historicoTentativas = $historyStmt->fetchAll();
   .q-card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 1.4rem 1.5rem; margin-bottom: 1.25rem; }
   .q-card .q-num { font-family: 'Plex Mono', monospace; font-size: 0.72rem; color: var(--green-strong); margin-bottom: 0.5rem; display: block; }
   .q-card .q-text { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+  .q-card .q-codigo { margin: -0.4rem 0 1rem; padding: 0.75rem 1rem; border-radius: 8px; background: #0F1B2D; color: #E6EDF3; font: 0.9rem/1.5 Consolas, 'Courier New', monospace; white-space: pre; overflow-x: auto; }
   .q-opt { display: flex; min-height:48px; align-items: flex-start; gap: 0.65rem; padding: 0.6rem 0.7rem; border-radius: 6px; cursor: pointer; }
   .q-opt:hover { background: var(--surface-2); }
   .q-opt:focus-within { outline:3px solid var(--green-bright); outline-offset:2px; }
@@ -274,7 +287,7 @@ window.techSantosTrack?.(<?= $resultado ? json_encode($resultado['aprovado'] ? '
   <?php foreach ($questoes as $i => $q): $d = $detalhes[$q['id']] ?? null; ?>
     <div class="q-card">
       <span class="q-num">Questão <?= $i + 1 ?> de <?= count($questoes) ?></span>
-      <p class="q-text"><?= htmlspecialchars($q['enunciado'], ENT_QUOTES) ?></p>
+      <?= enunciado_html($q['enunciado']) ?>
       <?php foreach ($q['alternativas'] as $a):
         $aid = (int)$a['id'];
         $isCorrect = $d && $aid === $d['correta_id'];
@@ -297,7 +310,7 @@ window.techSantosTrack?.(<?= $resultado ? json_encode($resultado['aprovado'] ? '
     <?php foreach ($questoes as $i => $q): ?>
       <div class="q-card">
         <span class="q-num">Questão <?= $i + 1 ?> de <?= count($questoes) ?></span>
-        <p class="q-text"><?= htmlspecialchars($q['enunciado'], ENT_QUOTES) ?></p>
+        <?= enunciado_html($q['enunciado']) ?>
         <?php foreach ($q['alternativas'] as $a): ?>
           <label class="q-opt">
             <input type="radio" name="q<?= (int)$q['id'] ?>" value="<?= (int)$a['id'] ?>" required>
