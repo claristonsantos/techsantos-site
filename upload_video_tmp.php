@@ -7,7 +7,7 @@ header('Content-Type: text/plain; charset=utf-8');
 $key = $_GET['key'] ?? '';
 if (!hash_equals(SETUP_KEY, $key)) { http_response_code(403); exit('Forbidden.'); }
 
-$PERMITIDOS\ = ['en-cumprimentos', 'en-verbo-to-be', 'en-apresentacoes', 'en-numeros'];
+$PERMITIDOS = ['en-cumprimentos', 'en-verbo-to-be', 'en-apresentacoes', 'en-numeros'];
 $dir = dirname(__DIR__) . '/private-videos';
 $acao = $_GET['acao'] ?? '';
 
