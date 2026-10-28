@@ -57,7 +57,8 @@
     });
   }
 
-  function blocosExecutaveis(raiz) {
+  // arquivos: os mesmos arquivos de exemplo dos desafios da aula, para os blocos poderem lê-los
+  function blocosExecutaveis(raiz, arquivos) {
     raiz.querySelectorAll('pre.lesson-code').forEach(pre => {
       if (pre.dataset.lab) return; pre.dataset.lab = '1';
       const box = document.createElement('div'); box.className = 'lab-bloco';
@@ -66,7 +67,7 @@
       pre.after(box); box.append(btn, out);
       btn.addEventListener('click', async () => {
         btn.disabled = true; btn.textContent = aquecido ? 'Executando…' : 'Carregando o Python…';
-        const r = await executar(pre.textContent);
+        const r = await executar(pre.textContent, arquivos);
         out.innerHTML = saidaHtml(r); btn.disabled = false; btn.textContent = '▶ Executar de novo';
       });
     });
@@ -121,7 +122,7 @@
   window.PyLab = {
     executar,
     montar(raiz, aula) {
-      blocosExecutaveis(raiz);
+      blocosExecutaveis(raiz, Object.assign({}, ...((aula && aula.desafios) || []).map(d => d.arquivos || {})));
       const host = raiz.querySelector('#desafiosHost');
       if (host && aula.desafios) aula.desafios.forEach((d, i) => desafio(host, d, i, aula.id));
     }

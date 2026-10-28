@@ -7,6 +7,16 @@
 // Testes dos desafios: código Python executado depois do script do aluno, no mesmo
 // escopo (enxerga as variáveis dele), mais `saida` (tudo o que ele imprimiu) e `linhas`.
 // Ids de aula com prefixo "py-" para não colidir com o progresso dos outros cursos.
+// Arquivos de exemplo dos desafios (dados sintéticos, gerados para o curso).
+const PY_ARQ = {
+  "vendas.csv": "data,vendedor,regiao,produto,quantidade,preco_unit\n2026-01-07,Diego,Sul,Webcam,5,219.0\n2026-01-09,Bruno,Sudeste,Teclado,1,89.9\n2026-01-09,Bruno,Sudeste,Webcam,5,219.0\n2026-01-16,Carla,Nordeste,Headset,2,159.0\n2026-01-17,Ana,Centro-Oeste,Mouse,3,49.9\n2026-01-17,Ana,Centro-Oeste,Webcam,1,219.0\n2026-01-17,Bruno,Sudeste,Webcam,2,219.0\n2026-01-19,Carla,Nordeste,Teclado,1,89.9\n2026-01-19,Diego,Sul,Teclado,2,89.9\n2026-01-20,Bruno,Sudeste,Headset,5,159.0\n2026-01-21,Carla,Nordeste,Headset,3,159.0\n2026-01-24,Ana,Centro-Oeste,Webcam,2,219.0\n2026-01-25,Bruno,Sudeste,Headset,2,159.0\n2026-01-26,Diego,Sul,Teclado,2,89.9\n2026-02-01,Ana,Centro-Oeste,Mouse,1,49.9\n2026-02-01,Carla,Nordeste,Webcam,5,219.0\n2026-02-01,Diego,Sul,Mouse,5,49.9\n2026-02-02,Bruno,Sudeste,Teclado,3,89.9\n2026-02-10,Ana,Centro-Oeste,Mouse,6,49.9\n2026-02-16,Carla,Nordeste,Headset,3,159.0\n2026-02-16,Diego,Sul,Webcam,1,219.0\n2026-02-19,Diego,Sul,Monitor,3,799.0\n2026-02-21,Diego,Sul,Monitor,6,799.0\n2026-02-24,Diego,Sul,Mouse,2,49.9\n2026-02-26,Carla,Nordeste,Headset,2,159.0\n2026-02-26,Carla,Nordeste,Mouse,5,49.9\n",
+  "vendas_br.csv": "data;vendedor;regiao;produto;quantidade;preco_unit\n2026-03-01;Diego;Sul;Monitor;2;799,0\n2026-03-03;Diego;Sul;Monitor;5;799,0\n2026-03-04;Bruno;Sudeste;Webcam;5;219,0\n2026-03-09;Ana;Centro-Oeste;Webcam;4;219,0\n2026-03-10;Diego;Sul;Webcam;1;219,0\n2026-03-12;Carla;Nordeste;Teclado;5;89,9\n2026-03-16;Bruno;Sudeste;Mouse;2;49,9\n2026-03-20;Bruno;Sudeste;Teclado;1;89,9\n2026-03-20;Carla;Nordeste;Webcam;5;219,0\n2026-03-20;Diego;Sul;Mouse;5;49,9\n2026-03-21;Ana;Centro-Oeste;Webcam;5;219,0\n2026-03-22;Bruno;Sudeste;Headset;2;159,0\n2026-03-22;Carla;Nordeste;Mouse;2;49,9\n2026-03-26;Diego;Sul;Monitor;3;799,0\n2026-03-28;Ana;Centro-Oeste;Mouse;4;49,9\n",
+  "mes_jan.csv": "data,vendedor,regiao,produto,quantidade,preco_unit\n2026-01-07,Diego,Sul,Webcam,5,219.0\n2026-01-09,Bruno,Sudeste,Teclado,1,89.9\n2026-01-09,Bruno,Sudeste,Webcam,5,219.0\n2026-01-16,Carla,Nordeste,Headset,2,159.0\n2026-01-17,Ana,Centro-Oeste,Mouse,3,49.9\n2026-01-17,Ana,Centro-Oeste,Webcam,1,219.0\n2026-01-17,Bruno,Sudeste,Webcam,2,219.0\n2026-01-19,Carla,Nordeste,Teclado,1,89.9\n2026-01-19,Diego,Sul,Teclado,2,89.9\n2026-01-20,Bruno,Sudeste,Headset,5,159.0\n2026-01-21,Carla,Nordeste,Headset,3,159.0\n2026-01-24,Ana,Centro-Oeste,Webcam,2,219.0\n2026-01-25,Bruno,Sudeste,Headset,2,159.0\n2026-01-26,Diego,Sul,Teclado,2,89.9\n",
+  "mes_fev.csv": "data,vendedor,regiao,produto,quantidade,preco_unit\n2026-02-01,Ana,Centro-Oeste,Mouse,1,49.9\n2026-02-01,Carla,Nordeste,Webcam,5,219.0\n2026-02-01,Diego,Sul,Mouse,5,49.9\n2026-02-02,Bruno,Sudeste,Teclado,3,89.9\n2026-02-10,Ana,Centro-Oeste,Mouse,6,49.9\n2026-02-16,Carla,Nordeste,Headset,3,159.0\n2026-02-16,Diego,Sul,Webcam,1,219.0\n2026-02-19,Diego,Sul,Monitor,3,799.0\n2026-02-21,Diego,Sul,Monitor,6,799.0\n2026-02-24,Diego,Sul,Mouse,2,49.9\n2026-02-26,Carla,Nordeste,Headset,2,159.0\n2026-02-26,Carla,Nordeste,Mouse,5,49.9\n",
+  "mes_mar.csv": "data,vendedor,regiao,produto,quantidade,preco_unit\n2026-03-01,Diego,Sul,Monitor,2,799.0\n2026-03-03,Diego,Sul,Monitor,5,799.0\n2026-03-04,Bruno,Sudeste,Webcam,5,219.0\n2026-03-09,Ana,Centro-Oeste,Webcam,4,219.0\n2026-03-10,Diego,Sul,Webcam,1,219.0\n2026-03-12,Carla,Nordeste,Teclado,5,89.9\n2026-03-16,Bruno,Sudeste,Mouse,2,49.9\n2026-03-20,Bruno,Sudeste,Teclado,1,89.9\n2026-03-20,Carla,Nordeste,Webcam,5,219.0\n2026-03-20,Diego,Sul,Mouse,5,49.9\n2026-03-21,Ana,Centro-Oeste,Webcam,5,219.0\n2026-03-22,Bruno,Sudeste,Headset,2,159.0\n2026-03-22,Carla,Nordeste,Mouse,2,49.9\n2026-03-26,Diego,Sul,Monitor,3,799.0\n2026-03-28,Ana,Centro-Oeste,Mouse,4,49.9\n",
+  "sistema.log": "2026-03-10 08:29 ERRO Pedido 1000: pagamento recusado\n2026-03-10 10:23 ERRO Pedido 1001: estoque insuficiente\n2026-03-10 12:08 INFO Pedido 1002 faturado\n2026-03-10 14:55 INFO Pedido 1003 recebido\n2026-03-10 16:21 ERRO Pedido 1004: pagamento recusado\n2026-03-10 18:29 ERRO Pedido 1005: pagamento recusado\n2026-03-11 08:05 ERRO Pedido 1006: estoque insuficiente\n2026-03-11 10:35 ERRO Pedido 1007: pagamento recusado\n2026-03-11 12:44 INFO Pedido 1008 recebido\n2026-03-11 14:46 AVISO Pedido 1009: endereço incompleto\n2026-03-11 16:10 AVISO Pedido 1010: endereço incompleto\n2026-03-11 18:46 AVISO Pedido 1011: endereço incompleto\n2026-03-12 08:10 INFO Pedido 1012 faturado\n2026-03-12 10:15 INFO Pedido 1013 recebido\n2026-03-12 12:07 INFO Pedido 1014 faturado\n2026-03-12 14:32 ERRO Pedido 1015: pagamento recusado\n2026-03-12 16:04 AVISO Pedido 1016: endereço incompleto\n2026-03-12 18:50 INFO Pedido 1017 recebido\n2026-03-13 08:58 ERRO Pedido 1018: estoque insuficiente\n2026-03-13 10:13 INFO Pedido 1019 faturado\n2026-03-13 12:46 AVISO Pedido 1020: endereço incompleto\n2026-03-13 14:56 INFO Pedido 1021 recebido\n2026-03-13 16:49 ERRO Pedido 1022: estoque insuficiente\n2026-03-13 18:58 INFO Pedido 1023 faturado\n"
+};
+
 const COURSE = [
   {
     id: 'py-m01', title: 'Módulo 01 · Primeiros passos: print, variáveis, tipos e operações', kind: 'video',
@@ -1344,6 +1354,211 @@ const COURSE = [
             ],
             dicas: ['Crie uma função que devolve a lista de problemas de um registro ("nome", "email", "valor").', 'Para o valor: try: v = float(reg["valor"]) ... except ValueError: problema. Se converter mas for <= 0, também é problema.'],
             solucao: 'cadastros = [\n    {"nome": "Ana", "email": "ana@empresa.com", "valor": "150.0"},\n    {"nome": "", "email": "bruno@empresa.com", "valor": "80"},\n    {"nome": "Carla", "email": "carla.empresa.com", "valor": "abc"},\n    {"nome": "Diego", "email": "diego@@empresa.com", "valor": "-10"},\n    {"nome": "Elisa", "email": "elisa@empresa.com", "valor": "320.5"},\n]\n\ndef checar(reg):\n    erros = []\n    if not reg["nome"].strip():\n        erros.append("nome")\n    if reg["email"].count("@") != 1:\n        erros.append("email")\n    try:\n        if float(reg["valor"]) <= 0:\n            erros.append("valor")\n    except ValueError:\n        erros.append("valor")\n    return erros\n\nvalidos = []\nproblemas = {}\nfor reg in cadastros:\n    erros = checar(reg)\n    if not erros:\n        validos.append(reg["nome"])\n    for e in erros:\n        problemas[e] = problemas.get(e, 0) + 1\nqualidade = round(len(validos) / len(cadastros) * 100, 1)\nprint(validos, qualidade, problemas)' }
+        ]
+      }
+    ]
+  }
+  ,
+  {
+    id: 'py-m08', title: 'Módulo 08 · Arquivos: texto, CSV e JSON', kind: 'video',
+    lessons: [
+      {
+        id: 'py-arquivos-texto', title: 'Lendo e gravando arquivos de texto',
+        desc: 'Abrir, ler e gravar arquivos com open e with: o primeiro passo para o Python trabalhar com os dados que já existem no seu computador.',
+        objetivos: [
+          'Ler um arquivo inteiro ou linha por linha',
+          'Gravar e acrescentar texto num arquivo (modos "w" e "a")',
+          'Usar with para o arquivo ser fechado automaticamente'
+        ],
+        body: 'Até aqui os dados estavam escritos no próprio código. No dia a dia eles estão em arquivos: um log do sistema, uma exportação do ERP, uma lista de e-mails. Nesta aula o Python passa a ler esses arquivos e a gravar os resultados em arquivos novos — que você pode baixar e abrir.',
+        content: [
+          { h: 'open e with',
+            items: [
+              '<code>open("arquivo.txt", encoding="utf-8")</code> abre o arquivo para leitura.',
+              'O <code>with</code> garante que o arquivo seja fechado no final do bloco, mesmo se der erro.',
+              'Sempre informe <code>encoding="utf-8"</code>: assim acentos como "ã" e "ç" não viram símbolos estranhos.'
+            ] },
+          { h: 'Lendo o arquivo inteiro',
+            p: 'Nesta aula o laboratório já tem o arquivo <code>sistema.log</code>, o registro de pedidos de uma loja. Execute:',
+            code: 'with open("sistema.log", encoding="utf-8") as arq:\n    conteudo = arq.read()\n\nprint(conteudo[:200])\nprint("Caracteres:", len(conteudo))' },
+          { h: 'Linha por linha',
+            p: 'Percorrer o arquivo com <code>for</code> entrega uma linha de cada vez — o jeito certo para arquivos grandes. O <code>strip()</code> tira a quebra de linha do final.',
+            code: 'with open("sistema.log", encoding="utf-8") as arq:\n    for linha in arq:\n        if "AVISO" in linha:\n            print(linha.strip())' },
+          { h: 'Gravando: modos "w" e "a"',
+            items: [
+              '<code>"w"</code> (write) cria o arquivo do zero — se ele já existir, o conteúdo antigo é apagado.',
+              '<code>"a"</code> (append) acrescenta no final, sem apagar o que já existe.',
+              '<code>write</code> não pula linha sozinho: coloque <code>"\\n"</code> no final de cada linha.'
+            ],
+            code: 'with open("anotacoes.txt", "w", encoding="utf-8") as arq:\n    arq.write("Relatório de março\\n")\n    arq.write("Pedidos conferidos: 24\\n")\n\nwith open("anotacoes.txt", "a", encoding="utf-8") as arq:\n    arq.write("Revisado por: Ana\\n")\n\nwith open("anotacoes.txt", encoding="utf-8") as arq:\n    print(arq.read())' },
+          { h: 'Baixe o que o seu código gerou',
+            p: 'Quando o seu código grava um arquivo, o laboratório mostra um botão <strong>⬇ Baixar</strong> embaixo da saída. É o mesmo arquivo que o Python gravaria no seu computador.' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual modo apaga o conteúdo antigo e grava do zero?', op: ['"w"', '"a"', '"r"'], a: 0 },
+          { t: 'escolha', q: 'Para que serve o with ao abrir um arquivo?', op: ['Fecha o arquivo automaticamente no fim do bloco', 'Deixa o arquivo mais rápido', 'Cria uma cópia do arquivo'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'with open("log.txt", "___", encoding="utf-8") as arq:', op: ['a', 'w', 'r'], a: 0, pt: 'Acrescente linhas no final do log sem apagar o que já existe.' },
+          { t: 'escolha', q: 'O que este código mostra se o arquivo tem 3 linhas?', codigo: 'with open("nomes.txt", encoding="utf-8") as arq:\n    print(len(arq.read().splitlines()))', op: ['3', 'O texto das 3 linhas', 'Um erro'], a: 0 },
+          { t: 'escolha', q: 'Por que usar strip() em cada linha lida?', op: ['Para tirar a quebra de linha (\\n) do final', 'Para deixar o texto em maiúsculas', 'Para pular linhas vazias'], a: 0 },
+          { t: 'ordenar', q: 'Monte o código que grava uma linha num arquivo novo.', linhas: ['with open("saida.txt", "w", encoding="utf-8") as arq:', '    arq.write("Total: 1500\\n")', 'print("Arquivo gravado")'] }
+        ],
+        desafios: [
+          { titulo: 'Separe os erros do log',
+            cenario: 'O suporte pediu só as ocorrências de erro do arquivo <code>sistema.log</code>. Leia o arquivo, guarde em <code>qtd_erros</code> quantas linhas contêm <code>ERRO</code> e grave <strong>só essas linhas</strong>, na mesma ordem, num arquivo novo chamado <code>erros.txt</code> (uma por linha).',
+            arquivos: { 'sistema.log': PY_ARQ['sistema.log'] },
+            inicial: 'qtd_erros = 0\n\nwith open("sistema.log", encoding="utf-8") as arq:\n    linhas_log = arq.read().splitlines()\n\n# 1) conte as linhas que contêm ERRO\n# 2) grave essas linhas em erros.txt\n\nprint("Erros encontrados:", qtd_erros)\n',
+            testes: [
+              { py: 'assert qtd_erros == sum("ERRO" in l for l in open("sistema.log", encoding="utf-8").read().splitlines())', msg: 'qtd_erros correto' },
+              { py: 'import os\nassert os.path.exists("erros.txt")', msg: 'arquivo erros.txt gravado' },
+              { py: 'esperado = [l for l in open("sistema.log", encoding="utf-8").read().splitlines() if "ERRO" in l]\nassert open("erros.txt", encoding="utf-8").read().splitlines() == esperado', msg: 'erros.txt tem exatamente as linhas de erro, na ordem' }
+            ],
+            dicas: ['Percorra linhas_log com for e use if "ERRO" in linha.', 'Junte as linhas de erro numa lista; o tamanho dela (len) é o qtd_erros.', 'Para gravar: with open("erros.txt", "w", encoding="utf-8") as arq: e, dentro de um for, arq.write(linha + "\\n").'],
+            solucao: 'with open("sistema.log", encoding="utf-8") as arq:\n    linhas_log = arq.read().splitlines()\n\nso_erros = [linha for linha in linhas_log if "ERRO" in linha]\nqtd_erros = len(so_erros)\n\nwith open("erros.txt", "w", encoding="utf-8") as arq:\n    for linha in so_erros:\n        arq.write(linha + "\\n")\n\nprint("Erros encontrados:", qtd_erros)' }
+        ]
+      },
+      {
+        id: 'py-csv-ler', title: 'Lendo CSV com o módulo csv',
+        desc: 'Ler planilhas exportadas em CSV com csv.reader e csv.DictReader, converter os tipos e somar valores por categoria.',
+        objetivos: [
+          'Ler um CSV linha a linha com csv.reader e csv.DictReader',
+          'Converter texto em número (int e float) antes de calcular',
+          'Totalizar valores por categoria com um dicionário'
+        ],
+        body: 'CSV é o formato universal de exportação: ERP, banco, e-commerce, Google Planilhas — todos exportam CSV. O módulo csv do Python lê esse arquivo respeitando as regras do formato (aspas, vírgulas dentro do texto). Combinado com o dicionário do Módulo 05, você monta um resumo por região em poucas linhas.',
+        content: [
+          { h: 'O arquivo vendas.csv',
+            p: 'Cada linha é uma venda: data, vendedor, região, produto, quantidade e preço unitário. A primeira linha é o cabeçalho. Abra a prévia do arquivo no desafio desta aula para ver o conteúdo.' },
+          { h: 'csv.reader: cada linha vira uma lista',
+            code: 'import csv\n\nwith open("vendas.csv", encoding="utf-8") as arq:\n    leitor = csv.reader(arq)\n    cabecalho = next(leitor)  # a primeira linha\n    print(cabecalho)\n    for linha in leitor:\n        print(linha)\n        break  # só a primeira venda' },
+          { h: 'csv.DictReader: cada linha vira um dicionário',
+            p: 'Com o DictReader você acessa as colunas pelo nome do cabeçalho — o código fica legível e não quebra se a ordem das colunas mudar.',
+            code: 'import csv\n\nwith open("vendas.csv", encoding="utf-8") as arq:\n    for venda in csv.DictReader(arq):\n        print(venda["vendedor"], venda["produto"], venda["quantidade"])' },
+          { h: 'Atenção: tudo chega como texto',
+            items: [
+              'O CSV não guarda tipos: <code>venda["quantidade"]</code> é <code>"3"</code>, não <code>3</code>.',
+              'Converta antes de calcular: <code>int(venda["quantidade"])</code> e <code>float(venda["preco_unit"])</code>.',
+              'Sem conversão, <code>"3" * "89.9"</code> dá TypeError — e <code>"3" + "2"</code> dá <code>"32"</code>, um erro silencioso.'
+            ],
+            code: 'import csv\n\nfaturamento = 0\nwith open("vendas.csv", encoding="utf-8") as arq:\n    for venda in csv.DictReader(arq):\n        faturamento += int(venda["quantidade"]) * float(venda["preco_unit"])\n\nprint(f"Faturamento: R$ {faturamento:,.2f}")' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Com csv.DictReader, cada linha do arquivo vira...', op: ['um dicionário com os nomes do cabeçalho', 'uma lista de números', 'um texto único'], a: 0 },
+          { t: 'escolha', q: 'Qual o tipo de venda["quantidade"] lido de um CSV?', op: ['str (texto)', 'int', 'float'], a: 0, exp: 'O CSV é texto puro: toda coluna chega como str e precisa ser convertida.' },
+          { t: 'lacuna', codigo: true, frase: 'total += ___(venda["quantidade"]) * float(venda["preco_unit"])', op: ['int', 'str', 'len'], a: 0, pt: 'Converta a quantidade para número inteiro.' },
+          { t: 'escolha', q: 'O que next(leitor) faz logo depois de criar um csv.reader?', op: ['Lê a primeira linha (o cabeçalho)', 'Pula para o fim do arquivo', 'Fecha o arquivo'], a: 0 },
+          { t: 'escolha', q: 'Qual o resultado?', codigo: 'print("3" + "2")', op: ['32', '5', 'TypeError'], a: 0, exp: 'Com textos, + junta os caracteres. É por isso que números lidos do CSV precisam de conversão.' },
+          { t: 'ordenar', q: 'Monte o código que soma as quantidades vendidas.', linhas: ['import csv', 'total = 0', 'with open("vendas.csv", encoding="utf-8") as arq:', '    for venda in csv.DictReader(arq):', '        total += int(venda["quantidade"])', 'print(total)'] }
+        ],
+        desafios: [
+          { titulo: 'Faturamento por região',
+            cenario: 'A diretoria quer saber quanto cada região faturou em janeiro e fevereiro. Leia <code>vendas.csv</code> e monte o dicionário <code>por_regiao</code>: a chave é o nome da região e o valor é a soma de <code>quantidade × preco_unit</code>, arredondada com 2 casas. Depois guarde em <code>maior_regiao</code> o nome da região que mais faturou.',
+            arquivos: { 'vendas.csv': PY_ARQ['vendas.csv'] },
+            inicial: 'import csv\n\npor_regiao = {}\n\nwith open("vendas.csv", encoding="utf-8") as arq:\n    for venda in csv.DictReader(arq):\n        pass  # some quantidade * preco_unit na região da venda\n\nmaior_regiao = ""\nprint(por_regiao)\nprint("Maior:", maior_regiao)\n',
+            testes: [
+              { py: 'assert isinstance(por_regiao, dict) and len(por_regiao) == 4', msg: 'por_regiao tem uma chave para cada região' },
+              { py: 'import csv\nesp = {}\nfor v in csv.DictReader(open("vendas.csv", encoding="utf-8")):\n    esp[v["regiao"]] = esp.get(v["regiao"], 0) + int(v["quantidade"]) * float(v["preco_unit"])\nassert all(abs(por_regiao[k] - round(esp[k], 2)) < 0.01 for k in esp)', msg: 'totais por região corretos' },
+              { py: 'assert maior_regiao == max(por_regiao, key=por_regiao.get)', msg: 'maior_regiao correta' }
+            ],
+            dicas: ['Para cada venda: valor = int(venda["quantidade"]) * float(venda["preco_unit"]).', 'Acumule no dicionário: por_regiao[r] = por_regiao.get(r, 0) + valor.', 'Depois do laço, arredonde cada valor com round(..., 2). Para a maior: max(por_regiao, key=por_regiao.get).'],
+            solucao: 'import csv\n\npor_regiao = {}\n\nwith open("vendas.csv", encoding="utf-8") as arq:\n    for venda in csv.DictReader(arq):\n        valor = int(venda["quantidade"]) * float(venda["preco_unit"])\n        r = venda["regiao"]\n        por_regiao[r] = por_regiao.get(r, 0) + valor\n\nfor r in por_regiao:\n    por_regiao[r] = round(por_regiao[r], 2)\n\nmaior_regiao = max(por_regiao, key=por_regiao.get)\nprint(por_regiao)\nprint("Maior:", maior_regiao)' }
+        ]
+      },
+      {
+        id: 'py-csv-brasil', title: 'CSV brasileiro e gravando CSV para o Excel',
+        desc: 'Ponto e vírgula como separador e vírgula decimal: como ler o CSV que o Excel brasileiro exporta e gravar um CSV que abre certinho no Excel.',
+        objetivos: [
+          'Ler arquivos com delimiter=";" e números com vírgula decimal',
+          'Gravar CSV com csv.writer e newline=""',
+          'Gerar um arquivo que o Excel em português abre sem bagunçar as colunas'
+        ],
+        body: 'No Brasil a vírgula é o separador decimal, então o Excel em português exporta CSV com ponto e vírgula entre as colunas e "799,0" nos números. Se você ler esse arquivo do jeito padrão, vem tudo numa coluna só e o float() quebra. Nesta aula você aprende a ler e a gravar nesse formato.',
+        content: [
+          { h: 'Lendo com ponto e vírgula',
+            p: 'O arquivo <code>vendas_br.csv</code> tem as vendas de março no formato do Excel brasileiro. Informe o separador com <code>delimiter=";"</code>:',
+            code: 'import csv\n\nwith open("vendas_br.csv", encoding="utf-8") as arq:\n    for venda in csv.DictReader(arq, delimiter=";"):\n        print(venda["produto"], venda["preco_unit"])\n        break' },
+          { h: 'Vírgula decimal',
+            items: [
+              '<code>float("799,0")</code> dá ValueError: o Python só entende ponto decimal.',
+              'Troque antes de converter: <code>float(texto.replace(",", "."))</code>.',
+              'Para gravar no padrão brasileiro, faça o caminho inverso: <code>str(valor).replace(".", ",")</code>.'
+            ],
+            code: 'texto = "1.299,90"  # com separador de milhar\nvalor = float(texto.replace(".", "").replace(",", "."))\nprint(valor)' },
+          { h: 'Gravando CSV',
+            items: [
+              'Abra com <code>newline=""</code>: o módulo csv cuida das quebras de linha (sem isso aparecem linhas em branco no Windows).',
+              '<code>csv.writer(arq, delimiter=";")</code> e <code>writerow([...])</code> para cada linha.',
+              'Use <code>encoding="utf-8-sig"</code>: o Excel reconhece os acentos corretamente ao abrir com dois cliques.'
+            ],
+            code: 'import csv\n\nlinhas = [["vendedor", "total"], ["Ana", "1520,50"], ["Bruno", "980,00"]]\nwith open("teste_excel.csv", "w", newline="", encoding="utf-8-sig") as arq:\n    escritor = csv.writer(arq, delimiter=";")\n    for linha in linhas:\n        escritor.writerow(linha)\n\nprint(open("teste_excel.csv", encoding="utf-8-sig").read())' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual separador de colunas o Excel em português costuma usar no CSV?', op: ['; (ponto e vírgula)', ', (vírgula)', 'tab'], a: 0 },
+          { t: 'escolha', q: 'O que acontece?', codigo: 'float("799,0")', op: ['ValueError', 'Retorna 799.0', 'Retorna 7990'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'valor = float(texto.replace(",", ___))', op: ['"."', '","', '""'], a: 0, pt: 'Troque a vírgula decimal por ponto antes de converter.' },
+          { t: 'escolha', q: 'Por que abrir o arquivo com newline="" ao gravar CSV?', op: ['Para não aparecerem linhas em branco extras', 'Para gravar sem cabeçalho', 'Para gravar mais rápido'], a: 0 },
+          { t: 'escolha', q: 'Qual encoding faz o Excel abrir os acentos corretamente com dois cliques?', op: ['"utf-8-sig"', '"ascii"', '"latin-1-excel"'], a: 0 },
+          { t: 'pares', pares: [['delimiter=";"', 'separador de colunas'], ['newline=""', 'sem linhas em branco'], ['writerow', 'grava uma linha'], ['replace(",", ".")', 'vírgula decimal para ponto']] }
+        ],
+        desafios: [
+          { titulo: 'Resumo por produto para o Excel',
+            cenario: 'O financeiro mandou <code>vendas_br.csv</code> (março, formato do Excel brasileiro) e quer de volta um arquivo <code>resumo_produtos.csv</code> para abrir no Excel: separador <code>;</code>, cabeçalho <code>produto;total</code>, uma linha por produto com o faturamento (quantidade × preço) com <strong>vírgula decimal</strong> e 2 casas, ordenado do <strong>maior para o menor</strong> total.',
+            arquivos: { 'vendas_br.csv': PY_ARQ['vendas_br.csv'] },
+            inicial: 'import csv\n\ntotais = {}\n\nwith open("vendas_br.csv", encoding="utf-8") as arq:\n    for venda in csv.DictReader(arq):\n        pass  # some o faturamento de cada produto em totais\n\n# grave resumo_produtos.csv (produto;total), do maior para o menor\n',
+            testes: [
+              { py: 'import csv\nr = list(csv.reader(open("resumo_produtos.csv", encoding="utf-8-sig"), delimiter=";"))\nassert r[0] == ["produto", "total"]', msg: 'resumo_produtos.csv gravado com ; e cabeçalho produto;total' },
+              { py: 'import csv\nesp = {}\nfor v in csv.DictReader(open("vendas_br.csv", encoding="utf-8"), delimiter=";"):\n    esp[v["produto"]] = esp.get(v["produto"], 0) + int(v["quantidade"]) * float(v["preco_unit"].replace(",", "."))\nr = list(csv.reader(open("resumo_produtos.csv", encoding="utf-8-sig"), delimiter=";"))[1:]\nassert len(r) == len(esp) and all(abs(float(t.replace(",", ".")) - esp[p]) < 0.01 for p, t in r)', msg: 'um total correto para cada produto' },
+              { py: 'import csv\nr = list(csv.reader(open("resumo_produtos.csv", encoding="utf-8-sig"), delimiter=";"))[1:]\nassert all("," in t and "." not in t and len(t.split(",")[1]) == 2 for p, t in r)', msg: 'totais com vírgula decimal e 2 casas' },
+              { py: 'import csv\nr = list(csv.reader(open("resumo_produtos.csv", encoding="utf-8-sig"), delimiter=";"))[1:]\nv = [float(t.replace(",", ".")) for p, t in r]\nassert v == sorted(v, reverse=True)', msg: 'ordenado do maior para o menor' }
+            ],
+            dicas: ['Leia com csv.DictReader(arq, delimiter=";") e converta o preço com float(venda["preco_unit"].replace(",", ".")).', 'Para ordenar: sorted(totais.items(), key=lambda par: par[1], reverse=True).', 'Formate com 2 casas e vírgula: f"{total:.2f}".replace(".", ","). Grave com newline="" e csv.writer(arq, delimiter=";").'],
+            solucao: 'import csv\n\ntotais = {}\n\nwith open("vendas_br.csv", encoding="utf-8") as arq:\n    for venda in csv.DictReader(arq, delimiter=";"):\n        preco = float(venda["preco_unit"].replace(",", "."))\n        valor = int(venda["quantidade"]) * preco\n        totais[venda["produto"]] = totais.get(venda["produto"], 0) + valor\n\nordenado = sorted(totais.items(), key=lambda par: par[1], reverse=True)\n\nwith open("resumo_produtos.csv", "w", newline="", encoding="utf-8-sig") as arq:\n    escritor = csv.writer(arq, delimiter=";")\n    escritor.writerow(["produto", "total"])\n    for produto, total in ordenado:\n        escritor.writerow([produto, f"{total:.2f}".replace(".", ",")])\n\nprint(open("resumo_produtos.csv", encoding="utf-8-sig").read())' }
+        ]
+      },
+      {
+        id: 'py-arquivos-projeto', title: 'Projeto: consolidando planilhas mensais',
+        desc: 'Juntar vários arquivos CSV num só com glob, acrescentar a coluna do mês e salvar um resumo em JSON — a tarefa repetitiva que toma horas no Excel.',
+        objetivos: [
+          'Encontrar vários arquivos com glob',
+          'Consolidar CSVs com csv.DictWriter, acrescentando uma coluna',
+          'Gravar um resumo em arquivo JSON com json.dump'
+        ],
+        body: 'Todo mês chega um arquivo novo e alguém copia e cola tudo numa planilha consolidada. Com Python, o script encontra todos os arquivos sozinho, junta as linhas, marca de que mês veio cada uma e ainda gera um resumo. No mês seguinte é só rodar de novo.',
+        content: [
+          { h: 'Encontrando os arquivos com glob',
+            p: 'O <code>glob</code> lista os arquivos que combinam com um padrão; o <code>*</code> vale qualquer texto. Nesta aula o laboratório tem <code>mes_jan.csv</code>, <code>mes_fev.csv</code> e <code>mes_mar.csv</code>.',
+            code: 'import glob\n\narquivos = sorted(glob.glob("mes_*.csv"))\nprint(arquivos)\nfor nome in arquivos:\n    mes = nome.replace("mes_", "").replace(".csv", "")\n    print(nome, "->", mes)' },
+          { h: 'csv.DictWriter: gravando dicionários',
+            items: [
+              '<code>csv.DictWriter(arq, fieldnames=[...])</code> grava cada dicionário como uma linha, na ordem das colunas que você definir.',
+              '<code>writeheader()</code> grava o cabeçalho; <code>writerow(dicionario)</code> grava uma linha.',
+              'Para acrescentar uma coluna, basta incluir a chave no dicionário: <code>venda["mes"] = "jan"</code>.'
+            ],
+            code: 'import csv\n\nwith open("exemplo.csv", "w", newline="", encoding="utf-8") as arq:\n    escritor = csv.DictWriter(arq, fieldnames=["nome", "cidade"])\n    escritor.writeheader()\n    escritor.writerow({"nome": "Ana", "cidade": "Goiânia"})\n    escritor.writerow({"nome": "Bruno", "cidade": "Santos"})\n\nprint(open("exemplo.csv", encoding="utf-8").read())' },
+          { h: 'JSON em arquivo: json.dump e json.load',
+            p: 'No Módulo 05 você usou <code>json.dumps</code> (texto). Para arquivos, use <code>json.dump</code> e <code>json.load</code> — sem o "s". É o formato ideal para guardar resumos e configurações.',
+            code: 'import json\n\nresumo = {"mes": "jan", "pedidos": 14, "faturamento": 5882.1}\nwith open("resumo_teste.json", "w", encoding="utf-8") as arq:\n    json.dump(resumo, arq, ensure_ascii=False, indent=2)\n\nwith open("resumo_teste.json", encoding="utf-8") as arq:\n    lido = json.load(arq)\nprint(lido["faturamento"])' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que glob.glob("mes_*.csv") retorna?', op: ['Uma lista com os nomes dos arquivos que combinam com o padrão', 'O conteúdo dos arquivos', 'Só o primeiro arquivo encontrado'], a: 0 },
+          { t: 'escolha', q: 'Qual a diferença entre json.dump e json.dumps?', op: ['dump grava num arquivo; dumps devolve um texto', 'São iguais', 'dumps grava num arquivo; dump devolve um texto'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'escritor = csv.DictWriter(arq, ___=["data", "produto", "mes"])', op: ['fieldnames', 'columns', 'header'], a: 0, pt: 'Defina as colunas do arquivo de saída.' },
+          { t: 'escolha', q: 'Qual o resultado?', codigo: 'nome = "mes_fev.csv"\nprint(nome.replace("mes_", "").replace(".csv", ""))', op: ['fev', 'mes_fev', 'fev.csv'], a: 0 },
+          { t: 'escolha', q: 'O que writeheader() faz?', op: ['Grava a linha de cabeçalho com os nomes das colunas', 'Lê o cabeçalho do arquivo', 'Apaga o cabeçalho'], a: 0 },
+          { t: 'ordenar', q: 'Monte o código que grava um resumo em JSON.', linhas: ['import json', 'resumo = {"total": 30276.0}', 'with open("resumo.json", "w", encoding="utf-8") as arq:', '    json.dump(resumo, arq, indent=2)'] }
+        ],
+        desafios: [
+          { titulo: 'Consolidado do trimestre',
+            cenario: 'Você recebeu as vendas do trimestre em três arquivos: <code>mes_jan.csv</code>, <code>mes_fev.csv</code> e <code>mes_mar.csv</code>. Faça o script que:<br>1) grava <code>consolidado.csv</code> com <strong>todas</strong> as vendas dos três arquivos, com as colunas originais e mais uma coluna <code>mes</code> no final (<code>jan</code>, <code>fev</code> ou <code>mar</code>);<br>2) grava <code>resumo.json</code> com o faturamento (quantidade × preço, 2 casas) de cada mês e do trimestre: <code>{"jan": ..., "fev": ..., "mar": ..., "trimestre": ...}</code>.',
+            arquivos: { 'mes_jan.csv': PY_ARQ['mes_jan.csv'], 'mes_fev.csv': PY_ARQ['mes_fev.csv'], 'mes_mar.csv': PY_ARQ['mes_mar.csv'] },
+            inicial: 'import csv, glob, json\n\ncolunas = ["data", "vendedor", "regiao", "produto", "quantidade", "preco_unit", "mes"]\ntodas = []\nresumo = {}\n\nfor nome in sorted(glob.glob("mes_*.csv")):\n    mes = nome.replace("mes_", "").replace(".csv", "")\n    # leia o arquivo, marque o mês em cada venda e some o faturamento do mês\n\n# grave consolidado.csv e resumo.json\n',
+            testes: [
+              { py: 'import csv\nr = list(csv.DictReader(open("consolidado.csv", encoding="utf-8-sig")))\nassert len(r) == sum(len(list(csv.DictReader(open(f"mes_{m}.csv", encoding="utf-8")))) for m in ["jan", "fev", "mar"])', msg: 'consolidado.csv tem todas as vendas dos três meses' },
+              { py: 'import csv\nr = list(csv.reader(open("consolidado.csv", encoding="utf-8-sig")))\nassert r[0] == ["data", "vendedor", "regiao", "produto", "quantidade", "preco_unit", "mes"]', msg: 'colunas originais + mes no final' },
+              { py: 'import csv\nfrom collections import Counter\nr = list(csv.DictReader(open("consolidado.csv", encoding="utf-8-sig")))\nesp = Counter({m: len(list(csv.DictReader(open(f"mes_{m}.csv", encoding="utf-8")))) for m in ["jan", "fev", "mar"]})\nassert Counter(v["mes"] for v in r) == esp', msg: 'coluna mes preenchida corretamente' },
+              { py: 'import csv, json\nres = json.load(open("resumo.json", encoding="utf-8"))\nesp = {m: round(sum(int(v["quantidade"]) * float(v["preco_unit"]) for v in csv.DictReader(open(f"mes_{m}.csv", encoding="utf-8"))), 2) for m in ["jan", "fev", "mar"]}\nesp["trimestre"] = round(sum(esp.values()), 2)\nassert set(res) == set(esp) and all(abs(res[k] - esp[k]) < 0.01 for k in esp)', msg: 'resumo.json com o faturamento de cada mês e do trimestre' }
+            ],
+            dicas: ['Dentro do for: abra o arquivo, percorra csv.DictReader e, para cada venda, faça venda["mes"] = mes e todas.append(venda).', 'Some o faturamento do mês numa variável e guarde em resumo[mes] = round(total_mes, 2). Depois do for: resumo["trimestre"] = round(sum(resumo.values()), 2).', 'Grave com csv.DictWriter(arq, fieldnames=colunas), writeheader() e writerows(todas). Para o JSON: json.dump(resumo, arq, indent=2).'],
+            solucao: 'import csv, glob, json\n\ncolunas = ["data", "vendedor", "regiao", "produto", "quantidade", "preco_unit", "mes"]\ntodas = []\nresumo = {}\n\nfor nome in sorted(glob.glob("mes_*.csv")):\n    mes = nome.replace("mes_", "").replace(".csv", "")\n    total_mes = 0\n    with open(nome, encoding="utf-8") as arq:\n        for venda in csv.DictReader(arq):\n            venda["mes"] = mes\n            todas.append(venda)\n            total_mes += int(venda["quantidade"]) * float(venda["preco_unit"])\n    resumo[mes] = round(total_mes, 2)\n\nresumo["trimestre"] = round(sum(resumo.values()), 2)\n\nwith open("consolidado.csv", "w", newline="", encoding="utf-8") as arq:\n    escritor = csv.DictWriter(arq, fieldnames=colunas)\n    escritor.writeheader()\n    escritor.writerows(todas)\n\nwith open("resumo.json", "w", encoding="utf-8") as arq:\n    json.dump(resumo, arq, ensure_ascii=False, indent=2)\n\nprint(len(todas), "vendas consolidadas")\nprint(resumo)' }
         ]
       }
     ]

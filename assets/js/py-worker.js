@@ -31,6 +31,11 @@ self.onmessage = async (ev) => {
       const micropip = py.pyimport('micropip');
       for (const p of doPypi) { await micropip.install(PYPI[p]); instalados.add(p); }
     }
+    // cada execução começa com a pasta limpa: um arquivo gravado numa tentativa anterior
+    // não pode fazer a próxima passar nos testes
+    for (const nome of py.FS.readdir('.')) {
+      if (py.FS.isFile(py.FS.stat(nome).mode)) py.FS.unlink(nome);
+    }
     for (const [nome, texto] of Object.entries(arquivos)) py.FS.writeFile(nome, texto);
     let saida = '';
     py.setStdout({ batched: s => { saida += s + '\n'; } });
