@@ -10,6 +10,8 @@
 //   pares    { pares:[[en, pt], ...] }        ligar inglês ↔ português
 //   digitar  { pt?, ouvir?, en, alt?:[] }     escrever a tradução ou o que ouviu
 //   falar    { en }                           repetir em voz alta (reconhecimento de voz do navegador)
+//   ordenar  { linhas:[...], q?, alt?:[[...]] } montar código na ordem (curso de Python)
+//   escolha/lacuna aceitam `codigo` (bloco de código na pergunta; na lacuna, a frase vira código)
 // Qualquer tipo aceita `exp`: explicação mostrada quando o aluno erra.
 //
 // Áudio: tools/ingles_audio.py grava cada frase em inglês em
@@ -41,7 +43,10 @@
   }
   let audioAtual = null;
   let reconAtivo = null;
+  // No curso de Python a prática não tem áudio (a voz leria código em voz alta).
+  const SEM_AUDIO = typeof COURSE_SLUG !== 'undefined' && COURSE_SLUG === 'python';
   async function falar(texto, lento = false) {
+    if (SEM_AUDIO) return;
     texto = textoFalado(texto);
     if (!texto) return;
     if (audioAtual) { audioAtual.pause(); audioAtual = null; }
@@ -137,7 +142,7 @@
       const ops = embaralhar(ex.op.map((t, i) => ({ t, i })));
       return {
         titulo: ex.ouvir ? 'O que você ouviu?' : (ex.titulo || 'Escolha a resposta certa'),
-        html: `${ex.ouvir ? `<div class="pr-audio-grande">${btnOuvir(ex.ouvir)}</div>` : ''}${ex.q ? `<p class="pr-enunciado">${ex.q}</p>` : ''}
+        html: `${ex.ouvir ? `<div class="pr-audio-grande">${btnOuvir(ex.ouvir)}</div>` : ''}${ex.q ? `<p class="pr-enunciado">${ex.q}</p>` : ''}${ex.codigo ? `<pre class="pr-codigo">${esc(ex.codigo)}</pre>` : ''}
           <div class="pr-opcoes">${ops.map((o, k) => `<button type="button" class="pr-opcao" data-i="${o.i}"><span class="pr-k">${k + 1}</span>${esc(o.t)}</button>`).join('')}</div>`,
         montar(el, api) { escolhaUnica(el, api); if (ex.ouvir) setTimeout(() => falar(ex.ouvir), 250); },
         conferir(sel) { return { ok: Number(sel) === ex.a, certa: ex.op[ex.a], falar: ex.ouvir || (!ex.opPt && /[a-z]/i.test(ex.op[ex.a]) ? ex.op[ex.a] : null) }; }
@@ -147,8 +152,8 @@
       const ops = embaralhar(ex.op.map((t, i) => ({ t, i })));
       const frase = esc(ex.frase).replace('___', '<span class="pr-lacuna">____</span>');
       return {
-        titulo: 'Complete a frase',
-        html: `<p class="pr-frase-en" lang="en">${frase}</p>${ex.pt ? `<p class="pr-dica">${esc(ex.pt)}</p>` : ''}
+        titulo: ex.codigo ? 'Complete o código' : 'Complete a frase',
+        html: `${ex.codigo ? `<pre class="pr-codigo">${frase}</pre>` : `<p class="pr-frase-en" lang="en">${frase}</p>`}${ex.pt ? `<p class="pr-dica">${esc(ex.pt)}</p>` : ''}
           <div class="pr-opcoes pr-opcoes-linha">${ops.map((o, k) => `<button type="button" class="pr-opcao" data-i="${o.i}"><span class="pr-k">${k + 1}</span>${esc(o.t)}</button>`).join('')}</div>`,
         montar(el, api) {
           escolhaUnica(el, api, btn => { el.querySelector('.pr-lacuna').textContent = ex.op[btn.dataset.i]; });
@@ -180,6 +185,29 @@
           api.valor(() => Array.from(area.children).map(c => c.textContent).join(' '));
         },
         conferir(v) { const r = conferirTexto(v, [ex.en].concat(ex.alt || [])); return { ok: r === 'ok', certa: ex.en, falar: ex.en }; }
+      };
+    },
+    ordenar(ex) {
+      // ex.linhas na ordem certa (a indentação faz parte da linha); embaralha até ficar diferente
+      let fichas = ex.linhas.map((t, i) => ({ t, i }));
+      for (let k = 0; k < 10 && fichas.every((f, j) => f.i === j); k++) fichas = embaralhar(fichas);
+      return {
+        titulo: ex.titulo || 'Monte o código na ordem certa',
+        html: `${ex.q ? `<p class="pr-enunciado">${ex.q}</p>` : ''}<div class="pr-ordem-alvo" aria-label="Seu código"></div>
+          <div class="pr-ordem-banco">${fichas.map(f => `<button type="button" class="pr-linha" data-i="${f.i}"><code>${esc(f.t)}</code></button>`).join('')}</div>`,
+        montar(el, api) {
+          const alvo = el.querySelector('.pr-ordem-alvo');
+          const atualizar = () => api.pronto(alvo.children.length === ex.linhas.length);
+          el.querySelectorAll('.pr-ordem-banco .pr-linha').forEach(b => b.addEventListener('click', () => {
+            if (b.classList.contains('usada') || api.travado()) return;
+            b.classList.add('usada');
+            const c = b.cloneNode(true); c.classList.remove('usada');
+            c.addEventListener('click', () => { if (api.travado()) return; c.remove(); b.classList.remove('usada'); atualizar(); });
+            alvo.appendChild(c); atualizar();
+          }));
+          api.valor(() => Array.from(alvo.children).map(c => ex.linhas[Number(c.dataset.i)]).join('\n'));
+        },
+        conferir(v) { const certo = ex.linhas.join('\n'); return { ok: v === certo || (ex.alt || []).some(a => a.join('\n') === v), certa: certo }; }
       };
     },
     pares(ex) {
@@ -396,7 +424,8 @@
       } else {
         fila.push(atual);
         rodape.className = 'pr-rodape pr-errado';
-        msg.innerHTML = `<strong>Resposta correta:</strong><span lang="en">${esc(r.certa)}</span>${atual.ex.exp ? `<em class="pr-exp">${atual.ex.exp}</em>` : ''}`;
+        const certaHtml = String(r.certa || '').includes('\n') || atual.ex.codigo || atual.ex.t === 'ordenar' ? `<pre class="pr-codigo pr-codigo-mini">${esc(r.certa)}</pre>` : `<span lang="en">${esc(r.certa)}</span>`;
+        msg.innerHTML = `<strong>Resposta correta:</strong>${certaHtml}${atual.ex.exp ? `<em class="pr-exp">${atual.ex.exp}</em>` : ''}`;
         somErro();
       }
       if (r.falar) falar(r.falar);

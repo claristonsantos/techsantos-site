@@ -95,3 +95,13 @@
 .pr-stats b { font-size: 1.4rem; color: var(--ink); }
 .pr-stats span { font-size: 0.8rem; color: var(--ink-faint); text-transform: uppercase; }
 .pr-fim-acoes { display: flex; justify-content: center; gap: 0.7rem; flex-wrap: wrap; }
+
+/* Curso de Python: código nas perguntas e "monte o código" */
+.pr-codigo { margin: 0 0 1rem; padding: 0.9rem 1rem; border-radius: 10px; background: #0F1B2D; color: #E6EDF3; font: 1rem/1.5 'Plex Mono', Consolas, monospace; white-space: pre; overflow-x: auto; }
+.pr-codigo .pr-lacuna { color: #7FDD5E; border-bottom-color: #7FDD5E; }
+.pr-codigo-mini { font-size: 0.85rem; margin: 0.3rem 0 0; padding: 0.5rem 0.7rem; }
+.pr-ordem-alvo { min-height: 3.4rem; display: flex; flex-direction: column; gap: 0.35rem; padding: 0.6rem; border: 2px dashed var(--line); border-radius: 12px; margin-bottom: 1rem; }
+.pr-ordem-banco { display: flex; flex-direction: column; gap: 0.35rem; }
+.pr-linha { text-align: left; font: inherit; padding: 0.45rem 0.8rem; border-radius: 10px; border: 2px solid var(--line); border-bottom-width: 4px; background: var(--surface); color: var(--ink); cursor: pointer; }
+.pr-linha code { font: 0.98rem 'Plex Mono', Consolas, monospace; white-space: pre; }
+.pr-linha.usada { opacity: 0.25; pointer-events: none; }

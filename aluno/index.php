@@ -441,6 +441,10 @@ const AUDIOS_DISPONIVEIS = <?= json_encode($audiosDisponiveis) ?>;
 <script src="<?= htmlspecialchars($cursoDataJs, ENT_QUOTES) ?>?v=<?= (int)@filemtime(__DIR__ . '/..' . $cursoDataJs) ?>"></script>
 <link rel="stylesheet" href="/assets/css/pratica.css?v=<?= (int)@filemtime(__DIR__ . '/../assets/css/pratica.css') ?>" />
 <script src="/assets/js/pratica.js?v=<?= (int)@filemtime(__DIR__ . '/../assets/js/pratica.js') ?>"></script>
+<?php if ($slugSeguro === 'python'): ?>
+<link rel="stylesheet" href="/assets/css/python-lab.css?v=<?= (int)@filemtime(__DIR__ . '/../assets/css/python-lab.css') ?>" />
+<script src="/assets/js/python-lab.js?v=<?= (int)@filemtime(__DIR__ . '/../assets/js/python-lab.js') ?>"></script>
+<?php endif; ?>
 <?php endif; ?>
 <script>
 
@@ -699,6 +703,7 @@ function renderLesson(id) {
         ${lesson.content.map((block, i) => contentBlock(block, i, lesson.id)).join('')}
       </div>` : ''}
       ${lesson.pratica && lesson.pratica.length ? '<div class="pratica-host" id="praticaHost"></div>' : ''}
+      ${lesson.desafios && lesson.desafios.length ? '<div class="desafios-host" id="desafiosHost"></div>' : ''}
       ${lesson.arquivo ? `
       <div class="resources">
         <h2>Arquivo de exercício</h2>
@@ -760,6 +765,9 @@ function renderLesson(id) {
       <div class="side right">${next ? `<a href="#${next.id}"><span class="dir">Próxima →</span><span class="t">${next.title}</span></a>` : ''}</div>
     </div></div>
   `;
+
+  // Curso de Python: blocos de código executáveis e desafios de cenário (assets/js/python-lab.js).
+  if (window.PyLab) window.PyLab.montar(main, lesson);
 
   // Curso de Inglês: prática interativa (assets/js/pratica.js) e palavras em inglês clicáveis.
   if (window.Pratica) {

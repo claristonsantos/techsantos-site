@@ -1,0 +1,81 @@
+// Worker do laboratório de Python (curso de Python): roda o código do aluno com Pyodide
+// fora da thread da página, para que um loop infinito possa ser interrompido
+// (a página encerra o worker por tempo limite). Mensagens:
+//   entrada: { id, codigo, arquivos: {nome: texto}, testes: [{py, msg}] }
+//   saída:   { id, ok, saida, erro, imagens: [png base64], testes: [{ok, msg}] }
+const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+importScripts(PYODIDE + 'pyodide.js');
+
+let pronto = null;
+async function iniciar() {
+  const py = await loadPyodide({ indexURL: PYODIDE });
+  return py;
+}
+
+const PACOTES = { pandas: 'pandas', numpy: 'numpy', matplotlib: 'matplotlib', openpyxl: 'openpyxl' };
+
+self.onmessage = async (ev) => {
+  const { id, codigo, arquivos = {}, testes = [] } = ev.data;
+  try {
+    if (!pronto) pronto = iniciar();
+    const py = await pronto;
+    // carrega só as bibliotecas que o código usa
+    const precisa = Object.keys(PACOTES).filter(p => new RegExp('\\b(import|from)\\s+' + p).test(codigo + '\n' + testes.map(t => t.py).join('\n')));
+    if (precisa.length) await py.loadPackage(precisa.map(p => PACOTES[p]));
+    for (const [nome, texto] of Object.entries(arquivos)) py.FS.writeFile(nome, texto);
+    let saida = '';
+    py.setStdout({ batched: s => { saida += s + '\n'; } });
+    py.setStderr({ batched: s => { saida += s + '\n'; } });
+    py.globals.set('__codigo_aluno', codigo);
+    py.globals.set('__testes', py.toPy(testes.map(t => t.py)));
+    const res = await py.runPythonAsync(`
+import sys, traceback, io, base64, warnings
+warnings.filterwarnings('ignore', category=DeprecationWarning)
+warnings.filterwarnings('ignore', category=FutureWarning)
+__ns = {'__name__': '__main__'}
+__erro = None
+__imgs = []
+try:
+    import matplotlib
+    matplotlib.use('AGG')
+except Exception:
+    pass
+import contextlib
+__buf = io.StringIO()
+try:
+    with contextlib.redirect_stdout(__buf):
+        exec(compile(__codigo_aluno, 'seu_codigo.py', 'exec'), __ns)
+except SyntaxError as e:
+    __erro = f"SyntaxError: {e.msg} (linha {e.lineno})"
+except Exception as e:
+    tb = traceback.extract_tb(e.__traceback__)
+    linha = next((f.lineno for f in reversed(tb) if f.filename == 'seu_codigo.py'), None)
+    __erro = f"{type(e).__name__}: {e}" + (f" (linha {linha})" if linha else "")
+print(__buf.getvalue(), end='')
+# os testes enxergam o que o aluno imprimiu na variável saida (e as linhas em linhas)
+__ns['saida'] = __buf.getvalue()
+__ns['linhas'] = [l for l in __buf.getvalue().strip().splitlines()]
+try:
+    import matplotlib.pyplot as plt
+    for n in plt.get_fignums():
+        b = io.BytesIO(); plt.figure(n).savefig(b, format='png', dpi=90, bbox_inches='tight'); __imgs.append(base64.b64encode(b.getvalue()).decode())
+    plt.close('all')
+except Exception:
+    pass
+__res_testes = []
+if __erro is None:
+    for t in __testes:
+        try:
+            exec(t, __ns)
+            __res_testes.append(True)
+        except Exception:
+            __res_testes.append(False)
+[__erro, __imgs, __res_testes]
+`);
+    const [erro, imagens, rt] = res.toJs();
+    res.destroy();
+    self.postMessage({ id, ok: !erro && rt.every(Boolean), saida: saida.replace(/\n$/, ''), erro, imagens, testes: testes.map((t, i) => ({ ok: !!rt[i], msg: t.msg })) });
+  } catch (e) {
+    self.postMessage({ id, ok: false, saida: '', erro: String(e && e.message || e), imagens: [], testes: [] });
+  }
+};

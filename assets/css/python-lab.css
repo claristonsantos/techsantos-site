@@ -1,0 +1,37 @@
+/* Laboratório de Python (assets/js/python-lab.js): blocos executáveis e desafios de cenário. */
+.lab-bloco { margin: -0.4rem 0 1.2rem; }
+.lab-run-mini { font: 600 0.85rem Inter, system-ui, sans-serif; padding: 0.35rem 0.9rem; border-radius: 8px; border: 0; background: var(--green); color: #fff; cursor: pointer; }
+.lab-run-mini:disabled { opacity: 0.6; cursor: wait; }
+.lab-saida { margin: 0.6rem 0 0; padding: 0.75rem 1rem; border-radius: 8px; background: #0B1526; color: #D7F5C9; font: 0.92rem/1.5 'Plex Mono', Consolas, monospace; white-space: pre-wrap; overflow-x: auto; }
+.lab-erro { color: #FFB4A8; }
+.lab-vazia { color: #7C8CA2; font-style: italic; }
+.lab-img { display: block; max-width: 100%; margin: 0.6rem 0 0; border-radius: 8px; background: #fff; }
+
+.desafios-host { margin: 1.5rem 0; display: grid; gap: 1.25rem; }
+.lab-desafio { border: 2px solid #2F7FD8; border-radius: 14px; padding: 1.1rem 1.2rem; background: var(--surface); }
+.lab-desafio.resolvido { border-color: var(--green); }
+.lab-topo { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+.lab-topo strong { color: var(--ink); font-size: 1.1rem; }
+.lab-tag { font: 700 0.8rem Inter, system-ui, sans-serif; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(47, 127, 216, 0.14); color: #2F7FD8; }
+.lab-cenario { color: var(--ink-soft); margin-bottom: 0.8rem; }
+.lab-cenario code { font-family: 'Plex Mono', Consolas, monospace; background: var(--surface-2); padding: 0 0.3em; border-radius: 4px; }
+.lab-arquivos details { margin-bottom: 0.6rem; }
+.lab-arquivos summary { cursor: pointer; color: var(--ink-soft); font-size: 0.92rem; }
+.lab-arquivos pre { margin: 0.4rem 0 0; padding: 0.6rem 0.8rem; border-radius: 8px; background: var(--surface-2); font: 0.82rem/1.45 'Plex Mono', Consolas, monospace; overflow-x: auto; color: var(--ink); }
+.lab-editor { width: 100%; min-height: 160px; resize: vertical; padding: 0.8rem 1rem; border-radius: 10px; border: 2px solid var(--line); background: #0F1B2D; color: #E6EDF3; font: 0.98rem/1.55 'Plex Mono', Consolas, monospace; tab-size: 4; white-space: pre; overflow-x: auto; }
+.lab-editor:focus { outline: none; border-color: #2F7FD8; }
+.lab-acoes { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.7rem 0 0; }
+.lab-acoes button { font: 600 0.9rem Inter, system-ui, sans-serif; padding: 0.55rem 1rem; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.lab-acoes .lab-run { background: #2F7FD8; border-color: #2F7FD8; color: #fff; }
+.lab-acoes .lab-check { background: var(--green); border-color: var(--green); color: #fff; }
+.lab-acoes button:disabled { opacity: 0.6; cursor: wait; }
+.lab-testes { list-style: none; margin: 0.7rem 0 0; padding: 0; display: grid; gap: 0.3rem; }
+.lab-testes li { padding: 0.45rem 0.7rem; border-radius: 8px; font-size: 0.94rem; }
+.lab-testes li.ok { background: var(--green-soft); color: var(--green-strong); }
+.lab-testes li.nok { background: rgba(214, 69, 69, 0.12); color: #C23B3B; }
+.lab-passou { margin-top: 0.6rem; font-weight: 800; color: var(--green-strong); font-size: 1.1rem; }
+.lab-falhou { margin-top: 0.6rem; color: #C23B3B; }
+.lab-dica-txt { margin-top: 0.6rem; padding: 0.6rem 0.8rem; border-left: 4px solid #FFD166; background: rgba(255, 209, 102, 0.12); border-radius: 6px; color: var(--ink); }
+.lab-ver-solucao { margin-top: 0.6rem; font: 600 0.9rem Inter, system-ui, sans-serif; padding: 0.45rem 0.9rem; border-radius: 8px; border: 2px dashed var(--line); background: transparent; color: var(--ink-soft); cursor: pointer; }
+.lab-solucao { margin-top: 0.6rem; }
+.lab-solucao pre { margin: 0.4rem 0 0; padding: 0.75rem 1rem; border-radius: 8px; background: #0F1B2D; color: #E6EDF3; font: 0.9rem/1.5 'Plex Mono', Consolas, monospace; white-space: pre; overflow-x: auto; }
