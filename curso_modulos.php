@@ -24,6 +24,7 @@ const CERTIFICADO_AVALIACOES = [
     'microsoft-fabric' => ['fab-simulado-dp600', 'fab-simulado-dp700'],
     'excel' => ['xl-simulado-mo210', 'xl-simulado-mo211'],
     'ingles' => ['en-m17'],
+    'python' => ['py-m14'],
 ];
 
 function avaliacoes_do_certificado(string $cursoSlug): array

@@ -21,6 +21,7 @@ $certConteudo = [
     'microsoft-fabric' => 'OneLake, lakehouse e warehouse, Data Factory, Dataflows Gen2, Spark, Real-Time Intelligence, modelos semânticos, DAX, Direct Lake, segurança, governança e ciclo de vida no Microsoft Fabric, com base nas certificações DP-600 e DP-700',
     'excel' => 'interface, formatação, importação e validação de dados, tabelas, fórmulas e referências, funções lógicas, de texto, de data e de procura, matrizes dinâmicas, formatação condicional, gráficos, tabelas dinâmicas, análise de hipóteses, auditoria, proteção e macros no Microsoft Excel, com base nas certificações MO-210 e MO-211',
     'ingles' => 'inglês do nível A1 ao C1: conversação, gramática, compreensão oral, vocabulário do dia a dia, viagem, inglês no trabalho (e-mails, reuniões, ligações e apresentações), inglês para dados e tecnologia, entrevistas e negociação',
+    'python' => 'Python do zero até Python para dados: variáveis, estruturas de controle, funções e tratamento de erros, arquivos CSV e JSON, análise de dados com pandas (limpeza, agrupamentos, cruzamento de tabelas e tabelas dinâmicas), gráficos com matplotlib e automação de planilhas Excel com openpyxl',
 ];
 $certPaginaCurso = ['power-bi' => '/curso-power-bi.php', 'microsoft-fabric' => '/curso-microsoft-fabric.php', 'excel' => '/curso-excel.php', 'ingles' => '/curso-ingles.php'];
 ?>

@@ -2579,4 +2579,142 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'py-m14', title: 'Módulo 14 · Projeto final e teste do certificado', kind: 'video',
+    lessons: [
+      {
+        id: 'py-final-dados', title: 'Projeto final 1: da base suja aos indicadores',
+        desc: 'Primeira parte do projeto final: limpar a exportação de abril, cruzar com o cadastro de clientes e calcular os indicadores do mês.',
+        objetivos: [
+          'Aplicar sozinho o fluxo completo de limpeza',
+          'Cruzar a base limpa com o cadastro e medir a qualidade do cruzamento',
+          'Calcular indicadores de negócio a partir da base tratada'
+        ],
+        body: 'Chegou a hora de juntar tudo. Nesta parte você recebe a mesma exportação suja de abril e o cadastro de clientes, e entrega os números do mês como um analista entregaria: base tratada, cruzamento com o cadastro, indicadores — e a medida de quanto da base não tem cliente cadastrado. Desta vez as dicas são mais curtas: use os módulos 08 a 11 como consulta.',
+        content: [
+          { h: 'O que você já sabe fazer',
+            items: [
+              '<strong>Módulo 10</strong>: duplicados, datas dia/mês/ano, textos padronizados, preço em texto, quantidade vazia.',
+              '<strong>Módulo 11</strong>: merge com o cadastro (left mantém tudo), groupby por segmento.',
+              '<strong>Módulo 09</strong>: percentuais com a média de uma condição.',
+              'Organize em etapas: uma função <code>limpar</code>, o merge e, no fim, os indicadores.'
+            ] },
+          { h: 'Regras do negócio para este projeto',
+            items: [
+              'Linhas duplicadas são removidas.',
+              'Quantidade vazia vale 1 unidade.',
+              'Faturamento = quantidade × preço unitário.',
+              'Vendas sem cliente no cadastro <strong>continuam</strong> no faturamento total, mas ficam fora da análise por segmento.'
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual a ordem certa do fluxo?', op: ['Limpar, cruzar com o cadastro e calcular os indicadores', 'Calcular os indicadores e depois limpar', 'Cruzar, calcular e só no fim remover duplicados'], a: 0 },
+          { t: 'escolha', q: 'Para manter no total as vendas sem cliente cadastrado, qual merge usar?', op: ['how="left"', 'how="inner"', 'Nenhum, use concat'], a: 0 },
+          { t: 'escolha', q: 'Como calcular o percentual de vendas sem cadastro depois do merge left?', op: ['base["nome"].isna().mean() * 100', 'len(base) / 100', 'base["nome"].count()'], a: 0 },
+          { t: 'escolha', q: 'Por que remover os duplicados antes de somar?', op: ['Senão o mesmo pedido é somado duas vezes', 'Porque o pandas não soma com duplicados', 'Para o arquivo ficar menor'], a: 0 },
+          { t: 'ordenar', q: 'Monte o fluxo do projeto.', linhas: ['cru = pd.read_csv("vendas_sujas.csv")', 'limpa = limpar(cru)', 'base = pd.merge(limpa, clientes, on="cliente_id", how="left")', 'fat_total = round(base["faturamento"].sum(), 2)'] }
+        ],
+        desafios: [
+          { titulo: 'Indicadores de abril',
+            cenario: 'Com <code>vendas_sujas.csv</code> e <code>clientes.csv</code>, seguindo as regras do negócio desta aula:<br>1) monte <code>base</code>: a base limpa (sem duplicadas, preço numérico, quantidade vazia = 1, coluna <code>faturamento</code>) cruzada com o cadastro mantendo <strong>todas</strong> as vendas;<br>2) <code>fat_total</code> e <code>ticket_medio</code> (média do faturamento por pedido), 2 casas;<br>3) <code>pct_sem_cadastro</code>: % das vendas sem cliente no cadastro, 1 casa;<br>4) <code>top_segmento</code>: o segmento de maior faturamento (entre as vendas com cadastro).',
+            arquivos: { 'vendas_sujas.csv': PY_ARQ['vendas_sujas.csv'], 'clientes.csv': PY_ARQ['clientes.csv'] },
+            inicial: 'import pandas as pd\n\ncru = pd.read_csv("vendas_sujas.csv")\nclientes = pd.read_csv("clientes.csv")\n\nbase = None\nfat_total = 0\nticket_medio = 0\npct_sem_cadastro = 0\ntop_segmento = ""\n\nprint(fat_total, ticket_medio, pct_sem_cadastro, top_segmento)\n',
+            testes: [
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv").drop_duplicates()\nassert isinstance(base, pd.DataFrame) and len(base) == len(_e) and "segmento" in base.columns and "faturamento" in base.columns', msg: 'base limpa, com todas as vendas e as colunas do cadastro' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv").drop_duplicates()\n_f = _e["quantidade"].fillna(1) * _e["preco_unit"].str.replace("R$", "").str.strip().str.replace(",", ".").astype(float)\nassert abs(fat_total - round(_f.sum(), 2)) < 0.01 and abs(ticket_medio - round(_f.mean(), 2)) < 0.01', msg: 'fat_total e ticket_medio corretos' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv").drop_duplicates()\n_c = set(pd.read_csv("clientes.csv")["cliente_id"])\nassert abs(pct_sem_cadastro - round((~_e["cliente_id"].isin(_c)).mean() * 100, 1)) < 0.05', msg: 'pct_sem_cadastro correto' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_sujas.csv").drop_duplicates()\n_e["f"] = _e["quantidade"].fillna(1) * _e["preco_unit"].str.replace("R$", "").str.strip().str.replace(",", ".").astype(float)\n_m = pd.merge(_e, pd.read_csv("clientes.csv"), on="cliente_id")\nassert top_segmento == _m.groupby("segmento")["f"].sum().idxmax()', msg: 'top_segmento correto' }
+            ],
+            dicas: ['Reaproveite a função limpar do Módulo 10 (só as partes que estas regras pedem).', 'base = pd.merge(limpa, clientes, on="cliente_id", how="left"); sem cadastro: base["nome"].isna().', 'top_segmento: base.groupby("segmento")["faturamento"].sum().idxmax() — o groupby ignora as linhas sem segmento.'],
+            solucao: 'import pandas as pd\n\ncru = pd.read_csv("vendas_sujas.csv")\nclientes = pd.read_csv("clientes.csv")\n\ndef limpar(df):\n    df = df.drop_duplicates().copy()\n    preco = df["preco_unit"].str.replace("R$", "").str.strip().str.replace(",", ".")\n    df["preco_unit"] = preco.astype(float)\n    df["quantidade"] = df["quantidade"].fillna(1).astype(int)\n    df["faturamento"] = df["quantidade"] * df["preco_unit"]\n    return df\n\nbase = pd.merge(limpar(cru), clientes, on="cliente_id", how="left")\n\nfat_total = round(base["faturamento"].sum(), 2)\nticket_medio = round(base["faturamento"].mean(), 2)\npct_sem_cadastro = round(base["nome"].isna().mean() * 100, 1)\ntop_segmento = base.groupby("segmento")["faturamento"].sum().idxmax()\n\nprint(fat_total, ticket_medio, pct_sem_cadastro, top_segmento)' }
+        ]
+      },
+      {
+        id: 'py-final-relatorio', title: 'Projeto final 2: o relatório do semestre',
+        desc: 'Segunda parte do projeto final: o relatório completo do semestre em Excel, com resumo mensal, ranking de clientes, formatação e o gráfico salvo em imagem.',
+        objetivos: [
+          'Gerar um relatório Excel com várias abas a partir da análise',
+          'Calcular variação mensal e ranking de clientes',
+          'Entregar o gráfico pronto em PNG junto com a planilha'
+        ],
+        body: 'A diretoria pediu o pacote do semestre: uma planilha com o resumo mês a mês e os maiores clientes, e um gráfico para a apresentação. Você vai entregar os dois arquivos gerados por um único script — o mesmo script que, no próximo semestre, refaz tudo com os dados novos.',
+        content: [
+          { h: 'O que entregar',
+            items: [
+              '<code>relatorio_final.xlsx</code> com as abas <code>Mensal</code> e <code>Clientes</code>.',
+              '<code>grafico_mensal.png</code> com a evolução do faturamento.',
+              'Use os módulos 11 (pct_change, nlargest), 12 (gráficos) e 13 (ExcelWriter e openpyxl).'
+            ] },
+          { h: 'Lembretes rápidos',
+            code: 'import pandas as pd\n\nserie = pd.Series([100.0, 120.0, 90.0], index=[1, 2, 3])\nprint((serie.pct_change() * 100).round(1).tolist())\nprint(serie.nlargest(2).index.tolist())' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual combinação gera a variação mensal em %?', op: ['mensal.pct_change() * 100', 'mensal / mensal.sum() * 100', 'mensal.diff()'], a: 0 },
+          { t: 'escolha', q: 'Qual gráfico combina com a aba "Mensal"?', op: ['Linha ou barras por mês', 'Pizza por mês', 'Dispersão de clientes'], a: 0 },
+          { t: 'escolha', q: 'Onde aplicar o formato de moeda no Excel?', op: ['Nas células com valores em reais, a partir da linha 2', 'Em todas as células, inclusive o cabeçalho', 'Só na célula A1'], a: 0 },
+          { t: 'escolha', q: 'Qual a ordem certa: gravar com pandas ou formatar com openpyxl primeiro?', op: ['Gravar com pandas e depois formatar com openpyxl', 'Formatar primeiro e depois gravar com pandas', 'Tanto faz'], a: 0, exp: 'Se o pandas gravar depois, ele recria o arquivo e a formatação se perde.' },
+          { t: 'ordenar', q: 'Monte o final do script.', linhas: ['wb = load_workbook("relatorio_final.xlsx")', 'ws = wb["Mensal"]', 'ws["B2"].number_format = \'"R$" #,##0.00\'', 'wb.save("relatorio_final.xlsx")'] }
+        ],
+        desafios: [
+          { titulo: 'Pacote do semestre para a diretoria',
+            cenario: 'Com <code>vendas_2026.csv</code> e <code>clientes.csv</code>, gere:<br>1) <code>relatorio_final.xlsx</code> com duas abas, nesta ordem:<br>&nbsp;&nbsp;• <code>Mensal</code>: colunas <code>mes</code> (1 a 6), <code>faturamento</code> (2 casas) e <code>variacao_pct</code> (variação % sobre o mês anterior, 1 casa, vazia no mês 1);<br>&nbsp;&nbsp;• <code>Clientes</code>: os 10 clientes cadastrados de maior faturamento, colunas <code>nome</code>, <code>uf</code>, <code>segmento</code> e <code>faturamento</code>, do maior para o menor;<br>&nbsp;&nbsp;• nas duas abas, cabeçalho em negrito e a coluna de faturamento com formato de moeda contendo <code>R$</code>;<br>2) <code>grafico_mensal.png</code>: gráfico do faturamento mensal, com título.',
+            arquivos: { 'vendas_2026.csv': PY_ARQ['vendas_2026.csv'], 'clientes.csv': PY_ARQ['clientes.csv'] },
+            inicial: 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom openpyxl import load_workbook\nfrom openpyxl.styles import Font\n\nvendas = pd.read_csv("vendas_2026.csv")\nclientes = pd.read_csv("clientes.csv")\nvendas["faturamento"] = vendas["quantidade"] * vendas["preco_unit"]\n\n# 1) aba Mensal  2) aba Clientes  3) gravar e formatar  4) gráfico\n',
+            testes: [
+              { py: 'from openpyxl import load_workbook\nassert load_workbook("relatorio_final.xlsx").sheetnames == ["Mensal", "Clientes"]', msg: 'relatorio_final.xlsx com as abas Mensal e Clientes' },
+              { py: 'import pandas as pd\n_e = pd.read_csv("vendas_2026.csv")\n_m = (_e["quantidade"] * _e["preco_unit"]).groupby(pd.to_datetime(_e["data"]).dt.month).sum()\n_v = (_m.pct_change() * 100).round(1)\n_x = pd.read_excel("relatorio_final.xlsx", sheet_name="Mensal")\nassert list(_x.columns) == ["mes", "faturamento", "variacao_pct"] and list(_x["mes"]) == list(_m.index)\nassert all(abs(a - round(b, 2)) < 0.01 for a, b in zip(_x["faturamento"], _m.values)) and pd.isna(_x["variacao_pct"].iloc[0]) and all(abs(a - b) < 0.05 for a, b in zip(_x["variacao_pct"].iloc[1:], _v.iloc[1:]))', msg: 'aba Mensal correta' },
+              { py: 'import pandas as pd\n_b = pd.merge(pd.read_csv("vendas_2026.csv"), pd.read_csv("clientes.csv"), on="cliente_id")\n_b["f"] = _b["quantidade"] * _b["preco_unit"]\n_t = _b.groupby("nome")["f"].sum().nlargest(10)\n_x = pd.read_excel("relatorio_final.xlsx", sheet_name="Clientes")\nassert list(_x.columns) == ["nome", "uf", "segmento", "faturamento"] and list(_x["nome"]) == list(_t.index) and all(abs(a - b) < 0.01 for a, b in zip(_x["faturamento"], _t.values))', msg: 'aba Clientes com o top 10 correto' },
+              { py: 'from openpyxl import load_workbook\n_wb = load_workbook("relatorio_final.xlsx")\nfor _ws in _wb.worksheets:\n    assert all(c.font.bold for c in _ws[1])\n    _col = [c.value for c in _ws[1]].index("faturamento") + 1\n    assert all("R$" in _ws.cell(r, _col).number_format for r in range(2, _ws.max_row + 1))', msg: 'cabeçalhos em negrito e faturamento em moeda' },
+              { py: 'import os\nimport matplotlib.pyplot as plt\nassert os.path.exists("grafico_mensal.png") and any(a.get_title().strip() for f in map(plt.figure, plt.get_fignums()) for a in f.axes)', msg: 'grafico_mensal.png salvo, com título' }
+            ],
+            dicas: ['Mensal: agrupe por pd.to_datetime(vendas["data"]).dt.month, some; monte um DataFrame com mes, faturamento (.round(2)) e variacao_pct ((pct_change() * 100).round(1)).', 'Clientes: base = pd.merge(vendas, clientes, on="cliente_id"); base.groupby(["nome", "uf", "segmento"])["faturamento"].sum().nlargest(10).reset_index().', 'Grave as duas abas com pd.ExcelWriter, depois abra com load_workbook para negrito e moeda; o gráfico: fig, ax = plt.subplots(), ax.set_title(...), fig.savefig("grafico_mensal.png").'],
+            solucao: 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom openpyxl import load_workbook\nfrom openpyxl.styles import Font\n\nvendas = pd.read_csv("vendas_2026.csv")\nclientes = pd.read_csv("clientes.csv")\nvendas["faturamento"] = vendas["quantidade"] * vendas["preco_unit"]\n\nmensal = vendas.groupby(pd.to_datetime(vendas["data"]).dt.month)["faturamento"].sum()\naba_mensal = pd.DataFrame({\n    "mes": mensal.index,\n    "faturamento": mensal.round(2).values,\n    "variacao_pct": (mensal.pct_change() * 100).round(1).values\n})\n\nbase = pd.merge(vendas, clientes, on="cliente_id")\naba_clientes = base.groupby(["nome", "uf", "segmento"])["faturamento"].sum().nlargest(10).round(2).reset_index()\n\nwith pd.ExcelWriter("relatorio_final.xlsx") as escritor:\n    aba_mensal.to_excel(escritor, sheet_name="Mensal", index=False)\n    aba_clientes.to_excel(escritor, sheet_name="Clientes", index=False)\n\nwb = load_workbook("relatorio_final.xlsx")\nfor ws in wb.worksheets:\n    cabecalho = [c.value for c in ws[1]]\n    for celula in ws[1]:\n        celula.font = Font(bold=True)\n    col = cabecalho.index("faturamento") + 1\n    for r in range(2, ws.max_row + 1):\n        ws.cell(r, col).number_format = \'"R$" #,##0.00\'\n    ws.column_dimensions["A"].width = 24\nwb.save("relatorio_final.xlsx")\n\nfig, ax = plt.subplots(figsize=(8, 4))\nax.bar(mensal.index, mensal.values, color="#2F7FD8")\nax.set_title("Faturamento mensal — 1º semestre")\nax.set_xlabel("Mês")\nax.spines[["top", "right"]].set_visible(False)\nfig.savefig("grafico_mensal.png", dpi=150, bbox_inches="tight")\nplt.show()\n\nprint(aba_mensal)\nprint(aba_clientes.head())' }
+        ]
+      },
+      {
+        id: 'py-final-teste', title: 'Revisão geral e teste final do certificado',
+        desc: 'Revisão do caminho do zero ao Python para dados, como funciona o teste final que libera o certificado e os próximos passos para usar Python no seu computador e no trabalho.',
+        objetivos: [
+          'Revisar os conceitos principais de cada etapa do curso',
+          'Entender as regras do teste final e do certificado',
+          'Saber como continuar: Python no computador, Jupyter, Power BI e Fabric'
+        ],
+        body: 'Você saiu do print("Olá, mundo!") e chegou a um script que limpa dados, cruza tabelas, gera gráficos e entrega um relatório Excel formatado. Esta aula revisa o caminho, explica o teste final e mostra como levar o que você aprendeu para o seu computador e para o dia a dia.',
+        content: [
+          { h: 'O caminho que você percorreu',
+            items: [
+              '<strong>Fundamentos (01–07)</strong>: variáveis e tipos, textos, decisões, listas e laços, dicionários e JSON, funções, erros.',
+              '<strong>Arquivos (08)</strong>: texto, CSV (inclusive o brasileiro) e JSON.',
+              '<strong>pandas (09–11)</strong>: DataFrame, filtros, colunas calculadas, limpeza, groupby, merge e pivot_table.',
+              '<strong>Resultado (12–13)</strong>: gráficos com matplotlib e automação de planilhas Excel.'
+            ] },
+          { h: 'O teste final',
+            items: [
+              'São <strong>40 questões</strong> de múltipla escolha cobrindo todos os módulos — leitura de código, saída de programas e escolha da ferramenta certa.',
+              'Nota mínima: <strong>70%</strong>. Você pode refazer quantas vezes precisar.',
+              'Aprovado no teste final, o <strong>certificado</strong> fica disponível na sua área do aluno.',
+              'Cada módulo também tem uma avaliação curta para você medir o próprio progresso.'
+            ] },
+          { h: 'Próximos passos',
+            items: [
+              '<strong>Python no computador</strong>: instale pelo python.org e use o VS Code (gratuito) com a extensão Python. Instale as bibliotecas com <code>pip install pandas matplotlib openpyxl</code>.',
+              '<strong>Jupyter Notebook</strong>: código, resultado e gráfico na mesma página — o formato preferido para análise exploratória.',
+              '<strong>Power BI</strong>: o Power Query aceita scripts Python e existem visuais em Python.',
+              '<strong>Microsoft Fabric</strong>: os notebooks do Fabric usam Python e pandas (e PySpark) direto sobre o Lakehouse — o caminho natural depois deste curso.'
+            ] },
+          { h: 'Uma última execução',
+            code: 'habilidades = ["variáveis", "laços", "funções", "arquivos", "pandas", "gráficos", "Excel"]\nfor i, h in enumerate(habilidades, 1):\n    print(f"{i}. {h} ✔")\nprint("Pronto para o teste final!")' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual o resultado?', codigo: 'precos = [10, 20, 30]\nprint(sum(precos) / len(precos))', op: ['20.0', '60', '3'], a: 0 },
+          { t: 'escolha', q: 'Qual ferramenta usar para cruzar vendas com o cadastro de clientes?', op: ['pd.merge', 'pd.concat', 'groupby'], a: 0 },
+          { t: 'escolha', q: 'Qual o resultado?', codigo: 'cliente = {"nome": "Ana", "cidade": "Goiânia"}\nprint(cliente.get("idade", "não informado"))', op: ['não informado', 'KeyError', 'None'], a: 0 },
+          { t: 'escolha', q: 'Uma coluna de quantidades veio como float64. Qual a causa mais provável?', op: ['Ela tem valores vazios (NaN)', 'Os números são muito grandes', 'O arquivo é CSV'], a: 0 },
+          { t: 'escolha', q: 'Para escrever uma fórmula =SUM(...) numa célula do Excel por código, qual biblioteca?', op: ['openpyxl', 'matplotlib', 'json'], a: 0 },
+          { t: 'pares', pares: [['try / except', 'tratar erros'], ['groupby', 'totais por grupo'], ['savefig', 'salvar gráfico'], ['to_excel', 'gravar planilha']] }
+        ]
+      }
+    ]
+  }
 ];
