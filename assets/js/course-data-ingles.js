@@ -598,4 +598,201 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m04', title: 'Módulo 04 · Casa, cidade e compras: there is/are, preposições, can e preços (A1)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-there-is-are', title: 'There is e there are: o que tem no lugar',
+        desc: 'Como dizer que existe alguma coisa num lugar — "tem um banco na esquina" — e como perguntar e negar.',
+        objetivos: [
+          'Usar there is com singular e there are com plural',
+          'Negar com there isn\'t e there aren\'t, usando any no plural',
+          'Perguntar com Is there...? e Are there...?'
+        ],
+        body: 'Em português dizemos "tem uma farmácia aqui perto" usando o verbo ter. Em inglês, para falar que algo existe num lugar, usa-se there is e there are — e usar have nesse caso é um dos erros mais comuns de brasileiro.',
+        content: [
+          { h: 'Singular e plural',
+            items: [
+              `${EN('There is')} (contração ${EN("there's")}) + singular: ${EN("There's a pharmacy near here.")} (Tem uma farmácia aqui perto.)`,
+              `${EN('There are')} + plural: ${EN('There are two banks on this street.')} (Tem dois bancos nesta rua.)`,
+              `Erro clássico: "Have a pharmacy here" — em inglês o verbo ter (${EN('have')}) é de posse; para existência é ${EN('there is')}.`
+            ] },
+          { h: 'Negativa',
+            items: [
+              `${EN("There isn't a gym in my building.")} (Não tem academia no meu prédio.)`,
+              `${EN("There aren't any restaurants here.")} (Não tem nenhum restaurante aqui.) — no plural negativo, use ${EN('any')}.`,
+              `Também se diz: ${EN('There are no restaurants here.')} — com ${EN('no')}, o verbo fica afirmativo.`
+            ] },
+          { h: 'Pergunta',
+            items: [
+              `${EN('Is there a bathroom here?')} — ${EN('Yes, there is.')} / ${EN("No, there isn't.")}`,
+              `${EN('Are there any good restaurants near here?')} — ${EN('Yes, there are.')} / ${EN("No, there aren't.")}`,
+              `Quantidade: ${EN('How many rooms are there?')} (Quantos cômodos tem?)`
+            ] },
+          { h: 'Some e any',
+            p: `No plural afirmativo use ${EN('some')} (alguns): ${EN('There are some shops on the corner.')} Em perguntas e negativas, ${EN('any')}: ${EN('Are there any shops?')} · ${EN("There aren't any shops.")}` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: '___ a pharmacy near here.', op: ["There's", 'There are', 'Have'], a: 0, pt: 'Tem uma farmácia aqui perto.', exp: 'Para existência num lugar, there is (singular). Have é posse.' },
+          { t: 'lacuna', frase: '___ two banks on this street.', op: ['There are', "There's", 'Have'], a: 0, pt: 'Tem dois bancos nesta rua.' },
+          { t: 'lacuna', frase: "There aren't ___ restaurants here.", op: ['any', 'some', 'a'], a: 0, pt: 'Não tem nenhum restaurante aqui.' },
+          { t: 'escolha', q: 'Como perguntar "Tem banheiro aqui?"', op: ['Is there a bathroom here?', 'Have a bathroom here?', 'There is a bathroom here?'], a: 0 },
+          { t: 'escolha', q: `Responda: ${EN('Are there any shops?')} (sim)`, op: ['Yes, there are.', 'Yes, there is.', 'Yes, they have.'], a: 0 },
+          { t: 'montar', pt: 'Quantos quartos tem?', en: 'How many bedrooms are there?', extra: ['have', 'is'] },
+          { t: 'montar', pt: 'Não tem academia no meu prédio.', en: "There isn't a gym in my building", extra: ['have', 'any'] },
+          { t: 'escolha', ouvir: "There's a supermarket on the corner.", op: ["There's a supermarket on the corner.", 'There are supermarkets in the corner.', 'Is there a supermarket on the corner?'], a: 0 },
+          { t: 'digitar', pt: 'Tem um parque perto da minha casa.', en: "There's a park near my house", alt: ['There is a park near my house'] },
+          { t: 'digitar', ouvir: 'Are there any good restaurants here?', en: 'Are there any good restaurants here' },
+          { t: 'pares', pares: [['there is', 'tem (1)'], ['there are', 'tem (2+)'], ["there isn't", 'não tem (1)'], ["there aren't any", 'não tem nenhum'], ['Is there...?', 'Tem...?']] },
+          { t: 'falar', en: 'Is there a bank near here?' },
+          { t: 'falar', en: 'There are two bedrooms.' }
+        ]
+      },
+      {
+        id: 'en-preposicoes-lugar', title: 'Onde fica? As preposições de lugar',
+        desc: 'In, on, under, next to, between, behind, in front of, near e across from — para dizer onde as coisas estão em casa e na cidade.',
+        objetivos: [
+          'Usar in, on e under para posição de objetos',
+          'Usar next to, between, behind, in front of e near',
+          'Localizar lugares na cidade com on the corner e across from'
+        ],
+        body: 'Onde está a chave? Onde fica o banco? As preposições de lugar respondem a essas perguntas. A maioria tem tradução direta, mas in e on funcionam diferente do "em" do português.',
+        content: [
+          { h: 'Dentro, sobre, embaixo',
+            items: [
+              `${EN('in')} — dentro: ${EN('The keys are in my bag.')} (As chaves estão na minha bolsa.)`,
+              `${EN('on')} — em cima, apoiado na superfície: ${EN('The phone is on the table.')} (O celular está na mesa.)`,
+              `${EN('under')} — embaixo: ${EN('The cat is under the bed.')}`,
+              `O "em" do português vira ${EN('in')} ou ${EN('on')}: dentro da caixa é ${EN('in the box')}; na mesa (sobre ela) é ${EN('on the table')}.`
+            ] },
+          { h: 'Ao lado, entre, atrás, na frente, perto',
+            items: [
+              `${EN('next to')} (ao lado de): ${EN('The bank is next to the pharmacy.')}`,
+              `${EN('between')} (entre): ${EN('The café is between the bank and the school.')}`,
+              `${EN('behind')} (atrás de) · ${EN('in front of')} (na frente de): ${EN('The car is in front of the house.')}`,
+              `${EN('near')} (perto de) — sem "of": ${EN('near my house')}, nunca "near of".`
+            ] },
+          { h: 'Na cidade',
+            items: [
+              `${EN('on the corner')} (na esquina) · ${EN('across from')} (em frente, do outro lado da rua): ${EN('The hotel is across from the station.')}`,
+              `Rua: ${EN('on Main Street')} (na Rua Principal) · endereço completo: ${EN('at 25 Main Street')}.`,
+              `Pergunta: ${EN('Where is the bank?')} · ${EN("Excuse me, where's the nearest pharmacy?")} (Com licença, onde fica a farmácia mais próxima?)`
+            ] },
+          { h: 'Cômodos da casa',
+            p: `${EN('living room')} (sala) · ${EN('kitchen')} (cozinha) · ${EN('bedroom')} (quarto) · ${EN('bathroom')} (banheiro) · ${EN('garage')} (garagem). Com cômodos use ${EN('in')}: ${EN("She's in the kitchen.")}` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'The phone is ___ the table.', op: ['on', 'in', 'at'], a: 0, pt: 'O celular está na mesa.', exp: 'Apoiado sobre uma superfície: on.' },
+          { t: 'lacuna', frase: 'The keys are ___ my bag.', op: ['in', 'on', 'at'], a: 0, pt: 'As chaves estão na minha bolsa.' },
+          { t: 'lacuna', frase: 'The café is ___ the bank and the school.', op: ['between', 'next', 'near of'], a: 0, pt: 'O café fica entre o banco e a escola.' },
+          { t: 'escolha', q: 'Como se diz "perto da minha casa"?', op: ['near my house', 'near of my house', 'next my house'], a: 0, exp: 'near não leva of. Já next precisa de to: next to my house.' },
+          { t: 'pares', pares: [['under', 'embaixo de'], ['behind', 'atrás de'], ['in front of', 'na frente de'], ['next to', 'ao lado de'], ['across from', 'em frente (outro lado)']] },
+          { t: 'escolha', q: 'Como dizer "na esquina"?', op: ['on the corner', 'in the corner of the street', 'at corner'], a: 0 },
+          { t: 'montar', pt: 'O gato está embaixo da cama.', en: 'The cat is under the bed', extra: ['on', 'of'] },
+          { t: 'montar', pt: 'O hotel fica em frente à estação.', en: 'The hotel is across from the station', extra: ['in', 'front'] },
+          { t: 'pares', pares: [['kitchen', 'cozinha'], ['bedroom', 'quarto'], ['bathroom', 'banheiro'], ['living room', 'sala'], ['garage', 'garagem']] },
+          { t: 'digitar', pt: 'Ela está na cozinha.', en: "She's in the kitchen", alt: ['She is in the kitchen'] },
+          { t: 'digitar', ouvir: "Excuse me, where's the nearest pharmacy?", en: "Excuse me, where's the nearest pharmacy", alt: ['Excuse me, where is the nearest pharmacy'] },
+          { t: 'falar', en: 'The bank is next to the pharmacy.' },
+          { t: 'falar', en: 'Where is the bathroom?' }
+        ]
+      },
+      {
+        id: 'en-can', title: 'Can: habilidade, permissão e pedidos',
+        desc: 'O verbo can para dizer o que você sabe ou consegue fazer, pedir permissão e fazer pedidos educados.',
+        objetivos: [
+          'Dizer o que você sabe e não sabe fazer com can e can\'t',
+          'Pedir permissão com Can I...?',
+          'Fazer pedidos com Can you...? e Could you...?'
+        ],
+        body: 'Can é um dos verbos mais úteis do inglês: com ele você diz que sabe nadar, pede para sentar, pede ajuda numa loja. E ele é fácil: não muda com he e she e não precisa de do ou does.',
+        content: [
+          { h: 'Habilidade: saber e conseguir',
+            items: [
+              `${EN('I can swim.')} (Eu sei nadar.) · ${EN('She can speak three languages.')} (Ela fala três idiomas.)`,
+              `Negativa: ${EN("can't")} (ou ${EN('cannot')}): ${EN("I can't cook.")} (Eu não sei cozinhar.)`,
+              `Can <strong>não muda</strong>: ${EN('he can')}, ${EN('she can')} — nunca "cans". E o verbo depois dele fica puro: ${EN('She can swim')} — nunca "can swims" nem "can to swim".`
+            ] },
+          { h: 'Perguntas sem do/does',
+            items: [
+              `${EN('Can you drive?')} (Você sabe dirigir?) — ${EN('Yes, I can.')} / ${EN("No, I can't.")}`,
+              `${EN('What languages can you speak?')}`,
+              `Pronúncia: na afirmativa o ${EN('can')} fica fraco, quase "kn": ${EN('I can swim')}. Na negativa ele é forte e o "t" quase some: ${EN("I can't swim")} — preste atenção ao som da vogal, que é aberto.`
+            ] },
+          { h: 'Permissão e pedidos',
+            items: [
+              `Permissão: ${EN('Can I sit here?')} (Posso sentar aqui?) · ${EN('Can I pay by card?')} (Posso pagar com cartão?)`,
+              `Pedido: ${EN('Can you help me?')} (Você pode me ajudar?)`,
+              `Mais educado: ${EN('Could you help me, please?')} — ${EN('could')} soa mais gentil, ideal com desconhecidos e no trabalho.`
+            ] },
+          { h: 'Respondendo a um pedido',
+            p: `${EN('Sure!')} · ${EN('Of course.')} · ${EN('No problem.')} (Claro! / Sem problema.) — e para recusar com educação: ${EN("Sorry, I can't right now.")}` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'She ___ speak three languages.', op: ['can', 'cans', 'can to'], a: 0, pt: 'Ela fala três idiomas.', exp: 'can nunca ganha -s e não leva to.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['He can swim.', 'He can swims.', 'He can to swim.'], a: 0 },
+          { t: 'escolha', q: `Responda: ${EN('Can you drive?')} (não)`, op: ["No, I can't.", "No, I don't.", "No, I not can."], a: 0 },
+          { t: 'escolha', q: 'Qual é o pedido mais educado?', op: ['Could you help me, please?', 'Help me.', 'You help me?'], a: 0 },
+          { t: 'montar', pt: 'Posso pagar com cartão?', en: 'Can I pay by card?', extra: ['with', 'do'] },
+          { t: 'montar', pt: 'Eu não sei cozinhar.', en: "I can't cook", extra: ["don't", 'to'] },
+          { t: 'pares', pares: [['Can I...?', 'Posso...?'], ['Can you...?', 'Você pode...?'], ['Could you...?', 'Você poderia...?'], ["I can't", 'eu não consigo'], ['Sure!', 'Claro!']] },
+          { t: 'escolha', ouvir: "I can't swim.", op: ["I can't swim.", 'I can swim.', "I don't swim."], a: 0 },
+          { t: 'escolha', ouvir: 'I can swim.', op: ['I can swim.', "I can't swim.", 'I can swing.'], a: 0 },
+          { t: 'digitar', pt: 'Você pode me ajudar?', en: 'Can you help me?', alt: ['Could you help me?'] },
+          { t: 'digitar', ouvir: 'Can I sit here?', en: 'Can I sit here' },
+          { t: 'falar', en: 'Could you help me, please?' },
+          { t: 'falar', en: 'Can I pay by card?' }
+        ]
+      },
+      {
+        id: 'en-compras', title: 'Shopping: preços, tamanhos e pagamento',
+        desc: 'Tudo para fazer compras em inglês: perguntar preço, ler valores em dólar, pedir outro tamanho, provar e pagar.',
+        objetivos: [
+          'Perguntar e entender preços com How much is / How much are',
+          'Dizer valores em dólar e centavos',
+          'Pedir tamanho, provar roupa e escolher a forma de pagamento'
+        ],
+        body: 'Fechando o módulo, você vai à loja. Com poucas frases prontas você resolve qualquer compra — e aprende a ler preços, que em inglês têm uma ordem e uma pontuação diferentes do português.',
+        content: [
+          { h: 'Quanto custa?',
+            items: [
+              `Singular: ${EN('How much is this shirt?')} (Quanto custa esta camisa?) — resposta: ${EN("It's twenty dollars.")}`,
+              `Plural: ${EN('How much are these shoes?')} — resposta: ${EN("They're fifty dollars.")}`,
+              `Para o total: ${EN('How much is it?')} · ${EN("That's thirty-five fifty.")} (São 35,50.)`
+            ] },
+          { h: 'Lendo preços',
+            items: [
+              `O símbolo vem antes, mas se fala depois: $20 = ${EN('twenty dollars')}.`,
+              `Ponto separa os centavos (no Brasil é vírgula): $4.99 = ${EN('four ninety-nine')} ou ${EN('four dollars and ninety-nine cents')}.`,
+              `Vírgula separa os milhares: $1,200 = ${EN('twelve hundred dollars')} ou ${EN('one thousand two hundred dollars')}.`
+            ] },
+          { h: 'Na loja de roupas',
+            items: [
+              `${EN("I'm looking for a jacket.")} (Estou procurando uma jaqueta.) · ${EN("I'm just looking, thanks.")} (Só estou olhando, obrigado.)`,
+              `${EN('Do you have this in a medium?')} (Tem este no tamanho M?) — tamanhos: ${EN('small')}, ${EN('medium')}, ${EN('large')}.`,
+              `${EN('Can I try it on?')} (Posso provar?) — ${EN('The fitting room is over there.')} (O provador é ali.)`,
+              `${EN("It's too big.")} (Está grande demais.) · ${EN("It's perfect. I'll take it.")} (Está perfeito. Vou levar.)`
+            ] },
+          { h: 'Pagando',
+            p: `${EN('Cash or card?')} (Dinheiro ou cartão?) — ${EN('Card, please.')} · ${EN('Can I pay by card?')} · ${EN('Do you need a bag?')} (Precisa de sacola?) · ${EN('Can I have the receipt?')} (Pode me dar a nota?) Atenção à pronúncia de ${EN('receipt')}: o "p" é mudo.` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'How much ___ these shoes?', op: ['are', 'is', 'do'], a: 0, pt: 'Quanto custam estes sapatos?' },
+          { t: 'lacuna', frase: 'How much ___ this shirt?', op: ['is', 'are', 'does'], a: 0, pt: 'Quanto custa esta camisa?' },
+          { t: 'escolha', ouvir: 'four ninety-nine', op: ['$4.99', '$49.90', '$4.19'], a: 0 },
+          { t: 'escolha', ouvir: 'twelve hundred dollars', op: ['$1,200', '$12.00', '$120'], a: 0 },
+          { t: 'escolha', q: 'O vendedor pergunta se pode ajudar. Você só quer olhar:', op: ["I'm just looking, thanks.", "I'm only seeing.", 'I look only.'], a: 0 },
+          { t: 'escolha', q: 'Como perguntar "Posso provar?"', op: ['Can I try it on?', 'Can I prove it?', 'Can I test it?'], a: 0, exp: 'Provar roupa é try on. Prove em inglês é comprovar.' },
+          { t: 'montar', pt: 'Vocês têm este no tamanho M?', en: 'Do you have this in a medium?', extra: ['size', 'are'] },
+          { t: 'montar', pt: 'Está perfeito. Vou levar.', en: "It's perfect I'll take it", extra: ['buy', 'go'] },
+          { t: 'pares', pares: [['cash', 'dinheiro'], ['card', 'cartão'], ['receipt', 'nota fiscal'], ['bag', 'sacola'], ['fitting room', 'provador']] },
+          { t: 'digitar', pt: 'Quanto custa?', en: 'How much is it?', alt: ['How much is it', 'How much does it cost?'] },
+          { t: 'digitar', ouvir: 'Cash or card?', en: 'Cash or card' },
+          { t: 'falar', en: "I'm looking for a jacket." },
+          { t: 'falar', en: 'How much are these shoes?' }
+        ]
+      }
+    ]
+  }
 ];
