@@ -221,4 +221,194 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m02', title: 'Módulo 02 · Pessoas e família: possessivos, have/has, this/that e descrições (A1)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-familia', title: 'My family: a família e os possessivos',
+        desc: 'Os membros da família em inglês e como dizer "meu", "seu", "dele", "dela" — incluindo o \'s, que não existe em português.',
+        objetivos: [
+          'Nomear os membros da família em inglês',
+          'Usar os adjetivos possessivos my, your, his, her, our e their',
+          'Indicar posse com \'s (Ana\'s brother = o irmão da Ana)'
+        ],
+        body: 'Falar da família é um dos assuntos mais comuns numa conversa — e um ótimo treino para os possessivos, que confundem muito quem fala português. Em inglês, "dele" e "dela" são palavras diferentes, e o possessivo vem antes do nome, não depois.',
+        content: [
+          { h: 'A família',
+            items: [
+              `${EN('mother')} (mãe) e ${EN('father')} (pai) — no dia a dia: ${EN('mom')} e ${EN('dad')}. Juntos: ${EN('parents')} (pais). Cuidado: ${EN('parents')} são só pai e mãe; "parentes" é ${EN('relatives')}.`,
+              `${EN('brother')} (irmão) e ${EN('sister')} (irmã). Não existe uma palavra comum para "irmãos" misturados — diga ${EN('brothers and sisters')}, ou ${EN('siblings')} (mais formal).`,
+              `${EN('son')} (filho) e ${EN('daughter')} (filha); juntos: ${EN('children')} ou, informal, ${EN('kids')}.`,
+              `${EN('husband')} (marido) e ${EN('wife')} (esposa). ${EN('grandmother')} e ${EN('grandfather')} (avós), ${EN('uncle')} (tio), ${EN('aunt')} (tia), ${EN('cousin')} (primo ou prima — a mesma palavra).`
+            ] },
+          { h: 'Os possessivos: my, your, his, her...',
+            items: [
+              `${EN('my')} (meu, minha, meus, minhas) · ${EN('your')} (seu, sua, de vocês) · ${EN('our')} (nosso) · ${EN('their')} (deles, delas).`,
+              `${EN('his')} = dele · ${EN('her')} = dela. A escolha depende de <strong>quem é o dono</strong>, não da coisa: ${EN('Ben and his sister')} (o Ben e a irmã dele) · ${EN('Ava and her brother')} (a Ava e o irmão dela).`,
+              `${EN('its')} = dele/dela para coisas e animais: ${EN('The dog is in its house.')}`,
+              `O possessivo não muda no plural e não leva artigo: ${EN('my brothers')} (meus irmãos) — nunca "the my brothers".`
+            ] },
+          { h: 'O \'s: o "de" do inglês',
+            p: `Para dizer "o irmão da Ana", o inglês inverte a ordem e usa apóstrofo + s: ${EN("Ana's brother")}. Outros exemplos: ${EN("my father's car")} (o carro do meu pai) · ${EN("Ben's wife")} (a esposa do Ben). Se a palavra já termina em s de plural, só o apóstrofo: ${EN("my parents' house")} (a casa dos meus pais).` },
+          { h: 'Cuidado: \'s de posse × \'s de "is"',
+            p: `${EN("Ben's brother")} = o irmão do Ben (posse). ${EN("Ben's tall")} = o Ben é alto (contração de ${EN('is')}). O contexto mostra qual é: depois do 's de posse vem sempre um substantivo.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['mother', 'mãe'], ['brother', 'irmão'], ['daughter', 'filha'], ['wife', 'esposa'], ['cousin', 'primo / prima']] },
+          { t: 'lacuna', frase: 'Ben is with ___ sister.', op: ['his', 'her', 'their'], a: 0, pt: 'O Ben está com a irmã dele.', exp: `O dono é o Ben (homem), então his — mesmo a irmã sendo mulher.` },
+          { t: 'lacuna', frase: 'Ava and ___ brother are here.', op: ['his', 'her', 'its'], a: 1, pt: 'A Ava e o irmão dela estão aqui.', exp: `O dono é a Ava, então her — o gênero do irmão não importa.` },
+          { t: 'escolha', q: 'Como se diz "o carro do meu pai"?', op: ["my father's car", 'the car of my father', "my father car's"], a: 0 },
+          { t: 'escolha', q: `O que significa ${EN('parents')}?`, op: ['pai e mãe', 'parentes', 'padrinhos'], a: 0, opPt: true, exp: 'Falso cognato: parents são só pai e mãe. Parentes em geral são relatives.' },
+          { t: 'montar', pt: 'Esta é a minha irmã.', en: 'This is my sister', extra: ['her', 'are'] },
+          { t: 'montar', pt: 'O irmão da Ana é médico.', en: "Ana's brother is a doctor", extra: ['of', 'the'] },
+          { t: 'lacuna', frase: 'They live with ___ parents.', op: ['their', 'they', 'there'], a: 0, pt: 'Eles moram com os pais deles.' },
+          { t: 'escolha', ouvir: 'my parents', op: ['my parents', 'my relatives', 'my brothers'], a: 0 },
+          { t: 'digitar', pt: 'Meus pais são do Brasil.', en: 'My parents are from Brazil' },
+          { t: 'digitar', ouvir: 'Her husband is a teacher.', en: 'Her husband is a teacher' },
+          { t: 'falar', en: 'This is my family.' },
+          { t: 'falar', en: "My sister's name is Julia." }
+        ]
+      },
+      {
+        id: 'en-have-has', title: 'Have e has: falar do que você tem',
+        desc: 'O verbo have no presente — I have, she has — com negativa e pergunta, para falar de família, coisas e características.',
+        objetivos: [
+          'Usar have com I, you, we, they e has com he, she, it',
+          'Fazer a negativa com don\'t have e doesn\'t have',
+          'Perguntar com Do you have...? e Does she have...?'
+        ],
+        body: 'Depois do verbo to be, o have é o verbo que mais aparece nas primeiras conversas: "eu tenho dois irmãos", "ela tem um cachorro". Ele tem só duas formas no presente, e a pergunta e a negativa usam um verbo auxiliar — do ou does — que você vai ver muito no próximo módulo.',
+        content: [
+          { h: 'Afirmativa: have ou has',
+            items: [
+              `${EN('I have')}, ${EN('you have')}, ${EN('we have')}, ${EN('they have')} — ${EN('I have two brothers.')} (Eu tenho dois irmãos.)`,
+              `${EN('he has')}, ${EN('she has')}, ${EN('it has')} — com uma pessoa ou coisa (terceira pessoa do singular) a forma muda: ${EN('She has a dog.')} (Ela tem um cachorro.)`,
+              `Regra prática: se no to be seria ${EN('is')}, no have será ${EN('has')}.`
+            ] },
+          { h: 'Negativa: don\'t have / doesn\'t have',
+            items: [
+              `${EN("I don't have a car.")} (Eu não tenho carro.) — ${EN("don't")} = ${EN('do not')}.`,
+              `${EN("He doesn't have kids.")} (Ele não tem filhos.) — ${EN("doesn't")} = ${EN('does not')}.`,
+              `Atenção: depois de ${EN("doesn't")} o verbo volta para ${EN('have')}: ${EN("She doesn't have")} — nunca "doesn't has". O "s" já foi para o auxiliar.`
+            ] },
+          { h: 'Pergunta: Do you have...? / Does she have...?',
+            items: [
+              `${EN('Do you have any brothers or sisters?')} (Você tem irmãos?) — resposta curta: ${EN('Yes, I do.')} / ${EN("No, I don't.")}`,
+              `${EN('Does she have a car?')} — ${EN('Yes, she does.')} / ${EN("No, she doesn't.")}`,
+              `Na resposta curta repete-se o auxiliar, não o have: ${EN('Yes, I do')} (e não "Yes, I have").`
+            ] },
+          { h: 'Have também serve para características',
+            p: `${EN('She has blue eyes.')} (Ela tem olhos azuis.) · ${EN('He has short hair.')} (Ele tem cabelo curto.) Mas lembre da aula de números: idade usa to be — ${EN("I'm 30")}, nunca "I have 30".` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'She ___ two sisters.', op: ['have', 'has', 'is'], a: 1, pt: 'Ela tem duas irmãs.' },
+          { t: 'lacuna', frase: 'We ___ a big family.', op: ['have', 'has', 'are'], a: 0, pt: 'Nós temos uma família grande.' },
+          { t: 'lacuna', frase: "He doesn't ___ a car.", op: ['have', 'has', 'having'], a: 0, pt: 'Ele não tem carro.', exp: `Depois de doesn't o verbo fica na forma base (have). O "s" já está no doesn't.` },
+          { t: 'escolha', q: `Responda: ${EN('Do you have kids?')} (não)`, op: ["No, I don't.", "No, I haven't.", "No, I'm not."], a: 0 },
+          { t: 'montar', pt: 'Você tem irmãos?', en: 'Do you have any brothers or sisters?', extra: ['Are', 'has'] },
+          { t: 'montar', pt: 'Ela tem olhos azuis.', en: 'She has blue eyes', extra: ['have', 'is'] },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["I'm 25 years old.", 'I have 25 years.', 'I has 25 years.'], a: 0 },
+          { t: 'escolha', ouvir: 'Does she have a dog?', op: ['Does she have a dog?', 'Do she has a dog?', 'Is she have a dog?'], a: 0 },
+          { t: 'digitar', pt: 'Eu não tenho carro.', en: "I don't have a car", alt: ['I do not have a car'] },
+          { t: 'digitar', ouvir: 'He has two kids.', en: 'He has two kids' },
+          { t: 'pares', pares: [['I have', 'eu tenho'], ['she has', 'ela tem'], ["I don't have", 'eu não tenho'], ["he doesn't have", 'ele não tem'], ['Yes, I do.', 'Sim, tenho.']] },
+          { t: 'falar', en: 'I have one brother.' },
+          { t: 'falar', en: 'Do you have any kids?' }
+        ]
+      },
+      {
+        id: 'en-this-that-plurais', title: 'This, that, these, those e os plurais',
+        desc: 'Como apontar para coisas e pessoas perto ou longe, e como formar o plural em inglês — inclusive os irregulares.',
+        objetivos: [
+          'Usar this e that (singular) e these e those (plural) conforme a distância',
+          'Formar o plural regular com -s, -es e -ies',
+          'Reconhecer os plurais irregulares mais comuns: children, people, men, women'
+        ],
+        body: 'Quando você mostra uma foto da família ou aponta algo numa loja, precisa de "este", "esse" e "aquele". O inglês simplifica: só existe perto e longe. E o plural, na maioria das vezes, é só acrescentar um "s" — com algumas exceções muito usadas.',
+        content: [
+          { h: 'Perto e longe, singular e plural',
+            items: [
+              `${EN('this')} — este, esta, isto (perto, singular): ${EN('This is my brother.')}`,
+              `${EN('these')} — estes, estas (perto, plural): ${EN('These are my kids.')}`,
+              `${EN('that')} — esse, aquele, aquilo (longe, singular): ${EN('That is my car.')}`,
+              `${EN('those')} — esses, aqueles (longe, plural): ${EN('Those are my parents.')}`
+            ] },
+          { h: 'Apresentando pessoas',
+            p: `Para apresentar alguém, o inglês usa ${EN('this')}, não "he" ou "she": ${EN('This is Ben. This is my wife, Julia.')} Ao telefone também: ${EN('Hi, this is Ava.')} (Oi, aqui é a Ava.)` },
+          { h: 'Plural regular',
+            items: [
+              `A maioria ganha só -s: ${EN('brother, brothers')} · ${EN('car, cars')}.`,
+              `Terminadas em s, sh, ch, x ganham -es: ${EN('bus, buses')} · ${EN('watch, watches')} · ${EN('box, boxes')}.`,
+              `Consoante + y vira -ies: ${EN('family, families')} · ${EN('city, cities')}. Mas vogal + y só ganha -s: ${EN('boy, boys')}.`
+            ] },
+          { h: 'Plurais irregulares que você vai usar sempre',
+            items: [
+              `${EN('child, children')} (criança, crianças) · ${EN('person, people')} (pessoa, pessoas).`,
+              `${EN('man, men')} (homem, homens) · ${EN('woman, women')} (mulher, mulheres) — repare que a pronúncia do "o" em ${EN('women')} muda: "uímen".`,
+              `${EN('wife, wives')} · ${EN('foot, feet')} · ${EN('tooth, teeth')}.`,
+              `O adjetivo nunca vai para o plural: ${EN('two tall men')} — e não "talls".`
+            ] }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: '___ are my parents.', op: ['Those', 'These', 'That'], a: 0, pt: 'Aqueles são os meus pais. (longe, plural)' },
+          { t: 'lacuna', frase: '___ is my sister.', op: ['This', 'These', 'Those'], a: 0, pt: 'Esta é a minha irmã. (perto, singular)' },
+          { t: 'lacuna', frase: '___ are my kids.', op: ['These', 'This', 'That'], a: 0, pt: 'Estes são os meus filhos. (perto, plural)' },
+          { t: 'pares', pares: [['child', 'children'], ['person', 'people'], ['man', 'men'], ['woman', 'women'], ['family', 'families']] },
+          { t: 'escolha', q: 'Qual é o plural de "watch" (relógio)?', op: ['watches', 'watchs', 'watchies'], a: 0 },
+          { t: 'escolha', q: 'Qual é o plural de "city"?', op: ['cities', 'citys', 'cityes'], a: 0 },
+          { t: 'escolha', q: 'Ao telefone, como dizer "Oi, aqui é a Ana"?', op: ['Hi, this is Ana.', "Hi, I'm here Ana.", 'Hi, here is Ana.'], a: 0 },
+          { t: 'montar', pt: 'Aqueles homens são altos.', en: 'Those men are tall', extra: ['talls', 'mans'] },
+          { t: 'montar', pt: 'Estas são as minhas filhas.', en: 'These are my daughters', extra: ['This', 'is'] },
+          { t: 'digitar', pt: 'Escreva o plural de "child".', en: 'children' },
+          { t: 'digitar', ouvir: 'Those people are my friends.', en: 'Those people are my friends' },
+          { t: 'falar', en: 'This is my brother, Ben.' },
+          { t: 'falar', en: 'These are my children.' }
+        ]
+      },
+      {
+        id: 'en-descrever-pessoas', title: 'Descrevendo pessoas: aparência e personalidade',
+        desc: 'Adjetivos para descrever como alguém é por fora e por dentro, e a posição do adjetivo na frase em inglês.',
+        objetivos: [
+          'Descrever aparência: altura, idade, cabelo e olhos',
+          'Descrever personalidade com adjetivos comuns',
+          'Colocar o adjetivo antes do substantivo e usar very e really'
+        ],
+        body: 'Fechando o módulo, você vai descrever as pessoas da sua vida. A grande diferença para o português é a ordem: em inglês o adjetivo vem antes da coisa — "a tall man", um homem alto — e nunca muda no plural.',
+        content: [
+          { h: 'Aparência',
+            items: [
+              `Altura: ${EN('tall')} (alto) · ${EN('short')} (baixo) · ${EN('medium height')} (estatura média).`,
+              `Idade: ${EN('young')} (jovem) · ${EN('old')} (velho — use com cuidado) · ${EN('elderly')} (idoso, mais educado) · ${EN('middle-aged')} (de meia-idade).`,
+              `Cabelo com have: ${EN('She has long hair.')} · ${EN('He has short, dark hair.')} · ${EN('curly')} (cacheado) · ${EN('straight')} (liso) · ${EN('blond')} (loiro).`,
+              `Olhos: ${EN('He has brown eyes.')} · ${EN('blue')}, ${EN('green')}, ${EN('dark')}.`
+            ] },
+          { h: 'Personalidade',
+            items: [
+              `${EN('friendly')} (simpático) · ${EN('funny')} (engraçado) · ${EN('kind')} (gentil) · ${EN('smart')} (inteligente).`,
+              `${EN('shy')} (tímido) · ${EN('quiet')} (quieto) · ${EN('outgoing')} (extrovertido) · ${EN('hard-working')} (trabalhador).`,
+              `Falso cognato: ${EN('sympathetic')} não é "simpático", e sim "compreensivo, solidário". Para "simpático", use ${EN('nice')} ou ${EN('friendly')}.`
+            ] },
+          { h: 'A ordem: adjetivo antes do substantivo',
+            p: `${EN('a tall man')} (um homem alto) · ${EN('a funny story')} (uma história engraçada) · ${EN('my kind grandmother')} (minha avó gentil). Com o verbo to be, o adjetivo fica no fim: ${EN('My grandmother is kind.')} E ele nunca vai para o plural: ${EN('two young women')}.` },
+          { h: 'Intensidade: very, really, a bit',
+            p: `${EN('very tall')} (muito alto) · ${EN('really funny')} (muito engraçado, mais informal) · ${EN('a bit shy')} (um pouco tímido). Para descrever alguém em uma pergunta: ${EN('What is she like?')} (Como ela é? — personalidade) · ${EN('What does she look like?')} (Como ela é fisicamente?).` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['tall', 'alto'], ['shy', 'tímido'], ['funny', 'engraçado'], ['kind', 'gentil'], ['curly', 'cacheado']] },
+          { t: 'escolha', q: 'Como se diz "um homem alto"?', op: ['a tall man', 'a man tall', 'a talls man'], a: 0 },
+          { t: 'escolha', q: 'Como se diz "duas mulheres jovens"?', op: ['two young women', 'two youngs women', 'two women youngs'], a: 0, exp: 'O adjetivo vem antes do substantivo e nunca vai para o plural.' },
+          { t: 'escolha', q: `O que pergunta ${EN('What is she like?')}`, op: ['Como ela é (personalidade)?', 'Do que ela gosta?', 'Com quem ela se parece?'], a: 0, opPt: true, exp: `Parece "do que ela gosta", mas like aqui é "como". What is she like? = como ela é. Do que ela gosta seria What does she like?` },
+          { t: 'escolha', q: `${EN('sympathetic')} significa:`, op: ['compreensivo', 'simpático', 'sinfônico'], a: 0, opPt: true, exp: 'Falso cognato. Simpático é nice ou friendly.' },
+          { t: 'lacuna', frase: 'She ___ long, curly hair.', op: ['has', 'is', 'have'], a: 0, pt: 'Ela tem cabelo longo e cacheado.' },
+          { t: 'montar', pt: 'Meu irmão é muito engraçado.', en: 'My brother is very funny', extra: ['much', 'has'] },
+          { t: 'montar', pt: 'Ela tem olhos castanhos.', en: 'She has brown eyes', extra: ['is', 'browns'] },
+          { t: 'digitar', pt: 'Ele é alto e simpático.', en: 'He is tall and friendly', alt: ["He's tall and friendly", 'He is tall and nice', "He's tall and nice"] },
+          { t: 'digitar', ouvir: 'My grandmother is kind.', en: 'My grandmother is kind' },
+          { t: 'falar', en: 'My sister is tall and friendly.' },
+          { t: 'falar', en: 'He has short, dark hair.' }
+        ]
+      }
+    ]
+  }
 ];
