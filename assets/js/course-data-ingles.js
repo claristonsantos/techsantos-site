@@ -2140,4 +2140,210 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m12', title: 'Módulo 12 · Inglês no trabalho: e-mails, reuniões, ligações e small talk (B1)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-emails', title: 'E-mails profissionais',
+        desc: 'A estrutura de um e-mail em inglês, do cumprimento à despedida, com as frases prontas para pedir, anexar, cobrar e agradecer.',
+        objetivos: [
+          'Abrir e fechar e-mails no tom certo: Hi, Dear, Best regards',
+          'Usar frases prontas para o motivo do e-mail, pedidos e anexos',
+          'Cobrar uma resposta com educação (follow up)'
+        ],
+        body: 'Boa parte do inglês no trabalho é escrito. A vantagem: e-mail profissional em inglês é muito padronizado. Com uma dúzia de frases prontas você escreve quase qualquer mensagem com o tom certo — nem frio demais, nem informal demais.',
+        content: [
+          { h: 'Abertura',
+            items: [
+              `${EN('Hi Sarah,')} — padrão na maioria das empresas, inclusive com clientes.`,
+              `${EN('Dear Mr. Smith,')} — formal, para primeiro contato ou instituições. ${EN('Dear Sir or Madam,')} quando não sabe o nome.`,
+              `Primeira frase: ${EN("I hope you're doing well.")} / ${EN('I hope this email finds you well.')}`
+            ] },
+          { h: 'Motivo e pedidos',
+            items: [
+              `${EN("I'm writing to ask about...")} · ${EN("I'm writing regarding...")} (Escrevo a respeito de...)`,
+              `${EN('Could you please send me the report?')} · ${EN('Would it be possible to meet on Friday?')}`,
+              `${EN('Please find attached the proposal.')} / ${EN("I've attached the proposal.")} (Segue em anexo a proposta.)`,
+              `${EN('Please let me know if you have any questions.')} (Fico à disposição para dúvidas.)`
+            ] },
+          { h: 'Cobrando e respondendo',
+            items: [
+              `${EN("I'm following up on my previous email.")} · ${EN('Just a quick reminder about...')} (Só um lembrete sobre...)`,
+              `${EN('Thank you for your quick reply.')} · ${EN('Sorry for the late reply.')} (Desculpe a demora.)`,
+              `${EN('As discussed,')} (Conforme conversamos) · ${EN('As requested,')} (Conforme solicitado)`
+            ] },
+          { h: 'Despedida',
+            items: [
+              `${EN('Best regards,')} / ${EN('Kind regards,')} — o padrão seguro. ${EN('Best,')} — mais curto e comum entre colegas.`,
+              `${EN('Thanks,')} / ${EN('Thanks in advance,')} (Obrigado desde já) — quando o e-mail tem um pedido.`,
+              `Evite traduzir "Att." ou "Abraços" ao pé da letra: não existem em inglês nesse uso.`
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual é a abertura mais comum num e-mail para um colega?', op: ['Hi Sarah,', 'Dear Sarah, how are you, all good?', 'Hello dear friend Sarah,'], a: 0 },
+          { t: 'escolha', q: 'Como dizer "Segue em anexo a proposta"?', op: ['Please find attached the proposal.', 'Follows attached the proposal.', 'The proposal is following in the attach.'], a: 0, exp: 'Frase pronta: Please find attached... ou I\'ve attached...' },
+          { t: 'escolha', q: 'Qual é a despedida padrão e segura?', op: ['Best regards,', 'Att.,', 'Hugs,'], a: 0 },
+          { t: 'lacuna', frase: "I'm writing ___ ask about the invoice.", op: ['to', 'for', 'about'], a: 0, pt: 'Estou escrevendo para perguntar sobre a fatura.' },
+          { t: 'lacuna', frase: "I'm following ___ on my previous email.", op: ['up', 'out', 'on'], a: 0, pt: 'Estou dando seguimento ao meu e-mail anterior.' },
+          { t: 'pares', pares: [['As discussed', 'Conforme conversamos'], ['As requested', 'Conforme solicitado'], ['Thanks in advance', 'Obrigado desde já'], ['Sorry for the late reply', 'Desculpe a demora'], ['Just a quick reminder', 'Só um lembrete']] },
+          { t: 'montar', pt: 'Fico à disposição para dúvidas.', en: 'Please let me know if you have any questions', extra: ['disposition', 'doubts'] },
+          { t: 'montar', pt: 'Seria possível nos reunirmos na sexta?', en: 'Would it be possible to meet on Friday?', extra: ['Is', 'in'] },
+          { t: 'escolha', ouvir: 'I hope this email finds you well.', op: ['Espero que você esteja bem.', 'Espero que você encontre este e-mail.', 'Espero sua resposta.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Você poderia me enviar o relatório?', en: 'Could you please send me the report?', alt: ['Could you send me the report?', 'Could you please send me the report'] },
+          { t: 'digitar', ouvir: 'Thank you for your quick reply.', en: 'Thank you for your quick reply' },
+          { t: 'falar', en: "I'm writing regarding the meeting on Friday." },
+          { t: 'falar', en: 'Please let me know if you have any questions.' }
+        ]
+      },
+      {
+        id: 'en-reunioes', title: 'Reuniões online',
+        desc: 'As frases de toda reunião por vídeo: problemas de áudio, começar e conduzir a pauta, opinar, concordar, discordar com educação e encerrar.',
+        objetivos: [
+          'Resolver os problemas técnicos clássicos: you\'re on mute, can you hear me?',
+          'Abrir, conduzir e encerrar uma reunião',
+          'Dar opinião, concordar e discordar com educação'
+        ],
+        body: 'Reunião online em inglês dá medo em muita gente — mas a maior parte do que se fala é previsível. Se você domina as frases de abertura, de opinião e de encerramento, sobra energia para o que importa: o assunto da reunião.',
+        content: [
+          { h: 'Problemas técnicos',
+            items: [
+              `${EN('Can you hear me?')} · ${EN('Can you see my screen?')}`,
+              `${EN("You're on mute.")} (Você está no mudo.) · ${EN("Sorry, I was on mute.")}`,
+              `${EN('Your connection is breaking up.')} (Sua conexão está falhando.) · ${EN("You froze.")} (Você travou.)`,
+              `${EN("I'll share my screen.")} (Vou compartilhar a tela.)`
+            ] },
+          { h: 'Começar e conduzir',
+            items: [
+              `${EN("Let's get started.")} (Vamos começar.) · ${EN('Thanks for joining.')}`,
+              `${EN("The purpose of today's meeting is...")} · ${EN("Let's move on to the next point.")} (Vamos para o próximo ponto.)`,
+              `${EN('Could you repeat that, please?')} · ${EN('Sorry, could you say that again?')}`
+            ] },
+          { h: 'Opinar, concordar, discordar',
+            items: [
+              `Opinar: ${EN('I think...')} · ${EN('In my opinion,...')} · ${EN('From my point of view,...')}`,
+              `Concordar: ${EN('I agree.')} · ${EN('Exactly.')} · ${EN('That makes sense.')} (Faz sentido.) — atenção: é ${EN('I agree')}, nunca "I am agree".`,
+              `Discordar com educação: ${EN('I see your point, but...')} · ${EN("I'm not sure about that.")} · ${EN('I see it a bit differently.')}`
+            ] },
+          { h: 'Encerrar',
+            p: `${EN("Let's wrap up.")} (Vamos encerrar.) · ${EN("So, the next steps are...")} (Os próximos passos são...) · ${EN("I'll send a summary by email.")} · ${EN('Thanks, everyone!')}` }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Seu colega está falando, mas ninguém ouve. O que dizer?', op: ["You're on mute.", 'You are in silence.', 'You are muted off.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['I agree.', 'I am agree.', 'I agreed with.'], a: 0, exp: 'agree já é verbo: I agree. "I am agree" é um erro clássico de brasileiro.' },
+          { t: 'escolha', q: 'Qual é a forma mais educada de discordar?', op: ['I see your point, but...', "You're wrong.", 'No, this is bad.'], a: 0 },
+          { t: 'lacuna', frase: "Let's move ___ to the next point.", op: ['on', 'up', 'out'], a: 0, pt: 'Vamos para o próximo ponto.' },
+          { t: 'lacuna', frase: "Let's wrap ___.", op: ['up', 'off', 'on'], a: 0, pt: 'Vamos encerrar.' },
+          { t: 'pares', pares: [["Let's get started.", 'Vamos começar.'], ['That makes sense.', 'Faz sentido.'], ['next steps', 'próximos passos'], ['share my screen', 'compartilhar a tela'], ['You froze.', 'Você travou.']] },
+          { t: 'montar', pt: 'Vocês conseguem ver a minha tela?', en: 'Can you see my screen?', extra: ['watch', 'look'] },
+          { t: 'montar', pt: 'Na minha opinião, devemos esperar.', en: 'In my opinion we should wait', extra: ['On', 'must'] },
+          { t: 'escolha', ouvir: 'Your connection is breaking up.', op: ['Sua conexão está falhando.', 'Sua conexão caiu de vez.', 'Você está desconectando a reunião.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Você pode repetir, por favor?', en: 'Could you repeat that, please?', alt: ['Could you repeat that please', 'Can you repeat that, please?', 'Could you repeat that, please'] },
+          { t: 'digitar', ouvir: "I'll send a summary by email.", en: "I'll send a summary by email", alt: ['I will send a summary by email'] },
+          { t: 'falar', en: "Sorry, I was on mute." },
+          { t: 'falar', en: 'I see your point, but I see it a bit differently.' }
+        ]
+      },
+      {
+        id: 'en-telefone', title: 'Ligações e mensagens',
+        desc: 'Atender, se apresentar, pedir para falar com alguém, deixar recado, soletrar e marcar retorno — as frases do telefone.',
+        objetivos: [
+          'Atender e se apresentar ao telefone com This is...',
+          'Pedir para falar com alguém, pedir para esperar e deixar recado',
+          'Soletrar nomes e e-mails e confirmar informações'
+        ],
+        body: 'Telefone é o maior teste de quem aprende inglês: não dá para ler lábios nem ver gestos. Por isso vale ter as frases na ponta da língua — e saber pedir para repetir e soletrar sem constrangimento.',
+        content: [
+          { h: 'Atendendo e se apresentando',
+            items: [
+              `Ao telefone, ${EN('This is...')} (e não "I am"): ${EN('Hi, this is Ana from Tech Santos.')}`,
+              `Atendendo no trabalho: ${EN('Good morning, Tech Santos, Ana speaking.')} (Ana falando.)`,
+              `${EN('May I speak to Mr. Brown, please?')} / ${EN('Could I speak to Mr. Brown?')}`
+            ] },
+          { h: 'Esperar e transferir',
+            items: [
+              `${EN('Hold on, please.')} / ${EN('One moment, please.')} (Aguarde um momento.)`,
+              `${EN("I'll put you through.")} (Vou transferir.) · ${EN("He's not available right now.")} · ${EN("She's in a meeting.")}`,
+              `${EN("Who's calling, please?")} (Quem gostaria?)`
+            ] },
+          { h: 'Recados',
+            items: [
+              `${EN('Can I leave a message?')} (Posso deixar recado?) · ${EN('Can I take a message?')} (Quer deixar recado?)`,
+              `${EN('Could you ask him to call me back?')} · ${EN('My number is...')}`,
+              `${EN("I'll let him know.")} (Vou avisá-lo.)`
+            ] },
+          { h: 'Soletrar e confirmar',
+            items: [
+              `${EN('Could you spell that, please?')} — as letras que mais confundem: E (í), I (ái), A (êi), G (dí), J (djêi), R (ár), Y (uái).`,
+              `E-mail: ${EN('at')} (@), ${EN('dot')} (.), ${EN('dash')} (-), ${EN('underscore')} (_) — ${EN('ana dot silva at gmail dot com')}`,
+              `${EN('Let me read that back to you.')} (Deixa eu confirmar.) · ${EN('Sorry, the line is bad.')} (A ligação está ruim.)`
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Ao telefone, como dizer "Oi, aqui é a Ana"?', op: ['Hi, this is Ana.', "Hi, I'm Ana speaking here.", 'Hi, here is Ana.'], a: 0 },
+          { t: 'escolha', q: 'Como pedir para a pessoa aguardar?', op: ['Hold on, please.', 'Wait me, please.', 'Stay in the line.'], a: 0 },
+          { t: 'escolha', q: `O que significa ${EN("I'll put you through.")}`, op: ['Vou transferir a ligação.', 'Vou desligar.', 'Vou colocar no viva-voz.'], a: 0, opPt: true },
+          { t: 'lacuna', frase: 'Can I ___ a message?', op: ['leave', 'let', 'give'], a: 0, pt: 'Posso deixar um recado?' },
+          { t: 'lacuna', frase: 'Could you ask him to call me ___?', op: ['back', 'again', 'return'], a: 0, pt: 'Você pode pedir para ele me retornar?' },
+          { t: 'pares', pares: [['at', '@ (arroba)'], ['dot', '. (ponto)'], ['dash', '- (hífen)'], ['underscore', '_ (sublinhado)'], ["Who's calling?", 'Quem gostaria?']] },
+          { t: 'montar', pt: 'Posso falar com o Sr. Brown, por favor?', en: 'May I speak to Mr Brown please?', extra: ['talk', 'with'] },
+          { t: 'montar', pt: 'Ela está em reunião.', en: "She's in a meeting", extra: ['on', 'meeting'] },
+          { t: 'escolha', ouvir: 'Could you spell that, please?', op: ['Pode soletrar, por favor?', 'Pode repetir mais alto?', 'Pode falar mais devagar?'], a: 0, opPt: true },
+          { t: 'escolha', ouvir: 'ana dot silva at gmail dot com', op: ['ana.silva@gmail.com', 'ana-silva@gmail.com', 'ana_silva@gmail.com'], a: 0 },
+          { t: 'digitar', pt: 'Vou avisá-lo.', en: "I'll let him know", alt: ['I will let him know'] },
+          { t: 'falar', en: 'Hi, this is Ana from Tech Santos.' },
+          { t: 'falar', en: 'Could you ask him to call me back?' }
+        ]
+      },
+      {
+        id: 'en-small-talk', title: 'Small talk e cortesia',
+        desc: 'A conversa leve antes e depois das reuniões — e as frases que deixam qualquer pedido mais educado em inglês.',
+        objetivos: [
+          'Puxar e manter small talk: fim de semana, tempo, viagem',
+          'Suavizar pedidos com I was wondering if... e Would you mind...',
+          'Agradecer, se desculpar e encerrar a conversa com educação'
+        ],
+        body: 'Nos países de língua inglesa, os primeiros minutos de toda reunião são de conversa leve — o small talk. E os pedidos são sempre "suavizados": quem fala direto demais parece grosso, mesmo sem querer. Esta aula fecha o módulo com essas duas habilidades.',
+        content: [
+          { h: 'Puxando assunto',
+            items: [
+              `${EN("How's it going?")} · ${EN('How was your weekend?')} · ${EN('Did you do anything fun?')}`,
+              `O tempo é o assunto clássico: ${EN("Nice weather today, isn't it?")} · ${EN("It's freezing out there!")}`,
+              `${EN('How was your trip?')} · ${EN('Are you busy these days?')}`,
+              `Mantenha a conversa devolvendo a pergunta: ${EN('What about you?')} · ${EN('How about you?')}`
+            ] },
+          { h: 'Suavizando pedidos',
+            items: [
+              `Direto demais: "Send me the file." → educado: ${EN('Could you send me the file, please?')}`,
+              `Ainda mais suave: ${EN('I was wondering if you could send me the file.')} (Será que você poderia...)`,
+              `${EN('Would you mind sending me the file?')} · ${EN("Do you think you could...?")}`,
+              `Para recusar: ${EN("I'm afraid I can't.")} (Infelizmente não posso.) — ${EN("I'm afraid")} suaviza notícias ruins.`
+            ] },
+          { h: 'Agradecer e se desculpar',
+            items: [
+              `${EN('Thanks a lot.')} · ${EN('I really appreciate it.')} (Agradeço muito.)`,
+              `Resposta: ${EN("You're welcome.")} · ${EN('No problem.')} · ${EN('Anytime!')}`,
+              `${EN('Sorry for the delay.')} · ${EN('My apologies.')} (mais formal)`
+            ] },
+          { h: 'Encerrando a conversa',
+            p: `${EN('Anyway, I should get back to work.')} (Bom, preciso voltar ao trabalho.) · ${EN('It was nice talking to you.')} · ${EN('Talk to you later!')} · ${EN('Have a good one!')} (Bom dia / boa tarde, informal)` }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual é o pedido mais educado?', op: ['I was wondering if you could send me the file.', 'Send me the file.', 'You send me the file now.'], a: 0 },
+          { t: 'escolha', q: `O que significa ${EN("I'm afraid I can't.")}`, op: ['Infelizmente não posso.', 'Tenho medo de não conseguir.', 'Estou com medo.'], a: 0, opPt: true, exp: `I'm afraid aqui não é medo: suaviza uma notícia ruim (infelizmente).` },
+          { t: 'escolha', q: `Responda a ${EN('I really appreciate it.')}`, op: ["You're welcome.", "You're welcome too.", 'Of nothing.'], a: 0 },
+          { t: 'lacuna', frase: "Nice weather today, ___ it?", op: ["isn't", "is", "doesn't"], a: 0, pt: 'O tempo está bom hoje, né?' },
+          { t: 'lacuna', frase: 'Would you mind ___ me the file?', op: ['sending', 'to send', 'send'], a: 0, pt: 'Você se importaria de me mandar o arquivo?' },
+          { t: 'pares', pares: [["How's it going?", 'Como vão as coisas?'], ['I really appreciate it.', 'Agradeço muito.'], ['Anytime!', 'Quando precisar!'], ['My apologies.', 'Minhas desculpas.'], ['Have a good one!', 'Tenha um bom dia!']] },
+          { t: 'montar', pt: 'Foi bom conversar com você.', en: 'It was nice talking to you', extra: ['talk', 'with'] },
+          { t: 'montar', pt: 'Bom, preciso voltar ao trabalho.', en: 'Anyway I should get back to work', extra: ['need', 'return'] },
+          { t: 'escolha', ouvir: 'Did you do anything fun?', op: ['Você fez alguma coisa divertida?', 'Você se divertiu muito?', 'Você fez alguma coisa ontem?'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Como foi a sua viagem?', en: 'How was your trip?', alt: ['How was your trip'] },
+          { t: 'digitar', ouvir: 'Talk to you later!', en: 'Talk to you later' },
+          { t: 'falar', en: 'I was wondering if you could help me.' },
+          { t: 'falar', en: 'It was nice talking to you.' }
+        ]
+      }
+    ]
+  }
 ];

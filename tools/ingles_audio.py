@@ -82,14 +82,14 @@ def nome(frase: str) -> str:
 
 
 async def gravar(frase: str, destino: Path):
-    for tentativa in range(3):
+    for tentativa in range(8):
         try:
             await edge_tts.Communicate(frase, VOICE, rate="-5%").save(str(destino))
             return
-        except Exception as e:  # noqa: BLE001 — o serviço às vezes recusa; tenta de novo
-            if tentativa == 2:
+        except Exception as e:  # noqa: BLE001 — o serviço às vezes recusa (muitos pedidos); espera e tenta de novo
+            if tentativa == 7:
                 raise
-            await asyncio.sleep(3)
+            await asyncio.sleep(4 + 4 * tentativa)
 
 
 async def main():
@@ -98,7 +98,7 @@ async def main():
     lista = sorted(frases(carregar()))
     faltam = [f for f in lista if todos or not (OUT / f"{nome(f)}.mp3").exists()]
     print(f"{len(lista)} frases, {len(faltam)} para gravar")
-    sem = asyncio.Semaphore(6)
+    sem = asyncio.Semaphore(3)
     async def um(f):
         async with sem:
             await gravar(f, OUT / f"{nome(f)}.mp3")
