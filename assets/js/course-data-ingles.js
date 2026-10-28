@@ -411,4 +411,191 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m03', title: 'Módulo 03 · Rotina: presente simples, do/does, frequência, horas e preposições de tempo (A1)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-presente-simples', title: 'Presente simples: I work, she works',
+        desc: 'O tempo verbal dos hábitos e das verdades: como se forma, por que ele, ela e it ganham -s, e as regras de escrita.',
+        objetivos: [
+          'Usar o presente simples para hábitos, rotina e fatos',
+          'Acrescentar -s ao verbo com he, she e it',
+          'Aplicar as regras de escrita -s, -es e -ies'
+        ],
+        body: 'O presente simples é o tempo da rotina: o que você faz todo dia, toda semana, sempre. É o tempo mais usado do inglês — e tem uma única armadilha, que pega até quem já fala bem: o -s na terceira pessoa.',
+        content: [
+          { h: 'Quando usar',
+            items: [
+              `Hábitos e rotina: ${EN('I work from home.')} (Eu trabalho de casa.) · ${EN('She drinks coffee every morning.')}`,
+              `Fatos e verdades: ${EN('Water boils at 100 degrees.')} · ${EN('My brother lives in Recife.')}`,
+              `Não é para o que está acontecendo agora — isso é outro tempo, que você verá no módulo 6.`
+            ] },
+          { h: 'A forma: igual ao verbo puro, menos com he, she e it',
+            items: [
+              `${EN('I work')} · ${EN('you work')} · ${EN('we work')} · ${EN('they work')} — o verbo fica como está no dicionário.`,
+              `${EN('he works')} · ${EN('she works')} · ${EN('it works')} — com uma pessoa ou coisa, o verbo ganha <strong>-s</strong>.`,
+              `Vale para nomes também: ${EN('Ana works in a bank.')} · ${EN('My mom lives in São Paulo.')}`
+            ] },
+          { h: 'Regras de escrita do -s',
+            items: [
+              `A maioria: só -s — ${EN('works')}, ${EN('plays')}, ${EN('reads')}.`,
+              `Terminados em s, sh, ch, x, o: -es — ${EN('watches')}, ${EN('goes')}, ${EN('does')}, ${EN('finishes')}.`,
+              `Consoante + y: -ies — ${EN('study, studies')} · ${EN('try, tries')}. Vogal + y só -s: ${EN('play, plays')}.`,
+              `Irregular: ${EN('have')} vira ${EN('has')}: ${EN('She has a meeting.')}`
+            ] },
+          { h: 'Dica de pronúncia',
+            p: `O -s final soa de três jeitos: "s" em ${EN('works')}, "z" em ${EN('plays')} e uma sílaba a mais, "iz", em ${EN('watches')} e ${EN('finishes')}. Não precisa decorar — a boca faz sozinha com a prática de ouvir e repetir.` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: 'She ___ in a bank.', op: ['works', 'work', 'working'], a: 0, pt: 'Ela trabalha num banco.', exp: 'Com she, o verbo do presente simples ganha -s.' },
+          { t: 'lacuna', frase: 'They ___ English every day.', op: ['study', 'studies', 'studys'], a: 0, pt: 'Eles estudam inglês todo dia.' },
+          { t: 'lacuna', frase: 'My brother ___ to the gym at 7.', op: ['goes', 'gos', 'go'], a: 0, pt: 'Meu irmão vai à academia às 7.' },
+          { t: 'escolha', q: 'Qual é a forma com "she" do verbo study?', op: ['studies', 'studys', 'studyes'], a: 0 },
+          { t: 'escolha', q: 'Qual é a forma com "he" do verbo watch?', op: ['watches', 'watchs', 'watchies'], a: 0 },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['Ana lives in Recife.', 'Ana live in Recife.', 'Ana is live in Recife.'], a: 0 },
+          { t: 'montar', pt: 'Eu trabalho de casa.', en: 'I work from home', extra: ['works', 'in'] },
+          { t: 'montar', pt: 'Ela bebe café toda manhã.', en: 'She drinks coffee every morning', extra: ['drink', 'all'] },
+          { t: 'pares', pares: [['work', 'works'], ['go', 'goes'], ['study', 'studies'], ['have', 'has'], ['play', 'plays']] },
+          { t: 'digitar', pt: 'Meu pai mora em São Paulo.', en: 'My father lives in São Paulo', alt: ['My dad lives in São Paulo', 'My father lives in Sao Paulo', 'My dad lives in Sao Paulo'] },
+          { t: 'digitar', ouvir: 'He finishes work at six.', en: 'He finishes work at six', alt: ['He finishes work at 6'] },
+          { t: 'falar', en: 'She works from home.' },
+          { t: 'falar', en: 'He watches TV every night.' }
+        ]
+      },
+      {
+        id: 'en-do-does', title: 'Do e does: negativa e perguntas',
+        desc: 'Como negar e perguntar no presente simples com os auxiliares do e does, e as perguntas com what, where e when.',
+        objetivos: [
+          'Fazer negativas com don\'t e doesn\'t',
+          'Fazer perguntas de sim ou não com Do e Does e responder curto',
+          'Fazer perguntas com What, Where, When e What time'
+        ],
+        body: 'Você já viu do e does na aula de have. Eles são os ajudantes do presente simples: aparecem em toda negativa e toda pergunta. A regra de ouro é que o -s sai do verbo e vai para o ajudante.',
+        content: [
+          { h: 'Negativa',
+            items: [
+              `${EN("I don't like coffee.")} · ${EN("They don't work on Sundays.")} — com I, you, we, they: ${EN("don't")}.`,
+              `${EN("She doesn't like coffee.")} · ${EN("He doesn't work on Sundays.")} — com he, she, it: ${EN("doesn't")}.`,
+              `Depois de ${EN("doesn't")} o verbo volta ao normal: ${EN("She doesn't work")} — nunca "doesn't works".`
+            ] },
+          { h: 'Perguntas de sim ou não',
+            items: [
+              `${EN('Do you like pizza?')} — ${EN('Yes, I do.')} / ${EN("No, I don't.")}`,
+              `${EN('Does he work here?')} — ${EN('Yes, he does.')} / ${EN("No, he doesn't.")}`,
+              `Mesma regra: ${EN('Does she live')} — e não "Does she lives".`
+            ] },
+          { h: 'Perguntas com palavra interrogativa',
+            p: `A palavra interrogativa vem na frente, depois o ajudante: ${EN('Where do you live?')} (Onde você mora?) · ${EN('What do you do?')} (Qual é a sua profissão?) · ${EN('When does the class start?')} (Quando a aula começa?) · ${EN('What time do you get up?')} (A que horas você levanta?)` },
+          { h: 'Erro clássico',
+            p: `Quem fala português tende a perguntar só com entonação: "You like pizza?" Na fala informal até se ouve, mas a forma correta — e a que cai em prova — usa o ajudante: ${EN('Do you like pizza?')}` }
+        ],
+        pratica: [
+          { t: 'lacuna', frase: "She ___ like coffee.", op: ["doesn't", "don't", "isn't"], a: 0, pt: 'Ela não gosta de café.' },
+          { t: 'lacuna', frase: "We ___ work on Sundays.", op: ["don't", "doesn't", "aren't"], a: 0, pt: 'Nós não trabalhamos aos domingos.' },
+          { t: 'lacuna', frase: '___ he live near here?', op: ['Does', 'Do', 'Is'], a: 0, pt: 'Ele mora perto daqui?' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ["He doesn't work here.", "He doesn't works here.", "He don't work here."], a: 0, exp: `Com he usa doesn't, e depois dele o verbo volta à forma base: work.` },
+          { t: 'escolha', q: `Responda: ${EN('Do you like pizza?')} (sim)`, op: ['Yes, I do.', 'Yes, I like.', 'Yes, I am.'], a: 0 },
+          { t: 'montar', pt: 'Onde você mora?', en: 'Where do you live?', extra: ['does', 'are'] },
+          { t: 'montar', pt: 'A que horas a aula começa?', en: 'What time does the class start?', extra: ['do', 'starts'] },
+          { t: 'pares', pares: [['Where', 'Onde'], ['When', 'Quando'], ['What time', 'A que horas'], ['What', 'O que'], ['Who', 'Quem']] },
+          { t: 'escolha', ouvir: 'Does she speak English?', op: ['Does she speak English?', 'Do she speaks English?', 'Is she speak English?'], a: 0 },
+          { t: 'digitar', pt: 'Eu não gosto de café.', en: "I don't like coffee", alt: ['I do not like coffee'] },
+          { t: 'digitar', ouvir: 'What do you do?', en: 'What do you do' },
+          { t: 'falar', en: 'Do you work on weekends?' },
+          { t: 'falar', en: "She doesn't like coffee." }
+        ]
+      },
+      {
+        id: 'en-frequencia-horas', title: 'Always, never e as horas',
+        desc: 'Advérbios de frequência, os dias da semana e como perguntar e dizer as horas em inglês.',
+        objetivos: [
+          'Usar always, usually, often, sometimes e never na posição certa',
+          'Dizer os dias da semana com on',
+          'Perguntar e dizer as horas, e usar at com horário'
+        ],
+        body: 'Para falar da rotina você precisa dizer com que frequência faz as coisas e a que horas. Esta aula junta as duas coisas — e mostra duas preposições que confundem muito: on para dias e at para horas.',
+        content: [
+          { h: 'Advérbios de frequência',
+            items: [
+              `${EN('always')} (sempre, 100%) · ${EN('usually')} (normalmente) · ${EN('often')} (frequentemente) · ${EN('sometimes')} (às vezes) · ${EN('never')} (nunca, 0%).`,
+              `Posição: <strong>antes</strong> do verbo principal — ${EN('I always drink coffee.')} · ${EN('She never works on Sundays.')}`,
+              `Mas <strong>depois</strong> do verbo to be — ${EN("I'm always tired on Mondays.")} · ${EN("He's never late.")}`,
+              `Pergunta: ${EN('How often do you exercise?')} (Com que frequência você se exercita?)`
+            ] },
+          { h: 'Dias da semana: sempre com maiúscula e com on',
+            p: `${EN('Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday')}. Use ${EN('on')}: ${EN('on Monday')} (na segunda) · ${EN('on Mondays')} (às segundas, toda semana) · ${EN('on the weekend')} (no fim de semana). Atenção à pronúncia de ${EN('Wednesday')}: o "d" do meio não se pronuncia, fica "uénsdei".` },
+          { h: 'As horas',
+            items: [
+              `Pergunta: ${EN('What time is it?')} — resposta com it: ${EN("It's seven o'clock.")} (São sete horas.)`,
+              `O jeito mais fácil: hora + minutos — ${EN("It's seven thirty.")} (7h30) · ${EN("It's nine fifteen.")} (9h15) · ${EN("It's ten forty-five.")} (10h45).`,
+              `Também se ouve: ${EN('half past seven')} (7h30) · ${EN('quarter past nine')} (9h15) · ${EN('quarter to eleven')} (10h45).`,
+              `Manhã e tarde: ${EN('7 a.m.')} (7h) e ${EN('7 p.m.')} (19h) — nos Estados Unidos o relógio de 24 horas é pouco usado no dia a dia.`
+            ] },
+          { h: 'At + horário',
+            p: `Para dizer a que horas algo acontece, use ${EN('at')}: ${EN('I get up at six.')} · ${EN('The meeting is at 3 p.m.')} · ${EN('at noon')} (ao meio-dia) · ${EN('at night')} (à noite).` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['always', 'sempre'], ['usually', 'normalmente'], ['sometimes', 'às vezes'], ['never', 'nunca'], ['often', 'frequentemente']] },
+          { t: 'escolha', q: 'Qual frase está na ordem certa?', op: ['I always drink coffee.', 'I drink always coffee.', 'Always I drink coffee.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase está na ordem certa?', op: ["He's never late.", 'He never is late.', 'Never he is late.'], a: 0, exp: 'Com o verbo to be, o advérbio de frequência vem DEPOIS dele.' },
+          { t: 'lacuna', frase: "I don't work ___ Sundays.", op: ['on', 'at', 'in'], a: 0, pt: 'Eu não trabalho aos domingos.' },
+          { t: 'lacuna', frase: 'The meeting is ___ 3 p.m.', op: ['at', 'on', 'in'], a: 0, pt: 'A reunião é às 15h.' },
+          { t: 'escolha', ouvir: "It's seven thirty.", op: ['7:30', '7:13', '3:07'], a: 0 },
+          { t: 'escolha', q: 'Como se diz 19h no inglês americano do dia a dia?', op: ['7 p.m.', '7 a.m.', '19 p.m.'], a: 0 },
+          { t: 'montar', pt: 'Que horas são?', en: 'What time is it?', extra: ['hours', 'are'] },
+          { t: 'montar', pt: 'Eu normalmente levanto às seis.', en: 'I usually get up at six', extra: ['on', 'in'] },
+          { t: 'digitar', pt: 'Escreva o dia: quarta-feira', en: 'Wednesday' },
+          { t: 'digitar', ouvir: 'How often do you exercise?', en: 'How often do you exercise' },
+          { t: 'falar', en: 'What time is it?' },
+          { t: 'falar', en: 'I never work on Sundays.' }
+        ]
+      },
+      {
+        id: 'en-rotina-in-on-at', title: 'Minha rotina: verbos do dia a dia e in, on, at',
+        desc: 'Os verbos da rotina (wake up, have breakfast, go to work...) e a regra de in, on e at para tempo.',
+        objetivos: [
+          'Descrever a própria rotina do acordar ao dormir',
+          'Usar have breakfast, have lunch e have dinner',
+          'Escolher entre in, on e at para expressões de tempo'
+        ],
+        body: 'Fechando o módulo, você vai juntar tudo para contar o seu dia. E vai aprender a regra que resolve o in, on e at de tempo — uma das maiores dúvidas de quem estuda inglês.',
+        content: [
+          { h: 'Verbos da rotina',
+            items: [
+              `${EN('wake up')} (acordar) · ${EN('get up')} (levantar) · ${EN('take a shower')} (tomar banho) · ${EN('get dressed')} (se vestir).`,
+              `${EN('have breakfast')} (tomar café da manhã) · ${EN('have lunch')} (almoçar) · ${EN('have dinner')} (jantar) — as refeições usam ${EN('have')}, não "take" nem "eat breakfast" (este último também existe, mas é menos comum).`,
+              `${EN('go to work')} (ir trabalhar) · ${EN('start work')} · ${EN('finish work')} · ${EN('get home')} (chegar em casa).`,
+              `${EN('go to bed')} (ir deitar) · ${EN('fall asleep')} (pegar no sono).`
+            ] },
+          { h: 'In, on, at: do maior para o menor',
+            items: [
+              `${EN('in')} para períodos grandes: meses, anos, estações e partes do dia — ${EN('in July')} · ${EN('in 2026')} · ${EN('in the summer')} · ${EN('in the morning')} · ${EN('in the evening')}.`,
+              `${EN('on')} para dias e datas — ${EN('on Monday')} · ${EN('on May 5th')} · ${EN('on my birthday')} · ${EN('on the weekend')} (americano).`,
+              `${EN('at')} para horas e momentos exatos — ${EN('at 7 a.m.')} · ${EN('at noon')} · ${EN('at night')} · ${EN('at lunchtime')}.`,
+              `Exceção que vale decorar: ${EN('in the morning')}, mas ${EN('at night')}.`
+            ] },
+          { h: 'Sem preposição',
+            p: `Com ${EN('every')}, ${EN('this')}, ${EN('next')}, ${EN('last')}, ${EN('today')} e ${EN('tomorrow')} não se usa preposição: ${EN('every day')} · ${EN('this morning')} · ${EN('next Monday')} — nunca "on next Monday".` },
+          { h: 'Uma rotina completa (modelo)',
+            p: `${EN('I usually wake up at six. I take a shower, have breakfast and go to work at seven thirty. I have lunch at noon, I finish work at six, and I go to bed at eleven.')}` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['wake up', 'acordar'], ['have lunch', 'almoçar'], ['get home', 'chegar em casa'], ['go to bed', 'ir deitar'], ['take a shower', 'tomar banho']] },
+          { t: 'lacuna', frase: 'I have breakfast ___ the morning.', op: ['in', 'on', 'at'], a: 0, pt: 'Eu tomo café da manhã de manhã.' },
+          { t: 'lacuna', frase: 'I go to bed ___ night.', op: ['at', 'in', 'on'], a: 0, pt: 'Eu vou deitar à noite.', exp: 'Exceção clássica: in the morning, in the afternoon, in the evening — mas at night.' },
+          { t: 'lacuna', frase: 'My birthday is ___ May 5th.', op: ['on', 'in', 'at'], a: 0, pt: 'Meu aniversário é em 5 de maio.' },
+          { t: 'lacuna', frase: 'We travel ___ July.', op: ['in', 'on', 'at'], a: 0, pt: 'Nós viajamos em julho.' },
+          { t: 'escolha', q: 'Qual frase está correta?', op: ['See you next Monday.', 'See you on next Monday.', 'See you in next Monday.'], a: 0, exp: 'Com next, last, this e every não se usa preposição.' },
+          { t: 'escolha', q: 'Como se diz "eu almoço ao meio-dia"?', op: ['I have lunch at noon.', 'I take lunch in noon.', 'I lunch on noon.'], a: 0 },
+          { t: 'montar', pt: 'Eu chego em casa às seis.', en: 'I get home at six', extra: ['in', 'arrive'] },
+          { t: 'montar', pt: 'Ela toma banho de manhã.', en: 'She takes a shower in the morning', extra: ['at', 'take'] },
+          { t: 'digitar', pt: 'Eu janto às oito.', en: 'I have dinner at eight', alt: ['I have dinner at 8'] },
+          { t: 'digitar', ouvir: 'I usually wake up at six.', en: 'I usually wake up at six', alt: ['I usually wake up at 6'] },
+          { t: 'falar', en: 'I have breakfast at seven.' },
+          { t: 'falar', en: 'I go to bed at eleven.' }
+        ]
+      }
+    ]
+  }
 ];
