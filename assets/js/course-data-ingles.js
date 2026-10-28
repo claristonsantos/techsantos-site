@@ -2745,4 +2745,203 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'en-m15', title: 'Módulo 15 · Inglês para dados e tecnologia: Excel, Power BI, números, documentação e apresentações (B2)', kind: 'video',
+    lessons: [
+      {
+        id: 'en-vocab-dados', title: 'O vocabulário de dados: Excel, Power BI e cia.',
+        desc: 'As palavras que aparecem em toda planilha, relatório e ferramenta de dados em inglês: dataset, row, column, filter, sort, dashboard, KPI.',
+        objetivos: [
+          'Nomear as partes de uma planilha e de um relatório em inglês',
+          'Usar os verbos do trabalho com dados: import, clean, merge, filter, sort',
+          'Entender os termos de BI: dashboard, KPI, measure, insight'
+        ],
+        body: 'Excel, Power BI e praticamente toda ferramenta de dados nasceram em inglês — e a documentação, os tutoriais e as vagas internacionais também. Esta aula é o vocabulário que você precisa para ler, pesquisar e conversar sobre dados em inglês.',
+        content: [
+          { h: 'Planilha',
+            items: [
+              `${EN('spreadsheet')} (planilha) · ${EN('workbook')} (pasta de trabalho) · ${EN('worksheet')} / ${EN('sheet')} (aba).`,
+              `${EN('row')} (linha) · ${EN('column')} (coluna) · ${EN('cell')} (célula) · ${EN('range')} (intervalo).`,
+              `${EN('formula')} · ${EN('function')} · ${EN('header')} (cabeçalho) · ${EN('table')} · ${EN('pivot table')} (tabela dinâmica).`
+            ] },
+          { h: 'Verbos do trabalho com dados',
+            items: [
+              `${EN('import')} / ${EN('load')} (carregar) · ${EN('clean')} (limpar) · ${EN('transform')} · ${EN('merge')} (mesclar) · ${EN('append')} (acrescentar).`,
+              `${EN('filter')} (filtrar) · ${EN('sort')} (classificar — ${EN('ascending')} / ${EN('descending')}, crescente / decrescente).`,
+              `${EN('calculate')} · ${EN('sum')} (somar) · ${EN('count')} · ${EN('average')} (média) · ${EN('round')} (arredondar).`,
+              `${EN('remove duplicates')} (remover duplicatas) · ${EN('refresh')} (atualizar os dados).`
+            ] },
+          { h: 'Business Intelligence',
+            items: [
+              `${EN('dataset')} (conjunto de dados) · ${EN('data source')} (fonte de dados) · ${EN('data model')} (modelo de dados).`,
+              `${EN('dashboard')} (painel) · ${EN('report')} (relatório) · ${EN('chart')} (gráfico) · ${EN('visual')}.`,
+              `${EN('KPI')} (indicador-chave de desempenho) · ${EN('measure')} (medida) · ${EN('metric')} (métrica).`,
+              `${EN('insight')} (descoberta, percepção valiosa nos dados) · ${EN('trend')} (tendência) · ${EN('outlier')} (ponto fora da curva).`
+            ] },
+          { h: 'Tipos de gráfico',
+            p: `${EN('bar chart')} (barras) · ${EN('column chart')} (colunas) · ${EN('line chart')} (linhas) · ${EN('pie chart')} (pizza) · ${EN('scatter plot')} (dispersão) · ${EN('table')} e ${EN('matrix')}. E as funções do Excel em inglês têm outros nomes: PROCV é ${EN('VLOOKUP')}, SOMA é ${EN('SUM')}, SE é ${EN('IF')}.` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['spreadsheet', 'planilha'], ['row', 'linha'], ['column', 'coluna'], ['cell', 'célula'], ['header', 'cabeçalho']] },
+          { t: 'pares', pares: [['filter', 'filtrar'], ['sort', 'classificar'], ['merge', 'mesclar'], ['refresh', 'atualizar'], ['average', 'média']] },
+          { t: 'pares', pares: [['bar chart', 'gráfico de barras'], ['line chart', 'gráfico de linhas'], ['pie chart', 'gráfico de pizza'], ['pivot table', 'tabela dinâmica'], ['dashboard', 'painel']] },
+          { t: 'escolha', q: 'Como se chama PROCV no Excel em inglês?', op: ['VLOOKUP', 'PROCV', 'SEARCHV'], a: 0 },
+          { t: 'escolha', q: `O que é um ${EN('outlier')}?`, op: ['Um ponto fora da curva', 'Um gráfico externo', 'Um filtro de dados'], a: 0, opPt: true },
+          { t: 'escolha', q: `${EN('Sort the data in descending order.')} significa:`, op: ['Classifique os dados em ordem decrescente.', 'Filtre os dados de baixo para cima.', 'Exclua os dados descendentes.'], a: 0, opPt: true },
+          { t: 'montar', pt: 'Remova as duplicatas e atualize o relatório.', en: 'Remove the duplicates and refresh the report', extra: ['update', 'delete'] },
+          { t: 'montar', pt: 'Este painel mostra os principais KPIs.', en: 'This dashboard shows the main KPIs', extra: ['panel', 'show'] },
+          { t: 'escolha', ouvir: 'First, we need to clean the dataset.', op: ['Primeiro, precisamos limpar o conjunto de dados.', 'Primeiro, precisamos criar um painel.', 'Primeiro, precisamos apagar os dados.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Escreva em inglês: tabela dinâmica', en: 'pivot table' },
+          { t: 'digitar', ouvir: 'Filter the table by region.', en: 'Filter the table by region' },
+          { t: 'falar', en: 'This dashboard shows our main KPIs.' },
+          { t: 'falar', en: 'First, we need to clean the data.' }
+        ]
+      },
+      {
+        id: 'en-numeros-tendencias', title: 'Números e tendências: increase, drop, peak',
+        desc: 'Como ler e falar de números em inglês — decimais, porcentagens, milhões — e descrever tendências em gráficos.',
+        objetivos: [
+          'Ler decimais, porcentagens e números grandes corretamente',
+          'Descrever tendências: increase, decrease, peak, remain stable',
+          'Comparar períodos: compared to, year over year, by e to'
+        ],
+        body: 'Quem trabalha com dados passa o dia falando de números. Em inglês, a pontuação é invertida (o ponto é a vírgula decimal), e existe um vocabulário rico para descrever o que um gráfico mostra: subiu, caiu, atingiu o pico, ficou estável.',
+        content: [
+          { h: 'Lendo números',
+            items: [
+              `Decimais com ${EN('point')}: 2.5 = ${EN('two point five')} · 0.75 = ${EN('zero point seven five')}.`,
+              `Porcentagem: 15% = ${EN('fifteen percent')} · ${EN('percentage points')} (pontos percentuais).`,
+              `Milhares com vírgula: 1,500 = ${EN('one thousand five hundred')} ou ${EN('fifteen hundred')}.`,
+              `${EN('million')} · ${EN('billion')} (bilhão — em inglês, mil milhões) · 2.3M = ${EN('two point three million')}.`
+            ] },
+          { h: 'Subir e cair',
+            items: [
+              `Subir: ${EN('increase')} · ${EN('rise')} · ${EN('grow')} · ${EN('go up')} — forte: ${EN('soar')}, ${EN('skyrocket')}.`,
+              `Cair: ${EN('decrease')} · ${EN('drop')} · ${EN('fall')} · ${EN('decline')} · ${EN('go down')} — forte: ${EN('plummet')}.`,
+              `Estabilidade: ${EN('remain stable')} · ${EN('level off')} (se estabilizar) · ${EN('fluctuate')} (oscilar).`,
+              `Extremos: ${EN('reach a peak')} / ${EN('peak')} (atingir o pico) · ${EN('hit a low')} (atingir o ponto mais baixo).`
+            ] },
+          { h: 'By × to',
+            items: [
+              `${EN('by')} = a variação: ${EN('Sales increased by 20%.')} (Aumentaram 20%.)`,
+              `${EN('to')} = o valor final: ${EN('Sales increased to $2 million.')} (Aumentaram para 2 milhões.)`,
+              `Como substantivo: ${EN('a 20% increase in sales')} · ${EN('a sharp drop')} (uma queda forte) · ${EN('a slight rise')} (uma leve alta).`
+            ] },
+          { h: 'Comparando períodos',
+            p: `${EN('compared to last year')} (em comparação com o ano passado) · ${EN('year over year')} (ano contra ano, YoY) · ${EN('month over month')} · ${EN('in Q1')} (no primeiro trimestre — ${EN('quarter')}) · ${EN('on average')} (em média).` }
+        ],
+        pratica: [
+          { t: 'escolha', ouvir: 'two point five', op: ['2.5', '2,5 mil', '25'], a: 0 },
+          { t: 'escolha', ouvir: 'two point three million', op: ['2.3M', '2,300', '23M'], a: 0 },
+          { t: 'pares', pares: [['increase', 'aumentar'], ['drop', 'cair'], ['peak', 'atingir o pico'], ['level off', 'se estabilizar'], ['fluctuate', 'oscilar']] },
+          { t: 'lacuna', frase: 'Sales increased ___ 20%.', op: ['by', 'to', 'in'], a: 0, pt: 'As vendas aumentaram 20%.', exp: 'by = a variação. to = o valor final.' },
+          { t: 'lacuna', frase: 'Sales increased ___ $2 million.', op: ['to', 'by', 'at'], a: 0, pt: 'As vendas aumentaram para 2 milhões.' },
+          { t: 'escolha', q: `${EN('There was a sharp drop in Q2.')} significa:`, op: ['Houve uma queda forte no segundo trimestre.', 'Houve uma leve alta no segundo trimestre.', 'Houve um pico em fevereiro.'], a: 0, opPt: true },
+          { t: 'escolha', q: 'Qual verbo indica uma queda muito forte?', op: ['plummet', 'level off', 'rise'], a: 0 },
+          { t: 'montar', pt: 'A receita cresceu 15% em comparação com o ano passado.', en: 'Revenue grew 15% compared to last year', extra: ['than', 'growth'] },
+          { t: 'montar', pt: 'As vendas atingiram o pico em dezembro.', en: 'Sales peaked in December', extra: ['on', 'top'] },
+          { t: 'escolha', ouvir: 'Costs remained stable in the first quarter.', op: ['Os custos ficaram estáveis no primeiro trimestre.', 'Os custos caíram no primeiro trimestre.', 'Os custos subiram no primeiro mês.'], a: 0, opPt: true },
+          { t: 'digitar', ouvir: 'Sales increased by twenty percent.', en: 'Sales increased by twenty percent', alt: ['Sales increased by 20 percent', 'Sales increased by 20%'] },
+          { t: 'falar', en: 'Sales increased by twenty percent.' },
+          { t: 'falar', en: 'Revenue peaked in December.' }
+        ]
+      },
+      {
+        id: 'en-documentacao', title: 'Lendo documentação e mensagens de erro',
+        desc: 'Como entender tutoriais, documentação técnica e mensagens de erro em inglês — e como pesquisar e pedir ajuda em fóruns.',
+        objetivos: [
+          'Entender instruções no imperativo: select, click, enter, drag',
+          'Interpretar mensagens de erro e avisos comuns',
+          'Pesquisar e pedir ajuda em inglês com clareza'
+        ],
+        body: 'A melhor documentação de Excel, Power BI, SQL e Python está em inglês — e as mensagens de erro também. A boa notícia: textos técnicos usam um inglês simples e repetitivo, cheio de imperativos e palavras recorrentes. Em pouco tempo você lê sem tradutor.',
+        content: [
+          { h: 'Instruções: o imperativo',
+            items: [
+              `${EN('Select the column.')} · ${EN('Click OK.')} · ${EN('Enter the formula.')} · ${EN('Drag the field to the Values area.')}`,
+              `${EN('Go to the Home tab.')} (Vá na guia Página Inicial) · ${EN('Right-click the table.')} (Clique com o botão direito).`,
+              `Ordem e sequência: ${EN('First,...')} · ${EN('Then,...')} · ${EN('Next,...')} · ${EN('Finally,...')}`
+            ] },
+          { h: 'Palavras recorrentes da documentação',
+            items: [
+              `${EN('requires')} (exige) · ${EN('supports')} (suporta) · ${EN('by default')} (por padrão) · ${EN('optional')} / ${EN('required')}.`,
+              `${EN('deprecated')} (obsoleto, vai deixar de existir) · ${EN('feature')} (recurso) · ${EN('setting')} (configuração).`,
+              `${EN('Note:')} · ${EN('Tip:')} · ${EN('Warning:')} · ${EN('Prerequisites')} (pré-requisitos).`
+            ] },
+          { h: 'Mensagens de erro',
+            items: [
+              `${EN('An error occurred.')} (Ocorreu um erro.) · ${EN('Something went wrong.')}`,
+              `${EN('File not found.')} · ${EN('Access denied.')} / ${EN('Permission denied.')} · ${EN('Invalid value.')}`,
+              `${EN('The connection timed out.')} (A conexão expirou.) · ${EN('Failed to load data.')} (Falha ao carregar os dados.)`,
+              `${EN('Are you sure you want to delete...?')} — confirmação antes de ação irreversível. Leia antes de clicar!`
+            ] },
+          { h: 'Pesquisando e pedindo ajuda',
+            p: `Pesquise em inglês: ${EN('power bi measure returns blank')} traz muito mais resultados que em português. Num fórum, descreva: o que você quer, o que tentou e o erro exato. ${EN("I'm trying to... I tried... but I get this error:...")} E agradeça: ${EN('Thanks in advance!')}` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['deprecated', 'obsoleto'], ['by default', 'por padrão'], ['required', 'obrigatório'], ['feature', 'recurso'], ['setting', 'configuração']] },
+          { t: 'escolha', q: `${EN('Right-click the table.')} significa:`, op: ['Clique com o botão direito na tabela.', 'Clique na tabela certa.', 'Corrija a tabela.'], a: 0, opPt: true },
+          { t: 'escolha', q: `${EN('The connection timed out.')} significa:`, op: ['A conexão expirou.', 'A conexão foi concluída.', 'A conexão está lenta.'], a: 0, opPt: true },
+          { t: 'escolha', q: `${EN('Access denied.')} significa:`, op: ['Acesso negado.', 'Acesso liberado.', 'Acesso pendente.'], a: 0, opPt: true },
+          { t: 'escolha', q: `Um recurso está marcado como ${EN('deprecated')}. O que isso indica?`, op: ['Vai deixar de existir; evite usar.', 'É novo e recomendado.', 'Está em promoção.'], a: 0, opPt: true },
+          { t: 'escolha', q: 'Qual é a melhor forma de pedir ajuda num fórum?', op: ["I'm trying to sum sales by month. I tried SUMIF, but I get this error: #VALUE!", 'Help me please urgent.', 'Excel not working why?'], a: 0 },
+          { t: 'montar', pt: 'Arraste o campo para a área de valores.', en: 'Drag the field to the Values area', extra: ['Pull', 'on'] },
+          { t: 'montar', pt: 'Primeiro, selecione a coluna. Depois, clique em OK.', en: 'First select the column Then click OK', extra: ['choose', 'press'] },
+          { t: 'escolha', ouvir: 'Failed to load data.', op: ['Falha ao carregar os dados.', 'Os dados foram carregados.', 'Carregue os dados primeiro.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Ocorreu um erro.', en: 'An error occurred', alt: ['An error has occurred', 'Something went wrong'] },
+          { t: 'digitar', ouvir: 'Go to the Home tab.', en: 'Go to the Home tab' },
+          { t: 'falar', en: "I'm trying to fix this error." },
+          { t: 'falar', en: 'Select the column and click OK.' }
+        ]
+      },
+      {
+        id: 'en-apresentar-dashboard', title: 'Apresentando um dashboard em inglês',
+        desc: 'A estrutura e as frases para apresentar um relatório ou dashboard: abrir, guiar pelos gráficos, destacar o insight e recomendar.',
+        objetivos: [
+          'Abrir a apresentação e explicar o objetivo do dashboard',
+          'Guiar o público pelos gráficos: As you can see, This chart shows',
+          'Destacar insights e fazer recomendações'
+        ],
+        body: 'Fechando o módulo: você montou o dashboard, agora precisa apresentá-lo em inglês para um gestor ou cliente. Apresentações de dados seguem uma estrutura previsível — objetivo, visão geral, detalhes, insight, recomendação — e cada parte tem suas frases prontas.',
+        content: [
+          { h: 'Abrindo',
+            items: [
+              `${EN("Today I'm going to walk you through our sales dashboard.")} (Vou apresentar/guiar vocês pelo nosso painel.)`,
+              `${EN('The goal of this report is to...')} · ${EN('This dashboard answers one question:...')}`,
+              `${EN('The data covers January to June.')} (Os dados cobrem de janeiro a junho.)`
+            ] },
+          { h: 'Guiando pelos gráficos',
+            items: [
+              `${EN('As you can see,...')} · ${EN('This chart shows...')} · ${EN('On the left, you can see...')}`,
+              `${EN("Let's take a closer look at...")} (Vamos olhar com mais detalhe...) · ${EN("If we filter by region,...")}`,
+              `${EN('The blue line represents...')} · ${EN('Each bar is a product.')}`
+            ] },
+          { h: 'Destacando o insight',
+            items: [
+              `${EN('The key takeaway is...')} (A principal conclusão é...) · ${EN('What stands out is...')} (O que chama atenção é...)`,
+              `${EN('Interestingly,...')} · ${EN('This is mainly due to...')} (Isso se deve principalmente a...)`,
+              `Linguagem cuidadosa com dados: ${EN('This suggests...')} · ${EN('It seems that...')} — evite afirmar causa sem prova.`
+            ] },
+          { h: 'Recomendando e fechando',
+            p: `${EN('Based on this, I recommend...')} · ${EN('Our next step should be...')} · ${EN('To sum up,...')} · ${EN('Any questions?')} — e se não souber responder: ${EN("That's a great question. Let me check the data and get back to you.")}` }
+        ],
+        pratica: [
+          { t: 'pares', pares: [['walk you through', 'guiar vocês por'], ['key takeaway', 'principal conclusão'], ['stands out', 'chama atenção'], ['to sum up', 'resumindo'], ['get back to you', 'te dar um retorno']] },
+          { t: 'escolha', q: 'Como abrir a apresentação de um dashboard?', op: ["Today I'm going to walk you through our sales dashboard.", 'Today I will walk on our dashboard.', 'Today the dashboard walks.'], a: 0 },
+          { t: 'escolha', q: 'Você não sabe responder uma pergunta. O que dizer?', op: ["That's a great question. Let me check the data and get back to you.", "I don't know.", 'Next question.'], a: 0 },
+          { t: 'escolha', q: 'Qual frase evita afirmar uma causa sem prova?', op: ['This suggests that customers prefer online sales.', 'This proves that customers love online sales.', 'Customers obviously prefer online.'], a: 0 },
+          { t: 'lacuna', frase: '___ you can see, sales peaked in December.', op: ['As', 'Like', 'How'], a: 0, pt: 'Como vocês podem ver, as vendas atingiram o pico em dezembro.' },
+          { t: 'lacuna', frase: "Let's take a closer ___ at the South region.", op: ['look', 'see', 'watch'], a: 0, pt: 'Vamos olhar com mais detalhe a região Sul.' },
+          { t: 'montar', pt: 'Este gráfico mostra a receita por mês.', en: 'This chart shows revenue by month', extra: ['graphic', 'per'] },
+          { t: 'montar', pt: 'Com base nisso, eu recomendo investir no Sul.', en: 'Based on this I recommend investing in the South', extra: ['invest', 'to'] },
+          { t: 'escolha', ouvir: 'The key takeaway is that online sales doubled.', op: ['A principal conclusão é que as vendas online dobraram.', 'A chave é vender online.', 'As vendas online caíram pela metade.'], a: 0, opPt: true },
+          { t: 'digitar', pt: 'Resumindo, as vendas cresceram 20%.', en: 'To sum up, sales grew 20%', alt: ['To sum up, sales increased by 20%', 'To sum up sales grew 20%', 'To sum up, sales grew by 20%'] },
+          { t: 'digitar', ouvir: 'Any questions?', en: 'Any questions' },
+          { t: 'falar', en: "Today I'm going to walk you through our dashboard." },
+          { t: 'falar', en: 'The key takeaway is that sales grew twenty percent.' }
+        ]
+      }
+    ]
+  }
 ];
