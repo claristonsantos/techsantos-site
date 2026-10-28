@@ -23,7 +23,7 @@ $certConteudo = [
     'ingles' => 'inglês do nível A1 ao C1: conversação, gramática, compreensão oral, vocabulário do dia a dia, viagem, inglês no trabalho (e-mails, reuniões, ligações e apresentações), inglês para dados e tecnologia, entrevistas e negociação',
     'python' => 'Python do zero até Python para dados: variáveis, estruturas de controle, funções e tratamento de erros, arquivos CSV e JSON, análise de dados com pandas (limpeza, agrupamentos, cruzamento de tabelas e tabelas dinâmicas), gráficos com matplotlib e automação de planilhas Excel com openpyxl',
 ];
-$certPaginaCurso = ['power-bi' => '/curso-power-bi.php', 'microsoft-fabric' => '/curso-microsoft-fabric.php', 'excel' => '/curso-excel.php', 'ingles' => '/curso-ingles.php'];
+$certPaginaCurso = ['power-bi' => '/curso-power-bi.php', 'microsoft-fabric' => '/curso-microsoft-fabric.php', 'excel' => '/curso-excel.php', 'ingles' => '/curso-ingles.php', 'python' => '/curso-python.php'];
 ?>
 <!doctype html>
 <html lang="pt-BR">

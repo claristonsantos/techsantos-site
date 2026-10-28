@@ -43,6 +43,18 @@ const CURSOS_VITRINE = [
             'Avaliação em cada módulo, teste final de 40 questões e certificado de conclusão',
         ],
     ],
+    'python' => [
+        'etiqueta' => 'Do zero até Python para dados',
+        'pagina' => '/curso-python.php',
+        'imagem' => '/assets/img/curso-python/capa.jpg',
+        'resumo' => 'Python do zero até Python para dados, programando desde a primeira aula num laboratório dentro do navegador: pandas, gráficos e automação de planilhas Excel.',
+        'itens' => [
+            '14 módulos e 55 aulas, com teoria em português e todo exemplo executável no navegador, sem instalar nada',
+            '54 desafios de cenário real: você escreve o script e o site confere o resultado na hora',
+            'pandas para limpar, cruzar e resumir dados, gráficos com matplotlib e relatórios Excel automáticos',
+            'Avaliação em cada módulo, teste final de 40 questões e certificado de conclusão',
+        ],
+    ],
     'excel' => [
         'etiqueta' => 'Do zero ao avançado · MO-210 e MO-211',
         'pagina' => '/curso-excel.php',
@@ -83,7 +95,7 @@ function preco_formatado(?int $centavos): ?string
 }
 
 /** Ordem de apresentação no catálogo público: a trilha Excel → Power BI → Fabric. */
-const CURSOS_ORDEM = ['excel', 'power-bi', 'microsoft-fabric', 'ingles'];
+const CURSOS_ORDEM = ['excel', 'power-bi', 'microsoft-fabric', 'python', 'ingles'];
 
 function cursos_a_venda_ordenados(PDO $pdo): array
 {
