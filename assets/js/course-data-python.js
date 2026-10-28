@@ -797,4 +797,555 @@ const COURSE = [
       }
     ]
   }
+  ,
+  {
+    id: 'py-m05', title: 'Módulo 05 · Dicionários, tuplas e conjuntos', kind: 'video',
+    lessons: [
+      {
+        id: 'py-dicionarios', title: 'Dicionários: chave e valor',
+        desc: 'A estrutura que guarda informações com nome — como um registro de planilha ou um objeto JSON.',
+        objetivos: [
+          'Criar dicionários e acessar valores pela chave',
+          'Adicionar, alterar e remover chaves',
+          'Usar get para evitar erro com chaves que não existem'
+        ],
+        body: 'Uma lista guarda itens por posição; um dicionário guarda por nome. Um cliente vira {"nome": "Ana", "cidade": "Goiânia", "gasto": 1500} — exatamente como uma linha de planilha com cabeçalhos. É também o formato dos dados que vêm de APIs e arquivos JSON.',
+        content: [
+          { h: 'Criando e acessando',
+            p: 'Chaves entre aspas, dois-pontos, valor. Para ler, use a chave entre colchetes.',
+            code: 'cliente = {"nome": "Ana", "cidade": "Goiânia", "gasto": 1500}\nprint(cliente["nome"])\nprint(cliente["gasto"] * 1.1)' },
+          { h: 'Alterando',
+            code: 'cliente = {"nome": "Ana", "gasto": 1500}\ncliente["gasto"] = 1800        # altera\ncliente["uf"] = "GO"             # cria chave nova\ndel cliente["nome"]              # remove\nprint(cliente)' },
+          { h: 'get: sem erro se a chave não existir',
+            p: '<code>dic["x"]</code> dá <code>KeyError</code> se a chave não existe. <code>dic.get("x", padrão)</code> devolve o padrão.',
+            code: 'cliente = {"nome": "Ana"}\nprint(cliente.get("telefone", "não informado"))\nprint("nome" in cliente)' },
+          { h: 'Percorrendo',
+            code: 'estoque = {"caneta": 320, "caderno": 85, "mochila": 0}\nfor produto, qtd in estoque.items():\n    print(f"{produto}: {qtd}")\nprint(list(estoque.keys()))\nprint(sum(estoque.values()))' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'c = {"nome": "Ana", "uf": "GO"}\nprint(c["uf"])', op: ['GO', 'uf', 'Ana'], a: 0 },
+          { t: 'escolha', q: 'O que acontece neste código?', codigo: 'c = {"nome": "Ana"}\nprint(c["idade"])', op: ['KeyError', 'Mostra None', 'Mostra 0'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'c = {"nome": "Ana"}\nprint(c.get("idade", 0))', op: ['0', 'KeyError', 'None'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'e = {"a": 10, "b": 5}\nprint(sum(e.values()))', op: ['15', 'ab', '2'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'c = {"gasto": 100}\nc["gasto"] += 50\nprint(c)', op: ["{'gasto': 150}", "{'gasto': 100}", '150'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'for chave, valor in estoque.___():', op: ['items', 'keys', 'pairs'], a: 0, pt: 'Percorra chave e valor ao mesmo tempo.' },
+          { t: 'pares', pares: [['dic["k"]', 'valor da chave'], ['dic.get("k", 0)', 'valor ou padrão'], ['.keys()', 'as chaves'], ['.values()', 'os valores'], ['.items()', 'pares chave e valor']] },
+          { t: 'ordenar', q: 'Monte o código que soma o estoque.', linhas: ['estoque = {"caneta": 320, "caderno": 85}', 'total = sum(estoque.values())', 'print(total)'] }
+        ],
+        desafios: [
+          { titulo: 'Atualizando o estoque',
+            cenario: 'O dicionário <code>estoque</code> tem a quantidade de cada produto e <code>vendas_do_dia</code> tem o que saiu hoje. Atualize o estoque descontando as vendas, crie a lista <code>repor</code> com os produtos que ficaram com menos de 20 unidades (em ordem alfabética) e o <code>total_itens</code> que sobraram.',
+            inicial: 'estoque = {"caneta": 320, "caderno": 85, "mochila": 25, "estojo": 40, "régua": 18}\nvendas_do_dia = {"caneta": 45, "caderno": 70, "mochila": 10}\n',
+            testes: [
+              { py: "assert estoque == {'caneta': 275, 'caderno': 15, 'mochila': 15, 'estojo': 40, 'régua': 18}", msg: 'estoque atualizado corretamente' },
+              { py: "assert repor == ['caderno', 'mochila', 'régua']", msg: 'repor correto (e em ordem alfabética)' },
+              { py: 'assert total_itens == 363', msg: 'total_itens correto' }
+            ],
+            dicas: ['for produto, qtd in vendas_do_dia.items(): estoque[produto] -= qtd', 'repor = sorted([p for p, q in estoque.items() if q < 20])'],
+            solucao: 'estoque = {"caneta": 320, "caderno": 85, "mochila": 25, "estojo": 40, "régua": 18}\nvendas_do_dia = {"caneta": 45, "caderno": 70, "mochila": 10}\nfor produto, qtd in vendas_do_dia.items():\n    estoque[produto] -= qtd\nrepor = sorted([p for p, q in estoque.items() if q < 20])\ntotal_itens = sum(estoque.values())\nprint(estoque, repor, total_itens)' }
+        ]
+      },
+      {
+        id: 'py-lista-de-dicionarios', title: 'Lista de dicionários: uma tabela em Python',
+        desc: 'Como representar uma tabela inteira como lista de dicionários, filtrar, somar por grupo e ordenar.',
+        objetivos: [
+          'Representar linhas de uma tabela como lista de dicionários',
+          'Filtrar e somar valores percorrendo os registros',
+          'Agrupar valores por categoria usando um dicionário acumulador'
+        ],
+        body: 'Uma lista de dicionários é uma tabela: cada dicionário é uma linha, cada chave é uma coluna. É o formato de quase todo dado que vem de sistemas e APIs — e entender como somar por grupo aqui é entender o que o groupby do pandas faz por baixo.',
+        content: [
+          { h: 'A tabela',
+            code: 'vendas = [\n    {"vendedor": "Ana", "regiao": "Sul", "valor": 1200},\n    {"vendedor": "Bruno", "regiao": "Norte", "valor": 850},\n    {"vendedor": "Ana", "regiao": "Sul", "valor": 640},\n    {"vendedor": "Carla", "regiao": "Norte", "valor": 2300},\n]\nprint(len(vendas), vendas[0]["vendedor"])' },
+          { h: 'Filtrar e somar',
+            code: 'vendas = [{"regiao": "Sul", "valor": 1200}, {"regiao": "Norte", "valor": 850}, {"regiao": "Sul", "valor": 640}]\ntotal_sul = sum(v["valor"] for v in vendas if v["regiao"] == "Sul")\nprint(total_sul)' },
+          { h: 'Somar por grupo',
+            p: 'Um dicionário vazio vira o acumulador: a chave é o grupo, o valor é a soma. Com <code>get(chave, 0)</code> não é preciso criar a chave antes.',
+            code: 'vendas = [{"regiao": "Sul", "valor": 1200}, {"regiao": "Norte", "valor": 850}, {"regiao": "Sul", "valor": 640}]\npor_regiao = {}\nfor v in vendas:\n    por_regiao[v["regiao"]] = por_regiao.get(v["regiao"], 0) + v["valor"]\nprint(por_regiao)' },
+          { h: 'Ordenar registros',
+            p: '<code>sorted(lista, key=lambda r: r["valor"], reverse=True)</code> ordena pela coluna escolhida. O <code>lambda</code> é uma função curtinha que diz qual valor usar — você vai entender funções no próximo módulo.',
+            code: 'vendas = [{"v": "Ana", "valor": 1200}, {"v": "Bruno", "valor": 850}, {"v": "Carla", "valor": 2300}]\nfor r in sorted(vendas, key=lambda r: r["valor"], reverse=True):\n    print(r["v"], r["valor"])' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 't = [{"n": "Ana"}, {"n": "Bia"}]\nprint(t[1]["n"])', op: ['Bia', 'Ana', 'n'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 't = [{"v": 10}, {"v": 20}, {"v": 5}]\nprint(sum(r["v"] for r in t))', op: ['35', '20', '3'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'g = {}\nfor x in ["a", "b", "a"]:\n    g[x] = g.get(x, 0) + 1\nprint(g)', op: ["{'a': 2, 'b': 1}", "{'a': 1, 'b': 1}", '3'], a: 0 },
+          { t: 'escolha', q: 'Numa lista de dicionários representando uma tabela, cada dicionário é:', op: ['uma linha', 'uma coluna', 'uma planilha inteira'], a: 0, opPt: true },
+          { t: 'lacuna', codigo: true, frase: 'por_regiao[r] = por_regiao.___(r, 0) + valor', op: ['get', 'find', 'sum'], a: 0, pt: 'Some no grupo, começando de zero se ele não existir.' },
+          { t: 'ordenar', q: 'Monte a soma por região.', linhas: ['por_regiao = {}', 'for v in vendas:', '    r = v["regiao"]', '    por_regiao[r] = por_regiao.get(r, 0) + v["valor"]'] },
+          { t: 'pares', pares: [['lista de dicionários', 'tabela'], ['dicionário', 'linha'], ['chave', 'coluna'], ['acumulador {}', 'soma por grupo'], ['key=lambda r: r["x"]', 'ordenar por coluna']] }
+        ],
+        desafios: [
+          { titulo: 'Ranking de vendedores',
+            cenario: 'Com a lista <code>vendas</code>, calcule o dicionário <code>por_vendedor</code> com o total vendido por cada um e a lista <code>ranking</code> com os nomes dos vendedores do maior para o menor total. Calcule também <code>ticket_medio</code>: o valor médio por venda (todas as vendas), arredondado em 2 casas.',
+            inicial: 'vendas = [\n    {"vendedor": "Ana", "valor": 1200.0},\n    {"vendedor": "Bruno", "valor": 850.0},\n    {"vendedor": "Ana", "valor": 640.0},\n    {"vendedor": "Carla", "valor": 2300.0},\n    {"vendedor": "Bruno", "valor": 1990.0},\n    {"vendedor": "Carla", "valor": 410.0},\n    {"vendedor": "Ana", "valor": 980.0},\n]\n',
+            testes: [
+              { py: "assert por_vendedor == {'Ana': 2820.0, 'Bruno': 2840.0, 'Carla': 2710.0}", msg: 'por_vendedor correto' },
+              { py: "assert ranking == ['Bruno', 'Ana', 'Carla']", msg: 'ranking correto' },
+              { py: 'assert abs(ticket_medio - 1195.71) < 0.01', msg: 'ticket_medio correto' }
+            ],
+            dicas: ['Acumulador: por_vendedor[nome] = por_vendedor.get(nome, 0) + valor', 'ranking = sorted(por_vendedor, key=lambda n: por_vendedor[n], reverse=True)'],
+            solucao: 'vendas = [\n    {"vendedor": "Ana", "valor": 1200.0},\n    {"vendedor": "Bruno", "valor": 850.0},\n    {"vendedor": "Ana", "valor": 640.0},\n    {"vendedor": "Carla", "valor": 2300.0},\n    {"vendedor": "Bruno", "valor": 1990.0},\n    {"vendedor": "Carla", "valor": 410.0},\n    {"vendedor": "Ana", "valor": 980.0},\n]\npor_vendedor = {}\nfor v in vendas:\n    por_vendedor[v["vendedor"]] = por_vendedor.get(v["vendedor"], 0) + v["valor"]\nranking = sorted(por_vendedor, key=lambda n: por_vendedor[n], reverse=True)\nticket_medio = round(sum(v["valor"] for v in vendas) / len(vendas), 2)\nprint(por_vendedor, ranking, ticket_medio)' }
+        ]
+      },
+      {
+        id: 'py-tuplas-sets', title: 'Tuplas e conjuntos (sets)',
+        desc: 'Tuplas para dados que não mudam e conjuntos para valores únicos — removendo duplicatas e comparando listas.',
+        objetivos: [
+          'Usar tuplas e desempacotar valores',
+          'Remover duplicatas com set',
+          'Comparar grupos com união, interseção e diferença'
+        ],
+        body: 'Duas estruturas que resolvem problemas clássicos de dados: tuplas guardam valores fixos (como coordenadas ou um par data-valor), e conjuntos guardam valores sem repetição — a forma mais rápida de responder "quantos clientes únicos?" ou "quem comprou em janeiro mas não em fevereiro?".',
+        content: [
+          { h: 'Tuplas',
+            p: 'Parecem listas, com parênteses, mas não mudam. Muito usadas para devolver vários valores e para desempacotar.',
+            code: 'ponto = (-16.68, -49.25)\nlat, lon = ponto\nprint(lat, lon)\nmaior, menor = max([3, 9, 1]), min([3, 9, 1])\nprint(maior, menor)' },
+          { h: 'Sets: valores únicos',
+            code: 'cidades = ["Goiânia", "Itumbiara", "Goiânia", "Rio Verde", "Itumbiara"]\nunicas = set(cidades)\nprint(unicas, len(unicas))\nprint(sorted(unicas))' },
+          { h: 'Comparando grupos',
+            items: [
+              '<code>a | b</code> união (está em qualquer um) · <code>a &amp; b</code> interseção (está nos dois).',
+              '<code>a - b</code> diferença (está em a, mas não em b).',
+              'Exemplo real: clientes de janeiro que não voltaram em fevereiro = <code>jan - fev</code>.'
+            ],
+            code: 'jan = {"Ana", "Bruno", "Carla", "Diego"}\nfev = {"Ana", "Carla", "Elisa"}\nprint("Voltaram:", jan & fev)\nprint("Não voltaram:", jan - fev)\nprint("Novos:", fev - jan)' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'print(len(set([1, 2, 2, 3, 3, 3])))', op: ['3', '6', '1'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'a = {1, 2, 3}\nb = {2, 3, 4}\nprint(a & b)', op: ['{2, 3}', '{1, 2, 3, 4}', '{1}'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'a = {1, 2, 3}\nb = {2, 3, 4}\nprint(a - b)', op: ['{1}', '{4}', '{2, 3}'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'x, y = (10, 20)\nprint(y)', op: ['20', '10', '(10, 20)'], a: 0 },
+          { t: 'escolha', q: 'Clientes que compraram em jan mas não em fev:', op: ['jan - fev', 'fev - jan', 'jan & fev'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'unicos = ___(clientes)', op: ['set', 'list', 'unique'], a: 0, pt: 'Remova os clientes repetidos.' },
+          { t: 'pares', pares: [['(1, 2)', 'tupla'], ['{1, 2}', 'conjunto'], ['a | b', 'união'], ['a & b', 'interseção'], ['a - b', 'diferença']] }
+        ],
+        desafios: [
+          { titulo: 'Retenção de clientes',
+            cenario: 'As listas <code>compras_set</code> e <code>compras_out</code> têm o nome do cliente em cada compra de setembro e outubro (com repetições). Calcule <code>unicos_out</code> (quantos clientes diferentes compraram em outubro), <code>retidos</code> (lista em ordem alfabética de quem comprou nos dois meses), <code>perdidos</code> (comprou em setembro e não em outubro, em ordem alfabética) e <code>taxa_retencao</code> (retidos ÷ clientes únicos de setembro × 100, arredondada em 1 casa).',
+            inicial: 'compras_set = ["Ana", "Bruno", "Ana", "Carla", "Diego", "Bruno", "Elisa"]\ncompras_out = ["Ana", "Carla", "Fábio", "Ana", "Gabi", "Carla", "Elisa"]\n',
+            testes: [
+              { py: 'assert unicos_out == 5', msg: 'unicos_out correto' },
+              { py: "assert retidos == ['Ana', 'Carla', 'Elisa']", msg: 'retidos correto' },
+              { py: "assert perdidos == ['Bruno', 'Diego']", msg: 'perdidos correto' },
+              { py: 'assert taxa_retencao == 60.0', msg: 'taxa_retencao correta' }
+            ],
+            dicas: ['Transforme as duas listas em sets: s = set(compras_set), o = set(compras_out).', 'retidos = sorted(s & o); perdidos = sorted(s - o); taxa = len(s & o) / len(s) * 100'],
+            solucao: 'compras_set = ["Ana", "Bruno", "Ana", "Carla", "Diego", "Bruno", "Elisa"]\ncompras_out = ["Ana", "Carla", "Fábio", "Ana", "Gabi", "Carla", "Elisa"]\ns = set(compras_set)\no = set(compras_out)\nunicos_out = len(o)\nretidos = sorted(s & o)\nperdidos = sorted(s - o)\ntaxa_retencao = round(len(s & o) / len(s) * 100, 1)\nprint(unicos_out, retidos, perdidos, taxa_retencao)' }
+        ]
+      },
+      {
+        id: 'py-json', title: 'JSON: dados de APIs e sistemas',
+        desc: 'O formato de dados mais usado na internet, que é praticamente um dicionário do Python: ler, navegar e transformar.',
+        objetivos: [
+          'Converter texto JSON em dicionário com json.loads',
+          'Navegar em estruturas aninhadas (dicionários dentro de listas)',
+          'Gerar JSON a partir de dados Python com json.dumps'
+        ],
+        body: 'Quando um sistema conversa com outro — o site com o meio de pagamento, o Power BI com uma API — os dados viajam em JSON. A boa notícia: JSON é quase idêntico a um dicionário do Python, e o módulo json faz a conversão nos dois sentidos.',
+        content: [
+          { h: 'Texto JSON vira dicionário',
+            code: 'import json\ntexto = \'{"pedido": 1042, "cliente": "Ana", "itens": [{"produto": "caneta", "qtd": 10}, {"produto": "caderno", "qtd": 2}]}\'\ndados = json.loads(texto)\nprint(dados["cliente"])\nprint(dados["itens"][1]["produto"])' },
+          { h: 'Navegando em estruturas aninhadas',
+            p: 'Leia de fora para dentro: <code>dados["itens"]</code> é uma lista; <code>[1]</code> pega o segundo item; <code>["produto"]</code> pega a chave dele.',
+            code: 'import json\ndados = json.loads(\'{"itens": [{"produto": "caneta", "qtd": 10, "preco": 2.5}, {"produto": "caderno", "qtd": 2, "preco": 18.9}]}\')\ntotal = sum(i["qtd"] * i["preco"] for i in dados["itens"])\nprint(total)' },
+          { h: 'Dicionário vira JSON',
+            code: 'import json\nresumo = {"cliente": "Ana", "total": 62.8, "pago": True}\nprint(json.dumps(resumo, ensure_ascii=False, indent=2))' },
+          { h: 'Diferenças pequenas',
+            p: 'JSON usa <code>true</code>/<code>false</code>/<code>null</code> minúsculos; o Python, <code>True</code>/<code>False</code>/<code>None</code>. O módulo json converte isso sozinho.' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual função transforma texto JSON em dicionário?', op: ['json.loads', 'json.dumps', 'json.read'], a: 0 },
+          { t: 'escolha', q: 'Em JSON, o equivalente ao None do Python é:', op: ['null', 'None', 'nil'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'd = {"itens": [{"p": "a"}, {"p": "b"}]}\nprint(d["itens"][0]["p"])', op: ['a', 'b', 'itens'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'd = {"itens": [{"q": 2}, {"q": 3}]}\nprint(sum(i["q"] for i in d["itens"]))', op: ['5', '2', '6'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'texto = json.___(resumo, indent=2)', op: ['dumps', 'loads', 'write'], a: 0, pt: 'Transforme o dicionário em texto JSON.' },
+          { t: 'pares', pares: [['json.loads', 'texto → dicionário'], ['json.dumps', 'dicionário → texto'], ['true', 'True'], ['null', 'None'], ['[ ]', 'lista']] }
+        ],
+        desafios: [
+          { titulo: 'O pedido da API',
+            cenario: 'A API da loja devolveu o pedido no texto <code>resposta</code>. Converta para dicionário, calcule o <code>subtotal</code> (soma de quantidade × preço dos itens), aplique o cupom de desconto percentual do pedido para obter o <code>total</code> (arredondado em 2 casas) e crie a lista <code>produtos</code> com os nomes dos itens.',
+            inicial: 'import json\nresposta = \'{"id": 1042, "cliente": {"nome": "Ana", "uf": "GO"}, "cupom_percentual": 10, "itens": [{"produto": "Caneta", "qtd": 10, "preco": 2.5}, {"produto": "Caderno", "qtd": 3, "preco": 18.9}, {"produto": "Mochila", "qtd": 1, "preco": 129.0}]}\'\n',
+            testes: [
+              { py: 'assert abs(subtotal - 210.7) < 0.001', msg: 'subtotal correto' },
+              { py: 'assert total == 189.63', msg: 'total com desconto correto' },
+              { py: "assert produtos == ['Caneta', 'Caderno', 'Mochila']", msg: 'produtos correto' }
+            ],
+            dicas: ['pedido = json.loads(resposta), depois navegue em pedido["itens"].', 'total = round(subtotal * (1 - pedido["cupom_percentual"] / 100), 2)'],
+            solucao: 'import json\nresposta = \'{"id": 1042, "cliente": {"nome": "Ana", "uf": "GO"}, "cupom_percentual": 10, "itens": [{"produto": "Caneta", "qtd": 10, "preco": 2.5}, {"produto": "Caderno", "qtd": 3, "preco": 18.9}, {"produto": "Mochila", "qtd": 1, "preco": 129.0}]}\'\npedido = json.loads(resposta)\nsubtotal = sum(i["qtd"] * i["preco"] for i in pedido["itens"])\ntotal = round(subtotal * (1 - pedido["cupom_percentual"] / 100), 2)\nprodutos = [i["produto"] for i in pedido["itens"]]\nprint(subtotal, total, produtos)' }
+        ]
+      }
+    ]
+  }
+  ,
+  {
+    id: 'py-m06', title: 'Módulo 06 · Funções: organizar e reaproveitar código', kind: 'video',
+    lessons: [
+      {
+        id: 'py-funcoes-def', title: 'Criando funções com def',
+        desc: 'Como empacotar um pedaço de código com nome, parâmetros e retorno para usar quantas vezes quiser.',
+        objetivos: [
+          'Criar funções com def, parâmetros e return',
+          'Diferenciar print (mostrar) de return (devolver)',
+          'Chamar a mesma função com valores diferentes'
+        ],
+        body: 'Se você copia e cola o mesmo trecho de código em vários lugares, está na hora de uma função. Ela dá nome a uma tarefa — "calcular a comissão", "limpar o nome" — e você chama sempre que precisar. Se a regra mudar, muda num lugar só.',
+        content: [
+          { h: 'def, parâmetros e return',
+            code: 'def calcular_comissao(vendas):\n    if vendas > 100000:\n        return vendas * 0.05\n    return vendas * 0.03\n\nprint(calcular_comissao(150000))\nprint(calcular_comissao(80000))' },
+          { h: 'print mostra, return devolve',
+            items: [
+              '<code>print</code> só mostra na tela; o valor não pode ser usado depois.',
+              '<code>return</code> devolve o valor para quem chamou, que pode guardar, somar, comparar.',
+              'Uma função sem <code>return</code> devolve <code>None</code>.'
+            ],
+            code: 'def dobro(x):\n    return x * 2\n\ntotal = dobro(10) + dobro(5)\nprint(total)' },
+          { h: 'Vários parâmetros',
+            code: 'def preco_final(preco, desconto, frete):\n    return preco * (1 - desconto / 100) + frete\n\nprint(preco_final(200, 10, 15))' },
+          { h: 'Nomes de funções',
+            p: 'Use verbos no infinitivo e letras minúsculas com <code>_</code>: <code>calcular_margem</code>, <code>limpar_nome</code>, <code>classificar_cliente</code>. A função deve fazer uma coisa só, e bem feita.' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'def triplo(x):\n    return x * 3\nprint(triplo(4))', op: ['12', '7', 'triplo(4)'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'def soma(a, b):\n    return a + b\nprint(soma(2, 3) * 2)', op: ['10', '7', '5'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'def f(x):\n    print(x * 2)\nr = f(5)\nprint(r)', op: ['10\nNone', '10\n10', 'None'], a: 0, exp: 'A função mostra 10 com print, mas não tem return: devolve None.' },
+          { t: 'escolha', q: 'Qual palavra define uma função?', op: ['def', 'function', 'func'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'def margem(lucro, receita):\n    ___ lucro / receita * 100', op: ['return', 'print', 'give'], a: 0, pt: 'Devolva o resultado da conta.' },
+          { t: 'ordenar', q: 'Monte a função e a chamada.', linhas: ['def calcular_imposto(valor):', '    return valor * 0.15', 'print(calcular_imposto(1000))'] },
+          { t: 'pares', pares: [['def', 'cria função'], ['parâmetro', 'entrada da função'], ['return', 'devolve o resultado'], ['print', 'só mostra'], ['None', 'sem retorno']] }
+        ],
+        desafios: [
+          { titulo: 'Funções de negócio',
+            cenario: 'Crie duas funções: <code>margem(receita, custo)</code>, que devolve a margem percentual arredondada em 1 casa, e <code>status_margem(m)</code>, que devolve <code>"Saudável"</code> se a margem for 20% ou mais, <code>"Atenção"</code> se for de 10% a menos de 20%, e <code>"Crítica"</code> abaixo de 10%.',
+            inicial: 'def margem(receita, custo):\n    pass\n\ndef status_margem(m):\n    pass\n',
+            testes: [
+              { py: 'assert margem(1000, 750) == 25.0', msg: 'margem(1000, 750) devolve 25.0' },
+              { py: 'assert margem(300, 283) == 5.7', msg: 'margem arredonda em 1 casa' },
+              { py: "assert status_margem(25.0) == 'Saudável' and status_margem(20) == 'Saudável'", msg: 'Saudável a partir de 20%' },
+              { py: "assert status_margem(15) == 'Atenção' and status_margem(10) == 'Atenção'", msg: 'Atenção de 10% a menos de 20%' },
+              { py: "assert status_margem(5.7) == 'Crítica'", msg: 'Crítica abaixo de 10%' }
+            ],
+            dicas: ['Troque o pass por return: return round((receita - custo) / receita * 100, 1)', 'Em status_margem, use if/elif/else com return em cada caminho.'],
+            solucao: 'def margem(receita, custo):\n    return round((receita - custo) / receita * 100, 1)\n\ndef status_margem(m):\n    if m >= 20:\n        return "Saudável"\n    elif m >= 10:\n        return "Atenção"\n    return "Crítica"\n\nm = margem(1000, 750)\nprint(m, status_margem(m))' }
+        ]
+      },
+      {
+        id: 'py-funcoes-parametros', title: 'Parâmetros padrão, nomeados e vários retornos',
+        desc: 'Recursos que tornam funções flexíveis: valores padrão, argumentos por nome, retorno de vários valores e docstrings.',
+        objetivos: [
+          'Definir parâmetros com valor padrão',
+          'Chamar funções com argumentos nomeados',
+          'Devolver vários valores com uma tupla e documentar com docstring'
+        ],
+        body: 'Funções de verdade costumam ter opções: um desconto que normalmente é zero, um separador que normalmente é vírgula. Parâmetros padrão e nomeados deixam a função fácil de usar no caso comum e configurável no caso especial — exatamente como as funções do pandas que você vai usar.',
+        content: [
+          { h: 'Valor padrão',
+            code: 'def preco_final(preco, desconto=0, frete=0):\n    return preco * (1 - desconto / 100) + frete\n\nprint(preco_final(100))\nprint(preco_final(100, 10))\nprint(preco_final(100, frete=20))' },
+          { h: 'Argumentos nomeados',
+            p: 'Na chamada, dá para dizer o nome do parâmetro: fica mais legível e a ordem não importa. É o estilo do pandas: <code>pd.read_csv("arq.csv", sep=";", decimal=",")</code>.',
+            code: 'def formatar(valor, moeda="R$", casas=2):\n    return f"{moeda} {valor:,.{casas}f}"\n\nprint(formatar(1234.5))\nprint(formatar(1234.5, casas=0, moeda="US$"))' },
+          { h: 'Devolvendo vários valores',
+            code: 'def resumo(valores):\n    return min(valores), max(valores), sum(valores) / len(valores)\n\nmenor, maior, media = resumo([10, 40, 25])\nprint(menor, maior, media)' },
+          { h: 'Docstring',
+            p: 'Um texto entre três aspas logo abaixo do <code>def</code> explica o que a função faz. Editores e o <code>help()</code> mostram esse texto.',
+            code: 'def calcular_margem(receita, custo):\n    """Devolve a margem percentual (0 a 100) com uma casa decimal."""\n    return round((receita - custo) / receita * 100, 1)\n\nhelp(calcular_margem)' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'def f(x, y=10):\n    return x + y\nprint(f(5))', op: ['15', '5', 'Erro'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'def f(x, y=10):\n    return x + y\nprint(f(5, 1))', op: ['6', '15', '11'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'def f(a, b=2, c=3):\n    return a + b * c\nprint(f(1, c=10))', op: ['21', '31', '7'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'def mm(v):\n    return min(v), max(v)\na, b = mm([4, 9, 2])\nprint(b)', op: ['9', '2', '(2, 9)'], a: 0 },
+          { t: 'escolha', q: 'Para que serve a docstring?', op: ['Documentar o que a função faz', 'Deixar a função mais rápida', 'Definir o valor padrão'], a: 0, opPt: true },
+          { t: 'lacuna', codigo: true, frase: 'def juros(valor, taxa___0.01):', op: ['=', '==', ':'], a: 0, pt: 'Defina 0.01 como taxa padrão.' },
+          { t: 'pares', pares: [['desconto=0', 'valor padrão'], ['frete=20 na chamada', 'argumento nomeado'], ['return a, b', 'dois valores'], ['"""texto"""', 'docstring'], ['help(f)', 'mostra a docstring']] }
+        ],
+        desafios: [
+          { titulo: 'Simulador de parcelas',
+            cenario: 'Crie a função <code>parcelas(valor, n=1, juros_mes=0)</code> que devolve <strong>dois valores</strong>: o valor de cada parcela e o total pago, ambos arredondados em 2 casas. Use juros compostos: total = valor × (1 + juros_mes/100) elevado a n. Sem juros, o total é o próprio valor.',
+            inicial: 'def parcelas(valor, n=1, juros_mes=0):\n    pass\n',
+            testes: [
+              { py: 'assert parcelas(1200) == (1200.0, 1200.0)', msg: 'à vista (padrões)' },
+              { py: 'assert parcelas(1200, 12) == (100.0, 1200.0)', msg: '12x sem juros' },
+              { py: 'assert parcelas(1000, 3, juros_mes=2) == (353.74, 1061.21)', msg: '3x com 2% ao mês' }
+            ],
+            dicas: ['total = valor * (1 + juros_mes / 100) ** n', 'return round(total / n, 2), round(total, 2)'],
+            solucao: 'def parcelas(valor, n=1, juros_mes=0):\n    total = valor * (1 + juros_mes / 100) ** n\n    return round(total / n, 2), round(total, 2)\n\nprint(parcelas(1000, 3, juros_mes=2))' }
+        ]
+      },
+      {
+        id: 'py-modulos', title: 'Módulos e bibliotecas: import',
+        desc: 'Como usar código pronto: a biblioteca padrão (math, datetime, random, statistics) e a ideia das bibliotecas de terceiros como o pandas.',
+        objetivos: [
+          'Importar módulos com import e from ... import',
+          'Usar math, statistics, random e datetime',
+          'Entender o que são bibliotecas de terceiros'
+        ],
+        body: 'Ninguém escreve tudo do zero. O Python vem com centenas de módulos prontos — matemática, datas, estatística — e a comunidade criou milhares de outros, como o pandas. Para usar, basta um import.',
+        content: [
+          { h: 'import e from',
+            code: 'import math\nprint(math.sqrt(144))\nprint(math.ceil(4.1))\n\nfrom statistics import mean, median\nprint(mean([10, 20, 60]), median([10, 20, 60]))' },
+          { h: 'Datas com datetime',
+            code: 'from datetime import date, timedelta\nhoje = date(2026, 10, 28)\nvencimento = hoje + timedelta(days=30)\nprint(vencimento)\nprint(vencimento.strftime("%d/%m/%Y"))\nprint((date(2026, 12, 25) - hoje).days)' },
+          { h: 'random',
+            code: 'import random\nrandom.seed(42)\nprint(random.randint(1, 100))\nprint(random.choice(["Ana", "Bruno", "Carla"]))' },
+          { h: 'Apelidos e bibliotecas de terceiros',
+            p: 'Bibliotecas grandes ganham apelido por convenção: <code>import pandas as pd</code>, <code>import matplotlib.pyplot as plt</code>. Fora do curso, elas são instaladas com <code>pip install pandas</code>; aqui no laboratório já estão disponíveis.' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'import math\nprint(math.sqrt(81))', op: ['9.0', '81', '3.0'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'from statistics import median\nprint(median([3, 1, 2]))', op: ['2', '3', '1'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'from datetime import date\nprint((date(2026, 1, 10) - date(2026, 1, 1)).days)', op: ['9', '10', '1'], a: 0 },
+          { t: 'escolha', q: 'Qual é a forma convencional de importar o pandas?', op: ['import pandas as pd', 'import pd', 'from pandas import all'], a: 0 },
+          { t: 'escolha', q: 'O que faz strftime("%d/%m/%Y")?', op: ['Formata a data como dia/mês/ano', 'Soma dias à data', 'Converte texto em data'], a: 0, opPt: true },
+          { t: 'lacuna', codigo: true, frase: '___ datetime import date', op: ['from', 'import', 'use'], a: 0, pt: 'Importe só a classe date.' },
+          { t: 'pares', pares: [['math', 'matemática'], ['statistics', 'estatística'], ['datetime', 'datas'], ['random', 'sorteios'], ['pandas', 'tabelas (terceiros)']] }
+        ],
+        desafios: [
+          { titulo: 'Vencimentos e estatística',
+            cenario: 'Para a lista de compras abaixo (datas e valores), calcule: <code>vencimentos</code> — lista com a data de cada compra + 30 dias, no formato texto <code>dd/mm/aaaa</code>; <code>media</code> e <code>mediana</code> dos valores (use o módulo statistics; média arredondada em 2 casas).',
+            inicial: 'from datetime import date, timedelta\ncompras = [(date(2026, 10, 5), 1200.0), (date(2026, 10, 18), 340.0), (date(2026, 10, 30), 980.0), (date(2026, 11, 2), 4500.0)]\n',
+            testes: [
+              { py: "assert vencimentos == ['04/11/2026', '17/11/2026', '29/11/2026', '02/12/2026']", msg: 'vencimentos corretos' },
+              { py: 'assert media == 1755.0', msg: 'média correta' },
+              { py: 'assert mediana == 1090.0', msg: 'mediana correta' }
+            ],
+            dicas: ['Desempacote: for data_compra, valor in compras: ...', '(data_compra + timedelta(days=30)).strftime("%d/%m/%Y")', 'from statistics import mean, median'],
+            solucao: 'from datetime import date, timedelta\nfrom statistics import mean, median\ncompras = [(date(2026, 10, 5), 1200.0), (date(2026, 10, 18), 340.0), (date(2026, 10, 30), 980.0), (date(2026, 11, 2), 4500.0)]\nvencimentos = [(d + timedelta(days=30)).strftime("%d/%m/%Y") for d, v in compras]\nvalores = [v for d, v in compras]\nmedia = round(mean(valores), 2)\nmediana = median(valores)\nprint(vencimentos, media, mediana)' }
+        ]
+      },
+      {
+        id: 'py-funcoes-projeto', title: 'Projeto: um mini-sistema de pedidos',
+        desc: 'Organizando um programa inteiro em funções pequenas e testáveis — o jeito profissional de escrever scripts de dados.',
+        objetivos: [
+          'Quebrar um problema em funções pequenas',
+          'Fazer funções trabalharem juntas',
+          'Testar funções com assert'
+        ],
+        body: 'Programas de verdade são feitos de funções pequenas que conversam entre si: uma calcula o subtotal, outra aplica o desconto, outra formata o recibo. Cada uma é fácil de entender e de testar. É assim que você vai organizar seus scripts de dados daqui para frente.',
+        content: [
+          { h: 'Dividir para conquistar',
+            code: 'def subtotal(itens):\n    return sum(i["qtd"] * i["preco"] for i in itens)\n\ndef aplicar_desconto(valor, cupom=0):\n    return valor * (1 - cupom / 100)\n\ndef recibo(cliente, total):\n    return f"{cliente}: R$ {total:,.2f}"\n\nitens = [{"qtd": 2, "preco": 50.0}, {"qtd": 1, "preco": 120.0}]\nprint(recibo("Ana", aplicar_desconto(subtotal(itens), 10)))' },
+          { h: 'Testando com assert',
+            p: '<code>assert condição</code> não faz nada se a condição for verdadeira e dá erro se for falsa. É o jeito mais simples de verificar que suas funções funcionam — e é exatamente o que o laboratório usa para conferir seus desafios.',
+            code: 'def dobro(x):\n    return x * 2\n\nassert dobro(3) == 6\nassert dobro(0) == 0\nprint("Todos os testes passaram")' },
+          { h: 'Boas práticas',
+            items: [
+              'Cada função faz uma coisa e tem nome que diz o quê.',
+              'Funções recebem dados por parâmetro e devolvem com return — evite depender de variáveis de fora.',
+              'Teste os casos de fronteira: lista vazia, valor zero, desconto de 100%.'
+            ] }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que acontece neste código?', codigo: 'assert 2 + 2 == 5', op: ['AssertionError', 'Mostra False', 'Nada'], a: 0 },
+          { t: 'escolha', q: 'O que acontece neste código?', codigo: 'assert 2 + 2 == 4\nprint("ok")', op: ['Mostra ok', 'AssertionError', 'Mostra True'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'def a(x):\n    return x + 1\ndef b(x):\n    return a(x) * 2\nprint(b(3))', op: ['8', '7', '6'], a: 0 },
+          { t: 'escolha', q: 'Qual é a melhor prática para funções?', op: ['Cada função faz uma tarefa e devolve o resultado com return', 'Uma função gigante que faz tudo', 'Funções que só usam variáveis globais'], a: 0, opPt: true },
+          { t: 'ordenar', q: 'Monte as funções na ordem certa de uso.', linhas: ['def subtotal(itens):', '    return sum(i["qtd"] * i["preco"] for i in itens)', 'total = subtotal(itens)', 'print(total)'] },
+          { t: 'pares', pares: [['assert', 'verifica uma condição'], ['AssertionError', 'teste falhou'], ['função pequena', 'fácil de testar'], ['return', 'passa o resultado adiante'], ['caso de fronteira', 'zero, vazio, limite']] }
+        ],
+        desafios: [
+          { titulo: 'O caixa da papelaria',
+            cenario: 'Implemente três funções que trabalham juntas: <code>subtotal(itens)</code> (soma de qtd × preço), <code>desconto(valor)</code> (5% para compras a partir de R$ 200, 10% a partir de R$ 500, senão 0 — devolve o <strong>valor do desconto</strong>) e <code>fechar_pedido(itens)</code>, que devolve um dicionário com as chaves <code>subtotal</code>, <code>desconto</code> e <code>total</code>, todos arredondados em 2 casas.',
+            inicial: 'def subtotal(itens):\n    pass\n\ndef desconto(valor):\n    pass\n\ndef fechar_pedido(itens):\n    pass\n\npedido = [{"qtd": 10, "preco": 2.5}, {"qtd": 4, "preco": 18.9}, {"qtd": 2, "preco": 64.9}]\nprint(fechar_pedido(pedido))\n',
+            testes: [
+              { py: 'assert abs(subtotal([{"qtd": 2, "preco": 10.0}]) - 20.0) < 0.001', msg: 'subtotal funciona' },
+              { py: 'assert desconto(100) == 0 and abs(desconto(200) - 10) < 0.001 and abs(desconto(600) - 60) < 0.001', msg: 'desconto respeita as faixas' },
+              { py: "r = fechar_pedido([{'qtd': 10, 'preco': 2.5}, {'qtd': 4, 'preco': 18.9}, {'qtd': 2, 'preco': 64.9}])\nassert r == {'subtotal': 230.4, 'desconto': 11.52, 'total': 218.88}", msg: 'fechar_pedido devolve o dicionário certo' },
+              { py: "assert fechar_pedido([]) == {'subtotal': 0, 'desconto': 0, 'total': 0}", msg: 'funciona com pedido vazio' }
+            ],
+            dicas: ['desconto: if valor >= 500: return valor * 0.10; elif valor >= 200: return valor * 0.05; return 0', 'fechar_pedido: s = subtotal(itens); d = desconto(s); return {"subtotal": round(s, 2), "desconto": round(d, 2), "total": round(s - d, 2)}'],
+            solucao: 'def subtotal(itens):\n    return sum(i["qtd"] * i["preco"] for i in itens)\n\ndef desconto(valor):\n    if valor >= 500:\n        return valor * 0.10\n    elif valor >= 200:\n        return valor * 0.05\n    return 0\n\ndef fechar_pedido(itens):\n    s = subtotal(itens)\n    d = desconto(s)\n    return {"subtotal": round(s, 2), "desconto": round(d, 2), "total": round(s - d, 2)}\n\npedido = [{"qtd": 10, "preco": 2.5}, {"qtd": 4, "preco": 18.9}, {"qtd": 2, "preco": 64.9}]\nprint(fechar_pedido(pedido))' }
+        ]
+      }
+    ]
+  }
+  ,
+  {
+    id: 'py-m07', title: 'Módulo 07 · Erros e depuração: ler, prevenir e tratar', kind: 'video',
+    lessons: [
+      {
+        id: 'py-lendo-erros', title: 'Lendo mensagens de erro',
+        desc: 'Os erros mais comuns do Python — SyntaxError, NameError, TypeError, ValueError, KeyError, IndexError — e como a mensagem diz exatamente o que corrigir.',
+        objetivos: [
+          'Identificar o tipo do erro e a linha na mensagem',
+          'Reconhecer os erros mais comuns e suas causas',
+          'Corrigir erros lendo a mensagem em vez de adivinhar'
+        ],
+        body: 'Mensagem de erro não é bronca: é o Python dizendo exatamente onde e o que deu errado. Programadores experientes não erram menos — eles leem a mensagem e corrigem em segundos. Esta aula ensina a ler.',
+        content: [
+          { h: 'A anatomia da mensagem',
+            items: [
+              'O <strong>tipo</strong> do erro vem primeiro: <code>NameError</code>, <code>TypeError</code>...',
+              'Depois a <strong>descrição</strong>: <code>name \'totl\' is not defined</code>.',
+              'E a <strong>linha</strong> onde aconteceu. No laboratório, a mensagem mostra "(linha 3)", por exemplo.'
+            ] },
+          { h: 'Os erros mais comuns',
+            items: [
+              '<code>SyntaxError</code> — o código está "mal escrito": faltou dois-pontos, parêntese ou aspas.',
+              '<code>IndentationError</code> — a indentação está errada depois de um <code>if</code>, <code>for</code> ou <code>def</code>.',
+              '<code>NameError</code> — usou um nome que não existe (quase sempre erro de digitação).',
+              '<code>TypeError</code> — operação com tipos incompatíveis: <code>"10" + 5</code>.',
+              '<code>ValueError</code> — o tipo está certo, o valor não: <code>int("abc")</code>.',
+              '<code>KeyError</code> / <code>IndexError</code> — chave de dicionário ou posição de lista que não existe.',
+              '<code>ZeroDivisionError</code> — divisão por zero.'
+            ] },
+          { h: 'Experimente: provoque erros',
+            p: 'Execute os blocos abaixo de propósito e leia cada mensagem. Depois corrija.',
+            code: 'total = 100\nprint(totl)' },
+          { h: 'Mais um',
+            code: 'preco = "25"\nquantidade = 3\nprint(preco * quantidade + 1)' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'Qual erro este código causa?', codigo: 'print(valor_total)', op: ['NameError', 'TypeError', 'SyntaxError'], a: 0 },
+          { t: 'escolha', q: 'Qual erro este código causa?', codigo: 'print("Ano: " + 2026)', op: ['TypeError', 'NameError', 'ValueError'], a: 0 },
+          { t: 'escolha', q: 'Qual erro este código causa?', codigo: 'int("12,5")', op: ['ValueError', 'TypeError', 'KeyError'], a: 0, exp: 'O tipo (texto) é aceito por int, mas o valor "12,5" não é um inteiro válido.' },
+          { t: 'escolha', q: 'Qual erro este código causa?', codigo: 'c = {"nome": "Ana"}\nprint(c["idade"])', op: ['KeyError', 'IndexError', 'NameError'], a: 0 },
+          { t: 'escolha', q: 'Qual erro este código causa?', codigo: 'v = [1, 2, 3]\nprint(v[3])', op: ['IndexError', 'KeyError', 'ValueError'], a: 0 },
+          { t: 'escolha', q: 'Qual erro este código causa?', codigo: 'if x > 3\n    print(x)', op: ['SyntaxError', 'NameError', 'IndentationError'], a: 0 },
+          { t: 'pares', pares: [['NameError', 'nome não existe'], ['TypeError', 'tipos incompatíveis'], ['ValueError', 'valor inválido'], ['IndexError', 'posição inexistente'], ['ZeroDivisionError', 'divisão por zero']] }
+        ],
+        desafios: [
+          { titulo: 'Conserte o script',
+            cenario: 'O script abaixo deveria calcular o total do pedido e o preço médio por item, mas tem <strong>três erros</strong>. Execute, leia cada mensagem, corrija um de cada vez e chegue em <code>total</code> = 235.0 e <code>preco_medio</code> = 19.58.',
+            inicial: 'precos = [12.5, 30.0, 18.0, 45.0, 9.0]\nquantidades = [2, 1, "3", 2, 4]\n\ntotal = 0\nfor p, q in zip(precos, quantidades)\n    total += p * q\n\nitens = sum(quantidade)\npreco_medio = round(total / itens, 2)\nprint(total, preco_medio)\n',
+            testes: [
+              { py: 'assert abs(total - 235.0) < 0.001', msg: 'total correto' },
+              { py: 'assert preco_medio == 19.58', msg: 'preco_medio correto' }
+            ],
+            dicas: ['Primeiro erro: SyntaxError na linha do for. O que toda linha de for precisa no final?', 'Depois: NameError — confira o nome da lista usada no sum.', 'Por fim: um TypeError ou um resultado estranho por causa de um item que é texto. Corrija o dado (ou converta com int).'],
+            solucao: 'precos = [12.5, 30.0, 18.0, 45.0, 9.0]\nquantidades = [2, 1, 3, 2, 4]\n\ntotal = 0\nfor p, q in zip(precos, quantidades):\n    total += p * q\n\nitens = sum(quantidades)\npreco_medio = round(total / itens, 2)\nprint(total, preco_medio)' }
+        ]
+      },
+      {
+        id: 'py-try-except', title: 'try e except: tratando erros',
+        desc: 'Como impedir que um dado ruim derrube o programa inteiro: capturar exceções, dar mensagens claras e seguir em frente.',
+        objetivos: [
+          'Capturar erros com try/except',
+          'Tratar tipos específicos de erro',
+          'Usar else e finally e decidir quando tratar e quando deixar o erro aparecer'
+        ],
+        body: 'Numa base com 10 mil linhas, uma linha com "R$ 1.2O0" (com a letra O) não pode derrubar todo o processamento. O try/except permite tentar algo arriscado e, se der errado, fazer outra coisa — registrar o problema e seguir para a próxima linha.',
+        content: [
+          { h: 'try / except',
+            code: 'texto = "12,5"\ntry:\n    valor = float(texto)\nexcept ValueError:\n    print(f"Valor inválido: {texto!r}")\n    valor = 0.0\nprint(valor)' },
+          { h: 'Num laço: pular as linhas ruins',
+            code: 'entradas = ["100", "250", "abc", "75", ""]\nvalidos, invalidos = [], []\nfor e in entradas:\n    try:\n        validos.append(float(e))\n    except ValueError:\n        invalidos.append(e)\nprint(sum(validos), invalidos)' },
+          { h: 'Vários tipos e else/finally',
+            items: [
+              'Capture tipos diferentes com <code>except (ValueError, TypeError):</code> ou vários blocos <code>except</code>.',
+              '<code>else</code> roda se não houve erro; <code>finally</code> roda sempre (útil para fechar arquivos).',
+              'Evite <code>except:</code> sem tipo: ele esconde até erros de digitação seus.'
+            ],
+            code: 'def dividir(a, b):\n    try:\n        r = a / b\n    except ZeroDivisionError:\n        return None\n    else:\n        return round(r, 2)\n\nprint(dividir(10, 4), dividir(10, 0))' },
+          { h: 'Quando não tratar',
+            p: 'Trate erros esperados (dado mal formatado, arquivo que pode não existir). Erros de lógica do seu próprio código não devem ser escondidos: deixe aparecer e corrija.' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'try:\n    x = int("abc")\nexcept ValueError:\n    x = -1\nprint(x)', op: ['-1', 'abc', 'ValueError'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'try:\n    x = int("7")\nexcept ValueError:\n    x = -1\nprint(x)', op: ['7', '-1', 'Erro'], a: 0 },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'try:\n    print(1 / 0)\nexcept ZeroDivisionError:\n    print("divisão por zero")\nfinally:\n    print("fim")', op: ['divisão por zero\nfim', 'fim', 'divisão por zero'], a: 0 },
+          { t: 'escolha', q: 'Por que evitar except sem tipo (except:)?', op: ['Ele esconde qualquer erro, inclusive os seus erros de digitação', 'Ele deixa o código mais lento', 'Ele não funciona em Python 3'], a: 0, opPt: true },
+          { t: 'lacuna', codigo: true, frase: 'try:\n    valor = float(texto)\n___ ValueError:\n    valor = 0.0', op: ['except', 'catch', 'error'], a: 0, pt: 'Capture o erro de conversão.' },
+          { t: 'ordenar', q: 'Monte o tratamento de erro.', linhas: ['try:', '    valor = float(texto)', 'except ValueError:', '    valor = 0.0'] },
+          { t: 'pares', pares: [['try', 'tenta'], ['except', 'se der erro'], ['else', 'se não der erro'], ['finally', 'sempre'], ['raise', 'gera um erro']] }
+        ],
+        desafios: [
+          { titulo: 'Valores sujos do sistema',
+            cenario: 'A lista <code>valores_texto</code> veio do sistema antigo com formatos misturados. Crie a função <code>converter(texto)</code> que tira <code>"R$"</code> e espaços, troca a vírgula decimal por ponto (e remove o ponto de milhar quando houver vírgula) e devolve o <code>float</code> — ou <code>None</code> se não for possível converter. Depois calcule <code>total</code> (soma só dos válidos, arredondado em 2 casas) e <code>falhas</code> (quantos não converteram).',
+            inicial: 'valores_texto = ["R$ 1.250,00", "980,50", "abc", "R$ 75", "", "2.000,10", "12O,00"]\n\ndef converter(texto):\n    pass\n',
+            testes: [
+              { py: 'assert converter("R$ 1.250,00") == 1250.0 and converter("980,50") == 980.5 and converter("R$ 75") == 75.0', msg: 'converter trata os formatos válidos' },
+              { py: 'assert converter("abc") is None and converter("") is None and converter("12O,00") is None', msg: 'converter devolve None para os inválidos' },
+              { py: 'assert total == 4305.6', msg: 'total correto' },
+              { py: 'assert falhas == 3', msg: 'falhas correto' }
+            ],
+            dicas: ['Limpe primeiro: t = texto.replace("R$", "").strip(); se tiver vírgula, t = t.replace(".", "").replace(",", ".")', 'Envolva o float(t) num try/except ValueError e devolva None no except.', 'No laço, separe: if v is None: falhas += 1, senão some.'],
+            solucao: 'valores_texto = ["R$ 1.250,00", "980,50", "abc", "R$ 75", "", "2.000,10", "12O,00"]\n\ndef converter(texto):\n    t = texto.replace("R$", "").strip()\n    if "," in t:\n        t = t.replace(".", "").replace(",", ".")\n    try:\n        return float(t)\n    except ValueError:\n        return None\n\ntotal = 0\nfalhas = 0\nfor texto in valores_texto:\n    v = converter(texto)\n    if v is None:\n        falhas += 1\n    else:\n        total += v\ntotal = round(total, 2)\nprint(total, falhas)' }
+        ]
+      },
+      {
+        id: 'py-depuracao', title: 'Depuração: encontrando erros de lógica',
+        desc: 'Quando o código roda mas o resultado está errado: prints estratégicos, testar com dados pequenos e os erros de lógica mais comuns.',
+        objetivos: [
+          'Usar prints para inspecionar valores durante a execução',
+          'Testar com dados pequenos e resultado conhecido',
+          'Reconhecer erros de lógica comuns (limites, acumulador, indentação)'
+        ],
+        body: 'O pior erro não é o que aparece em vermelho: é o código que roda e dá o número errado. Depurar é investigar — olhar os valores no meio do caminho até achar onde a conta desvia do esperado.',
+        content: [
+          { h: 'print estratégico',
+            p: 'Mostre o valor das variáveis dentro do laço para ver o que está acontecendo a cada volta. Depois de achar o problema, apague os prints.',
+            code: 'vendas = [100, 200, 300]\ntotal = 0\nfor v in vendas:\n    total = v        # bug: deveria somar\n    print(f"v={v} total={total}")\nprint("Final:", total)' },
+          { h: 'Teste com dados pequenos',
+            p: 'Antes de rodar na base inteira, teste com 3 ou 4 linhas cujo resultado você calcula de cabeça. Se nesses casos não bater, o problema é do código, não do dado.' },
+          { h: 'Os erros de lógica mais comuns',
+            items: [
+              'Acumulador zerado dentro do laço (ou usando <code>=</code> em vez de <code>+=</code>).',
+              'Indentação: um comando que deveria estar dentro do laço ficou fora (ou vice-versa).',
+              'Limites: <code>&gt;</code> no lugar de <code>&gt;=</code>; <code>range(1, 10)</code> que não inclui o 10.',
+              'Ordem do if/elif: uma condição mais ampla antes da mais específica.',
+              'Divisão inteira <code>//</code> onde deveria ser <code>/</code>.'
+            ] },
+          { h: 'assert como rede de segurança',
+            code: 'def media(v):\n    return sum(v) / len(v)\n\nassert media([2, 4]) == 3\nassert media([10]) == 10\nprint("ok")' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'total = 0\nfor v in [1, 2, 3]:\n    total = v\nprint(total)', op: ['3', '6', '0'], a: 0, exp: 'O total é substituído a cada volta em vez de somado (faltou +=).' },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'for v in [1, 2, 3]:\n    total = 0\n    total += v\nprint(total)', op: ['3', '6', '0'], a: 0, exp: 'O acumulador volta a zero dentro do laço; só sobra o último valor.' },
+          { t: 'escolha', q: 'Quantas vezes "x" é impresso?', codigo: 'for i in range(1, 5):\n    print("x")', op: ['4', '5', '3'], a: 0 },
+          { t: 'escolha', q: 'Qual é o bug deste código?', codigo: 'nota = 95\nif nota >= 60:\n    c = "C"\nelif nota >= 90:\n    c = "A"', op: ['A condição mais ampla vem antes: nunca chega no A', 'Falta else', 'O >= deveria ser >'], a: 0, opPt: true },
+          { t: 'escolha', q: 'Qual é a melhor primeira atitude quando o resultado está errado?', op: ['Testar com poucos dados e conferir os valores no meio do caminho', 'Reescrever tudo do zero', 'Rodar mais vezes até dar certo'], a: 0, opPt: true },
+          { t: 'pares', pares: [['print no laço', 'ver valores a cada volta'], ['dados pequenos', 'resultado conhecido'], ['total = v', 'substitui em vez de somar'], ['range(1, 10)', 'não inclui o 10'], ['assert', 'teste automático']] }
+        ],
+        desafios: [
+          { titulo: 'Bug na média ponderada',
+            cenario: 'A função <code>media_ponderada(notas, pesos)</code> deveria devolver a soma de nota × peso dividida pela soma dos pesos, arredondada em 2 casas. Ela roda sem erro, mas dá o resultado errado. Encontre e corrija os <strong>dois</strong> erros de lógica (dica: use prints e teste com notas [10, 0] e pesos [1, 1], cujo resultado é 5.0).',
+            inicial: 'def media_ponderada(notas, pesos):\n    soma = 0\n    for n, p in zip(notas, pesos):\n        soma = n * p\n    return round(soma / len(pesos), 2)\n\nprint(media_ponderada([8, 6, 9], [2, 1, 3]))\n',
+            testes: [
+              { py: 'assert media_ponderada([10, 0], [1, 1]) == 5.0', msg: 'caso simples correto' },
+              { py: 'assert media_ponderada([8, 6, 9], [2, 1, 3]) == 8.17', msg: 'caso com pesos diferentes correto' },
+              { py: 'assert media_ponderada([7], [4]) == 7.0', msg: 'caso com uma nota correto' }
+            ],
+            dicas: ['Coloque print(n, p, soma) dentro do laço: o acumulador está somando ou substituindo?', 'A divisão deve ser pela SOMA dos pesos, não pela quantidade.'],
+            solucao: 'def media_ponderada(notas, pesos):\n    soma = 0\n    for n, p in zip(notas, pesos):\n        soma += n * p\n    return round(soma / sum(pesos), 2)\n\nprint(media_ponderada([8, 6, 9], [2, 1, 3]))' }
+        ]
+      },
+      {
+        id: 'py-erros-projeto', title: 'Projeto: validando uma base de cadastros',
+        desc: 'Juntando try/except, funções e dicionários para validar registros e gerar um relatório de problemas.',
+        objetivos: [
+          'Escrever validações reutilizáveis em funções',
+          'Separar registros válidos e inválidos com o motivo do erro',
+          'Gerar um resumo da qualidade da base'
+        ],
+        body: 'Antes de qualquer análise, um bom analista verifica a qualidade da base: quantos registros têm problema, e quais. Neste projeto você constrói um validador que aponta, linha a linha, o que está errado — a mesma lógica das ferramentas de perfil de dados do Power Query.',
+        content: [
+          { h: 'Validações que devolvem o problema',
+            p: 'Em vez de True/False, uma validação pode devolver a lista de problemas encontrados — vazia quando está tudo certo.',
+            code: 'def validar(reg):\n    problemas = []\n    if not reg.get("nome", "").strip():\n        problemas.append("nome vazio")\n    if "@" not in reg.get("email", ""):\n        problemas.append("email inválido")\n    try:\n        if int(reg.get("idade", "")) < 0:\n            problemas.append("idade negativa")\n    except ValueError:\n        problemas.append("idade não numérica")\n    return problemas\n\nprint(validar({"nome": "Ana", "email": "ana@x.com", "idade": "30"}))\nprint(validar({"nome": " ", "email": "x", "idade": "trinta"}))' },
+          { h: 'O resumo da qualidade',
+            p: 'Com as validações prontas, percorra a base, conte os válidos e agrupe os problemas por tipo num dicionário — e você tem um relatório de qualidade.' }
+        ],
+        pratica: [
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'print(not " ".strip())', op: ['True', 'False', 'Erro'], a: 0, exp: '" ".strip() vira "", que é considerado falso; not "" é True.' },
+          { t: 'escolha', q: 'Por que devolver a lista de problemas em vez de só True/False?', op: ['Para saber o motivo de cada registro ser inválido', 'Porque listas são mais rápidas', 'Porque o Python não aceita bool em funções'], a: 0, opPt: true },
+          { t: 'escolha', q: 'O que este código mostra?', codigo: 'p = []\nprint(len(p) == 0)', op: ['True', 'False', '0'], a: 0 },
+          { t: 'lacuna', codigo: true, frase: 'contagem[problema] = contagem.___(problema, 0) + 1', op: ['get', 'count', 'add'], a: 0, pt: 'Conte cada tipo de problema.' },
+          { t: 'pares', pares: [['validar', 'verificar regras'], ['lista vazia', 'sem problemas'], ['try/except', 'conversão segura'], ['contagem por tipo', 'dicionário acumulador'], ['qualidade da base', 'quantos válidos']] }
+        ],
+        desafios: [
+          { titulo: 'Relatório de qualidade',
+            cenario: 'Valide a lista <code>cadastros</code>. Um registro é válido se: o nome não estiver vazio, o e-mail tiver exatamente um <code>@</code>, e o valor da compra puder virar <code>float</code> e for maior que zero. Crie <code>validos</code> (lista com os nomes válidos), <code>qualidade</code> (% de válidos, 1 casa) e <code>problemas</code> (dicionário contando cada tipo: <code>"nome"</code>, <code>"email"</code>, <code>"valor"</code> — um registro pode ter mais de um problema).',
+            inicial: 'cadastros = [\n    {"nome": "Ana", "email": "ana@empresa.com", "valor": "150.0"},\n    {"nome": "", "email": "bruno@empresa.com", "valor": "80"},\n    {"nome": "Carla", "email": "carla.empresa.com", "valor": "abc"},\n    {"nome": "Diego", "email": "diego@@empresa.com", "valor": "-10"},\n    {"nome": "Elisa", "email": "elisa@empresa.com", "valor": "320.5"},\n]\n',
+            testes: [
+              { py: "assert validos == ['Ana', 'Elisa']", msg: 'validos correto' },
+              { py: 'assert qualidade == 40.0', msg: 'qualidade correta' },
+              { py: "assert problemas == {'nome': 1, 'email': 2, 'valor': 2}", msg: 'problemas contados por tipo' }
+            ],
+            dicas: ['Crie uma função que devolve a lista de problemas de um registro ("nome", "email", "valor").', 'Para o valor: try: v = float(reg["valor"]) ... except ValueError: problema. Se converter mas for <= 0, também é problema.'],
+            solucao: 'cadastros = [\n    {"nome": "Ana", "email": "ana@empresa.com", "valor": "150.0"},\n    {"nome": "", "email": "bruno@empresa.com", "valor": "80"},\n    {"nome": "Carla", "email": "carla.empresa.com", "valor": "abc"},\n    {"nome": "Diego", "email": "diego@@empresa.com", "valor": "-10"},\n    {"nome": "Elisa", "email": "elisa@empresa.com", "valor": "320.5"},\n]\n\ndef checar(reg):\n    erros = []\n    if not reg["nome"].strip():\n        erros.append("nome")\n    if reg["email"].count("@") != 1:\n        erros.append("email")\n    try:\n        if float(reg["valor"]) <= 0:\n            erros.append("valor")\n    except ValueError:\n        erros.append("valor")\n    return erros\n\nvalidos = []\nproblemas = {}\nfor reg in cadastros:\n    erros = checar(reg)\n    if not erros:\n        validos.append(reg["nome"])\n    for e in erros:\n        problemas[e] = problemas.get(e, 0) + 1\nqualidade = round(len(validos) / len(cadastros) * 100, 1)\nprint(validos, qualidade, problemas)' }
+        ]
+      }
+    ]
+  }
 ];
