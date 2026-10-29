@@ -439,6 +439,43 @@ function meta_publish_instagram_carousel(array $imageUrls, string $caption, ?str
 }
 
 /**
+ * Cria as lâminas de um carrossel sem esperar o processamento (o cron confere
+ * nas próximas execuções). .mp4 vira VIDEO (lâmina com música), o resto IMAGE.
+ */
+function meta_create_instagram_carousel_children(array $urls, ?string &$error = null): ?array
+{
+    if (count($urls) < 2 || count($urls) > 10) {
+        $error = 'Carrossel precisa ter entre 2 e 10 itens — limite do próprio Instagram.';
+        return null;
+    }
+    $ids = [];
+    foreach ($urls as $url) {
+        $isVideo = (bool)preg_match('/\.(mp4|mov)(\?|$)/i', (string)$url);
+        $data = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/media'), [
+            'access_token' => META_IG_TOKEN,
+            'is_carousel_item' => 'true',
+        ] + ($isVideo ? ['media_type' => 'VIDEO', 'video_url' => $url] : ['image_url' => $url]), $error);
+        if ($data === null || empty($data['id'])) {
+            return null;
+        }
+        $ids[] = (string)$data['id'];
+    }
+    return $ids;
+}
+
+/** Cria o container do carrossel com as lâminas já prontas; publica depois, como qualquer container. */
+function meta_create_instagram_carousel_parent(array $childIds, string $caption, ?string &$error = null): ?string
+{
+    $parent = meta_http_post(meta_ig_graph_url(META_IG_USER_ID . '/media'), [
+        'access_token' => META_IG_TOKEN,
+        'media_type' => 'CAROUSEL',
+        'children' => implode(',', $childIds),
+        'caption' => $caption,
+    ], $error);
+    return ($parent === null || empty($parent['id'])) ? null : (string)$parent['id'];
+}
+
+/**
  * Polls a container (child or parent) until FINISHED, up to 30s. Shared by
  * the carousel flow above — regular single-media containers are polled by
  * social_publish_cron.php across cron ticks instead, since video can take

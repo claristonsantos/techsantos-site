@@ -11,6 +11,10 @@ require_once __DIR__ . '/meta_social.php';
 
 $pdo = db();
 
+// Lâminas do carrossel entre execuções (coluna criada aqui na primeira execução).
+$cols = array_column($pdo->query("SHOW COLUMNS FROM social_posts")->fetchAll(), 'Field');
+if (!in_array('carousel_children', $cols, true)) $pdo->exec("ALTER TABLE social_posts ADD COLUMN carousel_children TEXT NULL");
+
 // Phase 1: pending posts whose time has come — create the container and move
 // to 'processando'. Every container (image or video) is published only in
 // Phase 2, after polling confirms Meta's side is actually done with it —
@@ -63,19 +67,25 @@ foreach ($due as $post) {
         $text = (string)$post['legenda'];
         $containerId = null;
         if ($post['tipo'] === 'carousel') {
+            // Só cria as lâminas aqui; a fase "carrossel: lâminas" confere nas próximas
+            // execuções e monta o carrossel quando todas estiverem prontas (ver abaixo).
             $urls = json_decode((string)$post['carousel_urls'], true);
             $children = [];
             foreach (is_array($urls) ? array_slice($urls, 0, 10) : [] as $u) {
                 $isVid = (bool)preg_match('/\.(mp4|mov)(\?|$)/i', (string)$u);
                 $child = meta_threads_create_container($isVid ? 'VIDEO' : 'IMAGE', '', (string)$u, $error, true);
-                if ($child === null || !meta_threads_wait_finished($child, 25, $error)) { $children = []; break; }
+                if ($child === null) { $children = []; break; }
                 $children[] = $child;
             }
             if (count($children) >= 2) {
-                $containerId = meta_threads_create_container('CAROUSEL', $text, null, $error, false, $children);
-            } elseif ($error === null) {
-                $error = 'carrossel do Threads precisa de 2 a 10 itens';
+                $pdo->prepare("UPDATE social_posts SET carousel_children = ? WHERE id = ?")->execute([json_encode($children), $post['id']]);
+                echo "post {$post['id']}: " . count($children) . " lâminas criadas no Threads, carrossel monta quando ficarem prontas\n";
+            } else {
+                $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+                    ->execute([mb_substr('Threads: ' . ($error ?? 'carrossel do Threads precisa de 2 a 10 itens'), 0, 500), $post['id']]);
+                echo "post {$post['id']}: falha ao criar lâminas no Threads — {$error}\n";
             }
+            continue;
         } elseif ((string)$post['imagem_url'] === '') {
             $containerId = meta_threads_create_container('TEXT', $text, null, $error);
         } else {
@@ -109,27 +119,19 @@ foreach ($due as $post) {
         continue;
     }
 
-    // Carousel runs synchronously (all containers + publish in one shot,
-    // see meta_publish_instagram_carousel()) — image children finish fast
-    // enough that it doesn't need the processando/poll-across-ticks dance
-    // the single-media flow below uses for video.
+    // Carrossel em várias execuções: aqui só cria as lâminas. Antes era tudo de uma vez,
+    // esperando até 180 s por lâmina de vídeo; o servidor encerrava o cron no meio e o
+    // post ficava preso em 'processando' (publicado ou não: 24, 27 e 29/10/2026).
     if ($post['tipo'] === 'carousel') {
         $urls = json_decode((string)$post['carousel_urls'], true);
-        if (!is_array($urls) || count($urls) < 2) {
+        $children = is_array($urls) && count($urls) >= 2 ? meta_create_instagram_carousel_children($urls, $error) : null;
+        if ($children === null) {
             $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
-                ->execute(['carousel_urls inválido ou com menos de 2 imagens', $post['id']]);
-            echo "post {$post['id']}: carousel_urls inválido\n";
-            continue;
-        }
-        $mediaId = meta_publish_instagram_carousel($urls, $post['legenda'], $error);
-        if ($mediaId === null) {
-            $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
-                ->execute([$error, $post['id']]);
-            echo "post {$post['id']}: falha ao publicar carrossel — {$error}\n";
+                ->execute([$error ?? 'carousel_urls inválido ou com menos de 2 itens', $post['id']]);
+            echo "post {$post['id']}: falha ao criar lâminas do carrossel — {$error}\n";
         } else {
-            $pdo->prepare("UPDATE social_posts SET status = 'publicado', meta_post_id = ? WHERE id = ?")
-                ->execute([$mediaId, $post['id']]);
-            echo "post {$post['id']}: carrossel publicado ({$mediaId})\n";
+            $pdo->prepare("UPDATE social_posts SET carousel_children = ? WHERE id = ?")->execute([json_encode($children), $post['id']]);
+            echo "post {$post['id']}: " . count($children) . " lâminas criadas, carrossel monta quando ficarem prontas\n";
         }
         continue;
     }
@@ -152,6 +154,53 @@ foreach ($due as $post) {
     $pdo->prepare("UPDATE social_posts SET status = 'processando', meta_container_id = ? WHERE id = ?")
         ->execute([$containerId, $post['id']]);
     echo "post {$post['id']}: container criado, aguardando processamento ({$containerId})\n";
+}
+
+// Carrossel: lâminas. Confere as lâminas criadas na fase 1 (uma consulta rápida por
+// lâmina, sem esperar) e, quando todas estão prontas, cria o carrossel e grava o
+// container em meta_container_id: a partir daí a fase 2 (Instagram) ou a fase do
+// Threads publica como qualquer outro post.
+$montando = $pdo->query(
+    "SELECT * FROM social_posts WHERE tipo = 'carousel' AND status = 'processando'"
+    . " AND meta_container_id IS NULL AND carousel_children IS NOT NULL"
+)->fetchAll();
+foreach ($montando as $post) {
+    $error = null;
+    $children = json_decode((string)$post['carousel_children'], true) ?: [];
+    $threads = $post['canal'] === 'threads';
+    $pendente = false;
+    foreach ($children as $child) {
+        $st = $threads ? meta_threads_container_status($child, $error) : meta_get_instagram_container_status($child, $error);
+        if ($st === 'ERROR' || $st === 'EXPIRED') {
+            $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+                ->execute([mb_substr("lâmina {$child} com {$st}" . ($error ? " — {$error}" : ''), 0, 500), $post['id']]);
+            echo "post {$post['id']}: lâmina com {$st}\n";
+            continue 2;
+        }
+        if ($st !== 'FINISHED') { $pendente = true; break; }
+    }
+    if ($pendente) {
+        // lâminas de vídeo levam alguns minutos; depois de 2 h, desiste e avisa no painel
+        if (strtotime((string)$post['agendado_para']) < time() - 7200) {
+            $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+                ->execute(['lâminas do carrossel não ficaram prontas em 2 h', $post['id']]);
+            echo "post {$post['id']}: lâminas não ficaram prontas em 2 h\n";
+        } else {
+            echo "post {$post['id']}: lâminas ainda processando\n";
+        }
+        continue;
+    }
+    $parent = $threads
+        ? meta_threads_create_container('CAROUSEL', (string)$post['legenda'], null, $error, false, $children)
+        : meta_create_instagram_carousel_parent($children, (string)$post['legenda'], $error);
+    if ($parent === null || $parent === '') {
+        $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+            ->execute([mb_substr('carrossel: ' . ($error ?? 'falha ao criar o carrossel'), 0, 500), $post['id']]);
+        echo "post {$post['id']}: falha ao criar o carrossel — {$error}\n";
+        continue;
+    }
+    $pdo->prepare("UPDATE social_posts SET meta_container_id = ? WHERE id = ?")->execute([$parent, $post['id']]);
+    echo "post {$post['id']}: carrossel montado ({$parent}), publica quando o container ficar pronto\n";
 }
 
 // Phase 2: posts whose container is still processing — poll and publish once
