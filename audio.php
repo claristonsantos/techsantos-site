@@ -19,12 +19,24 @@ if (!is_file($path)) {
     exit;
 }
 
+// Só o player da área do aluno pode pedir o arquivo: o navegador marca
+// requisições do <audio> com Sec-Fetch-Dest: audio. Abrir a URL direto na aba
+// ("document") ou baixar por link/fetch ("empty") é recusado. Navegador que
+// não manda o cabeçalho passa (sessão de aluno continua obrigatória).
+$dest = (string)($_SERVER['HTTP_SEC_FETCH_DEST'] ?? '');
+if ($dest !== '' && $dest !== 'audio') {
+    http_response_code(403);
+    exit;
+}
+
 $size = filesize($path);
 $start = 0;
 $end = $size - 1;
 
 header('Content-Type: audio/mpeg');
 header('Accept-Ranges: bytes');
+header('Content-Disposition: inline');
+header('X-Content-Type-Options: nosniff');
 header('Cache-Control: private, max-age=0, no-cache');
 
 // Suporte a Range é obrigatório aqui: sem ele, o player não consegue

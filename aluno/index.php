@@ -664,7 +664,7 @@ function renderLesson(id) {
     </div>
   ` : `
     <div class="player">
-      <video class="player-video" controls preload="metadata" playsinline>
+      <video class="player-video" controls controlslist="nodownload" disablepictureinpicture preload="metadata" playsinline>
         <source src="/video.php?id=${lesson.id}" type="video/mp4">
       </video>
       <div class="player-placeholder">
@@ -686,7 +686,7 @@ function renderLesson(id) {
       ${AUDIOS_DISPONIVEIS.includes(lesson.id) ? `
       <div class="podcast">
         <div class="podcast-head"><strong>🎧 Ouvir esta aula</strong><span>Modo podcast: a aula inteira narrada, para estudar no trânsito ou sem tela.</span></div>
-        <audio class="podcast-audio" controls preload="none" src="/audio.php?id=${lesson.id}"></audio>
+        <audio class="podcast-audio" controls controlslist="nodownload" preload="none" src="/audio.php?id=${lesson.id}"></audio>
         <div class="podcast-speed" role="group" aria-label="Velocidade">${[1, 1.25, 1.5, 2].map(v => `<button type="button" data-speed="${v}"${v === 1 ? ' class="on"' : ''}>${String(v).replace('.', ',')}x</button>`).join('')}</div>
       </div>` : ''}
       <div class="objectives">
@@ -789,6 +789,8 @@ function renderLesson(id) {
 
   const videoEl = main.querySelector('.player-video');
   const placeholderEl = main.querySelector('.player-placeholder');
+  // Sem menu de botão direito no player ("Salvar vídeo como...").
+  main.querySelectorAll('.player-video, .podcast-audio').forEach(el => el.addEventListener('contextmenu', e => e.preventDefault()));
   if (videoEl && placeholderEl) {
     videoEl.addEventListener('loadedmetadata', () => {
       videoEl.style.display = 'block';
