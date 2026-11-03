@@ -1,0 +1,580 @@
+{
+  "slug": "excel",
+  "nome": "Excel",
+  "ordem": 3,
+  "cor": "#33C481",
+  "descricao": "Fórmulas que resolvem o dia a dia: SE, SOMASES, PROCX, textos, datas e FILTRO.",
+  "contexto": "Excel em português (Microsoft 365), separador ponto e vírgula. Planilha Vendas: A Data, B Vendedor, C Código do produto, D Categoria, E Quantidade, F Valor. Tabela Produtos: Código, Produto, Preço.",
+  "nos": [
+    {
+      "id": "referencias",
+      "titulo": "Fórmulas e referências",
+      "resumo": "Relativa, absoluta e mista",
+      "teoria": [
+        "Toda fórmula começa com =. A2 é referência relativa: ao copiar ou arrastar, ela anda junto. $A$2 é absoluta: fica presa no lugar.",
+        "$A2 prende só a coluna; A$2 prende só a linha. Com o cursor na referência, F4 alterna entre os quatro tipos."
+      ],
+      "exemplo": "=F2*(1-$H$1)   ← valor menos o desconto fixo de H1",
+      "video": {
+        "curso": "excel",
+        "curso_nome": "Excel",
+        "licao": "xl-referencias"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "O desconto de todas as vendas está na célula H1 (ex.: 10%). Monte a fórmula da linha 2, que vai ser arrastada até o fim: valor com desconto.",
+          "pecas": [
+            "=F2*(",
+            "1-",
+            "$H$1",
+            ")"
+          ],
+          "extras": [
+            "H1"
+          ],
+          "explica": "=F2*(1-$H$1). O $ prende H1: ao arrastar, F2 vira F3, F4..., mas o desconto continua vindo de H1."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Você copia a fórmula =A2*B$1 da célula C2 e cola em D3. Como ela fica?",
+          "opcoes": [
+            "=B3*C$1",
+            "=A2*B$1",
+            "=B3*C$2",
+            "=A3*B$1"
+          ],
+          "correta": 0,
+          "explica": "Andou uma coluna e uma linha: A2 vira B3. Em B$1 a linha está presa, só a coluna anda: C$1."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que a tecla F4 faz com o cursor em cima de uma referência da fórmula?",
+          "opcoes": [
+            "Alterna entre A1, $A$1, A$1 e $A1",
+            "Recalcula a planilha",
+            "Repete a última fórmula",
+            "Mostra o resultado da fórmula"
+          ],
+          "correta": 0,
+          "explica": "F4 é o jeito rápido de colocar e tirar os cifrões enquanto edita."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual referência prende só a coluna, deixando a linha andar?",
+          "opcoes": [
+            "$A2",
+            "A$2",
+            "$A$2",
+            "A2"
+          ],
+          "correta": 0,
+          "explica": "O $ fica na frente do que é preso: $A prende a coluna A."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual o resultado desta fórmula?",
+          "codigo": "=2+3*4",
+          "opcoes": [
+            "14",
+            "20",
+            "9",
+            "24"
+          ],
+          "correta": 0,
+          "explica": "Multiplicação vem antes da soma: 3*4 = 12, mais 2 = 14. Para somar primeiro, use parênteses: =(2+3)*4."
+        }
+      ]
+    },
+    {
+      "id": "se",
+      "titulo": "SE e SEERRO",
+      "resumo": "Decisões dentro da fórmula",
+      "teoria": [
+        "=SE(teste; valor_se_verdadeiro; valor_se_falso). O teste é uma comparação, como F2>=1000. Texto vai entre aspas.",
+        "E(...) exige todas as condições; OU(...), pelo menos uma. SES testa várias faixas em ordem. SEERRO(fórmula; valor) troca qualquer erro (#DIV/0!, #N/D) por um valor seu."
+      ],
+      "exemplo": "=SE(F2>=1000; \"Grande\"; \"Pequena\")",
+      "video": {
+        "curso": "excel",
+        "curso_nome": "Excel",
+        "licao": "xl-funcao-se"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Na coluna G, mostre \"Meta batida\" quando o valor da venda (F2) for de pelo menos R$ 1.000, e \"Abaixo\" quando não for.",
+          "pecas": [
+            "=SE(",
+            "F2>=1000;",
+            "\"Meta batida\";",
+            "\"Abaixo\"",
+            ")"
+          ],
+          "extras": [
+            "F2=>1000;"
+          ],
+          "explica": "O operador é >= (maior ou igual), nesta ordem. Depois vem o que mostrar se for verdade e, por último, se for falso."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que a fórmula mostra quando E2 vale exatamente 10?",
+          "codigo": "=SE(E2>10; \"Atacado\"; \"Varejo\")",
+          "opcoes": [
+            "Varejo",
+            "Atacado",
+            "Erro",
+            "Nada"
+          ],
+          "correta": 0,
+          "explica": "O teste é \"maior que 10\". 10 não é maior que 10, então vale o valor se falso. Para incluir o 10, use >=."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "A fórmula =F2/E2 dá #DIV/0! quando a quantidade é zero. Como mostrar 0 no lugar do erro?",
+          "opcoes": [
+            "=SEERRO(F2/E2; 0)",
+            "=SE(F2/E2; 0)",
+            "=SEERRO(0; F2/E2)",
+            "=F2/E2+SEERRO"
+          ],
+          "correta": 0,
+          "explica": "SEERRO(o que calcular; o que mostrar se der erro)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Você precisa de três faixas: até 500 \"Baixa\", até 2000 \"Média\", acima disso \"Alta\". Qual fórmula funciona?",
+          "opcoes": [
+            "=SES(F2<=500; \"Baixa\"; F2<=2000; \"Média\"; VERDADEIRO; \"Alta\")",
+            "=SES(F2<=2000; \"Média\"; F2<=500; \"Baixa\"; VERDADEIRO; \"Alta\")",
+            "=SE(F2<=500; \"Baixa\"; \"Média\"; \"Alta\")",
+            "=SES(F2<=500; F2<=2000; \"Baixa\"; \"Média\"; \"Alta\")"
+          ],
+          "correta": 0,
+          "explica": "SES para no primeiro teste verdadeiro, então a ordem importa: com 2000 primeiro, uma venda de 300 viraria Média. VERDADEIRO no fim é o \"senão\"."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como marcar as vendas do Carlos que passaram de R$ 1.000?",
+          "opcoes": [
+            "=SE(E(B2=\"Carlos\"; F2>1000); \"Sim\"; \"Não\")",
+            "=SE(B2=\"Carlos\"; F2>1000; \"Sim\")",
+            "=SE(OU(B2=\"Carlos\"; F2>1000); \"Sim\"; \"Não\")",
+            "=E(SE(B2=\"Carlos\"); F2>1000)"
+          ],
+          "correta": 0,
+          "explica": "E(...) só é verdadeiro quando as duas condições são. OU marcaria todas as do Carlos e todas acima de 1000."
+        }
+      ]
+    },
+    {
+      "id": "somases",
+      "titulo": "SOMASES e CONT.SES",
+      "resumo": "Somar e contar com critérios",
+      "teoria": [
+        "SOMASES(intervalo_soma; intervalo_critério; critério; ...) soma só as linhas que passam em todos os critérios. O que vai ser somado vem primeiro.",
+        "CONT.SES conta linhas e MÉDIASES tira a média. Critério com comparação vai entre aspas: \">1000\". Usando uma célula: \">\"&H1."
+      ],
+      "exemplo": "=SOMASES(F:F; B:B; \"Carlos\")",
+      "video": {
+        "curso": "excel",
+        "curso_nome": "Excel",
+        "licao": "xl-agregacoes-condicionais"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Você tem uma loja e precisa saber quanto o vendedor Carlos vendeu no total.",
+          "pecas": [
+            "=SOMASES(",
+            "F:F;",
+            "B:B;",
+            "\"Carlos\"",
+            ")"
+          ],
+          "extras": [
+            "B2=\"Carlos\""
+          ],
+          "explica": "Primeiro o que somar (valor, coluna F), depois onde procurar (vendedor, coluna B) e o que procurar."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Quantas vendas passaram de R$ 1.000?",
+          "pecas": [
+            "=CONT.SES(",
+            "F:F;",
+            "\">1000\"",
+            ")"
+          ],
+          "extras": [
+            ">1000"
+          ],
+          "explica": "Critério com comparação vai entre aspas: \">1000\". Sem aspas o Excel não aceita a fórmula."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que esta fórmula soma?",
+          "codigo": "=SOMASES(F:F; D:D; \"Papelaria\"; B:B; \"Ana\")",
+          "opcoes": [
+            "O valor das vendas de Papelaria feitas pela Ana",
+            "Todas as vendas de Papelaria mais todas as da Ana",
+            "A quantidade vendida pela Ana",
+            "Quantas vendas a Ana fez em Papelaria"
+          ],
+          "correta": 0,
+          "explica": "Todos os critérios precisam bater ao mesmo tempo, e a soma é da coluna F (valor)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O nome do vendedor está na célula H1. Qual fórmula soma as vendas dele?",
+          "opcoes": [
+            "=SOMASES(F:F; B:B; H1)",
+            "=SOMASES(F:F; B:B; \"H1\")",
+            "=SOMASES(B:B; F:F; H1)",
+            "=SOMASES(F:F; H1; B:B)"
+          ],
+          "correta": 0,
+          "explica": "Com a célula, o critério muda sozinho quando você troca o nome em H1. Entre aspas, \"H1\" vira o texto H1."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual fórmula dá o ticket médio das vendas da categoria Papelaria?",
+          "opcoes": [
+            "=MÉDIASES(F:F; D:D; \"Papelaria\")",
+            "=MÉDIA(F:F; \"Papelaria\")",
+            "=SOMASES(F:F; D:D; \"Papelaria\")/2",
+            "=MÉDIASES(D:D; \"Papelaria\"; F:F)"
+          ],
+          "correta": 0,
+          "explica": "MÉDIASES segue a mesma ordem do SOMASES: primeiro a coluna da média, depois os pares de critério."
+        }
+      ]
+    },
+    {
+      "id": "procx",
+      "titulo": "PROCX",
+      "resumo": "Buscar dados em outra tabela",
+      "teoria": [
+        "PROCX(valor_procurado; onde_procurar; o_que_devolver; [se_não_encontrado]) acha o valor numa coluna e devolve o que está na mesma linha de outra coluna.",
+        "Por padrão a correspondência é exata, a busca funciona para qualquer lado (até à esquerda) e o 4º argumento evita o #N/D."
+      ],
+      "exemplo": "=PROCX(C2; Produtos[Código]; Produtos[Preço]; \"Não cadastrado\")",
+      "video": {
+        "curso": "excel",
+        "curso_nome": "Excel",
+        "licao": "xl-procx"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Na planilha de vendas, traga o preço do produto pelo código da coluna C, buscando na tabela Produtos.",
+          "pecas": [
+            "=PROCX(",
+            "C2;",
+            "Produtos[Código];",
+            "Produtos[Preço]",
+            ")"
+          ],
+          "extras": [
+            "C:C;"
+          ],
+          "explica": "O que procurar (o código da linha), onde procurar (os códigos da tabela) e o que devolver (o preço)."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Traga o nome do produto e, se o código não existir, mostre \"Não cadastrado\".",
+          "pecas": [
+            "=PROCX(",
+            "C2;",
+            "Produtos[Código];",
+            "Produtos[Produto];",
+            "\"Não cadastrado\"",
+            ")"
+          ],
+          "extras": [
+            "FALSO"
+          ],
+          "explica": "O 4º argumento é o que aparece quando não acha. Sem ele, aparece #N/D."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que o PROCX mostra quando não encontra o código e não tem o 4º argumento?",
+          "opcoes": [
+            "#N/D",
+            "0",
+            "Uma célula vazia",
+            "#VALOR!"
+          ],
+          "correta": 0,
+          "explica": "#N/D quer dizer \"não disponível\": o valor procurado não existe na coluna de busca."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual a vantagem do PROCX sobre o PROCV?",
+          "opcoes": [
+            "Busca para a esquerda e não depende do número da coluna",
+            "É a única que acha valores exatos",
+            "Funciona sem tabela",
+            "Só ele aceita texto"
+          ],
+          "correta": 0,
+          "explica": "No PROCV você conta colunas (3, 4...) e a busca é sempre na primeira; inserir uma coluna quebra a fórmula."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Nesta fórmula antiga, o que significa o 3?",
+          "codigo": "=PROCV(C2; Produtos; 3; FALSO)",
+          "opcoes": [
+            "Devolver a 3ª coluna da tabela Produtos",
+            "Procurar nas 3 primeiras linhas",
+            "Aceitar até 3 erros",
+            "Arredondar para 3 casas"
+          ],
+          "correta": 0,
+          "explica": "PROCV(o que procurar; tabela; número da coluna a devolver; FALSO para exata)."
+        }
+      ]
+    },
+    {
+      "id": "texto-data",
+      "titulo": "Textos e datas",
+      "resumo": "Extrair, limpar, juntar e calcular datas",
+      "teoria": [
+        "ESQUERDA(texto; n), DIREITA(texto; n) e EXT.TEXTO(texto; início; n) tiram pedaços de um texto. ARRUMAR tira os espaços sobrando e & junta textos.",
+        "Data no Excel é um número, então dá para somar dias. ANO, MÊS e DIA pegam partes da data; HOJE() é a data de hoje; FIMMÊS(data; 0) é o último dia do mês."
+      ],
+      "exemplo": "=ESQUERDA(C2; 3)   ← \"PAP-0042\" vira \"PAP\"",
+      "video": {
+        "curso": "excel",
+        "curso_nome": "Excel",
+        "licao": "xl-texto-extrair"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Os códigos são como \"PAP-0042\". Pegue só os 4 números do final.",
+          "pecas": [
+            "=DIREITA(",
+            "C2;",
+            "4",
+            ")"
+          ],
+          "extras": [
+            "ESQUERDA("
+          ],
+          "explica": "DIREITA conta a partir do fim do texto: os 4 últimos caracteres são 0042."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Mostre o último dia do mês de cada venda (data em A2), para o vencimento.",
+          "pecas": [
+            "=FIMMÊS(",
+            "A2;",
+            "0",
+            ")"
+          ],
+          "extras": [
+            "1"
+          ],
+          "explica": "FIMMÊS(data; 0) é o fim do próprio mês; com 1 seria o fim do mês seguinte."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual o resultado de =ANO(A2) quando A2 tem 15/03/2026?",
+          "opcoes": [
+            "2026",
+            "15",
+            "3",
+            "15/03/2026"
+          ],
+          "correta": 0,
+          "explica": "ANO devolve só o ano. MÊS daria 3 e DIA daria 15."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como mostrar o vendedor (B2) e a categoria (D2) assim: \"Ana - Papelaria\"?",
+          "opcoes": [
+            "=B2&\" - \"&D2",
+            "=B2+\" - \"+D2",
+            "=B2&D2&\" - \"",
+            "=JUNTAR(B2; D2)"
+          ],
+          "correta": 0,
+          "explica": "& junta textos; o traço com espaços vai entre aspas, no meio."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O nome veio com espaços sobrando: \"  Ana   Souza \". Qual função deixa \"Ana Souza\"?",
+          "opcoes": [
+            "ARRUMAR",
+            "LIMPAR",
+            "SUBSTITUIR",
+            "ESQUERDA"
+          ],
+          "correta": 0,
+          "explica": "ARRUMAR tira os espaços do começo e do fim e deixa só um entre as palavras. LIMPAR remove caracteres invisíveis, não espaços."
+        }
+      ]
+    },
+    {
+      "id": "filtro",
+      "titulo": "FILTRO e ÚNICO",
+      "resumo": "Fórmulas que devolvem tabelas",
+      "teoria": [
+        "Fórmulas de matriz dinâmica devolvem vários resultados, que se espalham pelas células vizinhas. FILTRO(matriz; incluir; [se_vazio]) traz as linhas que passam no teste.",
+        "ÚNICO tira os repetidos e CLASSIFICAR ordena. Dá para encaixar uma na outra. Duas condições ao mesmo tempo se escrevem multiplicando: (teste1)*(teste2)."
+      ],
+      "exemplo": "=FILTRO(A2:F500; B2:B500=\"Carlos\"; \"Nada encontrado\")",
+      "video": {
+        "curso": "excel",
+        "curso_nome": "Excel",
+        "licao": "xl-matrizes-dinamicas"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Traga todas as linhas de venda do Carlos num relatório que se atualiza sozinho.",
+          "pecas": [
+            "=FILTRO(",
+            "A2:F500;",
+            "B2:B500=\"Carlos\";",
+            "\"Nada encontrado\"",
+            ")"
+          ],
+          "extras": [
+            "B:B;"
+          ],
+          "explica": "O que devolver (a tabela toda), o teste (vendedor igual a Carlos) e o que mostrar se não houver nada."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Crie a lista de vendedores sem repetir, em ordem alfabética.",
+          "pecas": [
+            "=CLASSIFICAR(",
+            "ÚNICO(",
+            "B2:B500",
+            ")",
+            ")"
+          ],
+          "extras": [
+            "FILTRO("
+          ],
+          "explica": "Primeiro o ÚNICO tira os repetidos; o CLASSIFICAR, por fora, ordena o resultado."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que significa o erro #DESPEJAR!?",
+          "opcoes": [
+            "Tem algo ocupando as células onde o resultado ia se espalhar",
+            "A fórmula tem um parêntese a mais",
+            "O FILTRO não achou nada",
+            "A planilha está protegida"
+          ],
+          "correta": 0,
+          "explica": "Libere as células abaixo e ao lado da fórmula e o resultado aparece."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Para filtrar as vendas do Carlos acima de R$ 1.000, qual é o 2º argumento do FILTRO?",
+          "opcoes": [
+            "(B2:B500=\"Carlos\")*(F2:F500>1000)",
+            "E(B2:B500=\"Carlos\"; F2:F500>1000)",
+            "B2:B500=\"Carlos\"; F2:F500>1000",
+            "SE(B2:B500=\"Carlos\"; F2:F500>1000)"
+          ],
+          "correta": 0,
+          "explica": "Multiplicar os testes funciona como \"e\" linha a linha. A função E resume tudo num único VERDADEIRO ou FALSO e não serve aqui."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que =ÚNICO(D2:D500) devolve?",
+          "opcoes": [
+            "A lista das categorias, cada uma uma vez só",
+            "Quantas categorias existem",
+            "Só as categorias que aparecem uma única vez",
+            "A primeira categoria"
+          ],
+          "correta": 0,
+          "explica": "ÚNICO tira os repetidos. Para contar, envolva com CONT.VALORES."
+        }
+      ]
+    }
+  ],
+  "nivelamento": [
+    {
+      "no": "referencias",
+      "tipo": "escolha",
+      "pergunta": "Qual referência continua apontando para H1 quando a fórmula é arrastada?",
+      "opcoes": [
+        "$H$1",
+        "H1",
+        "H$",
+        "#H1"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "se",
+      "tipo": "escolha",
+      "pergunta": "Qual fórmula mostra \"Sim\" para valores acima de 1000 e \"Não\" para o resto?",
+      "opcoes": [
+        "=SE(F2>1000; \"Sim\"; \"Não\")",
+        "=SE(\"Sim\"; F2>1000; \"Não\")",
+        "=SE(F2>1000; \"Sim\")\"Não\"",
+        "=SEERRO(F2>1000; \"Sim\")"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "somases",
+      "tipo": "ordenar",
+      "cenario": "Some o valor (coluna F) das vendas da categoria Papelaria (coluna D).",
+      "pecas": [
+        "=SOMASES(",
+        "F:F;",
+        "D:D;",
+        "\"Papelaria\"",
+        ")"
+      ],
+      "extras": [
+        "SOMA("
+      ]
+    },
+    {
+      "no": "procx",
+      "tipo": "escolha",
+      "pergunta": "Qual fórmula busca o preço do código de C2 na tabela Produtos?",
+      "opcoes": [
+        "=PROCX(C2; Produtos[Código]; Produtos[Preço])",
+        "=PROCX(Produtos[Preço]; C2; Produtos[Código])",
+        "=PROCX(C2; Produtos[Preço]; Produtos[Código])",
+        "=PROCX(Produtos; C2; 3)"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "texto-data",
+      "tipo": "escolha",
+      "pergunta": "Qual fórmula pega as 3 primeiras letras de \"PAP-0042\" (em C2)?",
+      "opcoes": [
+        "=ESQUERDA(C2; 3)",
+        "=DIREITA(C2; 3)",
+        "=EXT.TEXTO(C2; 3)",
+        "=ESQUERDA(3; C2)"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "filtro",
+      "tipo": "escolha",
+      "pergunta": "Qual fórmula traz só as linhas do Carlos?",
+      "opcoes": [
+        "=FILTRO(A2:F500; B2:B500=\"Carlos\")",
+        "=FILTRO(B2:B500=\"Carlos\"; A2:F500)",
+        "=ÚNICO(A2:F500; \"Carlos\")",
+        "=PROCX(\"Carlos\"; A2:F500)"
+      ],
+      "correta": 0
+    }
+  ]
+}

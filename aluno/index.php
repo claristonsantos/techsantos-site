@@ -390,7 +390,8 @@ if ($temConteudo) {
       </select>
     </label>
     <?php endif; ?>
-    <span class="who">Olá, <?= htmlspecialchars(explode(' ', $aluno['nome'])[0], ENT_QUOTES) ?></span>
+    <a class="btn btn-ghost on-light" href="/trilhas/">Trilhas</a>
+    <span class="who">Olá,<?= htmlspecialchars(explode(' ', $aluno['nome'])[0], ENT_QUOTES) ?></span>
     <a class="btn btn-ghost on-light" href="/logout.php">Sair</a>
   </div>
 </div>

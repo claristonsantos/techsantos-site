@@ -113,6 +113,7 @@
 .tr-banco { display: flex; flex-wrap: wrap; gap: .5rem; }
 .tr-peca { font-family: 'Plex Mono', ui-monospace, monospace; font-size: .84rem; padding: .6rem .8rem; }
 .tr-peca.usada { visibility: hidden; }
+.tr-tx { white-space: pre-wrap; } /* mantém o recuo das linhas de Python e VBA */
 .tr-peca.na-resposta { display: flex; gap: .6rem; align-items: baseline; width: 100%; }
 .tr-linha { color: var(--ink-faint); font-size: .72rem; min-width: 1.2em; }
 

@@ -70,7 +70,7 @@
         ${S.trilhas.map((t) => {
           const f = feitos(t), tot = t.nos.length;
           return `<a class="tr-card" href="#${t.slug}" style="--cor:${esc(t.cor)}">
-            <span class="tr-card-sigla">${esc(t.nome)}</span>
+            <span class="tr-card-sigla">${esc(t.sigla || t.nome)}</span>
             <span class="tr-card-txt"><b>${esc(t.nome)}</b><small>${esc(t.descricao)}</small></span>
             <span class="tr-card-prog"><span class="tr-bar"><span style="width:${Math.round((f / tot) * 100)}%"></span></span><small>${f}/${tot} etapas</small></span>
           </a>`;
@@ -274,11 +274,11 @@
 
     function desenhar() {
       mont.innerHTML = resposta.length
-        ? resposta.map((p, i) => `<button type="button" class="tr-peca na-resposta" data-pos="${i}"><span class="tr-linha">${i + 1}</span>${esc(p.txt)}</button>`).join('')
-        : '<span class="tr-vazio">Sua consulta aparece aqui</span>';
+        ? resposta.map((p, i) => `<button type="button" class="tr-peca na-resposta" data-pos="${i}"><span class="tr-linha">${i + 1}</span><span class="tr-tx">${esc(p.txt)}</span></button>`).join('')
+        : '<span class="tr-vazio">Seu código aparece aqui</span>';
       bancoEl.innerHTML = banco.map((p) => {
         const usada = resposta.includes(p);
-        return `<button type="button" class="tr-peca${usada ? ' usada' : ''}" data-id="${p.id}"${usada ? ' disabled aria-hidden="true"' : ''}>${esc(p.txt)}</button>`;
+        return `<button type="button" class="tr-peca${usada ? ' usada' : ''}" data-id="${p.id}"${usada ? ' disabled aria-hidden="true"' : ''}><span class="tr-tx">${esc(p.txt)}</span></button>`;
       }).join('');
       ok.disabled = resposta.length === 0;
     }

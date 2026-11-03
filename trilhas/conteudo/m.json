@@ -1,0 +1,569 @@
+{
+  "slug": "m",
+  "nome": "Linguagem M",
+  "sigla": "M",
+  "ordem": 5,
+  "cor": "#FB923C",
+  "descricao": "O código por trás do Power Query: etapas, filtros, colunas, agrupar e mesclar.",
+  "contexto": "Power Query (Power BI ou Excel). A consulta Fonte já tem as colunas Data, Vendedor, Cod, Produto, Quantidade, Preço e Valor. A consulta Produtos tem Cod e Categoria.",
+  "nos": [
+    {
+      "id": "let-in",
+      "titulo": "let ... in",
+      "resumo": "Como uma consulta é montada",
+      "teoria": [
+        "Toda consulta em M é um let ... in. Cada linha do let é uma etapa com nome, que normalmente usa a etapa anterior. O in diz qual etapa é o resultado.",
+        "As etapas são separadas por vírgula, e a última antes do in não leva vírgula. Nomes com espaço são escritos assim: #\"Tipo Alterado\". O M diferencia maiúsculas de minúsculas."
+      ],
+      "exemplo": "let\n    Fonte = Csv.Document(File.Contents(\"C:\\dados\\vendas.csv\")),\n    Cabecalhos = Table.PromoteHeaders(Fonte)\nin\n    Cabecalhos",
+      "video": {
+        "curso": "power-bi",
+        "curso_nome": "Power BI",
+        "licao": "intro-power-query"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Monte a consulta: leia o CSV, promova a primeira linha a cabeçalho e entregue esse resultado.",
+          "pecas": [
+            "let",
+            "    Fonte = Csv.Document(File.Contents(\"C:\\dados\\vendas.csv\")),",
+            "    Cabecalhos = Table.PromoteHeaders(Fonte)",
+            "in",
+            "    Cabecalhos"
+          ],
+          "extras": [
+            "    Cabecalhos = Table.PromoteHeaders(Fonte),"
+          ],
+          "explica": "A última etapa antes do in não leva vírgula. Depois do in vem o nome da etapa que a consulta entrega."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que esta consulta devolve?",
+          "codigo": "let\n    A = 10,\n    B = A * 2\nin\n    A",
+          "opcoes": [
+            "10, porque o in aponta para A",
+            "20",
+            "Erro",
+            "10 e 20"
+          ],
+          "correta": 0,
+          "explica": "O resultado é sempre o que está depois do in, mesmo que existam etapas depois dela."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Por que esta consulta dá erro?",
+          "codigo": "let\n    Fonte = Excel.Workbook(File.Contents(\"C:\\dados\\vendas.xlsx\")),\n    Vendas = Fonte{0}[Data],\nin\n    Vendas",
+          "opcoes": [
+            "Vírgula depois da última etapa antes do in",
+            "Falta ponto e vírgula",
+            "Fonte não pode ser nome de etapa",
+            "Falta o end"
+          ],
+          "correta": 0,
+          "explica": "Vírgula separa etapas. Depois da última não vem outra etapa, então não pode ter vírgula."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como se escreve no código o nome da etapa Tipo Alterado, que tem espaço?",
+          "opcoes": [
+            "#\"Tipo Alterado\"",
+            "[Tipo Alterado]",
+            "'Tipo Alterado'",
+            "Tipo_Alterado"
+          ],
+          "correta": 0,
+          "explica": "É o padrão que o Power Query usa quando você clica nos botões e ele gera as etapas."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O M diferencia maiúsculas de minúsculas?",
+          "opcoes": [
+            "Sim: Table.SelectRows funciona e table.selectrows dá erro",
+            "Não, tanto faz",
+            "Só nos nomes de coluna",
+            "Só no Excel"
+          ],
+          "correta": 0,
+          "explica": "Funções, etapas e colunas precisam ser escritas exatamente como foram definidas."
+        }
+      ]
+    },
+    {
+      "id": "filtrar",
+      "titulo": "Filtrar e ordenar",
+      "resumo": "Table.SelectRows e Table.Sort",
+      "teoria": [
+        "Table.SelectRows(tabela, each condição) mantém só as linhas em que a condição é verdadeira. each quer dizer \"para cada linha\" e [Coluna] lê a coluna dessa linha.",
+        "Junte condições com and e or (minúsculos). Igualdade usa um = só. Table.Sort ordena: Order.Ascending ou Order.Descending."
+      ],
+      "exemplo": "Filtrado = Table.SelectRows(Fonte, each [Vendedor] = \"Carlos\" and [Valor] > 1000)",
+      "video": {
+        "curso": "power-bi",
+        "curso_nome": "Power BI",
+        "licao": "classificar-filtrar"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Mantenha só as vendas do Carlos.",
+          "pecas": [
+            "Filtrado = Table.SelectRows(",
+            "Fonte,",
+            "each [Vendedor] = \"Carlos\"",
+            ")"
+          ],
+          "extras": [
+            "each [Vendedor] == \"Carlos\""
+          ],
+          "explica": "Primeiro a tabela de onde vêm as linhas, depois a condição. No M a igualdade é = (um só)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual condição mantém só as vendas de 2026?",
+          "opcoes": [
+            "each Date.Year([Data]) = 2026",
+            "each [Data] = 2026",
+            "each YEAR([Data]) = 2026",
+            "each [Data].Year == 2026"
+          ],
+          "correta": 0,
+          "explica": "Date.Year tira o ano de uma data. YEAR é do Excel e do DAX, não do M."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que significa each [Valor] > 1000?",
+          "opcoes": [
+            "Para cada linha, o Valor dela é maior que 1000",
+            "A soma de Valor passa de 1000",
+            "Existem mais de 1000 linhas",
+            "A coluna Valor tem 1000 itens"
+          ],
+          "correta": 0,
+          "explica": "each cria uma função que roda linha a linha; [Valor] é a coluna daquela linha."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual condição pega as vendas do Carlos ou da Ana?",
+          "opcoes": [
+            "each [Vendedor] = \"Carlos\" or [Vendedor] = \"Ana\"",
+            "each [Vendedor] = \"Carlos\" or \"Ana\"",
+            "each [Vendedor] = \"Carlos\" || \"Ana\"",
+            "each [Vendedor] IN (\"Carlos\", \"Ana\")"
+          ],
+          "correta": 0,
+          "explica": "Cada lado do or precisa ser uma comparação completa."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual etapa ordena do maior Valor para o menor?",
+          "opcoes": [
+            "Table.Sort(Filtrado, {{\"Valor\", Order.Descending}})",
+            "Table.Sort(Filtrado, \"Valor\", DESC)",
+            "Table.OrderBy(Filtrado, [Valor])",
+            "Table.Sort(Filtrado, {{\"Valor\", Order.Ascending}})"
+          ],
+          "correta": 0,
+          "explica": "A lista de ordenação tem pares {coluna, ordem}, por isso as chaves duplas."
+        }
+      ]
+    },
+    {
+      "id": "colunas",
+      "titulo": "Colunas e tipos",
+      "resumo": "Table.AddColumn e tipos de dados",
+      "teoria": [
+        "Table.AddColumn(tabela, \"Nome\", each fórmula) cria uma coluna calculada linha a linha. O tipo pode ir no 4º argumento: type number.",
+        "Table.TransformColumnTypes muda tipos, Table.RenameColumns renomeia e Table.RemoveColumns remove. Texto se junta com &."
+      ],
+      "exemplo": "ComTotal = Table.AddColumn(Fonte, \"Total\", each [Quantidade] * [Preço], type number)",
+      "video": {
+        "curso": "power-bi",
+        "curso_nome": "Power BI",
+        "licao": "colunas-personalizadas"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Crie a coluna \"Total\" com quantidade vezes preço, do tipo número.",
+          "pecas": [
+            "ComTotal = Table.AddColumn(",
+            "Fonte,",
+            "\"Total\",",
+            "each [Quantidade] * [Preço],",
+            "type number",
+            ")"
+          ],
+          "extras": [
+            "each Quantidade * Preço,"
+          ],
+          "explica": "Tabela, nome da coluna, fórmula (com as colunas entre colchetes) e, por último, o tipo."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como gerar o texto \"Carlos - Caneta\" juntando Vendedor e Produto?",
+          "opcoes": [
+            "each [Vendedor] & \" - \" & [Produto]",
+            "each [Vendedor] + \" - \" + [Produto]",
+            "each CONCAT([Vendedor], [Produto])",
+            "each [Vendedor] \" - \" [Produto]"
+          ],
+          "correta": 0,
+          "explica": "No M, & junta textos. O + só soma números."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual etapa muda a coluna Valor para número decimal?",
+          "opcoes": [
+            "Table.TransformColumnTypes(Fonte, {{\"Valor\", type number}})",
+            "Table.Type(Fonte, \"Valor\", number)",
+            "Number.From(Fonte)",
+            "Table.AddColumn(Fonte, \"Valor\", type number)"
+          ],
+          "correta": 0,
+          "explica": "TransformColumnTypes recebe pares {coluna, tipo}, por isso as chaves duplas."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "A coluna Quantidade veio como texto. O que acontece com each [Quantidade] * [Preço]?",
+          "opcoes": [
+            "Erro: não dá para multiplicar texto; mude o tipo antes",
+            "Funciona normalmente",
+            "Junta os dois textos",
+            "Dá zero"
+          ],
+          "correta": 0,
+          "explica": "O M não converte sozinho. Ajuste o tipo da coluna antes da etapa da conta."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual etapa remove a coluna Obs?",
+          "opcoes": [
+            "Table.RemoveColumns(Fonte, {\"Obs\"})",
+            "Table.DeleteColumn(\"Obs\")",
+            "Table.SelectColumns(Fonte, {\"Obs\"})",
+            "Fonte - [Obs]"
+          ],
+          "correta": 0,
+          "explica": "SelectColumns faz o contrário: mantém só as colunas da lista."
+        }
+      ]
+    },
+    {
+      "id": "if",
+      "titulo": "if then else",
+      "resumo": "Condições nas colunas",
+      "teoria": [
+        "Em M a condição é if ... then ... else ..., tudo em minúsculas, e o else é obrigatório.",
+        "Para várias faixas, encadeie: if ... then ... else if ... then ... else .... Para evitar erro numa conta, use try ... otherwise."
+      ],
+      "exemplo": "Faixa = Table.AddColumn(Fonte, \"Faixa\", each if [Valor] >= 1000 then \"Grande\" else \"Normal\")",
+      "video": {
+        "curso": "power-bi",
+        "curso_nome": "Power BI",
+        "licao": "formula-if"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Crie a coluna \"Faixa\": \"Grande\" para valor de 1000 ou mais, senão \"Normal\".",
+          "pecas": [
+            "Faixa = Table.AddColumn(Fonte, \"Faixa\",",
+            "each if [Valor] >= 1000",
+            "then \"Grande\"",
+            "else \"Normal\"",
+            ")"
+          ],
+          "extras": [
+            "IF([Valor] >= 1000,"
+          ],
+          "explica": "IF( ) com parênteses é do Excel. No M é if ... then ... else, em minúsculas."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que falta nesta expressão?",
+          "codigo": "each if [Valor] > 1000 then \"Grande\"",
+          "opcoes": [
+            "O else, que é obrigatório no M",
+            "O end if",
+            "Parênteses no if",
+            "Nada, ela funciona"
+          ],
+          "correta": 0,
+          "explica": "Sem o else o Power Query mostra erro de sintaxe."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Três faixas: até 500 \"Baixa\", até 2000 \"Média\", acima \"Alta\". Qual expressão?",
+          "opcoes": [
+            "each if [Valor] <= 500 then \"Baixa\" else if [Valor] <= 2000 then \"Média\" else \"Alta\"",
+            "each if [Valor] <= 2000 then \"Média\" else if [Valor] <= 500 then \"Baixa\" else \"Alta\"",
+            "each if [Valor] <= 500 then \"Baixa\", [Valor] <= 2000 then \"Média\", \"Alta\"",
+            "each if [Valor] <= 500 then \"Baixa\" elseif [Valor] <= 2000 then \"Média\""
+          ],
+          "correta": 0,
+          "explica": "Os testes rodam em ordem, então a menor faixa vem primeiro. E é else if, separado."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual condição testa vendas do Carlos acima de 1000?",
+          "opcoes": [
+            "if [Vendedor] = \"Carlos\" and [Valor] > 1000 then",
+            "if [Vendedor] = \"Carlos\" && [Valor] > 1000 then",
+            "if AND([Vendedor] = \"Carlos\", [Valor] > 1000) then",
+            "if [Vendedor] == \"Carlos\" and [Valor] > 1000 then"
+          ],
+          "correta": 0,
+          "explica": "and em minúsculas e igualdade com um = só."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como calcular o preço médio sem quebrar quando a quantidade vem com erro?",
+          "opcoes": [
+            "each try [Valor] / [Quantidade] otherwise 0",
+            "each IFERROR([Valor] / [Quantidade], 0)",
+            "each [Valor] / [Quantidade] else 0",
+            "each catch [Valor] / [Quantidade]"
+          ],
+          "correta": 0,
+          "explica": "try tenta a conta; se der erro, usa o valor do otherwise."
+        }
+      ]
+    },
+    {
+      "id": "agrupar",
+      "titulo": "Agrupar",
+      "resumo": "Table.Group",
+      "teoria": [
+        "Table.Group(tabela, {colunas do grupo}, {{\"Nome\", each função, tipo}}) faz o mesmo que o botão Agrupar por.",
+        "Dentro do each, a tabela é só a das linhas daquele grupo: List.Sum([Valor]) soma a coluna Valor do grupo e Table.RowCount(_) conta as linhas dele."
+      ],
+      "exemplo": "PorVendedor = Table.Group(Fonte, {\"Vendedor\"}, {{\"Total\", each List.Sum([Valor]), type number}})",
+      "video": {
+        "curso": "power-bi",
+        "curso_nome": "Power BI",
+        "licao": "agrupar-por"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Você tem uma loja e precisa do total vendido por vendedor.",
+          "pecas": [
+            "PorVendedor = Table.Group(",
+            "Fonte,",
+            "{\"Vendedor\"},",
+            "{{\"Total\", each List.Sum([Valor]), type number}}",
+            ")"
+          ],
+          "extras": [
+            "{\"Total\", SUM([Valor])}"
+          ],
+          "explica": "Tabela, colunas de agrupamento e a lista de agregações. SUM é do Excel e do DAX; no M é List.Sum."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual agregação conta as vendas de cada vendedor?",
+          "opcoes": [
+            "{{\"Qtd\", each Table.RowCount(_), Int64.Type}}",
+            "{{\"Qtd\", each Count([Valor])}}",
+            "{{\"Qtd\", COUNTROWS(_)}}",
+            "{{\"Qtd\", each List.Sum(_)}}"
+          ],
+          "correta": 0,
+          "explica": "_ é a tabela do grupo; Table.RowCount conta as linhas dela."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Dentro do Table.Group, o que é [Valor] em each List.Sum([Valor])?",
+          "opcoes": [
+            "A coluna Valor só das linhas daquele grupo",
+            "A coluna Valor da tabela inteira",
+            "O valor da primeira linha",
+            "Uma medida do Power BI"
+          ],
+          "correta": 0,
+          "explica": "Por isso cada vendedor recebe a sua própria soma."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Você quer o total por vendedor e por ano (com uma coluna Ano). O que muda?",
+          "opcoes": [
+            "A lista do grupo vira {\"Vendedor\", \"Ano\"}",
+            "Precisa de dois Table.Group",
+            "Coloca o Ano dentro do List.Sum",
+            "Não é possível no M"
+          ],
+          "correta": 0,
+          "explica": "A segunda lista do Table.Group aceita várias colunas."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual etapa tira as linhas duplicadas?",
+          "opcoes": [
+            "Table.Distinct(Fonte)",
+            "Table.Unique(Fonte)",
+            "Table.RemoveDuplicates(Fonte)",
+            "List.Distinct(Fonte)"
+          ],
+          "correta": 0,
+          "explica": "É o que o botão Remover Duplicatas gera."
+        }
+      ]
+    },
+    {
+      "id": "mesclar",
+      "titulo": "Mesclar e acrescentar",
+      "resumo": "O PROCV do Power Query",
+      "teoria": [
+        "Mesclar é o PROCV do Power Query: Table.NestedJoin(Fonte, {\"Cod\"}, Produtos, {\"Cod\"}, \"Produtos\", JoinKind.LeftOuter) cria uma coluna com a parte correspondente de Produtos.",
+        "Depois, Table.ExpandTableColumn abre as colunas que você quer. Acrescentar (empilhar tabelas com as mesmas colunas) é Table.Combine({Janeiro, Fevereiro})."
+      ],
+      "exemplo": "Mesclado = Table.NestedJoin(Fonte, {\"Cod\"}, Produtos, {\"Cod\"}, \"Produtos\", JoinKind.LeftOuter),\nExpandido = Table.ExpandTableColumn(Mesclado, \"Produtos\", {\"Categoria\"})",
+      "video": {
+        "curso": "power-bi",
+        "curso_nome": "Power BI",
+        "licao": "mesclar-consultas"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Traga a categoria da consulta Produtos para as vendas, pela coluna Cod, mantendo todas as vendas.",
+          "pecas": [
+            "Mesclado = Table.NestedJoin(",
+            "Fonte, {\"Cod\"},",
+            "Produtos, {\"Cod\"},",
+            "\"Produtos\",",
+            "JoinKind.LeftOuter",
+            ")"
+          ],
+          "extras": [
+            "JoinKind.Vlookup"
+          ],
+          "explica": "Primeiro a tabela da esquerda (vendas) e sua chave, depois a da direita e sua chave, o nome da nova coluna e o tipo de junção."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que JoinKind.LeftOuter mantém?",
+          "opcoes": [
+            "Todas as vendas, com ou sem produto correspondente",
+            "Só as vendas com produto cadastrado",
+            "Todos os produtos",
+            "Só os produtos sem venda"
+          ],
+          "correta": 0,
+          "explica": "Left = a tabela da esquerda inteira. Venda sem produto fica com a categoria vazia."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como empilhar as consultas Janeiro e Fevereiro, que têm as mesmas colunas?",
+          "opcoes": [
+            "Table.Combine({Janeiro, Fevereiro})",
+            "Table.NestedJoin(Janeiro, Fevereiro)",
+            "Janeiro & Fevereiro",
+            "Table.Group(Janeiro, Fevereiro)"
+          ],
+          "correta": 0,
+          "explica": "Combine é o Acrescentar consultas: junta as linhas."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Depois do NestedJoin aparece uma coluna com \"Table\" em cada linha. O que fazer?",
+          "opcoes": [
+            "Expandir com Table.ExpandTableColumn",
+            "Excluir a coluna, deu erro",
+            "Mudar o tipo para texto",
+            "Agrupar de novo"
+          ],
+          "correta": 0,
+          "explica": "Cada célula guarda as linhas de Produtos que bateram. Expandir escolhe quais colunas trazer."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual JoinKind traz só as vendas que têm produto cadastrado?",
+          "opcoes": [
+            "JoinKind.Inner",
+            "JoinKind.LeftOuter",
+            "JoinKind.FullOuter",
+            "JoinKind.LeftAnti"
+          ],
+          "correta": 0,
+          "explica": "Inner = só o que existe nas duas. LeftAnti traz o contrário: as vendas sem produto."
+        }
+      ]
+    }
+  ],
+  "nivelamento": [
+    {
+      "no": "let-in",
+      "tipo": "escolha",
+      "pergunta": "O que vem depois do in numa consulta?",
+      "opcoes": [
+        "O nome da etapa que é o resultado",
+        "A primeira etapa",
+        "O nome do arquivo",
+        "Uma vírgula"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "filtrar",
+      "tipo": "escolha",
+      "pergunta": "Qual etapa mantém só as vendas acima de 1000?",
+      "opcoes": [
+        "Table.SelectRows(Fonte, each [Valor] > 1000)",
+        "Table.SelectRows(Fonte, [Valor] > 1000)",
+        "Table.Filter(Fonte, Valor > 1000)",
+        "Table.SelectRows(each [Valor] > 1000, Fonte)"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "colunas",
+      "tipo": "escolha",
+      "pergunta": "Qual etapa cria a coluna Total?",
+      "opcoes": [
+        "Table.AddColumn(Fonte, \"Total\", each [Quantidade] * [Preço])",
+        "Table.AddColumn(\"Total\", Fonte, [Quantidade] * [Preço])",
+        "Table.NewColumn(Fonte, Total = Quantidade * Preço)",
+        "Table.AddColumn(Fonte, each [Quantidade] * [Preço], \"Total\")"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "if",
+      "tipo": "escolha",
+      "pergunta": "Qual expressão está correta em M?",
+      "opcoes": [
+        "each if [Valor] > 1000 then \"Grande\" else \"Normal\"",
+        "each IF([Valor] > 1000, \"Grande\", \"Normal\")",
+        "each if [Valor] > 1000 then \"Grande\"",
+        "each if [Valor] > 1000: \"Grande\" else: \"Normal\""
+      ],
+      "correta": 0
+    },
+    {
+      "no": "agrupar",
+      "tipo": "escolha",
+      "pergunta": "Qual função soma a coluna Valor dentro de um Table.Group?",
+      "opcoes": [
+        "List.Sum([Valor])",
+        "SUM([Valor])",
+        "Table.Sum(Valor)",
+        "[Valor].Sum()"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "mesclar",
+      "tipo": "escolha",
+      "pergunta": "Qual função faz o Mesclar consultas?",
+      "opcoes": [
+        "Table.NestedJoin",
+        "Table.Combine",
+        "Table.Group",
+        "Table.Append"
+      ],
+      "correta": 0
+    }
+  ]
+}

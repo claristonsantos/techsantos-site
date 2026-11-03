@@ -1,0 +1,463 @@
+{
+  "slug": "vba",
+  "nome": "VBA",
+  "ordem": 6,
+  "cor": "#A78BFA",
+  "descricao": "Macros no Excel: células, variáveis, decisões e laços para automatizar a planilha.",
+  "contexto": "Excel com a planilha Vendas: A Data, B Vendedor, C Produto, D Quantidade, E Valor. Os dados começam na linha 2; a linha 1 é o cabeçalho.",
+  "nos": [
+    {
+      "id": "sub",
+      "titulo": "Sub e MsgBox",
+      "resumo": "Sua primeira macro",
+      "teoria": [
+        "Macro é um Sub: começa com Sub Nome() e termina com End Sub. O código fica num Módulo do Editor do VBA (Alt+F11).",
+        "MsgBox mostra uma mensagem na tela. Comentários começam com apóstrofo. A pasta precisa ser salva como .xlsm para guardar as macros."
+      ],
+      "exemplo": "Sub Aviso()\n    ' mostra uma mensagem\n    MsgBox \"Relatório atualizado!\"\nEnd Sub",
+      "video": {
+        "curso": "excel",
+        "curso_nome": "Excel",
+        "licao": "xl-macros-gravar"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Crie a macro Aviso, que mostra a mensagem \"Fechamento concluído\".",
+          "pecas": [
+            "Sub Aviso()",
+            "    MsgBox \"Fechamento concluído\"",
+            "End Sub"
+          ],
+          "extras": [
+            "End Function"
+          ],
+          "explica": "Quem abre com Sub fecha com End Sub. End Function fecha funções, que começam com Function."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Em que formato salvar uma pasta de trabalho com macros?",
+          "opcoes": [
+            ".xlsm",
+            ".xlsx",
+            ".csv",
+            ".pdf"
+          ],
+          "correta": 0,
+          "explica": "No .xlsx o Excel descarta as macros ao salvar."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual atalho abre o Editor do VBA?",
+          "opcoes": [
+            "Alt+F11",
+            "Ctrl+F11",
+            "F5",
+            "Ctrl+M"
+          ],
+          "correta": 0,
+          "explica": "Dentro do editor, F5 executa a macro em que o cursor está."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como se escreve um comentário no VBA?",
+          "opcoes": [
+            "Começando com apóstrofo (')",
+            "Entre /* e */",
+            "Começando com #",
+            "Começando com //"
+          ],
+          "correta": 0,
+          "explica": "O VBA ignora tudo depois do apóstrofo naquela linha. Use para explicar o que a macro faz."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Por que gravar uma macro antes de escrever código?",
+          "opcoes": [
+            "O gravador gera o código das ações que você fez, um bom ponto de partida",
+            "Macro gravada é mais segura",
+            "Sem gravar não dá para editar",
+            "Gravar deixa a macro mais rápida"
+          ],
+          "correta": 0,
+          "explica": "Depois você limpa o código gravado no editor, tirando os Select e as rolagens de tela."
+        }
+      ]
+    },
+    {
+      "id": "range",
+      "titulo": "Range e Cells",
+      "resumo": "Ler e gravar células",
+      "teoria": [
+        "Range(\"A1\") é uma célula e Range(\"A1:E10\") um intervalo. Cells(linha, coluna) usa números: Cells(2, 5) é E2.",
+        ".Value lê ou grava o valor; .Font.Bold = True deixa em negrito. Worksheets(\"Vendas\") escolhe a planilha."
+      ],
+      "exemplo": "Worksheets(\"Vendas\").Range(\"G1\").Value = \"Comissão\"\nRange(\"G1\").Font.Bold = True",
+      "video": {
+        "curso": "excel",
+        "curso_nome": "Excel",
+        "licao": "xl-macros-editar"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Leia o valor de E2 e grave o dobro em F2.",
+          "pecas": [
+            "Sub Dobro()",
+            "    Dim v As Double",
+            "    v = Range(\"E2\").Value",
+            "    Range(\"F2\").Value = v * 2",
+            "End Sub"
+          ],
+          "extras": [
+            "    v = Range(E2).Value"
+          ],
+          "explica": "Primeiro declara, depois lê, depois grava. O endereço da célula vai entre aspas: Range(\"E2\")."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual célula é Cells(3, 2)?",
+          "opcoes": [
+            "B3",
+            "C2",
+            "C3",
+            "B2"
+          ],
+          "correta": 0,
+          "explica": "Cells(linha, coluna): linha 3, coluna 2 (B)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como gravar 100 na célula E5?",
+          "opcoes": [
+            "Range(\"E5\").Value = 100",
+            "Range(E5) = \"100\"",
+            "Cells(\"E5\").Value = 100",
+            "E5.Value = 100"
+          ],
+          "correta": 0,
+          "explica": "Com Cells seria Cells(5, 5).Value = 100."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que Range(\"A2:E500\").ClearContents faz?",
+          "opcoes": [
+            "Apaga os valores e mantém a formatação",
+            "Apaga valores e formatação",
+            "Exclui as linhas",
+            "Apaga só a formatação"
+          ],
+          "correta": 0,
+          "explica": "Para apagar tudo, inclusive formatos, use .Clear."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual linha deixa a célula A1 em negrito?",
+          "opcoes": [
+            "Range(\"A1\").Font.Bold = True",
+            "Range(\"A1\").Bold = True",
+            "Range(\"A1\").Font = Bold",
+            "Bold(Range(\"A1\"))"
+          ],
+          "correta": 0,
+          "explica": "Negrito é uma propriedade da fonte: .Font.Bold."
+        }
+      ]
+    },
+    {
+      "id": "variaveis",
+      "titulo": "Variáveis",
+      "resumo": "Dim e os tipos",
+      "teoria": [
+        "Dim cria a variável e diz o tipo: Dim total As Double. Tipos comuns: Long (inteiro), Double (decimal), String (texto) e Boolean.",
+        "Option Explicit no topo do módulo obriga a declarar tudo e pega erros de digitação no nome das variáveis. & junta textos."
+      ],
+      "exemplo": "Dim vendedor As String\nDim valor As Double\nvendedor = Range(\"B2\").Value\nvalor = Range(\"E2\").Value * 1.1\nMsgBox vendedor & \": \" & valor",
+      "video": null,
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Guarde o valor de E2 numa variável, aplique 10% de desconto e mostre numa mensagem.",
+          "pecas": [
+            "Dim valor As Double",
+            "valor = Range(\"E2\").Value",
+            "valor = valor * 0.9",
+            "MsgBox valor"
+          ],
+          "extras": [
+            "Dim valor = Double"
+          ],
+          "explica": "Declara com Dim ... As, lê a célula, faz a conta e mostra. O desconto é aplicado sobre o valor já lido."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual tipo usar para guardar o número da última linha, que pode passar de 50.000?",
+          "opcoes": [
+            "Long",
+            "Integer",
+            "String",
+            "Boolean"
+          ],
+          "correta": 0,
+          "explica": "Integer vai só até 32.767 e estoura. Para linhas, use sempre Long."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que o Option Explicit faz?",
+          "opcoes": [
+            "Obriga a declarar as variáveis com Dim",
+            "Mostra os erros em português",
+            "Deixa a macro mais rápida",
+            "Protege o código com senha"
+          ],
+          "correta": 0,
+          "explica": "Sem ele, um erro de digitação como totl cria uma variável nova vazia e o resultado sai errado sem aviso."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual declaração guarda o nome do vendedor?",
+          "opcoes": [
+            "Dim vendedor As String",
+            "Dim vendedor As Long",
+            "Dim vendedor = Text",
+            "String vendedor"
+          ],
+          "correta": 0,
+          "explica": "String é texto. Long e Double são números."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que a mensagem mostra?",
+          "codigo": "Dim nome As String\nnome = \"Ana\"\nMsgBox \"Olá, \" & nome",
+          "opcoes": [
+            "Olá, Ana",
+            "Olá, nome",
+            "Olá, & nome",
+            "Erro"
+          ],
+          "correta": 0,
+          "explica": "& junta o texto fixo com o conteúdo da variável. Entre aspas, nome seria só a palavra."
+        }
+      ]
+    },
+    {
+      "id": "if",
+      "titulo": "If Then Else",
+      "resumo": "Decisões na macro",
+      "teoria": [
+        "If condição Then ... ElseIf ... Else ... End If. Compare com =, <>, >, >=, <, <=; combine com And e Or.",
+        "No VBA o = serve tanto para gravar quanto para comparar: dentro do If ele compara. Um If de várias linhas sempre fecha com End If."
+      ],
+      "exemplo": "If Range(\"E2\").Value >= 1000 Then\n    Range(\"F2\").Value = \"Grande\"\nElse\n    Range(\"F2\").Value = \"Normal\"\nEnd If",
+      "video": null,
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Se o valor de E2 passar de 1000, escreva \"Bônus\" em F2; senão, deixe F2 vazia.",
+          "pecas": [
+            "If Range(\"E2\").Value > 1000 Then",
+            "    Range(\"F2\").Value = \"Bônus\"",
+            "Else",
+            "    Range(\"F2\").Value = \"\"",
+            "End If"
+          ],
+          "extras": [
+            "Fim Se"
+          ],
+          "explica": "If ... Then abre, Else separa o caminho contrário e End If fecha. As palavras do VBA são em inglês."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual o sinal de \"diferente\" no VBA?",
+          "opcoes": [
+            "<>",
+            "!=",
+            "=/=",
+            "><"
+          ],
+          "correta": 0,
+          "explica": "!= é de outras linguagens. No VBA: If Range(\"B2\").Value <> \"Carlos\" Then."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual linha testa vendedor Carlos E valor acima de 1000?",
+          "opcoes": [
+            "If Range(\"B2\").Value = \"Carlos\" And Range(\"E2\").Value > 1000 Then",
+            "If Range(\"B2\").Value = \"Carlos\" && Range(\"E2\").Value > 1000 Then",
+            "If Range(\"B2\").Value == \"Carlos\" And Range(\"E2\").Value > 1000 Then",
+            "If (Range(\"B2\").Value = \"Carlos\", Range(\"E2\").Value > 1000) Then"
+          ],
+          "correta": 0,
+          "explica": "And e Or por extenso; comparação com um = só."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual mensagem aparece?",
+          "codigo": "v = 500\nIf v > 1000 Then\n    MsgBox \"A\"\nElseIf v > 300 Then\n    MsgBox \"B\"\nElse\n    MsgBox \"C\"\nEnd If",
+          "opcoes": [
+            "B",
+            "A",
+            "C",
+            "A e B"
+          ],
+          "correta": 0,
+          "explica": "500 não passa de 1000; o ElseIf testa 500 > 300, que é verdade, mostra B e sai do If."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que está faltando?",
+          "codigo": "If Range(\"E2\").Value > 1000 Then\n    MsgBox \"Grande\"",
+          "opcoes": [
+            "O End If",
+            "O Else",
+            "Parênteses na condição",
+            "O End Sub dentro do If"
+          ],
+          "correta": 0,
+          "explica": "Um If com o comando na linha de baixo é um bloco e precisa de End If, senão aparece o erro \"Bloco If sem End If\"."
+        }
+      ]
+    },
+    {
+      "id": "for",
+      "titulo": "Laços For",
+      "resumo": "Percorrer as linhas da planilha",
+      "teoria": [
+        "For i = 2 To ultima ... Next i repete o bloco mudando o i a cada volta. Com Cells(i, 5) você lê a coluna E da linha i.",
+        "Para achar a última linha com dados: ultima = Cells(Rows.Count, 1).End(xlUp).Row. Assim a macro funciona com qualquer quantidade de vendas."
+      ],
+      "exemplo": "ultima = Cells(Rows.Count, 1).End(xlUp).Row\nFor i = 2 To ultima\n    Cells(i, 6).Value = Cells(i, 5).Value * 0.05\nNext i",
+      "video": null,
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Some a coluna E (valor) da linha 2 até a última linha e mostre o total. A variável total já está declarada como Double.",
+          "pecas": [
+            "ultima = Cells(Rows.Count, 1).End(xlUp).Row",
+            "For i = 2 To ultima",
+            "    total = total + Cells(i, 5).Value",
+            "Next i",
+            "MsgBox total"
+          ],
+          "extras": [
+            "For i = 1 To ultima"
+          ],
+          "explica": "Começa na linha 2 porque a 1 é o cabeçalho (texto): somar \"Valor\" daria erro de tipo. A mensagem vem depois do Next, uma vez só."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Escreva a comissão de 5% de cada venda na coluna F.",
+          "pecas": [
+            "For i = 2 To ultima",
+            "    Cells(i, 6).Value = Cells(i, 5).Value * 0.05",
+            "Next i"
+          ],
+          "extras": [
+            "    Cells(6, i).Value = Cells(5, i).Value * 0.05"
+          ],
+          "explica": "Cells(linha, coluna): a linha é o i, que muda; a coluna é fixa (6 = F, 5 = E)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Por que o For começa na linha 2?",
+          "opcoes": [
+            "A linha 1 é o cabeçalho",
+            "O VBA não aceita linha 1",
+            "Para pular a primeira venda",
+            "Porque o i começa em 2 sozinho"
+          ],
+          "correta": 0,
+          "explica": "O cabeçalho é texto; fazer conta com ele dá erro de tipo."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que Cells(Rows.Count, 1).End(xlUp).Row devolve?",
+          "opcoes": [
+            "O número da última linha preenchida da coluna A",
+            "O total de linhas da planilha",
+            "A primeira linha vazia",
+            "O valor da última célula"
+          ],
+          "correta": 0,
+          "explica": "Vai até o fim da planilha e sobe (xlUp) até a primeira célula com dados, como Ctrl+Seta para cima."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual o valor de total no final? (total começa em 0)",
+          "codigo": "For i = 1 To 3\n    total = total + i\nNext i\nMsgBox total",
+          "opcoes": [
+            "6",
+            "3",
+            "4",
+            "123"
+          ],
+          "correta": 0,
+          "explica": "Soma 1 + 2 + 3 = 6."
+        }
+      ]
+    }
+  ],
+  "nivelamento": [
+    {
+      "no": "sub",
+      "tipo": "escolha",
+      "pergunta": "Como termina uma macro que começa com Sub Relatorio()?",
+      "opcoes": [
+        "End Sub",
+        "End",
+        "End Macro",
+        "Next"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "range",
+      "tipo": "escolha",
+      "pergunta": "Qual linha grava \"OK\" na célula F2?",
+      "opcoes": [
+        "Range(\"F2\").Value = \"OK\"",
+        "Range(F2) = OK",
+        "Cells(\"F2\") = \"OK\"",
+        "F2.Value = \"OK\""
+      ],
+      "correta": 0
+    },
+    {
+      "no": "variaveis",
+      "tipo": "escolha",
+      "pergunta": "Qual linha declara uma variável de texto?",
+      "opcoes": [
+        "Dim nome As String",
+        "Dim nome = String",
+        "String nome",
+        "Var nome As Text"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "if",
+      "tipo": "escolha",
+      "pergunta": "Qual palavra fecha um bloco If de várias linhas?",
+      "opcoes": [
+        "End If",
+        "EndIf;",
+        "Fim",
+        "Next"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "for",
+      "tipo": "ordenar",
+      "cenario": "Percorra as vendas da linha 2 até a última, escrevendo a comissão na coluna F.",
+      "pecas": [
+        "For i = 2 To ultima",
+        "    Cells(i, 6).Value = Cells(i, 5).Value * 0.05",
+        "Next i"
+      ],
+      "extras": [
+        "Next ultima"
+      ]
+    }
+  ]
+}

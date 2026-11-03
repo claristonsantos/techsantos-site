@@ -1,0 +1,569 @@
+{
+  "slug": "python",
+  "nome": "Python",
+  "ordem": 4,
+  "cor": "#5FA8E8",
+  "descricao": "Do primeiro print ao groupby do pandas, com os dados de uma loja.",
+  "contexto": "Você trabalha numa loja. O arquivo vendas_2026.csv tem as colunas data, vendedor, produto, categoria, quantidade, valor e cliente_id. O recuo dos blocos é de 4 espaços.",
+  "nos": [
+    {
+      "id": "variaveis",
+      "titulo": "Variáveis e tipos",
+      "resumo": "Guardar valores e mostrar resultados",
+      "teoria": [
+        "Variável é um nome que guarda um valor: preco = 49.9. Os tipos básicos são int (inteiro), float (decimal), str (texto) e bool (True ou False).",
+        "f-string monta textos com valores: f\"Total: {total:.2f}\". input() sempre devolve texto; converta com int() ou float() antes de fazer conta."
+      ],
+      "exemplo": "preco = 49.9\ntotal = preco * 3\nprint(f\"Total: R$ {total:.2f}\")",
+      "video": {
+        "curso": "python",
+        "curso_nome": "Python",
+        "licao": "py-variaveis-tipos"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Calcule o total de 3 unidades de um produto de R$ 49,90 e mostre na tela.",
+          "pecas": [
+            "preco = 49.9",
+            "total = preco * 3",
+            "print(total)"
+          ],
+          "extras": [
+            "print(\"total\")"
+          ],
+          "explica": "Cada linha usa a anterior: preco tem que existir antes do total. print(\"total\") mostraria a palavra total, não o valor."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual o tipo de \"49.9\", com aspas?",
+          "opcoes": [
+            "str (texto)",
+            "float (decimal)",
+            "int (inteiro)",
+            "bool"
+          ],
+          "correta": 0,
+          "explica": "Entre aspas é sempre texto. float(\"49.9\") converte para número."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que aparece na tela?",
+          "codigo": "x = \"5\"\nprint(x * 2)",
+          "opcoes": [
+            "55",
+            "10",
+            "Erro",
+            "5 5"
+          ],
+          "correta": 0,
+          "explica": "x é o texto \"5\". Texto vezes 2 repete o texto: \"55\"."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Com total = 149.7, qual f-string mostra Total: R$ 149.70?",
+          "opcoes": [
+            "f\"Total: R$ {total:.2f}\"",
+            "\"Total: R$ {total:.2f}\"",
+            "f\"Total: R$ total:.2f\"",
+            "f\"Total: R$ {total}.2f\""
+          ],
+          "correta": 0,
+          "explica": "O f antes das aspas liga as chaves; :.2f formata com 2 casas decimais."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual o tipo do resultado de 10 / 2?",
+          "opcoes": [
+            "float (5.0)",
+            "int (5)",
+            "str",
+            "bool"
+          ],
+          "correta": 0,
+          "explica": "A barra / sempre devolve float. Para divisão inteira use //."
+        }
+      ]
+    },
+    {
+      "id": "decisoes",
+      "titulo": "if, elif e else",
+      "resumo": "O programa toma decisões",
+      "teoria": [
+        "if testa uma condição; elif testa outra se a primeira falhou; else pega o resto. A linha do if termina com dois-pontos e o bloco de dentro tem 4 espaços de recuo.",
+        "Compare com ==, !=, >, >=, <, <=. Combine condições com and, or e not."
+      ],
+      "exemplo": "if valor >= 1000:\n    print(\"Venda grande\")\nelse:\n    print(\"Venda normal\")",
+      "video": {
+        "curso": "python",
+        "curso_nome": "Python",
+        "licao": "py-if-else"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Classifique a venda: 1000 ou mais é \"Grande\", senão \"Normal\".",
+          "pecas": [
+            "if valor >= 1000:",
+            "    tipo = \"Grande\"",
+            "else:",
+            "    tipo = \"Normal\""
+          ],
+          "extras": [
+            "if valor >= 1000"
+          ],
+          "explica": "Sem os dois-pontos no fim do if o Python dá SyntaxError. O que fica dentro do if e do else vai recuado."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que aparece na tela?",
+          "codigo": "valor = 500\nif valor > 1000:\n    print(\"A\")\nelif valor > 300:\n    print(\"B\")\nelse:\n    print(\"C\")",
+          "opcoes": [
+            "B",
+            "A",
+            "C",
+            "B e C"
+          ],
+          "correta": 0,
+          "explica": "500 não é maior que 1000, então testa o elif: 500 > 300 é verdade, mostra B e para por ali."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual a diferença entre = e ==?",
+          "opcoes": [
+            "= guarda um valor; == compara dois valores",
+            "São iguais",
+            "== guarda; = compara",
+            "== só funciona com números"
+          ],
+          "correta": 0,
+          "explica": "if vendedor = \"Ana\" dá erro. O certo é if vendedor == \"Ana\":"
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual if pega as vendas da Ana acima de R$ 500?",
+          "opcoes": [
+            "if vendedor == \"Ana\" and valor > 500:",
+            "if vendedor == \"Ana\" or valor > 500:",
+            "if vendedor = \"Ana\" and valor > 500:",
+            "if (vendedor == \"Ana\", valor > 500):"
+          ],
+          "correta": 0,
+          "explica": "and exige as duas condições; or aceitaria qualquer venda da Ana ou qualquer venda acima de 500."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que acontece com este código?",
+          "codigo": "if valor > 100:\nprint(\"ok\")",
+          "opcoes": [
+            "IndentationError: falta o recuo do print",
+            "Mostra ok",
+            "Não mostra nada",
+            "SyntaxError: falta o else"
+          ],
+          "correta": 0,
+          "explica": "Depois dos dois-pontos o Python espera um bloco recuado. O else é opcional."
+        }
+      ]
+    },
+    {
+      "id": "lacos",
+      "titulo": "Listas e for",
+      "resumo": "Repetir para cada item",
+      "teoria": [
+        "Lista guarda vários valores: vendas = [120, 80, 300]. for v in vendas: repete o bloco para cada item. range(3) gera 0, 1 e 2.",
+        "Acumulador: crie total = 0 antes do laço e some dentro dele. List comprehension cria uma lista nova numa linha: [v * 0.9 for v in vendas]."
+      ],
+      "exemplo": "vendas = [120, 80, 300]\ntotal = 0\nfor v in vendas:\n    total = total + v\nprint(total)   # 500",
+      "video": {
+        "curso": "python",
+        "curso_nome": "Python",
+        "licao": "py-for"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Some todas as vendas da lista e mostre o total uma única vez, no final.",
+          "pecas": [
+            "total = 0",
+            "for v in vendas:",
+            "    total = total + v",
+            "print(total)"
+          ],
+          "extras": [
+            "    total = 0"
+          ],
+          "explica": "O total começa em zero ANTES do laço. Se o total = 0 ficasse dentro do for, ele zeraria a cada volta."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Conte quantas vendas passaram de 100.",
+          "pecas": [
+            "grandes = 0",
+            "for v in vendas:",
+            "    if v > 100:",
+            "        grandes = grandes + 1",
+            "print(grandes)"
+          ],
+          "extras": [
+            "    grandes = grandes + 1"
+          ],
+          "explica": "A soma fica dentro do if (8 espaços): só conta quando a venda passa de 100."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que este código mostra?",
+          "codigo": "for i in range(3):\n    print(i)",
+          "opcoes": [
+            "0, 1 e 2",
+            "1, 2 e 3",
+            "0, 1, 2 e 3",
+            "3"
+          ],
+          "correta": 0,
+          "explica": "range(3) começa no 0 e para antes do 3."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Com vendas = [120, 80, 300], o que len(vendas) retorna?",
+          "opcoes": [
+            "3",
+            "500",
+            "300",
+            "2"
+          ],
+          "correta": 0,
+          "explica": "len conta os itens da lista. sum(vendas) daria 500."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual linha cria a lista com 10% de desconto em cada valor?",
+          "opcoes": [
+            "[v * 0.9 for v in vendas]",
+            "[for v in vendas: v * 0.9]",
+            "vendas * 0.9",
+            "[v in vendas * 0.9]"
+          ],
+          "correta": 0,
+          "explica": "Primeiro o que gerar (v * 0.9), depois de onde vem (for v in vendas). Lista vezes número não faz a conta item a item."
+        }
+      ]
+    },
+    {
+      "id": "funcoes",
+      "titulo": "Funções",
+      "resumo": "Organizar e reaproveitar código",
+      "teoria": [
+        "def cria uma função: nome, parâmetros entre parênteses e dois-pontos. return devolve o resultado para quem chamou.",
+        "Parâmetro pode ter valor padrão: def desconto(valor, taxa=0.1). Sem return, a função devolve None. import traz funções de outros módulos."
+      ],
+      "exemplo": "def com_desconto(valor, taxa=0.1):\n    return valor * (1 - taxa)\n\nprint(com_desconto(200))   # 180.0",
+      "video": {
+        "curso": "python",
+        "curso_nome": "Python",
+        "licao": "py-funcoes-def"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Crie a função comissao, que recebe o valor da venda e devolve 5% dele. Depois mostre a comissão de uma venda de 1000.",
+          "pecas": [
+            "def comissao(valor):",
+            "    return valor * 0.05",
+            "print(comissao(1000))"
+          ],
+          "extras": [
+            "def comissao:"
+          ],
+          "explica": "A função precisa existir antes de ser chamada, e os parênteses com o parâmetro são obrigatórios no def."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que aparece na tela?",
+          "codigo": "def dobro(x):\n    x * 2\n\nprint(dobro(4))",
+          "opcoes": [
+            "None, porque falta o return",
+            "8",
+            "4",
+            "Erro"
+          ],
+          "correta": 0,
+          "explica": "A função calcula x * 2, mas não devolve. Sem return, o resultado é None."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que aparece na tela?",
+          "codigo": "def preco_final(valor, taxa=0.1):\n    return valor * (1 - taxa)\n\nprint(preco_final(100, 0.2))",
+          "opcoes": [
+            "80.0",
+            "90.0",
+            "100",
+            "20.0"
+          ],
+          "correta": 0,
+          "explica": "O 0.2 passado na chamada substitui o padrão 0.1: 100 * (1 - 0.2) = 80.0."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Para que serve o return?",
+          "opcoes": [
+            "Devolver o resultado da função para quem a chamou",
+            "Mostrar o resultado na tela",
+            "Repetir a função",
+            "Encerrar o programa"
+          ],
+          "correta": 0,
+          "explica": "print mostra; return devolve. Só o valor devolvido pode ser guardado numa variável: c = comissao(1000)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como importar só a função mean do módulo statistics?",
+          "opcoes": [
+            "from statistics import mean",
+            "import mean from statistics",
+            "include statistics.mean",
+            "statistics import mean"
+          ],
+          "correta": 0,
+          "explica": "from módulo import função. Depois é só usar mean(vendas)."
+        }
+      ]
+    },
+    {
+      "id": "pandas",
+      "titulo": "pandas: ler e filtrar",
+      "resumo": "Tabelas com DataFrame",
+      "teoria": [
+        "pandas trabalha com tabelas: df = pd.read_csv(\"vendas_2026.csv\"). df[\"valor\"] é uma coluna; df[[\"vendedor\", \"valor\"]] são várias.",
+        "Filtro é uma condição entre colchetes: df[df[\"valor\"] > 1000]. Para juntar condições use & (e) ou | (ou), com cada condição entre parênteses."
+      ],
+      "exemplo": "import pandas as pd\ndf = pd.read_csv(\"vendas_2026.csv\")\ngrandes = df[df[\"valor\"] > 1000]\nprint(grandes.head())",
+      "video": {
+        "curso": "python",
+        "curso_nome": "Python",
+        "licao": "py-pandas-filtros"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Leia o arquivo de vendas e mostre só as vendas do Carlos.",
+          "pecas": [
+            "import pandas as pd",
+            "df = pd.read_csv(\"vendas_2026.csv\")",
+            "carlos = df[df[\"vendedor\"] == \"Carlos\"]",
+            "print(carlos)"
+          ],
+          "extras": [
+            "carlos = df[\"vendedor\"] == \"Carlos\""
+          ],
+          "explica": "df[\"vendedor\"] == \"Carlos\" sozinho dá uma coluna de True e False. Colocado dentro de df[...], vira o filtro das linhas."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual filtro traz as vendas do Carlos acima de R$ 1.000?",
+          "opcoes": [
+            "df[(df[\"vendedor\"] == \"Carlos\") & (df[\"valor\"] > 1000)]",
+            "df[df[\"vendedor\"] == \"Carlos\" and df[\"valor\"] > 1000]",
+            "df[(df[\"vendedor\"] == \"Carlos\"), (df[\"valor\"] > 1000)]",
+            "df.filter(\"Carlos\", 1000)"
+          ],
+          "correta": 0,
+          "explica": "No pandas o \"e\" é &, e cada condição vai entre parênteses. and dá erro com colunas inteiras."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que df.shape mostra?",
+          "opcoes": [
+            "(linhas, colunas) da tabela",
+            "Os tipos das colunas",
+            "As 5 primeiras linhas",
+            "O nome das colunas"
+          ],
+          "correta": 0,
+          "explica": "Ex.: (1200, 7) quer dizer 1200 linhas e 7 colunas."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como criar a coluna valor_com_imposto, 10% acima do valor?",
+          "opcoes": [
+            "df[\"valor_com_imposto\"] = df[\"valor\"] * 1.1",
+            "df.valor_com_imposto(df[\"valor\"] * 1.1)",
+            "df[\"valor\"] * 1.1 = df[\"valor_com_imposto\"]",
+            "for v in df: v * 1.1"
+          ],
+          "correta": 0,
+          "explica": "A conta é feita na coluna inteira de uma vez, sem laço."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual comando mostra as 5 primeiras linhas da tabela?",
+          "opcoes": [
+            "df.head()",
+            "df.first()",
+            "df[5]",
+            "print(df, 5)"
+          ],
+          "correta": 0,
+          "explica": "head() mostra 5 por padrão; head(10) mostra 10."
+        }
+      ]
+    },
+    {
+      "id": "groupby",
+      "titulo": "groupby e merge",
+      "resumo": "Agrupar, resumir e cruzar",
+      "teoria": [
+        "groupby junta as linhas por uma coluna e resume outra: df.groupby(\"vendedor\")[\"valor\"].sum(). Funções comuns: sum, mean, count, max.",
+        "sort_values(ascending=False) ordena do maior para o menor. merge cruza duas tabelas por uma coluna em comum (o PROCV do pandas) e pivot_table é a tabela dinâmica."
+      ],
+      "exemplo": "total = df.groupby(\"vendedor\")[\"valor\"].sum()\nprint(total.sort_values(ascending=False))",
+      "video": {
+        "curso": "python",
+        "curso_nome": "Python",
+        "licao": "py-groupby"
+      },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Você tem uma loja e precisa saber o volume de vendas por vendedor, só de 2026, do maior para o menor. A coluna data já está como data.",
+          "pecas": [
+            "v26 = df[df[\"data\"].dt.year == 2026]",
+            "total = v26.groupby(\"vendedor\")[\"valor\"].sum()",
+            "total = total.sort_values(ascending=False)",
+            "print(total)"
+          ],
+          "extras": [
+            "total = df.sum(\"vendedor\")"
+          ],
+          "explica": "Mesma lógica do SQL: primeiro filtra o ano, depois agrupa e soma, por último ordena."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual linha mostra quantas vendas cada vendedor fez?",
+          "opcoes": [
+            "df.groupby(\"vendedor\")[\"valor\"].count()",
+            "df.count(\"vendedor\")",
+            "df[\"vendedor\"].sum()",
+            "df.groupby(\"valor\")[\"vendedor\"].count()"
+          ],
+          "correta": 0,
+          "explica": "Agrupa por vendedor e conta as linhas de cada grupo."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que df.groupby(\"categoria\")[\"valor\"].mean() retorna?",
+          "opcoes": [
+            "A média de valor de cada categoria",
+            "A média geral de valor",
+            "A quantidade de categorias",
+            "A categoria com maior valor"
+          ],
+          "correta": 0,
+          "explica": "Uma linha por categoria, com a média do valor das vendas dela."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "A tabela clientes tem cliente_id e nome. Como trazer o nome do cliente para a tabela de vendas?",
+          "opcoes": [
+            "df.merge(clientes, on=\"cliente_id\")",
+            "df + clientes",
+            "df.groupby(clientes)",
+            "df.join(\"cliente_id\")"
+          ],
+          "correta": 0,
+          "explica": "merge cruza as duas tabelas pela coluna em comum, como um PROCV ou JOIN."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual comando monta vendedor nas linhas, categoria nas colunas e a soma do valor?",
+          "opcoes": [
+            "df.pivot_table(index=\"vendedor\", columns=\"categoria\", values=\"valor\", aggfunc=\"sum\")",
+            "df.pivot_table(index=\"categoria\", columns=\"vendedor\", values=\"valor\", aggfunc=\"sum\")",
+            "df.groupby(\"vendedor\", \"categoria\").sum()",
+            "df.pivot_table(values=\"vendedor\", columns=\"valor\")"
+          ],
+          "correta": 0,
+          "explica": "index = linhas, columns = colunas, values = o que resumir, aggfunc = como resumir."
+        }
+      ]
+    }
+  ],
+  "nivelamento": [
+    {
+      "no": "variaveis",
+      "tipo": "escolha",
+      "pergunta": "O que este código mostra?",
+      "codigo": "preco = 50\nprint(preco * 3)",
+      "opcoes": [
+        "150",
+        "50 * 3",
+        "Erro",
+        "503"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "decisoes",
+      "tipo": "escolha",
+      "pergunta": "Qual linha está correta?",
+      "opcoes": [
+        "if valor >= 1000:",
+        "if valor >= 1000",
+        "if (valor >= 1000) then",
+        "if valor => 1000:"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "lacos",
+      "tipo": "ordenar",
+      "cenario": "Some a lista vendas e mostre o total no fim.",
+      "pecas": [
+        "total = 0",
+        "for v in vendas:",
+        "    total = total + v",
+        "print(total)"
+      ],
+      "extras": [
+        "    print(total)"
+      ]
+    },
+    {
+      "no": "funcoes",
+      "tipo": "escolha",
+      "pergunta": "O que aparece na tela?",
+      "codigo": "def metade(x):\n    x / 2\n\nprint(metade(10))",
+      "opcoes": [
+        "None",
+        "10",
+        "5",
+        "Erro"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "pandas",
+      "tipo": "escolha",
+      "pergunta": "Qual linha filtra as vendas acima de 1000?",
+      "opcoes": [
+        "df[df[\"valor\"] > 1000]",
+        "df[\"valor\"] > 1000",
+        "df.filter(valor > 1000)",
+        "df[valor > 1000]"
+      ],
+      "correta": 0
+    },
+    {
+      "no": "groupby",
+      "tipo": "escolha",
+      "pergunta": "Qual linha soma o valor por vendedor?",
+      "opcoes": [
+        "df.groupby(\"vendedor\")[\"valor\"].sum()",
+        "df.sum(\"vendedor\")",
+        "df[\"vendedor\"].groupby(\"valor\")",
+        "df.groupby(\"valor\")[\"vendedor\"].sum()"
+      ],
+      "correta": 0
+    }
+  ]
+}
