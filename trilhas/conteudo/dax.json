@@ -1,0 +1,232 @@
+{
+  "slug": "dax",
+  "nome": "DAX",
+  "ordem": 2,
+  "cor": "#F2C811",
+  "descricao": "Medidas do Power BI: da primeira soma à inteligência de tempo.",
+  "contexto": "Modelo de vendas no Power BI: tabela Vendas (Data, Vendedor, Quantidade, Preço, Valor), Clientes (País, Cidade) e Calendario (Data, Ano, Mês). A medida [Faturamento] = SUM(Vendas[Valor]) já existe.",
+  "nos": [
+    {
+      "id": "medidas",
+      "titulo": "Medidas",
+      "resumo": "Sintaxe, colunas e medidas",
+      "teoria": [
+        "Uma medida tem nome, sinal de igual e expressão. Colunas são escritas como Tabela[Coluna]; medidas, só com colchetes: [Faturamento].",
+        "Use DIVIDE em vez de / : ele não quebra quando o divisor é zero. A medida é calculada na hora, respeitando os filtros do visual."
+      ],
+      "exemplo": "Ticket Médio =\nDIVIDE( [Faturamento], COUNTROWS(Vendas) )",
+      "video": { "curso": "power-bi", "curso_nome": "Power BI", "licao": "dax-sintaxe-medidas" },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Crie a medida Ticket Médio: faturamento dividido pelo número de vendas, sem erro quando não houver vendas.",
+          "pecas": ["Ticket Médio =", "DIVIDE(", "[Faturamento],", "COUNTROWS(Vendas)", ")"],
+          "extras": ["[Faturamento] / 0"],
+          "explica": "DIVIDE( numerador, denominador ). Se o denominador for zero, devolve vazio em vez de erro."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual é a forma correta de referenciar a coluna Valor da tabela Vendas?",
+          "opcoes": ["Vendas[Valor]", "[Vendas].Valor", "Vendas.Valor", "{Vendas}[Valor]"],
+          "correta": 0,
+          "explica": "Coluna = Tabela[Coluna]. Se o nome da tabela tem espaço, use aspas simples: 'Itens Venda'[Valor]."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Por que preferir DIVIDE( a, b ) a a / b?",
+          "opcoes": ["DIVIDE trata a divisão por zero sem erro", "DIVIDE é mais preciso nas casas decimais", "A barra não funciona no DAX", "DIVIDE já arredonda o resultado"],
+          "correta": 0,
+          "explica": "Num visual com um mês sem vendas, a / b mostraria erro ou infinito; DIVIDE devolve vazio."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual a principal diferença entre medida e coluna calculada?",
+          "opcoes": ["A medida é calculada na hora, conforme os filtros; a coluna é calculada linha a linha e fica salva no modelo", "Não há diferença, só o nome", "A coluna calculada é sempre mais rápida", "A medida só funciona em cartões"],
+          "correta": 0,
+          "explica": "Totais que mudam com filtros (faturamento, ticket, %) são medidas. Coluna calculada é para classificar linhas (ex.: faixa de preço)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que COUNTROWS(Vendas) retorna?",
+          "opcoes": ["O número de linhas da tabela Vendas no filtro atual", "A soma da coluna Valor", "O número de colunas", "As linhas duplicadas"],
+          "correta": 0,
+          "explica": "Como toda medida, respeita os filtros: num visual por vendedor, conta as vendas de cada vendedor."
+        }
+      ]
+    },
+    {
+      "id": "calculate",
+      "titulo": "CALCULATE",
+      "resumo": "Mudar o filtro de uma medida",
+      "teoria": [
+        "CALCULATE( expressão, filtro1, filtro2... ) calcula a expressão com os filtros que você mandar. É a única função que muda o contexto de filtro.",
+        "ALL( ) remove filtros: é a base de % do total e de comparações com o geral."
+      ],
+      "exemplo": "Vendas 2026 =\nCALCULATE(\n    SUM(Vendas[Valor]),\n    'Calendario'[Ano] = 2026\n)",
+      "video": { "curso": "power-bi", "curso_nome": "Power BI", "licao": "dax-calculate-filter" },
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Você tem uma loja e quer o volume de vendas de 2026, pra colocar numa matriz por vendedor.",
+          "pecas": ["Vendas 2026 =", "CALCULATE(", "SUM(Vendas[Valor]),", "'Calendario'[Ano] = 2026", ")"],
+          "extras": ["FILTER(2026)"],
+          "explica": "Primeiro o que calcular (a soma), depois o filtro. O vendedor vem da linha da matriz, não precisa estar na medida."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Em CALCULATE( A, B, C ), o que são A, B e C?",
+          "opcoes": ["A é a expressão; B e C são filtros", "A, B e C são filtros", "A é a tabela; B e C são colunas", "A é o filtro; B e C são expressões"],
+          "correta": 0,
+          "explica": "Sempre: o que calcular primeiro, e depois quantos filtros quiser."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "A página está filtrada em Austrália, mas um cartão precisa mostrar sempre o faturamento da França. Qual medida?",
+          "opcoes": ["CALCULATE( [Faturamento], Clientes[País] = \"France\" )", "[Faturamento] WHERE Clientes[País] = \"France\"", "FILTER( [Faturamento], \"France\" )", "SUM( Clientes[País] = \"France\" )"],
+          "correta": 0,
+          "explica": "O filtro dentro do CALCULATE substitui o filtro de País que vem da página."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual medida dá o % de cada vendedor no faturamento total?",
+          "opcoes": ["DIVIDE( [Faturamento], CALCULATE( [Faturamento], ALL(Vendas[Vendedor]) ) )", "DIVIDE( [Faturamento], [Faturamento] )", "[Faturamento] / 100", "CALCULATE( [Faturamento], Vendas[Vendedor] = \"Todos\" )"],
+          "correta": 0,
+          "explica": "ALL(Vendas[Vendedor]) tira o filtro de vendedor só no denominador, que vira o total geral."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Monte a medida % Participação de cada vendedor no total.",
+          "pecas": ["% Participação =", "DIVIDE(", "[Faturamento],", "CALCULATE( [Faturamento], ALL(Vendas[Vendedor]) )", ")"],
+          "extras": ["ALL( [Faturamento] )"],
+          "explica": "Numerador: o faturamento do vendedor da linha. Denominador: o faturamento sem o filtro de vendedor."
+        }
+      ]
+    },
+    {
+      "id": "contexto",
+      "titulo": "Contextos",
+      "resumo": "Contexto de filtro e de linha, SUMX",
+      "teoria": [
+        "Contexto de filtro: os filtros que chegam à medida (linhas e colunas da matriz, segmentações, filtros da página). É por isso que a mesma medida mostra um número em cada linha.",
+        "Contexto de linha: existe em colunas calculadas e em iteradores como SUMX, que percorrem a tabela linha a linha e calculam uma expressão em cada uma."
+      ],
+      "exemplo": "Faturamento =\nSUMX(\n    Vendas,\n    Vendas[Quantidade] * Vendas[Preço]\n)",
+      "video": { "curso": "power-bi", "curso_nome": "Power BI", "licao": "contextos-dax" },
+      "exercicios": [
+        {
+          "tipo": "escolha",
+          "pergunta": "O que forma o contexto de filtro de uma medida?",
+          "opcoes": ["Filtros vindos do visual, da matriz, das segmentações e da página", "Só os filtros escritos dentro da medida", "A ordem das colunas na tabela", "O tipo de gráfico escolhido"],
+          "correta": 0,
+          "explica": "Cada célula de uma matriz é um contexto de filtro diferente."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Onde existe contexto de linha?",
+          "opcoes": ["Em colunas calculadas e em funções iteradoras como SUMX", "Em toda medida, sempre", "Só nos cartões", "Só no Power Query"],
+          "correta": 0,
+          "explica": "Uma medida comum não sabe qual é \"a linha atual\"; por isso precisa de um iterador para calcular linha a linha."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "A tabela não tem a coluna Valor, só Quantidade e Preço. Calcule o faturamento linha a linha.",
+          "pecas": ["Faturamento =", "SUMX(", "Vendas,", "Vendas[Quantidade] * Vendas[Preço]", ")"],
+          "extras": ["SUM( Vendas[Quantidade] * Vendas[Preço] )"],
+          "explica": "SUMX( tabela, expressão ): percorre Vendas, multiplica em cada linha e soma tudo."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que acontece com SUM( Vendas[Quantidade] * Vendas[Preço] )?",
+          "opcoes": ["Dá erro: SUM aceita só uma coluna; use SUMX", "Funciona igual ao SUMX", "Soma só a quantidade", "Multiplica os totais"],
+          "correta": 0,
+          "explica": "SUM é um agregador de uma coluna. Para expressões linha a linha, use o iterador (SUMX, AVERAGEX, COUNTX...)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Por que a medida [Faturamento] mostra um valor diferente em cada linha de uma matriz por vendedor?",
+          "opcoes": ["Cada linha aplica um filtro de vendedor diferente (contexto de filtro)", "A medida é copiada para cada linha", "O Power BI recalcula a coluna Valor", "É um erro de modelagem"],
+          "correta": 0,
+          "explica": "A fórmula é uma só; o que muda é o filtro de cada célula."
+        }
+      ]
+    },
+    {
+      "id": "tempo",
+      "titulo": "Inteligência de tempo",
+      "resumo": "Acumulado no ano e ano anterior",
+      "teoria": [
+        "Funções de tempo precisam de uma tabela Calendário contínua (todas as datas, sem buracos), relacionada à tabela de fatos e marcada como tabela de datas.",
+        "TOTALYTD calcula o acumulado no ano; SAMEPERIODLASTYEAR, dentro do CALCULATE, desloca o filtro para o mesmo período do ano anterior."
+      ],
+      "exemplo": "Faturamento AA =\nCALCULATE(\n    [Faturamento],\n    SAMEPERIODLASTYEAR('Calendario'[Data])\n)",
+      "video": { "curso": "power-bi", "curso_nome": "Power BI", "licao": "dax-tabelas-tempo" },
+      "exercicios": [
+        {
+          "tipo": "escolha",
+          "pergunta": "O que as funções de inteligência de tempo exigem do modelo?",
+          "opcoes": ["Uma tabela Calendário contínua, relacionada e marcada como tabela de datas", "Que a coluna de data esteja em texto", "Que não exista tabela Calendário", "Só funcionam com dados de um ano"],
+          "correta": 0,
+          "explica": "Sem datas contínuas, o \"mesmo período do ano anterior\" pode não existir e o cálculo sai errado."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "A diretoria quer ver o faturamento acumulado no ano, mês a mês.",
+          "pecas": ["Faturamento YTD =", "TOTALYTD(", "[Faturamento],", "'Calendario'[Data]", ")"],
+          "extras": ["Vendas[Data],"],
+          "explica": "TOTALYTD( medida, coluna de data da Calendário ). Use a data da Calendário, não a da tabela Vendas."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual função traz o mesmo período do ano anterior?",
+          "opcoes": ["SAMEPERIODLASTYEAR", "PREVIOUSYEAR( [Faturamento] )", "LASTYEAR", "YEAR( ) - 1"],
+          "correta": 0,
+          "explica": "Ela vai dentro do CALCULATE, como filtro: CALCULATE( [Faturamento], SAMEPERIODLASTYEAR('Calendario'[Data]) )."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Crie a medida Faturamento do Ano Anterior, pra comparar com 2026 no gráfico.",
+          "pecas": ["Faturamento AA =", "CALCULATE(", "[Faturamento],", "SAMEPERIODLASTYEAR('Calendario'[Data])", ")"],
+          "extras": ["'Calendario'[Ano] - 1"],
+          "explica": "Mesma estrutura do CALCULATE: expressão e depois o filtro, que aqui é o período deslocado."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual medida calcula o crescimento % sobre o ano anterior?",
+          "opcoes": ["DIVIDE( [Faturamento] - [Faturamento AA], [Faturamento AA] )", "DIVIDE( [Faturamento AA], [Faturamento] )", "[Faturamento] - [Faturamento AA]", "DIVIDE( [Faturamento], 100 )"],
+          "correta": 0,
+          "explica": "(atual − anterior) ÷ anterior. A opção sem o DIVIDE dá a diferença em reais, não o %."
+        }
+      ]
+    }
+  ],
+  "nivelamento": [
+    {
+      "no": "medidas",
+      "tipo": "escolha",
+      "pergunta": "Qual medida calcula a margem % sem erro quando o faturamento é zero?",
+      "opcoes": ["DIVIDE( [Lucro], [Faturamento] )", "[Lucro] / [Faturamento]", "Vendas[Lucro] % Vendas[Valor]", "SUM( [Lucro] / [Faturamento] )"],
+      "correta": 0
+    },
+    {
+      "no": "calculate",
+      "tipo": "ordenar",
+      "cenario": "Calcule o faturamento só da categoria Eletrônicos.",
+      "pecas": ["Fat Eletrônicos =", "CALCULATE(", "[Faturamento],", "Produtos[Categoria] = \"Eletrônicos\"", ")"],
+      "extras": ["WHERE Produtos[Categoria] = \"Eletrônicos\""]
+    },
+    {
+      "no": "contexto",
+      "tipo": "escolha",
+      "pergunta": "Qual medida calcula a média do valor de cada venda (quantidade × preço)?",
+      "opcoes": ["AVERAGEX( Vendas, Vendas[Quantidade] * Vendas[Preço] )", "AVERAGE( Vendas[Quantidade] * Vendas[Preço] )", "SUM( Vendas[Quantidade] ) * AVERAGE( Vendas[Preço] )", "AVERAGEX( Vendas[Quantidade] * Vendas[Preço] )"],
+      "correta": 0
+    },
+    {
+      "no": "tempo",
+      "tipo": "escolha",
+      "pergunta": "Qual medida dá o faturamento acumulado no ano?",
+      "opcoes": ["TOTALYTD( [Faturamento], 'Calendario'[Data] )", "SUM( [Faturamento], YTD )", "CALCULATE( [Faturamento], YEAR(TODAY()) )", "TOTALYTD( 'Calendario'[Data], [Faturamento] )"],
+      "correta": 0
+    }
+  ]
+}

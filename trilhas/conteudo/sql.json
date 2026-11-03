@@ -1,0 +1,389 @@
+{
+  "slug": "sql",
+  "nome": "SQL",
+  "ordem": 1,
+  "cor": "#22D3EE",
+  "descricao": "Consultas do zero ao JOIN, sempre resolvendo um problema real de uma loja.",
+  "contexto": "Você trabalha numa loja. As tabelas são: vendas (id, data, vendedor, produto, categoria, quantidade, valor, cliente_id) e clientes (id, nome, cidade, estado). Exemplos no padrão MySQL / SQL Server.",
+  "nos": [
+    {
+      "id": "select",
+      "titulo": "SELECT e FROM",
+      "resumo": "Escolher colunas de uma tabela",
+      "teoria": [
+        "SELECT diz quais colunas você quer ver; FROM diz de qual tabela. O asterisco (*) traz todas as colunas.",
+        "AS dá um apelido para a coluna no resultado. DISTINCT remove linhas repetidas."
+      ],
+      "exemplo": "SELECT nome AS cliente, cidade\nFROM clientes",
+      "video": null,
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Seu gerente pediu uma lista com o produto e o valor de todas as vendas.",
+          "pecas": ["SELECT produto, valor", "FROM vendas"],
+          "extras": ["SELECT vendas"],
+          "explica": "Primeiro o SELECT com as colunas separadas por vírgula, depois o FROM com a tabela."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual comando traz todas as colunas da tabela clientes?",
+          "opcoes": ["SELECT * FROM clientes", "SELECT ALL clientes", "GET * FROM clientes", "SELECT clientes FROM *"],
+          "correta": 0,
+          "explica": "O * significa \"todas as colunas\". Útil pra explorar, mas em relatórios prefira listar só as colunas que precisa."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que o AS faz nesta consulta?",
+          "codigo": "SELECT nome AS cliente\nFROM clientes",
+          "opcoes": ["Renomeia a coluna no resultado", "Renomeia a coluna na tabela, para sempre", "Filtra os clientes pelo nome", "Cria uma tabela chamada cliente"],
+          "correta": 0,
+          "explica": "AS cria um apelido só no resultado da consulta. A tabela continua igual."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Monte a lista de clientes com a cidade, mostrando a coluna nome com o título \"cliente\".",
+          "pecas": ["SELECT nome AS cliente, cidade", "FROM clientes"],
+          "extras": ["SELECT cliente AS nome, cidade"],
+          "explica": "O nome original vem antes do AS e o apelido depois: nome AS cliente."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que esta consulta retorna?",
+          "codigo": "SELECT DISTINCT cidade\nFROM clientes",
+          "opcoes": ["Cada cidade uma única vez", "Todas as cidades, com repetição", "Quantas cidades existem", "A primeira cidade da tabela"],
+          "correta": 0,
+          "explica": "DISTINCT remove as repetições. Se 30 clientes são de Itumbiara, Itumbiara aparece uma vez só."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Alguém escreveu esta consulta querendo ver nome e cidade. O que acontece?",
+          "codigo": "SELECT nome cidade\nFROM clientes",
+          "opcoes": ["Aparece só a coluna nome, com o título \"cidade\"", "Aparecem nome e cidade normalmente", "Dá erro de sintaxe", "Aparece só a coluna cidade"],
+          "correta": 0,
+          "explica": "Sem a vírgula, o SQL entende \"cidade\" como apelido de nome (o AS é opcional). Não dá erro, mas o resultado está errado. Por isso o erro é traiçoeiro."
+        }
+      ]
+    },
+    {
+      "id": "where",
+      "titulo": "WHERE",
+      "resumo": "Filtrar as linhas que interessam",
+      "teoria": [
+        "WHERE filtra as linhas antes de qualquer cálculo. Texto e datas vão entre aspas simples.",
+        "Combine condições com AND (todas verdadeiras) e OR (pelo menos uma). IN testa uma lista, BETWEEN uma faixa (inclui as pontas) e LIKE um padrão de texto (% = qualquer coisa)."
+      ],
+      "exemplo": "SELECT *\nFROM vendas\nWHERE vendedor = 'Carlos'\nAND valor > 500",
+      "video": null,
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Você quer ver todas as vendas do vendedor Carlos acima de R$ 500.",
+          "pecas": ["SELECT *", "FROM vendas", "WHERE vendedor = 'Carlos'", "AND valor > 500"],
+          "extras": ["WHERE valor > 500 AND"],
+          "explica": "O WHERE vem depois do FROM, e cada condição extra entra com AND."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual filtro traz os clientes de Itumbiara?",
+          "opcoes": ["WHERE cidade = 'Itumbiara'", "WHERE cidade = Itumbiara", "WHERE cidade IS Itumbiara", "WHERE 'cidade' = Itumbiara"],
+          "correta": 0,
+          "explica": "Texto vai entre aspas simples. Sem aspas, o SQL procura uma coluna chamada Itumbiara."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Este filtro é equivalente a qual opção?",
+          "codigo": "WHERE estado IN ('GO', 'SP', 'MG')",
+          "opcoes": ["estado = 'GO' OR estado = 'SP' OR estado = 'MG'", "estado = 'GO' AND estado = 'SP' AND estado = 'MG'", "estado LIKE 'GO%'", "estado BETWEEN 'GO' AND 'MG'"],
+          "correta": 0,
+          "explica": "IN é um atalho para vários OR na mesma coluna. Com AND nenhuma linha passaria, pois um cliente tem um estado só."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Uma venda de exatamente R$ 200 aparece neste resultado?",
+          "codigo": "WHERE valor BETWEEN 100 AND 200",
+          "opcoes": ["Sim, BETWEEN inclui as duas pontas", "Não, BETWEEN exclui as pontas", "Só se for a única venda", "Depende do banco de dados"],
+          "correta": 0,
+          "explica": "BETWEEN 100 AND 200 é o mesmo que valor >= 100 AND valor <= 200."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Liste produto e valor das vendas de 2026 da categoria Eletrônicos.",
+          "pecas": ["SELECT produto, valor", "FROM vendas", "WHERE YEAR(data) = 2026", "AND categoria = 'Eletrônicos'"],
+          "extras": ["AND YEAR(data) = '2026' WHERE"],
+          "explica": "Só existe um WHERE por consulta; as demais condições entram com AND."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que este filtro traz?",
+          "codigo": "WHERE estado = 'GO' OR estado = 'SP' AND valor > 1000",
+          "opcoes": ["Todas as vendas de GO, mais as de SP acima de R$ 1.000", "Vendas de GO e SP, todas acima de R$ 1.000", "Nenhuma venda", "Só vendas de SP acima de R$ 1.000"],
+          "correta": 0,
+          "explica": "AND é avaliado antes de OR. Para aplicar o valor aos dois estados, use parênteses: (estado = 'GO' OR estado = 'SP') AND valor > 1000."
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "titulo": "ORDER BY",
+      "resumo": "Ordenar o resultado",
+      "teoria": [
+        "ORDER BY ordena o resultado e vem depois do WHERE. ASC é crescente (o padrão) e DESC é decrescente.",
+        "Com mais de uma coluna, a segunda só desempata a primeira."
+      ],
+      "exemplo": "SELECT produto, valor\nFROM vendas\nORDER BY valor DESC",
+      "video": null,
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Liste produto e valor das vendas, da maior venda para a menor.",
+          "pecas": ["SELECT produto, valor", "FROM vendas", "ORDER BY valor DESC"],
+          "extras": ["ORDER BY valor ASC"],
+          "explica": "DESC = decrescente, do maior para o menor."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Se você escrever só ORDER BY valor, sem ASC nem DESC, qual a ordem?",
+          "opcoes": ["Crescente (do menor para o maior)", "Decrescente", "A ordem em que os dados foram inseridos", "Dá erro"],
+          "correta": 0,
+          "explica": "ASC é o padrão. Só escreva DESC quando quiser inverter."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Mostre data, produto e valor das vendas de 2026, das mais recentes para as mais antigas.",
+          "pecas": ["SELECT data, produto, valor", "FROM vendas", "WHERE YEAR(data) = 2026", "ORDER BY data DESC"],
+          "extras": ["ORDER BY YEAR(data) = 2026"],
+          "explica": "A ordem de escrita é sempre SELECT, FROM, WHERE e só então ORDER BY."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que faz este ORDER BY?",
+          "codigo": "ORDER BY estado, nome",
+          "opcoes": ["Ordena por estado e, dentro do mesmo estado, por nome", "Ordena só por nome", "Ordena por estado e ignora o nome", "Ordena por nome e, dentro do mesmo nome, por estado"],
+          "correta": 0,
+          "explica": "A primeira coluna manda; a segunda só desempata."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que acontece com esta consulta?",
+          "codigo": "SELECT *\nFROM vendas\nORDER BY valor\nWHERE valor > 100",
+          "opcoes": ["Dá erro: o WHERE precisa vir antes do ORDER BY", "Funciona normalmente", "Ignora o WHERE", "Ignora o ORDER BY"],
+          "correta": 0,
+          "explica": "As cláusulas têm ordem fixa. ORDER BY é a última."
+        }
+      ]
+    },
+    {
+      "id": "agregacao",
+      "titulo": "Funções de agregação",
+      "resumo": "COUNT, SUM, AVG, MIN e MAX",
+      "teoria": [
+        "Funções de agregação resumem várias linhas em um número: COUNT conta, SUM soma, AVG tira a média, MIN e MAX pegam o menor e o maior.",
+        "COUNT(*) conta linhas; COUNT(coluna) ignora valores vazios (NULL); COUNT(DISTINCT coluna) conta valores diferentes."
+      ],
+      "exemplo": "SELECT SUM(valor) AS faturamento\nFROM vendas\nWHERE YEAR(data) = 2026",
+      "video": null,
+      "exercicios": [
+        {
+          "tipo": "escolha",
+          "pergunta": "O que esta consulta retorna?",
+          "codigo": "SELECT COUNT(*)\nFROM vendas",
+          "opcoes": ["O número de vendas (linhas) da tabela", "A soma dos valores", "O número de colunas da tabela", "A última venda"],
+          "correta": 0,
+          "explica": "COUNT(*) conta linhas. Cada linha da tabela vendas é uma venda."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "A diretoria quer saber o faturamento total de 2026.",
+          "pecas": ["SELECT SUM(valor) AS faturamento", "FROM vendas", "WHERE YEAR(data) = 2026"],
+          "extras": ["SELECT COUNT(valor) AS faturamento"],
+          "explica": "Faturamento é soma de valores: SUM. COUNT só contaria quantas vendas existem."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual função calcula o ticket médio das vendas?",
+          "opcoes": ["AVG(valor)", "SUM(valor)", "MEAN(valor)", "COUNT(valor)"],
+          "correta": 0,
+          "explica": "AVG (average) é a média. MEAN não existe no SQL padrão."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como descobrir o valor da maior venda já feita?",
+          "opcoes": ["SELECT MAX(valor) FROM vendas", "SELECT TOP(valor) FROM vendas", "SELECT valor FROM vendas WHERE MAX", "SELECT BIGGEST(valor) FROM vendas"],
+          "correta": 0,
+          "explica": "MAX devolve o maior valor; MIN, o menor."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Algumas vendas não têm cliente_id (venda de balcão). Qual a diferença entre COUNT(*) e COUNT(cliente_id)?",
+          "opcoes": ["COUNT(cliente_id) ignora as linhas com cliente_id vazio", "Nenhuma, os dois contam igual", "COUNT(cliente_id) soma os ids", "COUNT(*) ignora as linhas vazias"],
+          "correta": 0,
+          "explica": "COUNT(coluna) só conta valores preenchidos. COUNT(*) conta todas as linhas."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "O que esta consulta responde?",
+          "codigo": "SELECT COUNT(DISTINCT cliente_id)\nFROM vendas",
+          "opcoes": ["Quantos clientes diferentes já compraram", "Quantas vendas foram feitas", "Qual cliente comprou mais", "Quantos clientes existem no cadastro"],
+          "correta": 0,
+          "explica": "DISTINCT dentro do COUNT conta cada cliente uma vez, mesmo que ele tenha comprado 10 vezes. Quem nunca comprou não aparece em vendas."
+        }
+      ]
+    },
+    {
+      "id": "groupby",
+      "titulo": "GROUP BY e HAVING",
+      "resumo": "Totais por vendedor, categoria, mês...",
+      "teoria": [
+        "GROUP BY quebra o cálculo em grupos: um total por vendedor, por categoria, por mês. Toda coluna do SELECT que não está numa agregação precisa estar no GROUP BY.",
+        "WHERE filtra linhas antes de agrupar; HAVING filtra os grupos depois de calculados (por exemplo, só vendedores com total acima de 50 mil)."
+      ],
+      "exemplo": "SELECT vendedor, SUM(valor) AS total\nFROM vendas\nWHERE YEAR(data) = 2026\nGROUP BY vendedor\nORDER BY total DESC",
+      "video": null,
+      "exercicios": [
+        {
+          "tipo": "ordenar",
+          "cenario": "Você tem uma loja e precisa saber o volume de vendas por vendedor, só de 2026, do maior para o menor.",
+          "pecas": ["SELECT vendedor, SUM(valor) AS total", "FROM vendas", "WHERE YEAR(data) = 2026", "GROUP BY vendedor", "ORDER BY total DESC"],
+          "extras": ["HAVING YEAR(data) = 2026"],
+          "explica": "O filtro de ano é sobre as linhas, então vai no WHERE, antes do GROUP BY. O ORDER BY fecha a consulta."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual o problema desta consulta?",
+          "codigo": "SELECT vendedor, SUM(valor)\nFROM vendas",
+          "opcoes": ["Falta GROUP BY vendedor", "Falta WHERE", "SUM não pode ter vírgula antes", "Não tem problema"],
+          "correta": 0,
+          "explica": "vendedor não está agregado, então precisa estar no GROUP BY. Alguns bancos dão erro; outros devolvem um vendedor qualquer com o total geral, que é pior."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Você quer só os vendedores que passaram de R$ 50 mil no total. Onde vai o filtro?",
+          "opcoes": ["HAVING SUM(valor) > 50000", "WHERE SUM(valor) > 50000", "WHERE valor > 50000", "GROUP BY valor > 50000"],
+          "correta": 0,
+          "explica": "O total só existe depois de agrupar, por isso o filtro vai no HAVING. WHERE valor > 50000 filtraria vendas individuais."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "Quais categorias venderam mais de 100 unidades no total?",
+          "pecas": ["SELECT categoria, SUM(quantidade) AS unidades", "FROM vendas", "GROUP BY categoria", "HAVING SUM(quantidade) > 100"],
+          "extras": ["WHERE SUM(quantidade) > 100"],
+          "explica": "Filtro sobre o resultado da soma = HAVING, depois do GROUP BY."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual a ordem correta de escrita das cláusulas?",
+          "opcoes": ["SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY", "SELECT, WHERE, FROM, GROUP BY, ORDER BY, HAVING", "FROM, SELECT, GROUP BY, WHERE, HAVING, ORDER BY", "SELECT, FROM, GROUP BY, WHERE, ORDER BY, HAVING"],
+          "correta": 0,
+          "explica": "Decore essa sequência: ela vale para praticamente toda consulta que você vai escrever."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Qual consulta mostra quantas vendas cada vendedor fez?",
+          "opcoes": ["SELECT vendedor, COUNT(*) FROM vendas GROUP BY vendedor", "SELECT COUNT(vendedor) FROM vendas", "SELECT vendedor, COUNT(*) FROM vendas", "SELECT vendedor FROM vendas GROUP BY COUNT(*)"],
+          "correta": 0,
+          "explica": "COUNT(*) com GROUP BY vendedor conta as linhas de cada vendedor."
+        }
+      ]
+    },
+    {
+      "id": "join",
+      "titulo": "JOIN",
+      "resumo": "Juntar tabelas pela chave em comum",
+      "teoria": [
+        "JOIN junta duas tabelas usando uma coluna em comum, indicada no ON (aqui, clientes.id = vendas.cliente_id). Letras como v e c são apelidos das tabelas, pra escrever menos.",
+        "INNER JOIN traz só o que tem correspondência nas duas tabelas. LEFT JOIN traz tudo da tabela da esquerda, mesmo sem correspondência (os campos da direita vêm vazios, NULL)."
+      ],
+      "exemplo": "SELECT c.cidade, SUM(v.valor) AS total\nFROM vendas v\nINNER JOIN clientes c\nON c.id = v.cliente_id\nGROUP BY c.cidade",
+      "video": null,
+      "exercicios": [
+        {
+          "tipo": "escolha",
+          "pergunta": "O que o INNER JOIN entre vendas e clientes retorna?",
+          "opcoes": ["Só as vendas que têm um cliente correspondente", "Todas as vendas e todos os clientes", "Só os clientes que nunca compraram", "As vendas sem cliente"],
+          "correta": 0,
+          "explica": "INNER = interseção. Vendas de balcão (sem cliente_id) e clientes que nunca compraram ficam de fora."
+        },
+        {
+          "tipo": "ordenar",
+          "cenario": "O marketing quer o total vendido por cidade do cliente.",
+          "pecas": ["SELECT c.cidade, SUM(v.valor) AS total", "FROM vendas v", "INNER JOIN clientes c", "ON c.id = v.cliente_id", "GROUP BY c.cidade"],
+          "extras": ["ON c.cidade = v.cliente_id"],
+          "explica": "O ON liga a chave do cliente (c.id) com a coluna que aponta pra ele na venda (v.cliente_id)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Você quer listar TODOS os clientes, inclusive quem nunca comprou. Qual JOIN usar?",
+          "opcoes": ["clientes LEFT JOIN vendas", "clientes INNER JOIN vendas", "vendas LEFT JOIN clientes", "Não dá pra fazer com JOIN"],
+          "correta": 0,
+          "explica": "LEFT JOIN mantém tudo da tabela da esquerda (clientes). Quem não comprou aparece com os campos de vendas vazios."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Para que serve o ON num JOIN?",
+          "opcoes": ["Dizer quais colunas ligam as duas tabelas", "Filtrar o ano das vendas", "Ordenar o resultado", "Ligar o banco de dados"],
+          "correta": 0,
+          "explica": "O ON é a regra de correspondência. Um ON errado gera totais absurdos, porque cada venda se junta com clientes errados."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Como achar os clientes que nunca compraram?",
+          "codigo": "SELECT c.nome\nFROM clientes c\nLEFT JOIN vendas v ON v.cliente_id = c.id\n___",
+          "opcoes": ["WHERE v.id IS NULL", "WHERE v.id = 0", "WHERE c.id IS NULL", "HAVING COUNT(*) = 0"],
+          "correta": 0,
+          "explica": "No LEFT JOIN, quem não tem venda fica com as colunas de vendas em NULL. Para testar vazio, use IS NULL (nunca = NULL)."
+        },
+        {
+          "tipo": "escolha",
+          "pergunta": "Em \"FROM vendas v\", o que é o v?",
+          "opcoes": ["Um apelido (alias) para a tabela vendas", "Uma coluna da tabela", "Uma variável de valor", "Um filtro"],
+          "correta": 0,
+          "explica": "Com o apelido, v.valor significa \"a coluna valor da tabela vendas\". Evita ambiguidade quando as duas tabelas têm colunas com o mesmo nome, como id."
+        }
+      ]
+    }
+  ],
+  "nivelamento": [
+    {
+      "no": "select",
+      "tipo": "escolha",
+      "pergunta": "Qual consulta traz o nome e o estado de todos os clientes?",
+      "opcoes": ["SELECT nome, estado FROM clientes", "SELECT nome AND estado FROM clientes", "SELECT clientes(nome, estado)", "FROM clientes SELECT nome, estado"],
+      "correta": 0
+    },
+    {
+      "no": "where",
+      "tipo": "escolha",
+      "pergunta": "Qual filtro traz as vendas do primeiro trimestre de 2026?",
+      "opcoes": ["WHERE data BETWEEN '2026-01-01' AND '2026-03-31'", "WHERE data = '2026-01-01' AND '2026-03-31'", "WHERE data IN '2026-01-01' TO '2026-03-31'", "WHERE data LIKE '2026-Q1'"],
+      "correta": 0
+    },
+    {
+      "no": "order",
+      "tipo": "escolha",
+      "pergunta": "Como ordenar os clientes por estado (A–Z) e, dentro do estado, por nome de Z a A?",
+      "opcoes": ["ORDER BY estado, nome DESC", "ORDER BY estado DESC, nome", "ORDER BY nome DESC, estado", "ORDER BY DESC estado, nome"],
+      "correta": 0
+    },
+    {
+      "no": "agregacao",
+      "tipo": "escolha",
+      "pergunta": "Quantos clientes diferentes compraram em 2026?",
+      "opcoes": ["SELECT COUNT(DISTINCT cliente_id) FROM vendas WHERE YEAR(data) = 2026", "SELECT COUNT(*) FROM vendas WHERE YEAR(data) = 2026", "SELECT DISTINCT COUNT(cliente_id) FROM clientes", "SELECT SUM(cliente_id) FROM vendas WHERE YEAR(data) = 2026"],
+      "correta": 0
+    },
+    {
+      "no": "groupby",
+      "tipo": "ordenar",
+      "cenario": "Mostre o ticket médio por categoria, só das categorias com média acima de R$ 200.",
+      "pecas": ["SELECT categoria, AVG(valor) AS ticket", "FROM vendas", "GROUP BY categoria", "HAVING AVG(valor) > 200"],
+      "extras": ["WHERE AVG(valor) > 200"]
+    },
+    {
+      "no": "join",
+      "tipo": "escolha",
+      "pergunta": "Qual trecho lista os clientes sem nenhuma compra?",
+      "opcoes": ["FROM clientes c LEFT JOIN vendas v ON v.cliente_id = c.id WHERE v.id IS NULL", "FROM clientes c INNER JOIN vendas v ON v.cliente_id = c.id WHERE v.id IS NULL", "FROM vendas v LEFT JOIN clientes c ON c.id = v.cliente_id WHERE c.id IS NULL", "FROM clientes c WHERE c.id NOT JOIN vendas"],
+      "correta": 0
+    }
+  ]
+}
