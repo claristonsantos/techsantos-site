@@ -74,10 +74,11 @@
         },
         {
           "tipo": "escolha",
-          "pergunta": "Em CALCULATE( A, B, C ), o que são A, B e C?",
-          "opcoes": ["A é a expressão; B e C são filtros", "A, B e C são filtros", "A é a tabela; B e C são colunas", "A é o filtro; B e C são expressões"],
+          "pergunta": "Nesta medida, o que cada parte dentro do CALCULATE faz?",
+          "codigo": "Vendas Itumbiara 2026 =\nCALCULATE(\n    SUM( Vendas[Valor] ),\n    'Calendario'[Ano] = 2026,\n    Clientes[Cidade] = \"Itumbiara\"\n)",
+          "opcoes": ["SUM(Vendas[Valor]) é o que calcular; Ano = 2026 e Cidade = \"Itumbiara\" são filtros", "As três partes são filtros", "SUM(Vendas[Valor]) é o filtro; o resto é o cálculo", "Ano = 2026 é o cálculo; o resto são filtros"],
           "correta": 0,
-          "explica": "Sempre: o que calcular primeiro, e depois quantos filtros quiser."
+          "explica": "No CALCULATE, a primeira parte é sempre o que calcular (aqui, a soma das vendas). Tudo que vem depois são filtros, quantos você quiser: só 2026 e só clientes de Itumbiara."
         },
         {
           "tipo": "escolha",
