@@ -11,10 +11,11 @@ if (!hash_equals(SETUP_KEY, $key)) {
 header('Content-Type: text/plain; charset=utf-8');
 $pdo = db();
 @unlink(__FILE__);
-echo 'agora UTC ' . gmdate('H:i') . "\n";
-foreach ($pdo->query("SELECT id, tipo, status, meta_post_id, LEFT(erro_msg, 120) erro FROM social_posts WHERE id IN (484, 487, 518, 519)") as $r) {
-    echo implode(' | ', array_map(static fn($v) => $v ?? 'NULL', $r)) . "\n";
+// Reels do Threads de 08 e 09/11: o container venceu enquanto o cron estava travado.
+// Voltam para a fila com um container novo, um a cada 30 min a partir de agora.
+$st = $pdo->prepare("UPDATE social_posts SET status = 'pendente', meta_container_id = NULL, erro_msg = NULL, agendado_para = UTC_TIMESTAMP() + INTERVAL ? MINUTE WHERE id = ? AND canal = 'threads' AND status = 'erro'");
+foreach ([484 => 5, 487 => 35] as $id => $min) {
+    $st->execute([$min, $id]);
+    echo "#$id recolocado: " . $st->rowCount() . "\n";
 }
-$m = dirname(__DIR__) . '/.threads_token_renovado';
-echo 'marca renovação Threads: ' . (is_file($m) ? gmdate('Y-m-d H:i', filemtime($m)) . ' UTC' : 'não existe') . "\n";
 echo "done\n";
