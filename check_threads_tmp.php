@@ -10,30 +10,14 @@ if (!hash_equals(SETUP_KEY, $key)) {
     exit('forbidden');
 }
 header('Content-Type: text/plain; charset=utf-8');
-set_time_limit(300);
 $pdo = db();
-
-echo 'max_execution_time web: ' . ini_get('max_execution_time') . "\n";
-$t = microtime(true);
-$fb = $pdo->query("SELECT id, agendado_para, meta_post_id FROM social_posts WHERE canal = 'facebook' AND status = 'agendado_meta' AND meta_post_id IS NOT NULL AND agendado_para <= NOW()")->fetchAll();
-echo 'fb agendado_meta vencidos: ' . count($fb) . "\n";
-foreach ($fb as $p) {
-    $t0 = microtime(true);
-    $e = null;
-    $d = meta_graph_get($p['meta_post_id'], ['fields' => 'is_published', 'access_token' => META_PAGE_TOKEN], $e);
-    echo "  #{$p['id']} {$p['agendado_para']} " . ($d ? json_encode($d) : "ERRO $e") . ' ' . round(microtime(true) - $t0, 1) . "s\n";
+foreach ($pdo->query("SELECT id, tipo, midia_tipo, agendado_para, meta_post_id FROM social_posts WHERE id IN (488, 485, 464, 389, 166, 53, 3)") as $p) {
+    echo "#{$p['id']} {$p['tipo']}/{$p['midia_tipo']} {$p['agendado_para']} id={$p['meta_post_id']}\n";
+    foreach (['published,status,permalink_url', 'is_published,permalink_url', 'id'] as $f) {
+        $e = null;
+        $d = meta_graph_get($p['meta_post_id'], ['fields' => $f, 'access_token' => META_PAGE_TOKEN], $e);
+        echo "   [$f] " . ($d ? json_encode($d, JSON_UNESCAPED_SLASHES) : 'ERRO ' . mb_substr((string)$e, 0, 90)) . "\n";
+    }
 }
-$ig = $pdo->query("SELECT id, meta_container_id FROM social_posts WHERE canal = 'instagram' AND status = 'processando' AND meta_container_id IS NOT NULL")->fetchAll();
-echo 'ig processando com container: ' . count($ig) . "\n";
-foreach ($ig as $p) {
-    $t0 = microtime(true);
-    $e = null;
-    $s = meta_get_instagram_container_status($p['meta_container_id'], $e);
-    echo "  #{$p['id']} " . ($s ?? "ERRO $e") . ' ' . round(microtime(true) - $t0, 1) . "s\n";
-}
-echo 'total ' . round(microtime(true) - $t, 1) . "s\n";
-// log do cron, se existir
-foreach (glob(__DIR__ . '/../*.log') ?: [] as $f) echo basename($f) . ' ' . date('Y-m-d H:i', filemtime($f)) . "\n";
-foreach (glob(__DIR__ . '/../logs/*') ?: [] as $f) echo 'logs/' . basename($f) . ' ' . date('Y-m-d H:i', filemtime($f)) . "\n";
 echo "\ndone\n";
 @unlink(__FILE__);
