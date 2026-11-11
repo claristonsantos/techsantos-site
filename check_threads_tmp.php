@@ -11,13 +11,26 @@ if (!hash_equals(SETUP_KEY, $key)) {
 }
 header('Content-Type: text/plain; charset=utf-8');
 $pdo = db();
-foreach ($pdo->query("SELECT id, tipo, midia_tipo, agendado_para, meta_post_id FROM social_posts WHERE id IN (488, 485, 464, 389, 166, 53, 3)") as $p) {
-    echo "#{$p['id']} {$p['tipo']}/{$p['midia_tipo']} {$p['agendado_para']} id={$p['meta_post_id']}\n";
-    foreach (['published,status,permalink_url', 'is_published,permalink_url', 'id'] as $f) {
-        $e = null;
-        $d = meta_graph_get($p['meta_post_id'], ['fields' => $f, 'access_token' => META_PAGE_TOKEN], $e);
-        echo "   [$f] " . ($d ? json_encode($d, JSON_UNESCAPED_SLASHES) : 'ERRO ' . mb_substr((string)$e, 0, 90)) . "\n";
+@unlink(__FILE__);
+
+// Carrosséis presos em 'processando' sem nenhuma lâmina: o cron morreu no meio da
+// criação das lâminas (ver social_publish_cron.php). Viram 'erro' com o motivo.
+$n = $pdo->exec("UPDATE social_posts SET status = 'erro', erro_msg = 'carrossel travado: o cron era interrompido antes de salvar as lâminas (corrigido em 11/11/2026)'"
+    . " WHERE tipo = 'carousel' AND status = 'processando' AND meta_container_id IS NULL AND carousel_children IS NULL AND agendado_para < NOW() - INTERVAL 1 DAY");
+echo "carrosséis travados marcados como erro: $n\n";
+
+echo "\nthreads ainda em processando:\n";
+foreach ($pdo->query("SELECT id, tipo, agendado_para, meta_container_id FROM social_posts WHERE canal='threads' AND status='processando'") as $r) {
+    echo "  #{$r['id']} {$r['tipo']} {$r['agendado_para']} {$r['meta_container_id']}\n";
+}
+
+foreach (['video_reels' => 'id,created_time,description', 'published_posts' => 'id,created_time,message'] as $edge => $fields) {
+    $e = null;
+    $d = meta_graph_get(META_PAGE_ID . '/' . $edge, ['fields' => $fields, 'limit' => 12, 'access_token' => META_PAGE_TOKEN], $e);
+    echo "\nFacebook /$edge:\n";
+    if ($d === null) { echo "  ERRO $e\n"; continue; }
+    foreach ($d['data'] ?? [] as $x) {
+        echo '  ' . substr((string)$x['created_time'], 0, 16) . ' ' . mb_substr(strtok((string)($x['description'] ?? $x['message'] ?? ''), "\n"), 0, 60) . "\n";
     }
 }
 echo "\ndone\n";
-@unlink(__FILE__);

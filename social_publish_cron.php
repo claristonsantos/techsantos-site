@@ -67,23 +67,18 @@ foreach ($due as $post) {
         $text = (string)$post['legenda'];
         $containerId = null;
         if ($post['tipo'] === 'carousel') {
-            // Só cria as lâminas aqui; a fase "carrossel: lâminas" confere nas próximas
-            // execuções e monta o carrossel quando todas estiverem prontas (ver abaixo).
+            // Lâminas do Threads levam ~3,5 s cada; criar 8 de uma vez estourava o tempo
+            // do cron e o post ficava preso em 'processando' sem nenhuma lâmina salva
+            // (todos os carrosséis de 07/10 a 09/11/2026). Aqui só marca a lista vazia;
+            // a fase "carrossel: lâminas" cria algumas por execução e salva a cada uma.
             $urls = json_decode((string)$post['carousel_urls'], true);
-            $children = [];
-            foreach (is_array($urls) ? array_slice($urls, 0, 10) : [] as $u) {
-                $isVid = (bool)preg_match('/\.(mp4|mov)(\?|$)/i', (string)$u);
-                $child = meta_threads_create_container($isVid ? 'VIDEO' : 'IMAGE', '', (string)$u, $error, true);
-                if ($child === null) { $children = []; break; }
-                $children[] = $child;
-            }
-            if (count($children) >= 2) {
-                $pdo->prepare("UPDATE social_posts SET carousel_children = ? WHERE id = ?")->execute([json_encode($children), $post['id']]);
-                echo "post {$post['id']}: " . count($children) . " lâminas criadas no Threads, carrossel monta quando ficarem prontas\n";
+            if (is_array($urls) && count($urls) >= 2) {
+                $pdo->prepare("UPDATE social_posts SET carousel_children = '[]' WHERE id = ?")->execute([$post['id']]);
+                echo "post {$post['id']}: carrossel do Threads na fila, lâminas saem nas próximas execuções\n";
             } else {
                 $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
-                    ->execute([mb_substr('Threads: ' . ($error ?? 'carrossel do Threads precisa de 2 a 10 itens'), 0, 500), $post['id']]);
-                echo "post {$post['id']}: falha ao criar lâminas no Threads — {$error}\n";
+                    ->execute(['Threads: carrossel do Threads precisa de 2 a 10 itens', $post['id']]);
+                echo "post {$post['id']}: carrossel do Threads sem itens suficientes\n";
             }
             continue;
         } elseif ((string)$post['imagem_url'] === '') {
@@ -168,6 +163,27 @@ foreach ($montando as $post) {
     $error = null;
     $children = json_decode((string)$post['carousel_children'], true) ?: [];
     $threads = $post['canal'] === 'threads';
+    if ($threads) {
+        $urls = array_slice(json_decode((string)$post['carousel_urls'], true) ?: [], 0, 10);
+        if (count($children) < count($urls)) {
+            // No máximo 4 lâminas por execução, salvando cada uma: se o cron for
+            // interrompido, a próxima execução continua de onde parou.
+            foreach (array_slice($urls, count($children), 4) as $u) {
+                $isVid = (bool)preg_match('/\.(mp4|mov)(\?|$)/i', (string)$u);
+                $child = meta_threads_create_container($isVid ? 'VIDEO' : 'IMAGE', '', (string)$u, $error, true);
+                if ($child === null || $child === '') {
+                    $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+                        ->execute([mb_substr('Threads: lâmina ' . (count($children) + 1) . ' — ' . ($error ?? 'falha ao criar'), 0, 500), $post['id']]);
+                    echo "post {$post['id']}: falha ao criar lâmina no Threads — {$error}\n";
+                    continue 2;
+                }
+                $children[] = $child;
+                $pdo->prepare("UPDATE social_posts SET carousel_children = ? WHERE id = ?")->execute([json_encode($children), $post['id']]);
+            }
+            echo "post {$post['id']}: " . count($children) . '/' . count($urls) . " lâminas criadas no Threads\n";
+            if (count($children) < count($urls)) continue;
+        }
+    }
     $pendente = false;
     foreach ($children as $child) {
         $st = $threads ? meta_threads_container_status($child, $error) : meta_get_instagram_container_status($child, $error);
@@ -201,6 +217,38 @@ foreach ($montando as $post) {
     }
     $pdo->prepare("UPDATE social_posts SET meta_container_id = ? WHERE id = ?")->execute([$parent, $post['id']]);
     echo "post {$post['id']}: carrossel montado ({$parent}), publica quando o container ficar pronto\n";
+}
+
+// Threads — publica containers criados na Fase 1 assim que ficarem
+// FINISHED (texto e imagem costumam ficar prontos na hora; vídeo em segundos
+// ou minutos). Nada de esperar aqui dentro: se ainda processa, tenta na
+// próxima rodada do cron. Vem antes da Fase 2 e da conferência do Facebook:
+// em 08-09/11/2026 a conferência de 93 posts antigos do Facebook gastava o
+// tempo do cron e esta etapa, que ficava no fim do arquivo, nunca rodava.
+$threadsProcessing = $pdo->query(
+    "SELECT * FROM social_posts WHERE canal = 'threads' AND status = 'processando' AND meta_container_id IS NOT NULL"
+)->fetchAll();
+foreach ($threadsProcessing as $post) {
+    $error = null;
+    $status = meta_threads_container_status($post['meta_container_id'], $error);
+    if ($status === 'FINISHED') {
+        $publishedId = meta_threads_publish($post['meta_container_id'], $error);
+        if ($publishedId === null || $publishedId === '') {
+            $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+                ->execute([mb_substr('Threads: ' . ($error ?? 'falha ao publicar'), 0, 500), $post['id']]);
+            echo "post {$post['id']}: falha ao publicar no Threads — {$error}\n";
+        } else {
+            $pdo->prepare("UPDATE social_posts SET status = 'publicado', meta_post_id = ? WHERE id = ?")
+                ->execute([$publishedId, $post['id']]);
+            echo "post {$post['id']}: publicado no Threads ({$publishedId})\n";
+        }
+    } elseif ($status === 'ERROR' || $status === 'EXPIRED') {
+        $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
+            ->execute([mb_substr('Threads: ' . ($error ?: $status), 0, 500), $post['id']]);
+        echo "post {$post['id']}: container do Threads com {$status}\n";
+    } else {
+        echo "post {$post['id']}: Threads ainda processando ({$status})\n";
+    }
 }
 
 // Phase 2: posts whose container is still processing — poll and publish once
@@ -262,8 +310,12 @@ foreach ($processing as $post) {
 // ever reports that back to us and the row would otherwise stay
 // 'agendado_meta' forever even after the post is really published.
 $fbScheduled = $pdo->query(
-    "SELECT * FROM social_posts WHERE canal = 'facebook' AND status = 'agendado_meta' AND meta_post_id IS NOT NULL AND agendado_para <= NOW()"
+    "SELECT * FROM social_posts WHERE canal = 'facebook' AND status = 'agendado_meta' AND meta_post_id IS NOT NULL"
+    . " AND agendado_para <= NOW() AND agendado_para >= NOW() - INTERVAL 3 DAY ORDER BY agendado_para LIMIT 10"
 )->fetchAll();
+// Só os últimos 3 dias, no máximo 10 por execução: os ids guardados dos Reels do
+// Facebook não aceitam mais consulta ("singular statuses API is deprecated") e as
+// 93 linhas que nunca confirmavam eram consultadas a cada minuto, para sempre.
 
 foreach ($fbScheduled as $post) {
     $error = null;
@@ -286,32 +338,11 @@ if (!$due && !$processing && !$fbScheduled) {
     echo "nada pendente\n";
 }
 
-// Phase 3: Threads — publica containers criados na Fase 1 assim que ficarem
-// FINISHED (texto e imagem costumam ficar prontos na hora; vídeo em segundos
-// ou minutos). Nada de esperar aqui dentro: se ainda processa, tenta na
-// próxima rodada do cron.
-$threadsProcessing = $pdo->query(
-    "SELECT * FROM social_posts WHERE canal = 'threads' AND status = 'processando' AND meta_container_id IS NOT NULL"
-)->fetchAll();
-foreach ($threadsProcessing as $post) {
-    $error = null;
-    $status = meta_threads_container_status($post['meta_container_id'], $error);
-    if ($status === 'FINISHED') {
-        $publishedId = meta_threads_publish($post['meta_container_id'], $error);
-        if ($publishedId === null || $publishedId === '') {
-            $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
-                ->execute([mb_substr('Threads: ' . ($error ?? 'falha ao publicar'), 0, 500), $post['id']]);
-            echo "post {$post['id']}: falha ao publicar no Threads — {$error}\n";
-        } else {
-            $pdo->prepare("UPDATE social_posts SET status = 'publicado', meta_post_id = ? WHERE id = ?")
-                ->execute([$publishedId, $post['id']]);
-            echo "post {$post['id']}: publicado no Threads ({$publishedId})\n";
-        }
-    } elseif ($status === 'ERROR' || $status === 'EXPIRED') {
-        $pdo->prepare("UPDATE social_posts SET status = 'erro', erro_msg = ? WHERE id = ?")
-            ->execute([mb_substr('Threads: ' . ($error ?: $status), 0, 500), $post['id']]);
-        echo "post {$post['id']}: container do Threads com {$status}\n";
-    } else {
-        echo "post {$post['id']}: Threads ainda processando ({$status})\n";
-    }
+// Renovação diária do token do Threads (o cron próprio, cron_threads_token.php,
+// nunca foi registrado na Hostinger). Fica por último porque aquele arquivo
+// termina com exit. A marca fica fora do public_html, que o deploy substitui.
+$marcaThreads = dirname(__DIR__) . '/.threads_token_renovado';
+if (!is_file($marcaThreads) || filemtime($marcaThreads) < time() - 20 * 3600) {
+    @touch($marcaThreads);
+    require __DIR__ . '/cron_threads_token.php';
 }
