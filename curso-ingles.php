@@ -25,7 +25,7 @@ $whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Inglês e tenh
 <meta property="og:url" content="https://techsantos.com.br/curso-ingles.php" />
 <meta property="og:title" content="Inglês para Dados e Tecnologia: do básico ao avançado, com conversa, prática interativa e áudio nativo" />
 <meta property="og:description" content="17 módulos, 66 aulas do A1 ao C1, videoaulas em conversa, mais de 800 exercícios interativos, avaliações e certificado." />
-<meta property="og:image" content="https://techsantos.com.br/assets/img/curso-ingles/capa.jpg" />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/curso-ingles/capa-dados-tecnologia.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
@@ -103,7 +103,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso de Inglês para Dados e Tecnol
         <div class="kpi-tile"><div class="kpi-num">2.400+</div><div class="kpi-label">frases com áudio em voz nativa, para ouvir quantas vezes quiser</div></div>
         <div class="kpi-tile"><div class="kpi-num">168</div><div class="kpi-label">questões: avaliação em cada módulo e teste final com certificado</div></div>
       </div>
-      <div class="fab-shot"><img src="/assets/img/curso-ingles/capa.jpg" alt="Lia, Ben e Ava, os personagens do curso, na sala de aula" loading="lazy"></div>
+      <div class="fab-shot"><img src="/assets/img/curso-ingles/capa-dados-tecnologia.jpg" alt="Lia, Ben e Ava, os personagens do curso, na sala de aula" loading="lazy"></div>
     </div>
   </section>
 

@@ -34,7 +34,7 @@ const CURSOS_VITRINE = [
     'ingles' => [
         'etiqueta' => 'Do básico ao avançado · A1 ao C1',
         'pagina' => '/curso-ingles.php',
-        'imagem' => '/assets/img/curso-ingles/capa.jpg',
+        'imagem' => '/assets/img/curso-ingles/capa-dados-tecnologia.jpg',
         'resumo' => 'Inglês para quem trabalha com dados e tecnologia, do zero à fluência profissional, com videoaulas em conversa com personagens, prática interativa estilo Duolingo e áudio nativo em todas as frases.',
         'itens' => [
             '17 módulos e 66 aulas do A1 ao C1, com videoaulas em formato de conversa e teoria completa em português',
