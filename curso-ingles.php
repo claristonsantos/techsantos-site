@@ -16,14 +16,14 @@ $whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Inglês e tenh
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href="https://techsantos.com.br/curso-ingles.php" />
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "Inglês do Básico ao Avançado (A1 ao C1)", "description": "Curso de inglês do básico ao avançado (A1 ao C1) em português: 17 módulos, 66 aulas com videoaulas em formato de conversa com personagens, mais de 800 exercícios interativos estilo Duolingo com áudio nativo e reconhecimento de voz, inglês para o trabalho e para dados, avaliações e certificado.", "provider": {"@type": "Organization", "name": "TECH SANTOS BR", "url": "https://techsantos.com.br/"}, "inLanguage": "pt-BR", "url": "https://techsantos.com.br/curso-ingles.php"}
+{"@context": "https://schema.org", "@type": "Course", "name": "Inglês para Dados e Tecnologia (A1 ao C1)", "description": "Curso de inglês do básico ao avançado (A1 ao C1) em português: 17 módulos, 66 aulas com videoaulas em formato de conversa com personagens, mais de 800 exercícios interativos estilo Duolingo com áudio nativo e reconhecimento de voz, inglês para o trabalho e para dados, avaliações e certificado.", "provider": {"@type": "Organization", "name": "TECH SANTOS BR", "url": "https://techsantos.com.br/"}, "inLanguage": "pt-BR", "url": "https://techsantos.com.br/curso-ingles.php"}
 </script>
-<title>Curso de Inglês do Básico ao Avançado (A1 ao C1) | TECH SANTOS BR</title>
-<meta name="description" content="Curso de inglês do básico ao avançado (A1 ao C1) em português: 17 módulos, 66 aulas com videoaulas em formato de conversa com personagens, mais de 800 exercícios interativos estilo Duolingo com áudio nativo e reconhecimento de voz, inglês para o trabalho e para dados, avaliações e certificado." />
+<title>Curso de Inglês para Dados e Tecnologia: do Básico ao Avançado (A1 ao C1) | TECH SANTOS BR</title>
+<meta name="description" content="Curso de inglês para dados e tecnologia, do básico ao avançado (A1 ao C1) em português: 17 módulos, 66 aulas com videoaulas em formato de conversa com personagens, mais de 800 exercícios interativos estilo Duolingo com áudio nativo e reconhecimento de voz, inglês para o trabalho e para dados, avaliações e certificado." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="pt_BR" />
 <meta property="og:url" content="https://techsantos.com.br/curso-ingles.php" />
-<meta property="og:title" content="Inglês do Básico ao Avançado — conversa, prática interativa e áudio nativo" />
+<meta property="og:title" content="Inglês para Dados e Tecnologia: do básico ao avançado, com conversa, prática interativa e áudio nativo" />
 <meta property="og:description" content="17 módulos, 66 aulas do A1 ao C1, videoaulas em conversa, mais de 800 exercícios interativos, avaliações e certificado." />
 <meta property="og:image" content="https://techsantos.com.br/assets/img/curso-ingles/capa.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -34,7 +34,7 @@ $whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Inglês e tenh
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($precoCentavos): ?>
 <script>
-fbq('track', 'ViewContent', {content_name: 'Curso de Inglês do Básico ao Avançado', currency: 'BRL', value: <?= json_encode(round($precoCentavos / 100, 2)) ?>});
+fbq('track', 'ViewContent', {content_name: 'Curso de Inglês para Dados e Tecnologia', currency: 'BRL', value: <?= json_encode(round($precoCentavos / 100, 2)) ?>});
 </script>
 <?php endif; ?>
 <style>
@@ -83,7 +83,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso de Inglês do Básico ao Avan�
         <span class="dot"></span>
         <span>Curso 100% EAD — <strong>acesso imediato</strong> após a confirmação do pagamento. Explicações em português, no seu ritmo.</span>
       </div>
-      <p class="eyebrow on-dark">Do básico ao avançado · A1 ao C1</p>
+      <p class="eyebrow on-dark">Inglês para Dados e Tecnologia · do básico ao avançado · A1 ao C1</p>
       <h1>Aprenda <em>inglês</em> conversando — do primeiro hello a uma reunião de trabalho.</h1>
       <p class="lead">Videoaulas em formato de conversa com personagens, prática interativa estilo Duolingo em todas as aulas e áudio nativo em cada frase. Teoria em português, sem enrolação, do zero à fluência profissional.</p>
       <?php if ($precoFormatado): ?>
@@ -445,7 +445,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso de Inglês do Básico ao Avan�
         <a href="/curso-excel.php">Excel do zero ao avançado (MO-210 e MO-211)</a>
         <a href="/curso-microsoft-fabric.php">Microsoft Fabric (DP-600 e DP-700)</a>
         <a href="/curso-power-bi.php">Curso completo de Power BI</a>
-        <a href="/curso-ingles.php">Inglês do básico ao avançado</a>
+        <a href="/curso-ingles.php">Inglês para Dados e Tecnologia</a>
         <a href="/login.php">Área do Aluno</a>
       </div>
       <div class="footer-col">

@@ -35,7 +35,7 @@ const CURSOS_VITRINE = [
         'etiqueta' => 'Do básico ao avançado · A1 ao C1',
         'pagina' => '/curso-ingles.php',
         'imagem' => '/assets/img/curso-ingles/capa.jpg',
-        'resumo' => 'Inglês do zero à fluência profissional, com videoaulas em conversa com personagens, prática interativa estilo Duolingo e áudio nativo em todas as frases.',
+        'resumo' => 'Inglês para quem trabalha com dados e tecnologia, do zero à fluência profissional, com videoaulas em conversa com personagens, prática interativa estilo Duolingo e áudio nativo em todas as frases.',
         'itens' => [
             '17 módulos e 66 aulas do A1 ao C1, com videoaulas em formato de conversa e teoria completa em português',
             'Mais de 800 exercícios interativos: ouvir, montar frases, ligar pares, escrever e falar com reconhecimento de voz',

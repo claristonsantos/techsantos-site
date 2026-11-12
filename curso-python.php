@@ -406,7 +406,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso de Python para Dados', currenc
         <a href="/curso-excel.php">Excel do zero ao avançado (MO-210 e MO-211)</a>
         <a href="/curso-microsoft-fabric.php">Microsoft Fabric (DP-600 e DP-700)</a>
         <a href="/curso-power-bi.php">Curso completo de Power BI</a>
-        <a href="/curso-ingles.php">Inglês do básico ao avançado</a>
+        <a href="/curso-ingles.php">Inglês para Dados e Tecnologia</a>
         <a href="/curso-python.php">Python para dados</a>
         <a href="/login.php">Área do Aluno</a>
       </div>
