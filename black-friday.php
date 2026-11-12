@@ -18,7 +18,6 @@ $somaCentavos = array_sum(array_map(fn($c) => (int)$c['preco_centavos'], $cursos
 $economiaPct = $somaCentavos > 0 ? (int)round(100 - BF_PRECO_CENTAVOS * 100 / $somaCentavos) : 0;
 $fmt = fn(int $c) => number_format($c / 100, 2, ',', '.');
 $precoBF = $fmt(BF_PRECO_CENTAVOS);
-$parcela = $fmt((int)ceil(BF_PRECO_CENTAVOS / 12));
 $whatsMsg = rawurlencode('Olá! Quero o combo Black Friday com os 4 cursos.');
 
 // Aluno logado: preenche os dados e mostra quais cursos ele já tem.
@@ -84,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 $titulo = 'Black Friday: 4 cursos por R$ ' . $precoBF . ' — TECH SANTOS BR';
-$descricao = 'Excel, Inglês, Power BI e Python completos, com certificado, por R$ ' . $precoBF . ' à vista ou 12x. Oferta válida até ' . BF_FIM_TEXTO . '.';
+$descricao = 'Excel, Inglês, Power BI e Python completos, com certificado, por R$ ' . $precoBF . ' à vista ou parcelado no cartão. Oferta válida até ' . BF_FIM_TEXTO . '.';
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -209,7 +208,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100
     <div class="bf-price">
       <div class="de">De <s>R$ <?= $fmt($somaCentavos) ?></s> por</div>
       <div class="por">R$ <?= $precoBF ?></div>
-      <div class="parc">à vista no Pix, ou até 12x de R$ <?= $parcela ?> no cartão</div>
+      <div class="parc">à vista no Pix, ou parcelado em até 12x no cartão</div>
       <?php if ($economiaPct > 0): ?><span class="eco">Economia de <?= $economiaPct ?>%</span><?php endif; ?>
       <ul>
         <li>Os 4 cursos completos, com todas as videoaulas e exercícios</li>
