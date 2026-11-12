@@ -55,6 +55,68 @@ function bf_pedido_e_combo(array $pedido): bool
     return ($pedido['oferta'] ?? null) === BF_OFERTA;
 }
 
+/** Tabela dos pedidos de lembrete ("me avise antes de acabar"). */
+function bf_lembretes_schema(PDO $pdo): void
+{
+    $pdo->exec("CREATE TABLE IF NOT EXISTS bf_lembretes (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(120) NULL,
+        email VARCHAR(190) NOT NULL,
+        whatsapp VARCHAR(20) NULL,
+        origem VARCHAR(80) NULL,
+        criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        enviado_27_em DATETIME NULL,
+        enviado_30_em DATETIME NULL,
+        UNIQUE KEY uq_email (email)
+    ) DEFAULT CHARSET=utf8mb4");
+}
+
+function bf_lembrete_salvar(PDO $pdo, string $nome, string $email, string $whatsapp, string $origem): void
+{
+    bf_lembretes_schema($pdo);
+    $pdo->prepare('INSERT INTO bf_lembretes (nome, email, whatsapp, origem) VALUES (?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE nome = COALESCE(NULLIF(VALUES(nome), \'\'), nome), whatsapp = COALESCE(NULLIF(VALUES(whatsapp), \'\'), whatsapp)')
+        ->execute([$nome ?: null, mb_strtolower($email), $whatsapp ?: null, $origem ?: null]);
+}
+
+/**
+ * Envia os lembretes: 27/11 (dia da Black Friday) e 30/11 (último dia), a partir das 12h de Brasília (15h UTC).
+ * Chamado pelo social_publish_cron (a cada 15 min). Não manda para quem já comprou o combo. Cópia ao dono.
+ */
+function bf_enviar_lembretes(PDO $pdo): int
+{
+    $agora = gmdate('Y-m-d H:i:s');
+    $rodadas = [['enviado_27_em', '2026-11-27 15:00:00'], ['enviado_30_em', '2026-11-30 15:00:00']];
+    $enviados = 0;
+    foreach ($rodadas as [$col, $inicio]) {
+        if ($agora < $inicio || !bf_ativa()) continue;
+        bf_lembretes_schema($pdo);
+        bf_ensure_schema($pdo);
+        $rows = $pdo->query("SELECT l.* FROM bf_lembretes l WHERE l.$col IS NULL
+            AND NOT EXISTS (SELECT 1 FROM pedidos p WHERE p.email = l.email AND p.status = 'pago' AND p.oferta = '" . BF_OFERTA . "')
+            ORDER BY l.id LIMIT 15")->fetchAll();
+        foreach ($rows as $r) {
+            $ultimo = $col === 'enviado_30_em';
+            $nome = trim((string)$r['nome']) !== '' ? explode(' ', trim((string)$r['nome']))[0] : '';
+            $link = 'https://techsantos.com.br/black-friday.php?utm_source=email&utm_medium=lembrete&utm_campaign=black-friday-2026&utm_content=' . ($ultimo ? 'dia30' : 'dia27');
+            $assunto = $ultimo ? 'Último dia: os 4 cursos por R$ 119,90 saem do ar hoje às 23h59' : 'Chegou a Black Friday: os 4 cursos por R$ 119,90';
+            $abertura = $ultimo ? 'Como você pediu, este é o aviso: <strong>hoje, 30/11, às 23h59</strong> o combo da Black Friday sai do ar.'
+                                : 'Como você pediu, este é o aviso: a <strong>Black Friday da TECH SANTOS BR</strong> está no ar e vai até segunda, 30/11, às 23h59.';
+            $html = '<p>Oi' . ($nome ? ' ' . htmlspecialchars($nome, ENT_QUOTES) : '') . '!</p><p>' . $abertura . '</p>'
+                . '<p>Excel, Power BI, Python e Inglês, os 4 cursos completos, com <strong>acesso vitalício</strong> e certificado em cada curso, '
+                . 'por <strong>R$ 119,90</strong> (separados, R$ 336,70). E com garantia incondicional de 7 dias.</p>'
+                . '<p><a href="' . $link . '" style="display:inline-block;background:#7ED956;color:#0F2440;font-weight:700;padding:12px 22px;border-radius:8px;text-decoration:none">Ver a oferta</a></p>'
+                . ($ultimo ? '<p>Pix gerado hoje ainda vale, mesmo se o pagamento compensar depois.</p>' : '')
+                . '<p>Clariston Santos<br>TECH SANTOS BR</p>';
+            $txt = strip_tags(str_replace(['</p>', '<br>'], "\n", $html)) . "\n" . $link;
+            $ok = send_html_email((string)$r['email'], $assunto, $html, $txt, OWNER_COPY_EMAIL);
+            $pdo->prepare("UPDATE bf_lembretes SET $col = UTC_TIMESTAMP() WHERE id = ?")->execute([$r['id']]);
+            if ($ok) $enviados++;
+        }
+    }
+    return $enviados;
+}
+
 /**
  * Matricula o aluno nos 4 cursos se o pedido pago é do combo Black Friday.
  * Retorna os ids matriculados (vazio se o pedido não é do combo).

@@ -338,6 +338,16 @@ if (!$due && !$processing && !$fbScheduled) {
     echo "nada pendente\n";
 }
 
+// Lembretes da Black Friday ("me avise antes de acabar"): 27/11 e 30/11. Não faz nada fora dessas datas.
+try {
+    require_once __DIR__ . '/mailer.php';
+    require_once __DIR__ . '/promo_black_friday.php';
+    $bfEnviados = bf_enviar_lembretes(db());
+    if ($bfEnviados) echo "lembretes black friday: {$bfEnviados}\n";
+} catch (Throwable $e) {
+    error_log('Lembretes Black Friday: ' . $e->getMessage());
+}
+
 // Renovação diária do token do Threads (o cron próprio, cron_threads_token.php,
 // nunca foi registrado na Hostinger). Fica por último porque aquele arquivo
 // termina com exit. A marca fica fora do public_html, que o deploy substitui.
