@@ -192,6 +192,7 @@ $comboAtivo = promo_combo_ativa();
 </style>
 </head>
 <body>
+<?php require_once __DIR__ . '/inc/banner_black_friday.php'; echo bf_banner('aula-gratis'); ?>
 
 <div class="student-topbar">
   <div style="display:flex; align-items:center; gap:0.75rem;">

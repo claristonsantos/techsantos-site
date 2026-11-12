@@ -41,6 +41,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
 <?php endif; ?>
 </head>
 <body>
+<?php require_once __DIR__ . '/inc/banner_black_friday.php'; echo bf_banner('curso-power-bi'); ?>
 
 <header class="site">
   <div class="nav-row">

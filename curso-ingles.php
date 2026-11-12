@@ -50,6 +50,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso de Inglês do Básico ao Avan�
 </style>
 </head>
 <body>
+<?php require_once __DIR__ . '/inc/banner_black_friday.php'; echo bf_banner('curso-ingles'); ?>
 
 <header class="site">
   <div class="nav-row">

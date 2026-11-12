@@ -27,6 +27,7 @@ $cursos = cursos_a_venda_ordenados(db());
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 </head>
 <body>
+<?php require_once __DIR__ . '/inc/banner_black_friday.php'; echo bf_banner('cursos'); ?>
 
 <header class="site">
   <div class="nav-row">

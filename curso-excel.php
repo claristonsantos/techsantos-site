@@ -50,6 +50,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
 </style>
 </head>
 <body>
+<?php require_once __DIR__ . '/inc/banner_black_friday.php'; echo bf_banner('curso-excel'); ?>
 
 <header class="site">
   <div class="nav-row">

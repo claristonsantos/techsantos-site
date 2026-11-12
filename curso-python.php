@@ -44,6 +44,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso de Python para Dados', currenc
 </style>
 </head>
 <body>
+<?php require_once __DIR__ . '/inc/banner_black_friday.php'; echo bf_banner('curso-python'); ?>
 
 <header class="site">
   <div class="nav-row">

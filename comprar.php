@@ -162,6 +162,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
 </style>
 </head>
 <body>
+<?php require_once __DIR__ . '/inc/banner_black_friday.php'; echo bf_banner('comprar-' . $slug); ?>
 <div class="buy-shell">
   <div class="buy-top"><a href="<?= $alunoLogado ? '/aluno/' : htmlspecialchars($vitrine['pagina'], ENT_QUOTES) ?>">← <?= $alunoLogado ? 'Voltar para a Área do Aluno' : 'Voltar para a página do curso' ?></a></div>
   <div class="buy-card">
