@@ -9,6 +9,10 @@ if (php_sapi_name() !== 'cli') {
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
 require_once __DIR__ . '/lead_nutricao.php';
+require_once __DIR__ . '/promo_black_friday.php';
+
+// A coluna pedidos.oferta é criada no primeiro pedido do combo; garante que exista antes do SELECT.
+bf_ensure_schema(db());
 
 $pdo = db();
 
@@ -36,7 +40,7 @@ function avisar_dono_pedido(array $p): void
 // pagamento, não abandono precoce) e criados nos últimos 7 dias (não reenviar
 // pra pedidos antigos/de teste que já passaram do prazo de fazer sentido).
 $pendentes = $pdo->query(
-    "SELECT p.*, c.nome AS curso_nome
+    "SELECT p.*, IF(p.oferta = '" . BF_OFERTA . "', 'combo Black Friday (Excel, Inglês, Power BI e Python)', c.nome) AS curso_nome
      FROM pedidos p
      JOIN cursos c ON c.id = p.curso_id
      WHERE p.status = 'pendente'
@@ -66,7 +70,7 @@ foreach ($pendentes as $p) {
 
 // Segundo e último lembrete, 24h depois: o mesmo e-mail de retomada (que já fala do parcelamento e do Pix).
 $segundo = $pdo->query(
-    "SELECT p.*, c.nome AS curso_nome
+    "SELECT p.*, IF(p.oferta = '" . BF_OFERTA . "', 'combo Black Friday (Excel, Inglês, Power BI e Python)', c.nome) AS curso_nome
      FROM pedidos p
      JOIN cursos c ON c.id = p.curso_id
      WHERE p.status = 'pendente'

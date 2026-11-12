@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/promo_black_friday.php';
 
 $pedidoId = (int)($_GET['pedido'] ?? 0);
 $pedido = null;
@@ -9,6 +10,7 @@ if ($pedidoId > 0) {
     $stmt->execute([$pedidoId]);
     $pedido = $stmt->fetch();
 }
+if ($pedido && bf_pedido_e_combo($pedido)) $pedido['curso_nome'] = 'Combo Black Friday (Excel, Inglês, Power BI e Python)';
 $pago = $pedido && $pedido['status'] === 'pago';
 ?>
 <!doctype html>
