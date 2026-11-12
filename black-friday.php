@@ -97,7 +97,9 @@ $descricao = 'Excel, Inglês, Power BI e Python completos, com certificado, por 
 <meta property="og:url" content="https://techsantos.com.br/black-friday.php" />
 <meta property="og:title" content="<?= htmlspecialchars($titulo, ENT_QUOTES) ?>" />
 <meta property="og:description" content="<?= htmlspecialchars($descricao, ENT_QUOTES) ?>" />
-<meta property="og:image" content="https://techsantos.com.br/assets/img/promo-curso-1.jpg" />
+<meta property="og:image" content="https://techsantos.com.br/assets/img/black-friday-og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="canonical" href="https://techsantos.com.br/black-friday.php" />
 <link rel="icon" type="image/png" href="assets/img/favicon-32.png" />
