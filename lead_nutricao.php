@@ -75,7 +75,7 @@ function nutricao_email(int $etapa, int $leadId): array
         : '';
     $c = "<p style=\"margin:0 0 14px;\">Se as aulas grátis fizeram sentido para você, este é o momento de seguir. O curso completo de Power BI sai por <strong>{$preco}</strong>, com acesso vitalício e liberação na hora.</p>"
        . $combo
-       . '<p style="margin:0 0 14px;"><strong>Garantia:</strong> se você concluiu menos de 20% do curso e não gostou, devolvemos 100% do valor.</p>';
+       . '<p style="margin:0 0 14px;"><strong>Garantia incondicional de 7 dias:</strong> se em até 7 dias você achar que não é para você, é só pedir pelo WhatsApp ou e-mail e devolvemos 100% do valor, sem perguntas.</p>';
     return [promo_combo_ativa() ? 'Power BI + Excel de presente, só até 31/10' : 'Seu próximo passo no Power BI',
             nutricao_frame($leadId, 'Pronto para o curso completo?', $c, 'Quero o curso de Power BI', $comprar),
             "Curso completo de Power BI: {$preco}. " . (promo_combo_ativa() ? 'Até 31/10 o curso de Excel vem de presente. ' : '') . $comprar];

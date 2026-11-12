@@ -96,7 +96,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
         <a class="btn btn-primary" href="<?= $urlCompra ?>" data-course-cta="excel_hero_buy">Começar agora<?= $precoFormatado ? ' por R$ ' . $precoFormatado : '' ?></a>
         <a class="btn btn-ghost" href="#curriculo" data-course-cta="excel_hero_curriculum">Ver o currículo</a>
       </div>
-      <p class="hero-assurance">Acesso imediato · suporte direto com o instrutor · garantia de satisfação</p>
+      <p class="hero-assurance">Acesso imediato · suporte direto com o instrutor · garantia incondicional de 7 dias</p>
       <div class="kpi-row">
         <div class="kpi-tile"><div class="kpi-num">68</div><div class="kpi-label">videoaulas com demonstração no Excel, em 17 módulos</div></div>
         <div class="kpi-tile"><div class="kpi-num">3h50</div><div class="kpi-label">de vídeo, e cada aula também em áudio (modo podcast)</div></div>
@@ -582,7 +582,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Excel do zero ao avançado', c
             <a class="btn btn-primary" href="<?= $urlCompra ?>" data-course-cta="excel_final_buy">Começar agora</a>
             <a class="btn btn-ghost" href="https://wa.me/5564992905785?text=<?= $whatsMsg ?>" target="_blank" rel="noopener">Tirar dúvida no WhatsApp</a>
           </div>
-          <p class="hero-assurance">Garantia: mediante solicitação, se você concluiu menos de 20% do curso e não gostou, devolvemos 100% do valor.</p>
+          <p class="hero-assurance">Garantia incondicional de 7 dias: se em até 7 dias você achar que não é para você, é só pedir pelo WhatsApp ou e-mail e devolvemos 100% do valor, sem perguntas.</p>
         </div>
       </div>
     </div>

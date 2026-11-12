@@ -224,7 +224,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
 
     <div class="buy-guarantee">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
-      <span><strong>Garantia:</strong> mediante solicitação, se você concluiu menos de 20% do curso e não gostou, devolvemos 100% do valor.</span>
+      <span><strong>Garantia incondicional de 7 dias:</strong> se em até 7 dias você achar que não é para você, é só pedir pelo WhatsApp ou e-mail e devolvemos 100% do valor, sem perguntas.</span>
     </div>
 
     <div class="buy-alt">

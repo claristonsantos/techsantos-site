@@ -95,7 +95,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Microsoft Fabric', currency: '
         <a class="btn btn-primary" href="<?= $urlCompra ?>" data-course-cta="fabric_hero_buy">Começar agora<?= $precoFormatado ? ' por R$ ' . $precoFormatado : '' ?></a>
         <a class="btn btn-ghost" href="#curriculo" data-course-cta="fabric_hero_curriculum">Ver o currículo</a>
       </div>
-      <p class="hero-assurance">Acesso imediato · suporte direto com o instrutor · garantia de satisfação</p>
+      <p class="hero-assurance">Acesso imediato · suporte direto com o instrutor · garantia incondicional de 7 dias</p>
       <div class="kpi-row">
         <div class="kpi-tile"><div class="kpi-num">82</div><div class="kpi-label">aulas com teoria completa, em 15 módulos</div></div>
         <div class="kpi-tile"><div class="kpi-num">6h</div><div class="kpi-label">de áudio: cada aula também em modo podcast</div></div>
@@ -562,7 +562,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Microsoft Fabric', currency: '
             <a class="btn btn-primary" href="<?= $urlCompra ?>" data-course-cta="fabric_final_buy">Começar agora</a>
             <a class="btn btn-ghost" href="https://wa.me/5564992905785?text=<?= $whatsMsg ?>" target="_blank" rel="noopener">Tirar dúvida no WhatsApp</a>
           </div>
-          <p class="hero-assurance">Garantia: mediante solicitação, se você concluiu menos de 20% do curso e não gostou, devolvemos 100% do valor.</p>
+          <p class="hero-assurance">Garantia incondicional de 7 dias: se em até 7 dias você achar que não é para você, é só pedir pelo WhatsApp ou e-mail e devolvemos 100% do valor, sem perguntas.</p>
         </div>
       </div>
     </div>

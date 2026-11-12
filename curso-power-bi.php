@@ -91,7 +91,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', va
         <a class="btn btn-ghost" href="/comprar.php" data-course-cta="hero_buy">Começar agora<?= $precoFormatado ? ' por R$ ' . $precoFormatado : '' ?></a>
         <a class="btn btn-ghost" href="#curriculo" data-course-cta="hero_curriculum">Ver o currículo</a>
       </div>
-      <p class="hero-assurance">Acesso imediato após a confirmação · suporte direto com o instrutor · garantia de satisfação</p>
+      <p class="hero-assurance">Acesso imediato após a confirmação · suporte direto com o instrutor · garantia incondicional de 7 dias</p>
       <div class="kpi-row">
         <div class="kpi-tile"><div class="kpi-num">46</div><div class="kpi-label">videoaulas práticas, mais de 7 horas de conteúdo</div></div>
         <div class="kpi-tile"><div class="kpi-num">13</div><div class="kpi-label">módulos, da modelagem aos laboratórios práticos</div></div>
