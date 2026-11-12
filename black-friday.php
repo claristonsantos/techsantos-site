@@ -145,8 +145,16 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100
   .bf-price .eco { display: inline-block; margin-top: 0.8rem; background: #14532D; color: #4ADE80; font-weight: 700; font-size: 0.85rem; padding: 0.3rem 0.7rem; border-radius: 999px; }
   .bf-price ul { list-style: none; padding: 0; margin: 1.2rem 0 0; text-align: left; display: grid; gap: 0.5rem; font-size: 0.88rem; color: #D4D4D8; }
   .bf-price li::before { content: "✓ "; color: #4ADE80; font-weight: 700; }
-  .bf-form { background: #fff; color: #18181B; border-radius: 12px; padding: 1.5rem; }
-  .bf-form h2 { font-size: 1.2rem; margin: 0 0 1rem; color: #18181B; }
+  /* Cores explícitas: as variáveis do tema mudam no modo escuro e deixavam rótulo branco em fundo branco. */
+  .bf-form { background: #18181B; color: #F4F4F5; border: 1px solid #3F3F46; border-radius: 12px; padding: 1.5rem; }
+  .bf-form h2 { font-size: 1.2rem; margin: 0 0 1rem; color: #fff; }
+  .bf-form label { color: #E4E4E7; font-weight: 600; }
+  .bf-form input { background: #0B0B0F; color: #fff; border: 1px solid #52525B; }
+  .bf-form input::placeholder { color: #71717A; }
+  .bf-form input:focus { border-color: #FACC15; outline: 2px solid rgba(250, 204, 21, 0.35); outline-offset: 0; }
+  .bf-form input[readonly] { color: #A1A1AA; }
+  .bf-form .bf-note { color: #A1A1AA; }
+  .bf-form .bf-note strong { color: #F4F4F5; }
   .bf-form .btn-primary { background: #FACC15; border-color: #FACC15; color: #0B0B0F; font-weight: 800; font-size: 1.05rem; }
   .bf-form .btn-primary:hover { background: #EAB308; border-color: #EAB308; }
   .bf-note { font-size: 0.78rem; color: #52525B; margin-top: 0.8rem; }
