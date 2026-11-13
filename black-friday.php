@@ -375,7 +375,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100
     </div>
   </div>
 </footer>
-<script src="/assets/js/analytics-events.js"></script>
+<script src="/assets/js/analytics-events.js?v=20261113"></script>
 <script>
 (function(){
   var a=typeof window.techSantosAttribution==='function'?window.techSantosAttribution():{};

@@ -144,4 +144,37 @@
       });
     }
   }
+
+  // Black Friday (combo dos 4 cursos): visita, envio do checkout e "Me avise".
+  if (path.endsWith('/black-friday.php')) {
+    const combo = { currency: 'BRL', value: 119.9, items: [{ item_id: 'combo-black-friday-2026', item_name: 'Combo Black Friday 4 cursos', item_category: 'Combo' }] };
+    once('bf_view', 'view_item', combo);
+    const checkout = document.querySelector('form[method="post"]:not(.bf-lform)');
+    if (checkout) {
+      let started = false;
+      checkout.addEventListener('focusin', function () {
+        if (started) return;
+        started = true;
+        once('bf_begin', 'begin_checkout', combo);
+      });
+      checkout.addEventListener('submit', function (event) {
+        if (checkout.dataset.tracked) return;
+        const filled = ['nome', 'email', 'telefone'].every((name) => (checkout.elements[name] && checkout.elements[name].value.trim() !== ''));
+        if (!filled) return;
+        event.preventDefault();
+        checkout.dataset.tracked = '1';
+        trackThenGo('add_payment_info', combo, function () { checkout.submit(); });
+      });
+    }
+    const lembrete = document.querySelector('form.bf-lform');
+    if (lembrete) {
+      lembrete.addEventListener('submit', function (event) {
+        if (lembrete.dataset.tracked) return;
+        if (!lembrete.elements.l_email || lembrete.elements.l_email.value.trim() === '') return;
+        event.preventDefault();
+        lembrete.dataset.tracked = '1';
+        trackThenGo('generate_lead', { lead_source: 'black_friday_me_avise' }, function () { lembrete.submit(); });
+      });
+    }
+  }
 })();
