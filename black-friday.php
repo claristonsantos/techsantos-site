@@ -210,6 +210,21 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100
   .bf-lform input::placeholder { color: #64748B; }
   .bf-lform button { background: #7ED956; color: #0F2440; border: 0; border-radius: 8px; padding: 0.7rem 1.2rem; font-weight: 800; cursor: pointer; }
   footer.site { background: #050B16; border-top: 1px solid #1E3A5F; }
+  /* Primeira tela no celular: preço de/por, botão e confiança antes de rolar (87% saíam sem rolar). */
+  .bf-hero-de { color: #D4D4D8; font-size: 1rem; margin: 0 0 0.75rem; }
+  .bf-hero-de s { font-family: 'Plex Mono', monospace; color: #A1A1AA; }
+  .bf-hero-de span { background: #FACC15; color: #0B0B0F; font-weight: 800; font-size: 0.8rem; padding: 0.15rem 0.45rem; border-radius: 4px; }
+  .bf-hero-cta { display: inline-block; margin-top: 1.25rem; background: #7ED956; color: #0B0B0F; font-weight: 800; font-size: 1.1rem; padding: 0.95rem 1.6rem; border-radius: 10px; text-decoration: none; box-shadow: 0 6px 24px rgba(126, 217, 86, 0.35); }
+  .bf-hero-cta:hover { background: #6DC24D; }
+  .bf-trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.35rem 1rem; margin-top: 0.9rem; font-size: 0.85rem; color: #CBD5E1; }
+  .bf-trust b { color: #E3A008; }
+  .bf-sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: none; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom)); background: #0B0B0F; border-top: 2px solid #7ED956; }
+  .bf-sticky.on { display: flex; }
+  .bf-sticky span { color: #fff; font-weight: 700; font-size: 0.95rem; }
+  .bf-sticky span s { color: #A1A1AA; font-weight: 400; font-size: 0.8rem; margin-right: 0.3rem; }
+  .bf-sticky a { background: #7ED956; color: #0B0B0F; font-weight: 800; padding: 0.65rem 1rem; border-radius: 8px; text-decoration: none; white-space: nowrap; }
+  @media (min-width: 761px) { .bf-sticky.on { display: none; } }
+  @media (max-width: 760px) { body.bf { padding-bottom: 64px; } }
 </style>
 </head>
 <body class="bf">
@@ -222,8 +237,11 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100
   <section class="bf-hero">
     <span class="bf-tag">BLACK FRIDAY</span>
     <h1>A trilha completa para trabalhar com dados por <em>R$ <?= $precoBF ?></em></h1>
-    <p>Excel, Power BI, Python e Inglês: os 4 cursos completos, com <strong>acesso vitalício</strong>, certificado em cada curso e garantia incondicional de 7 dias. Menos do que um curso sozinho.</p>
+    <?php if ($ativa): ?><div class="bf-hero-de">De <s>R$ <?= $fmt($somaCentavos) ?></s><?php if ($economiaPct > 0): ?> <span><?= $economiaPct ?>% OFF</span><?php endif; ?> · até 12x no cartão</div><?php endif; ?>
+    <p>Excel, Power BI, Python e Inglês: os 4 cursos completos, com <strong>acesso vitalício</strong> e certificado. Menos do que um curso sozinho.</p>
     <?php if ($ativa): ?>
+    <a class="bf-hero-cta" href="#comprar" data-course-cta="bf-hero">Quero os 4 cursos por R$ <?= $precoBF ?></a>
+    <div class="bf-trust"><span><b>★ 5,0</b> · 46 avaliações de alunos</span><span>Garantia incondicional de 7 dias</span><span>Acesso na hora</span></div>
     <div class="bf-timer" id="bf-timer" data-fim="<?= htmlspecialchars(str_replace(' ', 'T', BF_FIM_UTC) . 'Z', ENT_QUOTES) ?>" aria-label="Tempo até o fim da oferta">
       <div><b data-u="d">--</b><small>dias</small></div>
       <div><b data-u="h">--</b><small>horas</small></div>
@@ -288,7 +306,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100
     <p>Os cursos continuam à venda separadamente. <a href="/cursos.php">Ver os cursos →</a></p>
   </div>
   <?php else: ?>
-  <div class="bf-offer">
+  <div class="bf-offer" id="comprar">
     <div class="bf-price">
       <div class="de">De <s>R$ <?= $fmt($somaCentavos) ?></s> por</div>
       <div class="por">R$ <?= $precoBF ?></div>
@@ -375,8 +393,21 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100
     </div>
   </div>
 </footer>
+<?php if ($ativa): ?>
+<div class="bf-sticky" id="bf-sticky"><span><s>R$ <?= $fmt($somaCentavos) ?></s>R$ <?= $precoBF ?></span><a href="#comprar" data-course-cta="bf-sticky">Quero o combo</a></div>
+<?php endif; ?>
 <script src="/assets/js/analytics-events.js?v=20261113"></script>
 <script>
+(function(){
+  // Barra fixa no celular: aparece depois que o botão da primeira tela sai de vista e some quando a oferta está na tela.
+  var bar=document.getElementById('bf-sticky'), cta=document.querySelector('.bf-hero-cta'), offer=document.getElementById('comprar');
+  if(bar&&cta&&offer&&'IntersectionObserver' in window){
+    var ctaVis=true, offerVis=false;
+    var upd=function(){bar.classList.toggle('on',!ctaVis&&!offerVis);};
+    new IntersectionObserver(function(e){ctaVis=e[0].isIntersecting;upd();}).observe(cta);
+    new IntersectionObserver(function(e){offerVis=e[0].isIntersecting;upd();}).observe(offer);
+  }
+})();
 (function(){
   var a=typeof window.techSantosAttribution==='function'?window.techSantosAttribution():{};
   var map={campaign_source:'utm_source',campaign_medium:'utm_medium',campaign_name:'utm_campaign',campaign_content:'utm_content',campaign_term:'utm_term',campaign_landing_page:'landing_page'};
