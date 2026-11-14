@@ -11,8 +11,10 @@ require_once __DIR__ . '/../promo_black_friday.php';
 function bf_banner(string $origem): string
 {
     if (!bf_ativa()) return '';
-    $href = '/black-friday.php?utm_source=site&utm_medium=banner&utm_campaign=black-friday-2026&utm_content=' . rawurlencode($origem);
-    return '<a href="' . htmlspecialchars($href, ENT_QUOTES) . '" style="display:block;background:#0B0B0F;color:#F4F4F5;text-align:center;'
+    // Sem UTM em link interno: UTM abre sessão nova no GA4 e apaga a origem real do visitante
+    // (Instagram, anúncio, busca). O clique no banner é medido pelo evento course_cta_click.
+    $href = '/black-friday.php?origem=' . rawurlencode($origem);
+    return '<a href="' . htmlspecialchars($href, ENT_QUOTES) . '" data-course-cta="' . htmlspecialchars('bf-banner-' . $origem, ENT_QUOTES) . '" style="display:block;background:#0B0B0F;color:#F4F4F5;text-align:center;'
         . 'padding:.7rem 1rem;font:600 .95rem/1.4 system-ui,-apple-system,Segoe UI,sans-serif;text-decoration:none;border-bottom:3px solid #FACC15;">'
         . '<span style="background:#FACC15;color:#0B0B0F;font-weight:800;letter-spacing:.08em;padding:.15rem .5rem;border-radius:4px;margin-right:.5rem;">BLACK FRIDAY</span>'
         . '4 cursos (Excel, Power BI, Python e Inglês) por <strong style="color:#FACC15;">R$ 119,90</strong> · até ' . BF_FIM_TEXTO

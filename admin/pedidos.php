@@ -8,6 +8,12 @@ csrf_token();
 $mensagem = null; $mensagemOk = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check(); $pedidoId = (int)($_POST['pedido_id'] ?? 0);
+    if (($_POST['acao'] ?? '') === 'cancelar') {
+        // Só pedido pendente. Se o cliente pagar depois, o webhook ainda marca como pago e libera o acesso.
+        $st = db()->prepare("UPDATE pedidos SET status='cancelado', atualizado_em=NOW() WHERE id=? AND status='pendente'");
+        $st->execute([$pedidoId]); $mensagemOk = $st->rowCount() > 0;
+        $mensagem = $mensagemOk ? 'Pedido #' . $pedidoId . ' cancelado.' : 'Só é possível cancelar pedido pendente.';
+    } else
     try { $mensagemOk = reenviar_acesso_pedido($pedidoId); $mensagem = $mensagemOk ? 'Acesso reenviado com uma nova senha provisória.' : 'Não foi possível reenviar o acesso.'; }
     catch (Throwable $e) { error_log('Reenvio pedido ' . $pedidoId . ': ' . $e->getMessage()); $mensagem = 'Falha no reenvio. Consulte o status e tente novamente.'; }
 }
@@ -26,6 +32,14 @@ $whereSql=$where?' WHERE '.implode(' AND ',$where):'';
 $count=$pdo->prepare('SELECT COUNT(*) FROM pedidos p'.$whereSql); $count->execute($params); $totalPedidos=(int)$count->fetchColumn();
 $paginas=max(1,(int)ceil($totalPedidos/$porPagina)); $pagina=min($pagina,$paginas); $offset=($pagina-1)*$porPagina;
 $stmt=$pdo->prepare('SELECT p.*,c.nome AS curso_nome FROM pedidos p JOIN cursos c ON c.id=p.curso_id'.$whereSql.' ORDER BY p.criado_em DESC LIMIT '.$porPagina.' OFFSET '.$offset); $stmt->execute($params); $pedidos=$stmt->fetchAll();
+// criado_em é gravado em UTC (PHP/MySQL do servidor rodam em UTC); exibe no horário de Brasília.
+$dataBr = function (string $utc): string { return (new DateTimeImmutable($utc, new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('America/Sao_Paulo'))->format('d/m/Y H:i'); };
+// Pedidos de oferta (ex.: combo da Black Friday) usam um curso "âncora"; mostra o produto vendido de fato.
+$produto = function (array $p): string {
+    $oferta = (string)($p['oferta'] ?? '');
+    if (str_starts_with($oferta, 'black-friday')) return 'Combo Black Friday (4 cursos)';
+    return (string)$p['curso_nome'] . ($oferta !== '' ? ' · ' . $oferta : '');
+};
 admin_head('Pedidos'); admin_topbar('pedidos');
 ?>
 <main class="admin-main">
@@ -41,7 +55,7 @@ admin_head('Pedidos'); admin_topbar('pedidos');
   <div class="admin-list-head"><div><h2>Pedidos encontrados</h2><span><?= $totalPedidos ?> resultado(s)</span></div></div>
   <div class="table-wrap"><table class="data-table"><thead><tr><th>Data</th><th>Cliente</th><th>Curso</th><th>Valor</th><th>Pagamento</th><th>Acesso</th><th>Ação</th></tr></thead><tbody>
   <?php if(!$pedidos): ?><tr class="empty-row"><td colspan="7">Nenhum pedido encontrado com estes filtros.</td></tr><?php endif; ?>
-  <?php foreach($pedidos as $p): ?><tr><td><?= date('d/m/Y H:i',strtotime($p['criado_em'])) ?></td><td><strong><?= htmlspecialchars($p['nome'],ENT_QUOTES) ?></strong><small><?= htmlspecialchars($p['email'],ENT_QUOTES) ?> · #<?= (int)$p['id'] ?></small></td><td><?= htmlspecialchars($p['curso_nome'],ENT_QUOTES) ?></td><td>R$ <?= number_format($p['valor_centavos']/100,2,',','.') ?></td><td><span class="admin-status status-<?= $p['status']==='pago'?'success':($p['status']==='cancelado'?'danger':'warning') ?>"><?= htmlspecialchars($p['status'],ENT_QUOTES) ?></span></td><td><span class="admin-status status-<?= ($p['email_status']??'')==='enviado'?'success':(($p['email_status']??'')==='falha'?'danger':'neutral') ?>"><?= htmlspecialchars($p['email_status']??'pendente',ENT_QUOTES) ?></span><?php if(!empty($p['email_tentativas'])): ?><small><?= (int)$p['email_tentativas'] ?> tentativa(s)</small><?php endif; ?><?php if(($p['email_status']??'')==='falha' && !empty($p['email_ultimo_erro'])): ?><span class="admin-inline-error"><?= htmlspecialchars(mb_strimwidth((string)$p['email_ultimo_erro'],0,100,'…'),ENT_QUOTES) ?></span><?php endif; ?></td><td><?php if($p['status']==='pago' && !empty($p['aluno_id'])): ?><div class="admin-table-actions"><form method="post" onsubmit="return confirm('Gerar nova senha provisória e reenviar o acesso?');"><?= csrf_field() ?><input type="hidden" name="pedido_id" value="<?= (int)$p['id'] ?>"><button type="submit">Reenviar acesso</button></form></div><?php else: ?>—<?php endif; ?></td></tr><?php endforeach; ?>
+  <?php foreach($pedidos as $p): ?><tr><td><?= $dataBr((string)$p['criado_em']) ?></td><td><strong><?= htmlspecialchars($p['nome'],ENT_QUOTES) ?></strong><small><?= htmlspecialchars($p['email'],ENT_QUOTES) ?> · #<?= (int)$p['id'] ?></small></td><td><?= htmlspecialchars($produto($p),ENT_QUOTES) ?></td><td>R$ <?= number_format($p['valor_centavos']/100,2,',','.') ?></td><td><span class="admin-status status-<?= $p['status']==='pago'?'success':($p['status']==='cancelado'?'danger':'warning') ?>"><?= htmlspecialchars($p['status'],ENT_QUOTES) ?></span></td><td><span class="admin-status status-<?= ($p['email_status']??'')==='enviado'?'success':(($p['email_status']??'')==='falha'?'danger':'neutral') ?>"><?= htmlspecialchars($p['email_status']??'pendente',ENT_QUOTES) ?></span><?php if(!empty($p['email_tentativas'])): ?><small><?= (int)$p['email_tentativas'] ?> tentativa(s)</small><?php endif; ?><?php if(($p['email_status']??'')==='falha' && !empty($p['email_ultimo_erro'])): ?><span class="admin-inline-error"><?= htmlspecialchars(mb_strimwidth((string)$p['email_ultimo_erro'],0,100,'…'),ENT_QUOTES) ?></span><?php endif; ?></td><td><?php if($p['status']==='pago' && !empty($p['aluno_id'])): ?><div class="admin-table-actions"><form method="post" onsubmit="return confirm('Gerar nova senha provisória e reenviar o acesso?');"><?= csrf_field() ?><input type="hidden" name="pedido_id" value="<?= (int)$p['id'] ?>"><button type="submit">Reenviar acesso</button></form></div><?php elseif($p['status']==='pendente'): ?><div class="admin-table-actions"><form method="post" onsubmit="return confirm('Cancelar o pedido #<?= (int)$p['id'] ?>? Ele para de receber lembretes. Se o cliente pagar depois, o acesso ainda é liberado.');"><?= csrf_field() ?><input type="hidden" name="acao" value="cancelar"><input type="hidden" name="pedido_id" value="<?= (int)$p['id'] ?>"><button type="submit">Cancelar</button></form></div><?php else: ?>—<?php endif; ?></td></tr><?php endforeach; ?>
   </tbody></table></div>
   <?php admin_pagination($pagina,$paginas,$totalPedidos); ?>
 </main>
