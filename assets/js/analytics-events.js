@@ -155,7 +155,7 @@
       checkout.addEventListener('focusin', function () {
         if (started) return;
         started = true;
-        once('bf_begin', 'begin_checkout', combo);
+        once('bf_begin', 'begin_checkout', { ...combo, content_name: 'Combo Black Friday 4 cursos' }, 'InitiateCheckout', true);
       });
       checkout.addEventListener('submit', function (event) {
         if (checkout.dataset.tracked) return;

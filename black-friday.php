@@ -124,7 +124,8 @@ $descricao = 'Excel, Inglês, Power BI e Python completos, com certificado, por 
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($ativa): ?>
 <script>
-fbq('track', 'InitiateCheckout', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100) ?>, currency: 'BRL', content_name: <?= json_encode(BF_NOME, JSON_UNESCAPED_UNICODE) ?>});
+// Abrir a página é só visualização; InitiateCheckout dispara ao começar o formulário (analytics-events.js).
+fbq('track', 'ViewContent', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100) ?>, currency: 'BRL', content_name: <?= json_encode(BF_NOME, JSON_UNESCAPED_UNICODE) ?>});
 </script>
 <?php endif; ?>
 <style>
@@ -396,7 +397,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100
 <?php if ($ativa): ?>
 <div class="bf-sticky" id="bf-sticky"><span><s>R$ <?= $fmt($somaCentavos) ?></s>R$ <?= $precoBF ?></span><a href="#comprar" data-course-cta="bf-sticky">Quero o combo</a></div>
 <?php endif; ?>
-<script src="/assets/js/analytics-events.js?v=20261113"></script>
+<script src="/assets/js/analytics-events.js?v=20261114"></script>
 <script>
 (function(){
   // Barra fixa no celular: aparece depois que o botão da primeira tela sai de vista e some quando a oferta está na tela.
