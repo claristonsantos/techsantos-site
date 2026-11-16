@@ -5,6 +5,34 @@ declare(strict_types=1);
 // post novo: cria o arquivo blog/<slug>.php e adiciona uma entrada aqui.
 $posts = [
     [
+        'slug' => 'novidades-power-bi-outubro-2026',
+        'eyebrow' => 'Power BI',
+        'title' => '6 novidades do Power BI em outubro de 2026 que valem testar',
+        'excerpt' => 'Gantt nativo, segmentação suspensa, fundo da área de plotagem, favoritos que guardam colunas e ícone de página mobile.',
+        'date' => '2026-11-16',
+    ],
+    [
+        'slug' => 'tabela-de-datas-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Marcar como tabela de datas: quando é obrigatório e como fazer',
+        'excerpt' => 'O passo que muita gente pula: quando marcar a tabela calendário, quais validações a coluna precisa passar e o que muda no modelo.',
+        'date' => '2026-11-16',
+    ],
+    [
+        'slug' => 'linha-de-media-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Linha de média no gráfico do Power BI em 2 cliques',
+        'excerpt' => 'Use o painel Análise para adicionar média, mediana, mínimo, máximo ou constante ao gráfico, sem escrever DAX.',
+        'date' => '2026-11-16',
+    ],
+    [
+        'slug' => 'arvore-de-decomposicao-power-bi',
+        'eyebrow' => 'Power BI',
+        'title' => 'Árvore de decomposição: descubra por que o número caiu',
+        'excerpt' => 'Abra uma métrica por várias dimensões e deixe a IA apontar onde está o maior ou o menor valor.',
+        'date' => '2026-11-16',
+    ],
+    [
         'slug' => 'python-no-excel',
         'eyebrow' => 'Excel',
         'title' => 'Python no Excel: a nova integração nativa, direto na célula',
