@@ -51,6 +51,19 @@
   .pain-card .signal { font-family:'Plex Mono',monospace; color:var(--green-strong); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; }
   .pain-card h3 { margin:.8rem 0 .6rem; font-size:1.35rem; }
   .pain-card p { color:var(--ink-soft); font-size:.92rem; }
+  .express { background:var(--surface); }
+  .express-grid { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr); gap:clamp(2rem,5vw,4rem); align-items:center; }
+  .express h2 { margin:.7rem 0 1rem; }
+  .express-price { display:flex; flex-wrap:wrap; align-items:baseline; gap:.4rem 1rem; margin:1.2rem 0 .3rem; }
+  .express-price strong { font-family:'Plex Mono',monospace; font-size:clamp(2.2rem,5vw,3.2rem); color:var(--green-strong); line-height:1; }
+  .express-price span { color:var(--ink-soft); font-size:.92rem; }
+  .express-list { list-style:none; padding:0; margin:1.3rem 0; display:grid; gap:.6rem; }
+  .express-list li { padding-left:1.6rem; position:relative; }
+  .express-list li::before { content:'✓'; position:absolute; left:0; color:var(--green-strong); font-weight:700; }
+  .express-note { color:var(--ink-soft); font-size:.86rem; }
+  .express-cta { display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.4rem; }
+  .express-video { width:100%; max-width:320px; aspect-ratio:9/16; justify-self:center; border-radius:12px; background:#0B1220; box-shadow:0 24px 60px rgba(0,0,0,.22); }
+  @media(max-width:860px){.express-grid{grid-template-columns:1fr}}
   .delivery { background:var(--surface-2); }
   .delivery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; }
   .delivery-card { background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:1.5rem; }
@@ -103,10 +116,18 @@
 <main>
   <section class="biz-hero">
     <div class="biz-hero-grid">
-      <div><p class="eyebrow on-dark">Consultoria Power BI para empresas</p><h1>Seu dado precisa chegar à <em>decisão.</em></h1><p class="lead">Conectamos planilhas, ERP, APIs e bancos de dados em uma estrutura confiável, com painéis que a equipe entende e consegue usar no dia a dia.</p><div class="hero-cta"><a class="btn btn-primary" href="#diagnostico">Solicitar diagnóstico</a><a class="btn btn-ghost" href="/projetos.html">Ver projetos reais</a></div><div class="biz-trust"><span>Atendimento em todo o Brasil</span><span>50+ projetos de BI</span><span>Microsoft Partner Network desde 2021</span></div></div>
+      <div><p class="eyebrow on-dark">Consultoria Power BI para empresas</p><h1>Seu dado precisa chegar à <em>decisão.</em></h1><p class="lead">Conectamos planilhas, ERP, APIs e bancos de dados em uma estrutura confiável, com painéis que a equipe entende e consegue usar no dia a dia.</p><div class="hero-cta"><a class="btn btn-primary" href="#painel-express">Painel pronto em 7 dias</a><a class="btn btn-ghost" href="#diagnostico">Solicitar diagnóstico</a></div><div class="biz-trust"><span>Atendimento em todo o Brasil</span><span>50+ projetos de BI</span><span>Microsoft Partner Network desde 2021</span></div></div>
       <div class="data-route" aria-label="Fluxo do dado até o painel"><p class="route-label">Mapa do dado</p><div class="route-grid"><div class="route-node"><small>Entradas</small><strong>ERP · planilhas · APIs</strong></div><div class="route-node"><small>Base confiável</small><strong>Integração · modelo · qualidade</strong></div><div class="route-node output"><small>Uso pela equipe</small><strong>Painel atualizado para acompanhar decisões</strong></div><span class="route-pulse" aria-hidden="true"></span></div></div>
     </div>
   </section>
+
+  <section class="biz-section express" id="painel-express"><div class="biz-inner express-grid"><div><p class="eyebrow">Pacote fechado · preço fixo</p><h2>Painel Express: seu dashboard pronto em 7 dias úteis.</h2><p>Para empresas que já têm os dados em planilha ou conseguem exportar do sistema, e querem acompanhar vendas, metas e resultados sem esperar um projeto longo.</p>
+      <div class="express-price"><strong>R$ 1.497</strong><span>50% no início e 50% na entrega · PIX ou boleto</span></div>
+      <ul class="express-list"><li>1 fonte de dados: planilha Excel/CSV ou exportação do seu ERP</li><li>Até 3 páginas (ex.: vendas, produtos e clientes) com metas e comparação com o mês anterior</li><li>Publicado no Power BI Service (web e celular) ou entregue em arquivo .pbix</li><li>1 hora de treinamento online para a equipe usar o painel</li><li>30 dias de ajustes depois da entrega</li></ul>
+      <p class="express-note">Precisa integrar API, banco de dados ou várias fontes? Aí é projeto sob medida: <a href="#diagnostico">solicite o diagnóstico</a>. Manutenção mensal opcional a partir de R$ 297.</p>
+      <div class="express-cta"><a class="btn btn-primary" href="https://wa.me/5564992905785?text=Ol%C3%A1%21%20Quero%20o%20Painel%20Express%20para%20minha%20empresa." target="_blank" rel="noopener" data-course-cta="painel-express-whatsapp">Quero o Painel Express</a><a class="btn btn-ghost on-light" href="#diagnostico" data-course-cta="painel-express-diagnostico">Enviar meu cenário</a></div></div>
+    <video class="express-video" src="/assets/social-video/demo-comercial-dashboard.mp4#t=3" controls muted playsinline preload="metadata" aria-label="Demonstração de um dashboard comercial em Power BI"></video>
+  </div></section>
 
   <section class="biz-section"><div class="biz-inner"><div class="biz-section-head"><div><p class="eyebrow">Quando faz sentido</p><h2>O problema raramente é falta de gráfico.</h2></div><p>O projeto começa antes do Power BI. Primeiro identificamos onde o dado nasce, por que os números divergem e quem precisa tomar decisões com ele.</p></div><div class="pain-grid"><div class="pain-card"><span class="signal">Sinal 01</span><h3>Planilhas demais</h3><p>A equipe copia, cola e consolida arquivos todo mês, sem uma fonte única de verdade.</p></div><div class="pain-card"><span class="signal">Sinal 02</span><h3>Números que não batem</h3><p>Financeiro, comercial e operação chegam à reunião com versões diferentes do mesmo indicador.</p></div><div class="pain-card"><span class="signal">Sinal 03</span><h3>ERP sem visão gerencial</h3><p>O sistema registra a operação, mas não entrega a análise necessária para acompanhar metas e desvios.</p></div></div></div></section>
 
