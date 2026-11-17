@@ -216,7 +216,7 @@ $descricao = 'Minicurso prático: use ChatGPT, Claude e Copilot para limpar dado
   </section>
 </div>
 <footer class="ia-foot">© 2026 TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29</footer>
-<script src="/assets/js/analytics-events.js?v=20261114"></script>
+<script src="/assets/js/analytics-events.js?v=20261117-origem"></script>
 <script>
 (function(){
   var a=typeof window.techSantosAttribution==='function'?window.techSantosAttribution():{};

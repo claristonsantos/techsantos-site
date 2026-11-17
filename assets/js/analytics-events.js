@@ -67,6 +67,34 @@
   const attribution = captureAttribution();
   window.techSantosAttribution = function () { return { ...attribution }; };
 
+  // Primeiro contato (sem UTM): de onde a pessoa chegou ao site pela 1ª vez.
+  // Fica separado da atribuição de campanha para não poluir os eventos do GA4;
+  // só o formulário de compra lê (comprar.php grava no pedido quando não há UTM).
+  const firstTouchKey = 'ts_first_touch_v1';
+  function captureFirstTouch() {
+    try {
+      const raw = localStorage.getItem(firstTouchKey);
+      if (raw) {
+        const v = JSON.parse(raw);
+        if (v && v.at && Date.now() - v.at < 90 * 24 * 60 * 60 * 1000) return v;
+      }
+    } catch (_) {}
+    let ref = '';
+    try {
+      const host = document.referrer ? new URL(document.referrer).hostname.toLowerCase() : '';
+      if (host && !/(^|\.)techsantos\.com\.br$/.test(host)) ref = host;
+    } catch (_) {}
+    const ua = navigator.userAgent || '';
+    const app = /Instagram/i.test(ua) ? 'instagram-app' : /FBAN|FBAV|FB_IAB/i.test(ua) ? 'facebook-app'
+      : /musical_ly|BytedanceWebview|TikTok/i.test(ua) ? 'tiktok-app' : /LinkedInApp/i.test(ua) ? 'linkedin-app'
+      : /WhatsApp/i.test(ua) ? 'whatsapp-app' : /Threads/i.test(ua) ? 'threads-app' : '';
+    const v = { ref: ref.slice(0, 100), app, landing: window.location.pathname.slice(0, 150), at: Date.now() };
+    try { localStorage.setItem(firstTouchKey, JSON.stringify(v)); } catch (_) {}
+    return v;
+  }
+  const firstTouch = captureFirstTouch();
+  window.techSantosFirstTouch = function () { return { ...firstTouch }; };
+
   window.techSantosTrack = function (eventName, params, metaEventName, metaStandard, metaOptions) {
     const eventParams = clean({ ...attribution, ...(params || {}) });
     if (typeof window.gtag === 'function') window.gtag('event', eventName, eventParams);

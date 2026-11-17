@@ -82,6 +82,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach (['utm_source','utm_medium','utm_campaign','utm_content','utm_term','landing_page'] as $field) {
             $utm[$field] = mb_substr(trim((string)($_POST[$field] ?? '')), 0, $field === 'landing_page' ? 255 : 150);
         }
+        // Sem UTM: usa o primeiro contato (referrer + app de origem) gravado pelo
+        // analytics-events.js. utm_medium 'auto-*' marca que a origem foi inferida.
+        if ($utm['utm_source'] === '') {
+            $ftRef = strtolower(preg_replace('/[^a-z0-9.\-]/i', '', (string)($_POST['ft_ref'] ?? '')));
+            $ftApp = preg_replace('/[^a-z\-]/', '', (string)($_POST['ft_app'] ?? ''));
+            $ftLanding = mb_substr(preg_replace('#[^A-Za-z0-9/_.\-]#', '', (string)($_POST['ft_landing'] ?? '')), 0, 150);
+            $fonte = '';
+            $hosts = ['google' => 'google', 'bing' => 'bing', 'instagram' => 'instagram', 'facebook' => 'facebook', 'fb.' => 'facebook',
+                      'whatsapp' => 'whatsapp', 'wa.me' => 'whatsapp', 'tiktok' => 'tiktok', 'youtube' => 'youtube', 'linkedin' => 'linkedin',
+                      'threads' => 'threads', 'hotmart' => 'hotmart', 'chatgpt' => 'chatgpt', 'perplexity' => 'perplexity', 'yahoo' => 'yahoo'];
+            foreach ($hosts as $needle => $nomeFonte) {
+                if ($ftRef !== '' && str_contains($ftRef, $needle)) { $fonte = $nomeFonte; break; }
+            }
+            if ($fonte === '' && $ftApp !== '') $fonte = substr($ftApp, 0, -4); // 'instagram-app' -> 'instagram'
+            if ($fonte === '' && $ftRef !== '') $fonte = $ftRef;
+            $utm['utm_source'] = mb_substr($fonte !== '' ? $fonte : 'direto', 0, 150);
+            $utm['utm_medium'] = $ftRef !== '' ? 'auto-referral' : ($ftApp !== '' ? 'auto-app' : 'auto-direto');
+            $utm['utm_content'] = mb_substr(trim($ftRef . ($ftApp !== '' ? '|' . $ftApp : ''), '|'), 0, 150);
+            if ($utm['landing_page'] === '' && $ftLanding !== '') $utm['landing_page'] = $ftLanding;
+        }
         $ins = db()->prepare('INSERT INTO pedidos (nome,email,cpf,telefone,curso_id,valor_centavos,ga4_client_id,utm_source,utm_medium,utm_campaign,utm_content,utm_term,landing_page) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
         $ins->execute([$nome,$email,$cpf,$telefoneDigits,$curso['id'],$precoCentavos,$ga4ClientId,$utm['utm_source'] ?: null,$utm['utm_medium'] ?: null,$utm['utm_campaign'] ?: null,$utm['utm_content'] ?: null,$utm['utm_term'] ?: null,$utm['landing_page'] ?: null]);
         $pedidoId = (int)db()->lastInsertId();
@@ -205,6 +225,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
       <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium">
       <input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content">
       <input type="hidden" name="utm_term"><input type="hidden" name="landing_page">
+      <input type="hidden" name="ft_ref"><input type="hidden" name="ft_app"><input type="hidden" name="ft_landing">
       <div class="field">
         <label for="nome">Nome completo</label>
         <input type="text" id="nome" name="nome" required value="<?= $valorCampo('nome', (string)($alunoLogado['nome'] ?? '')) ?>">
@@ -251,12 +272,14 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
     </div>
   </div>
 </footer>
-<script src="/assets/js/analytics-events.js"></script>
+<script src="/assets/js/analytics-events.js?v=20261117-origem"></script>
 <script>
 (function(){
   var a=typeof window.techSantosAttribution==='function'?window.techSantosAttribution():{};
   var map={campaign_source:'utm_source',campaign_medium:'utm_medium',campaign_name:'utm_campaign',campaign_content:'utm_content',campaign_term:'utm_term',campaign_landing_page:'landing_page'};
   Object.keys(map).forEach(function(k){var el=document.querySelector('[name="'+map[k]+'"]');if(el&&a[k])el.value=a[k];});
+  var f=typeof window.techSantosFirstTouch==='function'?window.techSantosFirstTouch():{};
+  [['ft_ref','ref'],['ft_app','app'],['ft_landing','landing']].forEach(function(p){var el=document.querySelector('[name="'+p[0]+'"]');if(el&&f[p[1]])el.value=f[p[1]];});
 })();
 </script>
 </body>

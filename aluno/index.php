@@ -95,7 +95,7 @@ if ($temConteudo) {
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/css/style.css" />
 <?php require_once __DIR__ . '/../inc/google-analytics.php'; ?>
-<script src="/assets/js/analytics-events.js?v=20260812-student1"></script>
+<script src="/assets/js/analytics-events.js?v=20261117-origem"></script>
 <style>
   body { overflow-x: hidden; }
 

@@ -397,7 +397,7 @@ fbq('track', 'ViewContent', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100) ?>,
 <?php if ($ativa): ?>
 <div class="bf-sticky" id="bf-sticky"><span><s>R$ <?= $fmt($somaCentavos) ?></s>R$ <?= $precoBF ?></span><a href="#comprar" data-course-cta="bf-sticky">Quero o combo</a></div>
 <?php endif; ?>
-<script src="/assets/js/analytics-events.js?v=20261114"></script>
+<script src="/assets/js/analytics-events.js?v=20261117-origem"></script>
 <script>
 (function(){
   // Barra fixa no celular: aparece depois que o botão da primeira tela sai de vista e some quando a oferta está na tela.
