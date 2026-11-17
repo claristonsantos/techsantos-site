@@ -60,12 +60,13 @@ $cpf = substr(preg_replace('/\D/', '', (string)($buyer['document'] ?? '')) ?? ''
 $telefone = preg_replace('/\D/', '', (string)($buyer['checkout_phone'] ?? '')) ?? '';
 $valor = (float)($purchase['price']['value'] ?? 0);
 
-// Produto Hotmart => curso do site. entrega_site=false: o curso é entregue
-// pela Área de Membros da própria Hotmart (Power BI) — só registramos o pedido.
-// entrega_site=true: área de membros externa = nosso site; a compra cria o
-// login/matrícula e manda o e-mail de acesso (mesmo fluxo do Mercado Pago).
+// Produto Hotmart => curso do site. entrega_site=true: área de membros externa
+// = nosso site; a compra cria o login/matrícula e manda o e-mail de acesso
+// (mesmo fluxo do Mercado Pago). entrega_site=false (entrega pela Área de
+// Membros da Hotmart, só registra o pedido) não é mais usado: desde
+// 2026-11-17 todos os cursos, inclusive o Power BI, são entregues no site.
 const HOTMART_PRODUTOS = [
-    8144321 => ['slug' => 'power-bi', 'entrega_site' => false],
+    8144321 => ['slug' => 'power-bi', 'entrega_site' => true],
     9002171 => ['slug' => 'excel', 'entrega_site' => true],
     9002212 => ['slug' => 'python', 'entrega_site' => true],
     9002242 => ['slug' => 'ingles', 'entrega_site' => true],
