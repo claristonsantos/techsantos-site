@@ -153,7 +153,16 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
 {
     $subject = 'Sua vaga no curso ' . $curso['nome'] . ' está garantida — TECH SANTOS BR';
 
-    $modulos = [
+    // Resumo/módulos por curso: antes o e-mail listava sempre o Power BI, até pra quem comprou Excel/Python/Inglês.
+    $slug = (string)($curso['slug'] ?? (stripos((string)$curso['nome'], 'Power BI') !== false ? 'power-bi' : ''));
+    $resumos = [
+        'power-bi' => '46 videoaulas, mais de 7 horas de conteúdo, laboratórios práticos guiados e certificado de conclusão ao final',
+        'excel' => '17 módulos, 68 videoaulas com demonstração no Excel, avaliações, 2 simulados finais e certificado de conclusão',
+        'python' => '14 módulos, 55 videoaulas, laboratório de código no navegador, 54 desafios práticos e certificado de conclusão',
+        'ingles' => '17 módulos, 66 aulas com videoaulas em conversa, mais de 800 exercícios com áudio e certificado de conclusão',
+    ];
+    $resumo = $resumos[$slug] ?? 'videoaulas, exercícios práticos e certificado de conclusão ao final';
+    $modulos = $slug !== 'power-bi' ? [] : [
         'Módulo 01 — Fundamentos de Modelagem de Dados',
         'Módulo 02 — Perfil dos Dados',
         'Módulo 03 — Power Query: Conectando e Importando Dados',
@@ -168,10 +177,12 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
         'Módulo 12 — Estudo de Caso Final: Construa Seu Relatório do Zero',
         'Módulo 13 — Encerramento & Avaliação Final',
     ];
+    $primeiroModulo = $modulos[0] ?? 'Módulo 01';
     $modulosHtml = '';
     foreach ($modulos as $m) {
         $modulosHtml .= '<li style="margin-bottom:6px;">' . htmlspecialchars($m, ENT_QUOTES) . '</li>';
     }
+    $modulosBlocoHtml = $modulos ? '<h2 style="font-size:16px; margin:0 0 12px;">O que você vai ver no curso</h2><ul style="font-size:14px; color:#48546A; line-height:1.5; padding-left:20px; margin:0 0 24px;">' . $modulosHtml . '</ul>' : '';
 
     $primeiroNome = htmlspecialchars(explode(' ', trim($toName))[0], ENT_QUOTES);
     $emailHtml = htmlspecialchars($toEmail, ENT_QUOTES);
@@ -196,7 +207,7 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
         </td></tr>
         <tr><td style="padding:32px;">
           <h1 style="font-size:20px; margin:0 0 16px;">Oi, {$primeiroNome}! Sua vaga já está garantida</h1>
-          <p style="font-size:15px; line-height:1.6; color:#48546A; margin:0 0 20px;">Que bom ter você com a gente! Você garantiu sua vaga no curso <strong>{$cursoHtml}</strong>: 46 videoaulas, mais de 7 horas de conteúdo, laboratórios práticos guiados e certificado de conclusão ao final. Abaixo estão seus dados de acesso e tudo o que vem por aí.</p>
+          <p style="font-size:15px; line-height:1.6; color:#48546A; margin:0 0 20px;">Que bom ter você com a gente! Você garantiu sua vaga no curso <strong>{$cursoHtml}</strong>: {$resumo}. Abaixo estão seus dados de acesso e tudo o que vem por aí.</p>
 
           <table role="presentation" width="100%" style="background:#EBEEE3; border-radius:6px; margin-bottom:24px;">
             <tr><td style="padding:16px 20px;">
@@ -206,12 +217,9 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
             </td></tr>
           </table>
 
-          <p style="font-size:13px; color:#7C8798; margin:0 0 24px;">Por segurança, é só criar uma senha nova assim que você entrar pela primeira vez. Comece pelo <strong>Módulo 01 — Fundamentos de Modelagem de Dados</strong>, logo que entrar.</p>
+          <p style="font-size:13px; color:#7C8798; margin:0 0 24px;">Por segurança, é só criar uma senha nova assim que você entrar pela primeira vez. Comece pelo <strong>{$primeiroModulo}</strong>, logo que entrar.</p>
 
-          <h2 style="font-size:16px; margin:0 0 12px;">O que você vai ver no curso</h2>
-          <ul style="font-size:14px; color:#48546A; line-height:1.5; padding-left:20px; margin:0 0 24px;">
-            {$modulosHtml}
-          </ul>
+          {$modulosBlocoHtml}
 
           <p style="font-size:14px; color:#48546A; margin:0;">Qualquer dúvida é só responder este e-mail ou chamar a gente no <a href="{$waLink}" style="color:#35762A;">WhatsApp ({$waDisplay})</a> — estamos por aqui!</p>
         </td></tr>
@@ -224,20 +232,19 @@ function send_enrollment_email(string $toEmail, string $toName, string $senha, a
 HTML;
 
     $modulosTexto = implode("\n", array_map(fn($m) => '- ' . $m, $modulos));
+    $modulosBlocoTexto = $modulos ? "O que você vai ver no curso:\n" . $modulosTexto . "\n" : '';
     $text = <<<TEXT
 Oi, {$primeiroNome}!
 
-Que bom ter você com a gente! Sua vaga no curso {$curso['nome']} já está garantida: 46 videoaulas, mais de 7 horas de conteúdo, laboratórios práticos guiados e certificado de conclusão ao final. Aqui vão seus dados de acesso e tudo o que vem por aí.
+Que bom ter você com a gente! Sua vaga no curso {$curso['nome']} já está garantida: {$resumo}. Aqui vão seus dados de acesso e tudo o que vem por aí.
 
 Acesse em: https://techsantos.com.br/login.php
 Usuário (e-mail): {$toEmail}
 Senha provisória: {$senha}
 
-Por segurança, é só criar uma senha nova assim que você entrar pela primeira vez. Comece pelo Módulo 01 — Fundamentos de Modelagem de Dados, logo que entrar.
+Por segurança, é só criar uma senha nova assim que você entrar pela primeira vez. Comece pelo {$primeiroModulo}, logo que entrar.
 
-O que você vai ver no curso:
-{$modulosTexto}
-
+{$modulosBlocoTexto}
 Qualquer dúvida é só responder este e-mail ou chamar a gente no WhatsApp {$waDisplay} ({$waLink}) — estamos por aqui!
 
 TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29

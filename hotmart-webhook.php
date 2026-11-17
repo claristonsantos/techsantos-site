@@ -46,9 +46,11 @@ $pdo = db();
 
 // A Hotmart reenvia a mesma notificação até 5x em caso de falha — evita
 // duplicar o pedido se a transação já foi processada.
-$dup = $pdo->prepare('SELECT id FROM pedidos WHERE hotmart_transaction = ?');
+// Pedido 'pendente' com a mesma transação = liberação que falhou antes: tenta de novo abaixo.
+$dup = $pdo->prepare('SELECT id, status FROM pedidos WHERE hotmart_transaction = ?');
 $dup->execute([$transaction]);
-if ($dup->fetch()) {
+$existente = $dup->fetch();
+if ($existente && $existente['status'] === 'pago') {
     http_response_code(200);
     exit('ja processado');
 }
@@ -58,8 +60,26 @@ $cpf = substr(preg_replace('/\D/', '', (string)($buyer['document'] ?? '')) ?? ''
 $telefone = preg_replace('/\D/', '', (string)($buyer['checkout_phone'] ?? '')) ?? '';
 $valor = (float)($purchase['price']['value'] ?? 0);
 
-$cursoStmt = $pdo->prepare("SELECT id, nome FROM cursos WHERE slug = 'power-bi'");
-$cursoStmt->execute();
+// Produto Hotmart => curso do site. entrega_site=false: o curso é entregue
+// pela Área de Membros da própria Hotmart (Power BI) — só registramos o pedido.
+// entrega_site=true: área de membros externa = nosso site; a compra cria o
+// login/matrícula e manda o e-mail de acesso (mesmo fluxo do Mercado Pago).
+const HOTMART_PRODUTOS = [
+    8144321 => ['slug' => 'power-bi', 'entrega_site' => false],
+    9002171 => ['slug' => 'excel', 'entrega_site' => true],
+    9002212 => ['slug' => 'python', 'entrega_site' => true],
+    9002242 => ['slug' => 'ingles', 'entrega_site' => true],
+];
+$produtoId = (int)($payload['data']['product']['id'] ?? 0);
+$mapa = HOTMART_PRODUTOS[$produtoId] ?? null;
+if ($mapa === null) {
+    error_log('hotmart-webhook: produto desconhecido ' . $produtoId . ' transacao ' . $transaction);
+    http_response_code(200);
+    exit('produto desconhecido');
+}
+
+$cursoStmt = $pdo->prepare("SELECT id, nome FROM cursos WHERE slug = ?");
+$cursoStmt->execute([$mapa['slug']]);
 $curso = $cursoStmt->fetch();
 
 if (!$curso || $valor <= 0) {
@@ -67,12 +87,35 @@ if (!$curso || $valor <= 0) {
     exit('curso ou valor invalido');
 }
 
-// O curso já é entregue pela própria Hotmart (Área de Membros de lá) — não
-// criamos aluno nem mandamos e-mail de acesso ao site. Só registramos o
-// pedido (pra aparecer em Pedidos no admin) e mandamos o Purchase pro Meta.
-$ins = $pdo->prepare("INSERT INTO pedidos (nome, email, cpf, telefone, curso_id, valor_centavos, status, hotmart_transaction, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, 'pago', ?, NOW())");
-$ins->execute([$nome, $email, $cpf, $telefone, $curso['id'], (int)round($valor * 100), $transaction]);
-$pedidoId = (int)$pdo->lastInsertId();
+if ($existente) {
+    $pedidoId = (int)$existente['id'];
+} else {
+    $status = $mapa['entrega_site'] ? 'pendente' : 'pago';
+    $ins = $pdo->prepare("INSERT INTO pedidos (nome, email, cpf, telefone, curso_id, valor_centavos, status, hotmart_transaction, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+    $ins->execute([$nome, $email, $cpf, $telefone, $curso['id'], (int)round($valor * 100), $status, $transaction]);
+    $pedidoId = (int)$pdo->lastInsertId();
+}
+
+if ($mapa['entrega_site']) {
+    require_once __DIR__ . '/pedidos.php';
+    try {
+        $res = marcar_pedido_pago($pedidoId, $cpf !== '' ? $cpf : null);
+        // Quem já tinha login no site não recebe senha nova: avisa que o curso foi liberado.
+        if (($res['email_enviado'] ?? null) === null) {
+            $primeiro = htmlspecialchars(explode(' ', trim($nome))[0] ?: 'Olá', ENT_QUOTES);
+            $cursoHtml = htmlspecialchars($curso['nome'], ENT_QUOTES);
+            $html = "<p>Oi, {$primeiro}!</p><p>O curso <strong>{$cursoHtml}</strong> já está liberado na sua conta da Tech Santos.</p>"
+                . "<p>Entre com o mesmo e-mail e senha de sempre em <a href=\"https://techsantos.com.br/login.php\">techsantos.com.br/login.php</a>. "
+                . "Esqueceu a senha? Use \"Esqueci minha senha\" na tela de login.</p>" . email_footer_html();
+            $text = "Oi! O curso {$curso['nome']} já está liberado na sua conta da Tech Santos. Entre em https://techsantos.com.br/login.php com o mesmo e-mail e senha de sempre.";
+            send_html_email($email, 'Curso liberado: ' . $curso['nome'] . ' — TECH SANTOS BR', $html, $text, OWNER_COPY_EMAIL);
+        }
+    } catch (Throwable $e) {
+        error_log('hotmart-webhook: falha ao liberar pedido ' . $pedidoId . ': ' . $e->getMessage());
+        http_response_code(500); // a Hotmart reenvia; o pedido fica com webhook_ultimo_erro preenchido
+        exit('erro ao liberar acesso');
+    }
+}
 
 meta_capi_send_purchase($pedidoId, $email, $telefone, $valor, $curso['nome']);
 // Sem cookie _ga aqui — o checkout roda inteiro dentro do domínio da Hotmart,

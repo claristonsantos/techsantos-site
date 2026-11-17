@@ -53,11 +53,13 @@ function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?stri
     try { lead_pipeline_mark_purchase($pdo, (string)$pedido['telefone']); }
     catch (Throwable $pipelineError) { error_log('Pipeline lead pedido ' . $pedidoId . ': ' . $pipelineError->getMessage()); }
     if ($senhaGerada !== null) {
-        $cursoStmt=$pdo->prepare('SELECT nome FROM cursos WHERE id=?'); $cursoStmt->execute([$pedido['curso_id']]);
-        $cursoNome=$cursoStmt->fetchColumn() ?: 'Power BI Completo';
+        $cursoStmt=$pdo->prepare('SELECT nome, slug FROM cursos WHERE id=?'); $cursoStmt->execute([$pedido['curso_id']]);
+        $cursoRow=$cursoStmt->fetch() ?: [];
+        $cursoNome=$cursoRow['nome'] ?? 'Power BI Completo';
+        $cursoSlug=(string)($cursoRow['slug'] ?? 'power-bi');
         if ($bonusId !== null) $cursoNome .= ' + curso de Excel (bônus Mês dos Professores)';
-        if ($comboIds) $cursoNome = BF_NOME;
-        $ok=send_enrollment_email($pedido['email'],$pedido['nome'],$senhaGerada,['nome'=>$cursoNome]);
+        if ($comboIds) { $cursoNome = BF_NOME; $cursoSlug = 'power-bi'; }
+        $ok=send_enrollment_email($pedido['email'],$pedido['nome'],$senhaGerada,['nome'=>$cursoNome,'slug'=>$cursoSlug]);
         $pdo->prepare("UPDATE pedidos SET email_status=?, email_tentativas=email_tentativas+1, email_enviado_em=IF(?,NOW(),email_enviado_em), email_ultimo_erro=? WHERE id=?")->execute([$ok?'enviado':'falha',$ok?1:0,$ok?null:'SMTP não confirmou o envio',$pedidoId]);
         return ['status'=>'processado','pedido_id'=>$pedidoId,'aluno_id'=>$alunoId,'email_enviado'=>$ok];
     }
@@ -67,11 +69,11 @@ function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?stri
 
 function reenviar_acesso_pedido(int $pedidoId): bool
 {
-    $pdo=db(); $stmt=$pdo->prepare("SELECT p.*,c.nome AS curso_nome FROM pedidos p JOIN cursos c ON c.id=p.curso_id WHERE p.id=? AND p.status='pago' LIMIT 1");
+    $pdo=db(); $stmt=$pdo->prepare("SELECT p.*,c.nome AS curso_nome,c.slug AS curso_slug FROM pedidos p JOIN cursos c ON c.id=p.curso_id WHERE p.id=? AND p.status='pago' LIMIT 1");
     $stmt->execute([$pedidoId]); $pedido=$stmt->fetch();
     if (!$pedido || empty($pedido['aluno_id'])) return false;
     $senha=bin2hex(random_bytes(5));
-    $ok=send_enrollment_email($pedido['email'],$pedido['nome'],$senha,['nome'=>$pedido['curso_nome']]);
+    $ok=send_enrollment_email($pedido['email'],$pedido['nome'],$senha,['nome'=>$pedido['curso_nome'],'slug'=>$pedido['curso_slug']]);
     if($ok){
         $pdo->prepare('UPDATE alunos SET senha_hash=?, senha_temporaria=1, ativo=1 WHERE id=?')->execute([password_hash($senha,PASSWORD_DEFAULT),$pedido['aluno_id']]);
     }

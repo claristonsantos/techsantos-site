@@ -43,7 +43,7 @@ $pendentes = $pdo->query(
     "SELECT p.*, IF(p.oferta = '" . BF_OFERTA . "', 'combo Black Friday (Excel, Inglês, Power BI e Python)', c.nome) AS curso_nome
      FROM pedidos p
      JOIN cursos c ON c.id = p.curso_id
-     WHERE p.status = 'pendente'
+     WHERE p.status = 'pendente' AND p.hotmart_transaction IS NULL
        AND p.lembrete_enviado = 0
        AND p.criado_em <= NOW() - INTERVAL 2 HOUR
        AND p.criado_em >= NOW() - INTERVAL 7 DAY"
@@ -73,7 +73,7 @@ $segundo = $pdo->query(
     "SELECT p.*, IF(p.oferta = '" . BF_OFERTA . "', 'combo Black Friday (Excel, Inglês, Power BI e Python)', c.nome) AS curso_nome
      FROM pedidos p
      JOIN cursos c ON c.id = p.curso_id
-     WHERE p.status = 'pendente'
+     WHERE p.status = 'pendente' AND p.hotmart_transaction IS NULL
        AND p.lembrete_enviado = 1
        AND p.lembrete2_em IS NULL
        AND p.criado_em <= NOW() - INTERVAL 26 HOUR
