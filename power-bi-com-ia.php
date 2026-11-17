@@ -9,7 +9,7 @@ csrf_token();
 
 const IA_PRECO_FUNDADOR = '47';
 const IA_PRECO_NORMAL = '97';
-const IA_LANCAMENTO = 'dezembro de 2026';
+const IA_LANCAMENTO = 'janeiro de 2027';
 
 function ia_lista_schema(PDO $pdo): void
 {
