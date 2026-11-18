@@ -70,6 +70,7 @@ function admin_topbar(string $active): void
         'Marketing' => [
             'social' => ['/admin/social_posts.php', 'Redes sociais', 'social'],
             'social_auto_reply' => ['/admin/social_auto_reply.php', 'Auto-resposta', 'reply'],
+            'tiktok' => ['/admin/tiktok.php', 'TikTok', 'social'],
         ],
         'Configurações' => [
             'google_calendar' => ['/admin/google_calendar_setup.php', 'Google Calendar', 'lessons'],
