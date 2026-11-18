@@ -201,7 +201,8 @@ try {
     exit('erro ao liberar acesso');
 }
 
-meta_capi_send_purchase($pedidoId, $email, $telefone, $valor, $curso['nome']);
+// Sem Meta CAPI aqui: o checkout da Kiwify já dispara o Purchase pelo pixel
+// configurado em cada produto — mandar de novo contaria a venda 2x.
 ga4_send_purchase($pedidoId, null, $valor, $curso['nome']);
 
 http_response_code(200);
