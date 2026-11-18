@@ -30,8 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($key === '' || $secret === '') {
             $error = 'Informe o Client key e o Client secret.';
         } else {
-            tt_save_app($key, $secret, (string)($_POST['ambiente'] ?? 'sandbox'));
-            $msg = 'Chaves do app salvas. Agora conecte a conta do TikTok.';
+            try {
+                tt_save_app($key, $secret, (string)($_POST['ambiente'] ?? 'sandbox'));
+                $msg = 'Chaves do app salvas. Agora conecte a conta do TikTok.';
+            } catch (InvalidArgumentException $e) {
+                $error = $e->getMessage();
+            }
         }
     } elseif ($action === 'connect') {
         $state = bin2hex(random_bytes(16));
@@ -39,6 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $url = tt_auth_url($state);
         if ($url) { header('Location: ' . $url); exit; }
         $error = 'Configure as chaves do app primeiro.';
+    } elseif ($action === 'reset_app') {
+        db()->exec('DELETE FROM tiktok_tokens');
+        db()->exec('DELETE FROM tiktok_app');
+        $msg = 'Chaves do app apagadas. Informe as novas.';
     } elseif ($action === 'disconnect') {
         tt_disconnect();
         $msg = 'Conta do TikTok desconectada.';
@@ -121,8 +129,8 @@ admin_topbar('tiktok');
     <form method="post" autocomplete="off">
       <?= csrf_field() ?>
       <input type="hidden" name="action" value="app">
-      <div class="field"><label for="ck">Client key</label><input type="text" id="ck" name="client_key" required></div>
-      <div class="field"><label for="cs">Client secret</label><input type="password" id="cs" name="client_secret" required></div>
+      <div class="field"><label for="ck">Client key</label><input type="text" id="ck" name="client_key" required autocomplete="off" spellcheck="false" placeholder="ex.: sbaw… (Sandbox) ou aw… (Production)"></div>
+      <div class="field"><label for="cs">Client secret</label><input type="password" id="cs" name="client_secret" required autocomplete="new-password" spellcheck="false"></div>
       <div class="field"><label for="amb">Ambiente</label>
         <select id="amb" name="ambiente"><option value="sandbox">Sandbox (testes)</option><option value="producao">Production</option></select></div>
       <button type="submit" class="btn btn-primary">Salvar chaves</button>
@@ -134,6 +142,8 @@ admin_topbar('tiktok');
     <p style="color:var(--ink-soft); font-size:.92rem;">App configurado (<?= $h($app['ambiente']) ?>). Entre com a conta do TikTok que vai publicar os vídeos.</p>
     <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="connect">
       <button type="submit" class="btn btn-primary">Continue with TikTok · Conectar TikTok</button></form>
+    <form method="post" style="margin-top:.6rem"><?= csrf_field() ?><input type="hidden" name="action" value="reset_app">
+      <button type="submit" class="btn btn-ghost on-light">Trocar chaves do app</button></form>
   </div>
   <?php else: ?>
   <div class="buy-card" style="max-width:760px; margin-bottom:1.5rem; display:flex; gap:1rem; align-items:center;">

@@ -59,6 +59,10 @@ function tt_app(): ?array
 
 function tt_save_app(string $key, string $secret, string $ambiente): void
 {
+    // Recusa valores que não parecem chaves do TikTok (ex.: login/senha que o navegador preencheu sozinho).
+    if (!preg_match('/^[A-Za-z0-9_-]{12,}$/', trim($key)) || strlen(trim($secret)) < 20) {
+        throw new InvalidArgumentException('Chaves inválidas: copie o Client key e o Client secret do portal do TikTok.');
+    }
     $pdo = db();
     tt_schema($pdo);
     $pdo->prepare('REPLACE INTO tiktok_app (id, client_key, client_secret, ambiente) VALUES (1, ?, ?, ?)')
