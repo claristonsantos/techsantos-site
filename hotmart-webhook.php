@@ -14,6 +14,81 @@ function hotmart_hottok_recebido(): string
     return '';
 }
 
+/**
+ * Reembolso/chargeback da Hotmart: marca o pedido como 'reembolsado' e tira a
+ * matrícula do curso — a não ser que o aluno tenha OUTRO pedido pago do mesmo
+ * curso (ex.: comprou também no site). Se era o curso principal do aluno
+ * (alunos.curso_id), troca para outra matrícula; sem nenhuma, desativa o login
+ * (senão aluno_aplicar_curso_ativo() recriaria a matrícula no próximo acesso).
+ */
+function hotmart_revogar_acesso(PDO $pdo, string $transaction, string $evento): string
+{
+    if ($transaction === '') return 'sem transacao';
+    require_once __DIR__ . '/matriculas.php';
+    require_once __DIR__ . '/mailer.php';
+    matriculas_ensure_schema($pdo);
+
+    // Garante o valor 'reembolsado' no ENUM de pedidos.status (acrescenta, sem mexer nos existentes).
+    $tipo = (string)($pdo->query("SHOW COLUMNS FROM pedidos LIKE 'status'")->fetch()['Type'] ?? '');
+    if (stripos($tipo, 'enum(') === 0 && stripos($tipo, "'reembolsado'") === false) {
+        $pdo->exec('ALTER TABLE pedidos MODIFY COLUMN status ' . substr($tipo, 0, -1) . ",'reembolsado') NOT NULL DEFAULT 'pendente'");
+    }
+
+    $st = $pdo->prepare('SELECT p.id, p.status, p.aluno_id, p.curso_id, p.nome, p.email, c.nome AS curso_nome
+                         FROM pedidos p JOIN cursos c ON c.id = p.curso_id WHERE p.hotmart_transaction = ?');
+    $st->execute([$transaction]);
+    $pedido = $st->fetch();
+    if (!$pedido) return 'pedido nao encontrado';
+    if ($pedido['status'] === 'reembolsado') return 'ja revogado';
+    if ($pedido['status'] !== 'pago') {
+        $pdo->prepare("UPDATE pedidos SET status='cancelado', atualizado_em=NOW() WHERE id=?")->execute([$pedido['id']]);
+        return 'pedido nao pago cancelado';
+    }
+
+    $pdo->beginTransaction();
+    try {
+        $pdo->prepare("UPDATE pedidos SET status='reembolsado', webhook_ultimo_erro=?, atualizado_em=NOW() WHERE id=?")
+            ->execute(['Hotmart: ' . $evento . ' em ' . date('Y-m-d H:i'), $pedido['id']]);
+        $alunoId = (int)$pedido['aluno_id'];
+        $cursoId = (int)$pedido['curso_id'];
+        $revogou = false;
+        if ($alunoId > 0) {
+            $outro = $pdo->prepare("SELECT COUNT(*) FROM pedidos WHERE aluno_id=? AND curso_id=? AND status='pago' AND id<>?");
+            $outro->execute([$alunoId, $cursoId, $pedido['id']]);
+            if ((int)$outro->fetchColumn() === 0) {
+                $pdo->prepare('DELETE FROM matriculas WHERE aluno_id=? AND curso_id=?')->execute([$alunoId, $cursoId]);
+                $principal = $pdo->prepare('SELECT curso_id FROM alunos WHERE id=?');
+                $principal->execute([$alunoId]);
+                if ((int)$principal->fetchColumn() === $cursoId) {
+                    $resto = $pdo->prepare('SELECT curso_id FROM matriculas WHERE aluno_id=? ORDER BY criado_em LIMIT 1');
+                    $resto->execute([$alunoId]);
+                    $novo = $resto->fetchColumn();
+                    if ($novo !== false) {
+                        $pdo->prepare('UPDATE alunos SET curso_id=? WHERE id=?')->execute([(int)$novo, $alunoId]);
+                    } else {
+                        $pdo->prepare('UPDATE alunos SET ativo=0 WHERE id=?')->execute([$alunoId]);
+                    }
+                }
+                $revogou = true;
+            }
+        }
+        $pdo->commit();
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        throw $e;
+    }
+
+    $resumo = sprintf('Hotmart %s — pedido #%d (%s, %s), curso %s. Acesso %s.',
+        $evento, $pedido['id'], $pedido['nome'], $pedido['email'], $pedido['curso_nome'],
+        $revogou ? 'REVOGADO' : 'mantido (aluno tem outro pedido pago do mesmo curso)');
+    error_log('hotmart-webhook: ' . $resumo);
+    try {
+        send_html_email(OWNER_COPY_EMAIL, '[Hotmart] ' . $evento . ' — pedido #' . $pedido['id'],
+            '<p>' . htmlspecialchars($resumo, ENT_QUOTES) . '</p>', $resumo);
+    } catch (Throwable $ignored) {}
+    return $revogou ? 'acesso revogado' : 'acesso mantido';
+}
+
 if (!hash_equals(HOTMART_HOTTOK, hotmart_hottok_recebido())) {
     http_response_code(403);
     exit('hottok invalido');
@@ -21,6 +96,23 @@ if (!hash_equals(HOTMART_HOTTOK, hotmart_hottok_recebido())) {
 
 $raw = file_get_contents('php://input') ?: '';
 $payload = json_decode($raw, true);
+
+// Reembolso / chargeback / cancelamento: tira a matrícula do curso daquele
+// pedido. PURCHASE_PROTEST (cliente só PEDIU reembolso) não revoga nada —
+// a Hotmart manda PURCHASE_REFUNDED quando o reembolso for concluído.
+const HOTMART_EVENTOS_REVOGAM = ['PURCHASE_REFUNDED', 'PURCHASE_CHARGEBACK', 'PURCHASE_CANCELED'];
+if (is_array($payload) && in_array($payload['event'] ?? '', HOTMART_EVENTOS_REVOGAM, true)) {
+    $transaction = (string)($payload['data']['purchase']['transaction'] ?? '');
+    try {
+        $msg = hotmart_revogar_acesso(db(), $transaction, (string)$payload['event']);
+    } catch (Throwable $e) {
+        error_log('hotmart-webhook: falha ao revogar ' . $transaction . ': ' . $e->getMessage());
+        http_response_code(500); // a Hotmart reenvia
+        exit('erro ao revogar');
+    }
+    http_response_code(200);
+    exit($msg);
+}
 
 if (!is_array($payload) || ($payload['event'] ?? '') !== 'PURCHASE_APPROVED') {
     http_response_code(200);
