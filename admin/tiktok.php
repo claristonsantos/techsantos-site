@@ -112,6 +112,11 @@ $privLabels = ['PUBLIC_TO_EVERYONE' => 'Todos (Everyone)', 'MUTUAL_FOLLOW_FRIEND
 admin_head('TikTok');
 admin_topbar('tiktok');
 ?>
+<style>
+  #ttForm label.opt { display: flex; align-items: center; gap: .55rem; font-weight: 500; margin: .35rem 0; width: auto; cursor: pointer; }
+  #ttForm label.opt input { width: auto; margin: 0; flex: 0 0 auto; }
+  #ttForm .opts-row { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; }
+</style>
 <main class="admin-main">
   <div class="admin-head"><h1>TikTok · publicar vídeos</h1></div>
   <p style="color:var(--ink-soft); max-width:72ch; margin-bottom:1.5rem;">
@@ -178,8 +183,8 @@ admin_topbar('tiktok');
         <textarea id="legenda" name="legenda" rows="4" maxlength="2200"></textarea></div>
 
       <div class="field"><label>Modo</label>
-        <label><input type="radio" name="modo" value="direct" checked> Publicar direto no perfil (Direct Post)</label><br>
-        <label><input type="radio" name="modo" value="draft"> Enviar como rascunho para revisar no app (Upload as draft)</label></div>
+        <label class="opt"><input type="radio" name="modo" value="direct" checked> Publicar direto no perfil (Direct Post)</label>
+        <label class="opt"><input type="radio" name="modo" value="draft"> Enviar como rascunho para revisar no app (Upload as draft)</label></div>
 
       <div class="field" id="privBox"><label for="privacy_level">Quem pode ver este vídeo (Who can view this video)</label>
         <select id="privacy_level" name="privacy_level">
@@ -190,14 +195,14 @@ admin_topbar('tiktok');
         </select></div>
 
       <div class="field" id="interBox"><label>Permitir que os usuários (Allow users to)</label>
-        <label><input type="checkbox" name="allow_comment" <?= !empty($creator['comment_disabled']) ? 'disabled' : '' ?>> Comentar (Comment)</label>
-        <label style="margin-left:1rem"><input type="checkbox" name="allow_duet" <?= !empty($creator['duet_disabled']) ? 'disabled' : '' ?>> Dueto (Duet)</label>
-        <label style="margin-left:1rem"><input type="checkbox" name="allow_stitch" <?= !empty($creator['stitch_disabled']) ? 'disabled' : '' ?>> Costura (Stitch)</label></div>
+        <div class="opts-row"><label class="opt"><input type="checkbox" name="allow_comment" <?= !empty($creator['comment_disabled']) ? 'disabled' : '' ?>> Comentar (Comment)</label>
+        <label class="opt"><input type="checkbox" name="allow_duet" <?= !empty($creator['duet_disabled']) ? 'disabled' : '' ?>> Dueto (Duet)</label>
+        <label class="opt"><input type="checkbox" name="allow_stitch" <?= !empty($creator['stitch_disabled']) ? 'disabled' : '' ?>> Costura (Stitch)</label></div></div>
 
-      <div class="field" id="comBox"><label><input type="checkbox" name="commercial" id="commercial"> Divulgar conteúdo comercial (Disclose video content)</label>
+      <div class="field" id="comBox"><label class="opt"><input type="checkbox" name="commercial" id="commercial"> Divulgar conteúdo comercial (Disclose video content)</label>
         <div id="comOpts" style="display:none; margin:.4rem 0 0 1.4rem;">
-          <label><input type="checkbox" name="brand_organic" id="brand_organic"> Sua marca (Your brand) — rótulo "Conteúdo promocional"</label><br>
-          <label><input type="checkbox" name="brand_content" id="brand_content"> Conteúdo de marca (Branded content) — rótulo "Parceria paga"</label>
+          <label class="opt"><input type="checkbox" name="brand_organic" id="brand_organic"> Sua marca (Your brand) — rótulo "Conteúdo promocional"</label>
+          <label class="opt"><input type="checkbox" name="brand_content" id="brand_content"> Conteúdo de marca (Branded content) — rótulo "Parceria paga"</label>
         </div></div>
 
       <p id="consent" style="color:var(--ink-soft); font-size:.85rem;">Ao publicar, você concorda com a
