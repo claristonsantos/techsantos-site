@@ -99,6 +99,7 @@
     const eventParams = clean({ ...attribution, ...(params || {}) });
     if (typeof window.gtag === 'function') window.gtag('event', eventName, eventParams);
     if (typeof window.fbq === 'function' && metaEventName) window.fbq(metaStandard ? 'track' : 'trackCustom', metaEventName, eventParams, metaOptions || {});
+    if (typeof window.tsTikTok === 'function' && metaEventName && metaStandard) window.tsTikTok(metaEventName, eventParams, metaOptions && metaOptions.eventID);
   };
 
   // Links/forms que saem da página na mesma aba descarregam antes do gtag

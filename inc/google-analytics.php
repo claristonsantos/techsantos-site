@@ -7,4 +7,4 @@
 
   gtag('config', 'G-QD3YFBCMC6');
 </script>
-<script defer src="/assets/js/analytics-events.js?v=20261117-origem"></script>
+<script defer src="/assets/js/analytics-events.js?v=20261118-tiktok"></script>

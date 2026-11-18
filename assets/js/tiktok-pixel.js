@@ -33,3 +33,16 @@
   ttq.load("DACQ543C77U3EU7G4UKG");
   ttq.page();
 }(window, document, "ttq");
+
+/* Espelha os eventos padrão do Meta no TikTok: tsTikTok('Purchase', {value, currency, content_name}, 'pedido_123').
+   Nomes do Meta -> TikTok; eventos sem equivalente são ignorados. */
+window.tsTikTok = function (metaName, params, eventId) {
+  var map = { ViewContent: "ViewContent", InitiateCheckout: "InitiateCheckout", Purchase: "CompletePayment", Lead: "SubmitForm", Contact: "Contact" };
+  var name = map[metaName];
+  if (!name || !window.ttq) return;
+  params = params || {};
+  var p = {};
+  if (params.value !== undefined) { p.value = Number(params.value); p.currency = params.currency || "BRL"; }
+  if (params.content_name) { p.content_name = String(params.content_name); p.content_type = "product"; }
+  try { window.ttq.track(name, p, eventId ? { event_id: String(eventId) } : undefined); } catch (e) {}
+};

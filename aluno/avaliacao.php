@@ -210,7 +210,7 @@ $historicoTentativas = $historyStmt->fetchAll();
 <link rel="stylesheet" href="/assets/css/style.css" />
 <link rel="stylesheet" href="/assets/css/admin.css" />
 <?php require_once __DIR__ . '/../inc/google-analytics.php'; ?>
-<script src="/assets/js/analytics-events.js?v=20261117-origem"></script>
+<script src="/assets/js/analytics-events.js?v=20261118-tiktok"></script>
 <style>
   .eval-shell { max-width: 720px; margin: 0 auto; padding: clamp(1.5rem, 4vw, 3rem) 1.25rem 5rem; }
   .eval-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }

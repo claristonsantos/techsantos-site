@@ -26,6 +26,7 @@ $pago = $pedido && $pedido['status'] === 'pago';
 <?php if ($pago): ?>
 <script>
 fbq('track', 'Purchase', {value: <?= json_encode(round($pedido['valor_centavos'] / 100, 2)) ?>, currency: 'BRL', content_name: <?= json_encode($pedido['curso_nome']) ?>}, {eventID: 'pedido_<?= (int)$pedido['id'] ?>'});
+if (window.tsTikTok) tsTikTok('Purchase', {value: <?= json_encode(round($pedido['valor_centavos'] / 100, 2)) ?>, currency: 'BRL', content_name: <?= json_encode($pedido['curso_nome']) ?>}, 'pedido_<?= (int)$pedido['id'] ?>');
 </script>
 <?php endif; ?>
 <style>

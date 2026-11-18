@@ -36,7 +36,7 @@ $whatsMsg = rawurlencode('Olá! Estou vendo a página do curso de Power BI e ten
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($precoCentavos): ?>
 <script>
-fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', value: <?= json_encode(round($precoCentavos / 100, 2)) ?>});
+fbq('track', 'ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', value: <?= json_encode(round($precoCentavos / 100, 2)) ?>}); if (window.tsTikTok) tsTikTok('ViewContent', {content_name: 'Curso Power BI', currency: 'BRL', value: <?= json_encode(round($precoCentavos / 100, 2)) ?>});
 </script>
 <?php endif; ?>
 </head>

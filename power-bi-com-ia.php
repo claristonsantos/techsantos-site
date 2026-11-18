@@ -86,7 +86,7 @@ $descricao = 'Minicurso prático: use ChatGPT, Claude e Copilot para limpar dado
 <?php require_once __DIR__ . '/inc/meta-pixel.php'; ?>
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($ok): ?>
-<script>fbq('track', 'Lead', {content_name: 'Lista Power BI com IA'}); if (window.gtag) gtag('event', 'generate_lead', {form: 'lista_power_bi_ia'});</script>
+<script>fbq('track', 'Lead', {content_name: 'Lista Power BI com IA'}); if (window.tsTikTok) tsTikTok('Lead', {content_name: 'Lista Power BI com IA'}); if (window.gtag) gtag('event', 'generate_lead', {form: 'lista_power_bi_ia'});</script>
 <?php endif; ?>
 <style>
   /* Cores explícitas (sem variáveis do tema): no modo escuro elas somem. */
@@ -216,7 +216,7 @@ $descricao = 'Minicurso prático: use ChatGPT, Claude e Copilot para limpar dado
   </section>
 </div>
 <footer class="ia-foot">© 2026 TECH SANTOS BR Treinamentos e Aulas Particulares · CNPJ 41.135.509/0001-29</footer>
-<script src="/assets/js/analytics-events.js?v=20261117-origem"></script>
+<script src="/assets/js/analytics-events.js?v=20261118-tiktok"></script>
 <script>
 (function(){
   var a=typeof window.techSantosAttribution==='function'?window.techSantosAttribution():{};

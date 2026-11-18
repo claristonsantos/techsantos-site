@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require_once __DIR__ . '/inc/google-analytics.php'; ?>
 <?php if ($precoCentavos): ?>
 <script>
-fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 100, 2)) ?>, currency: 'BRL', content_name: <?= json_encode($nomeCurso, JSON_UNESCAPED_UNICODE) ?>});
+fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 100, 2)) ?>, currency: 'BRL', content_name: <?= json_encode($nomeCurso, JSON_UNESCAPED_UNICODE) ?>}); if (window.tsTikTok) tsTikTok('InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 100, 2)) ?>, currency: 'BRL', content_name: <?= json_encode($nomeCurso, JSON_UNESCAPED_UNICODE) ?>});
 </script>
 <?php endif; ?>
 <style>
@@ -272,7 +272,7 @@ fbq('track', 'InitiateCheckout', {value: <?= json_encode(round($precoCentavos / 
     </div>
   </div>
 </footer>
-<script src="/assets/js/analytics-events.js?v=20261117-origem"></script>
+<script src="/assets/js/analytics-events.js?v=20261118-tiktok"></script>
 <script>
 (function(){
   var a=typeof window.techSantosAttribution==='function'?window.techSantosAttribution():{};
