@@ -143,10 +143,13 @@ function precos_host_permitido(string $url): bool
 // Baixa a página só de domínios *.gov.br, seguindo no máximo 3 redirecionamentos (cada um conferido).
 function precos_baixar(string $url): array
 {
-    for ($i = 0; $i < 4; $i++) {
-        if (!precos_host_permitido($url)) return ['erro' => 'endereco fora da Sefaz'];
-        $ch = curl_init($url);
+    // Mesmo handle em todos os saltos: alguns portais (RS) gravam cookie e redirecionam para a mesma página.
+    $ch = curl_init();
+    for ($i = 0; $i < 6; $i++) {
+        if (!precos_host_permitido($url)) { curl_close($ch); return ['erro' => 'endereco fora da Sefaz']; }
         curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_COOKIEFILE => '',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => false,
             CURLOPT_TIMEOUT => 20,
@@ -160,15 +163,16 @@ function precos_baixar(string $url): array
         $code = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         $destino = (string)curl_getinfo($ch, CURLINFO_REDIRECT_URL);
         $err = curl_error($ch);
-        curl_close($ch);
-        if ($html === false) return ['erro' => 'Sefaz nao respondeu (' . $err . ')'];
+        if ($html === false) { curl_close($ch); return ['erro' => 'Sefaz nao respondeu (' . $err . ')']; }
         if ($code >= 300 && $code < 400 && $destino !== '') { $url = $destino; continue; }
+        curl_close($ch);
         if ($code !== 200) return ['erro' => 'Sefaz respondeu HTTP ' . $code];
         if (stripos(substr($html, 0, 3000), 'charset=iso-8859-1') !== false || !mb_check_encoding($html, 'UTF-8')) {
             $html = mb_convert_encoding($html, 'UTF-8', 'ISO-8859-1');
         }
         return ['html' => $html, 'url' => $url];
     }
+    curl_close($ch);
     return ['erro' => 'redirecionamentos demais'];
 }
 
