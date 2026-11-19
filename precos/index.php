@@ -30,7 +30,7 @@ input,button{font:inherit}
 input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--tx)}
 label{display:block;font-size:14px;color:var(--mu);margin:10px 0 4px}
 button.pri{width:100%;margin-top:12px;padding:13px;border:0;border-radius:10px;background:var(--ac);color:var(--onac);font-weight:700}
-button.sec{padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--tx)}
+button.sec,label.sec{padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--tx)}
 nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
 nav button{flex:1;border:0;background:none;color:var(--mu);padding:10px 4px;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:2px}
 nav button svg{width:24px;height:24px}
@@ -79,6 +79,9 @@ nav button.on{color:var(--ac);font-weight:700}
       <p class="mu">Aponte a câmera para o QR code do cupom do mercado. Todos os preços da nota entram de uma vez.</p>
       <div id="leitor"></div>
       <button class="pri" id="btCamera">Abrir câmera</button>
+      <label class="sec" for="fotoQr" style="display:block;text-align:center;margin-top:8px;padding:12px;border-radius:12px;cursor:pointer">Não leu? Tire uma foto do QR code</label>
+      <input type="file" id="fotoQr" accept="image/*" capture="environment" style="display:none">
+      <p class="mu" style="font-size:13px">Dica: cupom esticado, boa luz, QR ocupando quase toda a caixa. Se ficar desfocado, afaste um pouco.</p>
       <label for="url">Ou cole o link do QR code</label>
       <input id="url" inputmode="url" placeholder="https://...sefaz...">
       <button class="sec" id="btUrl" style="margin-top:8px;width:100%">Enviar link</button>
@@ -171,13 +174,57 @@ function pararCamera() { if (leitor) { leitor.stop().catch(() => {}); leitor = n
 async function abrirCamera() {
   if (typeof Html5Qrcode === 'undefined') { aviso('#msgNota', false, 'Leitor de QR não carregou. Cole o link.'); return; }
   $('#msgNota').innerHTML = '';
-  leitor = new Html5Qrcode('leitor');
+  leitor = novoLeitor();
   $('#btCamera').style.display = 'none';
+  const cfg = {
+    fps: 15,
+    // Caixa grande: QR da NFC-e é denso, precisa de muitos pixels.
+    qrbox: (w, h) => { const s = Math.floor(Math.min(w, h) * 0.85); return {width: s, height: s}; },
+    videoConstraints: {facingMode: 'environment', width: {ideal: 1920}, height: {ideal: 1080}, advanced: [{focusMode: 'continuous'}]}
+  };
+  const ok = texto => { pararCamera(); enviarNota(texto); };
   try {
-    await leitor.start({facingMode: 'environment'}, {fps: 10, qrbox: {width: 250, height: 250}}, texto => { pararCamera(); enviarNota(texto); });
-  } catch (e) { pararCamera(); aviso('#msgNota', false, 'Não consegui abrir a câmera. Toque em "Abrir câmera" e permita o acesso, ou cole o link.'); }
+    await leitor.start({facingMode: 'environment'}, cfg, ok);
+  } catch (e) {
+    // Alguns celulares recusam a resolução alta: tenta de novo sem ela.
+    try {
+      delete cfg.videoConstraints;
+      leitor = novoLeitor();
+      await leitor.start({facingMode: 'environment'}, cfg, ok);
+    } catch (e2) { pararCamera(); aviso('#msgNota', false, 'Não consegui abrir a câmera. Use "Tire uma foto do QR code" ou cole o link.'); }
+  }
+}
+function novoLeitor() {
+  const f = window.Html5QrcodeSupportedFormats;
+  return new Html5Qrcode('leitor', {
+    verbose: false,
+    formatsToSupport: f ? [f.QR_CODE] : undefined,
+    experimentalFeatures: {useBarCodeDetectorIfSupported: true}
+  });
 }
 $('#btCamera').onclick = abrirCamera;
+$('#fotoQr').onchange = async ev => {
+  const arq = ev.target.files && ev.target.files[0];
+  ev.target.value = '';
+  if (!arq) return;
+  pararCamera();
+  aviso('#msgNota', true, 'Lendo a foto...');
+  let texto = null;
+  // 1) detector nativo (Android Chrome) na foto em resolução cheia
+  if ('BarcodeDetector' in window) {
+    try {
+      const bmp = await createImageBitmap(arq);
+      const r = await new BarcodeDetector({formats: ['qr_code']}).detect(bmp);
+      if (r.length) texto = r[0].rawValue;
+    } catch (e) {}
+  }
+  // 2) leitor JS
+  if (!texto && typeof Html5Qrcode !== 'undefined') {
+    try { texto = await novoLeitor().scanFile(arq, false); } catch (e) {}
+  }
+  if (texto) enviarNota(texto);
+  else aviso('#msgNota', false, 'Não achei o QR na foto. Tente mais perto, com o QR nítido e ocupando boa parte da foto.');
+};
 $('#btUrl').onclick = () => { const u = $('#url').value.trim(); if (u) enviarNota(u); };
 
 let lojas = [];
