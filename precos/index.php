@@ -18,18 +18,18 @@ $usuario = precos_usuario_atual($pdo);
 <link rel="apple-touch-icon" href="icone-192.png">
 <title>Preço Certo</title>
 <style>
-:root{--bg:#F4F7F5;--card:#FFFFFF;--tx:#14231B;--mu:#5B6B62;--line:#DCE5DF;--ac:#0F7B45;--ac2:#E8F5EE;--bad:#B42318;--ok:#0F7B45}
-@media (prefers-color-scheme:dark){:root{--bg:#0E1512;--card:#17211C;--tx:#EAF2ED;--mu:#9DB0A5;--line:#26352D;--ac:#34C17A;--ac2:#18342A;--bad:#F97066;--ok:#34C17A}}
+:root{--bg:#F4F7F5;--card:#FFFFFF;--tx:#14231B;--mu:#5B6B62;--line:#DCE5DF;--ac:#0F7B45;--ac2:#E8F5EE;--bad:#B42318;--ok:#0F7B45;--onac:#FFFFFF}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1512;--card:#17211C;--tx:#EAF2ED;--mu:#9DB0A5;--line:#26352D;--ac:#34C17A;--ac2:#18342A;--bad:#F97066;--ok:#34C17A;--onac:#06140C}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:84px}
-header{background:var(--ac);color:#fff;padding:16px;padding-top:max(16px,env(safe-area-inset-top))}
+header{background:#0F7B45;color:#fff;padding:16px;padding-top:max(16px,env(safe-area-inset-top))}
 header h1{margin:0;font-size:20px}header p{margin:2px 0 0;opacity:.85;font-size:14px}
 main{max-width:640px;margin:0 auto;padding:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
 input,button{font:inherit}
 input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--tx)}
 label{display:block;font-size:14px;color:var(--mu);margin:10px 0 4px}
-button.pri{width:100%;margin-top:12px;padding:13px;border:0;border-radius:10px;background:var(--ac);color:#fff;font-weight:700}
+button.pri{width:100%;margin-top:12px;padding:13px;border:0;border-radius:10px;background:var(--ac);color:var(--onac);font-weight:700}
 button.sec{padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--tx)}
 nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
 nav button{flex:1;border:0;background:none;color:var(--mu);padding:10px 4px;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:2px}
