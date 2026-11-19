@@ -1,0 +1,4 @@
+<IfModule mod_headers.c>
+  # O site inteiro bloqueia a câmera (camera=()); aqui o leitor de QR code da nota fiscal precisa dela.
+  Header always set Permissions-Policy "camera=(self), microphone=(), geolocation=()"
+</IfModule>

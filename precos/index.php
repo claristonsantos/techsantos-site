@@ -139,6 +139,7 @@ document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
   document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
   document.querySelectorAll('.tela').forEach(t => t.classList.toggle('on', t.id === 't-' + b.dataset.t));
   if (b.dataset.t !== 'nota') pararCamera();
+  else if (!leitor) abrirCamera();
   if (b.dataset.t === 'eu') carregarResumo();
   if (b.dataset.t === 'manual') carregarLojas();
 });
@@ -167,14 +168,16 @@ async function enviarNota(url) {
   enviando = false;
 }
 function pararCamera() { if (leitor) { leitor.stop().catch(() => {}); leitor = null; $('#btCamera').style.display = ''; } }
-$('#btCamera').onclick = async () => {
+async function abrirCamera() {
   if (typeof Html5Qrcode === 'undefined') { aviso('#msgNota', false, 'Leitor de QR não carregou. Cole o link.'); return; }
+  $('#msgNota').innerHTML = '';
   leitor = new Html5Qrcode('leitor');
   $('#btCamera').style.display = 'none';
   try {
     await leitor.start({facingMode: 'environment'}, {fps: 10, qrbox: {width: 250, height: 250}}, texto => { pararCamera(); enviarNota(texto); });
-  } catch (e) { pararCamera(); aviso('#msgNota', false, 'Não consegui abrir a câmera. Permita o acesso ou cole o link.'); }
-};
+  } catch (e) { pararCamera(); aviso('#msgNota', false, 'Não consegui abrir a câmera. Toque em "Abrir câmera" e permita o acesso, ou cole o link.'); }
+}
+$('#btCamera').onclick = abrirCamera;
 $('#btUrl').onclick = () => { const u = $('#url').value.trim(); if (u) enviarNota(u); };
 
 let lojas = [];
