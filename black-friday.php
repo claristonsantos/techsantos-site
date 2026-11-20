@@ -61,11 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'lembret
         $error = 'A oferta de Black Friday foi encerrada.';
     } elseif (!$ancora || count($cursos) !== count(BF_CURSOS)) {
         $error = 'O combo está indisponível no momento. Fale conosco pelo WhatsApp.';
-    } elseif ($nome === '' || $email === '' || $telefoneDigits === '') {
-        $error = 'Preencha nome, e-mail e telefone.';
+    } elseif ($nome === '' || $email === '') {
+        $error = 'Preencha nome e e-mail.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'E-mail inválido.';
-    } elseif (strlen($telefoneDigits) < 10) {
+    } elseif ($telefoneDigits !== '' && strlen($telefoneDigits) < 10) {
+        // Telefone é opcional: cada campo obrigatório antes do pagamento perde comprador.
         $error = 'Telefone inválido. Use DDD + número, ex.: 64999998888.';
     } else {
         bf_ensure_schema($pdo);
@@ -210,6 +211,15 @@ fbq('track', 'ViewContent', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100) ?>,
   .bf-lform input { background: #0B1628; color: #fff; border: 1px solid #334155; border-radius: 8px; padding: 0.7rem 0.8rem; font-size: 0.95rem; }
   .bf-lform input::placeholder { color: #64748B; }
   .bf-lform button { background: #7ED956; color: #0F2440; border: 0; border-radius: 8px; padding: 0.7rem 1.2rem; font-weight: 800; cursor: pointer; }
+  .bf-cupom { display: flex; width: fit-content; align-items: center; gap: 0.4rem; margin: 0.8rem auto 0; border: 1px dashed #7ED956; color: #D9F99D; font-size: 0.85rem; font-weight: 600; padding: 0.35rem 0.8rem; border-radius: 6px; }
+  .bf-cupom span { color: #7ED956; font-weight: 800; }
+  .bf-stack { display: grid; gap: 0; margin-bottom: 1.2rem; }
+  .bf-stack div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.65rem 0; border-bottom: 1px solid #1E3A5F; color: #E2E8F0; font-size: 0.92rem; }
+  .bf-stack s { font-family: 'Plex Mono', monospace; color: #94A3B8; white-space: nowrap; }
+  .bf-stack em { font-style: normal; color: #4ADE80; font-weight: 600; white-space: nowrap; }
+  .bf-stack .tot { color: #CBD5E1; font-weight: 600; }
+  .bf-stack .hoje { border-bottom: 0; font-size: 1.1rem; font-weight: 800; color: #fff; }
+  .bf-stack .hoje b { font-family: 'Plex Mono', monospace; color: #7ED956; font-size: 1.4rem; }
   footer.site { background: #050B16; border-top: 1px solid #1E3A5F; }
   /* Primeira tela no celular: preço de/por, botão e confiança antes de rolar (87% saíam sem rolar). */
   .bf-hero-de { color: #D4D4D8; font-size: 1rem; margin: 0 0 0.75rem; }
@@ -237,6 +247,7 @@ fbq('track', 'ViewContent', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100) ?>,
 
   <section class="bf-hero">
     <span class="bf-tag">BLACK FRIDAY</span>
+    <?php if ($ativa): ?><div class="bf-cupom"><span>✓</span> Preço Black Friday já aplicado · sem cupom para digitar</div><?php endif; ?>
     <h1>A trilha completa para trabalhar com dados por <em>R$ <?= $precoBF ?></em></h1>
     <?php if ($ativa): ?><div class="bf-hero-de">De <s>R$ <?= $fmt($somaCentavos) ?></s><?php if ($economiaPct > 0): ?> <span><?= $economiaPct ?>% OFF</span><?php endif; ?> · até 12x no cartão</div><?php endif; ?>
     <p>Excel, Power BI, Python e Inglês: os 4 cursos completos, com <strong>acesso vitalício</strong> e certificado. Menos do que um curso sozinho.</p>
@@ -301,6 +312,24 @@ fbq('track', 'ViewContent', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100) ?>,
     </div>
   </section>
 
+  <?php if ($ativa): ?>
+  <section class="bf-sec">
+    <h2>Tudo o que você recebe hoje</h2>
+    <div class="bf-stack">
+      <?php foreach ($cursos as $c): ?>
+      <div><span>Curso completo de <?= htmlspecialchars($c['nome'], ENT_QUOTES) ?>, com certificado</span><s>R$ <?= $fmt((int)$c['preco_centavos']) ?></s></div>
+      <?php endforeach; ?>
+      <div><span>Apostila completa de Power BI em PDF</span><em>incluso</em></div>
+      <div><span>Trilhas práticas de SQL e DAX, no estilo app de idiomas</span><em>incluso</em></div>
+      <div><span>54 desafios de Python com cenários reais de empresa</span><em>incluso</em></div>
+      <div><span>Acesso vitalício, sem prazo para terminar</span><em>incluso</em></div>
+      <div class="tot"><span>Valor somando os cursos separados</span><s>R$ <?= $fmt($somaCentavos) ?></s></div>
+      <div class="hoje"><span>Hoje, na Black Friday</span><b>R$ <?= $precoBF ?></b></div>
+    </div>
+    <a class="bf-hero-cta" href="#comprar" data-course-cta="bf-stack" style="display:block;text-align:center">Quero tudo isso por R$ <?= $precoBF ?></a>
+  </section>
+  <?php endif; ?>
+
   <?php if (!$ativa): ?>
   <div class="bf-closed">
     <h2>A oferta de Black Friday foi encerrada.</h2>
@@ -343,8 +372,8 @@ fbq('track', 'ViewContent', {value: <?= json_encode(BF_PRECO_CENTAVOS / 100) ?>,
           <input type="email" id="email" name="email" required value="<?= $valorCampo('email', (string)($alunoLogado['email'] ?? '')) ?>"<?= $alunoLogado ? ' readonly' : '' ?>>
         </div>
         <div class="field">
-          <label for="telefone">Telefone (com DDD)</label>
-          <input type="tel" id="telefone" name="telefone" required maxlength="15" placeholder="(64) 99999-8888" value="<?= $valorCampo('telefone', $telefoneAnterior) ?>">
+          <label for="telefone">WhatsApp com DDD <span style="font-weight:400;color:#A1A1AA">(opcional)</span></label>
+          <input type="tel" id="telefone" name="telefone" maxlength="15" placeholder="(64) 99999-8888" value="<?= $valorCampo('telefone', $telefoneAnterior) ?>">
         </div>
         <button type="submit" class="btn btn-primary btn-block">Quero os 4 cursos por R$ <?= $precoBF ?></button>
         <p class="bf-note">Você vai para o ambiente seguro do Mercado Pago para pagar com Pix ou cartão. O acesso chega por e-mail assim que o pagamento é confirmado.</p>
