@@ -11,6 +11,50 @@
 <meta property="og:image" content="https://techsantos.com.br/capi/og.jpg">
 <meta property="og:url" content="https://techsantos.com.br/capi/">
 <link rel="canonical" href="https://techsantos.com.br/capi/">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QD3YFBCMC6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QD3YFBCMC6');
+</script>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '453702630601851');
+fbq('track', 'PageView');
+</script>
+<!-- TikTok Pixel -->
+<script src="/assets/js/tiktok-pixel.js?v=20261118b"></script>
+<script>
+  (function () {
+    var produto = { value: 19.90, currency: 'BRL', content_name: 'Livro de colorir Capi (PDF)' };
+    try { fbq('track', 'ViewContent', produto); } catch (e) {}
+    try { if (window.tsTikTok) tsTikTok('ViewContent', produto); } catch (e) {}
+    try { gtag('event', 'view_item', { currency: 'BRL', value: 19.90, items: [{ item_name: produto.content_name, price: 19.90 }] }); } catch (e) {}
+    document.addEventListener('DOMContentLoaded', function () {
+      var q = new URLSearchParams(location.search), utm = new URLSearchParams();
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { if (q.get(k)) utm.set(k, q.get(k)); });
+      if (!utm.toString()) return;
+      document.querySelectorAll('a[href*="pay.kiwify.com.br"]').forEach(function (a) {
+        a.href += (a.href.indexOf('?') < 0 ? '?' : '&') + utm.toString();
+      });
+    });
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest && ev.target.closest('a[href*="pay.kiwify.com.br"]');
+      if (!a || a.dataset.tracked) return;
+      a.dataset.tracked = '1';
+      try { fbq('track', 'InitiateCheckout', produto); } catch (e) {}
+      try { if (window.tsTikTok) tsTikTok('InitiateCheckout', produto); } catch (e) {}
+      try { gtag('event', 'begin_checkout', { currency: 'BRL', value: 19.90, items: [{ item_name: produto.content_name, price: 19.90 }] }); } catch (e) {}
+    });
+  })();
+</script>
 <style>
   :root { --bg:#F3FBF5; --card:#fff; --tx:#1F3A28; --mu:#4B6354; --ac:#2F9E5B; --ac2:#E0603A; --line:#D5EADB; }
   * { box-sizing:border-box; }
