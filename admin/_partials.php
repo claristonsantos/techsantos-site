@@ -51,6 +51,7 @@ function admin_topbar(string $active): void
         ],
         'Vendas' => [
             'pedidos' => ['/admin/pedidos.php', 'Pedidos', 'orders'],
+            'leads' => ['/admin/leads.php', 'Todos os leads', 'students'],
             'leads_curso' => ['/admin/leads-curso.php', 'Leads do curso', 'reply'],
             'aulas_particulares' => ['/admin/aulas_particulares.php', 'Aulas particulares', 'lessons'],
             'aulas_calendario' => ['/admin/aulas-calendario.php', 'Calendário de aulas', 'journey'],
