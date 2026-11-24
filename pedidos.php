@@ -7,6 +7,26 @@ require_once __DIR__ . '/matriculas.php';
 require_once __DIR__ . '/promo_combo.php';
 require_once __DIR__ . '/promo_black_friday.php';
 
+/**
+ * Guarda de onde veio a venda (src/sck/utm/afiliado/parcelas) informado pelas
+ * plataformas (Hotmart, Kiwify) no webhook. Cria a coluna pedidos.origem_venda
+ * na primeira vez. Nunca derruba o webhook: erro aqui só vai pro log.
+ */
+function pedido_registrar_origem(PDO $pdo, int $pedidoId, array $partes): void
+{
+    $partes = array_filter(array_map(fn($v) => trim((string)$v), $partes), fn($v) => $v !== '');
+    if ($pedidoId <= 0 || !$partes) return;
+    $texto = implode(' ', array_map(fn($k, $v) => $k . '=' . $v, array_keys($partes), $partes));
+    try {
+        if (!$pdo->query("SHOW COLUMNS FROM pedidos LIKE 'origem_venda'")->fetch()) {
+            $pdo->exec('ALTER TABLE pedidos ADD COLUMN origem_venda VARCHAR(255) NULL');
+        }
+        $pdo->prepare('UPDATE pedidos SET origem_venda = ? WHERE id = ?')->execute([mb_substr($texto, 0, 255), $pedidoId]);
+    } catch (Throwable $e) {
+        error_log('pedido_registrar_origem #' . $pedidoId . ': ' . $e->getMessage());
+    }
+}
+
 function marcar_pedido_pago(int $pedidoId, ?string $cpfDoPagamento = null, ?string $paymentId = null): array
 {
     $pdo = db(); $senhaGerada = null; $pedido = null; $alunoId = null; $bonusId = null; $comboIds = [];

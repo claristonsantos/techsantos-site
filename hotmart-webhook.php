@@ -189,8 +189,21 @@ if ($existente) {
     $pedidoId = (int)$pdo->lastInsertId();
 }
 
+// Origem da venda: src/sck/xcod do link (?src=ig etc.), afiliado e parcelas.
+require_once __DIR__ . '/pedidos.php';
+$origin = $purchase['origin'] ?? [];
+$afiliado = $payload['data']['affiliates'][0] ?? [];
+pedido_registrar_origem($pdo, $pedidoId, [
+    'plataforma' => 'hotmart',
+    'src' => $origin['src'] ?? '',
+    'sck' => $origin['sck'] ?? '',
+    'xcod' => $origin['xcod'] ?? '',
+    'afiliado' => trim((string)($afiliado['name'] ?? '') . ' ' . (string)($afiliado['affiliate_code'] ?? '')),
+    'parcelas' => $purchase['payment']['installments_number'] ?? '',
+    'oferta' => $purchase['offer']['code'] ?? '',
+]);
+
 if ($mapa['entrega_site']) {
-    require_once __DIR__ . '/pedidos.php';
     try {
         $res = marcar_pedido_pago($pedidoId, $cpf !== '' ? $cpf : null);
         // Quem já tinha login no site não recebe senha nova: avisa que o curso foi liberado.

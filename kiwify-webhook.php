@@ -184,6 +184,22 @@ if ($existente) {
 }
 
 require_once __DIR__ . '/pedidos.php';
+// Origem da venda: parâmetros do link (?src=ig, utm_*) e afiliado, se houver.
+$track = $payload['TrackingParameters'] ?? [];
+$afiliado = '';
+foreach (($payload['Commissions']['commissioned_stores'] ?? []) as $loja) {
+    if (($loja['type'] ?? '') === 'affiliate') { $afiliado = (string)($loja['custom_name'] ?? $loja['id'] ?? ''); break; }
+}
+pedido_registrar_origem($pdo, $pedidoId, [
+    'plataforma' => 'kiwify',
+    'src' => $track['src'] ?? '',
+    'sck' => $track['sck'] ?? '',
+    'utm_source' => $track['utm_source'] ?? '',
+    'utm_medium' => $track['utm_medium'] ?? '',
+    'utm_campaign' => $track['utm_campaign'] ?? '',
+    'afiliado' => $afiliado,
+    'parcelas' => $payload['installments'] ?? '',
+]);
 try {
     $res = marcar_pedido_pago($pedidoId, $cpf !== '' ? $cpf : null);
     if (($res['email_enviado'] ?? null) === null) {
