@@ -46,7 +46,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Atualizado em 16/09/2026 · 4 min de leitura</div>
     <h1>Field parameters no Power BI: um slicer que troca a métrica inteira do gráfico</h1>
@@ -76,7 +76,7 @@ declare(strict_types=1);
     <h2>Quando vale a pena usar</h2>
     <p>Faz sentido quando várias métricas ou dimensões compartilham o mesmo tipo de visualização e o público do relatório se beneficia de comparar uma de cada vez, sem poluir a tela com vários gráficos simultâneos. Para métricas que precisam aparecer lado a lado o tempo todo, visuais separados continuam sendo a escolha certa.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

@@ -46,7 +46,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Atualizado em 16/09/2026 · 4 min de leitura</div>
     <h1>Copilot no Power BI: resuma um relatório inteiro em linguagem natural</h1>
@@ -76,7 +76,7 @@ declare(strict_types=1);
     <h2>Onde esse resumo ajuda mais no dia a dia</h2>
     <p>É mais útil em relatórios que várias pessoas revisam com frequência — um resumo automático agiliza quem só precisa da visão geral antes de decidir se vale a pena investigar mais fundo um visual específico, sem abrir mão de quem quer aprofundar continuar tendo acesso aos dados completos.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

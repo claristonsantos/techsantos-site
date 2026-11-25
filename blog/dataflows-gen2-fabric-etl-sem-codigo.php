@@ -46,7 +46,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Microsoft Fabric · Atualizado em 16/09/2026 · 5 min de leitura</div>
     <h1>Dataflows Gen2 no Microsoft Fabric: ETL sem escrever pipeline do zero</h1>
@@ -76,7 +76,7 @@ declare(strict_types=1);
     <h2>Como o Dataflows Gen2 se encaixa num pipeline maior</h2>
     <p>Um Dataflow Gen2 pode ser uma das atividades de um Pipeline de Dados do Fabric, ao lado de cópias de dados, notebooks e outras etapas. Isso permite orquestrar: primeiro copiar dados brutos, depois rodar o Dataflow Gen2 pra limpar e padronizar, e só então liberar a tabela final pro consumo dos relatórios — tudo dentro do mesmo workspace do Fabric.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

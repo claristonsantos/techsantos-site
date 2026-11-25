@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Modelagem de Dados · Atualizado em 03/08/2026 · 5 min de leitura</div>
     <h1>Cabeçalho e item de pedido são duas tabelas fato, não uma</h1>
@@ -107,7 +107,7 @@ declare(strict_types=1);
     <h2>Onde esse padrão aparece além de pedidos de venda</h2>
     <p>O mesmo problema — e a mesma solução — aparecem em qualquer par cabeçalho/detalhe: nota fiscal e item da nota, fatura e linha da fatura, ordem de produção e etapa da ordem, orçamento e item do orçamento. Sempre que uma fonte de dados tiver um resumo com granularidade grossa e um detalhe com granularidade fina, vale parar e perguntar se elas deveriam ser uma tabela fato só ou duas relacionadas — a resposta quase sempre é duas.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender modelagem de dados de verdade?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre modelagem de dados, Power Query e DAX — do zero até dashboards publicados sem número errado.</p>
       <div class="hero-cta">

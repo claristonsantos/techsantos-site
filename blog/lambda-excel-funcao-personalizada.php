@@ -46,7 +46,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Excel · Atualizado em 16/09/2026 · 4 min de leitura</div>
     <h1>LAMBDA no Excel: crie sua própria função sem abrir o VBA</h1>
@@ -76,7 +76,7 @@ declare(strict_types=1);
     <h2>Por que isso é diferente de uma macro em VBA</h2>
     <p>Uma função criada com LAMBDA é uma fórmula, não um código executado por evento — ela recalcula automaticamente como qualquer outra célula da planilha, funciona em arquivos sem macros habilitadas e pode ser copiada entre pastas de trabalho colando o nome definido. Pra quem nunca programou em VBA, é uma forma de ganhar reuso de lógica sem sair do universo de fórmulas.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

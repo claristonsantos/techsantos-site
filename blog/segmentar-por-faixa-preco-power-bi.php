@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Modelagem de Dados · Atualizado em 03/08/2026 · 5 min de leitura</div>
     <h1>Como agrupar vendas por faixa de preço no Power BI</h1>
@@ -107,7 +107,7 @@ declare(strict_types=1);
     <h2>Quando usar o agrupamento numérico automático do Power BI</h2>
     <p>Pra faixas de tamanho fixo e regular — de 10 em 10, de 100 em 100 — o Power BI Desktop tem um recurso de agrupamento numérico (binning) que cria essas faixas automaticamente a partir da coluna de preço, sem precisar montar a tabela na mão. Vale usar esse atalho quando as faixas não precisam de nomes personalizados nem de tamanhos diferentes entre si; quando precisam, a tabela de faixas manual continua sendo a opção mais flexível.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender modelagem de dados e DAX de verdade?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre modelagem de dados, Power Query e DAX — do zero até segmentações e dashboards publicados de verdade.</p>
       <div class="hero-cta">

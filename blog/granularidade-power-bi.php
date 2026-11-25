@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Modelagem de Dados · Atualizado em 03/08/2026 · 5 min de leitura</div>
     <h1>Power BI lento? Pode ser granularidade errada, não falta de RAM</h1>
@@ -108,7 +108,7 @@ declare(strict_types=1);
     <p>Pré-agregar significa somar as linhas redundantes numa única linha por combinação de chaves, antes de carregar a tabela pro modelo — normalmente resolvido no Power Query, agrupando pelas colunas que definem a granularidade certa. O resultado final da soma continua idêntico; só o número de linhas físicas no modelo diminui, e é exatamente isso que acelera os cálculos.</p>
     <p>A regra prática: a granularidade certa é a mais grossa possível que ainda cobre tudo que os relatórios precisam mostrar hoje. Qualquer nível mais fino que isso é peso que o modelo carrega sem necessidade.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender a modelar dados de verdade?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre modelagem de dados, Power Query e DAX — do zero até dashboards rápidos e publicados de verdade.</p>
       <div class="hero-cta">

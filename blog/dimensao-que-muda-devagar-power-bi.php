@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Modelagem de Dados · Atualizado em 03/08/2026 · 5 min de leitura</div>
     <h1>Gerente mudou e o relatório antigo quebrou? É dimensão que muda devagar</h1>
@@ -108,7 +108,7 @@ declare(strict_types=1);
     <p>A pergunta certa não é "qual abordagem é melhor", é "o relatório precisa refletir a realidade de cada período passado, ou só importa o estado atual?". Se a análise é sobre performance histórica de gerente, guardar histórico é obrigatório. Se o atributo é só informativo — como o nome de contato mais recente — sobrescrever é mais simples e não perde nada relevante.</p>
     <p>E essa decisão não precisa ser igual pra tabela inteira: numa mesma dimensão de clientes, o telefone pode ser sempre sobrescrito (só importa o atual), enquanto o gerente responsável guarda histórico (importa pra avaliação de performance). Cada atributo tem sua própria regra.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender modelagem de dados de verdade?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre modelagem de dados, Power Query e DAX — do zero até dashboards confiáveis pra decisão.</p>
       <div class="hero-cta">

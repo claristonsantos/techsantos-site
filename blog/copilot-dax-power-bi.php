@@ -46,7 +46,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Atualizado em 16/09/2026 · 4 min de leitura</div>
     <h1>Copilot no Power BI: como pedir uma medida DAX em português</h1>
@@ -76,7 +76,7 @@ declare(strict_types=1);
     <h2>Um bom uso pra quem está aprendendo DAX</h2>
     <p>Além de resolver o problema imediato, pedir uma medida ao Copilot e depois estudar a fórmula gerada é uma forma prática de aprender a sintaxe de funções como CALCULATE, DATESYTD ou SAMEPERIODLASTYEAR — você vê a fórmula aplicada ao seu próprio modelo, não a um exemplo genérico de curso.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Atualizado em 19/07/2026 · 4 min de leitura</div>
     <h1>Medida Rápida no Power BI: como criar DAX sem escrever do zero</h1>
@@ -105,7 +105,7 @@ declare(strict_types=1);
     <h2>Quando a Medida Rápida não é suficiente</h2>
     <p>A lista de cálculos prontos cobre padrões genéricos, não regra de negócio específica da sua empresa — tipo "meta batida só se vendas E margem passarem de um limite juntos". Nesses casos, a medida rápida serve como ponto de partida: você gera o cálculo mais próximo do que precisa e edita a fórmula DAX gerada, em vez de escrever tudo do zero.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

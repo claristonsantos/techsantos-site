@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Atualizado em 19/07/2026 · 5 min de leitura</div>
     <h1>Medida ou coluna calculada no Power BI: qual usar?</h1>
@@ -108,7 +108,7 @@ declare(strict_types=1);
     <h2>Na dúvida, comece com medida</h2>
     <p>Medida responde ao filtro que o usuário aplica na tela — mudou o filtro de ano, a medida recalcula sozinha; coluna calculada, não, porque o valor dela já foi fixado no momento da atualização dos dados. Isso sozinho já resolve a maioria dos casos de "meu total não bate com o filtro que apliquei", um erro comum de quem usa coluna calculada onde deveria usar medida.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

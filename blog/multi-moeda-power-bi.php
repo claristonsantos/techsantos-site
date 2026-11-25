@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Modelagem de Dados · Atualizado em 03/08/2026 · 6 min de leitura</div>
     <h1>Relatório em dólar não bate? Modelagem multi-moeda no Power BI</h1>
@@ -112,7 +112,7 @@ declare(strict_types=1);
     <h2>Como identificar qual cenário é o seu</h2>
     <p>Antes de escrever qualquer fórmula de conversão, responda duas perguntas: "os dados de origem já vêm em moedas diferentes?" e "o relatório final precisa mostrar em mais de uma moeda?". A combinação das respostas aponta direto pro cenário certo — e, com ele, pro lugar certo do modelo onde a conversão deve acontecer.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender modelagem de dados e DAX de verdade?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre modelagem de dados, Power Query e DAX — do zero até dashboards internacionais publicados de verdade.</p>
       <div class="hero-cta">

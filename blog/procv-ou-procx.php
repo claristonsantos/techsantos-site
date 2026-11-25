@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Excel · Atualizado em 17/07/2026 · 6 min de leitura</div>
     <h1>PROCV ou PROCX: qual usar no Excel em 2026?</h1>
@@ -113,7 +113,7 @@ declare(strict_types=1);
     <h2>PROCX substitui o PROCV pra sempre?</h2>
     <p>Para quem já está no Microsoft 365 ou no Excel 2021 em diante, o PROCX é a opção recomendada para fórmulas novas — mais simples de ler, mais difícil de quebrar sem querer. Mas o PROCV não vai a lugar nenhum: ele continua funcionando normalmente nas versões atuais, então nenhuma fórmula antiga vai parar de funcionar por causa disso. A escolha entre os dois é sobre o que você vai escrever <em>daqui pra frente</em>, não sobre reescrever tudo que já existe.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

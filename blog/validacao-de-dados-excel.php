@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Excel · Atualizado em 19/07/2026 · 4 min de leitura</div>
     <h1>Validação de Dados no Excel: como travar o que a pessoa digita</h1>
@@ -109,7 +109,7 @@ declare(strict_types=1);
     <p>Um erro frequente é aplicar a regra depois que a planilha já tem dados digitados errado — a Validação de Dados só impede entradas <em>novas</em> fora do padrão, ela não corrige o que já estava lá. Pra achar essas células problemáticas, use Localizar Células com Regras de Validação de Dados, em Localizar e Selecionar.</p>
     <p>Outro ponto de atenção: colar dados (Ctrl+V) por cima de uma célula validada pode, em algumas versões do Excel, contornar a regra — o comportamento mais confiável de bloqueio acontece quando a pessoa digita direto na célula.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

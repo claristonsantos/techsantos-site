@@ -46,7 +46,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Microsoft Fabric · Atualizado em 16/09/2026 · 5 min de leitura</div>
     <h1>Direct Lake no Power BI: o modo de storage que não é Import nem DirectQuery</h1>
@@ -77,7 +77,7 @@ declare(strict_types=1);
     <h2>Quando faz sentido usar Direct Lake</h2>
     <p>Vale considerar Direct Lake quando o pipeline de dados já termina num Lakehouse ou Warehouse do Fabric e o relatório precisa refletir mudanças com baixa latência, sem pagar o custo de performance do DirectQuery tradicional. É o cenário mais comum de quem já centralizou a engenharia de dados no Fabric e quer que o Power BI consuma esse resultado sem uma etapa extra de importação.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

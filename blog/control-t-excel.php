@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Excel · Atualizado em 19/07/2026 · 4 min de leitura</div>
     <h1>Control T no Excel: pra que serve e por que usar sempre</h1>
@@ -108,7 +108,7 @@ declare(strict_types=1);
     <h2>Quando não vale a pena transformar em Tabela</h2>
     <p>Em planilhas de layout livre — relatórios com células mescladas, cabeçalhos em várias linhas, seções separadas — forçar o formato de Tabela pode quebrar a formatação existente. O recurso funciona melhor em bases de dados no formato clássico: uma linha de cabeçalho, uma linha por registro, sem mesclagem.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

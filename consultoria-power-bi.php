@@ -148,7 +148,7 @@
       <p style="font-size:.76rem;color:var(--ink-faint);margin-top:.8rem;text-align:center;">Prefere conversar agora? <a href="https://wa.me/5564992905785?text=Ol%C3%A1%21%20Quero%20avaliar%20um%20projeto%20de%20Power%20BI%20para%20minha%20empresa." target="_blank" rel="noopener">Chame no WhatsApp</a>.</p>
     </form>
   </div></section>
-</main>
+<?php require_once __DIR__ . '/inc/bf_card.php'; $bfCard = bf_card('consultoria', 'Prefere aprender a montar seus próprios painéis?'); if ($bfCard !== '') echo '<section class="biz-section"><div class="biz-inner">' . $bfCard . '</div></section>'; ?></main>
 <footer class="site footer-wide"><div class="container"><div class="footer-grid"><div class="footer-brand"><a class="brand" href="/"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a><p>Consultoria e treinamento em Power BI e Excel. Itumbiara-GO, atendimento para todo o Brasil.</p></div><div class="footer-col"><h4>Empresas</h4><a href="/consultoria-power-bi.php">Consultoria Power BI</a><a href="/servicos.html">Serviços</a><a href="/projetos.html">Projetos</a></div><div class="footer-col"><h4>Formação</h4><a href="/curso-power-bi.php">Curso Power BI</a><a href="/aula-gratis.php">Aulas grátis</a><a href="/login.php">Área do Aluno</a></div><div class="footer-col"><h4>Contato</h4><a href="mailto:claristonsantos@techsantos.com.br">claristonsantos@techsantos.com.br</a><a href="https://wa.me/5564992905785" target="_blank" rel="noopener">(64) 99290-5785</a></div></div><div class="footer-bottom"><span>© 2026 TECH SANTOS BR · CNPJ 41.135.509/0001-29</span></div></div></footer>
 <script src="/assets/js/nav.js"></script><script src="/assets/js/analytics-events.js?v=20261118-tiktok"></script>
 <script>

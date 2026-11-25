@@ -86,7 +86,7 @@ $videoUrl = 'https://media.techsantos.com.br/reels/' . $article['video'];
     </div>
   </div>
 </header>
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Excel · Atualizado em 10/08/2026 · <?= (int) $article['minutes'] ?> min de leitura</div>
     <h1><?= $esc($article['title']) ?></h1>
@@ -104,7 +104,7 @@ $videoUrl = 'https://media.techsantos.com.br/reels/' . $article['video'];
       </video>
       <?php endif; ?>
     <?php endforeach; ?>
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer transformar planilhas em dashboards profissionais?</h2>
       <p>No curso completo de Power BI da TECH SANTOS BR você aprende modelagem, Power Query, DAX e visualização de dados com prática guiada e certificado.</p>
       <div class="hero-cta"><a class="btn btn-primary" href="/aula-gratis.php">Assistir aula grátis</a><a class="btn btn-ghost" href="/curso-power-bi.php">Conhecer o curso completo</a></div>

@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Atualizado em 19/07/2026 · 5 min de leitura</div>
     <h1>Import ou DirectQuery no Power BI: qual escolher?</h1>
@@ -109,7 +109,7 @@ declare(strict_types=1);
     <p>Na dúvida, comece com Import — é o modo padrão, cobre a maioria dos cenários e entrega o melhor desempenho pra a maioria dos relatórios. DirectQuery faz sentido quando os dados mudam com muita frequência (segundo a segundo) e o negócio realmente precisa desse tempo real, ou quando a base é grande demais pra caber num modelo Import dentro do limite da licença.</p>
     <p>Existe ainda o modelo composto, que combina Import e DirectQuery na mesma solução, permitindo definir o modo de armazenamento tabela por tabela dentro de um único modelo (Microsoft Learn) — uma forma de ter dados históricos rápidos em Import e uma tabela específica sempre atual em DirectQuery, sem escolher só um dos dois pro relatório inteiro.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

@@ -46,7 +46,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Excel · Atualizado em 16/09/2026 · 4 min de leitura</div>
     <h1>Python no Excel: a nova integração nativa, direto na célula</h1>
@@ -76,7 +76,7 @@ declare(strict_types=1);
     <h2>Quando vale trocar uma fórmula por Python</h2>
     <p>Faz sentido quando a análise pede algo que fórmulas nativas do Excel fazem com dificuldade — limpeza de dados mais elaborada, modelos estatísticos, ou visualizações do matplotlib fora do catálogo padrão de gráficos do Excel. Para cálculos simples que uma fórmula nativa já resolve, não há necessidade de trocar por Python só por trocar.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

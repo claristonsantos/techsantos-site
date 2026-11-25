@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Excel · Atualizado em 19/07/2026 · 4 min de leitura</div>
     <h1>SOMASE e SOMASES no Excel: como somar só o que interessa</h1>
@@ -106,7 +106,7 @@ declare(strict_types=1);
     <p>O motivo mais comum é o critério não bater exatamente com o texto da coluna comparada — um espaço extra vindo de um sistema exportado, uma diferença de maiúscula/minúscula, ou um acento faltando fazem a comparação falhar silenciosamente, sem erro visível. Vale conferir com <code>=EXATO()</code> se o texto realmente é idêntico.</p>
     <p>Outro erro comum: os intervalos de critério e de soma com tamanhos diferentes. Se o intervalo do critério tem 50 linhas e o de soma tem 45, o Excel recusa a fórmula porque não consegue alinhar linha a linha entre os dois intervalos.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender isso (e muito mais) com prática guiada?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre Excel aplicado, modelagem de dados, Power Query e DAX — do zero até dashboards publicados de verdade.</p>
       <div class="hero-cta">

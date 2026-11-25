@@ -60,7 +60,7 @@
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Microsoft Fabric · Publicado em 12/08/2026 · 9 min de leitura</div>
     <h1>Microsoft Fabric: o guia de transição para quem já usa Power BI</h1>
@@ -115,7 +115,7 @@
       <li><strong>Consumo:</strong> publicar relatórios Power BI e aplicar segurança e governança.</li>
     </ol>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer construir a base antes de avançar para o Fabric?</h2>
       <p>Comece por Power Query, modelagem dimensional, relacionamentos e DAX. As três primeiras aulas do curso Power BI Completo estão disponíveis gratuitamente.</p>
       <div class="hero-cta">

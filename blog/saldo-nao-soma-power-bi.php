@@ -74,7 +74,7 @@ declare(strict_types=1);
   </div>
 </header>
 
-<main>
+<main><?php require_once __DIR__ . '/../inc/banner_black_friday.php'; echo bf_banner('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?>
   <article class="blog-article">
     <div class="blog-meta">Power BI · Modelagem de Dados · Atualizado em 03/08/2026 · 5 min de leitura</div>
     <h1>Por que somar saldo dá número errado no Power BI</h1>
@@ -109,7 +109,7 @@ declare(strict_types=1);
     <h2>Como evitar esse erro desde a modelagem</h2>
     <p>O jeito mais confiável de nunca cair nessa armadilha é decidir o tipo de cada tabela fato antes de montar qualquer medida — não depois que o número já saiu errado. Ao trazer uma tabela nova pro modelo, pergunte: cada linha aqui é algo que aconteceu uma vez, ou é uma leitura repetida de um valor que muda devagar? A resposta dessa pergunta define se SOMA é segura ou se você precisa de uma medida diferente.</p>
 
-    <div class="blog-cta">
+    <?php require_once __DIR__ . '/../inc/bf_card.php'; echo bf_card('blog-' . basename($_SERVER['SCRIPT_NAME'], '.php')); ?><div class="blog-cta">
       <h2>Quer aprender modelagem de dados de verdade?</h2>
       <p>O curso completo de Power BI da TECH SANTOS BR cobre modelagem de dados, Power Query e DAX — do zero até dashboards publicados sem número errado.</p>
       <div class="hero-cta">
