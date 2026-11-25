@@ -28,6 +28,7 @@ TOKEN_PATH = os.path.join(os.path.dirname(__file__), "youtube_token.json")
 SCOPES = [
     "https://www.googleapis.com/auth/youtube",
     "https://www.googleapis.com/auth/youtube.force-ssl",
+    "https://www.googleapis.com/auth/yt-analytics.readonly",
 ]
 
 

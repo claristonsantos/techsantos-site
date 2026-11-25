@@ -16,6 +16,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 SCOPES = [
     "https://www.googleapis.com/auth/youtube",
     "https://www.googleapis.com/auth/youtube.force-ssl",
+    # leitura de retenção/tempo assistido/inscritos por vídeo (YouTube Analytics API)
+    "https://www.googleapis.com/auth/yt-analytics.readonly",
 ]
 
 def main():
