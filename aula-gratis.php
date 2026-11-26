@@ -350,6 +350,11 @@ function wireWhatsCapture() {
   });
 }
 
+// Monta o caminho por partes: um literal "/assets/legendas/${...}.vtt" no HTML vira 404 no Search Console.
+function legendaUrl(id) {
+  return ['', 'assets', 'legendas', id].join('/') + '.vtt?v=20261016';
+}
+
 function renderSidebar(currentId) {
   const nav = document.getElementById('sidebarNav');
   nav.innerHTML = COURSE.map(mod => {
@@ -415,7 +420,7 @@ function renderLesson(id) {
       <div class="player">
         <video class="player-video" controls preload="${autoMuted ? 'auto' : 'metadata'}" playsinline ${autoMuted ? 'muted autoplay' : ''}>
           <source src="https://media.techsantos.com.br/previews/${lesson.id}.mp4#t=0.5" type="video/mp4">
-          <track kind="captions" srclang="pt-BR" label="Português" src="/assets/legendas/${lesson.id}.vtt?v=20261016" ${autoMuted ? 'default' : ''}>
+          <track kind="captions" srclang="pt-BR" label="Português" src="${legendaUrl(lesson.id)}" ${autoMuted ? 'default' : ''}>
         </video>
         <div class="player-placeholder">
           <div class="play-btn">${ICON_PLAY.replace('<svg ', '<svg width="18" height="18" ')}</div>
