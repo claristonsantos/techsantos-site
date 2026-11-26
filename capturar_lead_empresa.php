@@ -53,10 +53,11 @@ $objetivo = $clean('objetivo', 1500);
 $origem = $clean('origem', 120) ?: 'consultoria-power-bi';
 $consentimento = (string)($data['consentimento'] ?? '') === '1';
 
-if ($nome === '' || $empresa === '' || $email === '' || $telefone === '' || $objetivo === '') {
-    business_lead_response(false, 'Preencha nome, empresa, e-mail, telefone e objetivo.', 422);
+// Empresa e e-mail são opcionais (menos atrito): o retorno é pelo WhatsApp.
+if ($nome === '' || $telefone === '' || $objetivo === '') {
+    business_lead_response(false, 'Preencha nome, WhatsApp e o que você precisa resolver.', 422);
 }
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     business_lead_response(false, 'Informe um e-mail válido.', 422);
 }
 if (strlen($telefone) < 10 || strlen($telefone) > 13) {
@@ -113,7 +114,7 @@ $stmt->execute([
 $leadId = (int)$pdo->lastInsertId();
 
 $safe = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-$subject = 'Novo diagnóstico empresarial #' . $leadId . ' — ' . $empresa;
+$subject = 'Novo diagnóstico empresarial #' . $leadId . ' — ' . ($empresa !== '' ? $empresa : $nome);
 $html = '<h1 style="font-size:20px">Nova solicitação de diagnóstico</h1>'
     . '<p><strong>Nome:</strong> ' . $safe($nome) . '</p>'
     . '<p><strong>Empresa:</strong> ' . $safe($empresa) . '</p>'
