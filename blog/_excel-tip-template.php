@@ -62,7 +62,7 @@ $videoUrl = 'https://media.techsantos.com.br/reels/' . $article['video'];
             'name' => $article['title'],
             'description' => $article['description'],
             'thumbnailUrl' => ['https://techsantos.com.br/assets/img/promo-curso-1.jpg'],
-            'uploadDate' => '2026-08-10',
+            'uploadDate' => '2026-08-10T09:00:00-03:00', // ISO 8601 com fuso: o Google rejeita só a data
             'contentUrl' => $videoUrl,
         ],
         [
