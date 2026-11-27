@@ -35,8 +35,9 @@ $temConsultoria = $hasTable('consultoria_leads');
 $temAulas = $hasTable('aulas_particulares_leads');
 $temDataAula = $temAulas && (bool)$pdo->query("SHOW COLUMNS FROM aulas_particulares_leads LIKE 'data_aula'")->fetchColumn();
 
-$tipos = ['curso' => 'Curso', 'consultoria' => 'Consultoria / painel', 'aula' => 'Aula particular'];
-$tipoTone = ['curso' => 'neutral', 'consultoria' => 'success', 'aula' => 'warning'];
+$temTrilhas = $hasTable('trilha_leads');
+$tipos = ['curso' => 'Curso', 'consultoria' => 'Consultoria / painel', 'aula' => 'Aula particular', 'trilha' => 'Trilhas grátis'];
+$tipoTone = ['curso' => 'neutral', 'consultoria' => 'success', 'aula' => 'warning', 'trilha' => 'neutral'];
 $consultStatus = [
     'novo' => 'Novo', 'contatado' => 'Contatado', 'reuniao' => 'Reunião marcada',
     'proposta' => 'Proposta enviada', 'ganho' => 'Fechado', 'perdido' => 'Perdido',
@@ -105,6 +106,13 @@ if ($temAulas) {
         COALESCE(NULLIF(a.utm_source,''),'site'), a.status, $prox, a.criado_em
       FROM aulas_particulares_leads a";
 }
+if ($temTrilhas) {
+    // Progresso do lead fica em trilha_progresso com aluno_id = -id (ver trilhas/lib.php).
+    $parts[] = "SELECT 'trilha', l.id, l.nome, l.email, l.telefone,
+        CONCAT('Trilhas: ', (SELECT COUNT(*) FROM trilha_progresso tp WHERE tp.aluno_id = -l.id), ' etapa(s) feitas'),
+        COALESCE(NULLIF(l.utm_source,''),'site'), IF(l.aluno_id IS NULL,'novo','comprou'), NULL, l.criado_em
+      FROM trilha_leads l";
+}
 $union = '(' . implode(' UNION ALL ', $parts) . ') t';
 
 $where = [];
@@ -161,6 +169,7 @@ function leads_wa(?string $raw, string $tipo, ?string $nome): string
     $m = match ($tipo) {
         'consultoria' => $oi . 'Aqui é o Clariston, da Tech Santos. Recebi seu pedido de painel em Power BI pelo site. Podemos conversar 20 minutos para eu entender o cenário e te passar a proposta?',
         'aula' => $oi . 'Aqui é o Clariston, da Tech Santos. Recebi seu pedido de aula particular de Power BI. Qual o melhor dia e horário para você?',
+        'trilha' => $oi . 'Aqui é o Clariston, da TECH SANTOS BR. Vi que você começou as trilhas grátis no site. Está curtindo? Se travar em alguma etapa, me chama aqui.',
         default => $oi . 'Aqui é o Clariston, da TECH SANTOS BR. Você pediu para receber conteúdos depois das aulas grátis de Power BI. Ficou alguma dúvida sobre o curso completo?',
     };
     return 'https://wa.me/' . $d . '?text=' . rawurlencode($m);
@@ -170,6 +179,7 @@ function leads_gerenciar(string $tipo, int $id): string
     return match ($tipo) {
         'curso' => '/admin/leads-curso.php?editar=' . $id . '&periodo=todos',
         'aula' => '/admin/aulas_particulares.php?editar=' . $id,
+        'trilha' => '/admin/leads.php?tipo=trilha',
         default => '/admin/leads.php?editar=' . $id,
     };
 }

@@ -1,580 +1,1655 @@
 {
-  "slug": "excel",
-  "nome": "Excel",
-  "ordem": 3,
-  "cor": "#33C481",
-  "descricao": "Fórmulas que resolvem o dia a dia: SE, SOMASES, PROCX, textos, datas e FILTRO.",
-  "contexto": "Excel em português (Microsoft 365), separador ponto e vírgula. Planilha Vendas: A Data, B Vendedor, C Código do produto, D Categoria, E Quantidade, F Valor. Tabela Produtos: Código, Produto, Preço.",
-  "nos": [
+ "slug": "excel",
+ "nome": "Excel",
+ "ordem": 4,
+ "cor": "#33C481",
+ "descricao": "Do básico ao avançado, módulo a módulo do curso: interface, fórmulas, PROCX, tabelas dinâmicas, gráficos, análise e macros.",
+ "contexto": "Excel em português (Microsoft 365), separador ponto e vírgula. Planilha Vendas: A Data, B Vendedor, C Código do produto, D Categoria, E Quantidade, F Valor. Tabela Produtos: Código, Produto, Preço.",
+ "nos": [
+  {
+   "id": "interface",
+   "titulo": "A tela do Excel",
+   "resumo": "Pasta, planilha, célula e janelas",
+   "teoria": [
+    "Um arquivo do Excel é uma pasta de trabalho; cada aba é uma planilha; cada célula tem um endereço como C5 (coluna C, linha 5). A Caixa de Nome mostra o endereço da célula ativa e a barra de fórmulas mostra o conteúdo real dela.",
+    "Congelar Painéis (Exibir) mantém cabeçalhos visíveis ao rolar. Para salvar com macros use .xlsm; para compartilhar sem fórmulas editáveis, PDF; para levar a outro sistema, CSV."
+   ],
+   "exemplo": "Exibir > Congelar Painéis > Congelar Linha Superior",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-conhecendo-excel"
+   },
+   "exercicios": [
     {
-      "id": "referencias",
-      "titulo": "Fórmulas e referências",
-      "resumo": "Relativa, absoluta e mista",
-      "teoria": [
-        "Toda fórmula começa com =. A2 é referência relativa: ao copiar ou arrastar, ela anda junto. $A$2 é absoluta: fica presa no lugar.",
-        "$A2 prende só a coluna; A$2 prende só a linha. Com o cursor na referência, F4 alterna entre os quatro tipos."
-      ],
-      "exemplo": "=F2*(1-$H$1)   ← valor menos o desconto fixo de H1",
-      "video": {
-        "curso": "excel",
-        "curso_nome": "Excel",
-        "licao": "xl-referencias"
-      },
-      "exercicios": [
-        {
-          "tipo": "ordenar",
-          "cenario": "O desconto de todas as vendas está na célula H1 (ex.: 10%). Monte a fórmula da linha 2, que vai ser arrastada até o fim: valor com desconto.",
-          "pecas": [
-            "=F2*(",
-            "1-",
-            "$H$1",
-            ")"
-          ],
-          "extras": [
-            "H1"
-          ],
-          "explica": "=F2*(1-$H$1). O $ prende H1: ao arrastar, F2 vira F3, F4..., mas o desconto continua vindo de H1."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Você copia a fórmula =A2*B$1 da célula C2 e cola em D3. Como ela fica?",
-          "opcoes": [
-            "=B3*C$1",
-            "=A2*B$1",
-            "=B3*C$2",
-            "=A3*B$1"
-          ],
-          "correta": 0,
-          "explica": "Andou uma coluna e uma linha: A2 vira B3. Em B$1 a linha está presa, só a coluna anda: C$1."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "O que a tecla F4 faz com o cursor em cima de uma referência da fórmula?",
-          "opcoes": [
-            "Alterna entre A1, $A$1, A$1 e $A1",
-            "Recalcula a planilha",
-            "Repete a última fórmula",
-            "Mostra o resultado da fórmula"
-          ],
-          "correta": 0,
-          "explica": "F4 é o jeito rápido de colocar e tirar os cifrões enquanto edita."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Qual referência prende só a coluna, deixando a linha andar?",
-          "opcoes": [
-            "$A2",
-            "A$2",
-            "$A$2",
-            "A2"
-          ],
-          "correta": 0,
-          "explica": "O $ fica na frente do que é preso: $A prende a coluna A."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Qual o resultado desta fórmula?",
-          "codigo": "=2+3*4",
-          "opcoes": [
-            "14",
-            "20",
-            "9",
-            "24"
-          ],
-          "correta": 0,
-          "explica": "Multiplicação vem antes da soma: 3*4 = 12, mais 2 = 14. Para somar primeiro, use parênteses: =(2+3)*4."
-        }
-      ]
+     "tipo": "escolha",
+     "pergunta": "A célula mostra 1.250,00, mas você quer ver se ali tem número digitado ou fórmula. Onde olhar?",
+     "opcoes": [
+      "Na barra de fórmulas",
+      "Na barra de status",
+      "Na Caixa de Nome",
+      "No nome da guia da planilha"
+     ],
+     "correta": 0,
+     "explica": "A barra de fórmulas mostra o conteúdo real da célula ativa: o número digitado ou a fórmula."
     },
     {
-      "id": "se",
-      "titulo": "SE e SEERRO",
-      "resumo": "Decisões dentro da fórmula",
-      "teoria": [
-        "=SE(teste; valor_se_verdadeiro; valor_se_falso). O teste é uma comparação, como F2>=1000. Texto vai entre aspas.",
-        "E(...) exige todas as condições; OU(...), pelo menos uma. SES testa várias faixas em ordem. SEERRO(fórmula; valor) troca qualquer erro (#DIV/0!, #N/D) por um valor seu."
-      ],
-      "exemplo": "=SE(F2>=1000; \"Grande\"; \"Pequena\")",
-      "video": {
-        "curso": "excel",
-        "curso_nome": "Excel",
-        "licao": "xl-funcao-se"
-      },
-      "exercicios": [
-        {
-          "tipo": "ordenar",
-          "cenario": "Na coluna G, mostre \"Meta batida\" quando o valor da venda (F2) for de pelo menos R$ 1.000, e \"Abaixo\" quando não for.",
-          "pecas": [
-            "=SE(",
-            "F2>=1000;",
-            "\"Meta batida\";",
-            "\"Abaixo\"",
-            ")"
-          ],
-          "extras": [
-            "F2=>1000;"
-          ],
-          "explica": "O operador é >= (maior ou igual), nesta ordem. Depois vem o que mostrar se for verdade e, por último, se for falso."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "O que a fórmula mostra quando E2 vale exatamente 10?",
-          "codigo": "=SE(E2>10; \"Atacado\"; \"Varejo\")",
-          "opcoes": [
-            "Varejo",
-            "Atacado",
-            "Erro",
-            "Nada"
-          ],
-          "correta": 0,
-          "explica": "O teste é \"maior que 10\". 10 não é maior que 10, então vale o valor se falso. Para incluir o 10, use >=."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "A fórmula =F2/E2 dá #DIV/0! quando a quantidade é zero. Como mostrar 0 no lugar do erro?",
-          "opcoes": [
-            "=SEERRO(F2/E2; 0)",
-            "=SE(F2/E2; 0)",
-            "=SEERRO(0; F2/E2)",
-            "=F2/E2+SEERRO"
-          ],
-          "correta": 0,
-          "explica": "SEERRO(o que calcular; o que mostrar se der erro)."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Você precisa de três faixas: até 500 \"Baixa\", até 2000 \"Média\", acima disso \"Alta\". Qual fórmula funciona?",
-          "opcoes": [
-            "=SES(F2<=500; \"Baixa\"; F2<=2000; \"Média\"; VERDADEIRO; \"Alta\")",
-            "=SES(F2<=2000; \"Média\"; F2<=500; \"Baixa\"; VERDADEIRO; \"Alta\")",
-            "=SE(F2<=500; \"Baixa\"; \"Média\"; \"Alta\")",
-            "=SES(F2<=500; F2<=2000; \"Baixa\"; \"Média\"; \"Alta\")"
-          ],
-          "correta": 0,
-          "explica": "SES para no primeiro teste verdadeiro, então a ordem importa: com 2000 primeiro, uma venda de 300 viraria Média. VERDADEIRO no fim é o \"senão\"."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Como marcar as vendas do Carlos que passaram de R$ 1.000?",
-          "opcoes": [
-            "=SE(E(B2=\"Carlos\"; F2>1000); \"Sim\"; \"Não\")",
-            "=SE(B2=\"Carlos\"; F2>1000; \"Sim\")",
-            "=SE(OU(B2=\"Carlos\"; F2>1000); \"Sim\"; \"Não\")",
-            "=E(SE(B2=\"Carlos\"); F2>1000)"
-          ],
-          "correta": 0,
-          "explica": "E(...) só é verdadeiro quando as duas condições são. OU marcaria todas as do Carlos e todas acima de 1000."
-        }
-      ]
+     "tipo": "escolha",
+     "pergunta": "Sua planilha tem 2.000 linhas e o cabeçalho some quando você rola. O que resolve?",
+     "opcoes": [
+      "Exibir > Congelar Painéis > Congelar Linha Superior",
+      "Página Inicial > Mesclar e Centralizar",
+      "Ocultar as linhas de baixo",
+      "Aumentar o zoom"
+     ],
+     "correta": 0,
+     "explica": "Congelar a linha superior deixa o cabeçalho fixo enquanto o resto rola."
     },
     {
-      "id": "somases",
-      "titulo": "SOMASES e CONT.SES",
-      "resumo": "Somar e contar com critérios",
-      "teoria": [
-        "SOMASES(intervalo_soma; intervalo_critério; critério; ...) soma só as linhas que passam em todos os critérios. O que vai ser somado vem primeiro.",
-        "CONT.SES conta linhas e MÉDIASES tira a média. Critério com comparação vai entre aspas: \">1000\". Usando uma célula: \">\"&H1."
-      ],
-      "exemplo": "=SOMASES(F:F; B:B; \"Carlos\")",
-      "video": {
-        "curso": "excel",
-        "curso_nome": "Excel",
-        "licao": "xl-agregacoes-condicionais"
-      },
-      "exercicios": [
-        {
-          "tipo": "ordenar",
-          "cenario": "Você tem uma loja e precisa saber quanto o vendedor Carlos vendeu no total.",
-          "pecas": [
-            "=SOMASES(",
-            "F:F;",
-            "B:B;",
-            "\"Carlos\"",
-            ")"
-          ],
-          "extras": [
-            "B2=\"Carlos\""
-          ],
-          "explica": "Primeiro o que somar (valor, coluna F), depois onde procurar (vendedor, coluna B) e o que procurar."
-        },
-        {
-          "tipo": "ordenar",
-          "cenario": "Quantas vendas passaram de R$ 1.000?",
-          "pecas": [
-            "=CONT.SES(",
-            "F:F;",
-            "\">1000\"",
-            ")"
-          ],
-          "extras": [
-            ">1000"
-          ],
-          "explica": "Critério com comparação vai entre aspas: \">1000\". Sem aspas o Excel não aceita a fórmula."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "O que esta fórmula soma?",
-          "codigo": "=SOMASES(F:F; D:D; \"Papelaria\"; B:B; \"Ana\")",
-          "opcoes": [
-            "O valor das vendas de Papelaria feitas pela Ana",
-            "Todas as vendas de Papelaria mais todas as da Ana",
-            "A quantidade vendida pela Ana",
-            "Quantas vendas a Ana fez em Papelaria"
-          ],
-          "correta": 0,
-          "explica": "Todos os critérios precisam bater ao mesmo tempo, e a soma é da coluna F (valor)."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "O nome do vendedor está na célula H1. Qual fórmula soma as vendas dele?",
-          "opcoes": [
-            "=SOMASES(F:F; B:B; H1)",
-            "=SOMASES(F:F; B:B; \"H1\")",
-            "=SOMASES(B:B; F:F; H1)",
-            "=SOMASES(F:F; H1; B:B)"
-          ],
-          "correta": 0,
-          "explica": "Com a célula, o critério muda sozinho quando você troca o nome em H1. Entre aspas, \"H1\" vira o texto H1."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Qual fórmula dá o ticket médio das vendas da categoria Papelaria?",
-          "opcoes": [
-            "=MÉDIASES(F:F; D:D; \"Papelaria\")",
-            "=MÉDIA(F:F; \"Papelaria\")",
-            "=SOMASES(F:F; D:D; \"Papelaria\")/2",
-            "=MÉDIASES(D:D; \"Papelaria\"; F:F)"
-          ],
-          "correta": 0,
-          "explica": "MÉDIASES segue a mesma ordem do SOMASES: primeiro a coluna da média, depois os pares de critério."
-        }
-      ]
+     "tipo": "escolha",
+     "pergunta": "O arquivo tem uma macro de relatório. Em que formato salvar para não perder a macro?",
+     "opcoes": [
+      ".xlsm",
+      ".xlsx",
+      ".csv",
+      ".pdf"
+     ],
+     "correta": 0,
+     "explica": ".xlsx não guarda macros. O formato com macros habilitadas é .xlsm."
     },
     {
-      "id": "procx",
-      "titulo": "PROCX",
-      "resumo": "Buscar dados em outra tabela",
-      "teoria": [
-        "PROCX(valor_procurado; onde_procurar; o_que_devolver; [se_não_encontrado]) acha o valor numa coluna e devolve o que está na mesma linha de outra coluna.",
-        "Por padrão a correspondência é exata, a busca funciona para qualquer lado (até à esquerda) e o 4º argumento evita o #N/D."
-      ],
-      "exemplo": "=PROCX(C2; Produtos[Código]; Produtos[Preço]; \"Não cadastrado\")",
-      "video": {
-        "curso": "excel",
-        "curso_nome": "Excel",
-        "licao": "xl-procx"
-      },
-      "exercicios": [
-        {
-          "tipo": "ordenar",
-          "cenario": "Na planilha de vendas, traga o preço do produto pelo código da coluna C, buscando na tabela Produtos.",
-          "pecas": [
-            "=PROCX(",
-            "C2;",
-            "Produtos[Código];",
-            "Produtos[Preço]",
-            ")"
-          ],
-          "extras": [
-            "C:C;"
-          ],
-          "explica": "O que procurar (o código da linha), onde procurar (os códigos da tabela) e o que devolver (o preço)."
-        },
-        {
-          "tipo": "ordenar",
-          "cenario": "Traga o nome do produto e, se o código não existir, mostre \"Não cadastrado\".",
-          "pecas": [
-            "=PROCX(",
-            "C2;",
-            "Produtos[Código];",
-            "Produtos[Produto];",
-            "\"Não cadastrado\"",
-            ")"
-          ],
-          "extras": [
-            "FALSO"
-          ],
-          "explica": "O 4º argumento é o que aparece quando não acha. Sem ele, aparece #N/D."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "O que o PROCX mostra quando não encontra o código e não tem o 4º argumento?",
-          "opcoes": [
-            "#N/D",
-            "0",
-            "Uma célula vazia",
-            "#VALOR!"
-          ],
-          "correta": 0,
-          "explica": "#N/D quer dizer \"não disponível\": o valor procurado não existe na coluna de busca."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Qual a vantagem do PROCX sobre o PROCV?",
-          "opcoes": [
-            "Busca para a esquerda e não depende do número da coluna",
-            "É a única que acha valores exatos",
-            "Funciona sem tabela",
-            "Só ele aceita texto"
-          ],
-          "correta": 0,
-          "explica": "No PROCV você conta colunas (3, 4...) e a busca é sempre na primeira; inserir uma coluna quebra a fórmula."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Nesta fórmula antiga, o que significa o 3?",
-          "codigo": "=PROCV(C2; Produtos; 3; FALSO)",
-          "opcoes": [
-            "Devolver a 3ª coluna da tabela Produtos",
-            "Procurar nas 3 primeiras linhas",
-            "Aceitar até 3 erros",
-            "Arredondar para 3 casas"
-          ],
-          "correta": 0,
-          "explica": "PROCV(o que procurar; tabela; número da coluna a devolver; FALSO para exata)."
-        }
-      ]
+     "tipo": "escolha",
+     "pergunta": "Você selecionou F2:F500. Onde ver a soma rapidamente, sem escrever fórmula?",
+     "opcoes": [
+      "Na barra de status, no rodapé da janela",
+      "Na Caixa de Nome",
+      "Na guia Fórmulas",
+      "No Gerenciador de Nomes"
+     ],
+     "correta": 0,
+     "explica": "A barra de status mostra Média, Contagem e Soma da seleção."
     },
     {
-      "id": "texto-data",
-      "titulo": "Textos e datas",
-      "resumo": "Extrair, limpar, juntar e calcular datas",
-      "teoria": [
-        "ESQUERDA(texto; n), DIREITA(texto; n) e EXT.TEXTO(texto; início; n) tiram pedaços de um texto. ARRUMAR tira os espaços sobrando e & junta textos.",
-        "Data no Excel é um número, então dá para somar dias. ANO, MÊS e DIA pegam partes da data; HOJE() é a data de hoje; FIMMÊS(data; 0) é o último dia do mês."
-      ],
-      "exemplo": "=ESQUERDA(C2; 3)   ← \"PAP-0042\" vira \"PAP\"",
-      "video": {
-        "curso": "excel",
-        "curso_nome": "Excel",
-        "licao": "xl-texto-extrair"
-      },
-      "exercicios": [
-        {
-          "tipo": "ordenar",
-          "cenario": "Os códigos são como \"PAP-0042\". Pegue só os 4 números do final.",
-          "pecas": [
-            "=DIREITA(",
-            "C2;",
-            "4",
-            ")"
-          ],
-          "extras": [
-            "ESQUERDA("
-          ],
-          "explica": "DIREITA conta a partir do fim do texto: os 4 últimos caracteres são 0042."
-        },
-        {
-          "tipo": "ordenar",
-          "cenario": "Mostre o último dia do mês de cada venda (data em A2), para o vencimento.",
-          "pecas": [
-            "=FIMMÊS(",
-            "A2;",
-            "0",
-            ")"
-          ],
-          "extras": [
-            "1"
-          ],
-          "explica": "FIMMÊS(data; 0) é o fim do próprio mês; com 1 seria o fim do mês seguinte."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Qual o resultado de =ANO(A2) quando A2 tem 15/03/2026?",
-          "opcoes": [
-            "2026",
-            "15",
-            "3",
-            "15/03/2026"
-          ],
-          "correta": 0,
-          "explica": "ANO devolve só o ano. MÊS daria 3 e DIA daria 15."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Como mostrar o vendedor (B2) e a categoria (D2) assim: \"Ana - Papelaria\"?",
-          "opcoes": [
-            "=B2&\" - \"&D2",
-            "=B2+\" - \"+D2",
-            "=B2&D2&\" - \"",
-            "=JUNTAR(B2; D2)"
-          ],
-          "correta": 0,
-          "explica": "& junta textos; o traço com espaços vai entre aspas, no meio."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "O nome veio com espaços sobrando: \"  Ana   Souza \". Qual função deixa \"Ana Souza\"?",
-          "opcoes": [
-            "ARRUMAR",
-            "LIMPAR",
-            "SUBSTITUIR",
-            "ESQUERDA"
-          ],
-          "correta": 0,
-          "explica": "ARRUMAR tira os espaços do começo e do fim e deixa só um entre as palavras. LIMPAR remove caracteres invisíveis, não espaços."
-        }
-      ]
-    },
-    {
-      "id": "filtro",
-      "titulo": "FILTRO e ÚNICO",
-      "resumo": "Fórmulas que devolvem tabelas",
-      "teoria": [
-        "Fórmulas de matriz dinâmica devolvem vários resultados, que se espalham pelas células vizinhas. FILTRO(matriz; incluir; [se_vazio]) traz as linhas que passam no teste.",
-        "ÚNICO tira os repetidos e CLASSIFICAR ordena. Dá para encaixar uma na outra. Duas condições ao mesmo tempo se escrevem multiplicando: (teste1)*(teste2)."
-      ],
-      "exemplo": "=FILTRO(A2:F500; B2:B500=\"Carlos\"; \"Nada encontrado\")",
-      "video": {
-        "curso": "excel",
-        "curso_nome": "Excel",
-        "licao": "xl-matrizes-dinamicas"
-      },
-      "exercicios": [
-        {
-          "tipo": "ordenar",
-          "cenario": "Traga todas as linhas de venda do Carlos num relatório que se atualiza sozinho.",
-          "pecas": [
-            "=FILTRO(",
-            "A2:F500;",
-            "B2:B500=\"Carlos\";",
-            "\"Nada encontrado\"",
-            ")"
-          ],
-          "extras": [
-            "B:B;"
-          ],
-          "explica": "O que devolver (a tabela toda), o teste (vendedor igual a Carlos) e o que mostrar se não houver nada."
-        },
-        {
-          "tipo": "ordenar",
-          "cenario": "Crie a lista de vendedores sem repetir, em ordem alfabética.",
-          "pecas": [
-            "=CLASSIFICAR(",
-            "ÚNICO(",
-            "B2:B500",
-            ")",
-            ")"
-          ],
-          "extras": [
-            "FILTRO("
-          ],
-          "explica": "Primeiro o ÚNICO tira os repetidos; o CLASSIFICAR, por fora, ordena o resultado."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "O que significa o erro #DESPEJAR!?",
-          "opcoes": [
-            "Tem algo ocupando as células onde o resultado ia se espalhar",
-            "A fórmula tem um parêntese a mais",
-            "O FILTRO não achou nada",
-            "A planilha está protegida"
-          ],
-          "correta": 0,
-          "explica": "Libere as células abaixo e ao lado da fórmula e o resultado aparece."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "Para filtrar as vendas do Carlos acima de R$ 1.000, qual é o 2º argumento do FILTRO?",
-          "opcoes": [
-            "(B2:B500=\"Carlos\")*(F2:F500>1000)",
-            "E(B2:B500=\"Carlos\"; F2:F500>1000)",
-            "B2:B500=\"Carlos\"; F2:F500>1000",
-            "SE(B2:B500=\"Carlos\"; F2:F500>1000)"
-          ],
-          "correta": 0,
-          "explica": "Multiplicar os testes funciona como \"e\" linha a linha. A função E resume tudo num único VERDADEIRO ou FALSO e não serve aqui."
-        },
-        {
-          "tipo": "escolha",
-          "pergunta": "O que =ÚNICO(D2:D500) devolve?",
-          "opcoes": [
-            "A lista das categorias, cada uma uma vez só",
-            "Quantas categorias existem",
-            "Só as categorias que aparecem uma única vez",
-            "A primeira categoria"
-          ],
-          "correta": 0,
-          "explica": "ÚNICO tira os repetidos. Para contar, envolva com CONT.VALORES."
-        }
-      ]
+     "tipo": "escolha",
+     "pergunta": "Qual atalho leva direto para a última linha preenchida da coluna?",
+     "opcoes": [
+      "Ctrl + Seta para baixo",
+      "Ctrl + End duas vezes",
+      "Shift + Page Down",
+      "Alt + Seta para baixo"
+     ],
+     "correta": 0,
+     "explica": "Ctrl + seta pula até a borda do bloco de dados naquela direção."
     }
-  ],
-  "nivelamento": [
+   ]
+  },
+  {
+   "id": "preenchimento",
+   "titulo": "Preencher e colar",
+   "resumo": "Preenchimento, Relâmpago e Colar Especial",
+   "teoria": [
+    "A alça de preenchimento (o quadradinho no canto da célula) continua séries: datas, meses, números com passo. O Preenchimento Relâmpago (Ctrl+E) aprende pelo exemplo: digite o resultado em 1 ou 2 linhas e ele completa o resto.",
+    "Colar Especial (Ctrl+Alt+V) cola só o que você escolhe: Valores (tira as fórmulas), Formatos, Transpor (vira linhas em colunas) ou operações como Multiplicar."
+   ],
+   "exemplo": "Ctrl+E = Preenchimento Relâmpago · Ctrl+Alt+V = Colar Especial",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-preenchimento-relampago"
+   },
+   "exercicios": [
     {
-      "no": "referencias",
-      "tipo": "escolha",
-      "pergunta": "Qual referência continua apontando para H1 quando a fórmula é arrastada?",
-      "opcoes": [
-        "$H$1",
-        "H1",
-        "H$",
-        "#H1"
-      ],
-      "correta": 0
+     "tipo": "escolha",
+     "pergunta": "A coluna A tem 'Ana Souza', 'Carlos Lima'... Você digitou 'Ana' em B2 e quer o primeiro nome de todos. Qual o jeito mais rápido?",
+     "opcoes": [
+      "Selecionar B3 e apertar Ctrl+E (Preenchimento Relâmpago)",
+      "Copiar a coluna A e colar em B",
+      "Usar Localizar e Substituir em toda a coluna",
+      "Arrastar B2 até o fim"
+     ],
+     "correta": 0,
+     "explica": "O Preenchimento Relâmpago reconhece o padrão do exemplo e completa a coluna."
     },
     {
-      "no": "se",
-      "tipo": "escolha",
-      "pergunta": "Qual fórmula mostra \"Sim\" para valores acima de 1000 e \"Não\" para o resto?",
-      "opcoes": [
-        "=SE(F2>1000; \"Sim\"; \"Não\")",
-        "=SE(\"Sim\"; F2>1000; \"Não\")",
-        "=SE(F2>1000; \"Sim\")\"Não\"",
-        "=SEERRO(F2>1000; \"Sim\")"
-      ],
-      "correta": 0
+     "tipo": "escolha",
+     "pergunta": "Você quer mandar a planilha só com os resultados, sem as fórmulas. O que usar ao colar?",
+     "opcoes": [
+      "Colar Especial > Valores",
+      "Colar Especial > Formatos",
+      "Colar Especial > Transpor",
+      "Colar normal (Ctrl+V)"
+     ],
+     "correta": 0,
+     "explica": "Valores cola o resultado calculado e descarta a fórmula."
     },
     {
-      "no": "somases",
-      "tipo": "ordenar",
-      "cenario": "Some o valor (coluna F) das vendas da categoria Papelaria (coluna D).",
-      "pecas": [
-        "=SOMASES(",
-        "F:F;",
-        "D:D;",
-        "\"Papelaria\"",
-        ")"
-      ],
-      "extras": [
-        "SOMA("
-      ]
+     "tipo": "escolha",
+     "pergunta": "Os meses estão numa coluna (A2:A13) e você precisa deles numa linha. O que usar?",
+     "opcoes": [
+      "Colar Especial > Transpor",
+      "Colar Especial > Valores",
+      "Mesclar e Centralizar",
+      "Classificar de A a Z"
+     ],
+     "correta": 0,
+     "explica": "Transpor troca linhas por colunas na colagem."
     },
     {
-      "no": "procx",
-      "tipo": "escolha",
-      "pergunta": "Qual fórmula busca o preço do código de C2 na tabela Produtos?",
-      "opcoes": [
-        "=PROCX(C2; Produtos[Código]; Produtos[Preço])",
-        "=PROCX(Produtos[Preço]; C2; Produtos[Código])",
-        "=PROCX(C2; Produtos[Preço]; Produtos[Código])",
-        "=PROCX(Produtos; C2; 3)"
-      ],
-      "correta": 0
+     "tipo": "escolha",
+     "pergunta": "Você digitou 'jan' em A2 e arrastou a alça para baixo. O que aparece?",
+     "opcoes": [
+      "fev, mar, abr...",
+      "jan, jan, jan...",
+      "jan1, jan2, jan3...",
+      "Um erro #VALOR!"
+     ],
+     "correta": 0,
+     "explica": "Meses são uma lista personalizada do Excel; a alça continua a sequência."
     },
     {
-      "no": "texto-data",
-      "tipo": "escolha",
-      "pergunta": "Qual fórmula pega as 3 primeiras letras de \"PAP-0042\" (em C2)?",
-      "opcoes": [
-        "=ESQUERDA(C2; 3)",
-        "=DIREITA(C2; 3)",
-        "=EXT.TEXTO(C2; 3)",
-        "=ESQUERDA(3; C2)"
-      ],
-      "correta": 0
-    },
-    {
-      "no": "filtro",
-      "tipo": "escolha",
-      "pergunta": "Qual fórmula traz só as linhas do Carlos?",
-      "opcoes": [
-        "=FILTRO(A2:F500; B2:B500=\"Carlos\")",
-        "=FILTRO(B2:B500=\"Carlos\"; A2:F500)",
-        "=ÚNICO(A2:F500; \"Carlos\")",
-        "=PROCX(\"Carlos\"; A2:F500)"
-      ],
-      "correta": 0
+     "tipo": "escolha",
+     "pergunta": "Todos os preços em F2:F100 precisam subir 10%. Sem criar coluna nova, qual o caminho?",
+     "opcoes": [
+      "Digitar 1,1 numa célula, copiar, selecionar F2:F100 e usar Colar Especial > Multiplicar",
+      "Selecionar F2:F100 e digitar *1,1",
+      "Usar Localizar e Substituir trocando , por 1,1",
+      "Formatar as células como porcentagem"
+     ],
+     "correta": 0,
+     "explica": "Colar Especial com a operação Multiplicar aplica o fator sobre os valores existentes."
     }
-  ]
+   ]
+  },
+  {
+   "id": "formatacao",
+   "titulo": "Formatação de números",
+   "resumo": "Moeda, porcentagem, datas e formatos personalizados",
+   "teoria": [
+    "O formato muda só a aparência: 0,25 com formato Porcentagem aparece como 25%, mas o valor continua 0,25. Data no Excel é número (dias desde 1900), por isso dá para somar e subtrair datas.",
+    "Formato personalizado usa códigos: 0 = dígito obrigatório, # = opcional, \"texto\" entre aspas. Ex.: 000 mostra 7 como 007; 0,0 \"kg\" mostra 12,5 kg e continua número."
+   ],
+   "exemplo": "Formato personalizado: 0,0 \"kg\"  →  12,5 kg",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-formatos-numero"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "A célula F2 tem 0,15 e você aplica o formato Porcentagem. O que acontece?",
+     "opcoes": [
+      "Mostra 15% e o valor continua 0,15",
+      "Mostra 0,15% ",
+      "O valor vira 15",
+      "Mostra 15% e o valor vira 15"
+     ],
+     "correta": 0,
+     "explica": "Formato só muda a aparência; o valor guardado não muda."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Os códigos de produto 7, 42 e 105 precisam aparecer com 3 dígitos (007, 042, 105), continuando números. Qual formato personalizado?",
+     "opcoes": [
+      "000",
+      "###",
+      "0,00",
+      "@"
+     ],
+     "correta": 0,
+     "explica": "0 é dígito obrigatório: com 000 o Excel completa com zeros à esquerda."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer que 12,5 apareça como '12,5 kg' e ainda possa somar a coluna. O que fazer?",
+     "opcoes": [
+      "Formato personalizado 0,0 \"kg\"",
+      "Digitar '12,5 kg' na célula",
+      "Usar =F2&\" kg\"",
+      "Formatar como Texto"
+     ],
+     "correta": 0,
+     "explica": "O texto entre aspas no formato só aparece na tela; o valor continua número."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual a diferença entre os formatos Moeda e Contábil?",
+     "opcoes": [
+      "O Contábil alinha o R$ na esquerda da célula e mostra zero como traço",
+      "O Contábil arredonda os centavos",
+      "Moeda não aceita números negativos",
+      "Não há diferença nenhuma"
+     ],
+     "correta": 0,
+     "explica": "Contábil alinha os símbolos em coluna e mostra zeros como '-'."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você digitou uma data e apareceu 46022. Por quê?",
+     "opcoes": [
+      "A célula está com formato Geral/Número; datas são números de série",
+      "A data foi digitada errada",
+      "O Excel converteu para texto",
+      "É o número de horas desde 1900"
+     ],
+     "correta": 0,
+     "explica": "Datas são números de dias desde 1/1/1900. Aplique o formato Data para ver 01/01/2026."
+    }
+   ]
+  },
+  {
+   "id": "importar-validar",
+   "titulo": "Importar e validar dados",
+   "resumo": "CSV, Texto para Colunas, duplicatas e listas",
+   "teoria": [
+    "Para trazer CSV ou TXT, use Dados > De Texto/CSV (abre o Power Query): você escolhe delimitador e tipos e depois só clica Atualizar quando chegar arquivo novo.",
+    "Texto para Colunas quebra uma coluna por um separador. Remover Duplicatas apaga linhas repetidas. Validação de Dados limita o que pode ser digitado, por exemplo uma lista suspensa de vendedores."
+   ],
+   "exemplo": "Dados > Validação de Dados > Permitir: Lista > Fonte: =$H$2:$H$6",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-validacao-dados"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Todo mês chega um CSV novo com o mesmo layout. Qual caminho evita refazer o trabalho?",
+     "opcoes": [
+      "Dados > De Texto/CSV (Power Query) e depois Atualizar",
+      "Abrir o CSV e copiar e colar todo mês",
+      "Digitar os dados de novo",
+      "Renomear o CSV para .xlsx"
+     ],
+     "correta": 0,
+     "explica": "Com o Power Query, os passos ficam gravados; basta atualizar a consulta."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna A tem 'SP;Campinas' e você quer estado e cidade em colunas separadas. O que usar?",
+     "opcoes": [
+      "Dados > Texto para Colunas, delimitador ponto e vírgula",
+      "Remover Duplicatas",
+      "Validação de Dados",
+      "Mesclar e Centralizar"
+     ],
+     "correta": 0,
+     "explica": "Texto para Colunas quebra o conteúdo pelo separador escolhido."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A equipe digita o nome do vendedor de jeitos diferentes. Como forçar uma lista fixa de nomes?",
+     "opcoes": [
+      "Validação de Dados com Permitir: Lista",
+      "Formatação condicional",
+      "Proteger a planilha",
+      "Preenchimento Relâmpago"
+     ],
+     "correta": 0,
+     "explica": "A lista suspensa da Validação de Dados só aceita os valores da fonte."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você usa Remover Duplicatas marcando só a coluna E-mail. O que acontece?",
+     "opcoes": [
+      "Fica uma linha por e-mail; as linhas repetidas daquele e-mail são excluídas",
+      "Só a célula duplicada é apagada",
+      "As linhas duplicadas ficam destacadas em vermelho",
+      "Nada muda até salvar"
+     ],
+     "correta": 0,
+     "explica": "A comparação usa só as colunas marcadas e exclui a linha inteira repetida."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna Quantidade deve aceitar só números inteiros de 1 a 500. Onde configurar?",
+     "opcoes": [
+      "Validação de Dados > Permitir: Número inteiro, entre 1 e 500",
+      "Formatar Células > Número",
+      "Formatação condicional > Maior que",
+      "Texto para Colunas"
+     ],
+     "correta": 0,
+     "explica": "A validação bloqueia a digitação fora da regra e pode mostrar uma mensagem de erro."
+    }
+   ]
+  },
+  {
+   "id": "tabelas",
+   "titulo": "Tabelas, classificar e filtrar",
+   "resumo": "Ctrl+Alt+T, Linha de Totais, filtros",
+   "teoria": [
+    "Transforme o intervalo em Tabela (Ctrl+Alt+T): ela cresce sozinha quando você adiciona linhas, ganha filtros, formatação e um nome (ex.: tbVendas) para usar em fórmulas.",
+    "A Linha de Totais usa SUBTOTAL, que ignora as linhas escondidas pelo filtro. Classificar aceita vários níveis (Vendedor e, dentro dele, Valor do maior para o menor)."
+   ],
+   "exemplo": "Ctrl+Alt+T  →  Tabela  ·  Design da Tabela > Linha de Totais",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-tabelas-criar"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual a principal vantagem de transformar A1:F500 em Tabela?",
+     "opcoes": [
+      "Ela se expande sozinha com novas linhas, e fórmulas e gráficos acompanham",
+      "Ela fica protegida contra edição",
+      "Ela deixa o arquivo menor",
+      "Ela converte as fórmulas em valores"
+     ],
+     "correta": 0,
+     "explica": "Tabela é dinâmica: novas linhas entram nos totais, gráficos e fórmulas que usam a tabela."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você filtrou só o vendedor Carlos. A Linha de Totais mostra o total de quem?",
+     "opcoes": [
+      "Só das linhas visíveis (do Carlos)",
+      "De todas as linhas, filtradas ou não",
+      "Só da primeira linha",
+      "Nada, ela some com o filtro"
+     ],
+     "correta": 0,
+     "explica": "A Linha de Totais usa SUBTOTAL, que ignora linhas ocultas pelo filtro."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer ordenar por Vendedor (A→Z) e, dentro de cada vendedor, por Valor do maior para o menor. Como?",
+     "opcoes": [
+      "Dados > Classificar com dois níveis: Vendedor A→Z, depois Valor maior→menor",
+      "Classificar Valor e depois classificar Vendedor separadamente sem níveis",
+      "Filtrar por Vendedor",
+      "Usar Remover Duplicatas"
+     ],
+     "correta": 0,
+     "explica": "A caixa Classificar aceita vários níveis, aplicados na ordem da lista."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual atalho transforma o intervalo selecionado em Tabela?",
+     "opcoes": [
+      "Ctrl + Alt + T",
+      "Ctrl + T + A",
+      "Alt + F1",
+      "Ctrl + Shift + L"
+     ],
+     "correta": 0,
+     "explica": "Ctrl+Alt+T (ou Ctrl+T) cria a Tabela. Ctrl+Shift+L só liga/desliga os filtros."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você precisa ver as vendas acima de R$ 1.000 da categoria Papelaria. O que fazer na Tabela?",
+     "opcoes": [
+      "Filtrar Categoria = Papelaria e, em Valor, Filtros de Número > É Maior que 1000",
+      "Classificar Valor e apagar o resto",
+      "Usar Localizar 'Papelaria'",
+      "Congelar a linha 1"
+     ],
+     "correta": 0,
+     "explica": "Filtros em colunas diferentes se combinam: só passam as linhas que atendem os dois."
+    }
+   ]
+  },
+  {
+   "id": "referencias",
+   "titulo": "Fórmulas e referências",
+   "resumo": "Relativa, absoluta e mista",
+   "teoria": [
+    "Toda fórmula começa com =. A2 é referência relativa: ao copiar ou arrastar, ela anda junto. $A$2 é absoluta: fica presa no lugar.",
+    "$A2 prende só a coluna; A$2 prende só a linha. Com o cursor na referência, F4 alterna entre os quatro tipos."
+   ],
+   "exemplo": "=F2*(1-$H$1)   ← valor menos o desconto fixo de H1",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-referencias"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "O desconto de todas as vendas está na célula H1 (ex.: 10%). Monte a fórmula da linha 2, que vai ser arrastada até o fim: valor com desconto.",
+     "pecas": [
+      "=F2*(",
+      "1-",
+      "$H$1",
+      ")"
+     ],
+     "extras": [
+      "H1"
+     ],
+     "explica": "=F2*(1-$H$1). O $ prende H1: ao arrastar, F2 vira F3, F4..., mas o desconto continua vindo de H1."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você copia a fórmula =A2*B$1 da célula C2 e cola em D3. Como ela fica?",
+     "opcoes": [
+      "=B3*C$1",
+      "=A2*B$1",
+      "=B3*C$2",
+      "=A3*B$1"
+     ],
+     "correta": 0,
+     "explica": "Andou uma coluna e uma linha: A2 vira B3. Em B$1 a linha está presa, só a coluna anda: C$1."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que a tecla F4 faz com o cursor em cima de uma referência da fórmula?",
+     "opcoes": [
+      "Alterna entre A1, $A$1, A$1 e $A1",
+      "Recalcula a planilha",
+      "Repete a última fórmula",
+      "Mostra o resultado da fórmula"
+     ],
+     "correta": 0,
+     "explica": "F4 é o jeito rápido de colocar e tirar os cifrões enquanto edita."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual referência prende só a coluna, deixando a linha andar?",
+     "opcoes": [
+      "$A2",
+      "A$2",
+      "$A$2",
+      "A2"
+     ],
+     "correta": 0,
+     "explica": "O $ fica na frente do que é preso: $A prende a coluna A."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual o resultado desta fórmula?",
+     "codigo": "=2+3*4",
+     "opcoes": [
+      "14",
+      "20",
+      "9",
+      "24"
+     ],
+     "correta": 0,
+     "explica": "Multiplicação vem antes da soma: 3*4 = 12, mais 2 = 14. Para somar primeiro, use parênteses: =(2+3)*4."
+    }
+   ]
+  },
+  {
+   "id": "se",
+   "titulo": "SE e SEERRO",
+   "resumo": "Decisões dentro da fórmula",
+   "teoria": [
+    "=SE(teste; valor_se_verdadeiro; valor_se_falso). O teste é uma comparação, como F2>=1000. Texto vai entre aspas.",
+    "E(...) exige todas as condições; OU(...), pelo menos uma. SES testa várias faixas em ordem. SEERRO(fórmula; valor) troca qualquer erro (#DIV/0!, #N/D) por um valor seu."
+   ],
+   "exemplo": "=SE(F2>=1000; \"Grande\"; \"Pequena\")",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-funcao-se"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Na coluna G, mostre \"Meta batida\" quando o valor da venda (F2) for de pelo menos R$ 1.000, e \"Abaixo\" quando não for.",
+     "pecas": [
+      "=SE(",
+      "F2>=1000;",
+      "\"Meta batida\";",
+      "\"Abaixo\"",
+      ")"
+     ],
+     "extras": [
+      "F2=>1000;"
+     ],
+     "explica": "O operador é >= (maior ou igual), nesta ordem. Depois vem o que mostrar se for verdade e, por último, se for falso."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que a fórmula mostra quando E2 vale exatamente 10?",
+     "codigo": "=SE(E2>10; \"Atacado\"; \"Varejo\")",
+     "opcoes": [
+      "Varejo",
+      "Atacado",
+      "Erro",
+      "Nada"
+     ],
+     "correta": 0,
+     "explica": "O teste é \"maior que 10\". 10 não é maior que 10, então vale o valor se falso. Para incluir o 10, use >=."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A fórmula =F2/E2 dá #DIV/0! quando a quantidade é zero. Como mostrar 0 no lugar do erro?",
+     "opcoes": [
+      "=SEERRO(F2/E2; 0)",
+      "=SE(F2/E2; 0)",
+      "=SEERRO(0; F2/E2)",
+      "=F2/E2+SEERRO"
+     ],
+     "correta": 0,
+     "explica": "SEERRO(o que calcular; o que mostrar se der erro)."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você precisa de três faixas: até 500 \"Baixa\", até 2000 \"Média\", acima disso \"Alta\". Qual fórmula funciona?",
+     "opcoes": [
+      "=SES(F2<=500; \"Baixa\"; F2<=2000; \"Média\"; VERDADEIRO; \"Alta\")",
+      "=SES(F2<=2000; \"Média\"; F2<=500; \"Baixa\"; VERDADEIRO; \"Alta\")",
+      "=SE(F2<=500; \"Baixa\"; \"Média\"; \"Alta\")",
+      "=SES(F2<=500; F2<=2000; \"Baixa\"; \"Média\"; \"Alta\")"
+     ],
+     "correta": 0,
+     "explica": "SES para no primeiro teste verdadeiro, então a ordem importa: com 2000 primeiro, uma venda de 300 viraria Média. VERDADEIRO no fim é o \"senão\"."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como marcar as vendas do Carlos que passaram de R$ 1.000?",
+     "opcoes": [
+      "=SE(E(B2=\"Carlos\"; F2>1000); \"Sim\"; \"Não\")",
+      "=SE(B2=\"Carlos\"; F2>1000; \"Sim\")",
+      "=SE(OU(B2=\"Carlos\"; F2>1000); \"Sim\"; \"Não\")",
+      "=E(SE(B2=\"Carlos\"); F2>1000)"
+     ],
+     "correta": 0,
+     "explica": "E(...) só é verdadeiro quando as duas condições são. OU marcaria todas as do Carlos e todas acima de 1000."
+    }
+   ]
+  },
+  {
+   "id": "somases",
+   "titulo": "SOMASES e CONT.SES",
+   "resumo": "Somar e contar com critérios",
+   "teoria": [
+    "SOMASES(intervalo_soma; intervalo_critério; critério; ...) soma só as linhas que passam em todos os critérios. O que vai ser somado vem primeiro.",
+    "CONT.SES conta linhas e MÉDIASES tira a média. Critério com comparação vai entre aspas: \">1000\". Usando uma célula: \">\"&H1."
+   ],
+   "exemplo": "=SOMASES(F:F; B:B; \"Carlos\")",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-agregacoes-condicionais"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Você tem uma loja e precisa saber quanto o vendedor Carlos vendeu no total.",
+     "pecas": [
+      "=SOMASES(",
+      "F:F;",
+      "B:B;",
+      "\"Carlos\"",
+      ")"
+     ],
+     "extras": [
+      "B2=\"Carlos\""
+     ],
+     "explica": "Primeiro o que somar (valor, coluna F), depois onde procurar (vendedor, coluna B) e o que procurar."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Quantas vendas passaram de R$ 1.000?",
+     "pecas": [
+      "=CONT.SES(",
+      "F:F;",
+      "\">1000\"",
+      ")"
+     ],
+     "extras": [
+      ">1000"
+     ],
+     "explica": "Critério com comparação vai entre aspas: \">1000\". Sem aspas o Excel não aceita a fórmula."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que esta fórmula soma?",
+     "codigo": "=SOMASES(F:F; D:D; \"Papelaria\"; B:B; \"Ana\")",
+     "opcoes": [
+      "O valor das vendas de Papelaria feitas pela Ana",
+      "Todas as vendas de Papelaria mais todas as da Ana",
+      "A quantidade vendida pela Ana",
+      "Quantas vendas a Ana fez em Papelaria"
+     ],
+     "correta": 0,
+     "explica": "Todos os critérios precisam bater ao mesmo tempo, e a soma é da coluna F (valor)."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O nome do vendedor está na célula H1. Qual fórmula soma as vendas dele?",
+     "opcoes": [
+      "=SOMASES(F:F; B:B; H1)",
+      "=SOMASES(F:F; B:B; \"H1\")",
+      "=SOMASES(B:B; F:F; H1)",
+      "=SOMASES(F:F; H1; B:B)"
+     ],
+     "correta": 0,
+     "explica": "Com a célula, o critério muda sozinho quando você troca o nome em H1. Entre aspas, \"H1\" vira o texto H1."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual fórmula dá o ticket médio das vendas da categoria Papelaria?",
+     "opcoes": [
+      "=MÉDIASES(F:F; D:D; \"Papelaria\")",
+      "=MÉDIA(F:F; \"Papelaria\")",
+      "=SOMASES(F:F; D:D; \"Papelaria\")/2",
+      "=MÉDIASES(D:D; \"Papelaria\"; F:F)"
+     ],
+     "correta": 0,
+     "explica": "MÉDIASES segue a mesma ordem do SOMASES: primeiro a coluna da média, depois os pares de critério."
+    }
+   ]
+  },
+  {
+   "id": "texto-data",
+   "titulo": "Textos e datas",
+   "resumo": "Extrair, limpar, juntar e calcular datas",
+   "teoria": [
+    "ESQUERDA(texto; n), DIREITA(texto; n) e EXT.TEXTO(texto; início; n) tiram pedaços de um texto. ARRUMAR tira os espaços sobrando e & junta textos.",
+    "Data no Excel é um número, então dá para somar dias. ANO, MÊS e DIA pegam partes da data; HOJE() é a data de hoje; FIMMÊS(data; 0) é o último dia do mês."
+   ],
+   "exemplo": "=ESQUERDA(C2; 3)   ← \"PAP-0042\" vira \"PAP\"",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-texto-extrair"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Os códigos são como \"PAP-0042\". Pegue só os 4 números do final.",
+     "pecas": [
+      "=DIREITA(",
+      "C2;",
+      "4",
+      ")"
+     ],
+     "extras": [
+      "ESQUERDA("
+     ],
+     "explica": "DIREITA conta a partir do fim do texto: os 4 últimos caracteres são 0042."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Mostre o último dia do mês de cada venda (data em A2), para o vencimento.",
+     "pecas": [
+      "=FIMMÊS(",
+      "A2;",
+      "0",
+      ")"
+     ],
+     "extras": [
+      "1"
+     ],
+     "explica": "FIMMÊS(data; 0) é o fim do próprio mês; com 1 seria o fim do mês seguinte."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual o resultado de =ANO(A2) quando A2 tem 15/03/2026?",
+     "opcoes": [
+      "2026",
+      "15",
+      "3",
+      "15/03/2026"
+     ],
+     "correta": 0,
+     "explica": "ANO devolve só o ano. MÊS daria 3 e DIA daria 15."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como mostrar o vendedor (B2) e a categoria (D2) assim: \"Ana - Papelaria\"?",
+     "opcoes": [
+      "=B2&\" - \"&D2",
+      "=B2+\" - \"+D2",
+      "=B2&D2&\" - \"",
+      "=JUNTAR(B2; D2)"
+     ],
+     "correta": 0,
+     "explica": "& junta textos; o traço com espaços vai entre aspas, no meio."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O nome veio com espaços sobrando: \"  Ana   Souza \". Qual função deixa \"Ana Souza\"?",
+     "opcoes": [
+      "ARRUMAR",
+      "LIMPAR",
+      "SUBSTITUIR",
+      "ESQUERDA"
+     ],
+     "correta": 0,
+     "explica": "ARRUMAR tira os espaços do começo e do fim e deixa só um entre as palavras. LIMPAR remove caracteres invisíveis, não espaços."
+    }
+   ]
+  },
+  {
+   "id": "procx",
+   "titulo": "PROCX",
+   "resumo": "Buscar dados em outra tabela",
+   "teoria": [
+    "PROCX(valor_procurado; onde_procurar; o_que_devolver; [se_não_encontrado]) acha o valor numa coluna e devolve o que está na mesma linha de outra coluna.",
+    "Por padrão a correspondência é exata, a busca funciona para qualquer lado (até à esquerda) e o 4º argumento evita o #N/D."
+   ],
+   "exemplo": "=PROCX(C2; Produtos[Código]; Produtos[Preço]; \"Não cadastrado\")",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-procx"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Na planilha de vendas, traga o preço do produto pelo código da coluna C, buscando na tabela Produtos.",
+     "pecas": [
+      "=PROCX(",
+      "C2;",
+      "Produtos[Código];",
+      "Produtos[Preço]",
+      ")"
+     ],
+     "extras": [
+      "C:C;"
+     ],
+     "explica": "O que procurar (o código da linha), onde procurar (os códigos da tabela) e o que devolver (o preço)."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Traga o nome do produto e, se o código não existir, mostre \"Não cadastrado\".",
+     "pecas": [
+      "=PROCX(",
+      "C2;",
+      "Produtos[Código];",
+      "Produtos[Produto];",
+      "\"Não cadastrado\"",
+      ")"
+     ],
+     "extras": [
+      "FALSO"
+     ],
+     "explica": "O 4º argumento é o que aparece quando não acha. Sem ele, aparece #N/D."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que o PROCX mostra quando não encontra o código e não tem o 4º argumento?",
+     "opcoes": [
+      "#N/D",
+      "0",
+      "Uma célula vazia",
+      "#VALOR!"
+     ],
+     "correta": 0,
+     "explica": "#N/D quer dizer \"não disponível\": o valor procurado não existe na coluna de busca."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual a vantagem do PROCX sobre o PROCV?",
+     "opcoes": [
+      "Busca para a esquerda e não depende do número da coluna",
+      "É a única que acha valores exatos",
+      "Funciona sem tabela",
+      "Só ele aceita texto"
+     ],
+     "correta": 0,
+     "explica": "No PROCV você conta colunas (3, 4...) e a busca é sempre na primeira; inserir uma coluna quebra a fórmula."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Nesta fórmula antiga, o que significa o 3?",
+     "codigo": "=PROCV(C2; Produtos; 3; FALSO)",
+     "opcoes": [
+      "Devolver a 3ª coluna da tabela Produtos",
+      "Procurar nas 3 primeiras linhas",
+      "Aceitar até 3 erros",
+      "Arredondar para 3 casas"
+     ],
+     "correta": 0,
+     "explica": "PROCV(o que procurar; tabela; número da coluna a devolver; FALSO para exata)."
+    }
+   ]
+  },
+  {
+   "id": "filtro",
+   "titulo": "FILTRO e ÚNICO",
+   "resumo": "Fórmulas que devolvem tabelas",
+   "teoria": [
+    "Fórmulas de matriz dinâmica devolvem vários resultados, que se espalham pelas células vizinhas. FILTRO(matriz; incluir; [se_vazio]) traz as linhas que passam no teste.",
+    "ÚNICO tira os repetidos e CLASSIFICAR ordena. Dá para encaixar uma na outra. Duas condições ao mesmo tempo se escrevem multiplicando: (teste1)*(teste2)."
+   ],
+   "exemplo": "=FILTRO(A2:F500; B2:B500=\"Carlos\"; \"Nada encontrado\")",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-matrizes-dinamicas"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Traga todas as linhas de venda do Carlos num relatório que se atualiza sozinho.",
+     "pecas": [
+      "=FILTRO(",
+      "A2:F500;",
+      "B2:B500=\"Carlos\";",
+      "\"Nada encontrado\"",
+      ")"
+     ],
+     "extras": [
+      "B:B;"
+     ],
+     "explica": "O que devolver (a tabela toda), o teste (vendedor igual a Carlos) e o que mostrar se não houver nada."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Crie a lista de vendedores sem repetir, em ordem alfabética.",
+     "pecas": [
+      "=CLASSIFICAR(",
+      "ÚNICO(",
+      "B2:B500",
+      ")",
+      ")"
+     ],
+     "extras": [
+      "FILTRO("
+     ],
+     "explica": "Primeiro o ÚNICO tira os repetidos; o CLASSIFICAR, por fora, ordena o resultado."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que significa o erro #DESPEJAR!?",
+     "opcoes": [
+      "Tem algo ocupando as células onde o resultado ia se espalhar",
+      "A fórmula tem um parêntese a mais",
+      "O FILTRO não achou nada",
+      "A planilha está protegida"
+     ],
+     "correta": 0,
+     "explica": "Libere as células abaixo e ao lado da fórmula e o resultado aparece."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Para filtrar as vendas do Carlos acima de R$ 1.000, qual é o 2º argumento do FILTRO?",
+     "opcoes": [
+      "(B2:B500=\"Carlos\")*(F2:F500>1000)",
+      "E(B2:B500=\"Carlos\"; F2:F500>1000)",
+      "B2:B500=\"Carlos\"; F2:F500>1000",
+      "SE(B2:B500=\"Carlos\"; F2:F500>1000)"
+     ],
+     "correta": 0,
+     "explica": "Multiplicar os testes funciona como \"e\" linha a linha. A função E resume tudo num único VERDADEIRO ou FALSO e não serve aqui."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que =ÚNICO(D2:D500) devolve?",
+     "opcoes": [
+      "A lista das categorias, cada uma uma vez só",
+      "Quantas categorias existem",
+      "Só as categorias que aparecem uma única vez",
+      "A primeira categoria"
+     ],
+     "correta": 0,
+     "explica": "ÚNICO tira os repetidos. Para contar, envolva com CONT.VALORES."
+    }
+   ]
+  },
+  {
+   "id": "formatacao-condicional",
+   "titulo": "Formatação condicional",
+   "resumo": "Destacar valores com regras",
+   "teoria": [
+    "Formatação condicional pinta a célula conforme o valor: maior que, entre, 10 primeiros, barras de dados, escalas de cor e ícones. As regras ficam no Gerenciador de Regras.",
+    "Para pintar a LINHA inteira, use uma regra com fórmula aplicada em A2:F500, travando só a coluna: =$F2>1000. Minigráficos (Inserir > Minigráficos) mostram a tendência dentro de uma célula."
+   ],
+   "exemplo": "Regra com fórmula em A2:F500:  =$F2>1000",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-formatacao-condicional-regras"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Pinte a linha inteira (A2:F500) das vendas acima de R$ 1.000 (valor na coluna F).",
+     "pecas": [
+      "=",
+      "$F2",
+      ">",
+      "1000"
+     ],
+     "extras": [
+      "F$2",
+      "$F$2"
+     ],
+     "explica": "Trava a coluna ($F) para todas as colunas olharem o valor, e deixa a linha livre (2) para cada linha olhar a sua."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer ver de relance quais vendedores venderam mais, com uma barra dentro da própria célula. Qual opção?",
+     "opcoes": [
+      "Barras de Dados",
+      "Escala de Cor com 3 cores",
+      "Conjunto de Ícones de setas",
+      "Realçar Valores Duplicados"
+     ],
+     "correta": 0,
+     "explica": "Barras de Dados desenham uma barra proporcional ao valor dentro da célula."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual regra pronta destaca os 10 maiores valores da coluna?",
+     "opcoes": [
+      "Regras de Primeiros/Últimos > 10 Primeiros Itens",
+      "Realçar Regras > Maior que",
+      "Escalas de Cor",
+      "Realçar Valores Duplicados"
+     ],
+     "correta": 0,
+     "explica": "Primeiros/Últimos destaca os N maiores ou menores, sem precisar saber o valor de corte."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Duas regras se aplicam à mesma célula e a cor errada aparece. Onde ajustar a prioridade?",
+     "opcoes": [
+      "Formatação Condicional > Gerenciar Regras",
+      "Formatar Células > Preenchimento",
+      "Validação de Dados",
+      "Opções do Excel > Avançado"
+     ],
+     "correta": 0,
+     "explica": "No Gerenciador de Regras você muda a ordem e pode marcar 'Parar se Verdadeiro'."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer mostrar a tendência de vendas de jan a dez de cada vendedor numa célula ao lado. O que usar?",
+     "opcoes": [
+      "Minigráficos de linha",
+      "Um gráfico de pizza por vendedor",
+      "Barras de Dados",
+      "Tabela dinâmica"
+     ],
+     "correta": 0,
+     "explica": "Minigráficos são pequenos gráficos dentro da célula, ideais para tendência por linha."
+    }
+   ]
+  },
+  {
+   "id": "graficos",
+   "titulo": "Gráficos",
+   "resumo": "Escolher o tipo certo e ajustar séries",
+   "teoria": [
+    "Comparar categorias: colunas ou barras (barras quando os nomes são longos). Evolução no tempo: linhas. Parte do todo com poucas fatias: pizza ou rosca. Dois números de grandezas diferentes: gráfico de combinação com eixo secundário.",
+    "Selecionar Dados define as séries e os rótulos do eixo. Alternar Linha/Coluna troca o que é série e o que é categoria."
+   ],
+   "exemplo": "Inserir > Gráficos Recomendados  ·  Design do Gráfico > Selecionar Dados",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-graficos-criar"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer mostrar o faturamento mês a mês de 2026. Qual gráfico?",
+     "opcoes": [
+      "Linhas",
+      "Pizza",
+      "Dispersão sem linhas",
+      "Rosca"
+     ],
+     "correta": 0,
+     "explica": "Linhas mostram evolução no tempo."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Comparar o faturamento de 12 vendedores com nomes longos. Qual escolher?",
+     "opcoes": [
+      "Barras (horizontais)",
+      "Pizza",
+      "Linhas",
+      "Área empilhada"
+     ],
+     "correta": 0,
+     "explica": "Barras horizontais deixam os nomes longos legíveis e comparam bem categorias."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "No mesmo gráfico: faturamento (milhares de R$) e margem (%). Como não esmagar a margem?",
+     "opcoes": [
+      "Gráfico de combinação com a margem no eixo secundário",
+      "Duas pizzas lado a lado",
+      "Colunas empilhadas",
+      "Multiplicar a margem por 1000"
+     ],
+     "correta": 0,
+     "explica": "O eixo secundário dá uma escala própria para a série de porcentagem."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O gráfico mostrou os meses como séries (legenda) e os vendedores no eixo. Como inverter?",
+     "opcoes": [
+      "Design do Gráfico > Alternar Linha/Coluna",
+      "Excluir o gráfico e classificar os dados",
+      "Formatar Eixo > Valores em ordem inversa",
+      "Mudar para gráfico de pizza"
+     ],
+     "correta": 0,
+     "explica": "Alternar Linha/Coluna troca o papel de séries e categorias."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Mostrar como o lucro sai da receita, passando por custos e impostos, etapa por etapa. Qual gráfico?",
+     "opcoes": [
+      "Cascata",
+      "Pizza",
+      "Histograma",
+      "Radar"
+     ],
+     "correta": 0,
+     "explica": "O gráfico de Cascata mostra acréscimos e reduções acumulando até o resultado."
+    }
+   ]
+  },
+  {
+   "id": "tabela-dinamica",
+   "titulo": "Tabela dinâmica",
+   "resumo": "Resumir milhares de linhas em segundos",
+   "teoria": [
+    "Inserir > Tabela Dinâmica resume a base: arraste campos para Linhas, Colunas, Valores e Filtros. Em Valores, mude de Soma para Média, Contagem etc.",
+    "Mostrar Valores Como transforma em % do total. Datas podem ser agrupadas por mês/ano. Segmentação de Dados cria botões de filtro. Depois de mudar a base, clique Atualizar."
+   ],
+   "exemplo": "Linhas: Vendedor · Colunas: Mês · Valores: Soma de Valor",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-tabela-dinamica-criar"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer o total vendido por vendedor (linhas) e por mês (colunas). Onde vai o campo Valor?",
+     "opcoes": [
+      "Na área Valores",
+      "Na área Linhas",
+      "Na área Filtros",
+      "Na área Colunas"
+     ],
+     "correta": 0,
+     "explica": "Valores é onde fica o número a ser resumido (somado, contado...)."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você acrescentou 200 linhas na base e a tabela dinâmica não mudou. O que fazer?",
+     "opcoes": [
+      "Clicar em Atualizar (Analisar Tabela Dinâmica > Atualizar)",
+      "Recriar a tabela do zero sempre",
+      "Salvar e fechar o arquivo",
+      "Apertar Ctrl+Z"
+     ],
+     "correta": 0,
+     "explica": "A dinâmica guarda um cache; precisa atualizar. Se a base for uma Tabela do Excel, as linhas novas entram ao atualizar."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Em vez do valor, você quer a participação de cada vendedor no total. O que usar?",
+     "opcoes": [
+      "Mostrar Valores Como > % do Total Geral",
+      "Classificar do maior para o menor",
+      "Filtro de Valor > 10 Primeiros",
+      "Campo calculado =Valor/100"
+     ],
+     "correta": 0,
+     "explica": "Mostrar Valores Como recalcula o mesmo campo como porcentagem."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "As datas aparecem dia a dia e você quer ver por mês. O que fazer?",
+     "opcoes": [
+      "Clicar com o botão direito na data > Agrupar > Meses (e Anos)",
+      "Mudar o formato da célula para mês",
+      "Criar uma coluna nova na dinâmica",
+      "Filtrar o primeiro dia de cada mês"
+     ],
+     "correta": 0,
+     "explica": "Agrupar junta as datas em meses, trimestres e anos."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O diretor quer clicar em botões para filtrar a dinâmica por região. O que inserir?",
+     "opcoes": [
+      "Segmentação de Dados no campo Região",
+      "Validação de Dados",
+      "Formatação condicional",
+      "Um hiperlink por região"
+     ],
+     "correta": 0,
+     "explica": "A Segmentação de Dados cria botões visuais de filtro e pode controlar várias dinâmicas."
+    }
+   ]
+  },
+  {
+   "id": "hipoteses",
+   "titulo": "Análise de hipóteses",
+   "resumo": "Atingir Meta, cenários, subtotais e PGTO",
+   "teoria": [
+    "Atingir Meta descobre a entrada necessária para um resultado: 'quanto preciso vender para o lucro ser R$ 50 mil?'. Gerenciador de Cenários compara conjuntos de premissas. Tabela de Dados testa várias entradas de uma vez.",
+    "Subtotais (Dados > Subtotal) insere totais por grupo numa base classificada. PGTO calcula a parcela: =PGTO(taxa; nº de parcelas; -valor financiado)."
+   ],
+   "exemplo": "=PGTO(1,5%; 12; -10000)  →  parcela de cerca de R$ 917",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-analise-hipoteses"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "A célula B10 calcula o lucro a partir do volume em B2. Você quer saber qual volume dá lucro de 50.000. Qual ferramenta?",
+     "opcoes": [
+      "Atingir Meta (Definir B10 para 50000 alterando B2)",
+      "Tabela dinâmica",
+      "Validação de Dados",
+      "Remover Duplicatas"
+     ],
+     "correta": 0,
+     "explica": "Atingir Meta ajusta uma célula de entrada até a fórmula chegar no valor desejado."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Calcule a parcela de um financiamento de R$ 10.000 em 12 meses com juros de 1,5% ao mês.",
+     "pecas": [
+      "=PGTO(",
+      "1,5%;",
+      "12;",
+      "-10000",
+      ")"
+     ],
+     "extras": [
+      "=VF("
+     ],
+     "explica": "PGTO(taxa; nper; vp). O valor presente vai negativo para a parcela sair positiva."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer comparar os resultados de um cenário Otimista, Realista e Pessimista, cada um com 3 premissas. O que usar?",
+     "opcoes": [
+      "Gerenciador de Cenários",
+      "Atingir Meta",
+      "Preenchimento Relâmpago",
+      "Consolidar"
+     ],
+     "correta": 0,
+     "explica": "O Gerenciador de Cenários guarda vários conjuntos de valores e gera um resumo comparando."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Antes de usar Dados > Subtotal por vendedor, o que é obrigatório?",
+     "opcoes": [
+      "Classificar a base por vendedor",
+      "Transformar em tabela dinâmica",
+      "Remover os filtros e as fórmulas",
+      "Mesclar as células do vendedor"
+     ],
+     "correta": 0,
+     "explica": "Subtotal cria um total a cada mudança de valor; sem classificar, o mesmo vendedor gera vários totais."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "As vendas de jan, fev e mar estão em 3 planilhas com o mesmo layout. Como somar tudo numa planilha resumo?",
+     "opcoes": [
+      "Dados > Consolidar, função Soma, com os 3 intervalos",
+      "Copiar e colar uma em cima da outra",
+      "Usar PROCX entre as planilhas",
+      "Remover Duplicatas"
+     ],
+     "correta": 0,
+     "explica": "Consolidar junta intervalos de várias planilhas aplicando uma função como Soma."
+    }
+   ]
+  },
+  {
+   "id": "auditoria",
+   "titulo": "Erros e auditoria de fórmulas",
+   "resumo": "#N/D, #DIV/0!, #REF! e como rastrear",
+   "teoria": [
+    "Cada erro diz uma coisa: #DIV/0! (divisão por zero), #N/D (procura não encontrou), #REF! (referência apagada), #VALOR! (tipo errado, ex.: texto numa conta), #NOME? (nome de função digitado errado).",
+    "Fórmulas > Rastrear Precedentes mostra de onde a fórmula tira os dados; Avaliar Fórmula calcula passo a passo. Referência circular é a fórmula que depende dela mesma."
+   ],
+   "exemplo": "Fórmulas > Avaliar Fórmula  ·  Rastrear Precedentes",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-erros-formulas"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "=F2/E2 mostra #DIV/0!. O que significa?",
+     "opcoes": [
+      "E2 está vazia ou é zero",
+      "F2 tem texto",
+      "A fórmula foi digitada errada",
+      "A célula E2 foi excluída"
+     ],
+     "correta": 0,
+     "explica": "#DIV/0! aparece quando o divisor é zero ou vazio."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Depois de excluir a coluna D, várias fórmulas mostram #REF!. Por quê?",
+     "opcoes": [
+      "Elas apontavam para células que não existem mais",
+      "A coluna D tinha texto",
+      "O cálculo está manual",
+      "Falta o $ nas referências"
+     ],
+     "correta": 0,
+     "explica": "#REF! indica referência inválida, geralmente por linha/coluna excluída."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "=SOMA(F2:F10) mostra #NOME?. O que provavelmente aconteceu?",
+     "opcoes": [
+      "O nome da função foi digitado errado (ex.: SOMMA)",
+      "Uma célula tem texto",
+      "O intervalo está vazio",
+      "Falta fechar parênteses"
+     ],
+     "correta": 0,
+     "explica": "#NOME? é texto que o Excel não reconhece como função ou nome definido."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Uma fórmula grande dá resultado errado e você quer ver o cálculo etapa por etapa. Qual ferramenta?",
+     "opcoes": [
+      "Fórmulas > Avaliar Fórmula",
+      "Rastrear Dependentes",
+      "Janela de Inspeção",
+      "Mostrar Fórmulas"
+     ],
+     "correta": 0,
+     "explica": "Avaliar Fórmula resolve a fórmula passo a passo, mostrando cada resultado parcial."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O Excel avisa 'referência circular' na célula F20 com =SOMA(F2:F20). Como corrigir?",
+     "opcoes": [
+      "Trocar para =SOMA(F2:F19), sem incluir a própria célula",
+      "Ativar o cálculo manual",
+      "Apagar a linha 20",
+      "Usar SEERRO"
+     ],
+     "correta": 0,
+     "explica": "A fórmula não pode somar a si mesma; tire F20 do intervalo."
+    }
+   ]
+  },
+  {
+   "id": "impressao-protecao",
+   "titulo": "Impressão, colaboração e proteção",
+   "resumo": "Área de impressão, títulos, comentários e senhas",
+   "teoria": [
+    "Layout da Página > Área de Impressão define o que sai no papel; Imprimir Títulos repete o cabeçalho em todas as páginas; Ajustar para 1 página de largura evita colunas cortadas.",
+    "Proteger Planilha impede editar células bloqueadas (desbloqueie antes as de digitação). Proteger Pasta de Trabalho trava a estrutura (criar/excluir abas). Comentários abrem conversa; Anotações são lembretes simples."
+   ],
+   "exemplo": "Formatar Células > Proteção > desmarcar Bloqueada  →  Revisão > Proteger Planilha",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-proteger"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O relatório tem 8 páginas e o cabeçalho só sai na primeira. Como repetir em todas?",
+     "opcoes": [
+      "Layout da Página > Imprimir Títulos > Linhas a repetir na parte superior",
+      "Congelar Painéis",
+      "Copiar o cabeçalho a cada 40 linhas",
+      "Cabeçalho e rodapé com o nome do arquivo"
+     ],
+     "correta": 0,
+     "explica": "Imprimir Títulos repete as linhas escolhidas no topo de cada página impressa."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer que os usuários digitem só nas células de quantidade (E2:E50) e não mexam nas fórmulas. Qual a ordem?",
+     "opcoes": [
+      "Desbloquear E2:E50 em Formatar Células > Proteção e depois Proteger Planilha",
+      "Proteger Planilha e depois desbloquear E2:E50",
+      "Proteger Pasta de Trabalho",
+      "Ocultar as colunas com fórmula"
+     ],
+     "correta": 0,
+     "explica": "Toda célula vem 'Bloqueada'; a trava só vale depois de proteger a planilha. Desbloqueie antes o que pode ser editado."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A planilha sai cortada em duas folhas na largura. O que resolve sem mudar o layout?",
+     "opcoes": [
+      "Ajustar para 1 página de largura (Dimensionar)",
+      "Diminuir a fonte da planilha toda para 6",
+      "Excluir colunas",
+      "Imprimir em PDF"
+     ],
+     "correta": 0,
+     "explica": "A opção de escala ajusta a impressão para caber na largura de uma página."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer impedir que alguém exclua ou renomeie as abas do arquivo. O que usar?",
+     "opcoes": [
+      "Revisão > Proteger Pasta de Trabalho (estrutura)",
+      "Proteger Planilha",
+      "Marcar como Final",
+      "Validação de Dados"
+     ],
+     "correta": 0,
+     "explica": "Proteger a estrutura da pasta trava criar, excluir, mover e renomear planilhas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer discutir um número com a colega dentro do arquivo, com respostas. O que inserir?",
+     "opcoes": [
+      "Comentário (Revisão > Novo Comentário)",
+      "Anotação",
+      "Hiperlink",
+      "Caixa de texto"
+     ],
+     "correta": 0,
+     "explica": "Comentários têm conversa e menção com @; anotações são só lembretes."
+    }
+   ]
+  },
+  {
+   "id": "macros",
+   "titulo": "Macros",
+   "resumo": "Gravar, executar e salvar com segurança",
+   "teoria": [
+    "Habilite a guia Desenvolvedor e use Gravar Macro: o Excel grava seus cliques como código VBA. Referências relativas fazem a macro funcionar a partir da célula ativa, em vez de sempre na mesma célula.",
+    "Salve como .xlsm. Macro de arquivo desconhecido pode ser perigosa: só habilite conteúdo de fontes confiáveis. Para editar o código, Alt+F11 abre o Editor do VBA."
+   ],
+   "exemplo": "Desenvolvedor > Gravar Macro  ·  Alt+F11 = Editor do VBA",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-macros-gravar"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde fica o botão Gravar Macro?",
+     "opcoes": [
+      "Na guia Desenvolvedor (e também em Exibir > Macros)",
+      "Na guia Página Inicial",
+      "Em Dados > Obter Dados",
+      "Em Arquivo > Opções > Salvar"
+     ],
+     "correta": 0,
+     "explica": "A guia Desenvolvedor precisa ser ativada em Arquivo > Opções > Personalizar Faixa."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você gravou uma macro que formata a célula onde está o cursor, mas ela sempre formata A1. O que faltou?",
+     "opcoes": [
+      "Ativar Usar Referências Relativas antes de gravar",
+      "Salvar em .xlsx",
+      "Usar um atalho com Ctrl+Shift",
+      "Gravar com o cálculo manual"
+     ],
+     "correta": 0,
+     "explica": "Com referências absolutas a macro repete os mesmos endereços; relativas partem da célula ativa."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você salvou o arquivo com macro como .xlsx. O que acontece?",
+     "opcoes": [
+      "A macro é descartada",
+      "A macro continua funcionando normalmente",
+      "O Excel converte em fórmula",
+      "O arquivo fica protegido"
+     ],
+     "correta": 0,
+     "explica": ".xlsx não guarda VBA; use .xlsm."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Chegou por e-mail uma planilha de remetente desconhecido pedindo 'Habilitar Conteúdo'. O que fazer?",
+     "opcoes": [
+      "Não habilitar: macros podem executar código malicioso",
+      "Habilitar, porque macro só formata células",
+      "Habilitar e salvar como .xlsx",
+      "Renomear para .csv e abrir"
+     ],
+     "correta": 0,
+     "explica": "Macros rodam código no seu computador; habilite só de fontes confiáveis."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual atalho abre o Editor do VBA para ver o código da macro gravada?",
+     "opcoes": [
+      "Alt + F11",
+      "Ctrl + F11",
+      "Alt + F8",
+      "F5"
+     ],
+     "correta": 0,
+     "explica": "Alt+F11 abre o editor; Alt+F8 abre a lista de macros para executar."
+    }
+   ]
+  }
+ ],
+ "nivelamento": [
+  {
+   "tipo": "escolha",
+   "pergunta": "Onde aparece o endereço da célula ativa (ex.: C5)?",
+   "opcoes": [
+    "Na Caixa de Nome",
+    "Na barra de status",
+    "Na barra de fórmulas",
+    "Na guia Exibir"
+   ],
+   "correta": 0,
+   "no": "interface"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual atalho ativa o Preenchimento Relâmpago?",
+   "opcoes": [
+    "Ctrl + E",
+    "Ctrl + R",
+    "Ctrl + D",
+    "Ctrl + F"
+   ],
+   "correta": 0,
+   "no": "preenchimento"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Com o formato personalizado 000, como aparece o número 7?",
+   "opcoes": [
+    "007",
+    "7",
+    "7,00",
+    "700"
+   ],
+   "correta": 0,
+   "no": "formatacao"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual recurso cria uma lista suspensa numa célula?",
+   "opcoes": [
+    "Validação de Dados",
+    "Texto para Colunas",
+    "Remover Duplicatas",
+    "Classificar"
+   ],
+   "correta": 0,
+   "no": "importar-validar"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "O que acontece com uma Tabela do Excel quando você digita na primeira linha vazia logo abaixo dela?",
+   "opcoes": [
+    "A tabela se expande e inclui a linha",
+    "Nada, precisa recriar a tabela",
+    "Aparece um erro",
+    "A linha vira o novo cabeçalho"
+   ],
+   "correta": 0,
+   "no": "tabelas"
+  },
+  {
+   "no": "referencias",
+   "tipo": "escolha",
+   "pergunta": "Qual referência continua apontando para H1 quando a fórmula é arrastada?",
+   "opcoes": [
+    "$H$1",
+    "H1",
+    "H$",
+    "#H1"
+   ],
+   "correta": 0
+  },
+  {
+   "no": "se",
+   "tipo": "escolha",
+   "pergunta": "Qual fórmula mostra \"Sim\" para valores acima de 1000 e \"Não\" para o resto?",
+   "opcoes": [
+    "=SE(F2>1000; \"Sim\"; \"Não\")",
+    "=SE(\"Sim\"; F2>1000; \"Não\")",
+    "=SE(F2>1000; \"Sim\")\"Não\"",
+    "=SEERRO(F2>1000; \"Sim\")"
+   ],
+   "correta": 0
+  },
+  {
+   "no": "somases",
+   "tipo": "ordenar",
+   "cenario": "Some o valor (coluna F) das vendas da categoria Papelaria (coluna D).",
+   "pecas": [
+    "=SOMASES(",
+    "F:F;",
+    "D:D;",
+    "\"Papelaria\"",
+    ")"
+   ],
+   "extras": [
+    "SOMA("
+   ]
+  },
+  {
+   "no": "texto-data",
+   "tipo": "escolha",
+   "pergunta": "Qual fórmula pega as 3 primeiras letras de \"PAP-0042\" (em C2)?",
+   "opcoes": [
+    "=ESQUERDA(C2; 3)",
+    "=DIREITA(C2; 3)",
+    "=EXT.TEXTO(C2; 3)",
+    "=ESQUERDA(3; C2)"
+   ],
+   "correta": 0
+  },
+  {
+   "no": "procx",
+   "tipo": "escolha",
+   "pergunta": "Qual fórmula busca o preço do código de C2 na tabela Produtos?",
+   "opcoes": [
+    "=PROCX(C2; Produtos[Código]; Produtos[Preço])",
+    "=PROCX(Produtos[Preço]; C2; Produtos[Código])",
+    "=PROCX(C2; Produtos[Preço]; Produtos[Código])",
+    "=PROCX(Produtos; C2; 3)"
+   ],
+   "correta": 0
+  },
+  {
+   "no": "filtro",
+   "tipo": "escolha",
+   "pergunta": "Qual fórmula traz só as linhas do Carlos?",
+   "opcoes": [
+    "=FILTRO(A2:F500; B2:B500=\"Carlos\")",
+    "=FILTRO(B2:B500=\"Carlos\"; A2:F500)",
+    "=ÚNICO(A2:F500; \"Carlos\")",
+    "=PROCX(\"Carlos\"; A2:F500)"
+   ],
+   "correta": 0
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Na regra =$F2>1000 aplicada a A2:F500, por que o $ fica antes do F?",
+   "opcoes": [
+    "Para todas as colunas da linha olharem o valor da coluna F",
+    "Para travar a linha 2",
+    "Porque o Excel exige $ em toda regra",
+    "Para a regra valer só para a célula F2"
+   ],
+   "correta": 0,
+   "no": "formatacao-condicional"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual gráfico é o mais indicado para mostrar evolução ao longo dos meses?",
+   "opcoes": [
+    "Linhas",
+    "Pizza",
+    "Rosca",
+    "Radar"
+   ],
+   "correta": 0,
+   "no": "graficos"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Numa tabela dinâmica, em que área vai o campo que você quer somar?",
+   "opcoes": [
+    "Valores",
+    "Linhas",
+    "Colunas",
+    "Filtros"
+   ],
+   "correta": 0,
+   "no": "tabela-dinamica"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual ferramenta responde 'quanto preciso vender para chegar a um lucro X'?",
+   "opcoes": [
+    "Atingir Meta",
+    "Classificar",
+    "Formatação condicional",
+    "Texto para Colunas"
+   ],
+   "correta": 0,
+   "no": "hipoteses"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual erro aparece quando um PROCX ou PROCV não encontra o valor procurado?",
+   "opcoes": [
+    "#N/D",
+    "#DIV/0!",
+    "#REF!",
+    "#NOME?"
+   ],
+   "correta": 0,
+   "no": "auditoria"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Para que serve 'Imprimir Títulos'?",
+   "opcoes": [
+    "Repetir linhas de cabeçalho em todas as páginas impressas",
+    "Imprimir só a primeira linha",
+    "Colocar o nome do arquivo no rodapé",
+    "Congelar o cabeçalho na tela"
+   ],
+   "correta": 0,
+   "no": "impressao-protecao"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Em que formato salvar uma pasta de trabalho com macros?",
+   "opcoes": [
+    ".xlsm",
+    ".xlsx",
+    ".csv",
+    ".xltx"
+   ],
+   "correta": 0,
+   "no": "macros"
+  }
+ ],
+ "curso": "excel"
 }

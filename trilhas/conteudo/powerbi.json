@@ -1,0 +1,637 @@
+{
+ "slug": "powerbi",
+ "nome": "Power BI",
+ "sigla": "PBI",
+ "ordem": 1,
+ "cor": "#E5A00D",
+ "curso": "power-bi",
+ "descricao": "Do modelo estrela ao relatório publicado: modelagem, qualidade dos dados, visuais e governança.",
+ "contexto": "Empresa de varejo com tabela fato Vendas (Data, CodProduto, CodCliente, CodLoja, Quantidade, Valor) e dimensões Produtos, Clientes, Lojas e Calendario.",
+ "nos": [
+  {
+   "id": "estrela",
+   "titulo": "Esquema estrela",
+   "resumo": "Fatos no centro, dimensões em volta",
+   "teoria": [
+    "Tabela fato guarda os eventos e os números (cada venda, com quantidade e valor). Tabelas dimensão descrevem quem, o quê, onde e quando (produto, cliente, loja, data).",
+    "No esquema estrela cada dimensão liga direto na fato, com relacionamento 1 para muitos. Evite uma tabela única gigante: ela repete texto, pesa o modelo e complica o DAX."
+   ],
+   "exemplo": "Produtos 1 ──▶ * Vendas * ◀── 1 Clientes",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "esquema-estrela"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual destas é uma tabela FATO?",
+     "opcoes": [
+      "Vendas (Data, CodProduto, Quantidade, Valor)",
+      "Produtos (Cod, Nome, Categoria)",
+      "Clientes (Cod, Nome, Cidade)",
+      "Calendario (Data, Ano, Mês)"
+     ],
+     "correta": 0,
+     "explica": "Fato registra eventos com números; as outras descrevem esses eventos."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Numa relação Produtos → Vendas, qual é a cardinalidade correta?",
+     "opcoes": [
+      "1 para muitos (um produto aparece em muitas vendas)",
+      "Muitos para muitos",
+      "1 para 1",
+      "Muitos para 1 (Produtos do lado muitos)"
+     ],
+     "correta": 0,
+     "explica": "Cada código existe uma vez em Produtos e várias vezes em Vendas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Por que não juntar tudo numa única tabela larga com nome do produto, cliente e loja em cada venda?",
+     "opcoes": [
+      "Repete texto em milhões de linhas, pesa o modelo e complica filtros e DAX",
+      "Porque o Power BI não aceita mais de 20 colunas",
+      "Porque tabela larga não pode ter relacionamentos",
+      "Não há problema nenhum, é a melhor prática"
+     ],
+     "correta": 0,
+     "explica": "O esquema estrela guarda cada descrição uma vez só e filtra a fato pelas chaves."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde deve ficar a coluna 'Categoria do produto'?",
+     "opcoes": [
+      "Na dimensão Produtos",
+      "Na fato Vendas",
+      "No Calendario",
+      "Numa tabela separada sem relacionamento"
+     ],
+     "correta": 0,
+     "explica": "Atributo descritivo do produto pertence à dimensão Produtos."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que o Power BI precisa para filtrar Vendas quando você escolhe uma Categoria?",
+     "opcoes": [
+      "Relacionamento entre Produtos e Vendas pela chave do produto",
+      "Que as duas tabelas tenham o mesmo nome",
+      "Uma medida com CALCULATE em todo visual",
+      "Que Categoria seja numérica"
+     ],
+     "correta": 0,
+     "explica": "O filtro viaja pelo relacionamento do lado 1 (Produtos) para o lado muitos (Vendas)."
+    }
+   ]
+  },
+  {
+   "id": "relacionamentos",
+   "titulo": "Relacionamentos e granularidade",
+   "resumo": "Cardinalidade, direção de filtro e números duplicados",
+   "teoria": [
+    "Direção de filtro única (da dimensão para a fato) é o padrão seguro. Filtro bidirecional pode gerar ambiguidade e lentidão: use só quando realmente precisar.",
+    "Granularidade é o nível de detalhe de cada linha. Se a meta é mensal e as vendas são diárias, relacionar direto por data duplica ou some com números: ligue as duas a uma dimensão comum no mesmo nível (mês)."
+   ],
+   "exemplo": "Calendario[Data] 1 ──▶ * Vendas[Data]   (filtro único)",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "relacionamentos-cardinalidade-filtros"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual a direção de filtro recomendada entre Clientes (1) e Vendas (muitos)?",
+     "opcoes": [
+      "Única, de Clientes para Vendas",
+      "Bidirecional sempre",
+      "De Vendas para Clientes",
+      "Nenhuma, deixe inativo"
+     ],
+     "correta": 0,
+     "explica": "Filtro único da dimensão para a fato é previsível e rápido."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A tabela Metas tem uma linha por vendedor por MÊS; Vendas tem uma linha por venda por DIA. O que fazer?",
+     "opcoes": [
+      "Ligar as duas a dimensões comuns no nível do mês (ex.: Calendario com coluna AnoMês) e ao Vendedor",
+      "Relacionar Metas[Mês] direto com Vendas[Data]",
+      "Copiar a meta em cada linha de venda",
+      "Somar as metas no Power Query por dia"
+     ],
+     "correta": 0,
+     "explica": "Tabelas de granularidades diferentes se encontram em dimensões compartilhadas no nível comum."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O total do relatório aparece em dobro depois de um novo relacionamento. Qual a suspeita principal?",
+     "opcoes": [
+      "Chave duplicada no lado que deveria ser 1 (relação virou muitos para muitos)",
+      "Formato de moeda errado",
+      "Visual de tabela em vez de matriz",
+      "Tema do relatório"
+     ],
+     "correta": 0,
+     "explica": "Chave repetida na dimensão multiplica as linhas da fato no filtro."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Há duas datas na fato (Data do Pedido e Data de Entrega) e só uma relação pode ficar ativa. Como usar a outra?",
+     "opcoes": [
+      "Deixar a segunda inativa e ativá-la na medida com USERELATIONSHIP",
+      "Criar duas tabelas Vendas",
+      "Apagar a Data de Entrega",
+      "Deixar as duas ativas e bidirecionais"
+     ],
+     "correta": 0,
+     "explica": "USERELATIONSHIP ativa a relação inativa só dentro daquela medida."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual cardinalidade indica problema de modelagem na maioria dos casos?",
+     "opcoes": [
+      "Muitos para muitos entre fato e dimensão",
+      "1 para muitos entre dimensão e fato",
+      "1 para 1 entre duas dimensões pequenas",
+      "Relação inativa de data"
+     ],
+     "correta": 0,
+     "explica": "Muitos para muitos geralmente vem de chave não única na dimensão."
+    }
+   ]
+  },
+  {
+   "id": "qualidade",
+   "titulo": "Perfil e qualidade dos dados",
+   "resumo": "Qualidade, distribuição e perfil de coluna",
+   "teoria": [
+    "No Power Query, em Exibir, ligue Qualidade da Coluna (válidos, erros, vazios), Distribuição (valores distintos e únicos) e Perfil da Coluna (estatísticas).",
+    "Por padrão o perfil usa só as primeiras 1.000 linhas; mude para 'com base em todo o conjunto de dados' na barra de status antes de concluir algo."
+   ],
+   "exemplo": "Exibir > Qualidade da Coluna · Distribuição · Perfil da Coluna",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "perfil-dos-dados"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer saber quantos valores vazios e com erro a coluna CodCliente tem. O que ligar?",
+     "opcoes": [
+      "Qualidade da Coluna",
+      "Distribuição da Coluna",
+      "Mesclar Consultas",
+      "Agrupar Por"
+     ],
+     "correta": 0,
+     "explica": "Qualidade da Coluna mostra % de válidos, erros e vazios."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O perfil mostra 0 erros, mas a base tem 2 milhões de linhas. Por que desconfiar?",
+     "opcoes": [
+      "O perfil pode estar olhando só as primeiras 1.000 linhas",
+      "O Power Query não mostra erros",
+      "Erro só aparece depois de publicar",
+      "Precisa estar no modo DirectQuery"
+     ],
+     "correta": 0,
+     "explica": "Troque para perfil com base em todo o conjunto de dados."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Antes de usar CodProduto como chave da dimensão, o que conferir na Distribuição?",
+     "opcoes": [
+      "Que distintos = únicos (nenhum código repetido)",
+      "Que a coluna é texto",
+      "Que há mais de 100 valores",
+      "Que não há maiúsculas"
+     ],
+     "correta": 0,
+     "explica": "Chave de dimensão precisa ser única para a relação 1 para muitos."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna Valor tem alguns textos 'n/d' que viram erro ao mudar o tipo para número. Qual tratamento é melhor?",
+     "opcoes": [
+      "Substituir 'n/d' por null antes de mudar o tipo (ou Substituir Erros)",
+      "Apagar a coluna Valor",
+      "Deixar como texto e somar no DAX",
+      "Remover a etapa de tipo"
+     ],
+     "correta": 0,
+     "explica": "Trate a origem do erro; null não quebra a soma."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual visão mostra mínimo, máximo, média e contagem de uma coluna?",
+     "opcoes": [
+      "Perfil da Coluna",
+      "Qualidade da Coluna",
+      "Editor Avançado",
+      "Dependências da Consulta"
+     ],
+     "correta": 0,
+     "explica": "O Perfil da Coluna traz estatísticas e o gráfico de distribuição."
+    }
+   ]
+  },
+  {
+   "id": "desempenho",
+   "titulo": "Modelo leve e rápido",
+   "resumo": "Import, DirectQuery e otimização",
+   "teoria": [
+    "Import copia os dados para o arquivo: é o modo mais rápido nos visuais. DirectQuery consulta a fonte a cada clique: dado sempre atual, mas depende da velocidade da fonte. Dual/Composto mistura os dois.",
+    "Para enxugar: remova colunas que ninguém usa, prefira números a textos longos, evite colunas calculadas que poderiam ser medidas e desligue Data/hora automática quando já existe uma dimensão Calendario."
+   ],
+   "exemplo": "Opções > Carregamento de Dados > desmarcar Data/hora automática",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "modos-armazenamento"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O relatório precisa mostrar dados com segundos de atraso de um banco grande. Qual modo de armazenamento?",
+     "opcoes": [
+      "DirectQuery",
+      "Import",
+      "Importar de um CSV exportado",
+      "Nenhum, só Excel"
+     ],
+     "correta": 0,
+     "explica": "DirectQuery consulta a fonte em tempo real; Import depende de atualização agendada."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O arquivo .pbix está pesado. Qual ação ajuda mais?",
+     "opcoes": [
+      "Remover colunas que não são usadas no relatório",
+      "Mudar o tema para escuro",
+      "Trocar gráficos de barras por pizza",
+      "Renomear as tabelas"
+     ],
+     "correta": 0,
+     "explica": "Cada coluna ocupa memória; menos colunas (principalmente de alta cardinalidade) = modelo menor."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você já tem a tabela Calendario. O que desligar para não criar tabelas de data escondidas?",
+     "opcoes": [
+      "Data/hora automática nas opções de carregamento",
+      "Detecção de relacionamentos",
+      "Atualização em segundo plano",
+      "Q&A"
+     ],
+     "correta": 0,
+     "explica": "A Data/hora automática cria uma tabela oculta para cada coluna de data."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que é dobra de consultas (query folding)?",
+     "opcoes": [
+      "O Power Query transforma os passos em uma consulta SQL que roda na própria fonte",
+      "Juntar duas consultas numa só",
+      "Dobrar o tamanho do cache",
+      "Agendar a atualização duas vezes por dia"
+     ],
+     "correta": 0,
+     "explica": "Com dobra, o trabalho pesado roda no banco, e a atualização fica mais rápida."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Margem = Lucro / Receita deve ser coluna calculada ou medida?",
+     "opcoes": [
+      "Medida, para recalcular corretamente em qualquer filtro e total",
+      "Coluna calculada em cada linha e depois somar",
+      "Coluna no Excel de origem",
+      "Tanto faz, dá o mesmo total"
+     ],
+     "correta": 0,
+     "explica": "Somar margens de linhas dá total errado; a medida divide os totais no contexto."
+    }
+   ]
+  },
+  {
+   "id": "visuais",
+   "titulo": "Escolher o visual certo",
+   "resumo": "Comparar, evoluir, compor e destacar KPI",
+   "teoria": [
+    "Comparação entre categorias: barras ou colunas. Tendência no tempo: linhas. Composição com poucas partes: rosca. Número-chave: cartão. Detalhe: tabela ou matriz.",
+    "Menos é mais: título que diz a conclusão, eixos começando do zero em barras, cores com significado (destaque só o que importa) e nada de 3D."
+   ],
+   "exemplo": "Título: 'Vendas caíram 12% em agosto'  (conclusão, não só 'Vendas por mês')",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "escolher-grafico-correto"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Mostrar o faturamento total do mês em destaque no topo da página. Qual visual?",
+     "opcoes": [
+      "Cartão",
+      "Gráfico de dispersão",
+      "Matriz",
+      "Mapa"
+     ],
+     "correta": 0,
+     "explica": "Cartão mostra um número-chave grande."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Comparar faturamento de 15 lojas e ver quem lidera. Qual visual?",
+     "opcoes": [
+      "Barras horizontais classificadas",
+      "Pizza com 15 fatias",
+      "Linhas",
+      "Rosca"
+     ],
+     "correta": 0,
+     "explica": "Barras ordenadas comparam muitas categorias com clareza; pizza com 15 fatias é ilegível."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Mostrar vendas por mês e categoria com totais em linhas e colunas. Qual visual?",
+     "opcoes": [
+      "Matriz",
+      "Cartão",
+      "Velocímetro",
+      "Funil"
+     ],
+     "correta": 0,
+     "explica": "A matriz funciona como uma tabela dinâmica, com subtotais."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual título comunica melhor?",
+     "opcoes": [
+      "Ticket médio subiu 8% depois da campanha",
+      "Gráfico 3",
+      "Ticket médio",
+      "Dados de vendas"
+     ],
+     "correta": 0,
+     "explica": "Título com a conclusão diz ao leitor o que olhar."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer chamar atenção para a loja abaixo da meta num gráfico de barras. Melhor prática?",
+     "opcoes": [
+      "Cor de destaque só nessa barra e cinza nas outras",
+      "Cada barra de uma cor diferente",
+      "Transformar em gráfico 3D",
+      "Aumentar a fonte de todos os rótulos"
+     ],
+     "correta": 0,
+     "explica": "Cor com significado guia o olhar; arco-íris confunde."
+    }
+   ]
+  },
+  {
+   "id": "interatividade",
+   "titulo": "Relatório usável e análise",
+   "resumo": "Segmentações, drill, dicas de ferramenta e IA",
+   "teoria": [
+    "Segmentações (slicers) filtram a página; Sincronizar segmentações leva o filtro para outras páginas. Hierarquias permitem drill (Ano > Trimestre > Mês). Indicadores salvam estados do relatório.",
+    "Visuais de IA ajudam a explorar: Principais Influenciadores (o que mais afeta um resultado), Árvore de Decomposição (abrir um número por fatores) e Detecção de Anomalias em gráficos de linha."
+   ],
+   "exemplo": "Exibir > Sincronizar segmentações",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "enriquecendo-relatorios"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O filtro de Ano da página 1 precisa valer também nas páginas 2 e 3. O que usar?",
+     "opcoes": [
+      "Sincronizar segmentações",
+      "Copiar o visual em cada página sem sincronizar",
+      "Filtro de nível de visual",
+      "Indicador"
+     ],
+     "correta": 0,
+     "explica": "Sincronizar faz a mesma segmentação controlar várias páginas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O gestor quer clicar no ano e descer para trimestre e mês no mesmo gráfico. O que configurar?",
+     "opcoes": [
+      "Hierarquia de data no eixo e drill down",
+      "Três gráficos separados",
+      "Uma segmentação por mês",
+      "Uma dica de ferramenta"
+     ],
+     "correta": 0,
+     "explica": "Com hierarquia no eixo, as setas de drill navegam entre os níveis."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer descobrir quais fatores mais aumentam a chance de um cliente cancelar. Qual visual de IA?",
+     "opcoes": [
+      "Principais Influenciadores",
+      "Cartão de várias linhas",
+      "Funil",
+      "Mapa"
+     ],
+     "correta": 0,
+     "explica": "Principais Influenciadores analisa quais atributos mais pesam no resultado."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O diretor quer abrir o faturamento por região, depois loja, depois vendedor, escolhendo o caminho na hora. Qual visual?",
+     "opcoes": [
+      "Árvore de Decomposição",
+      "Velocímetro",
+      "Gráfico de cascata fixo",
+      "Tabela simples"
+     ],
+     "correta": 0,
+     "explica": "A Árvore de Decomposição abre um valor em níveis escolhidos interativamente."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer um botão que leve o relatório para um estado salvo (filtros e visuais escolhidos). O que criar?",
+     "opcoes": [
+      "Indicador (bookmark) ligado a um botão",
+      "Hiperlink para o site",
+      "Nova página duplicada",
+      "Segmentação de dados"
+     ],
+     "correta": 0,
+     "explica": "Indicadores guardam o estado da página; botões podem acioná-los."
+    }
+   ]
+  },
+  {
+   "id": "publicacao",
+   "titulo": "Publicar e governar",
+   "resumo": "Workspaces, apps, gateway e RLS",
+   "teoria": [
+    "Publique em um workspace (área de trabalho da equipe). Para distribuir para muitos leitores, crie um App a partir do workspace. Para atualizar dados locais (servidor ou pasta da rede) no serviço, é preciso um gateway.",
+    "Segurança em nível de linha (RLS) faz cada pessoa ver só as suas linhas, por exemplo cada gerente só a sua região: crie a função no Desktop e atribua os usuários no serviço."
+   ],
+   "exemplo": "Modelagem > Gerenciar funções:  [Regiao] = \"Sul\"",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "workspaces-apps"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Os dados vêm de um SQL Server dentro da empresa e o relatório publicado precisa atualizar sozinho. O que é necessário?",
+     "opcoes": [
+      "Um gateway de dados local",
+      "Exportar para Excel todo dia",
+      "Modo DirectQuery sem gateway",
+      "Nada, o serviço acessa a rede local sozinho"
+     ],
+     "correta": 0,
+     "explica": "O gateway faz a ponte entre o serviço na nuvem e fontes locais."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Cada gerente regional deve ver só os dados da sua região no mesmo relatório. O que usar?",
+     "opcoes": [
+      "Segurança em nível de linha (RLS)",
+      "Um arquivo .pbix por região",
+      "Filtro de página com a região",
+      "Ocultar a coluna Região"
+     ],
+     "correta": 0,
+     "explica": "RLS aplica o filtro pela identidade do usuário; filtros comuns o usuário pode remover."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer distribuir 5 relatórios para 200 leitores com navegação organizada, sem dar acesso de edição. O que publicar?",
+     "opcoes": [
+      "Um App a partir do workspace",
+      "Adicionar todos como Membros do workspace",
+      "Enviar o .pbix por e-mail",
+      "Compartilhar a tela no Teams"
+     ],
+     "correta": 0,
+     "explica": "O App empacota o conteúdo para leitores sem expor o workspace."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde se cria a regra da RLS, como [Regiao] = \"Sul\"?",
+     "opcoes": [
+      "No Power BI Desktop, em Gerenciar funções",
+      "No Power Query",
+      "Nas configurações do gateway",
+      "No Excel de origem"
+     ],
+     "correta": 0,
+     "explica": "A função é definida no modelo (Desktop); os membros são atribuídos no serviço."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Antes de publicar para a diretoria, o que faz parte de um checklist profissional?",
+     "opcoes": [
+      "Conferir números contra a fonte, nomes claros, atualização agendada e acesso certo",
+      "Usar o máximo de cores possível",
+      "Deixar todas as tabelas visíveis no modelo",
+      "Publicar direto no workspace pessoal"
+     ],
+     "correta": 0,
+     "explica": "Validação, nomenclatura, atualização e permissão evitam retrabalho e erro na frente do cliente."
+    }
+   ]
+  }
+ ],
+ "nivelamento": [
+  {
+   "tipo": "escolha",
+   "pergunta": "No esquema estrela, o que fica no centro?",
+   "opcoes": [
+    "A tabela fato",
+    "A tabela Calendario",
+    "A dimensão Clientes",
+    "Uma tabela de medidas"
+   ],
+   "correta": 0,
+   "no": "estrela"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "O que é a granularidade de uma tabela?",
+   "opcoes": [
+    "O nível de detalhe que cada linha representa",
+    "O número de colunas",
+    "O tamanho do arquivo",
+    "A direção do filtro"
+   ],
+   "correta": 0,
+   "no": "relacionamentos"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Por padrão, o perfil de dados do Power Query analisa quantas linhas?",
+   "opcoes": [
+    "As primeiras 1.000",
+    "Todas",
+    "As últimas 100",
+    "10% aleatórios"
+   ],
+   "correta": 0,
+   "no": "qualidade"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual modo de armazenamento costuma ser o mais rápido nos visuais?",
+   "opcoes": [
+    "Import",
+    "DirectQuery",
+    "Live connection a CSV",
+    "Streaming"
+   ],
+   "correta": 0,
+   "no": "desempenho"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual visual mostra melhor a evolução das vendas ao longo dos meses?",
+   "opcoes": [
+    "Linhas",
+    "Rosca",
+    "Cartão",
+    "Mapa de árvore"
+   ],
+   "correta": 0,
+   "no": "visuais"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual recurso faz uma segmentação filtrar várias páginas?",
+   "opcoes": [
+    "Sincronizar segmentações",
+    "Indicadores",
+    "Dica de ferramenta",
+    "Drill through"
+   ],
+   "correta": 0,
+   "no": "interatividade"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "O que permite que um relatório publicado atualize dados de um servidor local?",
+   "opcoes": [
+    "Gateway de dados",
+    "Indicador",
+    "Segmentação",
+    "App"
+   ],
+   "correta": 0,
+   "no": "publicacao"
+  }
+ ]
+}

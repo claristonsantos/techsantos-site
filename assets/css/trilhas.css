@@ -130,6 +130,33 @@
 .tr-fim h1 { margin: .4rem 0; }
 .tr-fim p { color: var(--ink-soft); }
 
+/* parte do curso completo (depois do limite grátis) */
+.tr-no.premium .tr-no-circ { border-style: dashed; border-color: var(--cor); color: var(--cor); background: var(--surface); font-size: 1.2rem; }
+.tr-no.premium .tr-no-txt em { color: var(--cor); }
+.tr-no-btn { display: flex; align-items: center; gap: .9rem; width: 100%; padding: 0; border: 0; background: none; color: var(--ink); text-align: left; font: inherit; cursor: pointer; }
+.tr-no-btn:hover .tr-no-circ { transform: scale(1.06); }
+.tr-divisa { display: flex; align-items: center; justify-content: space-between; gap: .8rem; flex-wrap: wrap; padding: .9rem 1rem; border-radius: 12px; border: 1px solid var(--cor); background: color-mix(in srgb, var(--cor) 10%, var(--surface)); }
+.tr-divisa span { font-weight: 700; }
+.tr-alerta .tr-cta { margin: .7rem 0 0; }
+
+/* convite de compra */
+.tr-modal { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: rgba(6, 12, 22, .62); }
+.tr-modal[hidden] { display: none; }
+.tr-modal-box { position: relative; width: min(440px, 100%); max-height: calc(100vh - 32px); overflow: auto; padding: 1.6rem 1.3rem 1.2rem; border-radius: 16px; border-top: 5px solid var(--cor); background: var(--surface); color: var(--ink); text-align: center; box-shadow: var(--shadow); }
+.tr-modal-box h2 { font-size: 1.25rem; line-height: 1.3; margin: .3rem 0 .5rem; }
+.tr-modal-box p { color: var(--ink-soft); font-size: .93rem; }
+.tr-modal-x { position: absolute; top: .5rem; right: .6rem; width: 36px; height: 36px; border: 0; background: none; color: var(--ink-faint); font-size: 1.1rem; cursor: pointer; }
+.tr-link-btn { width: 100%; border: 0; background: none; cursor: pointer; text-decoration: underline; font: inherit; font-size: .9rem; }
+
+/* entrada (cadastro) */
+.tr-form { display: grid; gap: .8rem; margin-top: 1.5rem; padding: 1.2rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.tr-form label { display: grid; gap: .3rem; font-weight: 600; font-size: .9rem; }
+.tr-form input[type=text], .tr-form input[type=email], .tr-form input[type=tel] { padding: .75rem .9rem; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; font-weight: 400; }
+.tr-form .tr-consent { display: flex; gap: .5rem; align-items: flex-start; font-weight: 400; font-size: .82rem; color: var(--ink-soft); }
+.tr-form .tr-consent input { margin-top: .2rem; }
+.tr-form .tr-nota { margin: 0; text-align: center; }
+.tr-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
 @media (max-width: 520px) {
   .tr-brand span { font-size: .8rem; }
   .tr-nav { width: 100%; justify-content: flex-end; order: 3; }
