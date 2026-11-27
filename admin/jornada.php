@@ -5,26 +5,44 @@ require_once __DIR__ . '/../curso_modulos.php';
 require_once __DIR__ . '/_partials.php';
 require_admin();
 
+require_once __DIR__ . '/../matriculas.php';
 $pdo = db();
+matriculas_ensure_schema($pdo);
 
+// Uma linha por matrícula (aluno × curso). O UNION cobre alunos antigos cujo
+// curso principal ainda não tem linha em matriculas.
 $alunos = $pdo->query(
-    'SELECT a.id, a.nome, a.email, c.id AS curso_id, c.nome AS curso_nome
+    'SELECT a.id, a.nome, a.email, c.id AS curso_id, c.nome AS curso_nome, c.slug AS curso_slug
+     FROM matriculas m JOIN alunos a ON a.id = m.aluno_id JOIN cursos c ON c.id = m.curso_id
+     UNION
+     SELECT a.id, a.nome, a.email, c.id, c.nome, c.slug
      FROM alunos a JOIN cursos c ON c.id = a.curso_id
-     ORDER BY a.nome'
+     ORDER BY nome, curso_nome'
 )->fetchAll();
 
 $alunoId = isset($_GET['aluno']) ? (int)$_GET['aluno'] : 0;
+$cursoId = isset($_GET['curso']) ? (int)$_GET['curso'] : 0;
 $aluno = null;
 $jornada = [];
 $certificado = null;
 
 if ($alunoId > 0) {
     foreach ($alunos as $a) {
-        if ((int)$a['id'] === $alunoId) { $aluno = $a; break; }
+        if ((int)$a['id'] === $alunoId && ($cursoId === 0 || (int)$a['curso_id'] === $cursoId)) { $aluno = $a; break; }
     }
 
     if ($aluno) {
-        foreach (MODULOS_POWER_BI as $moduloId => $label) {
+        // Módulos do curso: Power BI tem a lista fixa (mostra também os módulos
+        // ainda sem avaliação); os demais cursos usam as avaliações cadastradas.
+        if ($aluno['curso_slug'] === 'power-bi') {
+            $modulos = MODULOS_POWER_BI;
+        } else {
+            $modStmt = $pdo->prepare('SELECT modulo_id, titulo FROM avaliacoes WHERE curso_id = ? AND ativo = 1 ORDER BY modulo_id');
+            $modStmt->execute([$aluno['curso_id']]);
+            $modulos = [];
+            foreach ($modStmt->fetchAll() as $m) $modulos[$m['modulo_id']] = $m['titulo'];
+        }
+        foreach ($modulos as $moduloId => $label) {
             $avalStmt = $pdo->prepare('SELECT id FROM avaliacoes WHERE curso_id = ? AND modulo_id = ? AND ativo = 1');
             $avalStmt->execute([$aluno['curso_id'], $moduloId]);
             $avaliacaoId = $avalStmt->fetchColumn();
@@ -78,13 +96,14 @@ admin_topbar('jornada');
     <h2>Selecionar aluno</h2>
     <form method="get" novalidate style="flex-direction:row; align-items:flex-end; gap:0.75rem; flex-wrap:wrap;">
       <div class="field" style="flex:1; min-width:220px;">
-        <label for="aluno">Aluno</label>
-        <select id="aluno" name="aluno" required onchange="this.form.submit()">
+        <label for="alunoSel">Aluno</label>
+        <select id="alunoSel" required onchange="var v=this.value.split('-'); this.form.aluno.value=v[0]||''; this.form.curso.value=v[1]||''; this.form.submit()">
           <option value="">Selecione…</option>
-          <?php foreach ($alunos as $a): ?>
-            <option value="<?= (int)$a['id'] ?>" <?= $alunoId === (int)$a['id'] ? 'selected' : '' ?>><?= htmlspecialchars($a['nome'], ENT_QUOTES) ?> — <?= htmlspecialchars($a['curso_nome'], ENT_QUOTES) ?></option>
+          <?php foreach ($alunos as $a): $sel = $aluno && (int)$aluno['id'] === (int)$a['id'] && (int)$aluno['curso_id'] === (int)$a['curso_id']; ?>
+            <option value="<?= (int)$a['id'] ?>-<?= (int)$a['curso_id'] ?>" <?= $sel ? 'selected' : '' ?>><?= htmlspecialchars($a['nome'], ENT_QUOTES) ?> — <?= htmlspecialchars($a['curso_nome'], ENT_QUOTES) ?></option>
           <?php endforeach; ?>
         </select>
+        <input type="hidden" name="aluno" value="<?= $alunoId ?: '' ?>"><input type="hidden" name="curso" value="<?= $cursoId ?: '' ?>">
       </div>
       <noscript><button type="submit" class="btn btn-primary">Ver jornada</button></noscript>
     </form>
@@ -112,6 +131,7 @@ admin_topbar('jornada');
       <table class="data-table">
         <thead><tr><th>Módulo</th><th>Status</th><th>Melhor nota</th><th>Tentativas</th><th>Aprovado em</th><th>Última tentativa</th></tr></thead>
         <tbody>
+          <?php if (!$jornada): ?><tr class="empty-row"><td colspan="6">Este curso ainda não tem avaliações cadastradas.</td></tr><?php endif; ?>
           <?php foreach ($jornada as $linha): ?>
             <tr>
               <td><?= htmlspecialchars($linha['label'], ENT_QUOTES) ?></td>
