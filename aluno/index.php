@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/../cursos_catalogo.php';
+require_once __DIR__ . '/../curso_modulos.php';
 $aluno = require_aluno();
 
 // Vitrine: cursos do aluno (cards) e os outros cursos à venda, com compra direta.
@@ -429,7 +430,7 @@ const COURSE_SLUG = <?= json_encode($slugSeguro) ?>;
 // Power BI: a avaliação de um módulo libera o seguinte. Nos outros cursos as
 // avaliações são para praticar e não travam o avanço.
 const VITRINE_HTML = <?= json_encode($vitrineHtml, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
-const AVALIACOES_BLOQUEIAM = <?= $isPowerBi ? 'true' : 'false' ?>;
+const AVALIACOES_BLOQUEIAM = <?= curso_exige_ordem(db(), (int)$aluno['curso_id']) ? 'true' : 'false' ?>; // opção do curso (admin › Cursos)
 // null = curso antigo (todas as aulas têm vídeo); array = ids com .mp4 publicado.
 const VIDEOS_DISPONIVEIS = <?= $isPowerBi ? 'null' : json_encode($videosDisponiveis) ?>;
 const AUDIOS_DISPONIVEIS = <?= json_encode($audiosDisponiveis) ?>;

@@ -5,6 +5,8 @@ require_once __DIR__ . '/_partials.php';
 require_admin();
 
 $pdo = db();
+require_once __DIR__ . '/../curso_modulos.php';
+cursos_ordem_schema($pdo);
 require_once __DIR__ . '/../matriculas.php';
 matriculas_ensure_schema($pdo);
 $error = null;
@@ -44,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $modalidade = trim((string)($_POST['modalidade'] ?? ''));
         $descricao = trim((string)($_POST['descricao'] ?? ''));
         $ativo = isset($_POST['ativo']) ? 1 : 0;
+        $exigeOrdem = isset($_POST['exige_ordem_avaliacoes']) ? 1 : 0;
         $precoReais = trim((string)($_POST['preco'] ?? ''));
         $precoCentavos = $precoReais !== '' ? (int)round(((float)str_replace(',', '.', $precoReais)) * 100) : null;
         // O slug é usado como referência fixa em vários lugares (checkout,
@@ -60,11 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Já existe um curso com um nome muito parecido.';
             } else {
                 if ($id === 0) {
-                    $stmt = $pdo->prepare('INSERT INTO cursos (nome, slug, carga_horaria, modalidade, descricao, ativo, preco_centavos) VALUES (?, ?, ?, ?, ?, ?, ?)');
-                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $precoCentavos]);
+                    $stmt = $pdo->prepare('INSERT INTO cursos (nome, slug, carga_horaria, modalidade, descricao, ativo, preco_centavos, exige_ordem_avaliacoes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+                    $stmt->execute([$nome, $slug, $cargaHoraria, $modalidade, $descricao, $ativo, $precoCentavos, $exigeOrdem]);
                 } else {
-                    $stmt = $pdo->prepare('UPDATE cursos SET nome=?, carga_horaria=?, modalidade=?, descricao=?, ativo=?, preco_centavos=? WHERE id=?');
-                    $stmt->execute([$nome, $cargaHoraria, $modalidade, $descricao, $ativo, $precoCentavos, $id]);
+                    $stmt = $pdo->prepare('UPDATE cursos SET nome=?, carga_horaria=?, modalidade=?, descricao=?, ativo=?, preco_centavos=?, exige_ordem_avaliacoes=? WHERE id=?');
+                    $stmt->execute([$nome, $cargaHoraria, $modalidade, $descricao, $ativo, $precoCentavos, $exigeOrdem, $id]);
                 }
                 header('Location: /admin/cursos.php?msg=' . urlencode('Curso salvo com sucesso.'));
                 exit;
@@ -132,6 +135,10 @@ admin_topbar('cursos');
         <input type="checkbox" id="ativo" name="ativo" style="width:auto" <?= (!$editRow || $editRow['ativo']) ? 'checked' : '' ?>>
         <label for="ativo" style="margin:0">Curso ativo (visível para seleção ao cadastrar alunos)</label>
       </div>
+      <div class="field" style="flex-direction:row; align-items:flex-start; gap:0.5rem;">
+        <input type="checkbox" id="exige_ordem_avaliacoes" name="exige_ordem_avaliacoes" style="width:auto; margin-top:.25rem" <?= !empty($editRow['exige_ordem_avaliacoes']) ? 'checked' : '' ?>>
+        <label for="exige_ordem_avaliacoes" style="margin:0">Exigir aprovação na avaliação do módulo anterior para liberar o próximo módulo <span style="color:var(--ink-soft); font-weight:400">(opcional; desligado, o aluno faz as avaliações em qualquer ordem)</span></label>
+      </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-primary"><?= $editRow ? 'Salvar alterações' : 'Cadastrar curso' ?></button>
         <?php if ($editRow): ?><a class="btn btn-ghost on-light" href="/admin/cursos.php">Cancelar</a><?php endif; ?>
@@ -152,7 +159,7 @@ admin_topbar('cursos');
             <td><?= htmlspecialchars($c['carga_horaria'] ?: '—', ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($c['modalidade'] ?: '—', ENT_QUOTES) ?></td>
             <td><?= (int)$c['total_alunos'] ?></td>
-            <td><span class="badge <?= $c['ativo'] ? 'on' : 'off' ?>"><?= $c['ativo'] ? 'Ativo' : 'Inativo' ?></span></td>
+            <td><span class="badge <?= $c['ativo'] ? 'on' : 'off' ?>"><?= $c['ativo'] ? 'Ativo' : 'Inativo' ?></span><?php if (!empty($c['exige_ordem_avaliacoes'])): ?> <span class="badge on" title="Exige aprovação no módulo anterior">Ordem obrigatória</span><?php endif; ?></td>
             <td class="actions">
               <a href="/admin/cursos.php?edit=<?= (int)$c['id'] ?>">Editar</a>
               <form method="post" onsubmit="return confirm('Remover este curso?');" style="display:inline">

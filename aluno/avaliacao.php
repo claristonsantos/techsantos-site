@@ -40,7 +40,8 @@ if ($licoesPendentes) {
     exit('Conclua ' . $quantidade . ' aula(s) pendente(s) deste módulo antes de acessar a avaliação.');
 }
 
-$moduloAnteriorId = modulo_anterior($moduloId);
+// Ordem obrigatória só quando o curso exige (admin › Cursos).
+$moduloAnteriorId = curso_exige_ordem($pdo, (int)$aluno['curso_id']) ? modulo_anterior($moduloId, (string)($aluno['curso_slug'] ?? 'power-bi')) : null;
 if ($moduloAnteriorId !== null) {
     $prevAvalStmt = $pdo->prepare('SELECT id FROM avaliacoes WHERE curso_id = ? AND modulo_id = ? AND ativo = 1');
     $prevAvalStmt->execute([$aluno['curso_id'], $moduloAnteriorId]);

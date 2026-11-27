@@ -60,9 +60,33 @@ function avaliacoes_do_certificado(string $cursoSlug): array
     return CERTIFICADO_AVALIACOES[$cursoSlug] ?? [];
 }
 
-function modulo_anterior(string $moduloId): ?string
+/*
+ * Opção por curso (admin › Cursos): exigir aprovação na avaliação do módulo
+ * anterior para liberar o próximo. A coluna nasce desligada e só o Power BI,
+ * que já funcionava assim, começa ligado.
+ */
+function cursos_ordem_schema(PDO $pdo): void
 {
-    $ids = array_keys(MODULOS_POWER_BI);
+    static $ok = false;
+    if ($ok) return;
+    $ok = true;
+    if (!$pdo->query("SHOW COLUMNS FROM cursos LIKE 'exige_ordem_avaliacoes'")->fetchColumn()) {
+        $pdo->exec("ALTER TABLE cursos ADD COLUMN exige_ordem_avaliacoes TINYINT(1) NOT NULL DEFAULT 0");
+        $pdo->exec("UPDATE cursos SET exige_ordem_avaliacoes = 1 WHERE slug = 'power-bi'");
+    }
+}
+
+function curso_exige_ordem(PDO $pdo, int $cursoId): bool
+{
+    cursos_ordem_schema($pdo);
+    $st = $pdo->prepare('SELECT exige_ordem_avaliacoes FROM cursos WHERE id = ?');
+    $st->execute([$cursoId]);
+    return (bool)$st->fetchColumn();
+}
+
+function modulo_anterior(string $moduloId, string $cursoSlug = 'power-bi'): ?string
+{
+    $ids = array_keys(modulos_do_curso($cursoSlug) ?: MODULOS_POWER_BI);
     $idx = array_search($moduloId, $ids, true);
     if ($idx === false || $idx === 0) {
         return null;
