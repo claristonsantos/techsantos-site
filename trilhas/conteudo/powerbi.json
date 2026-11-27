@@ -85,83 +85,6 @@
    ]
   },
   {
-   "id": "estrela",
-   "titulo": "Esquema estrela",
-   "resumo": "Fatos no centro, dimensões em volta",
-   "teoria": [
-    "Tabela fato guarda os eventos e os números (cada venda, com quantidade e valor). Tabelas dimensão descrevem quem, o quê, onde e quando (produto, cliente, loja, data).",
-    "No esquema estrela cada dimensão liga direto na fato, com relacionamento 1 para muitos. Evite uma tabela única gigante: ela repete texto, pesa o modelo e complica o DAX."
-   ],
-   "exemplo": "Produtos 1 ──▶ * Vendas * ◀── 1 Clientes",
-   "video": {
-    "curso": "power-bi",
-    "curso_nome": "Power BI",
-    "licao": "esquema-estrela"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual destas é uma tabela FATO?",
-     "opcoes": [
-      "Vendas (Data, CodProduto, Quantidade, Valor)",
-      "Produtos (Cod, Nome, Categoria)",
-      "Clientes (Cod, Nome, Cidade)",
-      "Calendario (Data, Ano, Mês)"
-     ],
-     "correta": 0,
-     "explica": "Fato registra eventos com números; as outras descrevem esses eventos."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Numa relação Produtos → Vendas, qual é a cardinalidade correta?",
-     "opcoes": [
-      "1 para muitos (um produto aparece em muitas vendas)",
-      "Muitos para muitos",
-      "1 para 1",
-      "Muitos para 1 (Produtos do lado muitos)"
-     ],
-     "correta": 0,
-     "explica": "Cada código existe uma vez em Produtos e várias vezes em Vendas."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Por que não juntar tudo numa única tabela larga com nome do produto, cliente e loja em cada venda?",
-     "opcoes": [
-      "Repete texto em milhões de linhas, pesa o modelo e complica filtros e DAX",
-      "Porque o Power BI não aceita mais de 20 colunas",
-      "Porque tabela larga não pode ter relacionamentos",
-      "Não há problema nenhum, é a melhor prática"
-     ],
-     "correta": 0,
-     "explica": "O esquema estrela guarda cada descrição uma vez só e filtra a fato pelas chaves."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Onde deve ficar a coluna 'Categoria do produto'?",
-     "opcoes": [
-      "Na dimensão Produtos",
-      "Na fato Vendas",
-      "No Calendario",
-      "Numa tabela separada sem relacionamento"
-     ],
-     "correta": 0,
-     "explica": "Atributo descritivo do produto pertence à dimensão Produtos."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "O que o Power BI precisa para filtrar Vendas quando você escolhe uma Categoria?",
-     "opcoes": [
-      "Relacionamento entre Produtos e Vendas pela chave do produto",
-      "Que as duas tabelas tenham o mesmo nome",
-      "Uma medida com CALCULATE em todo visual",
-      "Que Categoria seja numérica"
-     ],
-     "correta": 0,
-     "explica": "O filtro viaja pelo relacionamento do lado 1 (Produtos) para o lado muitos (Vendas)."
-    }
-   ]
-  },
-  {
    "id": "normalizacao",
    "titulo": "Normalizar ou desnormalizar",
    "resumo": "Floco de neve × estrela",
@@ -241,83 +164,6 @@
      ],
      "correta": 0,
      "explica": "Transformação de estrutura é trabalho do Power Query, antes de carregar."
-    }
-   ]
-  },
-  {
-   "id": "relacionamentos",
-   "titulo": "Relacionamentos e granularidade",
-   "resumo": "Cardinalidade, direção de filtro e números duplicados",
-   "teoria": [
-    "Direção de filtro única (da dimensão para a fato) é o padrão seguro. Filtro bidirecional pode gerar ambiguidade e lentidão: use só quando realmente precisar.",
-    "Granularidade é o nível de detalhe de cada linha. Se a meta é mensal e as vendas são diárias, relacionar direto por data duplica ou some com números: ligue as duas a uma dimensão comum no mesmo nível (mês)."
-   ],
-   "exemplo": "Calendario[Data] 1 ──▶ * Vendas[Data]   (filtro único)",
-   "video": {
-    "curso": "power-bi",
-    "curso_nome": "Power BI",
-    "licao": "relacionamentos-cardinalidade-filtros"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual a direção de filtro recomendada entre Clientes (1) e Vendas (muitos)?",
-     "opcoes": [
-      "Única, de Clientes para Vendas",
-      "Bidirecional sempre",
-      "De Vendas para Clientes",
-      "Nenhuma, deixe inativo"
-     ],
-     "correta": 0,
-     "explica": "Filtro único da dimensão para a fato é previsível e rápido."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "A tabela Metas tem uma linha por vendedor por MÊS; Vendas tem uma linha por venda por DIA. O que fazer?",
-     "opcoes": [
-      "Ligar as duas a dimensões comuns no nível do mês (ex.: Calendario com coluna AnoMês) e ao Vendedor",
-      "Relacionar Metas[Mês] direto com Vendas[Data]",
-      "Copiar a meta em cada linha de venda",
-      "Somar as metas no Power Query por dia"
-     ],
-     "correta": 0,
-     "explica": "Tabelas de granularidades diferentes se encontram em dimensões compartilhadas no nível comum."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "O total do relatório aparece em dobro depois de um novo relacionamento. Qual a suspeita principal?",
-     "opcoes": [
-      "Chave duplicada no lado que deveria ser 1 (relação virou muitos para muitos)",
-      "Formato de moeda errado",
-      "Visual de tabela em vez de matriz",
-      "Tema do relatório"
-     ],
-     "correta": 0,
-     "explica": "Chave repetida na dimensão multiplica as linhas da fato no filtro."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Há duas datas na fato (Data do Pedido e Data de Entrega) e só uma relação pode ficar ativa. Como usar a outra?",
-     "opcoes": [
-      "Deixar a segunda inativa e ativá-la na medida com USERELATIONSHIP",
-      "Criar duas tabelas Vendas",
-      "Apagar a Data de Entrega",
-      "Deixar as duas ativas e bidirecionais"
-     ],
-     "correta": 0,
-     "explica": "USERELATIONSHIP ativa a relação inativa só dentro daquela medida."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual cardinalidade indica problema de modelagem na maioria dos casos?",
-     "opcoes": [
-      "Muitos para muitos entre fato e dimensão",
-      "1 para muitos entre dimensão e fato",
-      "1 para 1 entre duas dimensões pequenas",
-      "Relação inativa de data"
-     ],
-     "correta": 0,
-     "explica": "Muitos para muitos geralmente vem de chave não única na dimensão."
     }
    ]
   },
@@ -405,74 +251,156 @@
    ]
   },
   {
-   "id": "calendario",
-   "titulo": "Tabela Calendário",
-   "resumo": "Dimensão de datas marcada como tabela de datas",
+   "id": "estrela",
+   "titulo": "Esquema estrela",
+   "resumo": "Fatos no centro, dimensões em volta",
    "teoria": [
-    "Inteligência de tempo precisa de uma tabela de datas contínua (sem dias faltando), do primeiro ao último ano dos dados, com colunas Ano, Mês, Trimestre, AnoMês.",
-    "Crie com CALENDAR ou CALENDARAUTO (ou no Power Query), marque como tabela de datas (Ferramentas de tabela > Marcar como tabela de datas) e relacione Calendario[Data] com as datas das fatos."
+    "Tabela fato guarda os eventos e os números (cada venda, com quantidade e valor). Tabelas dimensão descrevem quem, o quê, onde e quando (produto, cliente, loja, data).",
+    "No esquema estrela cada dimensão liga direto na fato, com relacionamento 1 para muitos. Evite uma tabela única gigante: ela repete texto, pesa o modelo e complica o DAX."
    ],
-   "exemplo": "Calendario = CALENDAR( DATE(2023,1,1), DATE(2026,12,31) )",
+   "exemplo": "Produtos 1 ──▶ * Vendas * ◀── 1 Clientes",
    "video": {
     "curso": "power-bi",
     "curso_nome": "Power BI",
-    "licao": "dax-tabelas-tempo"
+    "licao": "esquema-estrela"
    },
    "exercicios": [
     {
-     "tipo": "ordenar",
-     "cenario": "Crie uma tabela de datas de 2023 a 2026.",
-     "pecas": [
-      "Calendario =",
-      "CALENDAR(",
-      "DATE(2023,1,1),",
-      "DATE(2026,12,31)",
-      ")"
+     "tipo": "escolha",
+     "pergunta": "Qual destas é uma tabela FATO?",
+     "opcoes": [
+      "Vendas (Data, CodProduto, Quantidade, Valor)",
+      "Produtos (Cod, Nome, Categoria)",
+      "Clientes (Cod, Nome, Cidade)",
+      "Calendario (Data, Ano, Mês)"
      ],
-     "extras": [
-      "CALENDARAUTO(2023)"
-     ],
-     "explica": "CALENDAR(início, fim) gera uma linha por dia."
-    },
-    {
-     "tipo": "vf",
-     "afirmacao": "A tabela Calendário pode ter dias faltando, desde que tenha todos os dias com venda.",
-     "correta": false,
-     "explica": "Funções de tempo exigem datas contínuas, inclusive dias sem venda."
+     "correta": 0,
+     "explica": "Fato registra eventos com números; as outras descrevem esses eventos."
     },
     {
      "tipo": "escolha",
-     "pergunta": "Depois de criar o Calendário, o que mais fazer para as funções de tempo funcionarem bem?",
+     "pergunta": "Numa relação Produtos → Vendas, qual é a cardinalidade correta?",
      "opcoes": [
-      "Marcar como tabela de datas e relacionar com as datas das fatos",
-      "Ocultar a coluna Data",
-      "Deixar a Data/hora automática ligada",
-      "Criar uma tabela por ano"
+      "1 para muitos (um produto aparece em muitas vendas)",
+      "Muitos para muitos",
+      "1 para 1",
+      "Muitos para 1 (Produtos do lado muitos)"
      ],
      "correta": 0,
-     "explica": "Marcar como tabela de datas valida a coluna e habilita a inteligência de tempo."
-    },
-    {
-     "tipo": "digitar",
-     "pergunta": "Qual função DAX cria a tabela de datas a partir das datas que já existem no modelo?",
-     "dica": "Nome da função",
-     "respostas": [
-      "CALENDARAUTO",
-      "CALENDARAUTO()"
-     ],
-     "explica": "CALENDARAUTO olha as datas do modelo e cobre os anos inteiros."
+     "explica": "Cada código existe uma vez em Produtos e várias vezes em Vendas."
     },
     {
      "tipo": "escolha",
-     "pergunta": "Os meses aparecem em ordem alfabética (abr, ago, dez...). Como corrigir?",
+     "pergunta": "Por que não juntar tudo numa única tabela larga com nome do produto, cliente e loja em cada venda?",
      "opcoes": [
-      "Classificar a coluna Mês pela coluna NúmeroMês",
-      "Renomear os meses com números",
-      "Mudar o tipo para data",
-      "Usar uma segmentação"
+      "Repete texto em milhões de linhas, pesa o modelo e complica filtros e DAX",
+      "Porque o Power BI não aceita mais de 20 colunas",
+      "Porque tabela larga não pode ter relacionamentos",
+      "Não há problema nenhum, é a melhor prática"
      ],
      "correta": 0,
-     "explica": "Classificar por Coluna usa outra coluna como ordem."
+     "explica": "O esquema estrela guarda cada descrição uma vez só e filtra a fato pelas chaves."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde deve ficar a coluna 'Categoria do produto'?",
+     "opcoes": [
+      "Na dimensão Produtos",
+      "Na fato Vendas",
+      "No Calendario",
+      "Numa tabela separada sem relacionamento"
+     ],
+     "correta": 0,
+     "explica": "Atributo descritivo do produto pertence à dimensão Produtos."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que o Power BI precisa para filtrar Vendas quando você escolhe uma Categoria?",
+     "opcoes": [
+      "Relacionamento entre Produtos e Vendas pela chave do produto",
+      "Que as duas tabelas tenham o mesmo nome",
+      "Uma medida com CALCULATE em todo visual",
+      "Que Categoria seja numérica"
+     ],
+     "correta": 0,
+     "explica": "O filtro viaja pelo relacionamento do lado 1 (Produtos) para o lado muitos (Vendas)."
+    }
+   ]
+  },
+  {
+   "id": "relacionamentos",
+   "titulo": "Relacionamentos e granularidade",
+   "resumo": "Cardinalidade, direção de filtro e números duplicados",
+   "teoria": [
+    "Direção de filtro única (da dimensão para a fato) é o padrão seguro. Filtro bidirecional pode gerar ambiguidade e lentidão: use só quando realmente precisar.",
+    "Granularidade é o nível de detalhe de cada linha. Se a meta é mensal e as vendas são diárias, relacionar direto por data duplica ou some com números: ligue as duas a uma dimensão comum no mesmo nível (mês)."
+   ],
+   "exemplo": "Calendario[Data] 1 ──▶ * Vendas[Data]   (filtro único)",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "relacionamentos-cardinalidade-filtros"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual a direção de filtro recomendada entre Clientes (1) e Vendas (muitos)?",
+     "opcoes": [
+      "Única, de Clientes para Vendas",
+      "Bidirecional sempre",
+      "De Vendas para Clientes",
+      "Nenhuma, deixe inativo"
+     ],
+     "correta": 0,
+     "explica": "Filtro único da dimensão para a fato é previsível e rápido."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A tabela Metas tem uma linha por vendedor por MÊS; Vendas tem uma linha por venda por DIA. O que fazer?",
+     "opcoes": [
+      "Ligar as duas a dimensões comuns no nível do mês (ex.: Calendario com coluna AnoMês) e ao Vendedor",
+      "Relacionar Metas[Mês] direto com Vendas[Data]",
+      "Copiar a meta em cada linha de venda",
+      "Somar as metas no Power Query por dia"
+     ],
+     "correta": 0,
+     "explica": "Tabelas de granularidades diferentes se encontram em dimensões compartilhadas no nível comum."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O total do relatório aparece em dobro depois de um novo relacionamento. Qual a suspeita principal?",
+     "opcoes": [
+      "Chave duplicada no lado que deveria ser 1 (relação virou muitos para muitos)",
+      "Formato de moeda errado",
+      "Visual de tabela em vez de matriz",
+      "Tema do relatório"
+     ],
+     "correta": 0,
+     "explica": "Chave repetida na dimensão multiplica as linhas da fato no filtro."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Há duas datas na fato (Data do Pedido e Data de Entrega) e só uma relação pode ficar ativa. Como usar a outra?",
+     "opcoes": [
+      "Deixar a segunda inativa e ativá-la na medida com USERELATIONSHIP",
+      "Criar duas tabelas Vendas",
+      "Apagar a Data de Entrega",
+      "Deixar as duas ativas e bidirecionais"
+     ],
+     "correta": 0,
+     "explica": "USERELATIONSHIP ativa a relação inativa só dentro daquela medida."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual cardinalidade indica problema de modelagem na maioria dos casos?",
+     "opcoes": [
+      "Muitos para muitos entre fato e dimensão",
+      "1 para muitos entre dimensão e fato",
+      "1 para 1 entre duas dimensões pequenas",
+      "Relação inativa de data"
+     ],
+     "correta": 0,
+     "explica": "Muitos para muitos geralmente vem de chave não única na dimensão."
     }
    ]
   },
@@ -790,153 +718,74 @@
    ]
   },
   {
-   "id": "visuais",
-   "titulo": "Escolher o visual certo",
-   "resumo": "Comparar, evoluir, compor e destacar KPI",
+   "id": "calendario",
+   "titulo": "Tabela Calendário",
+   "resumo": "Dimensão de datas marcada como tabela de datas",
    "teoria": [
-    "Comparação entre categorias: barras ou colunas. Tendência no tempo: linhas. Composição com poucas partes: rosca. Número-chave: cartão. Detalhe: tabela ou matriz.",
-    "Menos é mais: título que diz a conclusão, eixos começando do zero em barras, cores com significado (destaque só o que importa) e nada de 3D."
+    "Inteligência de tempo precisa de uma tabela de datas contínua (sem dias faltando), do primeiro ao último ano dos dados, com colunas Ano, Mês, Trimestre, AnoMês.",
+    "Crie com CALENDAR ou CALENDARAUTO (ou no Power Query), marque como tabela de datas (Ferramentas de tabela > Marcar como tabela de datas) e relacione Calendario[Data] com as datas das fatos."
    ],
-   "exemplo": "Título: 'Vendas caíram 12% em agosto'  (conclusão, não só 'Vendas por mês')",
+   "exemplo": "Calendario = CALENDAR( DATE(2023,1,1), DATE(2026,12,31) )",
    "video": {
     "curso": "power-bi",
     "curso_nome": "Power BI",
-    "licao": "escolher-grafico-correto"
+    "licao": "dax-tabelas-tempo"
    },
    "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "Mostrar o faturamento total do mês em destaque no topo da página. Qual visual?",
-     "opcoes": [
-      "Cartão",
-      "Gráfico de dispersão",
-      "Matriz",
-      "Mapa"
-     ],
-     "correta": 0,
-     "explica": "Cartão mostra um número-chave grande."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Comparar faturamento de 15 lojas e ver quem lidera. Qual visual?",
-     "opcoes": [
-      "Barras horizontais classificadas",
-      "Pizza com 15 fatias",
-      "Linhas",
-      "Rosca"
-     ],
-     "correta": 0,
-     "explica": "Barras ordenadas comparam muitas categorias com clareza; pizza com 15 fatias é ilegível."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Mostrar vendas por mês e categoria com totais em linhas e colunas. Qual visual?",
-     "opcoes": [
-      "Matriz",
-      "Cartão",
-      "Velocímetro",
-      "Funil"
-     ],
-     "correta": 0,
-     "explica": "A matriz funciona como uma tabela dinâmica, com subtotais."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual título comunica melhor?",
-     "opcoes": [
-      "Ticket médio subiu 8% depois da campanha",
-      "Gráfico 3",
-      "Ticket médio",
-      "Dados de vendas"
-     ],
-     "correta": 0,
-     "explica": "Título com a conclusão diz ao leitor o que olhar."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Você quer chamar atenção para a loja abaixo da meta num gráfico de barras. Melhor prática?",
-     "opcoes": [
-      "Cor de destaque só nessa barra e cinza nas outras",
-      "Cada barra de uma cor diferente",
-      "Transformar em gráfico 3D",
-      "Aumentar a fonte de todos os rótulos"
-     ],
-     "correta": 0,
-     "explica": "Cor com significado guia o olhar; arco-íris confunde."
-    }
-   ]
-  },
-  {
-   "id": "storytelling",
-   "titulo": "Storytelling e layout",
-   "resumo": "Hierarquia visual e leitura em Z",
-   "teoria": [
-    "As pessoas leem a tela em Z: canto superior esquerdo primeiro. Coloque ali os KPIs principais, depois tendência, depois detalhe. Alinhe tudo numa grade e mantenha espaço em branco.",
-    "Uma página = uma pergunta. Cor de destaque só para o que exige ação; o resto em tons neutros. Títulos dizem a conclusão."
-   ],
-   "exemplo": "Topo: KPIs · Meio: tendência + comparação · Base: tabela de detalhe",
-   "video": {
-    "curso": "power-bi",
-    "curso_nome": "Power BI",
-    "licao": "storytelling-hierarquia-visual"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "Onde colocar os KPIs mais importantes da página?",
-     "opcoes": [
-      "No topo, à esquerda",
-      "No rodapé",
-      "Escondidos em uma dica de ferramenta",
-      "No canto inferior direito"
-     ],
-     "correta": 0,
-     "explica": "A leitura começa no canto superior esquerdo."
-    },
     {
      "tipo": "ordenar",
-     "cenario": "Monte a ordem de cima para baixo de uma página bem estruturada.",
+     "cenario": "Crie uma tabela de datas de 2023 a 2026.",
      "pecas": [
-      "KPIs principais",
-      "Tendência no tempo",
-      "Comparação entre categorias",
-      "Tabela de detalhe"
+      "Calendario =",
+      "CALENDAR(",
+      "DATE(2023,1,1),",
+      "DATE(2026,12,31)",
+      ")"
      ],
      "extras": [
-      "Logotipo gigante"
+      "CALENDARAUTO(2023)"
      ],
-     "explica": "Do resumo para o detalhe."
+     "explica": "CALENDAR(início, fim) gera uma linha por dia."
     },
     {
      "tipo": "vf",
-     "afirmacao": "Usar uma cor diferente para cada barra deixa o gráfico mais fácil de ler.",
+     "afirmacao": "A tabela Calendário pode ter dias faltando, desde que tenha todos os dias com venda.",
      "correta": false,
-     "explica": "Cor deve ter significado; arco-íris dispersa a atenção."
+     "explica": "Funções de tempo exigem datas contínuas, inclusive dias sem venda."
     },
     {
      "tipo": "escolha",
-     "pergunta": "A página tem 14 visuais e ninguém entende. Melhor caminho?",
+     "pergunta": "Depois de criar o Calendário, o que mais fazer para as funções de tempo funcionarem bem?",
      "opcoes": [
-      "Dividir em páginas, cada uma respondendo uma pergunta",
-      "Diminuir a fonte para caber mais",
-      "Remover os títulos",
-      "Trocar tudo por pizza"
+      "Marcar como tabela de datas e relacionar com as datas das fatos",
+      "Ocultar a coluna Data",
+      "Deixar a Data/hora automática ligada",
+      "Criar uma tabela por ano"
      ],
      "correta": 0,
-     "explica": "Menos visuais por página, mais foco."
+     "explica": "Marcar como tabela de datas valida a coluna e habilita a inteligência de tempo."
     },
     {
-     "tipo": "lacuna",
-     "pergunta": "Complete o título que conta a história:",
-     "codigo": "Faturamento ___ 12% em agosto por queda na região Sul",
+     "tipo": "digitar",
+     "pergunta": "Qual função DAX cria a tabela de datas a partir das datas que já existem no modelo?",
+     "dica": "Nome da função",
+     "respostas": [
+      "CALENDARAUTO",
+      "CALENDARAUTO()"
+     ],
+     "explica": "CALENDARAUTO olha as datas do modelo e cobre os anos inteiros."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Os meses aparecem em ordem alfabética (abr, ago, dez...). Como corrigir?",
      "opcoes": [
-      "caiu",
-      "gráfico",
-      "dados",
-      "visual"
+      "Classificar a coluna Mês pela coluna NúmeroMês",
+      "Renomear os meses com números",
+      "Mudar o tipo para data",
+      "Usar uma segmentação"
      ],
      "correta": 0,
-     "explica": "Título com conclusão diz ao leitor o que olhar."
+     "explica": "Classificar por Coluna usa outra coluna como ordem."
     }
    ]
   },
@@ -1020,6 +869,83 @@
      ],
      "correta": 0,
      "explica": "Uma mudança na medida atualiza todos os visuais que a usam."
+    }
+   ]
+  },
+  {
+   "id": "visuais",
+   "titulo": "Escolher o visual certo",
+   "resumo": "Comparar, evoluir, compor e destacar KPI",
+   "teoria": [
+    "Comparação entre categorias: barras ou colunas. Tendência no tempo: linhas. Composição com poucas partes: rosca. Número-chave: cartão. Detalhe: tabela ou matriz.",
+    "Menos é mais: título que diz a conclusão, eixos começando do zero em barras, cores com significado (destaque só o que importa) e nada de 3D."
+   ],
+   "exemplo": "Título: 'Vendas caíram 12% em agosto'  (conclusão, não só 'Vendas por mês')",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "escolher-grafico-correto"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Mostrar o faturamento total do mês em destaque no topo da página. Qual visual?",
+     "opcoes": [
+      "Cartão",
+      "Gráfico de dispersão",
+      "Matriz",
+      "Mapa"
+     ],
+     "correta": 0,
+     "explica": "Cartão mostra um número-chave grande."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Comparar faturamento de 15 lojas e ver quem lidera. Qual visual?",
+     "opcoes": [
+      "Barras horizontais classificadas",
+      "Pizza com 15 fatias",
+      "Linhas",
+      "Rosca"
+     ],
+     "correta": 0,
+     "explica": "Barras ordenadas comparam muitas categorias com clareza; pizza com 15 fatias é ilegível."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Mostrar vendas por mês e categoria com totais em linhas e colunas. Qual visual?",
+     "opcoes": [
+      "Matriz",
+      "Cartão",
+      "Velocímetro",
+      "Funil"
+     ],
+     "correta": 0,
+     "explica": "A matriz funciona como uma tabela dinâmica, com subtotais."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual título comunica melhor?",
+     "opcoes": [
+      "Ticket médio subiu 8% depois da campanha",
+      "Gráfico 3",
+      "Ticket médio",
+      "Dados de vendas"
+     ],
+     "correta": 0,
+     "explica": "Título com a conclusão diz ao leitor o que olhar."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer chamar atenção para a loja abaixo da meta num gráfico de barras. Melhor prática?",
+     "opcoes": [
+      "Cor de destaque só nessa barra e cinza nas outras",
+      "Cada barra de uma cor diferente",
+      "Transformar em gráfico 3D",
+      "Aumentar a fonte de todos os rótulos"
+     ],
+     "correta": 0,
+     "explica": "Cor com significado guia o olhar; arco-íris confunde."
     }
    ]
   },
@@ -1184,82 +1110,6 @@
      ],
      "correta": 0,
      "explica": "Temas são arquivos JSON."
-    }
-   ]
-  },
-  {
-   "id": "layout-mobile",
-   "titulo": "Layout para celular",
-   "resumo": "O mesmo relatório pensado para a tela pequena",
-   "teoria": [
-    "Exibir > Layout móvel abre uma tela de celular onde você arrasta os visuais do relatório e os redimensiona. O app do Power BI usa esse layout automaticamente.",
-    "No celular: poucos visuais, KPIs no topo, segmentações em lista suspensa e nada que dependa de passar o mouse."
-   ],
-   "exemplo": "Exibir > Layout móvel  →  arrastar KPIs para o topo",
-   "video": {
-    "curso": "power-bi",
-    "curso_nome": "Power BI",
-    "licao": "storytelling-hierarquia-visual"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "O gestor abre o relatório no app do celular e tudo fica minúsculo. O que fazer?",
-     "opcoes": [
-      "Montar o Layout móvel da página no Desktop",
-      "Pedir para ele girar o celular",
-      "Diminuir as fontes",
-      "Criar um arquivo separado só para celular"
-     ],
-     "correta": 0,
-     "explica": "O layout móvel é parte do mesmo relatório."
-    },
-    {
-     "tipo": "vf",
-     "afirmacao": "Dicas de ferramenta que aparecem ao passar o mouse funcionam bem no celular.",
-     "correta": false,
-     "explica": "Não há mouse; prefira rótulos visíveis."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual tipo de segmentação ocupa menos espaço no celular?",
-     "opcoes": [
-      "Lista suspensa",
-      "Lista com 30 itens abertos",
-      "Blocos com 12 botões",
-      "Tabela"
-     ],
-     "correta": 0,
-     "explica": "Menu suspenso abre só quando o usuário toca."
-    },
-    {
-     "tipo": "pares",
-     "pergunta": "Ligue a regra ao motivo.",
-     "pares": [
-      [
-       "KPIs no topo",
-       "É o que o gestor vê primeiro"
-      ],
-      [
-       "Poucos visuais",
-       "Tela pequena"
-      ],
-      [
-       "Rótulos visíveis",
-       "Sem mouse para dicas"
-      ],
-      [
-       "Lista suspensa",
-       "Economiza espaço"
-      ]
-     ],
-     "explica": "Desenhe para o dedo, não para o mouse."
-    },
-    {
-     "tipo": "vf",
-     "afirmacao": "Os visuais do layout móvel continuam filtrando e atualizando como no relatório principal.",
-     "correta": true,
-     "explica": "São os mesmos visuais, só reposicionados."
     }
    ]
   },
@@ -1662,6 +1512,156 @@
      ],
      "correta": 0,
      "explica": "Ele cria a tabela e, se quiser, a segmentação."
+    }
+   ]
+  },
+  {
+   "id": "storytelling",
+   "titulo": "Storytelling e layout",
+   "resumo": "Hierarquia visual e leitura em Z",
+   "teoria": [
+    "As pessoas leem a tela em Z: canto superior esquerdo primeiro. Coloque ali os KPIs principais, depois tendência, depois detalhe. Alinhe tudo numa grade e mantenha espaço em branco.",
+    "Uma página = uma pergunta. Cor de destaque só para o que exige ação; o resto em tons neutros. Títulos dizem a conclusão."
+   ],
+   "exemplo": "Topo: KPIs · Meio: tendência + comparação · Base: tabela de detalhe",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "storytelling-hierarquia-visual"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde colocar os KPIs mais importantes da página?",
+     "opcoes": [
+      "No topo, à esquerda",
+      "No rodapé",
+      "Escondidos em uma dica de ferramenta",
+      "No canto inferior direito"
+     ],
+     "correta": 0,
+     "explica": "A leitura começa no canto superior esquerdo."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a ordem de cima para baixo de uma página bem estruturada.",
+     "pecas": [
+      "KPIs principais",
+      "Tendência no tempo",
+      "Comparação entre categorias",
+      "Tabela de detalhe"
+     ],
+     "extras": [
+      "Logotipo gigante"
+     ],
+     "explica": "Do resumo para o detalhe."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Usar uma cor diferente para cada barra deixa o gráfico mais fácil de ler.",
+     "correta": false,
+     "explica": "Cor deve ter significado; arco-íris dispersa a atenção."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A página tem 14 visuais e ninguém entende. Melhor caminho?",
+     "opcoes": [
+      "Dividir em páginas, cada uma respondendo uma pergunta",
+      "Diminuir a fonte para caber mais",
+      "Remover os títulos",
+      "Trocar tudo por pizza"
+     ],
+     "correta": 0,
+     "explica": "Menos visuais por página, mais foco."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o título que conta a história:",
+     "codigo": "Faturamento ___ 12% em agosto por queda na região Sul",
+     "opcoes": [
+      "caiu",
+      "gráfico",
+      "dados",
+      "visual"
+     ],
+     "correta": 0,
+     "explica": "Título com conclusão diz ao leitor o que olhar."
+    }
+   ]
+  },
+  {
+   "id": "layout-mobile",
+   "titulo": "Layout para celular",
+   "resumo": "O mesmo relatório pensado para a tela pequena",
+   "teoria": [
+    "Exibir > Layout móvel abre uma tela de celular onde você arrasta os visuais do relatório e os redimensiona. O app do Power BI usa esse layout automaticamente.",
+    "No celular: poucos visuais, KPIs no topo, segmentações em lista suspensa e nada que dependa de passar o mouse."
+   ],
+   "exemplo": "Exibir > Layout móvel  →  arrastar KPIs para o topo",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "storytelling-hierarquia-visual"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O gestor abre o relatório no app do celular e tudo fica minúsculo. O que fazer?",
+     "opcoes": [
+      "Montar o Layout móvel da página no Desktop",
+      "Pedir para ele girar o celular",
+      "Diminuir as fontes",
+      "Criar um arquivo separado só para celular"
+     ],
+     "correta": 0,
+     "explica": "O layout móvel é parte do mesmo relatório."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Dicas de ferramenta que aparecem ao passar o mouse funcionam bem no celular.",
+     "correta": false,
+     "explica": "Não há mouse; prefira rótulos visíveis."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual tipo de segmentação ocupa menos espaço no celular?",
+     "opcoes": [
+      "Lista suspensa",
+      "Lista com 30 itens abertos",
+      "Blocos com 12 botões",
+      "Tabela"
+     ],
+     "correta": 0,
+     "explica": "Menu suspenso abre só quando o usuário toca."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a regra ao motivo.",
+     "pares": [
+      [
+       "KPIs no topo",
+       "É o que o gestor vê primeiro"
+      ],
+      [
+       "Poucos visuais",
+       "Tela pequena"
+      ],
+      [
+       "Rótulos visíveis",
+       "Sem mouse para dicas"
+      ],
+      [
+       "Lista suspensa",
+       "Economiza espaço"
+      ]
+     ],
+     "explica": "Desenhe para o dedo, não para o mouse."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Os visuais do layout móvel continuam filtrando e atualizando como no relatório principal.",
+     "correta": true,
+     "explica": "São os mesmos visuais, só reposicionados."
     }
    ]
   },
@@ -2245,6 +2245,24 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Para análise no Power BI, as dimensões devem ser preferencialmente:",
+   "opcoes": [
+    "Desnormalizadas",
+    "Normalizadas em várias tabelas",
+    "Ligadas em cadeia",
+    "Sem relacionamento"
+   ],
+   "correta": 0,
+   "no": "normalizacao"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Somar um valor do cabeçalho do pedido numa tabela de itens pode duplicar o total.",
+   "correta": true,
+   "no": "granularidade"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "No esquema estrela, o que fica no centro?",
    "opcoes": [
     "A tabela fato",
@@ -2257,18 +2275,6 @@
   },
   {
    "tipo": "escolha",
-   "pergunta": "Para análise no Power BI, as dimensões devem ser preferencialmente:",
-   "opcoes": [
-    "Desnormalizadas",
-    "Normalizadas em várias tabelas",
-    "Ligadas em cadeia",
-    "Sem relacionamento"
-   ],
-   "correta": 0,
-   "no": "normalizacao"
-  },
-  {
-   "tipo": "escolha",
    "pergunta": "O que é a granularidade de uma tabela?",
    "opcoes": [
     "O nível de detalhe que cada linha representa",
@@ -2278,24 +2284,6 @@
    ],
    "correta": 0,
    "no": "relacionamentos"
-  },
-  {
-   "tipo": "vf",
-   "afirmacao": "Somar um valor do cabeçalho do pedido numa tabela de itens pode duplicar o total.",
-   "correta": true,
-   "no": "granularidade"
-  },
-  {
-   "tipo": "escolha",
-   "pergunta": "Qual função DAX gera uma tabela com uma linha por dia entre duas datas?",
-   "opcoes": [
-    "CALENDAR",
-    "DATEDIFF",
-    "TODAY",
-    "EOMONTH"
-   ],
-   "correta": 0,
-   "no": "calendario"
   },
   {
    "tipo": "escolha",
@@ -2341,27 +2329,15 @@
   },
   {
    "tipo": "escolha",
-   "pergunta": "Qual visual mostra melhor a evolução das vendas ao longo dos meses?",
+   "pergunta": "Qual função DAX gera uma tabela com uma linha por dia entre duas datas?",
    "opcoes": [
-    "Linhas",
-    "Rosca",
-    "Cartão",
-    "Mapa de árvore"
+    "CALENDAR",
+    "DATEDIFF",
+    "TODAY",
+    "EOMONTH"
    ],
    "correta": 0,
-   "no": "visuais"
-  },
-  {
-   "tipo": "escolha",
-   "pergunta": "Em que ordem as pessoas costumam ler uma página de relatório?",
-   "opcoes": [
-    "Em Z, começando no canto superior esquerdo",
-    "De baixo para cima",
-    "Do centro para fora",
-    "Da direita para a esquerda"
-   ],
-   "correta": 0,
-   "no": "storytelling"
+   "no": "calendario"
   },
   {
    "tipo": "escolha",
@@ -2374,6 +2350,18 @@
    ],
    "correta": 0,
    "no": "formatacao-visual"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual visual mostra melhor a evolução das vendas ao longo dos meses?",
+   "opcoes": [
+    "Linhas",
+    "Rosca",
+    "Cartão",
+    "Mapa de árvore"
+   ],
+   "correta": 0,
+   "no": "visuais"
   },
   {
    "tipo": "escolha",
@@ -2392,12 +2380,6 @@
    "afirmacao": "Um tema JSON aplica as mesmas cores e fontes em todo o relatório.",
    "correta": true,
    "no": "temas-acessibilidade"
-  },
-  {
-   "tipo": "vf",
-   "afirmacao": "O layout móvel é configurado no próprio relatório, em Exibir > Layout móvel.",
-   "correta": true,
-   "no": "layout-mobile"
   },
   {
    "tipo": "escolha",
@@ -2452,6 +2434,24 @@
    ],
    "correta": 0,
    "no": "parametros-campo"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Em que ordem as pessoas costumam ler uma página de relatório?",
+   "opcoes": [
+    "Em Z, começando no canto superior esquerdo",
+    "De baixo para cima",
+    "Do centro para fora",
+    "Da direita para a esquerda"
+   ],
+   "correta": 0,
+   "no": "storytelling"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "O layout móvel é configurado no próprio relatório, em Exibir > Layout móvel.",
+   "correta": true,
+   "no": "layout-mobile"
   },
   {
    "tipo": "escolha",

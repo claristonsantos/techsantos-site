@@ -325,85 +325,6 @@
    ]
   },
   {
-   "id": "filtrar",
-   "titulo": "Filtrar e ordenar",
-   "resumo": "Table.SelectRows e Table.Sort",
-   "teoria": [
-    "Table.SelectRows(tabela, each condição) mantém só as linhas em que a condição é verdadeira. each quer dizer \"para cada linha\" e [Coluna] lê a coluna dessa linha.",
-    "Junte condições com and e or (minúsculos). Igualdade usa um = só. Table.Sort ordena: Order.Ascending ou Order.Descending."
-   ],
-   "exemplo": "Filtrado = Table.SelectRows(Fonte, each [Vendedor] = \"Carlos\" and [Valor] > 1000)",
-   "video": {
-    "curso": "power-bi",
-    "curso_nome": "Power BI",
-    "licao": "classificar-filtrar"
-   },
-   "exercicios": [
-    {
-     "tipo": "ordenar",
-     "cenario": "Mantenha só as vendas do Carlos.",
-     "pecas": [
-      "Filtrado = Table.SelectRows(",
-      "Fonte,",
-      "each [Vendedor] = \"Carlos\"",
-      ")"
-     ],
-     "extras": [
-      "each [Vendedor] == \"Carlos\""
-     ],
-     "explica": "Primeiro a tabela de onde vêm as linhas, depois a condição. No M a igualdade é = (um só)."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual condição mantém só as vendas de 2026?",
-     "opcoes": [
-      "each Date.Year([Data]) = 2026",
-      "each [Data] = 2026",
-      "each YEAR([Data]) = 2026",
-      "each [Data].Year == 2026"
-     ],
-     "correta": 0,
-     "explica": "Date.Year tira o ano de uma data. YEAR é do Excel e do DAX, não do M."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "O que significa each [Valor] > 1000?",
-     "opcoes": [
-      "Para cada linha, o Valor dela é maior que 1000",
-      "A soma de Valor passa de 1000",
-      "Existem mais de 1000 linhas",
-      "A coluna Valor tem 1000 itens"
-     ],
-     "correta": 0,
-     "explica": "each cria uma função que roda linha a linha; [Valor] é a coluna daquela linha."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual condição pega as vendas do Carlos ou da Ana?",
-     "opcoes": [
-      "each [Vendedor] = \"Carlos\" or [Vendedor] = \"Ana\"",
-      "each [Vendedor] = \"Carlos\" or \"Ana\"",
-      "each [Vendedor] = \"Carlos\" || \"Ana\"",
-      "each [Vendedor] IN (\"Carlos\", \"Ana\")"
-     ],
-     "correta": 0,
-     "explica": "Cada lado do or precisa ser uma comparação completa."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual etapa ordena do maior Valor para o menor?",
-     "opcoes": [
-      "Table.Sort(Filtrado, {{\"Valor\", Order.Descending}})",
-      "Table.Sort(Filtrado, \"Valor\", DESC)",
-      "Table.OrderBy(Filtrado, [Valor])",
-      "Table.Sort(Filtrado, {{\"Valor\", Order.Ascending}})"
-     ],
-     "correta": 0,
-     "explica": "A lista de ordenação tem pares {coluna, ordem}, por isso as chaves duplas."
-    }
-   ]
-  },
-  {
    "id": "preencher",
    "titulo": "Preencher e substituir",
    "resumo": "Preencher para baixo, substituir valores e limpar linhas",
@@ -484,6 +405,89 @@
       ]
      ],
      "explica": "Cada sujeira tem sua ferramenta."
+    }
+   ]
+  },
+  {
+   "id": "dividir-linhas",
+   "titulo": "Dividir em linhas e coluna de exemplo",
+   "resumo": "Uma célula com vários itens vira várias linhas",
+   "teoria": [
+    "Quando a célula tem 'Excel; Power BI; Python', Dividir coluna por delimitador > Avançado > Dividir em Linhas cria uma linha por item, mantendo as outras colunas.",
+    "Coluna de Exemplo: você digita o resultado em uma ou duas linhas e o Power Query deduz a fórmula (ex.: extrair o domínio do e-mail). Confira a fórmula gerada."
+   ],
+   "exemplo": "Dividir coluna > Por delimitador \";\" > Avançado: Linhas",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "dividir-linhas"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna Cursos tem 'Excel; Python' na mesma célula e você precisa de uma linha por curso. O que usar?",
+     "opcoes": [
+      "Dividir coluna por delimitador, opção dividir em Linhas",
+      "Dividir em Colunas",
+      "Mesclar colunas",
+      "Agrupar por"
+     ],
+     "correta": 0,
+     "explica": "Em linhas, cada item ganha sua própria linha."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "A Coluna de Exemplo escreve a fórmula M a partir dos exemplos que você digita.",
+     "correta": true,
+     "explica": "Confira a fórmula no topo antes de aceitar."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Mesclar Colunas Nome e Sobrenome com espaço gera qual resultado?",
+     "opcoes": [
+      "'Ana Souza' numa coluna nova",
+      "Duas colunas novas",
+      "Uma linha para cada nome",
+      "Erro de tipo"
+     ],
+     "correta": 0,
+     "explica": "Mesclar junta colunas com o separador escolhido."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o resultado à transformação.",
+     "pares": [
+      [
+       "Uma linha por item da célula",
+       "Dividir em linhas"
+      ],
+      [
+       "Uma coluna por parte",
+       "Dividir em colunas"
+      ],
+      [
+       "Juntar Nome e Sobrenome",
+       "Mesclar colunas"
+      ],
+      [
+       "Fórmula deduzida de exemplos",
+       "Coluna de exemplo"
+      ]
+     ],
+     "explica": "Escolha pelo formato que você precisa."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete: para separar 'SP;RJ;MG' em linhas, o delimitador é ___.",
+     "codigo": "Splitter.SplitTextByDelimiter( \"___\" )",
+     "opcoes": [
+      ";",
+      ",",
+      "-",
+      "|"
+     ],
+     "correta": 0,
+     "explica": "O delimitador é o caractere que separa os itens."
     }
    ]
   },
@@ -569,163 +573,81 @@
    ]
   },
   {
-   "id": "texto",
-   "titulo": "Textos e datas",
-   "resumo": "Dividir, extrair, mesclar colunas e somar dias",
+   "id": "filtrar",
+   "titulo": "Filtrar e ordenar",
+   "resumo": "Table.SelectRows e Table.Sort",
    "teoria": [
-    "Dividir Coluna por delimitador ou número de caracteres; Mesclar Colunas junta com separador. Funções de texto começam com Text.: Text.Upper, Text.Trim, Text.Start(texto, n), Text.Contains.",
-    "Datas usam Date.: Date.Year, Date.Month, Date.AddDays(data, n). Coluna de Exemplo deixa o Power Query deduzir a fórmula a partir do que você digita."
+    "Table.SelectRows(tabela, each condição) mantém só as linhas em que a condição é verdadeira. each quer dizer \"para cada linha\" e [Coluna] lê a coluna dessa linha.",
+    "Junte condições com and e or (minúsculos). Igualdade usa um = só. Table.Sort ordena: Order.Ascending ou Order.Descending."
    ],
-   "exemplo": "Date.AddDays( [Data], 30 )   ·   Text.Start( [Cod], 3 )",
+   "exemplo": "Filtrado = Table.SelectRows(Fonte, each [Vendedor] = \"Carlos\" and [Valor] > 1000)",
    "video": {
     "curso": "power-bi",
     "curso_nome": "Power BI",
-    "licao": "formulas-texto"
+    "licao": "classificar-filtrar"
    },
    "exercicios": [
     {
      "tipo": "ordenar",
-     "cenario": "Crie a coluna de vencimento: data da venda mais 30 dias.",
+     "cenario": "Mantenha só as vendas do Carlos.",
      "pecas": [
-      "= Table.AddColumn( Fonte, \"Vencimento\",",
-      "each Date.AddDays( [Data], 30 )",
+      "Filtrado = Table.SelectRows(",
+      "Fonte,",
+      "each [Vendedor] = \"Carlos\"",
       ")"
      ],
      "extras": [
-      "each [Data] + \"30\""
+      "each [Vendedor] == \"Carlos\""
      ],
-     "explica": "Date.AddDays soma dias a uma data; each aplica a cada linha."
+     "explica": "Primeiro a tabela de onde vêm as linhas, depois a condição. No M a igualdade é = (um só)."
     },
     {
      "tipo": "escolha",
-     "pergunta": "Qual expressão pega os 3 primeiros caracteres de [Cod] ('PAP-0042' → 'PAP')?",
+     "pergunta": "Qual condição mantém só as vendas de 2026?",
      "opcoes": [
-      "Text.Start( [Cod], 3 )",
-      "Text.End( [Cod], 3 )",
-      "Text.Left( 3, [Cod] )",
-      "Text.Range( [Cod], 3 )"
+      "each Date.Year([Data]) = 2026",
+      "each [Data] = 2026",
+      "each YEAR([Data]) = 2026",
+      "each [Data].Year == 2026"
      ],
      "correta": 0,
-     "explica": "Text.Start(texto, quantidade) pega do início."
+     "explica": "Date.Year tira o ano de uma data. YEAR é do Excel e do DAX, não do M."
     },
     {
      "tipo": "escolha",
-     "pergunta": "A coluna Cliente tem espaços sobrando e letras misturadas. Qual combinação padroniza?",
+     "pergunta": "O que significa each [Valor] > 1000?",
      "opcoes": [
-      "Text.Upper( Text.Trim( [Cliente] ) )",
-      "Text.Trim( [Cliente], Upper )",
-      "Text.Clean( 3, [Cliente] )",
-      "Text.Upper + Text.Trim"
+      "Para cada linha, o Valor dela é maior que 1000",
+      "A soma de Valor passa de 1000",
+      "Existem mais de 1000 linhas",
+      "A coluna Valor tem 1000 itens"
      ],
      "correta": 0,
-     "explica": "Trim tira os espaços das pontas e Upper deixa tudo maiúsculo."
+     "explica": "each cria uma função que roda linha a linha; [Valor] é a coluna daquela linha."
     },
     {
      "tipo": "escolha",
-     "pergunta": "A coluna Local tem 'SP - Campinas'. Como separar estado e cidade?",
+     "pergunta": "Qual condição pega as vendas do Carlos ou da Ana?",
      "opcoes": [
-      "Dividir Coluna por delimitador ' - '",
-      "Mesclar Colunas",
-      "Agrupar Por",
-      "Coluna Dinâmica"
+      "each [Vendedor] = \"Carlos\" or [Vendedor] = \"Ana\"",
+      "each [Vendedor] = \"Carlos\" or \"Ana\"",
+      "each [Vendedor] = \"Carlos\" || \"Ana\"",
+      "each [Vendedor] IN (\"Carlos\", \"Ana\")"
      ],
      "correta": 0,
-     "explica": "Dividir por delimitador gera duas colunas."
+     "explica": "Cada lado do or precisa ser uma comparação completa."
     },
     {
      "tipo": "escolha",
-     "pergunta": "Qual expressão devolve o ano de [Data]?",
+     "pergunta": "Qual etapa ordena do maior Valor para o menor?",
      "opcoes": [
-      "Date.Year( [Data] )",
-      "Year( [Data] )",
-      "[Data].Year",
-      "Date.ToText( [Data], 4 )"
+      "Table.Sort(Filtrado, {{\"Valor\", Order.Descending}})",
+      "Table.Sort(Filtrado, \"Valor\", DESC)",
+      "Table.OrderBy(Filtrado, [Valor])",
+      "Table.Sort(Filtrado, {{\"Valor\", Order.Ascending}})"
      ],
      "correta": 0,
-     "explica": "Funções de data na M começam com Date."
-    }
-   ]
-  },
-  {
-   "id": "dividir-linhas",
-   "titulo": "Dividir em linhas e coluna de exemplo",
-   "resumo": "Uma célula com vários itens vira várias linhas",
-   "teoria": [
-    "Quando a célula tem 'Excel; Power BI; Python', Dividir coluna por delimitador > Avançado > Dividir em Linhas cria uma linha por item, mantendo as outras colunas.",
-    "Coluna de Exemplo: você digita o resultado em uma ou duas linhas e o Power Query deduz a fórmula (ex.: extrair o domínio do e-mail). Confira a fórmula gerada."
-   ],
-   "exemplo": "Dividir coluna > Por delimitador \";\" > Avançado: Linhas",
-   "video": {
-    "curso": "power-bi",
-    "curso_nome": "Power BI",
-    "licao": "dividir-linhas"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "A coluna Cursos tem 'Excel; Python' na mesma célula e você precisa de uma linha por curso. O que usar?",
-     "opcoes": [
-      "Dividir coluna por delimitador, opção dividir em Linhas",
-      "Dividir em Colunas",
-      "Mesclar colunas",
-      "Agrupar por"
-     ],
-     "correta": 0,
-     "explica": "Em linhas, cada item ganha sua própria linha."
-    },
-    {
-     "tipo": "vf",
-     "afirmacao": "A Coluna de Exemplo escreve a fórmula M a partir dos exemplos que você digita.",
-     "correta": true,
-     "explica": "Confira a fórmula no topo antes de aceitar."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Mesclar Colunas Nome e Sobrenome com espaço gera qual resultado?",
-     "opcoes": [
-      "'Ana Souza' numa coluna nova",
-      "Duas colunas novas",
-      "Uma linha para cada nome",
-      "Erro de tipo"
-     ],
-     "correta": 0,
-     "explica": "Mesclar junta colunas com o separador escolhido."
-    },
-    {
-     "tipo": "pares",
-     "pergunta": "Ligue o resultado à transformação.",
-     "pares": [
-      [
-       "Uma linha por item da célula",
-       "Dividir em linhas"
-      ],
-      [
-       "Uma coluna por parte",
-       "Dividir em colunas"
-      ],
-      [
-       "Juntar Nome e Sobrenome",
-       "Mesclar colunas"
-      ],
-      [
-       "Fórmula deduzida de exemplos",
-       "Coluna de exemplo"
-      ]
-     ],
-     "explica": "Escolha pelo formato que você precisa."
-    },
-    {
-     "tipo": "lacuna",
-     "pergunta": "Complete: para separar 'SP;RJ;MG' em linhas, o delimitador é ___.",
-     "codigo": "Splitter.SplitTextByDelimiter( \"___\" )",
-     "opcoes": [
-      ";",
-      ",",
-      "-",
-      "|"
-     ],
-     "correta": 0,
-     "explica": "O delimitador é o caractere que separa os itens."
+     "explica": "A lista de ordenação tem pares {coluna, ordem}, por isso as chaves duplas."
     }
    ]
   },
@@ -895,82 +817,80 @@
    ]
   },
   {
-   "id": "agrupar",
-   "titulo": "Agrupar",
-   "resumo": "Table.Group",
+   "id": "texto",
+   "titulo": "Textos e datas",
+   "resumo": "Dividir, extrair, mesclar colunas e somar dias",
    "teoria": [
-    "Table.Group(tabela, {colunas do grupo}, {{\"Nome\", each função, tipo}}) faz o mesmo que o botão Agrupar por.",
-    "Dentro do each, a tabela é só a das linhas daquele grupo: List.Sum([Valor]) soma a coluna Valor do grupo e Table.RowCount(_) conta as linhas dele."
+    "Dividir Coluna por delimitador ou número de caracteres; Mesclar Colunas junta com separador. Funções de texto começam com Text.: Text.Upper, Text.Trim, Text.Start(texto, n), Text.Contains.",
+    "Datas usam Date.: Date.Year, Date.Month, Date.AddDays(data, n). Coluna de Exemplo deixa o Power Query deduzir a fórmula a partir do que você digita."
    ],
-   "exemplo": "PorVendedor = Table.Group(Fonte, {\"Vendedor\"}, {{\"Total\", each List.Sum([Valor]), type number}})",
+   "exemplo": "Date.AddDays( [Data], 30 )   ·   Text.Start( [Cod], 3 )",
    "video": {
     "curso": "power-bi",
     "curso_nome": "Power BI",
-    "licao": "agrupar-por"
+    "licao": "formulas-texto"
    },
    "exercicios": [
     {
      "tipo": "ordenar",
-     "cenario": "Você tem uma loja e precisa do total vendido por vendedor.",
+     "cenario": "Crie a coluna de vencimento: data da venda mais 30 dias.",
      "pecas": [
-      "PorVendedor = Table.Group(",
-      "Fonte,",
-      "{\"Vendedor\"},",
-      "{{\"Total\", each List.Sum([Valor]), type number}}",
+      "= Table.AddColumn( Fonte, \"Vencimento\",",
+      "each Date.AddDays( [Data], 30 )",
       ")"
      ],
      "extras": [
-      "{\"Total\", SUM([Valor])}"
+      "each [Data] + \"30\""
      ],
-     "explica": "Tabela, colunas de agrupamento e a lista de agregações. SUM é do Excel e do DAX; no M é List.Sum."
+     "explica": "Date.AddDays soma dias a uma data; each aplica a cada linha."
     },
     {
      "tipo": "escolha",
-     "pergunta": "Qual agregação conta as vendas de cada vendedor?",
+     "pergunta": "Qual expressão pega os 3 primeiros caracteres de [Cod] ('PAP-0042' → 'PAP')?",
      "opcoes": [
-      "{{\"Qtd\", each Table.RowCount(_), Int64.Type}}",
-      "{{\"Qtd\", each Count([Valor])}}",
-      "{{\"Qtd\", COUNTROWS(_)}}",
-      "{{\"Qtd\", each List.Sum(_)}}"
+      "Text.Start( [Cod], 3 )",
+      "Text.End( [Cod], 3 )",
+      "Text.Left( 3, [Cod] )",
+      "Text.Range( [Cod], 3 )"
      ],
      "correta": 0,
-     "explica": "_ é a tabela do grupo; Table.RowCount conta as linhas dela."
+     "explica": "Text.Start(texto, quantidade) pega do início."
     },
     {
      "tipo": "escolha",
-     "pergunta": "Dentro do Table.Group, o que é [Valor] em each List.Sum([Valor])?",
+     "pergunta": "A coluna Cliente tem espaços sobrando e letras misturadas. Qual combinação padroniza?",
      "opcoes": [
-      "A coluna Valor só das linhas daquele grupo",
-      "A coluna Valor da tabela inteira",
-      "O valor da primeira linha",
-      "Uma medida do Power BI"
+      "Text.Upper( Text.Trim( [Cliente] ) )",
+      "Text.Trim( [Cliente], Upper )",
+      "Text.Clean( 3, [Cliente] )",
+      "Text.Upper + Text.Trim"
      ],
      "correta": 0,
-     "explica": "Por isso cada vendedor recebe a sua própria soma."
+     "explica": "Trim tira os espaços das pontas e Upper deixa tudo maiúsculo."
     },
     {
      "tipo": "escolha",
-     "pergunta": "Você quer o total por vendedor e por ano (com uma coluna Ano). O que muda?",
+     "pergunta": "A coluna Local tem 'SP - Campinas'. Como separar estado e cidade?",
      "opcoes": [
-      "A lista do grupo vira {\"Vendedor\", \"Ano\"}",
-      "Precisa de dois Table.Group",
-      "Coloca o Ano dentro do List.Sum",
-      "Não é possível no M"
+      "Dividir Coluna por delimitador ' - '",
+      "Mesclar Colunas",
+      "Agrupar Por",
+      "Coluna Dinâmica"
      ],
      "correta": 0,
-     "explica": "A segunda lista do Table.Group aceita várias colunas."
+     "explica": "Dividir por delimitador gera duas colunas."
     },
     {
      "tipo": "escolha",
-     "pergunta": "Qual etapa tira as linhas duplicadas?",
+     "pergunta": "Qual expressão devolve o ano de [Data]?",
      "opcoes": [
-      "Table.Distinct(Fonte)",
-      "Table.Unique(Fonte)",
-      "Table.RemoveDuplicates(Fonte)",
-      "List.Distinct(Fonte)"
+      "Date.Year( [Data] )",
+      "Year( [Data] )",
+      "[Data].Year",
+      "Date.ToText( [Data], 4 )"
      ],
      "correta": 0,
-     "explica": "É o que o botão Remover Duplicatas gera."
+     "explica": "Funções de data na M começam com Date."
     }
    ]
   },
@@ -1049,6 +969,86 @@
      ],
      "correta": 0,
      "explica": "Renomeie Atributo para algo como Mês."
+    }
+   ]
+  },
+  {
+   "id": "agrupar",
+   "titulo": "Agrupar",
+   "resumo": "Table.Group",
+   "teoria": [
+    "Table.Group(tabela, {colunas do grupo}, {{\"Nome\", each função, tipo}}) faz o mesmo que o botão Agrupar por.",
+    "Dentro do each, a tabela é só a das linhas daquele grupo: List.Sum([Valor]) soma a coluna Valor do grupo e Table.RowCount(_) conta as linhas dele."
+   ],
+   "exemplo": "PorVendedor = Table.Group(Fonte, {\"Vendedor\"}, {{\"Total\", each List.Sum([Valor]), type number}})",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "agrupar-por"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Você tem uma loja e precisa do total vendido por vendedor.",
+     "pecas": [
+      "PorVendedor = Table.Group(",
+      "Fonte,",
+      "{\"Vendedor\"},",
+      "{{\"Total\", each List.Sum([Valor]), type number}}",
+      ")"
+     ],
+     "extras": [
+      "{\"Total\", SUM([Valor])}"
+     ],
+     "explica": "Tabela, colunas de agrupamento e a lista de agregações. SUM é do Excel e do DAX; no M é List.Sum."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual agregação conta as vendas de cada vendedor?",
+     "opcoes": [
+      "{{\"Qtd\", each Table.RowCount(_), Int64.Type}}",
+      "{{\"Qtd\", each Count([Valor])}}",
+      "{{\"Qtd\", COUNTROWS(_)}}",
+      "{{\"Qtd\", each List.Sum(_)}}"
+     ],
+     "correta": 0,
+     "explica": "_ é a tabela do grupo; Table.RowCount conta as linhas dela."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Dentro do Table.Group, o que é [Valor] em each List.Sum([Valor])?",
+     "opcoes": [
+      "A coluna Valor só das linhas daquele grupo",
+      "A coluna Valor da tabela inteira",
+      "O valor da primeira linha",
+      "Uma medida do Power BI"
+     ],
+     "correta": 0,
+     "explica": "Por isso cada vendedor recebe a sua própria soma."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer o total por vendedor e por ano (com uma coluna Ano). O que muda?",
+     "opcoes": [
+      "A lista do grupo vira {\"Vendedor\", \"Ano\"}",
+      "Precisa de dois Table.Group",
+      "Coloca o Ano dentro do List.Sum",
+      "Não é possível no M"
+     ],
+     "correta": 0,
+     "explica": "A segunda lista do Table.Group aceita várias colunas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual etapa tira as linhas duplicadas?",
+     "opcoes": [
+      "Table.Distinct(Fonte)",
+      "Table.Unique(Fonte)",
+      "Table.RemoveDuplicates(Fonte)",
+      "List.Distinct(Fonte)"
+     ],
+     "correta": 0,
+     "explica": "É o que o botão Remover Duplicatas gera."
     }
    ]
   },
@@ -1391,7 +1391,7 @@
    "video": {
     "curso": "power-bi",
     "curso_nome": "Power BI",
-    "licao": "consulta-pasta"
+    "licao": "boas-praticas-power-query"
    },
    "exercicios": [
     {
@@ -1605,18 +1605,6 @@
    "no": "importar"
   },
   {
-   "no": "filtrar",
-   "tipo": "escolha",
-   "pergunta": "Qual etapa mantém só as vendas acima de 1000?",
-   "opcoes": [
-    "Table.SelectRows(Fonte, each [Valor] > 1000)",
-    "Table.SelectRows(Fonte, [Valor] > 1000)",
-    "Table.Filter(Fonte, Valor > 1000)",
-    "Table.SelectRows(each [Valor] > 1000, Fonte)"
-   ],
-   "correta": 0
-  },
-  {
    "tipo": "escolha",
    "pergunta": "Qual transformação repete o valor de cima nas células vazias abaixo?",
    "opcoes": [
@@ -1627,6 +1615,12 @@
    ],
    "correta": 0,
    "no": "preencher"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Dividir coluna também pode gerar linhas em vez de colunas.",
+   "correta": true,
+   "no": "dividir-linhas"
   },
   {
    "no": "colunas",
@@ -1641,22 +1635,16 @@
    "correta": 0
   },
   {
+   "no": "filtrar",
    "tipo": "escolha",
-   "pergunta": "Qual função M soma dias a uma data?",
+   "pergunta": "Qual etapa mantém só as vendas acima de 1000?",
    "opcoes": [
-    "Date.AddDays",
-    "Date.Plus",
-    "AddDays",
-    "Day.Add"
+    "Table.SelectRows(Fonte, each [Valor] > 1000)",
+    "Table.SelectRows(Fonte, [Valor] > 1000)",
+    "Table.Filter(Fonte, Valor > 1000)",
+    "Table.SelectRows(each [Valor] > 1000, Fonte)"
    ],
-   "correta": 0,
-   "no": "texto"
-  },
-  {
-   "tipo": "vf",
-   "afirmacao": "Dividir coluna também pode gerar linhas em vez de colunas.",
-   "correta": true,
-   "no": "dividir-linhas"
+   "correta": 0
   },
   {
    "no": "if",
@@ -1677,16 +1665,16 @@
    "no": "if-and"
   },
   {
-   "no": "agrupar",
    "tipo": "escolha",
-   "pergunta": "Qual função soma a coluna Valor dentro de um Table.Group?",
+   "pergunta": "Qual função M soma dias a uma data?",
    "opcoes": [
-    "List.Sum([Valor])",
-    "SUM([Valor])",
-    "Table.Sum(Valor)",
-    "[Valor].Sum()"
+    "Date.AddDays",
+    "Date.Plus",
+    "AddDays",
+    "Day.Add"
    ],
-   "correta": 0
+   "correta": 0,
+   "no": "texto"
   },
   {
    "tipo": "escolha",
@@ -1699,6 +1687,18 @@
    ],
    "correta": 0,
    "no": "pivot-unpivot"
+  },
+  {
+   "no": "agrupar",
+   "tipo": "escolha",
+   "pergunta": "Qual função soma a coluna Valor dentro de um Table.Group?",
+   "opcoes": [
+    "List.Sum([Valor])",
+    "SUM([Valor])",
+    "Table.Sum(Valor)",
+    "[Valor].Sum()"
+   ],
+   "correta": 0
   },
   {
    "tipo": "escolha",

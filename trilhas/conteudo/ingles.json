@@ -666,86 +666,6 @@
    ]
   },
   {
-   "id": "passado",
-   "titulo": "Passado simples",
-   "resumo": "was/were, -ed, irregulares e did (A2)",
-   "teoria": [
-    "To be no passado: I/he/she/it was, you/we/they were. Verbos regulares ganham -ed: worked, finished. Os irregulares têm forma própria: go → went, send → sent, make → made.",
-    "Pergunta e negativa usam did e o verbo volta para a forma básica: Did you send the file? No, I didn't send it."
-   ],
-   "exemplo": "Yesterday I sent the report and we had a meeting.",
-   "video": {
-    "curso": "ingles",
-    "curso_nome": "Inglês",
-    "licao": "en-passado-irregular"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "Complete: The meeting ___ very long yesterday.",
-     "opcoes": [
-      "was",
-      "were",
-      "is",
-      "did"
-     ],
-     "correta": 0,
-     "explica": "Singular no passado: was."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual é o passado de 'send'?",
-     "opcoes": [
-      "sent",
-      "sended",
-      "sendt",
-      "sand"
-     ],
-     "correta": 0,
-     "explica": "Send é irregular: sent."
-    },
-    {
-     "tipo": "ordenar",
-     "cenario": "Monte a pergunta: 'Você terminou o relatório?'",
-     "pecas": [
-      "Did",
-      "you",
-      "finish",
-      "the",
-      "report?"
-     ],
-     "extras": [
-      "finished"
-     ],
-     "explica": "Com did, o verbo fica na forma básica."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Complete: We ___ to the office last Monday.",
-     "opcoes": [
-      "went",
-      "goed",
-      "go",
-      "gone"
-     ],
-     "correta": 0,
-     "explica": "Go → went no passado simples."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual negativa está correta?",
-     "opcoes": [
-      "She didn't call the client.",
-      "She didn't called the client.",
-      "She don't called the client.",
-      "She wasn't call the client."
-     ],
-     "correta": 0,
-     "explica": "Didn't + verbo na forma básica."
-    }
-   ]
-  },
-  {
    "id": "passado-regular",
    "titulo": "Passado regular e was/were",
    "resumo": "worked, studied, stopped (A2)",
@@ -828,6 +748,86 @@
      ],
      "correta": 0,
      "explica": "Stop dobra o p: stopped."
+    }
+   ]
+  },
+  {
+   "id": "passado",
+   "titulo": "Passado simples",
+   "resumo": "was/were, -ed, irregulares e did (A2)",
+   "teoria": [
+    "To be no passado: I/he/she/it was, you/we/they were. Verbos regulares ganham -ed: worked, finished. Os irregulares têm forma própria: go → went, send → sent, make → made.",
+    "Pergunta e negativa usam did e o verbo volta para a forma básica: Did you send the file? No, I didn't send it."
+   ],
+   "exemplo": "Yesterday I sent the report and we had a meeting.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-passado-irregular"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Complete: The meeting ___ very long yesterday.",
+     "opcoes": [
+      "was",
+      "were",
+      "is",
+      "did"
+     ],
+     "correta": 0,
+     "explica": "Singular no passado: was."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual é o passado de 'send'?",
+     "opcoes": [
+      "sent",
+      "sended",
+      "sendt",
+      "sand"
+     ],
+     "correta": 0,
+     "explica": "Send é irregular: sent."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a pergunta: 'Você terminou o relatório?'",
+     "pecas": [
+      "Did",
+      "you",
+      "finish",
+      "the",
+      "report?"
+     ],
+     "extras": [
+      "finished"
+     ],
+     "explica": "Com did, o verbo fica na forma básica."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Complete: We ___ to the office last Monday.",
+     "opcoes": [
+      "went",
+      "goed",
+      "go",
+      "gone"
+     ],
+     "correta": 0,
+     "explica": "Go → went no passado simples."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual negativa está correta?",
+     "opcoes": [
+      "She didn't call the client.",
+      "She didn't called the client.",
+      "She don't called the client.",
+      "She wasn't call the client."
+     ],
+     "correta": 0,
+     "explica": "Didn't + verbo na forma básica."
     }
    ]
   },
@@ -2173,83 +2173,6 @@
    ]
   },
   {
-   "id": "expressoes",
-   "titulo": "Expressões e falsos cognatos",
-   "resumo": "Idioms, americano × britânico e palavras que enganam (B2)",
-   "teoria": [
-    "Falsos cognatos: actually = na verdade (não 'atualmente', que é currently); pretend = fingir; push = empurrar; library = biblioteca; eventually = finalmente/com o tempo.",
-    "Idioms comuns: it's a piece of cake (é fácil), break the ice (quebrar o gelo), on the same page (alinhados). Americano × britânico: elevator/lift, check/bill, vacation/holiday."
-   ],
-   "exemplo": "Actually, the meeting is tomorrow. Let's make sure we're on the same page.",
-   "video": {
-    "curso": "ingles",
-    "curso_nome": "Inglês",
-    "licao": "en-falsos-cognatos"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "O que significa 'Actually, I'm a data engineer'?",
-     "opcoes": [
-      "Na verdade, sou engenheiro de dados",
-      "Atualmente sou engenheiro de dados",
-      "Eventualmente sou engenheiro de dados",
-      "Felizmente sou engenheiro de dados"
-     ],
-     "correta": 0,
-     "explica": "Actually = na verdade; atualmente = currently."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Como dizer 'Atualmente trabalho com Power BI'?",
-     "opcoes": [
-      "Currently, I work with Power BI.",
-      "Actually, I work with Power BI.",
-      "Eventually, I work with Power BI.",
-      "Presently, I working with Power BI."
-     ],
-     "correta": 0,
-     "explica": "Currently = atualmente."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "'This task is a piece of cake' quer dizer:",
-     "opcoes": [
-      "A tarefa é muito fácil",
-      "A tarefa é um bolo",
-      "A tarefa está atrasada",
-      "A tarefa é doce"
-     ],
-     "correta": 0,
-     "explica": "A piece of cake = moleza."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "O que significa 'Let's make sure we're on the same page'?",
-     "opcoes": [
-      "Vamos garantir que estamos alinhados",
-      "Vamos ler a mesma página",
-      "Vamos imprimir a página",
-      "Vamos voltar para a primeira página"
-     ],
-     "correta": 0,
-     "explica": "On the same page = de acordo, alinhados."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Um britânico diz 'Can I have the bill, please?'. Um americano diria:",
-     "opcoes": [
-      "Can I have the check, please?",
-      "Can I have the note, please?",
-      "Can I have the count, please?",
-      "Can I have the paper, please?"
-     ],
-     "correta": 0,
-     "explica": "Bill (UK) = check (US) no restaurante."
-    }
-   ]
-  },
-  {
    "id": "idioms-sotaques",
    "titulo": "Idioms e americano × britânico",
    "resumo": "Expressões e vocabulário regional (B2)",
@@ -2329,6 +2252,83 @@
      ],
      "correta": 0,
      "explica": "Fora da caixa."
+    }
+   ]
+  },
+  {
+   "id": "expressoes",
+   "titulo": "Expressões e falsos cognatos",
+   "resumo": "Idioms, americano × britânico e palavras que enganam (B2)",
+   "teoria": [
+    "Falsos cognatos: actually = na verdade (não 'atualmente', que é currently); pretend = fingir; push = empurrar; library = biblioteca; eventually = finalmente/com o tempo.",
+    "Idioms comuns: it's a piece of cake (é fácil), break the ice (quebrar o gelo), on the same page (alinhados). Americano × britânico: elevator/lift, check/bill, vacation/holiday."
+   ],
+   "exemplo": "Actually, the meeting is tomorrow. Let's make sure we're on the same page.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-falsos-cognatos"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O que significa 'Actually, I'm a data engineer'?",
+     "opcoes": [
+      "Na verdade, sou engenheiro de dados",
+      "Atualmente sou engenheiro de dados",
+      "Eventualmente sou engenheiro de dados",
+      "Felizmente sou engenheiro de dados"
+     ],
+     "correta": 0,
+     "explica": "Actually = na verdade; atualmente = currently."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como dizer 'Atualmente trabalho com Power BI'?",
+     "opcoes": [
+      "Currently, I work with Power BI.",
+      "Actually, I work with Power BI.",
+      "Eventually, I work with Power BI.",
+      "Presently, I working with Power BI."
+     ],
+     "correta": 0,
+     "explica": "Currently = atualmente."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "'This task is a piece of cake' quer dizer:",
+     "opcoes": [
+      "A tarefa é muito fácil",
+      "A tarefa é um bolo",
+      "A tarefa está atrasada",
+      "A tarefa é doce"
+     ],
+     "correta": 0,
+     "explica": "A piece of cake = moleza."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O que significa 'Let's make sure we're on the same page'?",
+     "opcoes": [
+      "Vamos garantir que estamos alinhados",
+      "Vamos ler a mesma página",
+      "Vamos imprimir a página",
+      "Vamos voltar para a primeira página"
+     ],
+     "correta": 0,
+     "explica": "On the same page = de acordo, alinhados."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Um britânico diz 'Can I have the bill, please?'. Um americano diria:",
+     "opcoes": [
+      "Can I have the check, please?",
+      "Can I have the note, please?",
+      "Can I have the count, please?",
+      "Can I have the paper, please?"
+     ],
+     "correta": 0,
+     "explica": "Bill (UK) = check (US) no restaurante."
     }
    ]
   },
@@ -2501,89 +2501,6 @@
    ]
   },
   {
-   "id": "fluencia",
-   "titulo": "Fluência profissional",
-   "resumo": "Tom formal, apresentações, entrevista e negociação (C1)",
-   "teoria": [
-    "Formal × informal: 'I'd appreciate it if you could...' (formal) × 'Can you...?' (informal). Linguagem diplomática suaviza: 'I'm afraid that might be difficult' em vez de 'No'.",
-    "Entrevista: Tell me about yourself → resumo do perfil, conquista e motivo da vaga. Negociação: 'Would you be open to...?', 'What if we...?', 'That's a fair point, however...'."
-   ],
-   "exemplo": "I'm afraid that deadline might be a bit tight. Would you be open to Friday instead?",
-   "video": {
-    "curso": "ingles",
-    "curso_nome": "Inglês",
-    "licao": "en-negociacao"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual pedido é o mais formal?",
-     "opcoes": [
-      "I'd appreciate it if you could send the contract by Friday.",
-      "Send the contract Friday.",
-      "Can u send the contract?",
-      "Contract Friday, ok?"
-     ],
-     "correta": 0,
-     "explica": "I'd appreciate it if you could... é formal e educado."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "O cliente pede um prazo impossível. Resposta diplomática:",
-     "opcoes": [
-      "I'm afraid that might be difficult, but we could deliver by Friday.",
-      "No, impossible.",
-      "You are wrong.",
-      "We don't want to."
-     ],
-     "correta": 0,
-     "explica": "I'm afraid... suaviza o 'não' e já propõe alternativa."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Na entrevista: 'Tell me about yourself'. Qual o melhor começo?",
-     "opcoes": [
-      "I'm a data analyst with five years of experience in BI...",
-      "I was born in 1990 and I like pizza...",
-      "Well, it's in my CV.",
-      "What do you want to know?"
-     ],
-     "correta": 0,
-     "explica": "Comece pelo perfil profissional relevante para a vaga."
-    },
-    {
-     "tipo": "ordenar",
-     "cenario": "Monte uma proposta na negociação: 'Vocês estariam abertos a um contrato de 6 meses?'",
-     "pecas": [
-      "Would",
-      "you",
-      "be",
-      "open",
-      "to",
-      "a",
-      "six-month",
-      "contract?"
-     ],
-     "extras": [
-      "Will"
-     ],
-     "explica": "Would you be open to...? é uma proposta educada."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Qual frase sinaliza a próxima parte de uma apresentação?",
-     "opcoes": [
-      "Moving on to the next point, let's look at costs.",
-      "Now costs.",
-      "Costs, costs, costs.",
-      "Next is coming costs."
-     ],
-     "correta": 0,
-     "explica": "Frases de sinalização guiam a plateia."
-    }
-   ]
-  },
-  {
    "id": "entrevista",
    "titulo": "Entrevista de emprego",
    "resumo": "Strengths, weaknesses e why us (C1)",
@@ -2668,6 +2585,89 @@
       "does"
      ],
      "explica": "Do you want...?"
+    }
+   ]
+  },
+  {
+   "id": "fluencia",
+   "titulo": "Fluência profissional",
+   "resumo": "Tom formal, apresentações, entrevista e negociação (C1)",
+   "teoria": [
+    "Formal × informal: 'I'd appreciate it if you could...' (formal) × 'Can you...?' (informal). Linguagem diplomática suaviza: 'I'm afraid that might be difficult' em vez de 'No'.",
+    "Entrevista: Tell me about yourself → resumo do perfil, conquista e motivo da vaga. Negociação: 'Would you be open to...?', 'What if we...?', 'That's a fair point, however...'."
+   ],
+   "exemplo": "I'm afraid that deadline might be a bit tight. Would you be open to Friday instead?",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-negociacao"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual pedido é o mais formal?",
+     "opcoes": [
+      "I'd appreciate it if you could send the contract by Friday.",
+      "Send the contract Friday.",
+      "Can u send the contract?",
+      "Contract Friday, ok?"
+     ],
+     "correta": 0,
+     "explica": "I'd appreciate it if you could... é formal e educado."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O cliente pede um prazo impossível. Resposta diplomática:",
+     "opcoes": [
+      "I'm afraid that might be difficult, but we could deliver by Friday.",
+      "No, impossible.",
+      "You are wrong.",
+      "We don't want to."
+     ],
+     "correta": 0,
+     "explica": "I'm afraid... suaviza o 'não' e já propõe alternativa."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Na entrevista: 'Tell me about yourself'. Qual o melhor começo?",
+     "opcoes": [
+      "I'm a data analyst with five years of experience in BI...",
+      "I was born in 1990 and I like pizza...",
+      "Well, it's in my CV.",
+      "What do you want to know?"
+     ],
+     "correta": 0,
+     "explica": "Comece pelo perfil profissional relevante para a vaga."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte uma proposta na negociação: 'Vocês estariam abertos a um contrato de 6 meses?'",
+     "pecas": [
+      "Would",
+      "you",
+      "be",
+      "open",
+      "to",
+      "a",
+      "six-month",
+      "contract?"
+     ],
+     "extras": [
+      "Will"
+     ],
+     "explica": "Would you be open to...? é uma proposta educada."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual frase sinaliza a próxima parte de uma apresentação?",
+     "opcoes": [
+      "Moving on to the next point, let's look at costs.",
+      "Now costs.",
+      "Costs, costs, costs.",
+      "Next is coming costs."
+     ],
+     "correta": 0,
+     "explica": "Frases de sinalização guiam a plateia."
     }
    ]
   }
@@ -2771,18 +2771,6 @@
   },
   {
    "tipo": "escolha",
-   "pergunta": "Qual é o passado de 'make'?",
-   "opcoes": [
-    "made",
-    "maked",
-    "make",
-    "maden"
-   ],
-   "correta": 0,
-   "no": "passado"
-  },
-  {
-   "tipo": "escolha",
    "pergunta": "Qual é o passado de 'study'?",
    "opcoes": [
     "studied",
@@ -2792,6 +2780,18 @@
    ],
    "correta": 0,
    "no": "passado-regular"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual é o passado de 'make'?",
+   "opcoes": [
+    "made",
+    "maked",
+    "make",
+    "maden"
+   ],
+   "correta": 0,
+   "no": "passado"
   },
   {
    "tipo": "escolha",
@@ -2989,18 +2989,6 @@
   },
   {
    "tipo": "escolha",
-   "pergunta": "Qual é a tradução de 'eventually'?",
-   "opcoes": [
-    "Com o tempo / por fim",
-    "Eventualmente (de vez em quando)",
-    "Atualmente",
-    "Imediatamente"
-   ],
-   "correta": 0,
-   "no": "expressoes"
-  },
-  {
-   "tipo": "escolha",
    "pergunta": "Qual é o equivalente britânico de 'elevator'?",
    "opcoes": [
     "lift",
@@ -3010,6 +2998,18 @@
    ],
    "correta": 0,
    "no": "idioms-sotaques"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual é a tradução de 'eventually'?",
+   "opcoes": [
+    "Com o tempo / por fim",
+    "Eventualmente (de vez em quando)",
+    "Atualmente",
+    "Imediatamente"
+   ],
+   "correta": 0,
+   "no": "expressoes"
   },
   {
    "tipo": "escolha",
@@ -3036,18 +3036,6 @@
    "no": "apresentar-dashboard"
   },
   {
-   "tipo": "escolha",
-   "pergunta": "Qual expressão suaviza uma recusa?",
-   "opcoes": [
-    "I'm afraid...",
-    "No way.",
-    "Forget it.",
-    "Absolutely not."
-   ],
-   "correta": 0,
-   "no": "fluencia"
-  },
-  {
    "tipo": "pares",
    "pergunta": "Ligue o STAR.",
    "pares": [
@@ -3065,6 +3053,18 @@
     ]
    ],
    "no": "entrevista"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual expressão suaviza uma recusa?",
+   "opcoes": [
+    "I'm afraid...",
+    "No way.",
+    "Forget it.",
+    "Absolutely not."
+   ],
+   "correta": 0,
+   "no": "fluencia"
   }
  ]
 }

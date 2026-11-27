@@ -483,83 +483,6 @@
    ]
   },
   {
-   "id": "importar-validar",
-   "titulo": "Importar e validar dados",
-   "resumo": "CSV, Texto para Colunas, duplicatas e listas",
-   "teoria": [
-    "Para trazer CSV ou TXT, use Dados > De Texto/CSV (abre o Power Query): você escolhe delimitador e tipos e depois só clica Atualizar quando chegar arquivo novo.",
-    "Texto para Colunas quebra uma coluna por um separador. Remover Duplicatas apaga linhas repetidas. Validação de Dados limita o que pode ser digitado, por exemplo uma lista suspensa de vendedores."
-   ],
-   "exemplo": "Dados > Validação de Dados > Permitir: Lista > Fonte: =$H$2:$H$6",
-   "video": {
-    "curso": "excel",
-    "curso_nome": "Excel",
-    "licao": "xl-validacao-dados"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "Todo mês chega um CSV novo com o mesmo layout. Qual caminho evita refazer o trabalho?",
-     "opcoes": [
-      "Dados > De Texto/CSV (Power Query) e depois Atualizar",
-      "Abrir o CSV e copiar e colar todo mês",
-      "Digitar os dados de novo",
-      "Renomear o CSV para .xlsx"
-     ],
-     "correta": 0,
-     "explica": "Com o Power Query, os passos ficam gravados; basta atualizar a consulta."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "A coluna A tem 'SP;Campinas' e você quer estado e cidade em colunas separadas. O que usar?",
-     "opcoes": [
-      "Dados > Texto para Colunas, delimitador ponto e vírgula",
-      "Remover Duplicatas",
-      "Validação de Dados",
-      "Mesclar e Centralizar"
-     ],
-     "correta": 0,
-     "explica": "Texto para Colunas quebra o conteúdo pelo separador escolhido."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "A equipe digita o nome do vendedor de jeitos diferentes. Como forçar uma lista fixa de nomes?",
-     "opcoes": [
-      "Validação de Dados com Permitir: Lista",
-      "Formatação condicional",
-      "Proteger a planilha",
-      "Preenchimento Relâmpago"
-     ],
-     "correta": 0,
-     "explica": "A lista suspensa da Validação de Dados só aceita os valores da fonte."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Você usa Remover Duplicatas marcando só a coluna E-mail. O que acontece?",
-     "opcoes": [
-      "Fica uma linha por e-mail; as linhas repetidas daquele e-mail são excluídas",
-      "Só a célula duplicada é apagada",
-      "As linhas duplicadas ficam destacadas em vermelho",
-      "Nada muda até salvar"
-     ],
-     "correta": 0,
-     "explica": "A comparação usa só as colunas marcadas e exclui a linha inteira repetida."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "A coluna Quantidade deve aceitar só números inteiros de 1 a 500. Onde configurar?",
-     "opcoes": [
-      "Validação de Dados > Permitir: Número inteiro, entre 1 e 500",
-      "Formatar Células > Número",
-      "Formatação condicional > Maior que",
-      "Texto para Colunas"
-     ],
-     "correta": 0,
-     "explica": "A validação bloqueia a digitação fora da regra e pode mostrar uma mensagem de erro."
-    }
-   ]
-  },
-  {
    "id": "power-query-excel",
    "titulo": "Power Query no Excel",
    "resumo": "Obter, transformar e atualizar",
@@ -638,6 +561,83 @@
       "atualizar tudo"
      ],
      "explica": "Atualizar Tudo roda as consultas de novo."
+    }
+   ]
+  },
+  {
+   "id": "importar-validar",
+   "titulo": "Importar e validar dados",
+   "resumo": "CSV, Texto para Colunas, duplicatas e listas",
+   "teoria": [
+    "Para trazer CSV ou TXT, use Dados > De Texto/CSV (abre o Power Query): você escolhe delimitador e tipos e depois só clica Atualizar quando chegar arquivo novo.",
+    "Texto para Colunas quebra uma coluna por um separador. Remover Duplicatas apaga linhas repetidas. Validação de Dados limita o que pode ser digitado, por exemplo uma lista suspensa de vendedores."
+   ],
+   "exemplo": "Dados > Validação de Dados > Permitir: Lista > Fonte: =$H$2:$H$6",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-validacao-dados"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Todo mês chega um CSV novo com o mesmo layout. Qual caminho evita refazer o trabalho?",
+     "opcoes": [
+      "Dados > De Texto/CSV (Power Query) e depois Atualizar",
+      "Abrir o CSV e copiar e colar todo mês",
+      "Digitar os dados de novo",
+      "Renomear o CSV para .xlsx"
+     ],
+     "correta": 0,
+     "explica": "Com o Power Query, os passos ficam gravados; basta atualizar a consulta."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna A tem 'SP;Campinas' e você quer estado e cidade em colunas separadas. O que usar?",
+     "opcoes": [
+      "Dados > Texto para Colunas, delimitador ponto e vírgula",
+      "Remover Duplicatas",
+      "Validação de Dados",
+      "Mesclar e Centralizar"
+     ],
+     "correta": 0,
+     "explica": "Texto para Colunas quebra o conteúdo pelo separador escolhido."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A equipe digita o nome do vendedor de jeitos diferentes. Como forçar uma lista fixa de nomes?",
+     "opcoes": [
+      "Validação de Dados com Permitir: Lista",
+      "Formatação condicional",
+      "Proteger a planilha",
+      "Preenchimento Relâmpago"
+     ],
+     "correta": 0,
+     "explica": "A lista suspensa da Validação de Dados só aceita os valores da fonte."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você usa Remover Duplicatas marcando só a coluna E-mail. O que acontece?",
+     "opcoes": [
+      "Fica uma linha por e-mail; as linhas repetidas daquele e-mail são excluídas",
+      "Só a célula duplicada é apagada",
+      "As linhas duplicadas ficam destacadas em vermelho",
+      "Nada muda até salvar"
+     ],
+     "correta": 0,
+     "explica": "A comparação usa só as colunas marcadas e exclui a linha inteira repetida."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna Quantidade deve aceitar só números inteiros de 1 a 500. Onde configurar?",
+     "opcoes": [
+      "Validação de Dados > Permitir: Número inteiro, entre 1 e 500",
+      "Formatar Células > Número",
+      "Formatação condicional > Maior que",
+      "Texto para Colunas"
+     ],
+     "correta": 0,
+     "explica": "A validação bloqueia a digitação fora da regra e pode mostrar uma mensagem de erro."
     }
    ]
   },
@@ -2592,83 +2592,6 @@
    ]
   },
   {
-   "id": "impressao-protecao",
-   "titulo": "Impressão, colaboração e proteção",
-   "resumo": "Área de impressão, títulos, comentários e senhas",
-   "teoria": [
-    "Layout da Página > Área de Impressão define o que sai no papel; Imprimir Títulos repete o cabeçalho em todas as páginas; Ajustar para 1 página de largura evita colunas cortadas.",
-    "Proteger Planilha impede editar células bloqueadas (desbloqueie antes as de digitação). Proteger Pasta de Trabalho trava a estrutura (criar/excluir abas). Comentários abrem conversa; Anotações são lembretes simples."
-   ],
-   "exemplo": "Formatar Células > Proteção > desmarcar Bloqueada  →  Revisão > Proteger Planilha",
-   "video": {
-    "curso": "excel",
-    "curso_nome": "Excel",
-    "licao": "xl-proteger"
-   },
-   "exercicios": [
-    {
-     "tipo": "escolha",
-     "pergunta": "O relatório tem 8 páginas e o cabeçalho só sai na primeira. Como repetir em todas?",
-     "opcoes": [
-      "Layout da Página > Imprimir Títulos > Linhas a repetir na parte superior",
-      "Congelar Painéis",
-      "Copiar o cabeçalho a cada 40 linhas",
-      "Cabeçalho e rodapé com o nome do arquivo"
-     ],
-     "correta": 0,
-     "explica": "Imprimir Títulos repete as linhas escolhidas no topo de cada página impressa."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Você quer que os usuários digitem só nas células de quantidade (E2:E50) e não mexam nas fórmulas. Qual a ordem?",
-     "opcoes": [
-      "Desbloquear E2:E50 em Formatar Células > Proteção e depois Proteger Planilha",
-      "Proteger Planilha e depois desbloquear E2:E50",
-      "Proteger Pasta de Trabalho",
-      "Ocultar as colunas com fórmula"
-     ],
-     "correta": 0,
-     "explica": "Toda célula vem 'Bloqueada'; a trava só vale depois de proteger a planilha. Desbloqueie antes o que pode ser editado."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "A planilha sai cortada em duas folhas na largura. O que resolve sem mudar o layout?",
-     "opcoes": [
-      "Ajustar para 1 página de largura (Dimensionar)",
-      "Diminuir a fonte da planilha toda para 6",
-      "Excluir colunas",
-      "Imprimir em PDF"
-     ],
-     "correta": 0,
-     "explica": "A opção de escala ajusta a impressão para caber na largura de uma página."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Você quer impedir que alguém exclua ou renomeie as abas do arquivo. O que usar?",
-     "opcoes": [
-      "Revisão > Proteger Pasta de Trabalho (estrutura)",
-      "Proteger Planilha",
-      "Marcar como Final",
-      "Validação de Dados"
-     ],
-     "correta": 0,
-     "explica": "Proteger a estrutura da pasta trava criar, excluir, mover e renomear planilhas."
-    },
-    {
-     "tipo": "escolha",
-     "pergunta": "Você quer discutir um número com a colega dentro do arquivo, com respostas. O que inserir?",
-     "opcoes": [
-      "Comentário (Revisão > Novo Comentário)",
-      "Anotação",
-      "Hiperlink",
-      "Caixa de texto"
-     ],
-     "correta": 0,
-     "explica": "Comentários têm conversa e menção com @; anotações são só lembretes."
-    }
-   ]
-  },
-  {
    "id": "colaboracao",
    "titulo": "Colaboração e versões",
    "resumo": "Coautoria, comentários e histórico",
@@ -2748,6 +2671,83 @@
      ],
      "correta": 0,
      "explica": "@menção notifica a pessoa."
+    }
+   ]
+  },
+  {
+   "id": "impressao-protecao",
+   "titulo": "Impressão, colaboração e proteção",
+   "resumo": "Área de impressão, títulos, comentários e senhas",
+   "teoria": [
+    "Layout da Página > Área de Impressão define o que sai no papel; Imprimir Títulos repete o cabeçalho em todas as páginas; Ajustar para 1 página de largura evita colunas cortadas.",
+    "Proteger Planilha impede editar células bloqueadas (desbloqueie antes as de digitação). Proteger Pasta de Trabalho trava a estrutura (criar/excluir abas). Comentários abrem conversa; Anotações são lembretes simples."
+   ],
+   "exemplo": "Formatar Células > Proteção > desmarcar Bloqueada  →  Revisão > Proteger Planilha",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-proteger"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O relatório tem 8 páginas e o cabeçalho só sai na primeira. Como repetir em todas?",
+     "opcoes": [
+      "Layout da Página > Imprimir Títulos > Linhas a repetir na parte superior",
+      "Congelar Painéis",
+      "Copiar o cabeçalho a cada 40 linhas",
+      "Cabeçalho e rodapé com o nome do arquivo"
+     ],
+     "correta": 0,
+     "explica": "Imprimir Títulos repete as linhas escolhidas no topo de cada página impressa."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer que os usuários digitem só nas células de quantidade (E2:E50) e não mexam nas fórmulas. Qual a ordem?",
+     "opcoes": [
+      "Desbloquear E2:E50 em Formatar Células > Proteção e depois Proteger Planilha",
+      "Proteger Planilha e depois desbloquear E2:E50",
+      "Proteger Pasta de Trabalho",
+      "Ocultar as colunas com fórmula"
+     ],
+     "correta": 0,
+     "explica": "Toda célula vem 'Bloqueada'; a trava só vale depois de proteger a planilha. Desbloqueie antes o que pode ser editado."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A planilha sai cortada em duas folhas na largura. O que resolve sem mudar o layout?",
+     "opcoes": [
+      "Ajustar para 1 página de largura (Dimensionar)",
+      "Diminuir a fonte da planilha toda para 6",
+      "Excluir colunas",
+      "Imprimir em PDF"
+     ],
+     "correta": 0,
+     "explica": "A opção de escala ajusta a impressão para caber na largura de uma página."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer impedir que alguém exclua ou renomeie as abas do arquivo. O que usar?",
+     "opcoes": [
+      "Revisão > Proteger Pasta de Trabalho (estrutura)",
+      "Proteger Planilha",
+      "Marcar como Final",
+      "Validação de Dados"
+     ],
+     "correta": 0,
+     "explica": "Proteger a estrutura da pasta trava criar, excluir, mover e renomear planilhas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer discutir um número com a colega dentro do arquivo, com respostas. O que inserir?",
+     "opcoes": [
+      "Comentário (Revisão > Novo Comentário)",
+      "Anotação",
+      "Hiperlink",
+      "Caixa de texto"
+     ],
+     "correta": 0,
+     "explica": "Comentários têm conversa e menção com @; anotações são só lembretes."
     }
    ]
   },
@@ -2980,18 +2980,6 @@
   },
   {
    "tipo": "escolha",
-   "pergunta": "Qual recurso cria uma lista suspensa numa célula?",
-   "opcoes": [
-    "Validação de Dados",
-    "Texto para Colunas",
-    "Remover Duplicatas",
-    "Classificar"
-   ],
-   "correta": 0,
-   "no": "importar-validar"
-  },
-  {
-   "tipo": "escolha",
    "pergunta": "Qual recurso grava as etapas de limpeza para repetir todo mês?",
    "opcoes": [
     "Power Query",
@@ -3001,6 +2989,18 @@
    ],
    "correta": 0,
    "no": "power-query-excel"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual recurso cria uma lista suspensa numa célula?",
+   "opcoes": [
+    "Validação de Dados",
+    "Texto para Colunas",
+    "Remover Duplicatas",
+    "Classificar"
+   ],
+   "correta": 0,
+   "no": "importar-validar"
   },
   {
    "tipo": "escolha",
@@ -3295,6 +3295,12 @@
    "no": "calculo"
   },
   {
+   "tipo": "vf",
+   "afirmacao": "O Histórico de Versões permite restaurar uma versão anterior do arquivo no OneDrive.",
+   "correta": true,
+   "no": "colaboracao"
+  },
+  {
    "tipo": "escolha",
    "pergunta": "Para que serve 'Imprimir Títulos'?",
    "opcoes": [
@@ -3305,12 +3311,6 @@
    ],
    "correta": 0,
    "no": "impressao-protecao"
-  },
-  {
-   "tipo": "vf",
-   "afirmacao": "O Histórico de Versões permite restaurar uma versão anterior do arquivo no OneDrive.",
-   "correta": true,
-   "no": "colaboracao"
   },
   {
    "tipo": "escolha",

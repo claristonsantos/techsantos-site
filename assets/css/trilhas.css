@@ -123,6 +123,9 @@
 .tr-feedback.certo { background: var(--green-soft); border: 1px solid var(--green); }
 .tr-feedback.errado { background: color-mix(in srgb, #E5484D 10%, var(--surface)); border: 1px solid #E5484D; }
 .tr-verificar { display: block; width: 100%; margin-top: 1.1rem; }
+.tr-porque { color: var(--ink); }
+.tr-aula-btn { display: block; width: 100%; margin-top: .7rem; padding: .7rem 1rem; border: 2px solid var(--cor); border-radius: 10px; background: var(--surface); color: var(--ink); font: 700 .9rem 'Plex Sans', sans-serif; cursor: pointer; }
+.tr-aula-btn:hover { background: color-mix(in srgb, var(--cor) 14%, var(--surface)); }
 .tr-verificar:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
 
 /* fim */

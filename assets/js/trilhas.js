@@ -288,7 +288,20 @@
         fb.hidden = false;
         fb.className = 'tr-feedback ' + (certo ? 'certo' : 'errado');
         const resposta = respostaCerta(q);
-        fb.innerHTML = `<b>${certo ? 'Isso aí! ✓' : 'Não foi dessa vez.'}</b>${certo ? '' : `<p>Resposta certa:</p>${resposta}`}${q.explica ? `<p>${esc(q.explica)}</p>` : ''}`;
+        // Etapa da pergunta: no desafio é a própria; no nivelamento, q.no.
+        const etapa = no || t.nos.find((n) => n.id === q.no) || null;
+        // Por quê: a explicação da pergunta ou, se não houver, a teoria da etapa.
+        const porque = q.explica || (etapa && etapa.teoria ? etapa.teoria[0] : '');
+        const v = etapa && etapa.video;
+        const linkAula = !certo && v ? `<button type="button" class="tr-aula-btn" id="trAulaFb">▶ Ver a aula que explica isso</button>` : '';
+        fb.innerHTML = `<b>${certo ? 'Isso aí! ✓' : 'Não foi dessa vez.'}</b>${certo ? '' : `<p>Resposta certa:</p>${resposta}`}${porque ? `<p class="tr-porque">${certo ? '' : '<b>Por quê:</b> '}${esc(porque)}</p>` : ''}${linkAula}`;
+        const bAula = document.getElementById('trAulaFb');
+        if (bAula) bAula.addEventListener('click', () => {
+          evento('trilha_aula_click', { trilha: t.slug, etapa: etapa.id, aluno: !!v.aula_url });
+          // Aluno: abre a aula em outra aba, sem perder o quiz. Demais: convite de compra.
+          if (v.aula_url) window.open(v.aula_url, '_blank', 'noopener');
+          else abrirOferta(t, 'aula', etapa.titulo);
+        });
         ok.textContent = idx + 1 < itens.length ? 'Continuar' : 'Ver resultado';
         ok.dataset.fase = 'seguir';
         ok.disabled = false;
