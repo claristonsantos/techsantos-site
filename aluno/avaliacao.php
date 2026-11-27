@@ -269,7 +269,7 @@ window.techSantosTrack?.(<?= $resultado ? json_encode($resultado['aprovado'] ? '
         <?php if (in_array($moduloId, avaliacoes_do_certificado((string)($aluno['curso_slug'] ?? '')), true)): ?>
           <p style="margin-top:.6rem;">Para receber o certificado, seja aprovado também no outro simulado final.</p>
         <?php endif; ?>
-        <?php $moduloSeguinteId = modulo_seguinte($moduloId); ?>
+        <?php $moduloSeguinteId = modulo_seguinte($moduloId, (string)($aluno['curso_slug'] ?? 'power-bi')); ?>
         <p style="margin-top:1rem;"><a class="btn btn-primary" href="/aluno/<?= $moduloSeguinteId ? '?modulo=' . urlencode($moduloSeguinteId) : '' ?>">Continuar o curso</a></p>
       <?php else: ?>
         <p style="margin-top:1rem;"><a class="btn btn-ghost on-light" href="/aluno/avaliacao.php?modulo=<?= urlencode($moduloId) ?>">Tentar novamente</a></p>

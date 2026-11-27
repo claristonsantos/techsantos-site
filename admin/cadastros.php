@@ -5,6 +5,8 @@ require_once __DIR__ . '/_partials.php';
 require_admin();
 
 $pdo = db();
+require_once __DIR__ . '/../matriculas.php';
+matriculas_ensure_schema($pdo);
 
 function cadastros_table_exists(PDO $pdo, string $table): bool
 {
@@ -16,8 +18,8 @@ function cadastros_table_exists(PDO $pdo, string $table): bool
 $cadastros = [];
 
 $alunos = $pdo->query(
-    "SELECT a.id, a.nome, a.email, a.cpf, a.created_at, c.nome AS curso_nome
-     FROM alunos a JOIN cursos c ON c.id = a.curso_id
+    "SELECT a.id, a.nome, a.email, a.cpf, a.created_at, (SELECT GROUP_CONCAT(DISTINCT c2.nome ORDER BY c2.nome SEPARATOR ', ') FROM cursos c2 WHERE c2.id = a.curso_id OR c2.id IN (SELECT m.curso_id FROM matriculas m WHERE m.aluno_id = a.id)) AS curso_nome
+     FROM alunos a
      ORDER BY a.created_at DESC"
 )->fetchAll();
 foreach ($alunos as $a) {

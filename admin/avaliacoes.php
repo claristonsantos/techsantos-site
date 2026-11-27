@@ -27,7 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $titulo = trim((string)($_POST['titulo'] ?? ''));
         $notaMinima = max(0, min(100, (int)($_POST['nota_minima'] ?? 70)));
 
-        if ($cursoId === 0 || !isset(MODULOS_POWER_BI[$moduloId]) || $titulo === '') {
+        $slugStmt = $pdo->prepare('SELECT slug FROM cursos WHERE id = ?');
+        $slugStmt->execute([$cursoId]);
+        $cursoSlug = (string)($slugStmt->fetchColumn() ?: '');
+        if ($cursoId === 0 || !isset(modulos_do_curso($cursoSlug)[$moduloId]) || $titulo === '') {
             $error = 'Selecione o curso, o módulo e informe um título.';
         } else {
             $dup = $pdo->prepare('SELECT id FROM avaliacoes WHERE curso_id = ? AND modulo_id = ? AND id != ?');
@@ -61,7 +64,8 @@ if (isset($_GET['msg']) && !$error) {
     $success = $_GET['msg'];
 }
 
-$cursos = $pdo->query('SELECT id, nome FROM cursos ORDER BY nome')->fetchAll();
+$cursos = $pdo->query('SELECT id, nome, slug FROM cursos ORDER BY nome')->fetchAll();
+$slugPorCurso = array_column($cursos, 'slug', 'id');
 $avaliacoes = $pdo->query(
     'SELECT a.*, c.nome AS curso_nome, (SELECT COUNT(*) FROM avaliacao_questoes q WHERE q.avaliacao_id = a.id) AS total_questoes
      FROM avaliacoes a JOIN cursos c ON c.id = a.curso_id ORDER BY a.curso_id, a.modulo_id'
@@ -72,7 +76,7 @@ admin_topbar('avaliacoes');
 ?>
 <main class="admin-main">
   <div class="admin-head"><h1>Avaliações por módulo</h1></div>
-  <p style="color:var(--ink-soft); font-size:0.92rem; margin-bottom:1.5rem; max-width:60ch;">O aluno precisa atingir a nota mínima em cada avaliação para desbloquear o próximo módulo. A avaliação do módulo "Encerramento" é a prova final — ao ser aprovado nela, o certificado é emitido automaticamente.</p>
+  <p style="color:var(--ink-soft); font-size:0.92rem; margin-bottom:1.5rem; max-width:60ch;">O aluno precisa atingir a nota mínima em cada avaliação para desbloquear o próximo módulo. O certificado sai quando o aluno é aprovado nas avaliações finais do curso (Power BI: Encerramento; Excel: simulados MO-210 e MO-211; Fabric: simulados DP-600 e DP-700; Python e Inglês: módulo final).</p>
 
   <?php if ($error): ?><div class="alert alert-error"><?= htmlspecialchars($error, ENT_QUOTES) ?></div><?php endif; ?>
   <?php if ($success): ?><div class="alert alert-success"><?= htmlspecialchars($success, ENT_QUOTES) ?></div><?php endif; ?>
@@ -88,7 +92,7 @@ admin_topbar('avaliacoes');
         <select id="curso_id" name="curso_id" required>
           <option value="">Selecione…</option>
           <?php foreach ($cursos as $c): ?>
-            <option value="<?= (int)$c['id'] ?>" <?= isset($editRow['curso_id']) && (int)$editRow['curso_id'] === (int)$c['id'] ? 'selected' : '' ?>><?= htmlspecialchars($c['nome'], ENT_QUOTES) ?></option>
+            <option value="<?= (int)$c['id'] ?>" <?= ((int)($_POST['curso_id'] ?? ($editRow['curso_id'] ?? 0)) === (int)$c['id']) ? 'selected' : '' ?>><?= htmlspecialchars($c['nome'], ENT_QUOTES) ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -96,11 +100,31 @@ admin_topbar('avaliacoes');
         <label for="modulo_id">Módulo *</label>
         <select id="modulo_id" name="modulo_id" required>
           <option value="">Selecione…</option>
-          <?php foreach (MODULOS_POWER_BI as $id => $label): ?>
-            <option value="<?= htmlspecialchars($id, ENT_QUOTES) ?>" <?= isset($editRow['modulo_id']) && $editRow['modulo_id'] === $id ? 'selected' : '' ?>><?= htmlspecialchars($label, ENT_QUOTES) ?></option>
+          <?php $modSel = (string)($_POST['modulo_id'] ?? ($editRow['modulo_id'] ?? '')); ?>
+          <?php foreach ($cursos as $c): $mods = modulos_do_curso((string)$c['slug']); if (!$mods) continue; ?>
+            <optgroup label="<?= htmlspecialchars($c['nome'], ENT_QUOTES) ?>" data-curso="<?= (int)$c['id'] ?>">
+              <?php foreach ($mods as $id => $label): ?>
+                <option value="<?= htmlspecialchars($id, ENT_QUOTES) ?>" <?= $modSel === $id ? 'selected' : '' ?>><?= htmlspecialchars($label, ENT_QUOTES) ?></option>
+              <?php endforeach; ?>
+            </optgroup>
           <?php endforeach; ?>
         </select>
+        <small style="color:var(--ink-soft)">A lista mostra só os módulos do curso escolhido.</small>
       </div>
+      <script>
+      // Mostra só os módulos do curso selecionado.
+      (function () {
+        var curso = document.getElementById('curso_id'), mod = document.getElementById('modulo_id');
+        function filtrar() {
+          mod.querySelectorAll('optgroup').forEach(function (g) {
+            var ok = g.dataset.curso === curso.value;
+            g.hidden = !ok; g.disabled = !ok;
+            if (!ok && mod.selectedOptions[0] && mod.selectedOptions[0].parentNode === g) mod.value = '';
+          });
+        }
+        curso.addEventListener('change', filtrar); filtrar();
+      })();
+      </script>
       <div class="field">
         <label for="titulo">Título da avaliação *</label>
         <input type="text" id="titulo" name="titulo" required placeholder="Ex.: Avaliação — Fundamentos de Modelagem de Dados" value="<?= htmlspecialchars($editRow['titulo'] ?? '', ENT_QUOTES) ?>">
@@ -126,7 +150,7 @@ admin_topbar('avaliacoes');
         <?php foreach ($avaliacoes as $a): ?>
           <tr>
             <td><?= htmlspecialchars($a['curso_nome'], ENT_QUOTES) ?></td>
-            <td><?= htmlspecialchars(MODULOS_POWER_BI[$a['modulo_id']] ?? $a['modulo_id'], ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars(modulos_do_curso((string)($slugPorCurso[$a['curso_id']] ?? ''))[$a['modulo_id']] ?? $a['modulo_id'], ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($a['titulo'], ENT_QUOTES) ?></td>
             <td><?= (int)$a['nota_minima'] ?>%</td>
             <td><?= (int)$a['total_questoes'] ?></td>

@@ -6,6 +6,8 @@ require_once __DIR__ . '/../mailer.php';
 require_admin();
 
 $pdo = db();
+require_once __DIR__ . '/../matriculas.php';
+matriculas_ensure_schema($pdo);
 $error = null;
 $success = null;
 
@@ -84,7 +86,8 @@ $where = [];
 $params = [];
 if ($busca !== '') { $where[] = '(a.nome LIKE ? OR a.email LIKE ? OR a.cpf LIKE ?)'; $like = '%' . $busca . '%'; $params = [$like, $like, $like]; }
 if ($status !== '') { $where[] = 'a.ativo = ?'; $params[] = $status === 'ativo' ? 1 : 0; }
-if ($cursoFiltro > 0) { $where[] = 'a.curso_id = ?'; $params[] = $cursoFiltro; }
+// Curso principal ou qualquer outra matrícula (combos, bônus).
+if ($cursoFiltro > 0) { $where[] = '(a.curso_id = ? OR EXISTS (SELECT 1 FROM matriculas m WHERE m.aluno_id = a.id AND m.curso_id = ?))'; $params[] = $cursoFiltro; $params[] = $cursoFiltro; }
 $whereSql = $where ? ' WHERE ' . implode(' AND ', $where) : '';
 $countStmt = $pdo->prepare('SELECT COUNT(*) FROM alunos a' . $whereSql);
 $countStmt->execute($params);
@@ -92,7 +95,7 @@ $totalAlunos = (int)$countStmt->fetchColumn();
 $paginas = max(1, (int)ceil($totalAlunos / $porPagina));
 $pagina = min($pagina, $paginas);
 $offset = ($pagina - 1) * $porPagina;
-$stmt = $pdo->prepare('SELECT a.id,a.nome,a.email,a.cpf,a.ativo,c.nome AS curso_nome FROM alunos a JOIN cursos c ON c.id=a.curso_id' . $whereSql . ' ORDER BY a.created_at DESC LIMIT ' . $porPagina . ' OFFSET ' . $offset);
+$stmt = $pdo->prepare('SELECT a.id,a.nome,a.email,a.cpf,a.ativo,(SELECT GROUP_CONCAT(DISTINCT c2.nome ORDER BY c2.nome SEPARATOR ', ') FROM cursos c2 WHERE c2.id = a.curso_id OR c2.id IN (SELECT m.curso_id FROM matriculas m WHERE m.aluno_id = a.id)) AS curso_nome FROM alunos a' . $whereSql . ' ORDER BY a.created_at DESC LIMIT ' . $porPagina . ' OFFSET ' . $offset);
 $stmt->execute($params);
 $alunos = $stmt->fetchAll();
 $showForm = $editRow || isset($_GET['novo']) || $error;

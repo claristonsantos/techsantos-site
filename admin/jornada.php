@@ -42,11 +42,10 @@ if ($alunoId > 0) {
     }
 
     if ($aluno) {
-        // Módulos do curso: Power BI tem a lista fixa (mostra também os módulos
-        // ainda sem avaliação); os demais cursos usam as avaliações cadastradas.
-        if ($aluno['curso_slug'] === 'power-bi') {
-            $modulos = MODULOS_POWER_BI;
-        } else {
+        // Módulos do curso (inclusive os ainda sem avaliação); se o curso não
+        // tiver arquivo de conteúdo, usa as avaliações cadastradas.
+        $modulos = modulos_do_curso((string)$aluno['curso_slug']);
+        if (!$modulos) {
             $modStmt = $pdo->prepare('SELECT modulo_id, titulo FROM avaliacoes WHERE curso_id = ? AND ativo = 1 ORDER BY modulo_id');
             $modStmt->execute([$aluno['curso_id']]);
             $modulos = [];

@@ -27,6 +27,34 @@ const CERTIFICADO_AVALIACOES = [
     'python' => ['py-m14'],
 ];
 
+/*
+ * Módulos de cada curso (id => título), lidos do mesmo arquivo de conteúdo que
+ * a área do aluno usa (assets/js/course-data*.js). O id do módulo é o mesmo
+ * gravado em avaliacoes.modulo_id. Só as linhas de módulo (recuo de 4 espaços)
+ * casam; as aulas ficam mais recuadas.
+ */
+const CURSO_DADOS_ARQUIVO = [
+    'power-bi' => 'course-data.js',
+    'excel' => 'course-data-excel.js',
+    'python' => 'course-data-python.js',
+    'ingles' => 'course-data-ingles.js',
+    'microsoft-fabric' => 'course-data-microsoft-fabric.js',
+];
+
+function modulos_do_curso(string $cursoSlug): array
+{
+    static $cache = [];
+    if (isset($cache[$cursoSlug])) return $cache[$cursoSlug];
+    $mods = [];
+    $arq = CURSO_DADOS_ARQUIVO[$cursoSlug] ?? null;
+    $src = $arq ? @file_get_contents(__DIR__ . '/assets/js/' . $arq) : false;
+    if ($src !== false && preg_match_all("/^    id: '([a-z0-9-]+)', title: '((?:[^'\\\\]|\\\\.)*)', kind:/m", $src, $m, PREG_SET_ORDER)) {
+        foreach ($m as $x) $mods[$x[1]] = stripslashes($x[2]);
+    }
+    if (!$mods && $cursoSlug === 'power-bi') $mods = MODULOS_POWER_BI;
+    return $cache[$cursoSlug] = $mods;
+}
+
 function avaliacoes_do_certificado(string $cursoSlug): array
 {
     return CERTIFICADO_AVALIACOES[$cursoSlug] ?? [];
@@ -42,9 +70,9 @@ function modulo_anterior(string $moduloId): ?string
     return $ids[$idx - 1];
 }
 
-function modulo_seguinte(string $moduloId): ?string
+function modulo_seguinte(string $moduloId, string $cursoSlug = 'power-bi'): ?string
 {
-    $ids = array_keys(MODULOS_POWER_BI);
+    $ids = array_keys(modulos_do_curso($cursoSlug) ?: MODULOS_POWER_BI);
     $idx = array_search($moduloId, $ids, true);
     if ($idx === false || $idx === count($ids) - 1) {
         return null;

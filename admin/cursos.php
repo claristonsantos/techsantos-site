@@ -5,6 +5,8 @@ require_once __DIR__ . '/_partials.php';
 require_admin();
 
 $pdo = db();
+require_once __DIR__ . '/../matriculas.php';
+matriculas_ensure_schema($pdo);
 $error = null;
 $success = null;
 
@@ -84,7 +86,7 @@ if (isset($_GET['msg']) && !$error) {
 }
 
 $cursos = $pdo->query(
-    'SELECT c.*, (SELECT COUNT(*) FROM alunos a WHERE a.curso_id = c.id) AS total_alunos
+    'SELECT c.*, (SELECT COUNT(DISTINCT a.id) FROM alunos a WHERE a.curso_id = c.id OR EXISTS (SELECT 1 FROM matriculas m WHERE m.aluno_id = a.id AND m.curso_id = c.id)) AS total_alunos
      FROM cursos c ORDER BY c.created_at DESC'
 )->fetchAll();
 
