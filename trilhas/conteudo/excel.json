@@ -84,6 +84,87 @@
    ]
   },
   {
+   "id": "atalhos",
+   "titulo": "Navegar e selecionar rápido",
+   "resumo": "Atalhos que economizam horas",
+   "teoria": [
+    "Ctrl+Seta pula até a borda dos dados; Ctrl+Shift+Seta seleciona até lá. Ctrl+Home vai para A1; Ctrl+End vai para a última célula usada. Ctrl+Espaço seleciona a coluna, Shift+Espaço a linha.",
+    "F2 edita a célula, F4 repete a última ação (ou alterna o $ na referência), Ctrl+Z desfaz e Ctrl+; insere a data de hoje."
+   ],
+   "exemplo": "Ctrl+Shift+↓  seleciona do ponto atual até o fim dos dados",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-navegar-selecionar"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o atalho à ação.",
+     "pares": [
+      [
+       "Ctrl + Home",
+       "Ir para A1"
+      ],
+      [
+       "Ctrl + Shift + ↓",
+       "Selecionar até o fim dos dados"
+      ],
+      [
+       "Ctrl + Espaço",
+       "Selecionar a coluna"
+      ],
+      [
+       "F2",
+       "Editar a célula"
+      ]
+     ],
+     "explica": "Atalhos de navegação são os mais usados no dia a dia."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual atalho insere a data de hoje (fixa) na célula?",
+     "dica": "Atalho",
+     "respostas": [
+      "Ctrl+;",
+      "Ctrl + ;",
+      "ctrl+;"
+     ],
+     "explica": "Ctrl+; insere a data como valor; HOJE() muda todo dia."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Shift + Espaço seleciona a linha inteira.",
+     "correta": true,
+     "explica": "E Ctrl + Espaço seleciona a coluna."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você está editando uma fórmula com o cursor em A1. O que F4 faz?",
+     "opcoes": [
+      "Alterna entre A1, $A$1, A$1 e $A1",
+      "Salva o arquivo",
+      "Abre a ajuda",
+      "Apaga a célula"
+     ],
+     "correta": 0,
+     "explica": "F4 dentro da fórmula percorre os tipos de referência."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual atalho leva até a última célula usada da planilha?",
+     "opcoes": [
+      "Ctrl + End",
+      "Ctrl + Home",
+      "Alt + End",
+      "Shift + End"
+     ],
+     "correta": 0,
+     "explica": "Útil para descobrir até onde vai a planilha."
+    }
+   ]
+  },
+  {
    "id": "preenchimento",
    "titulo": "Preencher e colar",
    "resumo": "Preenchimento, Relâmpago e Colar Especial",
@@ -157,6 +238,89 @@
      ],
      "correta": 0,
      "explica": "Colar Especial com a operação Multiplicar aplica o fator sobre os valores existentes."
+    }
+   ]
+  },
+  {
+   "id": "localizar",
+   "titulo": "Localizar, substituir e Ir para Especial",
+   "resumo": "Achar e corrigir em massa",
+   "teoria": [
+    "Ctrl+L (Localizar) e Ctrl+U (Substituir) aceitam curingas: * (qualquer texto) e ? (um caractere). 'Coincidir conteúdo da célula inteira' evita trocar pedaços de palavras.",
+    "Ir para Especial (F5 > Especial) seleciona só células em branco, só fórmulas, só constantes ou só erros: ótimo para preencher vazios ou conferir fórmulas."
+   ],
+   "exemplo": "Substituir: 'Ltda.' por 'LTDA'  ·  F5 > Especial > Em branco",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-localizar-substituir-links"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer selecionar só as células vazias de A2:A500 para preenchê-las. O que usar?",
+     "opcoes": [
+      "F5 > Especial > Em branco",
+      "Ctrl + A",
+      "Filtro por cor",
+      "Remover Duplicatas"
+     ],
+     "correta": 0,
+     "explica": "Ir para Especial seleciona por tipo de conteúdo."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o curinga que encontra todos os códigos que começam com PAP:",
+     "codigo": "Localizar: PAP___",
+     "opcoes": [
+      "*",
+      "?",
+      "#",
+      "%"
+     ],
+     "correta": 0,
+     "explica": "* representa qualquer sequência de caracteres."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Sem marcar 'célula inteira', substituir 'SP' por 'São Paulo' também altera 'ESPANHA'.",
+     "correta": true,
+     "explica": "ESPANHA contém SP; marque Coincidir conteúdo da célula inteira."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o atalho à ferramenta (Excel em português).",
+     "pares": [
+      [
+       "Ctrl + L",
+       "Localizar"
+      ],
+      [
+       "Ctrl + U",
+       "Substituir"
+      ],
+      [
+       "F5",
+       "Ir para"
+      ],
+      [
+       "Ctrl + K",
+       "Inserir hiperlink"
+      ]
+     ],
+     "explica": "No Excel em inglês são Ctrl+F e Ctrl+H; em português, Ctrl+L e Ctrl+U."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como encontrar todas as células que têm fórmula numa planilha herdada?",
+     "opcoes": [
+      "F5 > Especial > Fórmulas",
+      "Localizar '='",
+      "Filtrar a coluna",
+      "Formatação condicional de duplicados"
+     ],
+     "correta": 0,
+     "explica": "Seleciona todas as fórmulas de uma vez."
     }
    ]
   },
@@ -238,6 +402,87 @@
    ]
   },
   {
+   "id": "estilos",
+   "titulo": "Estilos, temas e pincel",
+   "resumo": "Formatar rápido e de forma consistente",
+   "teoria": [
+    "Pincel de Formatação copia a formatação de uma célula para outras (clique duplo para usar várias vezes). Estilos de célula aplicam um padrão (Título, Entrada, Saída, Bom/Ruim).",
+    "Tema (Layout da Página > Temas) muda cores e fontes do arquivo todo. Limpar > Limpar Formatos remove só a formatação, mantendo os valores."
+   ],
+   "exemplo": "Clique duplo no Pincel = aplicar em várias áreas seguidas",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-estilos-pincel-limpar"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Como aplicar a mesma formatação em 5 áreas diferentes sem voltar no botão toda vez?",
+     "opcoes": [
+      "Clicar duas vezes no Pincel de Formatação",
+      "Copiar e colar tudo",
+      "Criar uma macro",
+      "Formatar uma por uma"
+     ],
+     "correta": 0,
+     "explica": "Clique duplo deixa o pincel ativo até apertar Esc."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Limpar Formatos apaga os valores das células.",
+     "correta": false,
+     "explica": "Remove só a aparência; Limpar Tudo apaga também o conteúdo."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o recurso ao efeito.",
+     "pares": [
+      [
+       "Pincel de Formatação",
+       "Copiar a aparência de uma célula"
+      ],
+      [
+       "Estilo de célula",
+       "Padrão pronto como 'Título 1'"
+      ],
+      [
+       "Tema",
+       "Cores e fontes do arquivo inteiro"
+      ],
+      [
+       "Limpar Formatos",
+       "Tirar a formatação e manter os valores"
+      ]
+     ],
+     "explica": "Consistência sem retrabalho."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A empresa trocou as cores da marca. O que muda as cores de todos os gráficos e tabelas do arquivo?",
+     "opcoes": [
+      "Trocar o tema do arquivo",
+      "Recolorir cada gráfico",
+      "Mudar o zoom",
+      "Proteger a planilha"
+     ],
+     "correta": 0,
+     "explica": "Elementos que usam cores do tema acompanham a troca."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual tecla desativa o Pincel de Formatação quando ele está travado com clique duplo?",
+     "dica": "Tecla",
+     "respostas": [
+      "Esc",
+      "esc",
+      "Escape"
+     ],
+     "explica": "Esc encerra o modo pincel."
+    }
+   ]
+  },
+  {
    "id": "importar-validar",
    "titulo": "Importar e validar dados",
    "resumo": "CSV, Texto para Colunas, duplicatas e listas",
@@ -315,6 +560,88 @@
    ]
   },
   {
+   "id": "power-query-excel",
+   "titulo": "Power Query no Excel",
+   "resumo": "Obter, transformar e atualizar",
+   "teoria": [
+    "Dados > Obter Dados abre o Power Query: cada clique (remover coluna, filtrar, mudar tipo) vira uma etapa gravada. Fechar e Carregar devolve uma tabela para o Excel.",
+    "Mês seguinte: troque o arquivo de origem e clique em Atualizar Tudo. Nada de refazer limpeza na mão."
+   ],
+   "exemplo": "Dados > Obter Dados > De Arquivo > Do Excel  →  Transformar  →  Fechar e Carregar",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-power-query-basico"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Ordene o fluxo do Power Query no Excel.",
+     "pecas": [
+      "Dados > Obter Dados",
+      "Transformar os dados no editor",
+      "Fechar e Carregar",
+      "Atualizar quando chegar dado novo"
+     ],
+     "extras": [
+      "Digitar os dados de novo"
+     ],
+     "explica": "Os passos ficam gravados para a próxima atualização."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "As etapas do Power Query ficam gravadas e são reaplicadas ao atualizar.",
+     "correta": true,
+     "explica": "Painel Etapas Aplicadas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde ver e desfazer uma etapa específica do Power Query?",
+     "opcoes": [
+      "No painel Etapas Aplicadas",
+      "No histórico do Windows",
+      "Em Arquivo > Informações",
+      "Na barra de status"
+     ],
+     "correta": 0,
+     "explica": "Clique no X ao lado da etapa para removê-la."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a necessidade ao recurso.",
+     "pares": [
+      [
+       "Limpar o mesmo relatório todo mês",
+       "Power Query"
+      ],
+      [
+       "Lista suspensa na digitação",
+       "Validação de Dados"
+      ],
+      [
+       "Quebrar uma coluna uma vez só",
+       "Texto para Colunas"
+      ],
+      [
+       "Juntar 12 arquivos iguais",
+       "Obter Dados > Pasta"
+      ]
+     ],
+     "explica": "Power Query brilha no que é repetitivo."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual botão da guia Dados reprocessa todas as consultas do arquivo?",
+     "dica": "Nome do botão",
+     "respostas": [
+      "Atualizar Tudo",
+      "atualizar tudo"
+     ],
+     "explica": "Atualizar Tudo roda as consultas de novo."
+    }
+   ]
+  },
+  {
    "id": "tabelas",
    "titulo": "Tabelas, classificar e filtrar",
    "resumo": "Ctrl+Alt+T, Linha de Totais, filtros",
@@ -388,6 +715,89 @@
      ],
      "correta": 0,
      "explica": "Filtros em colunas diferentes se combinam: só passam as linhas que atendem os dois."
+    }
+   ]
+  },
+  {
+   "id": "filtro-avancado",
+   "titulo": "Classificação e filtro avançado",
+   "resumo": "Ordenar por cor, listas e critérios complexos",
+   "teoria": [
+    "Classificar aceita ordem por cor da célula, cor da fonte, ícone ou lista personalizada (ex.: Baixa, Média, Alta).",
+    "Filtro Avançado usa um intervalo de critérios: na mesma linha = E; em linhas diferentes = OU. Pode copiar o resultado para outro lugar e extrair registros únicos."
+   ],
+   "exemplo": "Critérios:  Região = Sul  e  Valor >1000  (mesma linha)",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-filtrar"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "No Filtro Avançado, dois critérios na MESMA linha significam:",
+     "opcoes": [
+      "Os dois precisam ser verdadeiros (E)",
+      "Qualquer um basta (OU)",
+      "Ordenação",
+      "Erro"
+     ],
+     "correta": 0,
+     "explica": "Mesma linha = E; linhas diferentes = OU."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Dá para classificar os dados pela cor de preenchimento das células.",
+     "correta": true,
+     "explica": "Classificar > Classificar em: Cor da Célula."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Prioridade tem Baixa, Média e Alta e o A→Z deixa fora de ordem. O que usar?",
+     "opcoes": [
+      "Classificar por Lista Personalizada (Alta, Média, Baixa)",
+      "Classificar Z→A",
+      "Filtrar por cor",
+      "Mudar o texto para números"
+     ],
+     "correta": 0,
+     "explica": "Listas personalizadas definem a ordem do negócio."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a necessidade à ferramenta.",
+     "pares": [
+      [
+       "Critério E/OU complexo",
+       "Filtro Avançado"
+      ],
+      [
+       "Ordem Baixa/Média/Alta",
+       "Lista personalizada"
+      ],
+      [
+       "Extrair valores únicos",
+       "Filtro Avançado > Somente registros exclusivos"
+      ],
+      [
+       "Filtrar rápido por um valor",
+       "AutoFiltro"
+      ]
+     ],
+     "explica": "AutoFiltro para o dia a dia; Avançado para regras complexas."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o critério de valor do Filtro Avançado para vendas acima de mil:",
+     "codigo": "Valor\n___1000",
+     "opcoes": [
+      ">",
+      "=",
+      "<",
+      "<>"
+     ],
+     "correta": 0,
+     "explica": "O operador vai junto do número na célula de critério."
     }
    ]
   },
@@ -472,6 +882,170 @@
    ]
   },
   {
+   "id": "nomes",
+   "titulo": "Nomes definidos e referências estruturadas",
+   "resumo": "Fórmulas que se explicam sozinhas",
+   "teoria": [
+    "Dê nome a uma célula ou intervalo (Caixa de Nome ou Fórmulas > Definir Nome): =F2*Comissao é mais claro que =F2*$H$1. O Gerenciador de Nomes (Ctrl+F3) lista todos.",
+    "Em Tabelas, as fórmulas usam referências estruturadas: =[@Quantidade]*[@Preço] na linha, ou =SOMA(tbVendas[Valor]) na tabela toda. Elas crescem com a tabela."
+   ],
+   "exemplo": "=SOMA( tbVendas[Valor] )   ·   =[@Quantidade] * [@Preço]",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-nomes-definidos"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a referência estruturada da linha atual:",
+     "codigo": "=[___Quantidade] * [@Preço]",
+     "opcoes": [
+      "@",
+      "#",
+      "$",
+      "&"
+     ],
+     "correta": 0,
+     "explica": "@ significa 'esta linha'."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "=SOMA(tbVendas[Valor]) passa a incluir automaticamente as linhas novas da tabela.",
+     "correta": true,
+     "explica": "A referência é à coluna inteira da tabela."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual atalho abre o Gerenciador de Nomes?",
+     "dica": "Atalho",
+     "respostas": [
+      "Ctrl+F3",
+      "Ctrl + F3",
+      "ctrl+f3"
+     ],
+     "explica": "Lá você cria, edita e exclui nomes."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual fórmula é mais fácil de entender?",
+     "opcoes": [
+      "=F2*Comissao",
+      "=F2*$H$1",
+      "=F2*H1",
+      "=F2*Planilha3!$Z$99"
+     ],
+     "correta": 0,
+     "explica": "O nome diz o que é o valor."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a referência ao significado.",
+     "pares": [
+      [
+       "tbVendas[Valor]",
+       "Coluna Valor inteira"
+      ],
+      [
+       "[@Valor]",
+       "Valor desta linha"
+      ],
+      [
+       "tbVendas[#Totais]",
+       "Linha de totais"
+      ],
+      [
+       "Comissao",
+       "Nome definido"
+      ]
+     ],
+     "explica": "Referências estruturadas usam nomes, não endereços."
+    }
+   ]
+  },
+  {
+   "id": "funcoes-basicas",
+   "titulo": "Funções essenciais",
+   "resumo": "SOMA, MÉDIA, MÁXIMO, MÍNIMO e contagens",
+   "teoria": [
+    "SOMA, MÉDIA, MÁXIMO e MÍNIMO resumem intervalos. CONT.NÚM conta números, CONT.VALORES conta células não vazias e CONTAR.VAZIO conta vazias.",
+    "AutoSoma (Alt+=) insere a SOMA sozinha. Na barra de status, selecione o intervalo e veja média, contagem e soma sem fórmula."
+   ],
+   "exemplo": "=MÉDIA(F2:F500)  ·  =CONT.VALORES(B2:B500)",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-funcoes-basicas"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao que ela devolve.",
+     "pares": [
+      [
+       "CONT.NÚM",
+       "Quantas células têm número"
+      ],
+      [
+       "CONT.VALORES",
+       "Quantas células não estão vazias"
+      ],
+      [
+       "CONTAR.VAZIO",
+       "Quantas células estão vazias"
+      ],
+      [
+       "MÁXIMO",
+       "O maior valor"
+      ]
+     ],
+     "explica": "Cada contagem olha um tipo de conteúdo."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual atalho insere a AutoSoma?",
+     "dica": "Atalho",
+     "respostas": [
+      "Alt+=",
+      "Alt + =",
+      "alt+="
+     ],
+     "explica": "Alt+= sugere o intervalo acima ou ao lado."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para contar quantos vendedores estão preenchidos em B2:B500:",
+     "codigo": "=___(B2:B500)",
+     "opcoes": [
+      "CONT.VALORES",
+      "CONT.NÚM",
+      "SOMA",
+      "MÉDIA"
+     ],
+     "correta": 0,
+     "explica": "Nomes são texto; CONT.NÚM daria zero."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "MÉDIA ignora células vazias, mas conta células com zero.",
+     "correta": true,
+     "explica": "Zero é número; vazio não."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual fórmula dá o menor valor de venda em F2:F500?",
+     "opcoes": [
+      "=MÍNIMO(F2:F500)",
+      "=MENOR(F2:F500)",
+      "=MIN(F2:F500)",
+      "=MÉDIA(F2:F500)"
+     ],
+     "correta": 0,
+     "explica": "No Excel em português é MÍNIMO."
+    }
+   ]
+  },
+  {
    "id": "se",
    "titulo": "SE e SEERRO",
    "resumo": "Decisões dentro da fórmula",
@@ -549,6 +1123,91 @@
      ],
      "correta": 0,
      "explica": "E(...) só é verdadeiro quando as duas condições são. OU marcaria todas as do Carlos e todas acima de 1000."
+    }
+   ]
+  },
+  {
+   "id": "e-ou-ses",
+   "titulo": "E, OU, SES e LET",
+   "resumo": "Condições compostas e fórmulas legíveis",
+   "teoria": [
+    "E(cond1; cond2) é verdadeiro se todas forem; OU(cond1; cond2) se qualquer uma for. Dentro do SE: =SE(E(F2>1000; D2=\"Papelaria\"); \"Destaque\"; \"\").",
+    "SES testa faixas em ordem sem aninhar SE: =SES(F2>=5000; \"A\"; F2>=1000; \"B\"; VERDADEIRO; \"C\"). LET dá nomes a partes da fórmula: =LET(total; F2*E2; SE(total>1000; total*0,95; total))."
+   ],
+   "exemplo": "=SES( F2>=5000; \"A\"; F2>=1000; \"B\"; VERDADEIRO; \"C\" )",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-e-ou-ses-parametro"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Classifique a venda em A (>= 5000), B (>= 1000) ou C com SES.",
+     "pecas": [
+      "=SES(",
+      "F2>=5000; \"A\";",
+      "F2>=1000; \"B\";",
+      "VERDADEIRO; \"C\" )"
+     ],
+     "extras": [
+      "SENÃO; \"C\""
+     ],
+     "explica": "VERDADEIRO no fim funciona como 'senão'."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para marcar 'Destaque' quando o valor passa de 1000 E é Papelaria:",
+     "codigo": "=SE( ___(F2>1000; D2=\"Papelaria\"); \"Destaque\"; \"\" )",
+     "opcoes": [
+      "E",
+      "OU",
+      "NÃO",
+      "SES"
+     ],
+     "correta": 0,
+     "explica": "E exige as duas condições."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "=OU(F2>1000; D2=\"Papelaria\") é verdadeiro se pelo menos uma condição for verdadeira.",
+     "correta": true,
+     "explica": "OU basta uma."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Para que serve o LET?",
+     "opcoes": [
+      "Dar nomes a cálculos dentro da fórmula e não repetir a mesma conta",
+      "Travar referências",
+      "Criar tabelas dinâmicas",
+      "Proteger a planilha"
+     ],
+     "correta": 0,
+     "explica": "Fórmula mais legível e, muitas vezes, mais rápida."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao uso.",
+     "pares": [
+      [
+       "E",
+       "Todas as condições"
+      ],
+      [
+       "OU",
+       "Pelo menos uma"
+      ],
+      [
+       "SES",
+       "Várias faixas sem aninhar"
+      ],
+      [
+       "LET",
+       "Variáveis dentro da fórmula"
+      ]
+     ],
+     "explica": "Quatro ferramentas de lógica."
     }
    ]
   },
@@ -717,6 +1376,172 @@
    ]
   },
   {
+   "id": "texto-juntar",
+   "titulo": "Limpar e juntar textos",
+   "resumo": "ARRUMAR, MAIÚSCULA, UNIRTEXTO, CONCAT e TEXTO",
+   "teoria": [
+    "ARRUMAR tira espaços extras; MAIÚSCULA, MINÚSCULA e PRI.MAIÚSCULA padronizam. CONCAT junta e UNIRTEXTO junta com separador, ignorando vazios: =UNIRTEXTO(\", \"; VERDADEIRO; A2:C2).",
+    "TEXTO formata número/data como texto: =\"Total: \"&TEXTO(F2; \"R$ #.##0,00\"). Sem TEXTO, a data vira número (46022) na concatenação."
+   ],
+   "exemplo": "=UNIRTEXTO( \", \"; VERDADEIRO; A2:C2 )",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-texto-limpar-juntar"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para juntar A2:C2 com vírgula, ignorando vazios:",
+     "codigo": "=UNIRTEXTO( \", \"; ___; A2:C2 )",
+     "opcoes": [
+      "VERDADEIRO",
+      "FALSO",
+      "0",
+      "\"\""
+     ],
+     "correta": 0,
+     "explica": "O segundo argumento VERDADEIRO ignora células vazias."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "=\"Venda em \"&A2 (A2 com data) mostra a data no formato dd/mm/aaaa.",
+     "correta": false,
+     "explica": "Mostra o número de série; use TEXTO(A2; \"dd/mm/aaaa\")."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao resultado.",
+     "pares": [
+      [
+       "ARRUMAR",
+       "Remove espaços extras"
+      ],
+      [
+       "PRI.MAIÚSCULA",
+       "Ana Souza (iniciais maiúsculas)"
+      ],
+      [
+       "UNIRTEXTO",
+       "Junta com separador"
+      ],
+      [
+       "TEXTO",
+       "Número formatado como texto"
+      ]
+     ],
+     "explica": "Padronizar antes de procurar evita #N/D."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte o texto 'Total: R$ 1.250,00' a partir de F2.",
+     "pecas": [
+      "=\"Total: \"",
+      "&",
+      "TEXTO( F2; \"R$ #.##0,00\" )"
+     ],
+     "extras": [
+      "VALOR( F2 )"
+     ],
+     "explica": "TEXTO aplica o formato dentro da concatenação."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "PROCX dá #N/D mesmo com o nome aparentemente igual. Qual a suspeita?",
+     "opcoes": [
+      "Espaços sobrando; use ARRUMAR nas duas pontas",
+      "Fonte diferente",
+      "Cor da célula",
+      "Largura da coluna"
+     ],
+     "correta": 0,
+     "explica": "' Ana' é diferente de 'Ana'."
+    }
+   ]
+  },
+  {
+   "id": "dias-uteis",
+   "titulo": "Datas e dias úteis",
+   "resumo": "DATADIF, FIMMÊS, DIATRABALHO",
+   "teoria": [
+    "Diferença em dias: =B2-A2. Em meses ou anos completos: =DATADIF(A2; B2; \"m\") ou \"a\". FIMMÊS(A2; 0) dá o último dia do mês; DATAM soma meses.",
+    "DIATRABALHO(início; dias; feriados) devolve a data após N dias úteis; DIATRABALHOTOTAL conta dias úteis entre duas datas, descontando fins de semana e a lista de feriados."
+   ],
+   "exemplo": "=DIATRABALHO( A2; 10; Feriados )   ·   =FIMMÊS( A2; 0 )",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-dias-uteis"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O prazo é de 10 dias úteis a partir de A2, sem contar feriados. Qual fórmula?",
+     "opcoes": [
+      "=DIATRABALHO(A2; 10; Feriados)",
+      "=A2+10",
+      "=DIATRABALHOTOTAL(A2; 10)",
+      "=DATADIF(A2; 10; \"d\")"
+     ],
+     "correta": 0,
+     "explica": "DIATRABALHO pula fins de semana e a lista de feriados."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para o último dia do mês da data em A2:",
+     "codigo": "=___( A2; 0 )",
+     "opcoes": [
+      "FIMMÊS",
+      "DATAM",
+      "HOJE",
+      "DIA"
+     ],
+     "correta": 0,
+     "explica": "FIMMÊS com 0 é o fim do próprio mês."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "=DATADIF(A2; B2; \"a\") devolve a idade em anos completos.",
+     "correta": true,
+     "explica": "Bom para idade e tempo de casa."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao resultado.",
+     "pares": [
+      [
+       "HOJE",
+       "Data de hoje, atualiza sempre"
+      ],
+      [
+       "DATAM",
+       "Somar meses a uma data"
+      ],
+      [
+       "DIATRABALHOTOTAL",
+       "Dias úteis entre duas datas"
+      ],
+      [
+       "DIA.DA.SEMANA",
+       "Número do dia da semana"
+      ]
+     ],
+     "explica": "Datas são números: dá para somar e subtrair."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual função dá a data de hoje e atualiza todo dia?",
+     "dica": "Nome da função",
+     "respostas": [
+      "HOJE",
+      "HOJE()",
+      "=HOJE()"
+     ],
+     "explica": "AGORA() traz também a hora."
+    }
+   ]
+  },
+  {
    "id": "procx",
    "titulo": "PROCX",
    "resumo": "Buscar dados em outra tabela",
@@ -802,6 +1627,91 @@
    ]
   },
   {
+   "id": "procv-indice",
+   "titulo": "PROCV, ÍNDICE e CORRESP",
+   "resumo": "Ler e manter fórmulas antigas",
+   "teoria": [
+    "PROCV(valor; tabela; nº da coluna; FALSO) procura na primeira coluna e devolve a coluna N. Sempre use FALSO (correspondência exata). Ele não olha para a esquerda e quebra se alguém inserir coluna.",
+    "ÍNDICE(coluna_retorno; CORRESP(valor; coluna_busca; 0)) faz a mesma busca para qualquer lado. Em planilhas novas, prefira PROCX."
+   ],
+   "exemplo": "=ÍNDICE( C:C; CORRESP( H2; A:A; 0 ) )",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-indice-corresp"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o PROCV com correspondência exata:",
+     "codigo": "=PROCV( C2; Produtos; 3; ___ )",
+     "opcoes": [
+      "FALSO",
+      "VERDADEIRO",
+      "1",
+      "\"exato\""
+     ],
+     "correta": 0,
+     "explica": "Sem FALSO, o PROCV faz busca aproximada e pode trazer valor errado."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "O PROCV consegue devolver uma coluna que está à esquerda da coluna de busca.",
+     "correta": false,
+     "explica": "Ele só olha para a direita; use PROCX ou ÍNDICE/CORRESP."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a busca do preço (coluna C) pelo código em H2 (coluna A).",
+     "pecas": [
+      "=ÍNDICE(",
+      "C:C;",
+      "CORRESP( H2; A:A; 0 )",
+      ")"
+     ],
+     "extras": [
+      "PROCV("
+     ],
+     "explica": "CORRESP acha a linha; ÍNDICE devolve o valor daquela linha."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Alguém inseriu uma coluna na tabela e os PROCV passaram a trazer o campo errado. Por quê?",
+     "opcoes": [
+      "O número da coluna (3) ficou fixo e agora aponta para outra coluna",
+      "PROCV não aceita tabelas",
+      "Faltou o $",
+      "O arquivo corrompeu"
+     ],
+     "correta": 0,
+     "explica": "PROCX e ÍNDICE/CORRESP não têm esse problema."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao papel.",
+     "pares": [
+      [
+       "CORRESP",
+       "Posição do valor na lista"
+      ],
+      [
+       "ÍNDICE",
+       "Valor numa posição"
+      ],
+      [
+       "PROCV",
+       "Busca vertical pela 1ª coluna"
+      ],
+      [
+       "PROCX",
+       "Busca moderna em qualquer direção"
+      ]
+     ],
+     "explica": "Saber ler as antigas ajuda a manter planilhas herdadas."
+    }
+   ]
+  },
+  {
    "id": "filtro",
    "titulo": "FILTRO e ÚNICO",
    "resumo": "Fórmulas que devolvem tabelas",
@@ -881,6 +1791,90 @@
      ],
      "correta": 0,
      "explica": "ÚNICO tira os repetidos. Para contar, envolva com CONT.VALORES."
+    }
+   ]
+  },
+  {
+   "id": "classificar-unico",
+   "titulo": "CLASSIFICAR, ÚNICO e SEQUÊNCIA",
+   "resumo": "Matrizes dinâmicas que se espalham",
+   "teoria": [
+    "Matrizes dinâmicas devolvem vários resultados que se espalham pelas células: =ÚNICO(B2:B500) lista vendedores sem repetir; =CLASSIFICAR(ÚNICO(B2:B500)) já em ordem.",
+    "CLASSIFICARPOR ordena por outra coluna; SEQUÊNCIA(12) gera 1 a 12. Erro #DESPEJAR! = tem algo bloqueando o espaço do resultado."
+   ],
+   "exemplo": "=CLASSIFICAR( ÚNICO( B2:B500 ) )",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-matrizes-dinamicas"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Liste os vendedores sem repetição e em ordem alfabética.",
+     "pecas": [
+      "=CLASSIFICAR(",
+      "ÚNICO( B2:B500 )",
+      ")"
+     ],
+     "extras": [
+      "FILTRO("
+     ],
+     "explica": "ÚNICO tira as repetições; CLASSIFICAR ordena."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A fórmula mostrou #DESPEJAR!. O que fazer?",
+     "opcoes": [
+      "Liberar as células abaixo/ao lado, que estão ocupadas",
+      "Trocar ; por ,",
+      "Mudar o formato para texto",
+      "Reiniciar o Excel"
+     ],
+     "correta": 0,
+     "explica": "O resultado precisa de espaço vazio para se espalhar."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para gerar os números de 1 a 12:",
+     "codigo": "=___(12)",
+     "opcoes": [
+      "SEQUÊNCIA",
+      "LINHA",
+      "ÚNICO",
+      "CONT.NÚM"
+     ],
+     "correta": 0,
+     "explica": "SEQUÊNCIA(linhas)."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Ao incluir um vendedor novo na base, o resultado de =ÚNICO(B2:B500) atualiza sozinho.",
+     "correta": true,
+     "explica": "Matrizes dinâmicas recalculam."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao resultado.",
+     "pares": [
+      [
+       "ÚNICO",
+       "Valores sem repetição"
+      ],
+      [
+       "CLASSIFICAR",
+       "Lista ordenada"
+      ],
+      [
+       "FILTRO",
+       "Linhas que atendem a condição"
+      ],
+      [
+       "CLASSIFICARPOR",
+       "Ordenar por outra coluna"
+      ]
+     ],
+     "explica": "Combine-as para relatórios sem tabela dinâmica."
     }
    ]
   },
@@ -1042,6 +2036,85 @@
    ]
   },
   {
+   "id": "graficos-avancados",
+   "titulo": "Gráficos avançados",
+   "resumo": "Combinação, histograma, cascata, mapa",
+   "teoria": [
+    "Histograma mostra distribuição (quantas vendas em cada faixa de valor). Caixa estreita (box plot) mostra mediana e dispersão. Funil mostra etapas que afunilam (leads → propostas → vendas).",
+    "Mapa preenchido colore estados ou países. Explosão solar e Mapa de árvore mostram hierarquias (categoria > subcategoria). Combinação mistura colunas e linha com eixo secundário."
+   ],
+   "exemplo": "Inserir > Gráfico > Histograma (Excel 2016+)",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-graficos-avancados"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a pergunta ao gráfico.",
+     "pares": [
+      [
+       "Quantas vendas por faixa de valor?",
+       "Histograma"
+      ],
+      [
+       "Leads → propostas → vendas",
+       "Funil"
+      ],
+      [
+       "Faturamento por estado no mapa",
+       "Mapa preenchido"
+      ],
+      [
+       "Categoria > subcategoria",
+       "Mapa de árvore"
+      ]
+     ],
+     "explica": "Cada gráfico especial responde um tipo de pergunta."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "O gráfico de cascata é indicado para mostrar como o lucro sai da receita, etapa por etapa.",
+     "correta": true,
+     "explica": "Acréscimos e reduções acumulando."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Comparar a dispersão do tempo de entrega entre 4 transportadoras, vendo a mediana. Qual gráfico?",
+     "opcoes": [
+      "Caixa estreita (box plot)",
+      "Pizza",
+      "Rosca",
+      "Área"
+     ],
+     "correta": 0,
+     "explica": "Box plot mostra mediana, quartis e outliers."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Colunas de faturamento e linha de meta no mesmo gráfico. Como se chama?",
+     "opcoes": [
+      "Gráfico de combinação",
+      "Gráfico de dispersão",
+      "Gráfico de radar",
+      "Minigráfico"
+     ],
+     "correta": 0,
+     "explica": "Combinação mistura tipos de série."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual gráfico mostra a distribuição de valores em faixas (barras coladas)?",
+     "dica": "Nome do gráfico",
+     "respostas": [
+      "Histograma"
+     ],
+     "explica": "Histograma agrupa os valores em intervalos."
+    }
+   ]
+  },
+  {
    "id": "tabela-dinamica",
    "titulo": "Tabela dinâmica",
    "resumo": "Resumir milhares de linhas em segundos",
@@ -1115,6 +2188,87 @@
      ],
      "correta": 0,
      "explica": "A Segmentação de Dados cria botões visuais de filtro e pode controlar várias dinâmicas."
+    }
+   ]
+  },
+  {
+   "id": "dinamica-avancada",
+   "titulo": "Tabela dinâmica avançada",
+   "resumo": "Campo calculado, linha do tempo e gráfico dinâmico",
+   "teoria": [
+    "Campo calculado cria uma conta com os campos da dinâmica (ex.: Margem = Lucro / Receita). Linha do Tempo é uma segmentação para datas (arraste para escolher meses).",
+    "Gráfico dinâmico acompanha os filtros da tabela dinâmica. Uma segmentação pode controlar várias dinâmicas (Conexões de Relatório)."
+   ],
+   "exemplo": "Analisar > Campos, Itens e Conjuntos > Campo Calculado: Margem = Lucro / Receita",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-tabela-dinamica-valores"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer filtrar a dinâmica por período arrastando numa barra de meses. O que inserir?",
+     "opcoes": [
+      "Linha do Tempo",
+      "Segmentação de texto",
+      "Validação de dados",
+      "Minigráfico"
+     ],
+     "correta": 0,
+     "explica": "Linha do Tempo é a segmentação própria para datas."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Uma mesma segmentação pode filtrar várias tabelas dinâmicas ao mesmo tempo.",
+     "correta": true,
+     "explica": "Use Conexões de Relatório na segmentação."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o recurso ao uso.",
+     "pares": [
+      [
+       "Campo calculado",
+       "Conta entre campos da dinâmica"
+      ],
+      [
+       "Linha do Tempo",
+       "Filtro de período"
+      ],
+      [
+       "Gráfico dinâmico",
+       "Gráfico que segue a dinâmica"
+      ],
+      [
+       "Conexões de Relatório",
+       "Uma segmentação para várias dinâmicas"
+      ]
+     ],
+     "explica": "Recursos que transformam a dinâmica num painel."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Por que a margem % deve ser campo calculado e não a média das margens de cada linha?",
+     "opcoes": [
+      "Porque calcula Lucro total ÷ Receita total no nível do resumo",
+      "Porque é mais colorido",
+      "Porque a média não existe na dinâmica",
+      "Não há diferença"
+     ],
+     "correta": 0,
+     "explica": "Média de percentuais distorce quando as vendas têm tamanhos diferentes."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Como se chama a segmentação própria para datas na tabela dinâmica?",
+     "dica": "Nome do recurso",
+     "respostas": [
+      "Linha do Tempo",
+      "Linha do tempo",
+      "linha do tempo"
+     ],
+     "explica": "Inserir > Linha do Tempo."
     }
    ]
   },
@@ -1199,6 +2353,89 @@
    ]
   },
   {
+   "id": "financeiras",
+   "titulo": "Funções financeiras",
+   "resumo": "PGTO, NPER, VP, VF e TAXA",
+   "teoria": [
+    "As 5 funções se completam: dado 4 itens, calculam o 5º. PGTO = parcela, NPER = número de parcelas, VP = valor presente (financiado), VF = valor futuro, TAXA = juros por período.",
+    "Taxa e prazo no mesmo período (taxa mensal com meses). Dinheiro que sai é negativo e que entra é positivo, por isso o -10000 no VP."
+   ],
+   "exemplo": "=VF( 1%; 24; -500 )  → quanto junta depositando R$ 500 por mês a 1% a.m.",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-funcoes-financeiras"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao que ela calcula.",
+     "pares": [
+      [
+       "PGTO",
+       "Valor da parcela"
+      ],
+      [
+       "NPER",
+       "Número de parcelas"
+      ],
+      [
+       "VP",
+       "Valor à vista / financiado"
+      ],
+      [
+       "VF",
+       "Valor acumulado no futuro"
+      ]
+     ],
+     "explica": "Com quatro dados, as funções acham o quinto."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete: quanto junta depositando R$ 500 por mês por 24 meses a 1% a.m.?",
+     "codigo": "=___( 1%; 24; -500 )",
+     "opcoes": [
+      "VF",
+      "VP",
+      "PGTO",
+      "NPER"
+     ],
+     "correta": 0,
+     "explica": "Valor futuro de depósitos regulares."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Com taxa de 12% ao ano e parcelas mensais, use 12%/12 como taxa na função.",
+     "correta": true,
+     "explica": "Taxa e período precisam estar na mesma unidade."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Em quantos meses quito R$ 10.000 pagando R$ 500 por mês a 1,5% a.m.?",
+     "opcoes": [
+      "=NPER(1,5%; -500; 10000)",
+      "=PGTO(1,5%; 500; 10000)",
+      "=VF(1,5%; 10000)",
+      "=TAXA(500; 10000)"
+     ],
+     "correta": 0,
+     "explica": "NPER(taxa; pgto; vp)."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Por que o valor financiado vai negativo em =PGTO(1,5%; 12; -10000)?",
+     "opcoes": [
+      "Convenção de fluxo de caixa: para a parcela sair positiva",
+      "Porque é dívida e o Excel exige",
+      "É erro, deveria ser positivo",
+      "Para arredondar"
+     ],
+     "correta": 0,
+     "explica": "Sinais opostos entre o que entra e o que sai."
+    }
+   ]
+  },
+  {
    "id": "auditoria",
    "titulo": "Erros e auditoria de fórmulas",
    "resumo": "#N/D, #DIV/0!, #REF! e como rastrear",
@@ -1272,6 +2509,85 @@
      ],
      "correta": 0,
      "explica": "A fórmula não pode somar a si mesma; tire F20 do intervalo."
+    }
+   ]
+  },
+  {
+   "id": "calculo",
+   "titulo": "Opções de cálculo e referências circulares",
+   "resumo": "Automático, manual e iteração",
+   "teoria": [
+    "Fórmulas > Opções de Cálculo: Automático recalcula a cada mudança; Manual só recalcula com F9 (útil em planilhas pesadas, mas perigoso: números desatualizados).",
+    "Referência circular é quando a fórmula depende do próprio resultado. Geralmente é erro; só em casos raros (juros sobre o próprio saldo) se habilita o cálculo iterativo."
+   ],
+   "exemplo": "F9 = calcular agora  ·  Fórmulas > Opções de Cálculo > Automático",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-calculo-circular"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Você muda um valor e os totais não mudam. Qual a causa provável?",
+     "opcoes": [
+      "O cálculo está em Manual",
+      "A planilha está protegida",
+      "A fonte é diferente",
+      "O zoom está em 50%"
+     ],
+     "correta": 0,
+     "explica": "Em Manual, só F9 recalcula."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual tecla força o recálculo quando o modo é manual?",
+     "dica": "Tecla",
+     "respostas": [
+      "F9"
+     ],
+     "explica": "F9 calcula todas as fórmulas abertas."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Referência circular é quando a fórmula depende, direta ou indiretamente, dela mesma.",
+     "correta": true,
+     "explica": "O Excel avisa na barra de status."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a situação ao recurso.",
+     "pares": [
+      [
+       "Planilha muito pesada",
+       "Cálculo manual temporário"
+      ],
+      [
+       "Total não atualiza",
+       "Voltar para Automático"
+      ],
+      [
+       "Fórmula soma a si mesma",
+       "Corrigir a referência circular"
+      ],
+      [
+       "Achar a circular",
+       "Fórmulas > Verificação de Erros"
+      ]
+     ],
+     "explica": "Volte para Automático depois de terminar."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde o Excel mostra em qual célula está a referência circular?",
+     "opcoes": [
+      "Fórmulas > Verificação de Erros > Referências Circulares",
+      "Arquivo > Imprimir",
+      "Exibir > Zoom",
+      "Dados > Classificar"
+     ],
+     "correta": 0,
+     "explica": "O menu lista as células envolvidas."
     }
    ]
   },
@@ -1353,6 +2669,89 @@
    ]
   },
   {
+   "id": "colaboracao",
+   "titulo": "Colaboração e versões",
+   "resumo": "Coautoria, comentários e histórico",
+   "teoria": [
+    "Com o arquivo no OneDrive/SharePoint, várias pessoas editam ao mesmo tempo (coautoria) e o AutoSalvamento fica ligado.",
+    "Histórico de Versões (Arquivo > Informações) restaura uma versão anterior. Comentários com @menção avisam o colega por e-mail; Anotações são lembretes simples."
+   ],
+   "exemplo": "Arquivo > Informações > Histórico de Versões",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-colaboracao-versoes"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Alguém apagou uma aba ontem e salvou. Como recuperar, com o arquivo no OneDrive?",
+     "opcoes": [
+      "Arquivo > Informações > Histórico de Versões e restaurar a de ontem",
+      "Ctrl+Z hoje",
+      "Não tem como",
+      "Abrir o .csv"
+     ],
+     "correta": 0,
+     "explica": "O OneDrive guarda versões anteriores."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Para duas pessoas editarem a mesma planilha ao mesmo tempo, o arquivo precisa estar no OneDrive ou SharePoint.",
+     "correta": true,
+     "explica": "Coautoria exige armazenamento em nuvem."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o recurso ao uso.",
+     "pares": [
+      [
+       "@menção no comentário",
+       "Avisar um colega"
+      ],
+      [
+       "Anotação",
+       "Lembrete simples na célula"
+      ],
+      [
+       "Histórico de Versões",
+       "Voltar a uma versão anterior"
+      ],
+      [
+       "AutoSalvamento",
+       "Salvar a cada alteração"
+      ]
+     ],
+     "explica": "Colaboração sem mandar arquivo por e-mail."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual a vantagem de compartilhar o link do arquivo em vez de anexar no e-mail?",
+     "opcoes": [
+      "Todos trabalham na mesma versão, sem cópias desatualizadas",
+      "O arquivo fica menor",
+      "Desliga as fórmulas",
+      "Protege com senha automaticamente"
+     ],
+     "correta": 0,
+     "explica": "Uma versão única evita o 'final_v3_agora_vai.xlsx'."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete: para avisar a Ana num comentário, escreva ___Ana.",
+     "codigo": "Revisar esse total, ___Ana",
+     "opcoes": [
+      "@",
+      "#",
+      "&",
+      "!"
+     ],
+     "correta": 0,
+     "explica": "@menção notifica a pessoa."
+    }
+   ]
+  },
+  {
    "id": "macros",
    "titulo": "Macros",
    "resumo": "Gravar, executar e salvar com segurança",
@@ -1428,6 +2827,88 @@
      "explica": "Alt+F11 abre o editor; Alt+F8 abre a lista de macros para executar."
     }
    ]
+  },
+  {
+   "id": "macros-editar",
+   "titulo": "Editar macros e segurança",
+   "resumo": "Editor VBA, copiar macros e confiança",
+   "teoria": [
+    "Alt+F11 abre o Editor do VBA: a macro gravada fica num Módulo. Dá para ajustar o código (ex.: trocar um intervalo fixo) e copiar a macro para outra pasta.",
+    "Pasta de Trabalho Pessoal de Macros (PERSONAL.XLSB) deixa uma macro disponível em todos os arquivos. Em Central de Confiabilidade, prefira 'Desabilitar com notificação' e locais confiáveis."
+   ],
+   "exemplo": "Alt+F11 → Módulo1 → Sub FormatarRelatorio()",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-macros-editar"
+   },
+   "exercicios": [
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual atalho abre o Editor do VBA?",
+     "dica": "Atalho",
+     "respostas": [
+      "Alt+F11",
+      "Alt + F11",
+      "alt+f11"
+     ],
+     "explica": "Lá ficam os módulos com o código."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer usar a mesma macro em qualquer arquivo que abrir. Onde gravar?",
+     "opcoes": [
+      "Na Pasta de Trabalho Pessoal de Macros",
+      "Em cada arquivo separado",
+      "Num arquivo .csv",
+      "Na barra de status"
+     ],
+     "correta": 0,
+     "explica": "PERSONAL.XLSB abre junto com o Excel."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'Desabilitar todas as macros com notificação' é uma configuração segura que ainda permite habilitar macros confiáveis.",
+     "correta": true,
+     "explica": "Você decide arquivo a arquivo."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o item ao papel.",
+     "pares": [
+      [
+       "Módulo",
+       "Onde fica o código da macro"
+      ],
+      [
+       "PERSONAL.XLSB",
+       "Macros disponíveis em todo arquivo"
+      ],
+      [
+       "Central de Confiabilidade",
+       "Regras de segurança de macros"
+      ],
+      [
+       "Local confiável",
+       "Pasta onde macros rodam sem aviso"
+      ]
+     ],
+     "explica": "Segurança e reaproveitamento."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o início de uma macro no VBA:",
+     "codigo": "___ FormatarRelatorio()",
+     "opcoes": [
+      "Sub",
+      "Function",
+      "Macro",
+      "Begin"
+     ],
+     "correta": 0,
+     "explica": "Toda macro começa com Sub e termina com End Sub."
+    }
+   ]
   }
  ],
  "nivelamento": [
@@ -1445,6 +2926,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual atalho seleciona do ponto atual até o fim dos dados para baixo?",
+   "opcoes": [
+    "Ctrl + Shift + ↓",
+    "Ctrl + ↓",
+    "Shift + Page Down",
+    "Alt + ↓"
+   ],
+   "correta": 0,
+   "no": "atalhos"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Qual atalho ativa o Preenchimento Relâmpago?",
    "opcoes": [
     "Ctrl + E",
@@ -1457,6 +2950,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual recurso seleciona só as células em branco?",
+   "opcoes": [
+    "Ir para Especial",
+    "Classificar",
+    "Congelar painéis",
+    "Consolidar"
+   ],
+   "correta": 0,
+   "no": "localizar"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Com o formato personalizado 000, como aparece o número 7?",
    "opcoes": [
     "007",
@@ -1466,6 +2971,12 @@
    ],
    "correta": 0,
    "no": "formatacao"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "O tema do arquivo muda as cores e fontes de todo o arquivo de uma vez.",
+   "correta": true,
+   "no": "estilos"
   },
   {
    "tipo": "escolha",
@@ -1481,6 +2992,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual recurso grava as etapas de limpeza para repetir todo mês?",
+   "opcoes": [
+    "Power Query",
+    "Pincel de formatação",
+    "Validação de dados",
+    "Congelar painéis"
+   ],
+   "correta": 0,
+   "no": "power-query-excel"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "O que acontece com uma Tabela do Excel quando você digita na primeira linha vazia logo abaixo dela?",
    "opcoes": [
     "A tabela se expande e inclui a linha",
@@ -1490,6 +3013,18 @@
    ],
    "correta": 0,
    "no": "tabelas"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "No Filtro Avançado, critérios em linhas diferentes significam:",
+   "opcoes": [
+    "OU",
+    "E",
+    "Classificação",
+    "Soma"
+   ],
+   "correta": 0,
+   "no": "filtro-avancado"
   },
   {
    "no": "referencias",
@@ -1504,6 +3039,31 @@
    "correta": 0
   },
   {
+   "tipo": "lacuna",
+   "pergunta": "Complete para somar a coluna Valor da tabela tbVendas:",
+   "codigo": "=SOMA( tbVendas___ )",
+   "opcoes": [
+    "[Valor]",
+    "!Valor",
+    "(Valor)",
+    ".Valor"
+   ],
+   "correta": 0,
+   "no": "nomes"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função conta células não vazias?",
+   "opcoes": [
+    "CONT.VALORES",
+    "CONT.NÚM",
+    "SOMA",
+    "MÁXIMO"
+   ],
+   "correta": 0,
+   "no": "funcoes-basicas"
+  },
+  {
    "no": "se",
    "tipo": "escolha",
    "pergunta": "Qual fórmula mostra \"Sim\" para valores acima de 1000 e \"Não\" para o resto?",
@@ -1514,6 +3074,18 @@
     "=SEERRO(F2>1000; \"Sim\")"
    ],
    "correta": 0
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função testa várias faixas em ordem sem aninhar SE?",
+   "opcoes": [
+    "SES",
+    "E",
+    "OU",
+    "SEERRO"
+   ],
+   "correta": 0,
+   "no": "e-ou-ses"
   },
   {
    "no": "somases",
@@ -1543,6 +3115,30 @@
    "correta": 0
   },
   {
+   "tipo": "escolha",
+   "pergunta": "Qual função remove espaços extras de um texto?",
+   "opcoes": [
+    "ARRUMAR",
+    "TEXTO",
+    "CONCAT",
+    "EXT.TEXTO"
+   ],
+   "correta": 0,
+   "no": "texto-juntar"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função conta os dias úteis entre duas datas?",
+   "opcoes": [
+    "DIATRABALHOTOTAL",
+    "DATADIF",
+    "FIMMÊS",
+    "HOJE"
+   ],
+   "correta": 0,
+   "no": "dias-uteis"
+  },
+  {
    "no": "procx",
    "tipo": "escolha",
    "pergunta": "Qual fórmula busca o preço do código de C2 na tabela Produtos?",
@@ -1555,6 +3151,18 @@
    "correta": 0
   },
   {
+   "tipo": "escolha",
+   "pergunta": "No PROCV, qual argumento garante correspondência exata?",
+   "opcoes": [
+    "FALSO",
+    "VERDADEIRO",
+    "0,5",
+    "\"exato\""
+   ],
+   "correta": 0,
+   "no": "procv-indice"
+  },
+  {
    "no": "filtro",
    "tipo": "escolha",
    "pergunta": "Qual fórmula traz só as linhas do Carlos?",
@@ -1565,6 +3173,18 @@
     "=PROCX(\"Carlos\"; A2:F500)"
    ],
    "correta": 0
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual erro aparece quando o resultado de uma matriz dinâmica não tem espaço?",
+   "opcoes": [
+    "#DESPEJAR!",
+    "#N/D",
+    "#REF!",
+    "#VALOR!"
+   ],
+   "correta": 0,
+   "no": "classificar-unico"
   },
   {
    "tipo": "escolha",
@@ -1592,6 +3212,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual gráfico mostra etapas que afunilam, como leads até vendas?",
+   "opcoes": [
+    "Funil",
+    "Linhas",
+    "Dispersão",
+    "Radar"
+   ],
+   "correta": 0,
+   "no": "graficos-avancados"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Numa tabela dinâmica, em que área vai o campo que você quer somar?",
    "opcoes": [
     "Valores",
@@ -1601,6 +3233,18 @@
    ],
    "correta": 0,
    "no": "tabela-dinamica"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual recurso cria uma conta entre campos dentro da tabela dinâmica?",
+   "opcoes": [
+    "Campo calculado",
+    "Linha do tempo",
+    "Consolidar",
+    "Atingir meta"
+   ],
+   "correta": 0,
+   "no": "dinamica-avancada"
   },
   {
    "tipo": "escolha",
@@ -1616,6 +3260,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual função calcula o valor da parcela de um financiamento?",
+   "opcoes": [
+    "PGTO",
+    "NPER",
+    "VF",
+    "TAXA"
+   ],
+   "correta": 0,
+   "no": "financeiras"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Qual erro aparece quando um PROCX ou PROCV não encontra o valor procurado?",
    "opcoes": [
     "#N/D",
@@ -1625,6 +3281,18 @@
    ],
    "correta": 0,
    "no": "auditoria"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual tecla recalcula as fórmulas no modo manual?",
+   "opcoes": [
+    "F9",
+    "F4",
+    "F2",
+    "F12"
+   ],
+   "correta": 0,
+   "no": "calculo"
   },
   {
    "tipo": "escolha",
@@ -1639,6 +3307,12 @@
    "no": "impressao-protecao"
   },
   {
+   "tipo": "vf",
+   "afirmacao": "O Histórico de Versões permite restaurar uma versão anterior do arquivo no OneDrive.",
+   "correta": true,
+   "no": "colaboracao"
+  },
+  {
    "tipo": "escolha",
    "pergunta": "Em que formato salvar uma pasta de trabalho com macros?",
    "opcoes": [
@@ -1649,6 +3323,18 @@
    ],
    "correta": 0,
    "no": "macros"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Onde gravar uma macro para usá-la em todos os arquivos?",
+   "opcoes": [
+    "Pasta de Trabalho Pessoal de Macros",
+    "Na própria planilha",
+    "Num PDF",
+    "No OneDrive"
+   ],
+   "correta": 0,
+   "no": "macros-editar"
   }
  ],
  "curso": "excel"

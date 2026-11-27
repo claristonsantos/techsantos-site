@@ -7,6 +7,76 @@
  "contexto": "Você trabalha numa loja. O arquivo vendas_2026.csv tem as colunas data, vendedor, produto, categoria, quantidade, valor e cliente_id. O recuo dos blocos é de 4 espaços.",
  "nos": [
   {
+   "id": "primeiro-codigo",
+   "titulo": "Seu primeiro código",
+   "resumo": "print, comentários e a ordem de execução",
+   "teoria": [
+    "Python executa o código de cima para baixo, uma linha por vez. print() mostra valores na tela; textos vão entre aspas: print(\"Olá\").",
+    "Comentários começam com # e são ignorados na execução: servem para explicar o porquê do código. Maiúsculas e minúsculas importam: Print é diferente de print."
+   ],
+   "exemplo": "# fechamento do mês\nprint(\"Relatório de vendas\")\nprint(1250 + 980)",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-primeiro-codigo"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O que mostra print(1250 + 980)?",
+     "opcoes": [
+      "2230",
+      "1250 + 980",
+      "\"2230\"",
+      "Erro"
+     ],
+     "correta": 0,
+     "explica": "Sem aspas, é conta; o resultado é impresso."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Print(\"Olá\") funciona igual a print(\"Olá\").",
+     "correta": false,
+     "explica": "Python diferencia maiúsculas: Print não existe."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para escrever um comentário:",
+     "codigo": "___ calcula o total do mês",
+     "opcoes": [
+      "#",
+      "//",
+      "--",
+      "'"
+     ],
+     "correta": 0,
+     "explica": "Comentário em Python começa com #."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Mostre o título e depois o total.",
+     "pecas": [
+      "print(\"Relatório de vendas\")",
+      "print(1250 + 980)"
+     ],
+     "extras": [
+      "print Relatório"
+     ],
+     "explica": "O Python executa de cima para baixo."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual função mostra um valor na tela?",
+     "dica": "Nome da função",
+     "respostas": [
+      "print",
+      "print()"
+     ],
+     "explica": "print é a primeira função que todo mundo aprende."
+    }
+   ]
+  },
+  {
    "id": "variaveis",
    "titulo": "Variáveis e tipos",
    "resumo": "Guardar valores e mostrar resultados",
@@ -82,6 +152,86 @@
      ],
      "correta": 0,
      "explica": "A barra / sempre devolve float. Para divisão inteira use //."
+    }
+   ]
+  },
+  {
+   "id": "operacoes",
+   "titulo": "Operações e f-strings",
+   "resumo": "Contas, divisão inteira, resto e formatação",
+   "teoria": [
+    "Operadores: + - * /, // (divisão inteira), % (resto) e ** (potência). / sempre devolve float: 10 / 2 é 5.0.",
+    "f-string monta textos com valores: f\"Total: R$ {total:.2f}\" mostra duas casas. round(valor, 2) arredonda o número."
+   ],
+   "exemplo": "total = 1250.5\nprint(f\"Total: R$ {total:.2f}\")   # Total: R$ 1250.50",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-operacoes"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o operador ao resultado de 17 e 5.",
+     "pares": [
+      [
+       "17 // 5",
+       "3"
+      ],
+      [
+       "17 % 5",
+       "2"
+      ],
+      [
+       "17 / 5",
+       "3.4"
+      ],
+      [
+       "2 ** 3",
+       "8"
+      ]
+     ],
+     "explica": "// divide sem casas, % é o resto, ** é potência."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para mostrar duas casas decimais:",
+     "codigo": "print(f\"Total: {total:___}\")",
+     "opcoes": [
+      ".2f",
+      "2d",
+      ",2",
+      "%2"
+     ],
+     "correta": 0,
+     "explica": ":.2f formata com duas casas."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "10 / 2 devolve 5 (int).",
+     "correta": false,
+     "explica": "/ sempre devolve float: 5.0."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Quantas caixas de 12 unidades dá para fechar com 150 itens?",
+     "opcoes": [
+      "150 // 12",
+      "150 / 12",
+      "150 % 12",
+      "150 ** 12"
+     ],
+     "correta": 0,
+     "explica": "Divisão inteira: 12 caixas."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual operador devolve o resto da divisão?",
+     "dica": "Símbolo",
+     "respostas": [
+      "%"
+     ],
+     "explica": "17 % 5 = 2."
     }
    ]
   },
@@ -165,6 +315,89 @@
    ]
   },
   {
+   "id": "booleanos",
+   "titulo": "Comparações e booleanos",
+   "resumo": "==, !=, in, True e False",
+   "teoria": [
+    "Comparações devolvem True ou False: == (igual), != (diferente), >, <, >=, <=. Cuidado: = atribui valor; == compara.",
+    "in testa se algo está dentro: \"SP\" in estados, \"pandas\" in texto. Valores 'vazios' (0, \"\", [], None) contam como False num if."
+   ],
+   "exemplo": "estado = \"SP\"\nprint(estado in [\"SP\", \"RJ\"])   # True",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-comparacoes"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual linha COMPARA se o estado é SP?",
+     "opcoes": [
+      "estado == \"SP\"",
+      "estado = \"SP\"",
+      "estado === \"SP\"",
+      "estado := \"SP\""
+     ],
+     "correta": 0,
+     "explica": "= atribui; == compara."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "\"SP\" in [\"SP\", \"RJ\"] devolve True.",
+     "correta": true,
+     "explica": "in procura o item na lista."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o operador ao significado.",
+     "pares": [
+      [
+       "==",
+       "Igual a"
+      ],
+      [
+       "!=",
+       "Diferente de"
+      ],
+      [
+       ">=",
+       "Maior ou igual a"
+      ],
+      [
+       "in",
+       "Está contido em"
+      ]
+     ],
+     "explica": "Comparações sempre devolvem True ou False."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para testar se o produto está na lista:",
+     "codigo": "if produto ___ [\"Caneta\", \"Lápis\"]:",
+     "opcoes": [
+      "in",
+      "==",
+      "is",
+      "has"
+     ],
+     "correta": 0,
+     "explica": "in verifica se o item pertence à lista."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Num if, qual destes valores conta como False?",
+     "opcoes": [
+      "\"\" (texto vazio)",
+      "\"0\"",
+      "[0]",
+      "\"False\""
+     ],
+     "correta": 0,
+     "explica": "Texto vazio, 0, None e lista vazia contam como False."
+    }
+   ]
+  },
+  {
    "id": "decisoes",
    "titulo": "if, elif e else",
    "resumo": "O programa toma decisões",
@@ -242,6 +475,89 @@
      ],
      "correta": 0,
      "explica": "Depois dos dois-pontos o Python espera um bloco recuado. O else é opcional."
+    }
+   ]
+  },
+  {
+   "id": "and-or",
+   "titulo": "and, or e not",
+   "resumo": "Combinando condições",
+   "teoria": [
+    "and exige as duas condições; or basta uma; not inverte. Python lê as comparações em sequência: 18 <= idade < 65 funciona.",
+    "Use parênteses para deixar a intenção clara: if (valor > 1000 and regiao == \"Sul\") or vip:"
+   ],
+   "exemplo": "if valor > 1000 and regiao == \"Sul\":\n    print(\"Venda grande no Sul\")",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-and-or-not"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para exigir as duas condições:",
+     "codigo": "if valor > 1000 ___ regiao == \"Sul\":",
+     "opcoes": [
+      "and",
+      "&&",
+      "AND",
+      "+"
+     ],
+     "correta": 0,
+     "explica": "Em Python os operadores lógicos são palavras em minúsculas."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "not True devolve False.",
+     "correta": true,
+     "explica": "not inverte o valor."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Cliente VIP OU compra acima de 5 mil ganha frete grátis. Qual condição?",
+     "opcoes": [
+      "vip or valor > 5000",
+      "vip and valor > 5000",
+      "not vip or valor",
+      "vip + valor > 5000"
+     ],
+     "correta": 0,
+     "explica": "Basta uma das condições: or."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Teste se a idade está entre 18 e 64 anos.",
+     "pecas": [
+      "if 18 <= idade < 65:",
+      "    print(\"Faixa ativa\")"
+     ],
+     "extras": [
+      "if 18 < idade or 65:"
+     ],
+     "explica": "Python aceita comparação encadeada."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o operador ao significado.",
+     "pares": [
+      [
+       "and",
+       "As duas verdadeiras"
+      ],
+      [
+       "or",
+       "Pelo menos uma verdadeira"
+      ],
+      [
+       "not",
+       "Inverte"
+      ],
+      [
+       "in",
+       "Pertence à coleção"
+      ]
+     ],
+     "explica": "Diferente do Excel/DAX, aqui são palavras."
     }
    ]
   },
@@ -329,6 +645,164 @@
    ]
   },
   {
+   "id": "while",
+   "titulo": "while, break e continue",
+   "resumo": "Repetir enquanto for verdade",
+   "teoria": [
+    "while repete enquanto a condição for verdadeira: use quando não se sabe quantas voltas serão (ex.: até o usuário digitar 'sair'). Garanta que a condição mude, senão é laço infinito.",
+    "break sai do laço na hora; continue pula para a próxima volta. Funcionam em for e while."
+   ],
+   "exemplo": "saldo = 1000\nwhile saldo > 0:\n    saldo -= 300\n    print(saldo)",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-while-controle"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O que acontece em while x < 10: print(x) se x nunca muda?",
+     "opcoes": [
+      "Laço infinito",
+      "Roda 10 vezes",
+      "Erro de sintaxe",
+      "Não roda nenhuma vez"
+     ],
+     "correta": 0,
+     "explica": "A condição precisa mudar dentro do laço."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o comando ao efeito.",
+     "pares": [
+      [
+       "break",
+       "Sai do laço"
+      ],
+      [
+       "continue",
+       "Pula para a próxima volta"
+      ],
+      [
+       "while",
+       "Repete enquanto for verdade"
+      ],
+      [
+       "for",
+       "Repete para cada item"
+      ]
+     ],
+     "explica": "Controle fino do laço."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Percorra os pedidos e pare no primeiro cancelado.",
+     "pecas": [
+      "for p in pedidos:",
+      "    if p[\"status\"] == \"cancelado\":",
+      "        break",
+      "    print(p[\"id\"])"
+     ],
+     "extras": [
+      "        continue"
+     ],
+     "explica": "break interrompe o for no primeiro cancelado."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "continue encerra o laço inteiro.",
+     "correta": false,
+     "explica": "continue só pula a volta atual."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para pular os pedidos de teste e continuar:",
+     "codigo": "if p[\"cliente\"] == \"TESTE\":\n    ___",
+     "opcoes": [
+      "continue",
+      "break",
+      "pass",
+      "return"
+     ],
+     "correta": 0,
+     "explica": "continue vai para o próximo item."
+    }
+   ]
+  },
+  {
+   "id": "comprehension",
+   "titulo": "List comprehension e acumuladores",
+   "resumo": "Criar listas numa linha só",
+   "teoria": [
+    "Acumulador: total = 0, e no laço total += valor. List comprehension cria uma lista nova de forma compacta: [v * 1.1 for v in valores] ou com filtro [v for v in valores if v > 1000].",
+    "Use quando a regra cabe numa linha legível; se ficar complicado, volte para o for tradicional."
+   ],
+   "exemplo": "grandes = [v for v in valores if v > 1000]",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-compreensao-projeto"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Crie a lista só com os valores acima de 1000.",
+     "pecas": [
+      "grandes = [",
+      "v for v in valores",
+      "if v > 1000 ]"
+     ],
+     "extras": [
+      "where v > 1000"
+     ],
+     "explica": "[expressão for item in lista if condição]."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para aumentar 10% em todos os preços:",
+     "codigo": "novos = [p * 1.1 ___ p in precos]",
+     "opcoes": [
+      "for",
+      "in",
+      "each",
+      "map"
+     ],
+     "correta": 0,
+     "explica": "A palavra for vem antes da variável do item."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "total += v é o mesmo que total = total + v.",
+     "correta": true,
+     "explica": "Atalho para acumular."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual o resultado de [n * 2 for n in [1, 2, 3]]?",
+     "opcoes": [
+      "[2, 4, 6]",
+      "[1, 2, 3, 1, 2, 3]",
+      "6",
+      "[1, 4, 9]"
+     ],
+     "correta": 0,
+     "explica": "Multiplica cada item por 2."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Quando preferir o for tradicional à comprehension?",
+     "opcoes": [
+      "Quando a lógica tem vários passos e ficaria difícil de ler numa linha",
+      "Nunca",
+      "Sempre que houver números",
+      "Só com dicionários"
+     ],
+     "correta": 0,
+     "explica": "Legibilidade em primeiro lugar."
+    }
+   ]
+  },
+  {
    "id": "dicionarios",
    "titulo": "Dicionários e JSON",
    "resumo": "Chave e valor, lista de dicionários",
@@ -404,6 +878,89 @@
      ],
      "correta": 0,
      "explica": "json.loads converte texto JSON em dicionários e listas."
+    }
+   ]
+  },
+  {
+   "id": "tuplas-sets",
+   "titulo": "Tuplas e conjuntos",
+   "resumo": "Valores fixos e itens sem repetição",
+   "teoria": [
+    "Tupla é como lista, mas imutável: coordenada = (-16.68, -49.25). Ótima para registros fixos e desempacotar: lat, lon = coordenada.",
+    "Set (conjunto) guarda itens sem repetição e sem ordem: set(lista_de_clientes) tira duplicados. Operações: união |, interseção &, diferença -."
+   ],
+   "exemplo": "clientes_jan = {\"Ana\", \"Bia\"}\nclientes_fev = {\"Bia\", \"Caio\"}\nprint(clientes_jan & clientes_fev)   # {'Bia'}",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-tuplas-sets"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Quantos clientes únicos há em ['Ana', 'Bia', 'Ana', 'Caio']?",
+     "opcoes": [
+      "len(set(clientes)) → 3",
+      "len(clientes) → 4",
+      "set.count(clientes)",
+      "unique(clientes)"
+     ],
+     "correta": 0,
+     "explica": "set remove os repetidos."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a operação de conjuntos ao resultado.",
+     "pares": [
+      [
+       "jan & fev",
+       "Clientes nos dois meses"
+      ],
+      [
+       "jan | fev",
+       "Clientes em qualquer mês"
+      ],
+      [
+       "jan - fev",
+       "Só em janeiro"
+      ],
+      [
+       "set(lista)",
+       "Itens sem repetição"
+      ]
+     ],
+     "explica": "Ótimo para comparar listas de clientes."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Uma tupla pode ter um item alterado depois de criada: t[0] = 5.",
+     "correta": false,
+     "explica": "Tuplas são imutáveis."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o desempacotamento:",
+     "codigo": "lat, ___ = (-16.68, -49.25)",
+     "opcoes": [
+      "lon",
+      "[lon]",
+      "*",
+      "(lon"
+     ],
+     "correta": 0,
+     "explica": "Cada variável recebe um item da tupla."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Clientes que compraram em janeiro mas NÃO em fevereiro:",
+     "opcoes": [
+      "jan - fev",
+      "jan & fev",
+      "jan | fev",
+      "fev - jan"
+     ],
+     "correta": 0,
+     "explica": "Diferença de conjuntos."
     }
    ]
   },
@@ -488,6 +1045,160 @@
    ]
   },
   {
+   "id": "parametros",
+   "titulo": "Parâmetros e retorno",
+   "resumo": "Padrão, nomeados e vários retornos",
+   "teoria": [
+    "Parâmetro com padrão: def preco_final(valor, desconto=0): o desconto é opcional. Na chamada dá para nomear: preco_final(100, desconto=0.1).",
+    "return devolve o resultado (sem return, a função devolve None). Para devolver mais de um valor: return total, media (vira uma tupla)."
+   ],
+   "exemplo": "def resumo(valores):\n    return sum(valores), sum(valores) / len(valores)\n\ntotal, media = resumo([100, 200])",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-funcoes-parametros"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para o desconto ser opcional (padrão 0):",
+     "codigo": "def preco_final(valor, desconto___):",
+     "opcoes": [
+      "=0",
+      ":0",
+      "==0",
+      "?0"
+     ],
+     "correta": 0,
+     "explica": "Parâmetro com valor padrão usa =."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Uma função sem return devolve None.",
+     "correta": true,
+     "explica": "Imprimir dentro dela não é o mesmo que devolver."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Crie a função que devolve o total e a média.",
+     "pecas": [
+      "def resumo(valores):",
+      "    total = sum(valores)",
+      "    return total, total / len(valores)"
+     ],
+     "extras": [
+      "    print(total)"
+     ],
+     "explica": "return com dois valores devolve uma tupla."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual chamada usa argumento nomeado?",
+     "opcoes": [
+      "preco_final(100, desconto=0.1)",
+      "preco_final(desconto)",
+      "preco_final[100]",
+      "preco_final(100; 0.1)"
+     ],
+     "correta": 0,
+     "explica": "Nomear deixa a chamada mais clara."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Diferença entre print e return dentro da função?",
+     "opcoes": [
+      "print só mostra; return entrega o valor para quem chamou",
+      "São iguais",
+      "return mostra na tela",
+      "print salva em arquivo"
+     ],
+     "correta": 0,
+     "explica": "Para usar o resultado em outra conta, precisa de return."
+    }
+   ]
+  },
+  {
+   "id": "modulos",
+   "titulo": "Módulos e bibliotecas",
+   "resumo": "import, from e pip",
+   "teoria": [
+    "import math e depois math.sqrt(16). Ou from datetime import date e depois date.today(). Use apelidos padrão: import pandas as pd.",
+    "Bibliotecas externas se instalam com pip install pandas (no terminal, não no código). Seus próprios arquivos .py também viram módulos."
+   ],
+   "exemplo": "import pandas as pd\nfrom datetime import date\nprint(date.today())",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-modulos"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o apelido padrão do pandas:",
+     "codigo": "import pandas ___ pd",
+     "opcoes": [
+      "as",
+      "=",
+      "to",
+      "like"
+     ],
+     "correta": 0,
+     "explica": "import x as apelido."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a forma de importar ao uso.",
+     "pares": [
+      [
+       "import math",
+       "math.sqrt(16)"
+      ],
+      [
+       "from datetime import date",
+       "date.today()"
+      ],
+      [
+       "import pandas as pd",
+       "pd.read_csv(...)"
+      ],
+      [
+       "pip install openpyxl",
+       "Instalar no terminal"
+      ]
+     ],
+     "explica": "Escolha o estilo que deixa o código claro."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "pip install pandas deve ser escrito dentro do arquivo .py.",
+     "correta": false,
+     "explica": "É comando de terminal (ou célula com ! no notebook)."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "ModuleNotFoundError: No module named 'openpyxl'. O que fazer?",
+     "opcoes": [
+      "Instalar a biblioteca com pip install openpyxl",
+      "Renomear o arquivo",
+      "Trocar import por include",
+      "Reiniciar o computador"
+     ],
+     "correta": 0,
+     "explica": "A biblioteca não está instalada naquele ambiente."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual comando instala bibliotecas externas do Python?",
+     "dica": "Comando",
+     "respostas": [
+      "pip install",
+      "pip"
+     ],
+     "explica": "pip install nome_da_biblioteca."
+    }
+   ]
+  },
+  {
    "id": "erros",
    "titulo": "Erros e try/except",
    "resumo": "Ler a mensagem e tratar o erro",
@@ -563,6 +1274,80 @@
      ],
      "correta": 0,
      "explica": "O texto não representa um inteiro válido: ValueError."
+    }
+   ]
+  },
+  {
+   "id": "depuracao",
+   "titulo": "Depuração",
+   "resumo": "Encontrando erros de lógica",
+   "teoria": [
+    "Erro de lógica não dá mensagem: o programa roda e o resultado sai errado. Imprima valores intermediários (print(f\"{i=} {total=}\")) para ver onde desanda.",
+    "Teste com poucos dados cujo resultado você sabe de cabeça. Erros comuns: acumulador dentro do laço, índice começando em 1, = no lugar de ==, recuo errado."
+   ],
+   "exemplo": "for v in valores:\n    total = 0      # erro: zera a cada volta\n    total += v",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-depuracao"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O total sempre sai igual ao último valor da lista. Qual a causa provável?",
+     "opcoes": [
+      "total = 0 está dentro do laço e zera a cada volta",
+      "sum não funciona",
+      "A lista está vazia",
+      "Faltou importar math"
+     ],
+     "correta": 0,
+     "explica": "Inicialize o acumulador antes do for."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Corrija o acumulador.",
+     "pecas": [
+      "total = 0",
+      "for v in valores:",
+      "    total += v",
+      "print(total)"
+     ],
+     "extras": [
+      "    total = 0"
+     ],
+     "explica": "Zera uma vez, acumula no laço, imprime no fim."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Erro de lógica sempre mostra uma mensagem de erro em vermelho.",
+     "correta": false,
+     "explica": "O programa roda e o resultado é que fica errado."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o print de depuração que mostra nome e valor:",
+     "codigo": "print(f\"{total___}\")",
+     "opcoes": [
+      "=",
+      ":",
+      "!",
+      "?"
+     ],
+     "correta": 0,
+     "explica": "f\"{total=}\" imprime 'total=1500'."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual a melhor forma de testar se a função de média está certa?",
+     "opcoes": [
+      "Testar com [10, 20] e conferir se dá 15",
+      "Rodar com 1 milhão de linhas",
+      "Olhar a cor do código",
+      "Não testar"
+     ],
+     "correta": 0,
+     "explica": "Dados pequenos com resposta conhecida."
     }
    ]
   },
@@ -645,6 +1430,90 @@
    ]
   },
   {
+   "id": "dataframe",
+   "titulo": "Lendo dados com pandas",
+   "resumo": "read_csv, head, info e shape",
+   "teoria": [
+    "pd.read_csv('vendas.csv', sep=';', decimal=',') lê o CSV brasileiro. head() mostra as primeiras linhas, shape dá (linhas, colunas) e info() mostra tipos e vazios.",
+    "Uma coluna é df['valor'] (Series); várias são df[['vendedor', 'valor']] (DataFrame). describe() resume as numéricas."
+   ],
+   "exemplo": "df = pd.read_csv(\"vendas.csv\", sep=\";\", decimal=\",\")\nprint(df.shape)\ndf.head()",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-pandas-dataframe"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Leia o CSV brasileiro (ponto e vírgula e vírgula decimal).",
+     "pecas": [
+      "df = pd.read_csv(\"vendas.csv\",",
+      "sep=\";\",",
+      "decimal=\",\")"
+     ],
+     "extras": [
+      "encoding=\";\""
+     ],
+     "explica": "sep é o separador de colunas; decimal, o de casas."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o comando ao que ele mostra.",
+     "pares": [
+      [
+       "df.head()",
+       "Primeiras linhas"
+      ],
+      [
+       "df.shape",
+       "Linhas e colunas"
+      ],
+      [
+       "df.info()",
+       "Tipos e não nulos"
+      ],
+      [
+       "df.describe()",
+       "Estatísticas das numéricas"
+      ]
+     ],
+     "explica": "Primeiros comandos depois de ler qualquer base."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para selecionar duas colunas:",
+     "codigo": "df___",
+     "opcoes": [
+      "[[\"vendedor\", \"valor\"]]",
+      "[\"vendedor\", \"valor\"]",
+      "(\"vendedor\", \"valor\")",
+      ".vendedor.valor"
+     ],
+     "correta": 0,
+     "explica": "Lista de colunas dentro dos colchetes: colchetes duplos."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "df.shape é um método e precisa de parênteses: df.shape().",
+     "correta": false,
+     "explica": "shape é atributo: df.shape."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna valor veio como texto '1250,90'. O que faltou no read_csv?",
+     "opcoes": [
+      "decimal=\",\"",
+      "header=None",
+      "index_col=0",
+      "sep=\",\""
+     ],
+     "correta": 0,
+     "explica": "Sem decimal=',', o pandas não reconhece a vírgula como decimal."
+    }
+   ]
+  },
+  {
    "id": "pandas",
    "titulo": "pandas: ler e filtrar",
    "resumo": "Tabelas com DataFrame",
@@ -720,6 +1589,89 @@
      ],
      "correta": 0,
      "explica": "head() mostra 5 por padrão; head(10) mostra 10."
+    }
+   ]
+  },
+  {
+   "id": "colunas-datas",
+   "titulo": "Colunas calculadas e datas",
+   "resumo": "Novas colunas, .dt e value_counts",
+   "teoria": [
+    "Coluna nova: df['total'] = df['quantidade'] * df['preco']. Datas: depois de pd.to_datetime, use df['data'].dt.month, .dt.year, .dt.day_name().",
+    "Contagens rápidas: df['categoria'].value_counts(). Filtro por data: df[df['data'] >= '2026-01-01']."
+   ],
+   "exemplo": "df[\"mes\"] = df[\"data\"].dt.month\ndf[\"categoria\"].value_counts()",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-pandas-colunas"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para criar a coluna com o mês da data:",
+     "codigo": "df[\"mes\"] = df[\"data\"].___.month",
+     "opcoes": [
+      "dt",
+      "date",
+      "str",
+      "time"
+     ],
+     "correta": 0,
+     "explica": "O acessor .dt dá acesso às partes da data."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Crie a coluna total = quantidade × preço.",
+     "pecas": [
+      "df[\"total\"] =",
+      "df[\"quantidade\"] * df[\"preco\"]"
+     ],
+     "extras": [
+      "sum(df[\"preco\"])"
+     ],
+     "explica": "Operações entre colunas são feitas linha a linha."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Quantas vendas há em cada categoria?",
+     "opcoes": [
+      "df[\"categoria\"].value_counts()",
+      "df.count(\"categoria\")",
+      "len(df[\"categoria\"])",
+      "df[\"categoria\"].sum()"
+     ],
+     "correta": 0,
+     "explica": "value_counts conta cada valor."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "df['data'].dt.month só funciona se a coluna estiver no tipo datetime.",
+     "correta": true,
+     "explica": "Converta com pd.to_datetime antes."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a expressão ao resultado.",
+     "pares": [
+      [
+       ".dt.year",
+       "Ano"
+      ],
+      [
+       ".dt.month",
+       "Mês (número)"
+      ],
+      [
+       ".dt.day_name()",
+       "Nome do dia"
+      ],
+      [
+       ".value_counts()",
+       "Contagem por valor"
+      ]
+     ],
+     "explica": "Ferramentas para análises por período."
     }
    ]
   },
@@ -881,6 +1833,90 @@
    ]
   },
   {
+   "id": "merge-pivot",
+   "titulo": "merge e pivot_table",
+   "resumo": "Cruzar tabelas e montar a tabela dinâmica",
+   "teoria": [
+    "merge é o PROCV do pandas: pd.merge(vendas, clientes, on='cliente_id', how='left'). how pode ser left, inner, right ou outer.",
+    "pivot_table monta a tabela dinâmica: df.pivot_table(index='vendedor', columns='mes', values='valor', aggfunc='sum', fill_value=0)."
+   ],
+   "exemplo": "pd.merge(vendas, clientes, on=\"cliente_id\", how=\"left\")",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-pivot"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para manter todas as vendas mesmo sem cliente cadastrado:",
+     "codigo": "pd.merge(vendas, clientes, on=\"cliente_id\", how=\"___\")",
+     "opcoes": [
+      "left",
+      "inner",
+      "right",
+      "cross"
+     ],
+     "correta": 0,
+     "explica": "left mantém todas as linhas da primeira tabela."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a dinâmica de vendedor × mês somando o valor.",
+     "pecas": [
+      "df.pivot_table(",
+      "index=\"vendedor\", columns=\"mes\",",
+      "values=\"valor\", aggfunc=\"sum\")"
+     ],
+     "extras": [
+      "groupby=\"mes\""
+     ],
+     "explica": "index = linhas, columns = colunas, values = o que resumir."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o how do merge ao resultado.",
+     "pares": [
+      [
+       "left",
+       "Todas da primeira tabela"
+      ],
+      [
+       "inner",
+       "Só as que casam"
+      ],
+      [
+       "outer",
+       "Todas das duas"
+      ],
+      [
+       "right",
+       "Todas da segunda"
+      ]
+     ],
+     "explica": "Mesma lógica das junções do Power Query e do SQL."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "fill_value=0 troca os vazios da pivot_table por zero.",
+     "correta": true,
+     "explica": "Útil quando um vendedor não vendeu num mês."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Depois do merge a tabela de vendas ganhou linhas a mais. Por quê?",
+     "opcoes": [
+      "Há cliente_id repetido na tabela clientes",
+      "O merge sempre duplica",
+      "Faltou fill_value",
+      "pivot_table foi chamado"
+     ],
+     "correta": 0,
+     "explica": "Chave duplicada do lado da dimensão multiplica linhas."
+    }
+   ]
+  },
+  {
    "id": "graficos",
    "titulo": "Gráficos com matplotlib",
    "resumo": "Barras, linhas e acabamento",
@@ -1035,9 +2071,104 @@
      "explica": "read_excel com sheet_name escolhe a aba."
     }
    ]
+  },
+  {
+   "id": "openpyxl-formatacao",
+   "titulo": "Formatação com openpyxl",
+   "resumo": "Negrito, cores, formato de número e largura",
+   "teoria": [
+    "Estilos: ws['A1'].font = Font(bold=True, color='FFFFFF'); ws['A1'].fill = PatternFill('solid', fgColor='0F2441'). Formato de número: ws['B2'].number_format = 'R$ #,##0.00'.",
+    "Largura: ws.column_dimensions['A'].width = 30. Congelar cabeçalho: ws.freeze_panes = 'A2'. Filtro: ws.auto_filter.ref = ws.dimensions."
+   ],
+   "exemplo": "ws.freeze_panes = \"A2\"\nws.column_dimensions[\"A\"].width = 30",
+   "video": {
+    "curso": "python",
+    "curso_nome": "Python",
+    "licao": "py-openpyxl-formatacao"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para congelar a linha do cabeçalho:",
+     "codigo": "ws.freeze_panes = \"___\"",
+     "opcoes": [
+      "A2",
+      "A1",
+      "1",
+      "B1"
+     ],
+     "correta": 0,
+     "explica": "Congela tudo acima e à esquerda de A2: a linha 1."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o código ao efeito.",
+     "pares": [
+      [
+       "Font(bold=True)",
+       "Negrito"
+      ],
+      [
+       "PatternFill(...)",
+       "Cor de fundo"
+      ],
+      [
+       "number_format",
+       "Formato de número"
+      ],
+      [
+       "column_dimensions['A'].width",
+       "Largura da coluna"
+      ]
+     ],
+     "explica": "Objetos de estilo da openpyxl."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "number_format = 'R$ #,##0.00' muda só a aparência; o valor continua número.",
+     "correta": true,
+     "explica": "Como no próprio Excel."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Deixe o cabeçalho A1 em negrito com fundo azul-escuro.",
+     "pecas": [
+      "ws[\"A1\"].font = Font(bold=True, color=\"FFFFFF\")",
+      "ws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"0F2441\")"
+     ],
+     "extras": [
+      "ws[\"A1\"].bold()"
+     ],
+     "explica": "Fonte e preenchimento são propriedades separadas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como ligar o filtro em todas as colunas usadas?",
+     "opcoes": [
+      "ws.auto_filter.ref = ws.dimensions",
+      "ws.filter(True)",
+      "ws['A1'].filter = 'on'",
+      "ws.autofilter()"
+     ],
+     "correta": 0,
+     "explica": "ws.dimensions devolve o intervalo usado, como A1:F200."
+    }
+   ]
   }
  ],
  "nivelamento": [
+  {
+   "tipo": "escolha",
+   "pergunta": "Com que símbolo começa um comentário em Python?",
+   "opcoes": [
+    "#",
+    "//",
+    "--",
+    "/*"
+   ],
+   "correta": 0,
+   "no": "primeiro-codigo"
+  },
   {
    "no": "variaveis",
    "tipo": "escolha",
@@ -1052,6 +2183,19 @@
    "correta": 0
   },
   {
+   "tipo": "lacuna",
+   "pergunta": "Complete a divisão inteira:",
+   "codigo": "caixas = 150 ___ 12",
+   "opcoes": [
+    "//",
+    "/",
+    "%",
+    "**"
+   ],
+   "correta": 0,
+   "no": "operacoes"
+  },
+  {
    "tipo": "escolha",
    "pergunta": "O que 'PAP-0042'[:3] devolve?",
    "opcoes": [
@@ -1064,6 +2208,12 @@
    "no": "strings"
   },
   {
+   "tipo": "vf",
+   "afirmacao": "O operador = compara dois valores em Python.",
+   "correta": false,
+   "no": "booleanos"
+  },
+  {
    "no": "decisoes",
    "tipo": "escolha",
    "pergunta": "Qual linha está correta?",
@@ -1074,6 +2224,18 @@
     "if valor => 1000:"
    ],
    "correta": 0
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual operador exige que as duas condições sejam verdadeiras?",
+   "opcoes": [
+    "and",
+    "or",
+    "not",
+    "in"
+   ],
+   "correta": 0,
+   "no": "and-or"
   },
   {
    "no": "lacos",
@@ -1091,6 +2253,30 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual comando sai imediatamente de um laço?",
+   "opcoes": [
+    "break",
+    "continue",
+    "pass",
+    "next"
+   ],
+   "correta": 0,
+   "no": "while"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual o resultado de [x for x in [5, 50, 500] if x > 10]?",
+   "opcoes": [
+    "[50, 500]",
+    "[5]",
+    "[5, 50, 500]",
+    "555"
+   ],
+   "correta": 0,
+   "no": "comprehension"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Como se lê o valor da chave 'nome' do dicionário cliente?",
    "opcoes": [
     "cliente['nome']",
@@ -1100,6 +2286,18 @@
    ],
    "correta": 0,
    "no": "dicionarios"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual estrutura remove valores repetidos automaticamente?",
+   "opcoes": [
+    "set",
+    "list",
+    "tuple",
+    "str"
+   ],
+   "correta": 0,
+   "no": "tuplas-sets"
   },
   {
    "no": "funcoes",
@@ -1115,6 +2313,24 @@
    "correta": 0
   },
   {
+   "tipo": "vf",
+   "afirmacao": "return total, media devolve os dois valores como uma tupla.",
+   "correta": true,
+   "no": "parametros"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Como se chama o comando que instala bibliotecas no Python?",
+   "opcoes": [
+    "pip",
+    "npm",
+    "apt",
+    "import"
+   ],
+   "correta": 0,
+   "no": "modulos"
+  },
+  {
    "tipo": "escolha",
    "pergunta": "Qual erro aparece ao acessar uma chave que não existe num dicionário?",
    "opcoes": [
@@ -1125,6 +2341,12 @@
    ],
    "correta": 0,
    "no": "erros"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Testar com poucos dados de resultado conhecido ajuda a achar erros de lógica.",
+   "correta": true,
+   "no": "depuracao"
   },
   {
    "tipo": "escolha",
@@ -1139,6 +2361,18 @@
    "no": "arquivos"
   },
   {
+   "tipo": "escolha",
+   "pergunta": "Qual parâmetro do read_csv define o separador de colunas?",
+   "opcoes": [
+    "sep",
+    "decimal",
+    "header",
+    "names"
+   ],
+   "correta": 0,
+   "no": "dataframe"
+  },
+  {
    "no": "pandas",
    "tipo": "escolha",
    "pergunta": "Qual linha filtra as vendas acima de 1000?",
@@ -1149,6 +2383,18 @@
     "df[valor > 1000]"
    ],
    "correta": 0
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual método conta quantas vezes cada valor aparece numa coluna?",
+   "opcoes": [
+    "value_counts()",
+    "count_values()",
+    "unique()",
+    "sum()"
+   ],
+   "correta": 0,
+   "no": "colunas-datas"
   },
   {
    "tipo": "escolha",
@@ -1176,6 +2422,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual função do pandas faz o papel do PROCV?",
+   "opcoes": [
+    "merge",
+    "pivot_table",
+    "concat",
+    "groupby"
+   ],
+   "correta": 0,
+   "no": "merge-pivot"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Qual gráfico é o mais indicado para evolução ao longo do tempo?",
    "opcoes": [
     "Linhas",
@@ -1197,6 +2455,18 @@
    ],
    "correta": 0,
    "no": "excel-auto"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual propriedade congela o cabeçalho na openpyxl?",
+   "opcoes": [
+    "freeze_panes",
+    "freeze_rows",
+    "lock_header",
+    "fix_panes"
+   ],
+   "correta": 0,
+   "no": "openpyxl-formatacao"
   }
  ],
  "curso": "python"
