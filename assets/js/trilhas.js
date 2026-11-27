@@ -87,10 +87,24 @@
 
   /* ---------- convite de compra (modal) ---------- */
   const modal = document.getElementById('trModal');
+  // innerHTML = '' remove o <video>, então o áudio para ao fechar.
   function fecharModal() { modal.hidden = true; modal.innerHTML = ''; }
   modal.addEventListener('click', (e) => { if (e.target === modal || e.target.closest('[data-fechar]')) fecharModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) fecharModal(); });
 
+  // Vídeo da aula do curso dentro da trilha (só para quem tem o curso).
+  function abrirVideo(t, etapa) {
+    const v = etapa.video;
+    modal.innerHTML = `
+      <div class="tr-modal-box tr-modal-video" role="dialog" aria-modal="true" aria-label="Aula: ${esc(etapa.titulo)}" style="--cor:${esc(t.cor)}">
+        <button type="button" class="tr-modal-x" data-fechar aria-label="Fechar">✕</button>
+        <h2>${esc(etapa.titulo)}</h2>
+        <div class="tr-video"><video controls autoplay controlslist="nodownload" disablepictureinpicture playsinline preload="metadata" src="/video.php?id=${encodeURIComponent(v.licao)}"></video></div>
+        ${v.aula_url ? `<a class="tr-link" href="${esc(v.aula_url)}" target="_blank" rel="noopener">Abrir a aula completa na área do aluno</a>` : ''}
+        <button type="button" class="tr-link tr-link-btn" data-fechar>Voltar ao exercício</button>
+      </div>`;
+    modal.hidden = false;
+  }
   function abrirOferta(t, motivo, aula) {
     const o = t.oferta;
     if (!o) return;
@@ -298,8 +312,10 @@
         const bAula = document.getElementById('trAulaFb');
         if (bAula) bAula.addEventListener('click', () => {
           evento('trilha_aula_click', { trilha: t.slug, etapa: etapa.id, aluno: !!v.aula_url });
-          // Aluno: abre a aula em outra aba, sem perder o quiz. Demais: convite de compra.
-          if (v.aula_url) window.open(v.aula_url, '_blank', 'noopener');
+          // Aluno com vídeo publicado: assiste ali mesmo, por cima do quiz.
+          // Aula só de texto: abre na área do aluno em outra aba. Demais: convite de compra.
+          if (v.liberado) abrirVideo(t, etapa);
+          else if (v.aula_url) window.open(v.aula_url, '_blank', 'noopener');
           else abrirOferta(t, 'aula', etapa.titulo);
         });
         ok.textContent = idx + 1 < itens.length ? 'Continuar' : 'Ver resultado';
