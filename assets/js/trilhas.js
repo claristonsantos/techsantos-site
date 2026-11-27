@@ -27,6 +27,64 @@
   const premium = (t, i) => !t.acesso_total && i >= t.limite_livre;
   const evento = (nome, dados) => { try { if (window.gtag) window.gtag('event', nome, dados); } catch (e) { /* sem analytics */ } };
 
+  /* ---------- sons (sintetizados com Web Audio, sem arquivos) ---------- */
+  const SOM_KEY = 'trilhas_som';
+  let somLigado = true;
+  try { somLigado = localStorage.getItem(SOM_KEY) !== '0'; } catch (e) { /* sem storage: fica ligado */ }
+  let ctx = null;
+  function audio() {
+    if (!somLigado) return null;
+    try {
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+      if (ctx.state === 'suspended') ctx.resume();
+      return ctx;
+    } catch (e) { return null; }
+  }
+  // Uma nota: frequência, início (s), duração (s), forma de onda e volume.
+  function nota(ac, freq, ini, dur, tipo, vol, freqFim) {
+    const t0 = ac.currentTime + ini;
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+    osc.type = tipo;
+    osc.frequency.setValueAtTime(freq, t0);
+    if (freqFim) osc.frequency.exponentialRampToValueAtTime(freqFim, t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol, t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g).connect(ac.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.02);
+  }
+  const som = {
+    // Moedinha: duas notas agudas rápidas subindo.
+    acerto() { const ac = audio(); if (!ac) return; nota(ac, 988, 0, 0.09, 'square', 0.08); nota(ac, 1319, 0.08, 0.32, 'square', 0.08); },
+    // Erro: tom grave caindo, curto.
+    erro() { const ac = audio(); if (!ac) return; nota(ac, 220, 0, 0.28, 'sawtooth', 0.06, 110); nota(ac, 165, 0.12, 0.3, 'triangle', 0.08, 90); },
+    // Etapa concluída: arpejo de comemoração.
+    vitoria() { const ac = audio(); if (!ac) return; [523, 659, 784, 1047].forEach((f, i) => nota(ac, f, i * 0.11, i === 3 ? 0.5 : 0.14, 'triangle', 0.1)); nota(ac, 1568, 0.44, 0.45, 'square', 0.04); },
+    // Não passou: duas notas descendo, sem drama.
+    tenteDeNovo() { const ac = audio(); if (!ac) return; nota(ac, 392, 0, 0.2, 'triangle', 0.09); nota(ac, 330, 0.18, 0.35, 'triangle', 0.09); },
+  };
+  function botaoSom() {
+    let b = document.getElementById('trSom');
+    if (!b) {
+      b = document.createElement('button');
+      b.id = 'trSom';
+      b.type = 'button';
+      b.className = 'tr-stat tr-som';
+      b.addEventListener('click', () => {
+        somLigado = !somLigado;
+        try { localStorage.setItem(SOM_KEY, somLigado ? '1' : '0'); } catch (e) { /* ok */ }
+        botaoSom();
+        if (somLigado) som.acerto();
+      });
+      statsEl.after(b);
+    }
+    b.textContent = somLigado ? '🔊' : '🔇';
+    b.title = somLigado ? 'Desligar sons' : 'Ligar sons';
+    b.setAttribute('aria-label', b.title);
+  }
+
   /* ---------- convite de compra (modal) ---------- */
   const modal = document.getElementById('trModal');
   function fecharModal() { modal.hidden = true; modal.innerHTML = ''; }
@@ -224,6 +282,7 @@
         if (ok.dataset.fase === 'seguir') return proxima();
         const certo = corrigir();
         acertos.push(certo);
+        if (certo) som.acerto(); else som.erro();
         const fb = document.getElementById('trFb');
         fb.hidden = false;
         fb.className = 'tr-feedback ' + (certo ? 'certo' : 'errado');
@@ -253,7 +312,8 @@
       // Sai do endereço do desafio sem disparar a rota, senão o botão
       // "Refazer o desafio" apontaria pro mesmo endereço e não faria nada.
       history.replaceState(null, '', `#${t.slug}/${no.id}`);
-      if (!passou) return telaEtapa(t, no, true);
+      if (!passou) { som.tenteDeNovo(); return telaEtapa(t, no, true); }
+      som.vitoria();
       app.innerHTML = `
         <section class="tr-fim" style="--cor:${esc(t.cor)}">
           <div class="tr-fim-icone">🏆</div>
@@ -279,6 +339,7 @@
       const r = pulados.length ? await salvar({ acao: 'nivelamento', trilha: t.slug, nos: pulados }) : true;
       history.replaceState(null, '', `#${t.slug}/`); // ≠ do link "Ver o caminho" (#slug), pra ele navegar
       const prox = t.nos.find((n) => !estadoNo(t.slug, n.id));
+      if (pulados.length) som.vitoria();
       app.innerHTML = `
         <section class="tr-fim" style="--cor:${esc(t.cor)}">
           <div class="tr-fim-icone">${pulados.length ? '🚀' : '🌱'}</div>
@@ -371,5 +432,6 @@
   }
 
   renderStats();
+  botaoSom();
   rota();
 })();

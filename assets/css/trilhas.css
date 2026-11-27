@@ -13,6 +13,7 @@
 .tr-stats { display: flex; gap: .5rem; }
 .tr-stat { display: inline-flex; align-items: center; gap: .25rem; padding: .3rem .6rem; border: 1px solid var(--line); border-radius: 999px; font-size: .82rem; color: var(--ink-soft); background: var(--surface-2); filter: grayscale(.6); }
 .tr-stat.on, .tr-stat:last-child { filter: none; color: var(--ink); }
+.tr-som { cursor: pointer; font: inherit; filter: none; min-width: 36px; justify-content: center; }
 .tr-nav { display: flex; gap: .9rem; font-size: .82rem; }
 .tr-nav a { color: var(--ink-soft); text-decoration: none; }
 .tr-nav a:hover { color: var(--green-strong); }
