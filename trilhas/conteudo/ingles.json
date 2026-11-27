@@ -89,6 +89,86 @@
    ]
   },
   {
+   "id": "numeros",
+   "titulo": "Números, idade e telefone",
+   "resumo": "I'm 30, my number is... (A1)",
+   "teoria": [
+    "Idade usa o verbo to be: I'm 30 (years old) — nunca 'I have 30'. Telefone se fala dígito por dígito; 0 pode ser 'oh' ou 'zero'.",
+    "Números: thirteen (13) × thirty (30), fifteen (15) × fifty (50): a sílaba forte muda. Ordinais: first, second, third, fourth."
+   ],
+   "exemplo": "I'm 32 years old. My number is 64 9 9290 5785.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-numeros"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Como dizer 'Eu tenho 30 anos'?",
+     "opcoes": [
+      "I'm 30 years old.",
+      "I have 30 years.",
+      "I have 30 years old.",
+      "I'm have 30."
+     ],
+     "correta": 0,
+     "explica": "Idade em inglês usa to be."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o número à escrita.",
+     "pares": [
+      [
+       "13",
+       "thirteen"
+      ],
+      [
+       "30",
+       "thirty"
+      ],
+      [
+       "15",
+       "fifteen"
+      ],
+      [
+       "50",
+       "fifty"
+      ]
+     ],
+     "explica": "Cuidado: -teen (13–19) × -ty (dezenas)."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o ordinal:",
+     "codigo": "Our office is on the ___ floor. (3º)",
+     "opcoes": [
+      "third",
+      "three",
+      "thirdth",
+      "threeth"
+     ],
+     "correta": 0,
+     "explica": "1st first, 2nd second, 3rd third."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'I have 25 years' é a forma correta de dizer a idade.",
+     "correta": false,
+     "explica": "O certo é I'm 25 (years old)."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Escreva por extenso o número 12 em inglês.",
+     "dica": "Uma palavra",
+     "respostas": [
+      "twelve"
+     ],
+     "explica": "Twelve."
+    }
+   ]
+  },
+  {
    "id": "familia-possessivos",
    "titulo": "Pessoas e possessivos",
    "resumo": "my, your, his, her, have/has (A1)",
@@ -164,6 +244,92 @@
      ],
      "correta": 0,
      "explica": "Consoante + y vira -ies."
+    }
+   ]
+  },
+  {
+   "id": "descrever",
+   "titulo": "Descrevendo pessoas",
+   "resumo": "Aparência, personalidade e 'what is she like?' (A1)",
+   "teoria": [
+    "Aparência: tall, short, dark hair, wears glasses. Personalidade: friendly, hardworking, shy, funny. Adjetivo vem ANTES do substantivo: a friendly manager.",
+    "What does she look like? pergunta a aparência. What is she like? pergunta a personalidade."
+   ],
+   "exemplo": "My manager is tall and very friendly. She has short dark hair.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-descrever-pessoas"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "'What is she like?' pergunta sobre:",
+     "opcoes": [
+      "A personalidade dela",
+      "A aparência dela",
+      "Do que ela gosta",
+      "Onde ela mora"
+     ],
+     "correta": 0,
+     "explica": "Like aqui = como ela é."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Ele é um analista muito trabalhador.'",
+     "pecas": [
+      "He",
+      "is",
+      "a",
+      "very",
+      "hardworking",
+      "analyst."
+     ],
+     "extras": [
+      "analyst hardworking"
+     ],
+     "explica": "Adjetivo antes do substantivo."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o adjetivo ao significado.",
+     "pares": [
+      [
+       "friendly",
+       "simpático"
+      ],
+      [
+       "shy",
+       "tímido"
+      ],
+      [
+       "hardworking",
+       "trabalhador"
+      ],
+      [
+       "funny",
+       "engraçado"
+      ]
+     ],
+     "explica": "Vocabulário básico de personalidade."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'She is a woman tall' está correto.",
+     "correta": false,
+     "explica": "O certo é She is a tall woman."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual pergunta é sobre aparência?",
+     "opcoes": [
+      "What does he look like?",
+      "What is he like?",
+      "What does he like?",
+      "How is he?"
+     ],
+     "correta": 0,
+     "explica": "Look like = aparência."
     }
    ]
   },
@@ -248,6 +414,91 @@
    ]
   },
   {
+   "id": "horas",
+   "titulo": "Horas e frequência",
+   "resumo": "What time is it? always, sometimes, never (A1)",
+   "teoria": [
+    "Horas: It's three o'clock; half past three (3:30); quarter past (x:15); quarter to four (3:45). No trabalho é comum só dizer os números: three thirty.",
+    "Frequência: always > usually > often > sometimes > rarely > never. Vem antes do verbo principal (I usually work from home), mas depois do to be (She is always late)."
+   ],
+   "exemplo": "I usually start at half past eight.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-frequencia-horas"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a hora ao jeito de falar.",
+     "pares": [
+      [
+       "3:30",
+       "half past three"
+      ],
+      [
+       "3:15",
+       "quarter past three"
+      ],
+      [
+       "3:45",
+       "quarter to four"
+      ],
+      [
+       "3:00",
+       "three o'clock"
+      ]
+     ],
+     "explica": "Past = depois; to = antes da próxima hora."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Ela está sempre atrasada.'",
+     "pecas": [
+      "She",
+      "is",
+      "always",
+      "late."
+     ],
+     "extras": [
+      "always is"
+     ],
+     "explica": "Com to be, o advérbio vem depois."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete (raramente):",
+     "codigo": "I ___ work on Sundays.",
+     "opcoes": [
+      "rarely",
+      "always",
+      "usually",
+      "often"
+     ],
+     "correta": 0,
+     "explica": "Rarely = raramente."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "A ordem 'I work usually from home' é a mais natural.",
+     "correta": false,
+     "explica": "O natural é I usually work from home."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como perguntar as horas?",
+     "opcoes": [
+      "What time is it?",
+      "How many hours are?",
+      "Which hour is it?",
+      "What hour is now?"
+     ],
+     "correta": 0,
+     "explica": "What time is it?"
+    }
+   ]
+  },
+  {
    "id": "there-is-can",
    "titulo": "There is/are, lugares e can",
    "resumo": "Onde fica, o que tem e o que dá para fazer (A1)",
@@ -323,6 +574,94 @@
      ],
      "correta": 0,
      "explica": "How much is...? pergunta preço."
+    }
+   ]
+  },
+  {
+   "id": "compras",
+   "titulo": "Compras e pagamento",
+   "resumo": "How much, size e pagamento (A1)",
+   "teoria": [
+    "Perguntas úteis: How much is this? / How much are these shoes? / Do you have it in a medium? / Can I pay by card?",
+    "Respostas: It's 25 dollars. / Here's your receipt. Cuidado: 'push' é empurrar, 'pull' é puxar (portas de loja)."
+   ],
+   "exemplo": "Excuse me, do you have this in a large? — Sure. — Can I pay by card?",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-compras"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete (plural):",
+     "codigo": "How much ___ these headphones?",
+     "opcoes": [
+      "are",
+      "is",
+      "does",
+      "do"
+     ],
+     "correta": 0,
+     "explica": "Plural: are."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como perguntar se dá para pagar com cartão?",
+     "opcoes": [
+      "Can I pay by card?",
+      "Can I pay with card please now?",
+      "I can pay card?",
+      "Card pay can?"
+     ],
+     "correta": 0,
+     "explica": "Pay by card / pay in cash."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a palavra ao significado.",
+     "pares": [
+      [
+       "receipt",
+       "recibo / nota"
+      ],
+      [
+       "size",
+       "tamanho"
+      ],
+      [
+       "discount",
+       "desconto"
+      ],
+      [
+       "change",
+       "troco"
+      ]
+     ],
+     "explica": "Vocabulário de loja."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'Push' numa porta significa puxar.",
+     "correta": false,
+     "explica": "Push = empurrar; pull = puxar."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Vocês têm isso em tamanho médio?'",
+     "pecas": [
+      "Do",
+      "you",
+      "have",
+      "this",
+      "in",
+      "a",
+      "medium?"
+     ],
+     "extras": [
+      "Have"
+     ],
+     "explica": "Do you have...?"
     }
    ]
   },
@@ -407,6 +746,92 @@
    ]
   },
   {
+   "id": "passado-regular",
+   "titulo": "Passado regular e was/were",
+   "resumo": "worked, studied, stopped (A2)",
+   "teoria": [
+    "Regulares ganham -ed: work → worked, study → studied (y vira ied), stop → stopped (dobra a consoante). Was/were para o to be no passado: I was tired, they were late.",
+    "Marcadores de passado: yesterday, last week, two days ago, in 2020."
+   ],
+   "exemplo": "We worked late yesterday because the server stopped.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-passado-regular"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o verbo ao passado.",
+     "pares": [
+      [
+       "study",
+       "studied"
+      ],
+      [
+       "stop",
+       "stopped"
+      ],
+      [
+       "plan",
+       "planned"
+      ],
+      [
+       "work",
+       "worked"
+      ]
+     ],
+     "explica": "Regras de grafia do -ed."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete:",
+     "codigo": "They ___ at the meeting yesterday.",
+     "opcoes": [
+      "were",
+      "was",
+      "are",
+      "did"
+     ],
+     "correta": 0,
+     "explica": "They = were."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'Two days ago' indica passado.",
+     "correta": true,
+     "explica": "Ago = atrás."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Eu estudei inglês no ano passado.'",
+     "pecas": [
+      "I",
+      "studied",
+      "English",
+      "last",
+      "year."
+     ],
+     "extras": [
+      "studyed"
+     ],
+     "explica": "Study → studied."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual frase está correta?",
+     "opcoes": [
+      "The system stopped at 3 p.m.",
+      "The system stoped at 3 p.m.",
+      "The system stopping at 3 p.m.",
+      "The system stop yesterday."
+     ],
+     "correta": 0,
+     "explica": "Stop dobra o p: stopped."
+    }
+   ]
+  },
+  {
    "id": "futuro",
    "titulo": "Futuro e planos",
    "resumo": "going to, will e presente contínuo (A2)",
@@ -483,6 +908,92 @@
      ],
      "correta": 0,
      "explica": "Agora: presente contínuo."
+    }
+   ]
+  },
+  {
+   "id": "presente-continuo",
+   "titulo": "Presente contínuo",
+   "resumo": "O que está acontecendo agora (A2)",
+   "teoria": [
+    "Am/is/are + verbo com -ing: I'm working on the report now. Use para agora, para fases temporárias (I'm studying Python this month) e planos marcados.",
+    "Verbos de estado normalmente não vão para -ing: know, want, like, need. Diga 'I know', não 'I'm knowing'."
+   ],
+   "exemplo": "Right now we're updating the dashboard.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-presente-continuo"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete:",
+     "codigo": "Look! The server ___ restarting.",
+     "opcoes": [
+      "is",
+      "are",
+      "does",
+      "be"
+     ],
+     "correta": 0,
+     "explica": "The server = it → is."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'I'm knowing the answer' é a forma natural.",
+     "correta": false,
+     "explica": "Know é verbo de estado: I know the answer."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual frase descreve uma rotina, e não o agora?",
+     "opcoes": [
+      "I work from home on Fridays.",
+      "I'm working from home now.",
+      "She's presenting right now.",
+      "They're having lunch at the moment."
+     ],
+     "correta": 0,
+     "explica": "Rotina = presente simples."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Estamos atualizando o painel agora.'",
+     "pecas": [
+      "We're",
+      "updating",
+      "the",
+      "dashboard",
+      "now."
+     ],
+     "extras": [
+      "update"
+     ],
+     "explica": "Be + -ing."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a frase ao uso.",
+     "pares": [
+      [
+       "I'm studying Python this month",
+       "Fase temporária"
+      ],
+      [
+       "I'm meeting Ana at 3",
+       "Compromisso marcado"
+      ],
+      [
+       "She's talking on the phone",
+       "Acontecendo agora"
+      ],
+      [
+       "He works in sales",
+       "Rotina / fato"
+      ]
+     ],
+     "explica": "Contínuo para agora e temporário; simples para rotina."
     }
    ]
   },
@@ -570,6 +1081,92 @@
    ]
   },
   {
+   "id": "some-any",
+   "titulo": "Some, any, too e enough",
+   "resumo": "Quantidades e limites (A2)",
+   "teoria": [
+    "Some em afirmativas e ofertas (Would you like some coffee?); any em negativas e perguntas (We don't have any data). Something, anything, nothing seguem a mesma lógica.",
+    "Too = demais (it's too expensive); enough = suficiente (we have enough time / it's big enough). Enough vem depois do adjetivo e antes do substantivo."
+   ],
+   "exemplo": "The file is too big. We don't have enough space.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-some-any-too"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete:",
+     "codigo": "We don't have ___ new data.",
+     "opcoes": [
+      "any",
+      "some",
+      "no",
+      "many"
+     ],
+     "correta": 0,
+     "explica": "Negativa: any."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual frase está correta?",
+     "opcoes": [
+      "The room isn't big enough.",
+      "The room isn't enough big.",
+      "The room is too much big.",
+      "The room enough big."
+     ],
+     "correta": 0,
+     "explica": "Adjetivo + enough."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'Would you like some coffee?' usa some porque é uma oferta.",
+     "correta": true,
+     "explica": "Ofertas e pedidos usam some."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue à tradução.",
+     "pares": [
+      [
+       "too expensive",
+       "caro demais"
+      ],
+      [
+       "enough time",
+       "tempo suficiente"
+      ],
+      [
+       "nothing",
+       "nada"
+      ],
+      [
+       "something",
+       "alguma coisa"
+      ]
+     ],
+     "explica": "Too tem sentido negativo; enough é 'na medida'."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Este arquivo é grande demais.'",
+     "pecas": [
+      "This",
+      "file",
+      "is",
+      "too",
+      "big."
+     ],
+     "extras": [
+      "to"
+     ],
+     "explica": "Too = demais."
+    }
+   ]
+  },
+  {
    "id": "viagem",
    "titulo": "Viagem e restaurante",
    "resumo": "would like, should, have to e direções (A2)",
@@ -650,6 +1247,93 @@
    ]
   },
   {
+   "id": "direcoes",
+   "titulo": "Aeroporto e direções",
+   "resumo": "Check-in, boarding e como chegar (A2)",
+   "teoria": [
+    "Aeroporto: check in, boarding pass, gate, aisle/window seat, carry-on bag. 'Your flight is delayed' = atrasado; 'cancelled' = cancelado.",
+    "Direções: Go straight ahead, turn right, take the second left, it's next to / across from the bank. Pergunte: Excuse me, how do I get to...?"
+   ],
+   "exemplo": "Excuse me, how do I get to gate 12? — Go straight and turn left.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-direcoes"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a palavra ao significado.",
+     "pares": [
+      [
+       "boarding pass",
+       "cartão de embarque"
+      ],
+      [
+       "gate",
+       "portão"
+      ],
+      [
+       "aisle seat",
+       "assento no corredor"
+      ],
+      [
+       "delayed",
+       "atrasado"
+      ]
+     ],
+     "explica": "Vocabulário de aeroporto."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como perguntar o caminho para a estação?",
+     "opcoes": [
+      "Excuse me, how do I get to the station?",
+      "Where is go the station?",
+      "How I go station?",
+      "Station where please?"
+     ],
+     "correta": 0,
+     "explica": "How do I get to...?"
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete (em frente ao banco):",
+     "codigo": "The hotel is ___ the bank.",
+     "opcoes": [
+      "across from",
+      "next",
+      "between",
+      "on"
+     ],
+     "correta": 0,
+     "explica": "Across from = em frente."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'Take the second left' significa pegar a segunda rua à esquerda.",
+     "correta": true,
+     "explica": "Muito usado em direções."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Siga em frente e vire à direita.'",
+     "pecas": [
+      "Go",
+      "straight",
+      "ahead",
+      "and",
+      "turn",
+      "right."
+     ],
+     "extras": [
+      "return"
+     ],
+     "explica": "Turn right / left."
+    }
+   ]
+  },
+  {
    "id": "present-perfect",
    "titulo": "Present perfect",
    "resumo": "Have you ever...?, for/since, already/yet (B1)",
@@ -726,6 +1410,93 @@
      ],
      "correta": 0,
      "explica": "Yet no fim de perguntas e negativas."
+    }
+   ]
+  },
+  {
+   "id": "already-yet",
+   "titulo": "Already, yet e just",
+   "resumo": "E quando usar o passado simples (B1)",
+   "teoria": [
+    "Já fez? Have you sent it yet? — Yes, I've already sent it. / No, not yet. Just = acabou de: I've just finished.",
+    "Com tempo terminado (yesterday, last week, in 2020, ago) use passado simples: I sent it yesterday. Sem tempo definido ou ligado ao agora: present perfect."
+   ],
+   "exemplo": "I've just finished the report, but I haven't sent it yet.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-pp-already-yet-just"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a palavra ao uso.",
+     "pares": [
+      [
+       "already",
+       "já (afirmativa)"
+      ],
+      [
+       "yet",
+       "ainda / já (pergunta e negativa)"
+      ],
+      [
+       "just",
+       "acabou de"
+      ],
+      [
+       "ago",
+       "atrás (passado simples)"
+      ]
+     ],
+     "explica": "Posição: already e just antes do particípio; yet no fim."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete:",
+     "codigo": "I've ___ finished. (acabei de terminar)",
+     "opcoes": [
+      "just",
+      "yet",
+      "ago",
+      "since"
+     ],
+     "correta": 0,
+     "explica": "Just = acabou de."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual está correta?",
+     "opcoes": [
+      "I haven't received the file yet.",
+      "I didn't received the file yet.",
+      "I haven't received the file already.",
+      "I haven't receive the file yet."
+     ],
+     "correta": 0,
+     "explica": "Negativa + yet."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'I have finished it last week' está correto.",
+     "correta": false,
+     "explica": "Tempo terminado: I finished it last week."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Você já enviou o e-mail?'",
+     "pecas": [
+      "Have",
+      "you",
+      "sent",
+      "the",
+      "email",
+      "yet?"
+     ],
+     "extras": [
+      "did"
+     ],
+     "explica": "Pergunta: Have you... yet?"
     }
    ]
   },
@@ -813,6 +1584,93 @@
    ]
   },
   {
+   "id": "unless-rather",
+   "titulo": "Unless, in case e would rather",
+   "resumo": "Condições e preferências (B1)",
+   "teoria": [
+    "Unless = a menos que: We'll miss the deadline unless we start today. In case = por precaução: Take an umbrella in case it rains.",
+    "Would rather = preferiria: I'd rather work from home. I'd rather you didn't share this file. Had better = é melhor (aviso): You'd better save it now."
+   ],
+   "exemplo": "I'd rather meet on Monday, in case the data arrives late.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-unless-rather"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "'Unless' significa:",
+     "opcoes": [
+      "A menos que",
+      "Por precaução",
+      "Desde que",
+      "Mesmo que"
+     ],
+     "correta": 0,
+     "explica": "Unless = if not."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete (preferiria):",
+     "codigo": "I'd ___ start early tomorrow.",
+     "opcoes": [
+      "rather",
+      "better",
+      "prefer",
+      "like"
+     ],
+     "correta": 0,
+     "explica": "I'd rather + verbo."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue à tradução.",
+     "pares": [
+      [
+       "unless",
+       "a menos que"
+      ],
+      [
+       "in case",
+       "por via das dúvidas"
+      ],
+      [
+       "would rather",
+       "preferiria"
+      ],
+      [
+       "had better",
+       "é melhor (aviso)"
+      ]
+     ],
+     "explica": "Conectores de condição e preferência."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'Bring your laptop in case we need it' quer dizer 'traga o notebook por precaução'.",
+     "correta": true,
+     "explica": "In case = caso seja preciso."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'É melhor você salvar o arquivo agora.'",
+     "pecas": [
+      "You'd",
+      "better",
+      "save",
+      "the",
+      "file",
+      "now."
+     ],
+     "extras": [
+      "to save"
+     ],
+     "explica": "Had better + verbo sem to."
+    }
+   ]
+  },
+  {
    "id": "phrasal-verbs",
    "titulo": "Phrasal verbs e -ing/to",
    "resumo": "set up, follow up, enjoy doing, want to do (B1)",
@@ -889,6 +1747,91 @@
       "after"
      ],
      "explica": "Look into = investigar."
+    }
+   ]
+  },
+  {
+   "id": "phrasal-conversa",
+   "titulo": "Phrasal verbs da conversa",
+   "resumo": "get along, hang out, show up, catch up (B1)",
+   "teoria": [
+    "Na conversa: get along (with) = se dar bem; hang out = sair, passar tempo; show up = aparecer; catch up = colocar o papo em dia; run into = encontrar por acaso.",
+    "Alguns aceitam objeto no meio: turn it off, pick her up. Com pronome, o pronome vai no meio: turn it off (não turn off it)."
+   ],
+   "exemplo": "Let's catch up over coffee. — Sure! I get along well with your team.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-phrasal-conversa"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o phrasal verb ao significado.",
+     "pares": [
+      [
+       "get along",
+       "se dar bem"
+      ],
+      [
+       "hang out",
+       "sair juntos"
+      ],
+      [
+       "show up",
+       "aparecer"
+      ],
+      [
+       "run into",
+       "encontrar por acaso"
+      ]
+     ],
+     "explica": "Os mais usados no dia a dia."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete (se dar bem):",
+     "codigo": "I ___ well with my new manager.",
+     "opcoes": [
+      "get along",
+      "get up",
+      "give up",
+      "get off"
+     ],
+     "correta": 0,
+     "explica": "Get along with."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual está correta?",
+     "opcoes": [
+      "Please turn it off.",
+      "Please turn off it.",
+      "Please it turn off.",
+      "Please turn of it."
+     ],
+     "correta": 0,
+     "explica": "Pronome no meio."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'He didn't show up to the meeting' significa que ele não apareceu.",
+     "correta": true,
+     "explica": "Show up = aparecer."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Vamos colocar o papo em dia amanhã.'",
+     "pecas": [
+      "Let's",
+      "catch",
+      "up",
+      "tomorrow."
+     ],
+     "extras": [
+      "catch on"
+     ],
+     "explica": "Catch up."
     }
    ]
   },
@@ -974,6 +1917,92 @@
    ]
   },
   {
+   "id": "reunioes",
+   "titulo": "Reuniões e ligações",
+   "resumo": "Share my screen, get back to you (B1)",
+   "teoria": [
+    "Reunião: Let me share my screen. / Can everyone see my screen? / Let's move on to the next item. / I'll get back to you on that (te dou retorno).",
+    "Ligação: This is Ana from Tech Santos. / Could I speak to...? / Can I leave a message? / Sorry, you're breaking up (a ligação está falhando)."
+   ],
+   "exemplo": "Let me share my screen. Can everyone see it?",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-reunioes"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Você não sabe a resposta agora. O que dizer?",
+     "opcoes": [
+      "I'll get back to you on that.",
+      "I don't know, bye.",
+      "Ask other person.",
+      "No answer."
+     ],
+     "correta": 0,
+     "explica": "Get back to = dar retorno."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a frase ao momento.",
+     "pares": [
+      [
+       "Let me share my screen",
+       "Antes de apresentar"
+      ],
+      [
+       "Let's move on",
+       "Passar ao próximo assunto"
+      ],
+      [
+       "You're breaking up",
+       "Áudio falhando"
+      ],
+      [
+       "Can I leave a message?",
+       "Pessoa não está"
+      ]
+     ],
+     "explica": "Frases prontas para reuniões e ligações."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a apresentação ao telefone:",
+     "codigo": "Hi, ___ is Ana from Tech Santos.",
+     "opcoes": [
+      "this",
+      "I",
+      "here",
+      "me"
+     ],
+     "correta": 0,
+     "explica": "Ao telefone: This is..."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'You're on mute' avisa que o microfone da pessoa está desligado.",
+     "correta": true,
+     "explica": "Be on mute."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Todos conseguem ver minha tela?'",
+     "pecas": [
+      "Can",
+      "everyone",
+      "see",
+      "my",
+      "screen?"
+     ],
+     "extras": [
+      "sees"
+     ],
+     "explica": "Can + verbo base."
+    }
+   ]
+  },
+  {
    "id": "b2-estruturas",
    "titulo": "Estruturas do B2",
    "resumo": "Voz passiva, reported speech, relativas e wish",
@@ -1050,6 +2079,96 @@
      ],
      "correta": 0,
      "explica": "Wish + passado para situações presentes que gostaríamos diferentes."
+    }
+   ]
+  },
+  {
+   "id": "relativas",
+   "titulo": "Orações relativas e reported questions",
+   "resumo": "who, which, whose, where (B2)",
+   "teoria": [
+    "Who (pessoas), which (coisas), that (os dois, informal), whose (de quem), where (lugar): The client whose contract ended... / The city where we have an office...",
+    "Pergunta relatada vira afirmação: 'Where is the file?' → She asked where the file was. Sim/não usa if: He asked if I was ready."
+   ],
+   "exemplo": "She asked if the report was ready.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-relativas"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete:",
+     "codigo": "The client ___ contract ended called today.",
+     "opcoes": [
+      "whose",
+      "who",
+      "which",
+      "where"
+     ],
+     "correta": 0,
+     "explica": "Whose = cujo."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Reported question: 'Are you ready?' he asked.",
+     "opcoes": [
+      "He asked if I was ready.",
+      "He asked are you ready.",
+      "He asked if was I ready.",
+      "He said are I ready."
+     ],
+     "correta": 0,
+     "explica": "Sim/não: asked if + ordem de afirmação."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o pronome relativo ao uso.",
+     "pares": [
+      [
+       "who",
+       "Pessoas"
+      ],
+      [
+       "which",
+       "Coisas"
+      ],
+      [
+       "where",
+       "Lugares"
+      ],
+      [
+       "whose",
+       "Posse"
+      ]
+     ],
+     "explica": "That pode substituir who/which em orações essenciais."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'She asked where was the file' é a forma correta no reported speech.",
+     "correta": false,
+     "explica": "Ordem de afirmação: where the file was."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Esta é a cidade onde temos um escritório.'",
+     "pecas": [
+      "This",
+      "is",
+      "the",
+      "city",
+      "where",
+      "we",
+      "have",
+      "an",
+      "office."
+     ],
+     "extras": [
+      "which"
+     ],
+     "explica": "Where para lugar."
     }
    ]
   },
@@ -1131,6 +2250,89 @@
    ]
   },
   {
+   "id": "idioms-sotaques",
+   "titulo": "Idioms e americano × britânico",
+   "resumo": "Expressões e vocabulário regional (B2)",
+   "teoria": [
+    "Idioms do trabalho: touch base (alinhar rapidinho), ballpark figure (número aproximado), think outside the box, the ball is in your court (agora é com você).",
+    "EUA × Reino Unido: apartment/flat, elevator/lift, vacation/holiday, cell phone/mobile, check/bill, fall/autumn."
+   ],
+   "exemplo": "Can you give me a ballpark figure? Let's touch base on Monday.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-idioms"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o americano ao britânico.",
+     "pares": [
+      [
+       "elevator",
+       "lift"
+      ],
+      [
+       "apartment",
+       "flat"
+      ],
+      [
+       "vacation",
+       "holiday"
+      ],
+      [
+       "cell phone",
+       "mobile"
+      ]
+     ],
+     "explica": "Mesma coisa, palavras diferentes."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "'Can you give me a ballpark figure?' pede:",
+     "opcoes": [
+      "Um número aproximado",
+      "O valor exato",
+      "Uma figura de beisebol",
+      "Um gráfico"
+     ],
+     "correta": 0,
+     "explica": "Ballpark = estimativa."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'The ball is in your court' quer dizer que agora a decisão é sua.",
+     "correta": true,
+     "explica": "A próxima jogada é do outro."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete (alinhar rapidinho):",
+     "codigo": "Let's ___ base on Monday.",
+     "opcoes": [
+      "touch",
+      "hit",
+      "get",
+      "take"
+     ],
+     "correta": 0,
+     "explica": "Touch base."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual idiom significa pensar de forma criativa?",
+     "opcoes": [
+      "think outside the box",
+      "break the ice",
+      "on the same page",
+      "a piece of cake"
+     ],
+     "correta": 0,
+     "explica": "Fora da caixa."
+    }
+   ]
+  },
+  {
    "id": "dados",
    "titulo": "Inglês para dados",
    "resumo": "Vocabulário de Excel/Power BI, tendências e documentação (B2)",
@@ -1206,6 +2408,95 @@
      ],
      "correta": 0,
      "explica": "As you can see... é a fórmula de apresentação."
+    }
+   ]
+  },
+  {
+   "id": "apresentar-dashboard",
+   "titulo": "Apresentando um dashboard",
+   "resumo": "Estrutura, gráficos e mensagens de erro (B2)",
+   "teoria": [
+    "Estrutura: Today I'll walk you through... / As you can see on this chart... / This bar shows... / The key takeaway is... / Any questions?",
+    "Documentação e erros: 'deprecated' (descontinuado), 'required field' (campo obrigatório), 'permission denied' (sem permissão), 'timeout' (tempo esgotado)."
+   ],
+   "exemplo": "Today I'll walk you through our Q3 sales. The key takeaway is that revenue peaked in September.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-apresentar-dashboard"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a abertura: 'Hoje vou mostrar a vocês as vendas do trimestre.'",
+     "pecas": [
+      "Today",
+      "I'll",
+      "walk",
+      "you",
+      "through",
+      "our",
+      "quarterly",
+      "sales."
+     ],
+     "extras": [
+      "walk with"
+     ],
+     "explica": "Walk someone through = explicar passo a passo."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o termo técnico à tradução.",
+     "pares": [
+      [
+       "deprecated",
+       "descontinuado"
+      ],
+      [
+       "required field",
+       "campo obrigatório"
+      ],
+      [
+       "permission denied",
+       "permissão negada"
+      ],
+      [
+       "timeout",
+       "tempo esgotado"
+      ]
+     ],
+     "explica": "Mensagens comuns em sistemas."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a conclusão:",
+     "codigo": "The key ___ is that costs dropped 8%.",
+     "opcoes": [
+      "takeaway",
+      "take",
+      "away",
+      "point out"
+     ],
+     "correta": 0,
+     "explica": "Key takeaway = principal conclusão."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "'This line shows revenue over time' é uma boa frase para explicar um gráfico de linhas.",
+     "correta": true,
+     "explica": "Over time = ao longo do tempo."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como abrir para perguntas no fim?",
+     "opcoes": [
+      "Any questions?",
+      "Questions now you?",
+      "Have questions or no?",
+      "Ask me now."
+     ],
+     "correta": 0,
+     "explica": "Simples e natural."
     }
    ]
   },
@@ -1291,6 +2582,94 @@
      "explica": "Frases de sinalização guiam a plateia."
     }
    ]
+  },
+  {
+   "id": "entrevista",
+   "titulo": "Entrevista de emprego",
+   "resumo": "Strengths, weaknesses e why us (C1)",
+   "teoria": [
+    "Perguntas clássicas: Tell me about yourself. / What are your strengths? / Tell me about a challenge you faced. / Why do you want to work here? / Where do you see yourself in five years?",
+    "Use o método STAR nas histórias: Situation, Task, Action, Result. Termine com uma pergunta sua: What does success look like in this role?"
+   ],
+   "exemplo": "In my last role, I automated a weekly report, which saved the team ten hours a week.",
+   "video": {
+    "curso": "ingles",
+    "curso_nome": "Inglês",
+    "licao": "en-entrevista"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a letra do STAR ao significado.",
+     "pares": [
+      [
+       "Situation",
+       "Contexto"
+      ],
+      [
+       "Task",
+       "Seu desafio"
+      ],
+      [
+       "Action",
+       "O que você fez"
+      ],
+      [
+       "Result",
+       "O resultado"
+      ]
+     ],
+     "explica": "Histórias estruturadas convencem mais."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual é uma boa resposta para 'What are your strengths?'",
+     "opcoes": [
+      "I'm good at turning messy data into clear reports; for example...",
+      "I have no weaknesses.",
+      "I don't know.",
+      "My strength is that I need money."
+     ],
+     "correta": 0,
+     "explica": "Diga a qualidade e prove com um exemplo."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o resultado com número:",
+     "codigo": "It ___ the team ten hours a week.",
+     "opcoes": [
+      "saved",
+      "economized",
+      "spared of",
+      "gained to"
+     ],
+     "correta": 0,
+     "explica": "Save time = economizar tempo."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Fazer uma pergunta ao entrevistador no final passa uma boa impressão.",
+     "correta": true,
+     "explica": "Mostra interesse real pela vaga."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte: 'Por que você quer trabalhar aqui?'",
+     "pecas": [
+      "Why",
+      "do",
+      "you",
+      "want",
+      "to",
+      "work",
+      "here?"
+     ],
+     "extras": [
+      "does"
+     ],
+     "explica": "Do you want...?"
+    }
+   ]
   }
  ],
  "nivelamento": [
@@ -1308,6 +2687,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Complete: She ___ 28 years old.",
+   "opcoes": [
+    "is",
+    "has",
+    "have",
+    "are"
+   ],
+   "correta": 0,
+   "no": "numeros"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Complete: Carlos and ___ wife live in Goiânia.",
    "opcoes": [
     "his",
@@ -1317,6 +2708,18 @@
    ],
    "correta": 0,
    "no": "familia-possessivos"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual pergunta é sobre a aparência de alguém?",
+   "opcoes": [
+    "What does she look like?",
+    "What is she like?",
+    "What does she like?",
+    "Who is she?"
+   ],
+   "correta": 0,
+   "no": "descrever"
   },
   {
    "tipo": "escolha",
@@ -1332,6 +2735,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Como se diz 3:30?",
+   "opcoes": [
+    "half past three",
+    "three and half",
+    "half to three",
+    "thirty past three"
+   ],
+   "correta": 0,
+   "no": "horas"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Complete: ___ a problem with the server.",
    "opcoes": [
     "There is",
@@ -1341,6 +2756,18 @@
    ],
    "correta": 0,
    "no": "there-is-can"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual pergunta é sobre preço?",
+   "opcoes": [
+    "How much is it?",
+    "How many is it?",
+    "What cost?",
+    "How is the price it?"
+   ],
+   "correta": 0,
+   "no": "compras"
   },
   {
    "tipo": "escolha",
@@ -1356,6 +2783,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual é o passado de 'study'?",
+   "opcoes": [
+    "studied",
+    "studyed",
+    "studed",
+    "studing"
+   ],
+   "correta": 0,
+   "no": "passado-regular"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Qual forma usar para uma decisão tomada na hora?",
    "opcoes": [
     "will",
@@ -1365,6 +2804,18 @@
    ],
    "correta": 0,
    "no": "futuro"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Complete: We ___ having a meeting right now.",
+   "opcoes": [
+    "are",
+    "is",
+    "do",
+    "have"
+   ],
+   "correta": 0,
+   "no": "presente-continuo"
   },
   {
    "tipo": "escolha",
@@ -1380,6 +2831,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Complete: Is there ___ problem?",
+   "opcoes": [
+    "any",
+    "some",
+    "no",
+    "much"
+   ],
+   "correta": 0,
+   "no": "some-any"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Qual verbo expressa conselho?",
    "opcoes": [
     "should",
@@ -1392,6 +2855,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "O que é 'boarding pass'?",
+   "opcoes": [
+    "Cartão de embarque",
+    "Passaporte",
+    "Bagagem de mão",
+    "Portão"
+   ],
+   "correta": 0,
+   "no": "direcoes"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Complete: I've lived here ___ ten years.",
    "opcoes": [
     "for",
@@ -1401,6 +2876,19 @@
    ],
    "correta": 0,
    "no": "present-perfect"
+  },
+  {
+   "tipo": "lacuna",
+   "pergunta": "Complete:",
+   "codigo": "Has the meeting started ___?",
+   "opcoes": [
+    "yet",
+    "already",
+    "just",
+    "ago"
+   ],
+   "correta": 0,
+   "no": "already-yet"
   },
   {
    "tipo": "escolha",
@@ -1416,6 +2904,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual é a tradução de 'unless'?",
+   "opcoes": [
+    "A menos que",
+    "Desde que",
+    "Por causa de",
+    "Embora"
+   ],
+   "correta": 0,
+   "no": "unless-rather"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "O que significa 'run out of paper'?",
    "opcoes": [
     "Ficar sem papel",
@@ -1425,6 +2925,18 @@
    ],
    "correta": 0,
    "no": "phrasal-verbs"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "O que significa 'hang out'?",
+   "opcoes": [
+    "Sair, passar tempo junto",
+    "Desligar o telefone",
+    "Pendurar roupa",
+    "Desistir"
+   ],
+   "correta": 0,
+   "no": "phrasal-conversa"
   },
   {
    "tipo": "escolha",
@@ -1440,6 +2952,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Como se apresentar ao telefone?",
+   "opcoes": [
+    "This is Ana from Tech Santos.",
+    "I am Ana here speaking.",
+    "Here talks Ana.",
+    "Me Ana."
+   ],
+   "correta": 0,
+   "no": "reunioes"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Qual frase está na voz passiva?",
    "opcoes": [
     "The email was written by Ana.",
@@ -1449,6 +2973,19 @@
    ],
    "correta": 0,
    "no": "b2-estruturas"
+  },
+  {
+   "tipo": "lacuna",
+   "pergunta": "Complete:",
+   "codigo": "The analyst ___ built the report is on vacation.",
+   "opcoes": [
+    "who",
+    "which",
+    "whose",
+    "where"
+   ],
+   "correta": 0,
+   "no": "relativas"
   },
   {
    "tipo": "escolha",
@@ -1464,6 +3001,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual é o equivalente britânico de 'elevator'?",
+   "opcoes": [
+    "lift",
+    "flat",
+    "holiday",
+    "mobile"
+   ],
+   "correta": 0,
+   "no": "idioms-sotaques"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "'Sales dropped' significa:",
    "opcoes": [
     "As vendas caíram",
@@ -1476,6 +3025,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "O que significa 'key takeaway'?",
+   "opcoes": [
+    "Principal conclusão",
+    "Chave de acesso",
+    "Item para viagem",
+    "Resumo financeiro"
+   ],
+   "correta": 0,
+   "no": "apresentar-dashboard"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Qual expressão suaviza uma recusa?",
    "opcoes": [
     "I'm afraid...",
@@ -1485,6 +3046,25 @@
    ],
    "correta": 0,
    "no": "fluencia"
+  },
+  {
+   "tipo": "pares",
+   "pergunta": "Ligue o STAR.",
+   "pares": [
+    [
+     "Situation",
+     "Contexto"
+    ],
+    [
+     "Action",
+     "O que você fez"
+    ],
+    [
+     "Result",
+     "O resultado"
+    ]
+   ],
+   "no": "entrevista"
   }
  ]
 }

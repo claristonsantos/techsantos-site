@@ -85,6 +85,82 @@
    ]
   },
   {
+   "id": "msgbox",
+   "titulo": "MsgBox e InputBox",
+   "resumo": "Conversar com o usuário",
+   "teoria": [
+    "MsgBox mostra mensagem; com botões devolve a escolha: If MsgBox(\"Continuar?\", vbYesNo) = vbYes Then ...",
+    "InputBox pede um valor: nome = InputBox(\"Digite o mês\"). Se o usuário cancelar, volta texto vazio \"\": trate antes de usar."
+   ],
+   "exemplo": "If MsgBox(\"Gerar o relatório?\", vbYesNo) = vbNo Then Exit Sub",
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para perguntar Sim/Não:",
+     "codigo": "resposta = MsgBox(\"Continuar?\", ___)",
+     "opcoes": [
+      "vbYesNo",
+      "vbOK",
+      "YesNo",
+      "True"
+     ],
+     "correta": 0,
+     "explica": "vbYesNo mostra os botões Sim e Não."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Saia da macro se o usuário responder Não.",
+     "pecas": [
+      "If MsgBox(\"Gerar o relatório?\", vbYesNo) = vbNo Then",
+      "    Exit Sub",
+      "End If"
+     ],
+     "extras": [
+      "    Stop Sub"
+     ],
+     "explica": "Exit Sub encerra a macro."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Se o usuário clicar em Cancelar no InputBox, a função devolve um texto vazio.",
+     "correta": true,
+     "explica": "Teste If mes = \"\" Then Exit Sub."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o comando ao efeito.",
+     "pares": [
+      [
+       "MsgBox",
+       "Mostrar uma mensagem"
+      ],
+      [
+       "InputBox",
+       "Pedir um valor"
+      ],
+      [
+       "Exit Sub",
+       "Sair da macro"
+      ],
+      [
+       "vbYes",
+       "Resposta Sim"
+      ]
+     ],
+     "explica": "Interação básica com quem usa a macro."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual comando encerra a macro na hora?",
+     "dica": "Duas palavras",
+     "respostas": [
+      "Exit Sub"
+     ],
+     "explica": "Exit Sub sai da Sub atual."
+    }
+   ]
+  },
+  {
    "id": "range",
    "titulo": "Range e Cells",
    "resumo": "Ler e gravar células",
@@ -161,6 +237,229 @@
      ],
      "correta": 0,
      "explica": "Negrito é uma propriedade da fonte: .Font.Bold."
+    }
+   ]
+  },
+  {
+   "id": "ultima-linha",
+   "titulo": "Última linha preenchida",
+   "resumo": "End(xlUp) para bases que crescem",
+   "teoria": [
+    "Nunca fixe 'até a linha 500': a base cresce. A última linha com dados na coluna A é: ultima = Cells(Rows.Count, 1).End(xlUp).Row (vai ao fim da planilha e sobe até achar dado).",
+    "A primeira linha vazia é ultima + 1: o lugar certo para gravar um registro novo."
+   ],
+   "exemplo": "ultima = Cells(Rows.Count, 1).End(xlUp).Row\nCells(ultima + 1, 1).Value = Date",
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Descubra a última linha preenchida da coluna A.",
+     "pecas": [
+      "ultima =",
+      "Cells(Rows.Count, 1)",
+      ".End(xlUp)",
+      ".Row"
+     ],
+     "extras": [
+      ".End(xlDown)"
+     ],
+     "explica": "Do fundo da planilha para cima até achar dado."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para gravar na primeira linha vazia:",
+     "codigo": "Cells(ultima ___ 1, 1).Value = Date",
+     "opcoes": [
+      "+",
+      "-",
+      "*",
+      "&"
+     ],
+     "correta": 0,
+     "explica": "Primeira vazia = última preenchida + 1."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "End(xlUp) partindo do fim da planilha funciona mesmo com células vazias no meio da coluna.",
+     "correta": true,
+     "explica": "Por isso é preferível ao End(xlDown) a partir do topo."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Por que não usar 'For i = 2 To 500' fixo?",
+     "opcoes": [
+      "A base cresce e as linhas novas ficam de fora",
+      "500 é o máximo do Excel",
+      "Dá erro de sintaxe",
+      "Deixa a macro mais rápida"
+     ],
+     "correta": 0,
+     "explica": "Calcule a última linha a cada execução."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual propriedade devolve o número da linha de uma célula?",
+     "dica": "Propriedade",
+     "respostas": [
+      "Row",
+      ".Row"
+     ],
+     "explica": "Range(\"A5\").Row devolve 5."
+    }
+   ]
+  },
+  {
+   "id": "planilhas",
+   "titulo": "Planilhas e pastas",
+   "resumo": "Worksheets, ThisWorkbook e ActiveSheet",
+   "teoria": [
+    "Referencie a planilha pelo nome: Worksheets(\"Vendas\").Range(\"A1\"). ThisWorkbook é o arquivo onde está a macro; ActiveWorkbook é o que está na frente (pode ser outro!).",
+    "Evite Select e Activate: escreva direto na célula. Worksheets.Add cria planilha; .Name renomeia."
+   ],
+   "exemplo": "ThisWorkbook.Worksheets(\"Resumo\").Range(\"B2\").Value = total",
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o objeto ao significado.",
+     "pares": [
+      [
+       "ThisWorkbook",
+       "O arquivo onde está a macro"
+      ],
+      [
+       "ActiveWorkbook",
+       "O arquivo em primeiro plano"
+      ],
+      [
+       "ActiveSheet",
+       "A planilha visível agora"
+      ],
+      [
+       "Worksheets(\"Vendas\")",
+       "A planilha pelo nome"
+      ]
+     ],
+     "explica": "ThisWorkbook é o mais seguro."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para escrever na planilha Resumo:",
+     "codigo": "Worksheets(\"___\").Range(\"B2\").Value = total",
+     "opcoes": [
+      "Resumo",
+      "Planilha1!",
+      "Sheet",
+      "B2"
+     ],
+     "correta": 0,
+     "explica": "O nome vai entre aspas."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Usar Select e Activate antes de cada comando é a forma mais rápida e segura.",
+     "correta": false,
+     "explica": "Deixa a macro lenta e sujeita a erro; escreva direto no objeto."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Crie uma planilha nova e renomeie para Relatório.",
+     "pecas": [
+      "Set ws = Worksheets.Add",
+      "ws.Name = \"Relatório\""
+     ],
+     "extras": [
+      "Worksheets.New"
+     ],
+     "explica": "Set guarda a referência ao objeto criado."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A macro gravou dados no arquivo errado que estava aberto. Qual objeto usar para evitar?",
+     "opcoes": [
+      "ThisWorkbook",
+      "ActiveWorkbook",
+      "Application",
+      "Selection"
+     ],
+     "correta": 0,
+     "explica": "ThisWorkbook aponta sempre para o arquivo da macro."
+    }
+   ]
+  },
+  {
+   "id": "with",
+   "titulo": "Bloco With",
+   "resumo": "Menos repetição na formatação",
+   "teoria": [
+    "With objeto ... End With evita repetir o mesmo objeto: dentro do bloco, cada linha começa com ponto (.Font.Bold = True).",
+    "Muito usado para formatar cabeçalhos e configurar planilhas."
+   ],
+   "exemplo": "With Range(\"A1:F1\")\n    .Font.Bold = True\n    .Interior.Color = RGB(15, 36, 65)\n    .Font.Color = vbWhite\nEnd With",
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Formate o cabeçalho A1:F1 em negrito e fundo azul-escuro.",
+     "pecas": [
+      "With Range(\"A1:F1\")",
+      "    .Font.Bold = True",
+      "    .Interior.Color = RGB(15, 36, 65)",
+      "End With"
+     ],
+     "extras": [
+      "    Font.Bold = True"
+     ],
+     "explica": "Dentro do With, as propriedades começam com ponto."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o fechamento do bloco:",
+     "codigo": "With Range(\"A1\")\n    .Value = \"Total\"\n___",
+     "opcoes": [
+      "End With",
+      "Next",
+      "End Sub",
+      "Loop"
+     ],
+     "correta": 0,
+     "explica": "Todo With termina com End With."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Dentro do With, esquecer o ponto (Font.Bold) faz o comando não se referir ao objeto do With.",
+     "correta": true,
+     "explica": "O ponto liga a linha ao objeto."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a propriedade ao efeito.",
+     "pares": [
+      [
+       ".Font.Bold",
+       "Negrito"
+      ],
+      [
+       ".Interior.Color",
+       "Cor de fundo"
+      ],
+      [
+       ".NumberFormat",
+       "Formato do número"
+      ],
+      [
+       ".ColumnWidth",
+       "Largura da coluna"
+      ]
+     ],
+     "explica": "Propriedades comuns de formatação."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual função do VBA monta uma cor a partir de vermelho, verde e azul?",
+     "dica": "Três letras",
+     "respostas": [
+      "RGB",
+      "RGB()"
+     ],
+     "explica": "RGB(15, 36, 65)."
     }
    ]
   },
@@ -319,6 +618,84 @@
    ]
   },
   {
+   "id": "select-case",
+   "titulo": "Select Case",
+   "resumo": "Várias faixas sem If aninhado",
+   "teoria": [
+    "Select Case testa um valor contra vários casos: Case Is >= 5000, Case 1000 To 4999, Case Else. Mais legível que If dentro de If.",
+    "Aceita listas (Case \"SP\", \"RJ\") e faixas (Case 1 To 10)."
+   ],
+   "exemplo": "Select Case valor\n    Case Is >= 5000: faixa = \"A\"\n    Case Is >= 1000: faixa = \"B\"\n    Case Else: faixa = \"C\"\nEnd Select",
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Classifique o valor em A, B ou C.",
+     "pecas": [
+      "Select Case valor",
+      "    Case Is >= 5000: faixa = \"A\"",
+      "    Case Is >= 1000: faixa = \"B\"",
+      "    Case Else: faixa = \"C\"",
+      "End Select"
+     ],
+     "extras": [
+      "    Default: faixa = \"C\""
+     ],
+     "explica": "Case Else é o 'senão'."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para pegar SP ou RJ no mesmo caso:",
+     "codigo": "Case \"SP\"___ \"RJ\"",
+     "opcoes": [
+      ",",
+      " Or",
+      " And",
+      ";"
+     ],
+     "correta": 0,
+     "explica": "Vírgula separa os valores do mesmo Case."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Select Case para no primeiro Case verdadeiro.",
+     "correta": true,
+     "explica": "A ordem dos casos importa."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a sintaxe ao significado.",
+     "pares": [
+      [
+       "Case 1 To 10",
+       "Entre 1 e 10"
+      ],
+      [
+       "Case Is > 100",
+       "Maior que 100"
+      ],
+      [
+       "Case \"SP\", \"RJ\"",
+       "SP ou RJ"
+      ],
+      [
+       "Case Else",
+       "Qualquer outro valor"
+      ]
+     ],
+     "explica": "Formas de escrever cada caso."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Como termina um bloco Select Case?",
+     "dica": "Duas palavras",
+     "respostas": [
+      "End Select"
+     ],
+     "explica": "Assim como End If e End With."
+    }
+   ]
+  },
+  {
    "id": "for",
    "titulo": "Laços For",
    "resumo": "Percorrer as linhas da planilha",
@@ -395,6 +772,328 @@
      "explica": "Soma 1 + 2 + 3 = 6."
     }
    ]
+  },
+  {
+   "id": "do-while",
+   "titulo": "Do While e Do Until",
+   "resumo": "Repetir até uma condição",
+   "teoria": [
+    "Do While condição ... Loop repete enquanto a condição for verdadeira; Do Until repete até ela ficar verdadeira. Útil para percorrer até a primeira célula vazia.",
+    "Garanta que algo mude dentro do laço (i = i + 1), senão a macro trava em laço infinito (Esc ou Ctrl+Break para interromper)."
+   ],
+   "exemplo": "i = 2\nDo While Cells(i, 1).Value <> \"\"\n    Cells(i, 6).Value = Cells(i, 5).Value * 0.05\n    i = i + 1\nLoop",
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Percorra as linhas até encontrar a coluna A vazia.",
+     "pecas": [
+      "i = 2",
+      "Do While Cells(i, 1).Value <> \"\"",
+      "    i = i + 1",
+      "Loop"
+     ],
+     "extras": [
+      "Next i"
+     ],
+     "explica": "Do While fecha com Loop, não com Next."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Esquecer o i = i + 1 dentro do Do While pode causar laço infinito.",
+     "correta": true,
+     "explica": "A condição nunca muda."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para repetir até a célula ficar vazia:",
+     "codigo": "Do ___ Cells(i, 1).Value = \"\"",
+     "opcoes": [
+      "Until",
+      "While",
+      "For",
+      "If"
+     ],
+     "correta": 0,
+     "explica": "Until = até que."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o laço ao uso.",
+     "pares": [
+      [
+       "For i = 2 To ultima",
+       "Número de voltas conhecido"
+      ],
+      [
+       "Do While",
+       "Enquanto a condição for verdadeira"
+      ],
+      [
+       "Do Until",
+       "Até a condição ficar verdadeira"
+      ],
+      [
+       "For Each",
+       "Para cada objeto de uma coleção"
+      ]
+     ],
+     "explica": "Escolha o laço pela situação."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Que tecla interrompe uma macro travada em laço?",
+     "dica": "Tecla",
+     "respostas": [
+      "Esc",
+      "Ctrl+Break",
+      "esc"
+     ],
+     "explica": "Esc ou Ctrl+Break."
+    }
+   ]
+  },
+  {
+   "id": "for-each",
+   "titulo": "For Each",
+   "resumo": "Percorrer células e planilhas",
+   "teoria": [
+    "For Each c In Range(\"F2:F100\") ... Next c percorre cada célula; For Each ws In ThisWorkbook.Worksheets percorre cada planilha.",
+    "Ótimo para aplicar uma regra em todas as abas (ex.: proteger, formatar) ou validar cada célula de um intervalo."
+   ],
+   "exemplo": "For Each ws In ThisWorkbook.Worksheets\n    ws.Range(\"A1\").Font.Bold = True\nNext ws",
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Deixe A1 em negrito em todas as planilhas.",
+     "pecas": [
+      "For Each ws In ThisWorkbook.Worksheets",
+      "    ws.Range(\"A1\").Font.Bold = True",
+      "Next ws"
+     ],
+     "extras": [
+      "Loop"
+     ],
+     "explica": "For Each ... Next."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para percorrer as células do intervalo:",
+     "codigo": "For Each c ___ Range(\"F2:F100\")",
+     "opcoes": [
+      "In",
+      "Of",
+      "=",
+      "To"
+     ],
+     "correta": 0,
+     "explica": "For Each item In coleção."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "For Each precisa de um contador numérico como i = 1 To 10.",
+     "correta": false,
+     "explica": "Ele percorre os itens da coleção diretamente."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Pintar de vermelho as células negativas de F2:F100, qual estrutura?",
+     "opcoes": [
+      "For Each c In Range(\"F2:F100\") com If c.Value < 0",
+      "Select Case sem laço",
+      "MsgBox em cada célula",
+      "Do Until sem condição"
+     ],
+     "correta": 0,
+     "explica": "Percorre e testa cada célula."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a coleção ao conteúdo.",
+     "pares": [
+      [
+       "Worksheets",
+       "Planilhas do arquivo"
+      ],
+      [
+       "Range(\"A1:A10\")",
+       "Células do intervalo"
+      ],
+      [
+       "Workbooks",
+       "Arquivos abertos"
+      ],
+      [
+       "Charts",
+       "Gráficos"
+      ]
+     ],
+     "explica": "Coleções que o For Each percorre."
+    }
+   ]
+  },
+  {
+   "id": "on-error",
+   "titulo": "Tratamento de erros",
+   "resumo": "On Error e mensagens amigáveis",
+   "teoria": [
+    "On Error GoTo Trata desvia para um rótulo quando algo falha; lá você mostra uma mensagem clara (Err.Description) e sai com segurança.",
+    "On Error Resume Next ignora o erro da linha seguinte: use só em um ponto específico e desligue depois com On Error GoTo 0. Ignorar tudo esconde bugs."
+   ],
+   "exemplo": "Sub Relatorio()\n    On Error GoTo Trata\n    ' ... código ...\n    Exit Sub\nTrata:\n    MsgBox \"Erro: \" & Err.Description\nEnd Sub",
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a estrutura com tratamento de erro.",
+     "pecas": [
+      "On Error GoTo Trata",
+      "' ... código ...",
+      "Exit Sub",
+      "Trata:",
+      "    MsgBox \"Erro: \" & Err.Description"
+     ],
+     "extras": [
+      "Resume Trata"
+     ],
+     "explica": "O Exit Sub evita cair no tratamento quando deu tudo certo."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "On Error Resume Next no início da macro inteira é uma boa prática.",
+     "correta": false,
+     "explica": "Esconde todos os erros; use pontualmente."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para mostrar a mensagem do erro:",
+     "codigo": "MsgBox \"Erro: \" & Err.___",
+     "opcoes": [
+      "Description",
+      "Message",
+      "Text",
+      "Error"
+     ],
+     "correta": 0,
+     "explica": "Err.Description descreve o erro."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o comando ao efeito.",
+     "pares": [
+      [
+       "On Error GoTo Trata",
+       "Desviar para o tratamento"
+      ],
+      [
+       "On Error Resume Next",
+       "Ignorar a próxima falha"
+      ],
+      [
+       "On Error GoTo 0",
+       "Voltar ao comportamento normal"
+      ],
+      [
+       "Err.Number",
+       "Código do erro"
+      ]
+     ],
+     "explica": "Controle de erros no VBA."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Por que colocar Exit Sub antes do rótulo Trata:?",
+     "opcoes": [
+      "Para não executar o tratamento quando não houve erro",
+      "Porque é obrigatório no VBA",
+      "Para repetir a macro",
+      "Para salvar o arquivo"
+     ],
+     "correta": 0,
+     "explica": "Sem ele, a mensagem de erro aparece sempre."
+    }
+   ]
+  },
+  {
+   "id": "seguranca-vba",
+   "titulo": "Macros com segurança",
+   "resumo": "Assinatura, locais confiáveis e boas práticas",
+   "teoria": [
+    "Macros podem executar qualquer coisa no computador: só habilite de fontes confiáveis. Para distribuir na empresa, use locais confiáveis ou assine digitalmente o projeto.",
+    "Boas práticas: salve como .xlsm, faça backup antes de rodar macro que apaga dados, comente o código e evite senhas escritas no código."
+   ],
+   "exemplo": "Arquivo > Opções > Central de Confiabilidade > Configurações de Macro",
+   "video": {
+    "curso": "excel",
+    "curso_nome": "Excel",
+    "licao": "xl-macros-seguranca"
+   },
+   "exercicios": [
+    {
+     "tipo": "vf",
+     "afirmacao": "Escrever a senha do banco de dados direto no código VBA é uma prática segura.",
+     "correta": false,
+     "explica": "Qualquer pessoa com o arquivo pode ler o código."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a prática ao benefício.",
+     "pares": [
+      [
+       "Local confiável",
+       "Macros da empresa rodam sem aviso"
+      ],
+      [
+       "Assinatura digital",
+       "Garante a origem do código"
+      ],
+      [
+       "Backup antes de rodar",
+       "Recuperar se algo der errado"
+      ],
+      [
+       "Comentários no código",
+       "Manutenção mais fácil"
+      ]
+     ],
+     "explica": "Segurança e manutenção andam juntas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Arquivo de fora com macro pedindo para 'Habilitar Conteúdo' urgente. O que fazer?",
+     "opcoes": [
+      "Não habilitar e confirmar com o remetente por outro canal",
+      "Habilitar, macro é sempre inofensiva",
+      "Salvar como .xlsx e habilitar",
+      "Encaminhar para todos"
+     ],
+     "correta": 0,
+     "explica": "Golpes usam macros para instalar malware."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o formato de arquivo com macros:",
+     "codigo": "Relatorio.___",
+     "opcoes": [
+      "xlsm",
+      "xlsx",
+      "csv",
+      "pdf"
+     ],
+     "correta": 0,
+     "explica": ".xlsm guarda o VBA."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde se ajusta o nível de segurança de macros?",
+     "opcoes": [
+      "Central de Confiabilidade > Configurações de Macro",
+      "Página Inicial > Estilos",
+      "Dados > Validação",
+      "Exibir > Zoom"
+     ],
+     "correta": 0,
+     "explica": "Prefira 'Desabilitar com notificação'."
+    }
+   ]
   }
  ],
  "nivelamento": [
@@ -411,6 +1110,18 @@
    "correta": 0
   },
   {
+   "tipo": "escolha",
+   "pergunta": "Qual função pede um valor digitado ao usuário?",
+   "opcoes": [
+    "InputBox",
+    "MsgBox",
+    "Range",
+    "Cells"
+   ],
+   "correta": 0,
+   "no": "msgbox"
+  },
+  {
    "no": "range",
    "tipo": "escolha",
    "pergunta": "Qual linha grava \"OK\" na célula F2?",
@@ -421,6 +1132,43 @@
     "F2.Value = \"OK\""
    ],
    "correta": 0
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual expressão encontra a última linha preenchida da coluna A?",
+   "opcoes": [
+    "Cells(Rows.Count, 1).End(xlUp).Row",
+    "Range(\"A1\").Last",
+    "Rows.Count",
+    "Cells(1, 1).End(xlDown)"
+   ],
+   "correta": 0,
+   "no": "ultima-linha"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual objeto representa o arquivo onde a macro está gravada?",
+   "opcoes": [
+    "ThisWorkbook",
+    "ActiveWorkbook",
+    "ActiveCell",
+    "Selection"
+   ],
+   "correta": 0,
+   "no": "planilhas"
+  },
+  {
+   "tipo": "lacuna",
+   "pergunta": "Complete:",
+   "codigo": "With Range(\"A1\")\n    .Font.Bold = True\n___",
+   "opcoes": [
+    "End With",
+    "End If",
+    "Next",
+    "Wend"
+   ],
+   "correta": 0,
+   "no": "with"
   },
   {
    "no": "variaveis",
@@ -447,6 +1195,18 @@
    "correta": 0
   },
   {
+   "tipo": "escolha",
+   "pergunta": "Qual linha trata 'qualquer outro valor' no Select Case?",
+   "opcoes": [
+    "Case Else",
+    "Case Default",
+    "Else Case",
+    "Case Other"
+   ],
+   "correta": 0,
+   "no": "select-case"
+  },
+  {
    "no": "for",
    "tipo": "ordenar",
    "cenario": "Percorra as vendas da linha 2 até a última, escrevendo a comissão na coluna F.",
@@ -458,6 +1218,49 @@
    "extras": [
     "Next ultima"
    ]
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Como termina um laço Do While?",
+   "opcoes": [
+    "Loop",
+    "Next",
+    "End Do",
+    "Wend Do"
+   ],
+   "correta": 0,
+   "no": "do-while"
+  },
+  {
+   "tipo": "lacuna",
+   "pergunta": "Complete:",
+   "codigo": "For Each ws ___ ThisWorkbook.Worksheets",
+   "opcoes": [
+    "In",
+    "Of",
+    "From",
+    "To"
+   ],
+   "correta": 0,
+   "no": "for-each"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual comando desvia para um rótulo quando ocorre um erro?",
+   "opcoes": [
+    "On Error GoTo",
+    "Resume",
+    "Exit Sub",
+    "GoSub"
+   ],
+   "correta": 0,
+   "no": "on-error"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Só se deve habilitar macros de fontes confiáveis.",
+   "correta": true,
+   "no": "seguranca-vba"
   }
  ],
  "curso": "excel"
