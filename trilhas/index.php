@@ -104,11 +104,14 @@ foreach ($publicas as $slug => $t) {
         $v = $no['video'] ?? null;
         if (!$v) continue;
         $publicado = is_file(__DIR__ . '/../../private-videos/' . $v['licao'] . '.mp4');
+        $temCurso = in_array($v['curso'], $cursos, true);
         $no['video'] = [
             'licao' => $v['licao'],
-            'liberado' => $publicado && in_array($v['curso'], $cursos, true),
+            'liberado' => $publicado && $temCurso,
             'publicado' => $publicado,
             'curso_nome' => $v['curso_nome'] ?? 'do curso',
+            // Aula de texto ou vídeo: aluno do curso abre direto na área do aluno.
+            'aula_url' => $temCurso ? '/aluno/curso.php?slug=' . rawurlencode($v['curso']) . '&aula=' . rawurlencode($v['licao']) : null,
         ];
     }
     unset($no);

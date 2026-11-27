@@ -154,8 +154,10 @@
     if (v.liberado) {
       return `<div class="tr-video"><video controls controlslist="nodownload" disablepictureinpicture playsinline preload="metadata" src="/video.php?id=${encodeURIComponent(v.licao)}"></video></div>`;
     }
-    if (!v.publicado) return '<p class="tr-video-off">🎬 Vídeo desta etapa em produção.</p>';
-    return `<p class="tr-video-off">🎬 O vídeo desta etapa é uma aula do curso de <b>${esc(v.curso_nome)}</b>.</p><button type="button" class="btn btn-primary" data-aula>▶ Assistir à aula</button>`;
+    if (v.aula_url) {
+      return `<p class="tr-video-off">📘 A aula completa deste assunto está no seu curso de <b>${esc(v.curso_nome)}</b>.</p><a class="btn btn-primary" href="${esc(v.aula_url)}">Abrir a aula no curso</a>`;
+    }
+    return `<p class="tr-video-off">🎬 Este assunto tem uma aula completa no curso de <b>${esc(v.curso_nome)}</b>.</p><button type="button" class="btn btn-primary" data-aula>▶ Ver a aula</button>`;
   }
 
   function telaEtapa(t, n, aposErro) {
@@ -163,11 +165,11 @@
     const v = n.video;
     // Errou: oferece a aula daquele assunto. Aluno do curso abre o vídeo;
     // quem não é aluno recebe o convite de compra e pode seguir na trilha.
-    const botaoAula = aposErro && v && v.publicado ? `<button type="button" class="btn btn-primary tr-cta" data-aula>▶ Ver a aula que explica isso</button>` : '';
+    const botaoAula = aposErro && v ? `<button type="button" class="btn btn-primary tr-cta" data-aula>▶ Ver a aula que explica isso</button>` : '';
     app.innerHTML = `
       <a class="tr-voltar" href="#${t.slug}">← ${esc(t.nome)}</a>
       <section class="tr-etapa" style="--cor:${esc(t.cor)}">
-        ${aposErro ? `<div class="tr-alerta">Faltou pouco! Revise a explicação${v && v.publicado ? ' ou veja a aula' : ''} e tente de novo.${botaoAula}</div>` : ''}
+        ${aposErro ? `<div class="tr-alerta">Faltou pouco! Revise a explicação${v ? ' ou veja a aula' : ''} e tente de novo.${botaoAula}</div>` : ''}
         <h1>${esc(n.titulo)}</h1>
         <p class="tr-etapa-resumo">${esc(n.resumo)}${st ? ` · <b>${st.status === 'nivelado' ? 'você já domina' : `concluída com ${st.pct}%`}</b>` : ''}</p>
         <a class="btn btn-primary tr-cta" href="#${t.slug}/${n.id}/desafio">${st ? 'Refazer o desafio' : 'Começar o desafio'} · ${n.exercicios.length} perguntas</a>
@@ -177,7 +179,7 @@
           <pre class="tr-code">${esc(n.exemplo)}</pre>
         </details>
         <details class="tr-bloco" id="trBlocoVideo"${aposErro && v && v.liberado ? ' open' : ''}>
-          <summary>🎬 Vídeo do assunto (opcional)</summary>
+          <summary>🎬 Aula do assunto (opcional)</summary>
           ${blocoVideo(n)}
         </details>
       </section>`;
@@ -188,6 +190,7 @@
         bloco.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
+      if (v && v.aula_url) { location.href = v.aula_url; return; }
       abrirOferta(t, 'aula', n.titulo);
     }));
   }
