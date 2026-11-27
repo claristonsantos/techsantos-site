@@ -41,6 +41,7 @@ $cursos = cursos_a_venda_ordenados(db());
       <a href="servicos.html">Serviços</a>
       <a href="treinamentos.html">Treinamentos</a>
       <a href="/cursos.php" aria-current="page">Cursos</a>
+      <a href="/trilhas/">Trilhas</a>
       <a href="blog/index.php">Blog</a>
       <a href="contato.html">Contato</a>
       <a href="/login.php">Área do Aluno</a>

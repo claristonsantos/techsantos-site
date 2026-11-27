@@ -78,7 +78,7 @@ $videoUrl = 'https://media.techsantos.com.br/reels/' . $article['video'];
     <a class="brand" href="/"><img src="/assets/img/logo.jpg" alt="Tech Santos BR" /><span>TECH <em>SANTOS BR</em></span></a>
     <nav class="links">
       <a href="/">Home</a>
-      <a href="/cursos.php">Cursos</a><a href="/blog/" aria-current="page">Blog</a><a href="/contato.html">Contato</a><a href="/login.php">Área do Aluno</a>
+      <a href="/cursos.php">Cursos</a><a href="/trilhas/">Trilhas</a><a href="/blog/" aria-current="page">Blog</a><a href="/contato.html">Contato</a><a href="/login.php">Área do Aluno</a>
     </nav>
     <div class="nav-actions">
       <a class="btn btn-primary desktop-only" href="https://wa.me/5564992905785" target="_blank" rel="noopener">Falar no WhatsApp</a>

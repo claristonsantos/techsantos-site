@@ -61,6 +61,7 @@ declare(strict_types=1);
     <nav class="links">
       <a href="/">Home</a>
       <a href="/cursos.php">Cursos</a>
+      <a href="/trilhas/">Trilhas</a>
       <a href="/blog/index.php" aria-current="page">Blog</a>
       <a href="/contato.html">Contato</a>
       <a href="/login.php">Área do Aluno</a>

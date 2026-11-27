@@ -58,6 +58,7 @@ fbq('track', 'ViewContent', {content_name: 'Curso de Python para Dados', currenc
       <a href="servicos.html">Serviços</a>
       <a href="treinamentos.html">Treinamentos</a>
       <a href="/cursos.php">Cursos</a>
+      <a href="/trilhas/">Trilhas</a>
       <a href="blog/index.php">Blog</a>
       <a href="contato.html">Contato</a>
       <a href="/login.php">Área do Aluno</a>
