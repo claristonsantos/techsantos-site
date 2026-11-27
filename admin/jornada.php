@@ -26,9 +26,19 @@ $aluno = null;
 $jornada = [];
 $certificado = null;
 
+// Seletor de aluno: cada aluno uma vez, com quantos cursos ele tem.
+$listaAlunos = [];
+$cursosDoAluno = [];
+foreach ($alunos as $a) {
+    $id = (int)$a['id'];
+    $listaAlunos[$id] ??= ['nome' => $a['nome'], 'n' => 0];
+    $listaAlunos[$id]['n']++;
+    if ($id === $alunoId) $cursosDoAluno[] = $a;
+}
+
 if ($alunoId > 0) {
-    foreach ($alunos as $a) {
-        if ((int)$a['id'] === $alunoId && ($cursoId === 0 || (int)$a['curso_id'] === $cursoId)) { $aluno = $a; break; }
+    foreach ($cursosDoAluno as $a) {
+        if ($cursoId === 0 || (int)$a['curso_id'] === $cursoId) { $aluno = $a; break; }
     }
 
     if ($aluno) {
@@ -96,15 +106,24 @@ admin_topbar('jornada');
     <h2>Selecionar aluno</h2>
     <form method="get" novalidate style="flex-direction:row; align-items:flex-end; gap:0.75rem; flex-wrap:wrap;">
       <div class="field" style="flex:1; min-width:220px;">
-        <label for="alunoSel">Aluno</label>
-        <select id="alunoSel" required onchange="var v=this.value.split('-'); this.form.aluno.value=v[0]||''; this.form.curso.value=v[1]||''; this.form.submit()">
+        <label for="aluno">Aluno</label>
+        <select id="aluno" name="aluno" required onchange="if (this.form.curso) this.form.curso.value=''; this.form.submit()">
           <option value="">Selecione…</option>
-          <?php foreach ($alunos as $a): $sel = $aluno && (int)$aluno['id'] === (int)$a['id'] && (int)$aluno['curso_id'] === (int)$a['curso_id']; ?>
-            <option value="<?= (int)$a['id'] ?>-<?= (int)$a['curso_id'] ?>" <?= $sel ? 'selected' : '' ?>><?= htmlspecialchars($a['nome'], ENT_QUOTES) ?> — <?= htmlspecialchars($a['curso_nome'], ENT_QUOTES) ?></option>
+          <?php foreach ($listaAlunos as $id => $a): ?>
+            <option value="<?= $id ?>" <?= $alunoId === $id ? 'selected' : '' ?>><?= htmlspecialchars($a['nome'], ENT_QUOTES) ?><?= $a['n'] > 1 ? ' (' . $a['n'] . ' cursos)' : '' ?></option>
           <?php endforeach; ?>
         </select>
-        <input type="hidden" name="aluno" value="<?= $alunoId ?: '' ?>"><input type="hidden" name="curso" value="<?= $cursoId ?: '' ?>">
       </div>
+      <?php if ($cursosDoAluno): ?>
+      <div class="field" style="flex:1; min-width:220px;">
+        <label for="curso">Curso</label>
+        <select id="curso" name="curso" onchange="this.form.submit()">
+          <?php foreach ($cursosDoAluno as $c): ?>
+            <option value="<?= (int)$c['curso_id'] ?>" <?= $aluno && (int)$aluno['curso_id'] === (int)$c['curso_id'] ? 'selected' : '' ?>><?= htmlspecialchars($c['curso_nome'], ENT_QUOTES) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <?php endif; ?>
       <noscript><button type="submit" class="btn btn-primary">Ver jornada</button></noscript>
     </form>
   </div>
