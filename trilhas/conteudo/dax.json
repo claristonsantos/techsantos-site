@@ -87,6 +87,171 @@
    ]
   },
   {
+   "id": "comentarios",
+   "titulo": "Comentários e organização",
+   "resumo": "//, -- e /* */ para documentar medidas",
+   "teoria": [
+    "Comentário de uma linha: // ou --. Bloco: /* ... */. Comentários explicam a regra de negócio ('exclui pedidos cancelados') e não interferem no cálculo.",
+    "Organize a escrita: uma função por linha, recuo nos argumentos e Shift+Enter para quebrar linha na barra de fórmulas. Medida legível é medida fácil de manter."
+   ],
+   "exemplo": "Faturamento Líquido =\n// exclui pedidos cancelados e devoluções\nCALCULATE(\n    [Faturamento],\n    Vendas[Status] <> \"Cancelado\"\n)",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "dax-sintaxe-medidas"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o símbolo ao tipo de comentário.",
+     "pares": [
+      [
+       "//",
+       "Uma linha"
+      ],
+      [
+       "--",
+       "Uma linha (alternativa)"
+      ],
+      [
+       "/* ... */",
+       "Bloco de várias linhas"
+      ],
+      [
+       "Shift + Enter",
+       "Quebrar linha na barra de fórmulas"
+      ]
+     ],
+     "explica": "Os três formatos de comentário são aceitos no DAX."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Um comentário // dentro da medida muda o resultado do cálculo.",
+     "correta": false,
+     "explica": "Comentários são ignorados na execução."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para comentar várias linhas:",
+     "codigo": "___ regra: só pedidos faturados\n   revisado em 11/2026 */",
+     "opcoes": [
+      "/*",
+      "//",
+      "#",
+      "<!--"
+     ],
+     "correta": 0,
+     "explica": "Bloco começa com /* e termina com */."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual medida é mais fácil de manter?",
+     "opcoes": [
+      "A que tem uma função por linha, recuo e um comentário explicando a regra",
+      "A escrita toda numa linha só",
+      "A sem nenhum espaço",
+      "A com nomes de variáveis como x1, x2"
+     ],
+     "correta": 0,
+     "explica": "Legibilidade economiza tempo de quem vai mexer depois (inclusive você)."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual atalho quebra a linha na barra de fórmulas do Power BI?",
+     "dica": "Atalho de teclado",
+     "respostas": [
+      "Shift + Enter",
+      "shift+enter",
+      "Shift+Enter"
+     ],
+     "explica": "Enter sozinho confirma a medida."
+    }
+   ]
+  },
+  {
+   "id": "contagens",
+   "titulo": "Contagens",
+   "resumo": "COUNT, COUNTROWS, DISTINCTCOUNT e COUNTBLANK",
+   "teoria": [
+    "COUNTROWS( Vendas ) conta linhas da tabela; COUNT( coluna ) conta valores não vazios; DISTINCTCOUNT( coluna ) conta valores únicos (clientes diferentes); COUNTBLANK conta vazios.",
+    "Pergunta típica: 'quantos clientes compraram?' é DISTINCTCOUNT( Vendas[CodCliente] ), não COUNTROWS."
+   ],
+   "exemplo": "Clientes Ativos = DISTINCTCOUNT( Vendas[CodCliente] )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "dax-colunas-medidas-matematica"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Quantos clientes DIFERENTES compraram no período?",
+     "opcoes": [
+      "DISTINCTCOUNT( Vendas[CodCliente] )",
+      "COUNTROWS( Vendas )",
+      "COUNT( Vendas[CodCliente] )",
+      "SUM( Vendas[CodCliente] )"
+     ],
+     "correta": 0,
+     "explica": "Cliente que comprou 5 vezes conta uma vez só."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao que ela conta.",
+     "pares": [
+      [
+       "COUNTROWS",
+       "Linhas da tabela"
+      ],
+      [
+       "DISTINCTCOUNT",
+       "Valores únicos"
+      ],
+      [
+       "COUNTBLANK",
+       "Valores vazios"
+      ],
+      [
+       "COUNT",
+       "Valores não vazios de uma coluna"
+      ]
+     ],
+     "explica": "Escolha a contagem pela pergunta."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a medida de número de pedidos (uma linha por pedido):",
+     "codigo": "Pedidos = ___( Pedidos )",
+     "opcoes": [
+      "COUNTROWS",
+      "DISTINCTCOUNT",
+      "SUM",
+      "COUNTBLANK"
+     ],
+     "correta": 0,
+     "explica": "COUNTROWS recebe uma tabela."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "SUM( Vendas[CodCliente] ) é uma forma válida de contar clientes.",
+     "correta": false,
+     "explica": "Somar códigos não tem significado."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A tabela Vendas tem uma linha por ITEM. Como contar pedidos?",
+     "opcoes": [
+      "DISTINCTCOUNT( Vendas[NumPedido] )",
+      "COUNTROWS( Vendas )",
+      "COUNT( Vendas[Valor] )",
+      "MAX( Vendas[NumPedido] )"
+     ],
+     "correta": 0,
+     "explica": "Vários itens do mesmo pedido contam como um pedido."
+    }
+   ]
+  },
+  {
    "id": "colunas-medidas",
    "titulo": "Coluna calculada × medida",
    "resumo": "Quando usar cada uma",
@@ -242,6 +407,165 @@
      ],
      "correta": 0,
      "explica": "& concatena texto no DAX (CONCATENATE também, com 2 argumentos)."
+    }
+   ]
+  },
+  {
+   "id": "variaveis",
+   "titulo": "Variáveis: VAR e RETURN",
+   "resumo": "Medidas mais legíveis e mais rápidas",
+   "teoria": [
+    "VAR guarda um resultado intermediário com nome; RETURN devolve o resultado final. A variável é calculada uma vez, no contexto em que foi definida.",
+    "Use para não repetir expressões e para depurar: troque o RETURN por uma variável intermediária para ver o valor dela."
+   ],
+   "exemplo": "Margem % =\nVAR Receita = [Faturamento]\nVAR Custo = [Custo Total]\nRETURN DIVIDE( Receita - Custo, Receita )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "padroes-medidas-dax"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a medida de margem com variáveis.",
+     "pecas": [
+      "Margem % =",
+      "VAR Receita = [Faturamento]",
+      "VAR Custo = [Custo Total]",
+      "RETURN DIVIDE( Receita - Custo, Receita )"
+     ],
+     "extras": [
+      "END"
+     ],
+     "explica": "Todas as VAR primeiro, depois um único RETURN."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Uma variável é recalculada toda vez que aparece depois do RETURN.",
+     "correta": false,
+     "explica": "Ela é avaliada uma vez; isso também ajuda o desempenho."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a palavra que devolve o resultado:",
+     "codigo": "VAR Total = [Faturamento]\n___ Total * 1.1",
+     "opcoes": [
+      "RETURN",
+      "RESULT",
+      "THEN",
+      "OUTPUT"
+     ],
+     "correta": 0,
+     "explica": "VAR ... RETURN."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como ver o valor de uma variável intermediária quando a medida dá resultado estranho?",
+     "opcoes": [
+      "Trocar temporariamente o RETURN para devolver aquela variável",
+      "Apagar a medida e começar de novo",
+      "Usar um tema diferente",
+      "Exportar para Excel"
+     ],
+     "correta": 0,
+     "explica": "Depuração simples: devolva o passo intermediário."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual vantagem NÃO é das variáveis?",
+     "opcoes": [
+      "Elas criam colunas físicas no modelo",
+      "Evitam repetir a mesma expressão",
+      "Deixam a medida mais legível",
+      "Facilitam depurar"
+     ],
+     "correta": 0,
+     "explica": "Variáveis existem só durante o cálculo da medida."
+    }
+   ]
+  },
+  {
+   "id": "formato-texto",
+   "titulo": "Títulos dinâmicos e texto",
+   "resumo": "SELECTEDVALUE, FORMAT e CONCATENATEX",
+   "teoria": [
+    "SELECTEDVALUE( coluna, \"padrão\" ) devolve o valor escolhido na segmentação (ou o padrão quando há vários). Com isso você cria títulos dinâmicos: 'Vendas de ' & SELECTEDVALUE( Lojas[Loja], \"todas as lojas\" ).",
+    "FORMAT( valor, \"R$ #,##0\" ) transforma número em texto formatado. CONCATENATEX junta os itens selecionados numa frase. Use a medida em Formatar > Título > fx."
+   ],
+   "exemplo": "Título = \"Vendas de \" & SELECTEDVALUE( Lojas[Loja], \"todas as lojas\" )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "dax-logica-erros-texto"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o título dinâmico:",
+     "codigo": "Título = \"Vendas de \" & ___( Lojas[Loja], \"todas as lojas\" )",
+     "opcoes": [
+      "SELECTEDVALUE",
+      "VALUES",
+      "RELATED",
+      "FIRSTNONBLANK"
+     ],
+     "correta": 0,
+     "explica": "Uma loja escolhida devolve o nome; várias ou nenhuma devolve o padrão."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde se liga a medida de título dinâmico ao visual?",
+     "opcoes": [
+      "Formatar visual > Título > botão fx",
+      "No eixo X",
+      "No filtro de página",
+      "No Power Query"
+     ],
+     "correta": 0,
+     "explica": "O botão fx aceita formatação por medida."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "FORMAT devolve texto, então o resultado não pode mais ser somado como número.",
+     "correta": true,
+     "explica": "Use FORMAT só para exibir."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao uso.",
+     "pares": [
+      [
+       "SELECTEDVALUE",
+       "Valor único escolhido no filtro"
+      ],
+      [
+       "FORMAT",
+       "Número como texto formatado"
+      ],
+      [
+       "CONCATENATEX",
+       "Juntar vários itens numa frase"
+      ],
+      [
+       "HASONEVALUE",
+       "Testar se há só um valor no filtro"
+      ]
+     ],
+     "explica": "Ferramentas para textos que mudam com o filtro."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a lista das regiões selecionadas separadas por vírgula.",
+     "pecas": [
+      "Regiões =",
+      "CONCATENATEX(",
+      "VALUES( Clientes[Região] ),",
+      "Clientes[Região], \", \" )"
+     ],
+     "extras": [
+      "SUM( Clientes[Região] )"
+     ],
+     "explica": "CONCATENATEX(tabela, expressão, separador)."
     }
    ]
   },
@@ -409,6 +733,91 @@
    ]
   },
   {
+   "id": "tabelas-virtuais",
+   "titulo": "Tabelas virtuais",
+   "resumo": "SUMMARIZE, ADDCOLUMNS, VALUES e TOPN",
+   "teoria": [
+    "Funções de tabela criam tabelas temporárias dentro da medida: VALUES (valores distintos), SUMMARIZE (agrupa), ADDCOLUMNS (acrescenta colunas calculadas), TOPN (os N primeiros).",
+    "Combine com iteradores: média de faturamento por cliente = AVERAGEX( VALUES( Vendas[CodCliente] ), [Faturamento] )."
+   ],
+   "exemplo": "Ticket por Cliente = AVERAGEX( VALUES( Vendas[CodCliente] ), [Faturamento] )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "dax-tabelas-tempo"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Calcule o faturamento médio por cliente.",
+     "pecas": [
+      "Média por Cliente =",
+      "AVERAGEX(",
+      "VALUES( Vendas[CodCliente] ),",
+      "[Faturamento] )"
+     ],
+     "extras": [
+      "AVERAGE( [Faturamento] )"
+     ],
+     "explica": "Para cada cliente distinto calcula o faturamento e tira a média."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função ao resultado.",
+     "pares": [
+      [
+       "VALUES",
+       "Valores distintos de uma coluna"
+      ],
+      [
+       "SUMMARIZE",
+       "Tabela agrupada"
+      ],
+      [
+       "ADDCOLUMNS",
+       "Tabela com colunas novas"
+      ],
+      [
+       "TOPN",
+       "As N primeiras linhas por uma ordem"
+      ]
+     ],
+     "explica": "Funções de tabela alimentam iteradores e CALCULATE."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Uma medida pode devolver uma tabela inteira para um visual de cartão.",
+     "correta": false,
+     "explica": "Medida devolve um valor; tabelas virtuais ficam dentro do cálculo."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete: faturamento dos 5 maiores clientes.",
+     "codigo": "Top 5 = SUMX( ___( 5, VALUES( Clientes[Cliente] ), [Faturamento] ), [Faturamento] )",
+     "opcoes": [
+      "TOPN",
+      "RANKX",
+      "FILTER",
+      "MAXX"
+     ],
+     "correta": 0,
+     "explica": "TOPN(n, tabela, ordem)."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde testar uma tabela virtual para ver as linhas que ela gera?",
+     "opcoes": [
+      "Na Exibição de consulta DAX, com EVALUATE",
+      "No visual de cartão",
+      "No Power Query",
+      "Na segmentação"
+     ],
+     "correta": 0,
+     "explica": "EVALUATE SUMMARIZE(...) mostra o resultado em grade."
+    }
+   ]
+  },
+  {
    "id": "contexto",
    "titulo": "Contextos",
    "resumo": "Contexto de filtro e de linha, SUMX",
@@ -485,6 +894,256 @@
      ],
      "correta": 0,
      "explica": "A fórmula é uma só; o que muda é o filtro de cada célula."
+    }
+   ]
+  },
+  {
+   "id": "iteradores",
+   "titulo": "Iteradores (funções X)",
+   "resumo": "SUMX, AVERAGEX, MAXX linha a linha",
+   "teoria": [
+    "SUM soma uma coluna. SUMX percorre uma tabela linha a linha, calcula uma expressão em cada linha e soma: SUMX( Vendas, Vendas[Quantidade] * Vendas[Preço] ).",
+    "Toda função X tem o mesmo formato: (tabela, expressão por linha). AVERAGEX, MINX, MAXX, COUNTX, RANKX."
+   ],
+   "exemplo": "Receita = SUMX( Vendas, Vendas[Quantidade] * Vendas[Preço Unitário] )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "contextos-dax"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a receita calculada linha a linha:",
+     "codigo": "Receita = ___( Vendas, Vendas[Quantidade] * Vendas[Preço] )",
+     "opcoes": [
+      "SUMX",
+      "SUM",
+      "CALCULATE",
+      "COUNTX"
+     ],
+     "correta": 0,
+     "explica": "SUMX multiplica em cada linha e depois soma."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "SUM( Vendas[Quantidade] * Vendas[Preço] ) funciona no DAX.",
+     "correta": false,
+     "explica": "SUM recebe só uma coluna; para expressão por linha use SUMX."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual o maior valor de pedido (quantidade × preço) do período?",
+     "opcoes": [
+      "MAXX( Vendas, Vendas[Quantidade] * Vendas[Preço] )",
+      "MAX( Vendas[Quantidade] ) * MAX( Vendas[Preço] )",
+      "SUMX( MAX( Vendas ) )",
+      "TOPN( Vendas )"
+     ],
+     "correta": 0,
+     "explica": "Multiplicar os máximos de colunas separadas não dá o maior pedido."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o iterador à pergunta.",
+     "pares": [
+      [
+       "SUMX",
+       "Receita item a item"
+      ],
+      [
+       "AVERAGEX",
+       "Média do valor por pedido"
+      ],
+      [
+       "MAXX",
+       "Maior pedido"
+      ],
+      [
+       "COUNTX",
+       "Quantos pedidos têm valor calculado"
+      ]
+     ],
+     "explica": "Mesmo formato: tabela, expressão."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual é o primeiro argumento de toda função X (SUMX, AVERAGEX...)?",
+     "dica": "Uma palavra",
+     "respostas": [
+      "tabela",
+      "a tabela",
+      "uma tabela"
+     ],
+     "explica": "Primeiro a tabela a percorrer, depois a expressão."
+    }
+   ]
+  },
+  {
+   "id": "transicao",
+   "titulo": "Transição de contexto",
+   "resumo": "Medida dentro de iterador e CALCULATE em linha",
+   "teoria": [
+    "Contexto de linha (dentro de coluna calculada ou iterador) não filtra o modelo sozinho. CALCULATE transforma o contexto de linha em filtro: é a transição de contexto.",
+    "Toda medida já vem 'embrulhada' num CALCULATE invisível. Por isso [Faturamento] dentro de SUMX( Clientes, ... ) devolve o faturamento de cada cliente."
+   ],
+   "exemplo": "Coluna em Clientes:  Faturamento Cliente = [Faturamento]   -- funciona por transição de contexto",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "contextos-dax"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Na tabela Clientes, a coluna calculada = SUM( Vendas[Valor] ) mostra o mesmo total geral em todas as linhas. Por quê?",
+     "opcoes": [
+      "Contexto de linha não filtra Vendas; falta transição de contexto (CALCULATE ou uma medida)",
+      "Relacionamento errado sempre",
+      "SUM não funciona em coluna",
+      "Falta formato de moeda"
+     ],
+     "correta": 0,
+     "explica": "Com CALCULATE( SUM(...) ) ou [Faturamento], cada linha filtra o seu cliente."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para cada linha de Clientes mostrar só as vendas daquele cliente:",
+     "codigo": "Total Cliente = ___( SUM( Vendas[Valor] ) )",
+     "opcoes": [
+      "CALCULATE",
+      "VALUES",
+      "FORMAT",
+      "ALL"
+     ],
+     "correta": 0,
+     "explica": "CALCULATE converte o contexto de linha em filtro."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Chamar uma medida dentro de um iterador provoca transição de contexto automaticamente.",
+     "correta": true,
+     "explica": "Medidas têm um CALCULATE implícito."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o termo ao significado.",
+     "pares": [
+      [
+       "Contexto de filtro",
+       "Filtros que vêm do visual e segmentações"
+      ],
+      [
+       "Contexto de linha",
+       "A linha atual numa coluna ou iterador"
+      ],
+      [
+       "Transição de contexto",
+       "Linha vira filtro via CALCULATE"
+      ],
+      [
+       "CALCULATE implícito",
+       "Toda referência a medida"
+      ]
+     ],
+     "explica": "Base para entender resultados 'estranhos' no DAX."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Clientes com faturamento acima de 10 mil: por que FILTER( Clientes, [Faturamento] > 10000 ) funciona?",
+     "opcoes": [
+      "A medida dentro do FILTER sofre transição de contexto para cada cliente",
+      "FILTER soma tudo antes",
+      "Porque Clientes é a tabela fato",
+      "Não funciona"
+     ],
+     "correta": 0,
+     "explica": "Cada linha de Clientes vira filtro ao avaliar [Faturamento]."
+    }
+   ]
+  },
+  {
+   "id": "ranking",
+   "titulo": "Ranking e Top N",
+   "resumo": "RANKX, TOPN e ALLSELECTED",
+   "teoria": [
+    "RANKX( ALL( Vendedores[Vendedor] ), [Faturamento] ) dá a posição de cada vendedor. Use ALLSELECTED se o ranking deve respeitar a seleção do usuário. DENSE evita pular posições em empates.",
+    "Para mostrar só o top 10 num visual sem DAX, use o filtro Top N; para usar o ranking em outras contas, crie a medida com RANKX."
+   ],
+   "exemplo": "Ranking = RANKX( ALL( Vendedores[Vendedor] ), [Faturamento], , DESC, DENSE )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "padroes-medidas-dax"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte o ranking de vendedores pelo faturamento.",
+     "pecas": [
+      "Ranking =",
+      "RANKX(",
+      "ALL( Vendedores[Vendedor] ),",
+      "[Faturamento] )"
+     ],
+     "extras": [
+      "TOPN( 10 )"
+     ],
+     "explica": "ALL remove o filtro do vendedor da linha, para comparar com todos."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Sem ALL, cada linha do visual só enxerga o próprio vendedor e o ranking dá 1 para todos.",
+     "correta": true,
+     "explica": "O clássico 'todo mundo em 1º'."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a opção ao efeito.",
+     "pares": [
+      [
+       "ALL",
+       "Ranking entre todos os vendedores"
+      ],
+      [
+       "ALLSELECTED",
+       "Ranking só entre os selecionados"
+      ],
+      [
+       "DENSE",
+       "Empates não pulam posição"
+      ],
+      [
+       "DESC",
+       "Maior valor fica em 1º"
+      ]
+     ],
+     "explica": "Pequenos argumentos, grande diferença."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para empates não pularem posições:",
+     "codigo": "RANKX( ALL( Vendedores[Vendedor] ), [Faturamento], , DESC, ___ )",
+     "opcoes": [
+      "DENSE",
+      "SKIP",
+      "TRUE",
+      "ASC"
+     ],
+     "correta": 0,
+     "explica": "Com SKIP, dois empatados em 2º fazem o próximo ser 4º."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Para usar 'está no top 5?' numa formatação condicional, o que criar?",
+     "opcoes": [
+      "Medida: IF( [Ranking] <= 5, 1, 0 )",
+      "Um tema novo",
+      "Um indicador",
+      "Uma coluna no Power Query com o top 5 fixo"
+     ],
+     "correta": 0,
+     "explica": "Medida responde ao filtro; coluna fixa não muda com o período."
     }
    ]
   },
@@ -570,6 +1229,491 @@
      "explica": "(atual − anterior) ÷ anterior. A opção sem o DIVIDE dá a diferença em reais, não o %."
     }
    ]
+  },
+  {
+   "id": "yoy",
+   "titulo": "Comparação com o ano anterior",
+   "resumo": "SAMEPERIODLASTYEAR, DATEADD e variação %",
+   "teoria": [
+    "Ano anterior: CALCULATE( [Faturamento], SAMEPERIODLASTYEAR( Calendario[Data] ) ). DATEADD( Calendario[Data], -1, MONTH ) desloca por mês, trimestre ou ano.",
+    "Variação %: DIVIDE( [Faturamento] - [Faturamento AA], [Faturamento AA] ). Precisa de uma tabela Calendário marcada e contínua."
+   ],
+   "exemplo": "Faturamento AA = CALCULATE( [Faturamento], SAMEPERIODLASTYEAR( Calendario[Data] ) )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "dax-tabelas-tempo"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o faturamento do mesmo período do ano anterior:",
+     "codigo": "Faturamento AA = CALCULATE( [Faturamento], ___( Calendario[Data] ) )",
+     "opcoes": [
+      "SAMEPERIODLASTYEAR",
+      "PREVIOUSDAY",
+      "TODAY",
+      "YEAR"
+     ],
+     "correta": 0,
+     "explica": "Desloca o período filtrado em um ano."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a variação % sobre o ano anterior.",
+     "pecas": [
+      "Var % AA =",
+      "DIVIDE(",
+      "[Faturamento] - [Faturamento AA],",
+      "[Faturamento AA] )"
+     ],
+     "extras": [
+      "[Faturamento] / 100"
+     ],
+     "explica": "Diferença dividida pela base do ano anterior."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Faturamento do mês anterior, qual expressão?",
+     "opcoes": [
+      "CALCULATE( [Faturamento], DATEADD( Calendario[Data], -1, MONTH ) )",
+      "[Faturamento] - 1",
+      "CALCULATE( [Faturamento], MONTH( -1 ) )",
+      "PREVIOUSMONTH( [Faturamento] )"
+     ],
+     "correta": 0,
+     "explica": "DATEADD desloca o intervalo de datas."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Funções de inteligência de tempo devem usar a coluna de data da tabela Calendário, não a da tabela Vendas.",
+     "correta": true,
+     "explica": "A dimensão de datas é contínua e marcada."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual função desloca as datas por um intervalo (ex.: -1 mês)?",
+     "dica": "Nome da função",
+     "respostas": [
+      "DATEADD",
+      "DATEADD()"
+     ],
+     "explica": "DATEADD(datas, número, intervalo)."
+    }
+   ]
+  },
+  {
+   "id": "acumulados",
+   "titulo": "Acumulados e médias móveis",
+   "resumo": "YTD, MTD e acumulado contínuo",
+   "teoria": [
+    "Acumulado no ano: TOTALYTD( [Faturamento], Calendario[Data] ) ou CALCULATE( [Faturamento], DATESYTD( Calendario[Data] ) ). MTD e QTD seguem a mesma ideia.",
+    "Acumulado sem reiniciar: CALCULATE( [Faturamento], FILTER( ALL( Calendario[Data] ), Calendario[Data] <= MAX( Calendario[Data] ) ) ). Média móvel de 3 meses: DATESINPERIOD."
+   ],
+   "exemplo": "Acumulado = CALCULATE( [Faturamento], FILTER( ALL( Calendario[Data] ), Calendario[Data] <= MAX( Calendario[Data] ) ) )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "dax-tabelas-tempo"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o acumulado no ano:",
+     "codigo": "Fat YTD = CALCULATE( [Faturamento], ___( Calendario[Data] ) )",
+     "opcoes": [
+      "DATESYTD",
+      "SAMEPERIODLASTYEAR",
+      "VALUES",
+      "CALENDAR"
+     ],
+     "correta": 0,
+     "explica": "DATESYTD devolve as datas do início do ano até a data atual do filtro."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte o acumulado que não reinicia no ano.",
+     "pecas": [
+      "Acumulado = CALCULATE( [Faturamento],",
+      "FILTER( ALL( Calendario[Data] ),",
+      "Calendario[Data] <= MAX( Calendario[Data] ) ) )"
+     ],
+     "extras": [
+      "DATESYTD( Calendario[Data] )"
+     ],
+     "explica": "Remove o filtro de data e pega tudo até a última data do contexto."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "TOTALYTD reinicia o acumulado em 1º de janeiro.",
+     "correta": true,
+     "explica": "Para outro fim de ano fiscal, informe a data final (ex.: \"06-30\")."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a medida ao que ela mostra.",
+     "pares": [
+      [
+       "YTD",
+       "Do início do ano até agora"
+      ],
+      [
+       "MTD",
+       "Do início do mês até agora"
+      ],
+      [
+       "Acumulado contínuo",
+       "Desde o primeiro dia dos dados"
+      ],
+      [
+       "Média móvel 3M",
+       "Média dos últimos 3 meses"
+      ]
+     ],
+     "explica": "Escolha pela pergunta do gestor."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual função ajuda a montar a média móvel dos últimos 3 meses?",
+     "opcoes": [
+      "DATESINPERIOD( Calendario[Data], MAX( Calendario[Data] ), -3, MONTH )",
+      "SAMEPERIODLASTYEAR",
+      "RANKX",
+      "FORMAT"
+     ],
+     "correta": 0,
+     "explica": "DATESINPERIOD devolve uma janela de datas."
+    }
+   ]
+  },
+  {
+   "id": "calculation-groups",
+   "titulo": "Calculation groups",
+   "resumo": "Um cálculo de tempo para todas as medidas",
+   "teoria": [
+    "Em vez de criar Faturamento YTD, Lucro YTD, Quantidade YTD..., crie um grupo de cálculo 'Inteligência de Tempo' com itens que usam SELECTEDMEASURE(): YTD = CALCULATE( SELECTEDMEASURE(), DATESYTD( Calendario[Data] ) ).",
+    "No Power BI Desktop: Exibição de modelo > Grupo de cálculo. Coloque a coluna do grupo numa matriz ou segmentação e qualquer medida explícita ganha os itens. Use cadeia de formato dinâmica para % e valores."
+   ],
+   "exemplo": "Item YTD = CALCULATE( SELECTEDMEASURE(), DATESYTD( Calendario[Data] ) )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "padroes-medidas-dax"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o item de cálculo que funciona para qualquer medida:",
+     "codigo": "YTD = CALCULATE( ___(), DATESYTD( Calendario[Data] ) )",
+     "opcoes": [
+      "SELECTEDMEASURE",
+      "SELECTEDVALUE",
+      "MEASURE",
+      "ALLMEASURES"
+     ],
+     "correta": 0,
+     "explica": "SELECTEDMEASURE() é a medida que está no visual."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Com um grupo de cálculo de tempo, você evita criar dezenas de medidas YTD, AA e Var %.",
+     "correta": true,
+     "explica": "Um item serve para todas as medidas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde se cria um grupo de cálculo no Power BI Desktop?",
+     "opcoes": [
+      "Exibição de modelo > Grupo de cálculo",
+      "Power Query > Nova consulta",
+      "Formatar visual > Geral",
+      "Exibir > Temas"
+     ],
+     "correta": 0,
+     "explica": "Hoje dá para criar direto no Desktop, sem ferramenta externa."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o elemento ao papel.",
+     "pares": [
+      [
+       "Grupo de cálculo",
+       "Tabela especial com os itens"
+      ],
+      [
+       "Item de cálculo",
+       "YTD, AA, Var %"
+      ],
+      [
+       "SELECTEDMEASURE()",
+       "A medida que está no visual"
+      ],
+      [
+       "Cadeia de formato dinâmica",
+       "Formato certo para cada item"
+      ]
+     ],
+     "explica": "Os itens 'embrulham' a medida escolhida."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Grupos de cálculo funcionam com medidas implícitas (arrastar uma coluna e o Power BI somar sozinho).",
+     "correta": false,
+     "explica": "Funcionam com medidas explícitas; o Power BI desencoraja medidas implícitas ao criar o grupo."
+    }
+   ]
+  },
+  {
+   "id": "calculos-visuais",
+   "titulo": "Cálculos visuais",
+   "resumo": "RUNNINGSUM, MOVINGAVERAGE e PREVIOUS no próprio visual",
+   "teoria": [
+    "Cálculo visual é criado dentro do visual (Novo cálculo visual) e enxerga só a grade do visual: linhas e colunas que aparecem. Não fica no modelo.",
+    "Funções próprias: RUNNINGSUM (acumulado), MOVINGAVERAGE (média móvel), PREVIOUS e NEXT (linha anterior e próxima), FIRST e LAST. Fica muito mais simples que o DAX equivalente no modelo."
+   ],
+   "exemplo": "Acumulado = RUNNINGSUM( [Faturamento] )\nMédia 3M = MOVINGAVERAGE( [Faturamento], 3 )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "padroes-medidas-dax"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o acumulado como cálculo visual:",
+     "codigo": "Acumulado = ___( [Faturamento] )",
+     "opcoes": [
+      "RUNNINGSUM",
+      "TOTALYTD",
+      "SUMX",
+      "CUMSUM"
+     ],
+     "correta": 0,
+     "explica": "RUNNINGSUM soma ao longo das linhas do visual."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Um cálculo visual pode ser reutilizado em qualquer outro visual do relatório.",
+     "correta": false,
+     "explica": "Ele pertence só ao visual onde foi criado."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a função de cálculo visual ao resultado.",
+     "pares": [
+      [
+       "RUNNINGSUM",
+       "Acumulado"
+      ],
+      [
+       "MOVINGAVERAGE",
+       "Média móvel"
+      ],
+      [
+       "PREVIOUS",
+       "Valor da linha anterior"
+      ],
+      [
+       "FIRST",
+       "Valor da primeira linha"
+      ]
+     ],
+     "explica": "Funções pensadas para a grade do visual."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a variação contra o mês anterior como cálculo visual.",
+     "pecas": [
+      "Var Mês =",
+      "[Faturamento] -",
+      "PREVIOUS( [Faturamento] )"
+     ],
+     "extras": [
+      "SAMEPERIODLASTYEAR( [Faturamento] )"
+     ],
+     "explica": "PREVIOUS pega a linha anterior da grade."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Quando preferir cálculo visual em vez de medida no modelo?",
+     "opcoes": [
+      "Cálculo que só faz sentido naquele visual, como acumulado da tabela exibida",
+      "Indicador oficial usado em vários relatórios",
+      "Regra de RLS",
+      "Coluna de chave"
+     ],
+     "correta": 0,
+     "explica": "Regra de negócio compartilhada fica no modelo."
+    }
+   ]
+  },
+  {
+   "id": "udf",
+   "titulo": "Funções definidas pelo usuário (UDF)",
+   "resumo": "Reaproveitar lógica DAX com parâmetros",
+   "teoria": [
+    "UDFs (recurso novo, em versão prévia) permitem criar suas próprias funções DAX com parâmetros e usá-las em várias medidas: escreva uma vez, use em todo lugar.",
+    "Na Exibição de consulta DAX: DEFINE FUNCTION Nome = ( parametro ) => expressão, e depois atualize o modelo. Ex.: FUNCTION ComImposto = ( valor ) => valor * 1.1, usada como ComImposto( [Faturamento] )."
+   ],
+   "exemplo": "DEFINE\n    FUNCTION ComImposto = ( valor ) => valor * 1.1\nEVALUATE { ComImposto( 100 ) }",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "padroes-medidas-dax"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual problema as UDFs resolvem?",
+     "opcoes": [
+      "Repetir a mesma lógica em várias medidas",
+      "Atualizar os dados mais rápido",
+      "Criar relacionamentos automáticos",
+      "Trocar o tema do relatório"
+     ],
+     "correta": 0,
+     "explica": "A lógica fica num lugar só; mudou, todas as medidas acompanham."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a definição da função:",
+     "codigo": "FUNCTION ComImposto = ( valor ) ___ valor * 1.1",
+     "opcoes": [
+      "=>",
+      "->",
+      "RETURN",
+      ":="
+     ],
+     "correta": 0,
+     "explica": "A seta => separa parâmetros do corpo."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Depois de definida no modelo, a UDF pode ser chamada dentro de medidas, como ComImposto( [Faturamento] ).",
+     "correta": true,
+     "explica": "Funciona como qualquer função DAX."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o recurso ao que ele reaproveita.",
+     "pares": [
+      [
+       "Medida",
+       "Um valor calculado com nome"
+      ],
+      [
+       "UDF",
+       "Lógica com parâmetros"
+      ],
+      [
+       "Grupo de cálculo",
+       "Transformação aplicada a qualquer medida"
+      ],
+      [
+       "Variável",
+       "Resultado intermediário dentro de uma medida"
+      ]
+     ],
+     "explica": "Quatro formas de evitar repetição, cada uma no seu nível."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde se escreve e testa a UDF antes de salvar no modelo?",
+     "opcoes": [
+      "Exibição de consulta DAX",
+      "Power Query",
+      "Painel de seleção",
+      "Configurações do tema"
+     ],
+     "correta": 0,
+     "explica": "A exibição de consulta DAX permite DEFINE, EVALUATE e atualizar o modelo."
+    }
+   ]
+  },
+  {
+   "id": "validar",
+   "titulo": "Validar medidas",
+   "resumo": "Conferir antes de confiar",
+   "teoria": [
+    "Valide toda medida nova: compare com a fonte num período fechado, teste em visuais diferentes (cartão, matriz por mês, por categoria) e confira se o total da matriz faz sentido.",
+    "Use a Exibição de consulta DAX com EVALUATE SUMMARIZECOLUMNS(...) para ver números por grupo, e casos limite: período sem vendas, filtro com um item só, divisão por zero."
+   ],
+   "exemplo": "EVALUATE SUMMARIZECOLUMNS( Calendario[Ano], \"Fat\", [Faturamento] )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "validar-medidas-dax"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual teste pega o erro clássico de medida percentual somada no total?",
+     "opcoes": [
+      "Olhar a linha de total da matriz e ver se o % faz sentido",
+      "Ver se o cartão está bonito",
+      "Contar as medidas do modelo",
+      "Atualizar o modelo duas vezes"
+     ],
+     "correta": 0,
+     "explica": "Total de % não é a soma das linhas."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a consulta de conferência por ano:",
+     "codigo": "___ SUMMARIZECOLUMNS( Calendario[Ano], \"Fat\", [Faturamento] )",
+     "opcoes": [
+      "EVALUATE",
+      "SELECT",
+      "RETURN",
+      "SHOW"
+     ],
+     "correta": 0,
+     "explica": "Consultas DAX começam com EVALUATE."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o caso limite ao que testar.",
+     "pares": [
+      [
+       "Mês sem vendas",
+       "Medida mostra vazio ou zero"
+      ],
+      [
+       "Faturamento zero",
+       "Divisão não dá erro"
+      ],
+      [
+       "Um item filtrado",
+       "Título e ranking corretos"
+      ],
+      [
+       "Ano fechado",
+       "Total bate com o sistema"
+      ]
+     ],
+     "explica": "Casos limite revelam bugs escondidos."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Se a medida funcionou no cartão, ela com certeza funciona por mês e por categoria.",
+     "correta": false,
+     "explica": "Contextos diferentes mudam o resultado; teste em vários visuais."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Ordene o roteiro de validação.",
+     "pecas": [
+      "Escolher um período fechado",
+      "Comparar o total com a fonte oficial",
+      "Quebrar por mês e categoria",
+      "Testar os casos limite"
+     ],
+     "extras": [
+      "Publicar antes de testar"
+     ],
+     "explica": "Do total para o detalhe, depois os extremos."
+    }
+   ]
   }
  ],
  "nivelamento": [
@@ -584,6 +1728,24 @@
     "SUM( [Lucro] / [Faturamento] )"
    ],
    "correta": 0
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "No DAX, -- também começa um comentário de uma linha.",
+   "correta": true,
+   "no": "comentarios"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função conta valores únicos de uma coluna?",
+   "opcoes": [
+    "DISTINCTCOUNT",
+    "COUNTROWS",
+    "COUNTBLANK",
+    "SUMX"
+   ],
+   "correta": 0,
+   "no": "contagens"
   },
   {
    "tipo": "escolha",
@@ -608,6 +1770,31 @@
    ],
    "correta": 0,
    "no": "logica"
+  },
+  {
+   "tipo": "lacuna",
+   "pergunta": "Complete:",
+   "codigo": "VAR Receita = [Faturamento]\n___ Receita * 0.1",
+   "opcoes": [
+    "RETURN",
+    "END",
+    "GO",
+    "DO"
+   ],
+   "correta": 0,
+   "no": "variaveis"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função devolve o valor escolhido numa segmentação, ou um padrão?",
+   "opcoes": [
+    "SELECTEDVALUE",
+    "SUMX",
+    "ALL",
+    "DATEADD"
+   ],
+   "correta": 0,
+   "no": "formato-texto"
   },
   {
    "no": "calculate",
@@ -637,6 +1824,18 @@
    "no": "all-related"
   },
   {
+   "tipo": "escolha",
+   "pergunta": "Qual função devolve os valores distintos de uma coluna como tabela?",
+   "opcoes": [
+    "VALUES",
+    "SUM",
+    "FORMAT",
+    "DIVIDE"
+   ],
+   "correta": 0,
+   "no": "tabelas-virtuais"
+  },
+  {
    "no": "contexto",
    "tipo": "escolha",
    "pergunta": "Qual medida calcula a média do valor de cada venda (quantidade × preço)?",
@@ -649,6 +1848,36 @@
    "correta": 0
   },
   {
+   "tipo": "escolha",
+   "pergunta": "Qual função calcula Quantidade × Preço linha a linha e soma?",
+   "opcoes": [
+    "SUMX",
+    "SUM",
+    "DIVIDE",
+    "VALUES"
+   ],
+   "correta": 0,
+   "no": "iteradores"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "CALCULATE converte o contexto de linha em contexto de filtro.",
+   "correta": true,
+   "no": "transicao"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função calcula a posição de cada item num ranking?",
+   "opcoes": [
+    "RANKX",
+    "TOPN",
+    "MAXX",
+    "SELECTEDVALUE"
+   ],
+   "correta": 0,
+   "no": "ranking"
+  },
+  {
    "no": "tempo",
    "tipo": "escolha",
    "pergunta": "Qual medida dá o faturamento acumulado no ano?",
@@ -659,6 +1888,79 @@
     "TOTALYTD( 'Calendario'[Data], [Faturamento] )"
    ],
    "correta": 0
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função traz o mesmo período do ano anterior?",
+   "opcoes": [
+    "SAMEPERIODLASTYEAR",
+    "DATESYTD",
+    "CALENDAR",
+    "EOMONTH"
+   ],
+   "correta": 0,
+   "no": "yoy"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função devolve as datas do início do ano até a data do contexto?",
+   "opcoes": [
+    "DATESYTD",
+    "DATEADD",
+    "CALENDARAUTO",
+    "TODAY"
+   ],
+   "correta": 0,
+   "no": "acumulados"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função representa 'a medida que está no visual' dentro de um item de cálculo?",
+   "opcoes": [
+    "SELECTEDMEASURE",
+    "SELECTEDVALUE",
+    "VALUES",
+    "RELATED"
+   ],
+   "correta": 0,
+   "no": "calculation-groups"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função de cálculo visual faz a média móvel?",
+   "opcoes": [
+    "MOVINGAVERAGE",
+    "AVERAGEX",
+    "DATESINPERIOD",
+    "RANKX"
+   ],
+   "correta": 0,
+   "no": "calculos-visuais"
+  },
+  {
+   "tipo": "lacuna",
+   "pergunta": "Complete a sintaxe da UDF:",
+   "codigo": "FUNCTION Dobro = ( x ) ___ x * 2",
+   "opcoes": [
+    "=>",
+    "=",
+    "->",
+    "RETURN"
+   ],
+   "correta": 0,
+   "no": "udf"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual palavra inicia uma consulta na Exibição de consulta DAX?",
+   "opcoes": [
+    "EVALUATE",
+    "SELECT",
+    "QUERY",
+    "DEFINE ONLY"
+   ],
+   "correta": 0,
+   "no": "validar"
   }
  ],
  "curso": "power-bi"

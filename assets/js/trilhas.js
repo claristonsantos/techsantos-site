@@ -277,7 +277,8 @@
         </section>`;
       const box = document.getElementById('trQ');
       const ok = document.getElementById('trOk');
-      const corrigir = q.tipo === 'ordenar' ? montarOrdenar(q, box, ok, t.rotulo_pecas || 'código') : montarEscolha(q, box, ok);
+      const montadores = { ordenar: montarOrdenar, lacuna: montarLacuna, vf: montarVF, pares: montarPares, digitar: montarDigitar };
+      const corrigir = (montadores[q.tipo] || montarEscolha)(q, box, ok, t.rotulo_pecas || 'código');
       ok.onclick = () => {
         if (ok.dataset.fase === 'seguir') return proxima();
         const certo = corrigir();
@@ -286,7 +287,7 @@
         const fb = document.getElementById('trFb');
         fb.hidden = false;
         fb.className = 'tr-feedback ' + (certo ? 'certo' : 'errado');
-        const resposta = q.tipo === 'ordenar' ? `<pre class="tr-code">${esc(q.pecas.join('\n'))}</pre>` : `<p><b>${esc(q.opcoes[q.correta])}</b></p>`;
+        const resposta = respostaCerta(q);
         fb.innerHTML = `<b>${certo ? 'Isso aí! ✓' : 'Não foi dessa vez.'}</b>${certo ? '' : `<p>Resposta certa:</p>${resposta}`}${q.explica ? `<p>${esc(q.explica)}</p>` : ''}`;
         ok.textContent = idx + 1 < itens.length ? 'Continuar' : 'Ver resultado';
         ok.dataset.fase = 'seguir';
@@ -355,6 +356,152 @@
   }
 
   /* ---------- tipos de exercício: cada montador devolve a função de correção ---------- */
+  function respostaCerta(q) {
+    switch (q.tipo) {
+      case 'ordenar': return `<pre class="tr-code">${esc(q.pecas.join('\n'))}</pre>`;
+      case 'lacuna': return `<pre class="tr-code">${esc(q.codigo.replace('___', q.opcoes[q.correta]))}</pre>`;
+      case 'vf': return `<p><b>${q.correta ? 'Verdadeiro' : 'Falso'}</b></p>`;
+      case 'pares': return `<ul class="tr-pares-res">${q.pares.map((p) => `<li><b>${esc(p[0])}</b> → ${esc(p[1])}</li>`).join('')}</ul>`;
+      case 'digitar': return `<pre class="tr-code">${esc(q.respostas[0])}</pre>`;
+      default: return `<p><b>${esc(q.opcoes[q.correta])}</b></p>`;
+    }
+  }
+
+  // Lacuna: o código aparece com ___ e a pessoa escolhe o que completa.
+  function montarLacuna(q, box, ok) {
+    const ordem = embaralhar(q.opcoes.map((_, i) => i));
+    const [antes, depois] = q.codigo.split('___');
+    box.innerHTML = `
+      <p class="tr-eyebrow">Complete</p>
+      <h2 class="tr-pergunta">${esc(q.pergunta)}</h2>
+      <pre class="tr-code">${esc(antes)}<span class="tr-lacuna" id="trLac">   ?   </span>${esc(depois || '')}</pre>
+      <div class="tr-chips">${ordem.map((i) => `<button type="button" class="tr-peca" data-i="${i}">${esc(q.opcoes[i])}</button>`).join('')}</div>`;
+    let escolhida = null;
+    const lac = box.querySelector('#trLac');
+    box.querySelectorAll('[data-i]').forEach((b) => b.addEventListener('click', () => {
+      if (ok.dataset.fase === 'seguir') return;
+      box.querySelectorAll('[data-i]').forEach((x) => x.classList.remove('sel'));
+      b.classList.add('sel');
+      escolhida = Number(b.dataset.i);
+      lac.textContent = q.opcoes[escolhida];
+      lac.classList.add('cheia');
+      ok.disabled = false;
+    }));
+    return () => {
+      const certo = escolhida === q.correta;
+      lac.classList.add(certo ? 'certa' : 'errada');
+      box.querySelectorAll('[data-i]').forEach((b) => {
+        if (Number(b.dataset.i) === q.correta) b.classList.add('certa');
+        b.disabled = true;
+      });
+      return certo;
+    };
+  }
+
+  // Verdadeiro ou falso.
+  function montarVF(q, box, ok) {
+    box.innerHTML = `
+      <p class="tr-eyebrow">Verdadeiro ou falso?</p>
+      <h2 class="tr-pergunta">${esc(q.afirmacao)}</h2>
+      ${q.codigo ? `<pre class="tr-code">${esc(q.codigo)}</pre>` : ''}
+      <div class="tr-vf">
+        <button type="button" class="tr-opcao" data-v="1">👍 Verdadeiro</button>
+        <button type="button" class="tr-opcao" data-v="0">👎 Falso</button>
+      </div>`;
+    let escolha = null;
+    box.querySelectorAll('[data-v]').forEach((b) => b.addEventListener('click', () => {
+      if (ok.dataset.fase === 'seguir') return;
+      box.querySelectorAll('[data-v]').forEach((x) => x.setAttribute('aria-checked', 'false'));
+      b.setAttribute('aria-checked', 'true');
+      escolha = b.dataset.v === '1';
+      ok.disabled = false;
+    }));
+    return () => {
+      box.querySelectorAll('[data-v]').forEach((b) => {
+        const v = b.dataset.v === '1';
+        if (v === q.correta) b.classList.add('certa');
+        else if (v === escolha) b.classList.add('errada');
+        b.disabled = true;
+      });
+      return escolha === q.correta;
+    };
+  }
+
+  // Pares: toque um item da esquerda e depois o par dele na direita.
+  function montarPares(q, box, ok) {
+    const esq = embaralhar(q.pares.map((p, i) => ({ i, txt: p[0] })));
+    const dir = embaralhar(q.pares.map((p, i) => ({ i, txt: p[1] })));
+    const ligacao = {}; // índice da esquerda -> índice da direita escolhido
+    let ativo = null;
+    box.innerHTML = `
+      <p class="tr-eyebrow">Ligue os pares</p>
+      <h2 class="tr-pergunta">${esc(q.pergunta)}</h2>
+      <p class="tr-instrucao">Toque um item à esquerda e depois o par dele à direita.</p>
+      <div class="tr-pares">
+        <div>${esq.map((p) => `<button type="button" class="tr-peca tr-par" data-e="${p.i}">${esc(p.txt)}</button>`).join('')}</div>
+        <div>${dir.map((p) => `<button type="button" class="tr-peca tr-par" data-d="${p.i}">${esc(p.txt)}</button>`).join('')}</div>
+      </div>`;
+    const cores = ['#5FA8E8', '#E8A33D', '#A78BFA', '#E8547A', '#33C481', '#F2C811'];
+    function pintar() {
+      const usadosD = {};
+      Object.entries(ligacao).forEach(([e, d], k) => { usadosD[d] = e; });
+      box.querySelectorAll('[data-e]').forEach((b) => {
+        const e = b.dataset.e;
+        b.style.borderColor = ligacao[e] !== undefined ? cores[Number(e) % cores.length] : '';
+        b.classList.toggle('sel', ativo === e);
+      });
+      box.querySelectorAll('[data-d]').forEach((b) => {
+        const e = usadosD[b.dataset.d];
+        b.style.borderColor = e !== undefined ? cores[Number(e) % cores.length] : '';
+      });
+      ok.disabled = Object.keys(ligacao).length !== q.pares.length;
+    }
+    box.addEventListener('click', (ev) => {
+      if (ok.dataset.fase === 'seguir') return;
+      const be = ev.target.closest('[data-e]');
+      const bd = ev.target.closest('[data-d]');
+      if (be) { ativo = be.dataset.e; delete ligacao[ativo]; pintar(); return; }
+      if (bd && ativo !== null) {
+        Object.keys(ligacao).forEach((e) => { if (ligacao[e] === bd.dataset.d) delete ligacao[e]; });
+        ligacao[ativo] = bd.dataset.d;
+        ativo = null;
+        pintar();
+      }
+    });
+    return () => {
+      let certo = true;
+      box.querySelectorAll('[data-e]').forEach((b) => {
+        const bom = ligacao[b.dataset.e] === b.dataset.e;
+        if (!bom) certo = false;
+        b.classList.add(bom ? 'certa' : 'errada');
+        b.disabled = true;
+      });
+      box.querySelectorAll('[data-d]').forEach((b) => { b.disabled = true; });
+      return certo;
+    };
+  }
+
+  // Digitar: resposta curta (nome de função, palavra). Ignora maiúsculas,
+  // acentos e espaços nas pontas; aceita qualquer item de q.respostas.
+  function montarDigitar(q, box, ok) {
+    const norm = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+    box.innerHTML = `
+      <p class="tr-eyebrow">Digite a resposta</p>
+      <h2 class="tr-pergunta">${esc(q.pergunta)}</h2>
+      ${q.codigo ? `<pre class="tr-code">${esc(q.codigo)}</pre>` : ''}
+      <input class="tr-digitar" id="trDig" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${esc(q.dica || 'Sua resposta')}">`;
+    const inp = box.querySelector('#trDig');
+    inp.addEventListener('input', () => { ok.disabled = inp.value.trim() === ''; });
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !ok.disabled) ok.click(); });
+    setTimeout(() => inp.focus(), 50);
+    return () => {
+      const certo = q.respostas.some((r) => norm(r) === norm(inp.value));
+      inp.classList.add(certo ? 'certa' : 'errada');
+      inp.disabled = true;
+      return certo;
+    };
+  }
+
   function montarEscolha(q, box, ok) {
     const ordem = embaralhar(q.opcoes.map((_, i) => i));
     box.innerHTML = `

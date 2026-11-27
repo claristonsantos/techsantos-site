@@ -9,6 +9,82 @@
  "contexto": "Empresa de varejo com tabela fato Vendas (Data, CodProduto, CodCliente, CodLoja, Quantidade, Valor) e dimensões Produtos, Clientes, Lojas e Calendario.",
  "nos": [
   {
+   "id": "checklist-projeto",
+   "titulo": "Antes de abrir o Power BI",
+   "resumo": "Objetivo, público, fontes e indicadores",
+   "teoria": [
+    "Projeto bom começa com perguntas: qual decisão o relatório apoia, quem vai usar, de onde vêm os dados, com que frequência atualizam e quais indicadores definem sucesso.",
+    "Escreva cada KPI com fórmula e fonte antes de construir (ex.: Ticket médio = Faturamento ÷ nº de pedidos, sistema de vendas). Isso evita refazer o modelo no meio do caminho."
+   ],
+   "exemplo": "KPI: Ticket médio = Faturamento ÷ Pedidos · fonte: ERP · atualização: diária",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "checklist-projeto-power-bi"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual pergunta deve vir ANTES de escolher gráficos?",
+     "opcoes": [
+      "Que decisão o relatório vai ajudar a tomar?",
+      "Qual tema de cores usar?",
+      "Quantas páginas o relatório terá?",
+      "Qual fonte de texto usar?"
+     ],
+     "correta": 0,
+     "explica": "O objetivo de negócio guia modelo, indicadores e visuais."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Definir a fórmula e a fonte de cada indicador antes de construir evita retrabalho no modelo.",
+     "correta": true,
+     "explica": "Indicador sem definição clara gera número diferente para cada pessoa."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue cada item do levantamento ao exemplo certo.",
+     "pares": [
+      [
+       "Público",
+       "Diretoria comercial"
+      ],
+      [
+       "Fonte",
+       "ERP e planilha de metas"
+      ],
+      [
+       "Frequência",
+       "Atualização diária às 7h"
+      ],
+      [
+       "KPI",
+       "Ticket médio"
+      ]
+     ],
+     "explica": "Público, fonte, frequência e KPIs são o básico do levantamento."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O cliente pede 'um dashboard de vendas'. O que fazer primeiro?",
+     "opcoes": [
+      "Entrevistar quem vai usar para entender as decisões e os indicadores",
+      "Montar 10 gráficos e mostrar",
+      "Copiar um modelo pronto da internet",
+      "Pedir acesso de administrador ao banco"
+     ],
+     "correta": 0,
+     "explica": "Entender o uso antes de construir evita entregar o relatório errado."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "A frequência de atualização dos dados não interfere na escolha entre Import e DirectQuery.",
+     "correta": false,
+     "explica": "Dado em tempo real pede DirectQuery; atualização diária costuma funcionar bem com Import."
+    }
+   ]
+  },
+  {
    "id": "estrela",
    "titulo": "Esquema estrela",
    "resumo": "Fatos no centro, dimensões em volta",
@@ -82,6 +158,89 @@
      ],
      "correta": 0,
      "explica": "O filtro viaja pelo relacionamento do lado 1 (Produtos) para o lado muitos (Vendas)."
+    }
+   ]
+  },
+  {
+   "id": "normalizacao",
+   "titulo": "Normalizar ou desnormalizar",
+   "resumo": "Floco de neve × estrela",
+   "teoria": [
+    "Sistemas transacionais são normalizados: muitas tabelas pequenas (Produto → Subcategoria → Categoria). Para análise, o Power BI rende melhor com dimensões desnormalizadas: uma tabela Produtos já com Subcategoria e Categoria.",
+    "Floco de neve (dimensão ligada a outra dimensão) funciona, mas cria cadeias de filtro mais longas e confunde o usuário na lista de campos."
+   ],
+   "exemplo": "Produtos + Subcategorias + Categorias  →  uma dimensão Produtos (Produto, Subcategoria, Categoria)",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "normalizacao-desnormalizacao"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Produto liga em Subcategoria, que liga em Categoria. O que é recomendado no Power BI?",
+     "opcoes": [
+      "Mesclar no Power Query e deixar uma dimensão Produtos com as três colunas",
+      "Manter as três tabelas e ligar todas em Vendas",
+      "Copiar Categoria para cada linha de Vendas",
+      "Apagar Subcategoria"
+     ],
+     "correta": 0,
+     "explica": "Uma dimensão desnormalizada deixa o modelo em estrela e simples de usar."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Um esquema floco de neve sempre dá resultado errado no Power BI.",
+     "correta": false,
+     "explica": "Funciona, mas deixa o modelo mais complexo; o problema é usabilidade e desempenho, não erro."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue cada termo à descrição.",
+     "pares": [
+      [
+       "Normalizado",
+       "Muitas tabelas pequenas, sem repetição"
+      ],
+      [
+       "Desnormalizado",
+       "Atributos juntos numa dimensão larga"
+      ],
+      [
+       "Floco de neve",
+       "Dimensão ligada a outra dimensão"
+      ],
+      [
+       "Estrela",
+       "Dimensões ligadas direto na fato"
+      ]
+     ],
+     "explica": "Banco transacional normaliza; modelo analítico desnormaliza as dimensões."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a regra prática do modelo analítico:",
+     "codigo": "Dimensões ___, fato estreita e comprida.",
+     "opcoes": [
+      "desnormalizadas",
+      "normalizadas",
+      "bidirecionais",
+      "calculadas"
+     ],
+     "correta": 0,
+     "explica": "Dimensão larga (muitos atributos) e fato com chaves e números."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde fazer a junção Produto + Categoria?",
+     "opcoes": [
+      "No Power Query, com Mesclar Consultas",
+      "Com uma medida DAX em cada visual",
+      "No visual de tabela",
+      "Com segmentação de dados"
+     ],
+     "correta": 0,
+     "explica": "Transformação de estrutura é trabalho do Power Query, antes de carregar."
     }
    ]
   },
@@ -163,6 +322,161 @@
    ]
   },
   {
+   "id": "granularidade",
+   "titulo": "Granularidade sem duplicidade",
+   "resumo": "Cada linha representa o quê?",
+   "teoria": [
+    "Antes de relacionar, responda: cada linha da tabela é o quê? Uma venda, um item do pedido, um dia por loja, uma meta por mês? Misturar níveis duplica valores.",
+    "Exemplo clássico: o frete está no cabeçalho do pedido, mas a tabela é de itens. Somar o frete por item multiplica o valor pelo número de itens. Rateie ou mantenha uma tabela de pedidos separada."
+   ],
+   "exemplo": "Pedido 1001: frete R$ 30, 3 itens  →  somar frete na tabela de itens dá R$ 90 (errado)",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "granularidade-sem-duplicidade"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O frete (R$ 30) está repetido em cada um dos 3 itens do pedido. Quanto dá SUM(Itens[Frete]) para esse pedido?",
+     "opcoes": [
+      "R$ 90, valor triplicado",
+      "R$ 30",
+      "R$ 10",
+      "Erro de relacionamento"
+     ],
+     "correta": 0,
+     "explica": "O valor do cabeçalho repete por item e a soma multiplica."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Granularidade é o nível de detalhe que cada linha da tabela representa.",
+     "correta": true,
+     "explica": "Ex.: uma linha por item de pedido."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como resolver o frete repetido por item?",
+     "opcoes": [
+      "Ratear o frete entre os itens ou manter uma tabela de Pedidos com o frete",
+      "Usar AVERAGE em vez de SUM em todo lugar",
+      "Remover o frete do modelo",
+      "Ligar Itens a Itens"
+     ],
+     "correta": 0,
+     "explica": "Cada valor deve ficar na tabela do seu nível."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a tabela à sua granularidade.",
+     "pares": [
+      [
+       "Itens do pedido",
+       "Uma linha por produto em cada pedido"
+      ],
+      [
+       "Metas",
+       "Uma linha por vendedor por mês"
+      ],
+      [
+       "Estoque diário",
+       "Uma linha por produto por dia"
+      ],
+      [
+       "Clientes",
+       "Uma linha por cliente"
+      ]
+     ],
+     "explica": "Conhecer o grão de cada tabela evita somas erradas."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete: tabelas de grãos diferentes se encontram em ___ compartilhadas.",
+     "codigo": "Metas (mês) e Vendas (dia) se encontram em dimensões ___ no nível do mês.",
+     "opcoes": [
+      "compartilhadas",
+      "duplicadas",
+      "ocultas",
+      "calculadas"
+     ],
+     "correta": 0,
+     "explica": "Ex.: Calendario com AnoMês e Vendedores, ligadas às duas tabelas."
+    }
+   ]
+  },
+  {
+   "id": "calendario",
+   "titulo": "Tabela Calendário",
+   "resumo": "Dimensão de datas marcada como tabela de datas",
+   "teoria": [
+    "Inteligência de tempo precisa de uma tabela de datas contínua (sem dias faltando), do primeiro ao último ano dos dados, com colunas Ano, Mês, Trimestre, AnoMês.",
+    "Crie com CALENDAR ou CALENDARAUTO (ou no Power Query), marque como tabela de datas (Ferramentas de tabela > Marcar como tabela de datas) e relacione Calendario[Data] com as datas das fatos."
+   ],
+   "exemplo": "Calendario = CALENDAR( DATE(2023,1,1), DATE(2026,12,31) )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "dax-tabelas-tempo"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Crie uma tabela de datas de 2023 a 2026.",
+     "pecas": [
+      "Calendario =",
+      "CALENDAR(",
+      "DATE(2023,1,1),",
+      "DATE(2026,12,31)",
+      ")"
+     ],
+     "extras": [
+      "CALENDARAUTO(2023)"
+     ],
+     "explica": "CALENDAR(início, fim) gera uma linha por dia."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "A tabela Calendário pode ter dias faltando, desde que tenha todos os dias com venda.",
+     "correta": false,
+     "explica": "Funções de tempo exigem datas contínuas, inclusive dias sem venda."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Depois de criar o Calendário, o que mais fazer para as funções de tempo funcionarem bem?",
+     "opcoes": [
+      "Marcar como tabela de datas e relacionar com as datas das fatos",
+      "Ocultar a coluna Data",
+      "Deixar a Data/hora automática ligada",
+      "Criar uma tabela por ano"
+     ],
+     "correta": 0,
+     "explica": "Marcar como tabela de datas valida a coluna e habilita a inteligência de tempo."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual função DAX cria a tabela de datas a partir das datas que já existem no modelo?",
+     "dica": "Nome da função",
+     "respostas": [
+      "CALENDARAUTO",
+      "CALENDARAUTO()"
+     ],
+     "explica": "CALENDARAUTO olha as datas do modelo e cobre os anos inteiros."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Os meses aparecem em ordem alfabética (abr, ago, dez...). Como corrigir?",
+     "opcoes": [
+      "Classificar a coluna Mês pela coluna NúmeroMês",
+      "Renomear os meses com números",
+      "Mudar o tipo para data",
+      "Usar uma segmentação"
+     ],
+     "correta": 0,
+     "explica": "Classificar por Coluna usa outra coluna como ordem."
+    }
+   ]
+  },
+  {
    "id": "qualidade",
    "titulo": "Perfil e qualidade dos dados",
    "resumo": "Qualidade, distribuição e perfil de coluna",
@@ -236,6 +550,82 @@
      ],
      "correta": 0,
      "explica": "O Perfil da Coluna traz estatísticas e o gráfico de distribuição."
+    }
+   ]
+  },
+  {
+   "id": "checklist-qualidade",
+   "titulo": "Checklist de qualidade",
+   "resumo": "Conferir antes de confiar no número",
+   "teoria": [
+    "Antes de publicar: total do Power BI bate com a fonte? Chaves sem duplicidade e sem vazios? Datas no período esperado? Tipos certos? Linhas de teste/canceladas tratadas?",
+    "Monte uma tabela de conferência simples (ano × total) e compare com o relatório oficial do sistema. Diferença sem explicação = parar e investigar."
+   ],
+   "exemplo": "Conferência: Total 2026 no Power BI = Total 2026 no relatório do ERP",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "checklist-qualidade-dados"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual é o teste mais básico de qualidade antes de publicar?",
+     "opcoes": [
+      "Comparar o total do Power BI com o total da fonte oficial no mesmo período",
+      "Ver se o relatório está bonito",
+      "Contar quantos visuais existem",
+      "Conferir o tamanho do arquivo"
+     ],
+     "correta": 0,
+     "explica": "Se o total não bate, nenhum gráfico importa."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Pedidos cancelados podem inflar o faturamento se não forem filtrados ou tratados.",
+     "correta": true,
+     "explica": "Defina a regra de status junto com o negócio."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o problema ao sintoma.",
+     "pares": [
+      [
+       "Chave duplicada na dimensão",
+       "Total dobrado"
+      ],
+      [
+       "Datas fora do período",
+       "Ano 1900 nos gráficos"
+      ],
+      [
+       "Texto em coluna de valor",
+       "Erro ao mudar o tipo"
+      ],
+      [
+       "Linhas de teste na base",
+       "Cliente 'TESTE' no ranking"
+      ]
+     ],
+     "explica": "Cada sintoma aponta para uma checagem do checklist."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O total de 2026 no Power BI ficou R$ 12 mil acima do ERP. Próximo passo?",
+     "opcoes": [
+      "Quebrar por mês e por status para achar onde a diferença aparece",
+      "Ajustar a medida subtraindo 12 mil",
+      "Ignorar, é pouca diferença",
+      "Publicar com uma nota de rodapé"
+     ],
+     "correta": 0,
+     "explica": "Investigue a causa; nunca 'corrija' o número na mão."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Se o perfil de dados mostra 0% de vazios nas primeiras 1.000 linhas, a coluna inteira com certeza não tem vazios.",
+     "correta": false,
+     "explica": "O perfil padrão olha só uma amostra."
     }
    ]
   },
@@ -317,6 +707,89 @@
    ]
   },
   {
+   "id": "modelo-profissional",
+   "titulo": "Modelo semântico profissional",
+   "resumo": "Nomes, pastas, chaves ocultas e tabela de medidas",
+   "teoria": [
+    "Quem consome o modelo vê a lista de campos: use nomes de negócio (Faturamento, não SUM_VLR_TOT), oculte chaves e colunas técnicas, agrupe medidas em pastas de exibição e numa tabela de medidas.",
+    "Defina formato (R$, %, casas decimais) e descrição em cada medida. Assim o mesmo número aparece igual em todos os relatórios."
+   ],
+   "exemplo": "Medidas > pasta 'Vendas': Faturamento, Ticket Médio, % Margem",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "modelo-semantico-profissional"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual destas ações deixa o modelo mais fácil para quem vai criar relatórios?",
+     "opcoes": [
+      "Ocultar chaves e colunas técnicas e usar nomes de negócio",
+      "Deixar todas as colunas visíveis",
+      "Usar abreviações do banco de dados",
+      "Criar medidas em tabelas aleatórias"
+     ],
+     "correta": 0,
+     "explica": "A lista de campos precisa mostrar só o que o usuário usa."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Formatar a medida (R$, %) no modelo faz o formato valer em todos os visuais que a usam.",
+     "correta": true,
+     "explica": "Formato definido uma vez, reaproveitado sempre."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o recurso ao objetivo.",
+     "pares": [
+      [
+       "Pasta de exibição",
+       "Agrupar medidas por assunto"
+      ],
+      [
+       "Ocultar coluna",
+       "Esconder chaves técnicas"
+      ],
+      [
+       "Descrição",
+       "Explicar a regra da medida"
+      ],
+      [
+       "Tabela de medidas",
+       "Reunir as medidas num lugar só"
+      ]
+     ],
+     "explica": "Organização do modelo é parte da entrega."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o nome de medida mais claro para o usuário:",
+     "codigo": "___ = DIVIDE( [Faturamento], [Pedidos] )",
+     "opcoes": [
+      "Ticket Médio",
+      "TKT_MD_01",
+      "Medida 3",
+      "x"
+     ],
+     "correta": 0,
+     "explica": "Nomes de negócio dispensam explicação."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna CodCliente aparece na lista de campos e confunde os usuários. O que fazer?",
+     "opcoes": [
+      "Ocultar a coluna na exibição de relatório",
+      "Excluir a coluna (quebrando o relacionamento)",
+      "Renomear para 'Não usar'",
+      "Mudar o tipo para texto"
+     ],
+     "correta": 0,
+     "explica": "Ocultar mantém o relacionamento funcionando e limpa a lista."
+    }
+   ]
+  },
+  {
    "id": "visuais",
    "titulo": "Escolher o visual certo",
    "resumo": "Comparar, evoluir, compor e destacar KPI",
@@ -390,6 +863,403 @@
      ],
      "correta": 0,
      "explica": "Cor com significado guia o olhar; arco-íris confunde."
+    }
+   ]
+  },
+  {
+   "id": "storytelling",
+   "titulo": "Storytelling e layout",
+   "resumo": "Hierarquia visual e leitura em Z",
+   "teoria": [
+    "As pessoas leem a tela em Z: canto superior esquerdo primeiro. Coloque ali os KPIs principais, depois tendência, depois detalhe. Alinhe tudo numa grade e mantenha espaço em branco.",
+    "Uma página = uma pergunta. Cor de destaque só para o que exige ação; o resto em tons neutros. Títulos dizem a conclusão."
+   ],
+   "exemplo": "Topo: KPIs · Meio: tendência + comparação · Base: tabela de detalhe",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "storytelling-hierarquia-visual"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde colocar os KPIs mais importantes da página?",
+     "opcoes": [
+      "No topo, à esquerda",
+      "No rodapé",
+      "Escondidos em uma dica de ferramenta",
+      "No canto inferior direito"
+     ],
+     "correta": 0,
+     "explica": "A leitura começa no canto superior esquerdo."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a ordem de cima para baixo de uma página bem estruturada.",
+     "pecas": [
+      "KPIs principais",
+      "Tendência no tempo",
+      "Comparação entre categorias",
+      "Tabela de detalhe"
+     ],
+     "extras": [
+      "Logotipo gigante"
+     ],
+     "explica": "Do resumo para o detalhe."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Usar uma cor diferente para cada barra deixa o gráfico mais fácil de ler.",
+     "correta": false,
+     "explica": "Cor deve ter significado; arco-íris dispersa a atenção."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A página tem 14 visuais e ninguém entende. Melhor caminho?",
+     "opcoes": [
+      "Dividir em páginas, cada uma respondendo uma pergunta",
+      "Diminuir a fonte para caber mais",
+      "Remover os títulos",
+      "Trocar tudo por pizza"
+     ],
+     "correta": 0,
+     "explica": "Menos visuais por página, mais foco."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o título que conta a história:",
+     "codigo": "Faturamento ___ 12% em agosto por queda na região Sul",
+     "opcoes": [
+      "caiu",
+      "gráfico",
+      "dados",
+      "visual"
+     ],
+     "correta": 0,
+     "explica": "Título com conclusão diz ao leitor o que olhar."
+    }
+   ]
+  },
+  {
+   "id": "formatacao-visual",
+   "titulo": "Formatação condicional nos visuais",
+   "resumo": "Cores, ícones e barras pela regra do negócio",
+   "teoria": [
+    "Em tabelas e matrizes: Formatação condicional > Cor de fundo, Cor da fonte, Barras de dados, Ícones ou URL. Pode ser por escala de cores, por regras (se valor < 0 então vermelho) ou pelo valor de um campo.",
+    "Truque profissional: uma medida que devolve a cor (\"#E5484D\" ou \"#33C481\") e o formato 'Valor do campo'. Assim a regra fica no modelo e vale em qualquer visual."
+   ],
+   "exemplo": "Cor Margem = IF( [% Margem] < 0.1, \"#E5484D\", \"#33C481\" )   → Formatação condicional > Valor do campo",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "construindo-visualizacoes"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Na matriz de produtos, você quer o fundo vermelho quando a margem for negativa. Qual opção?",
+     "opcoes": [
+      "Formatação condicional > Cor de fundo > Regras (valor < 0 = vermelho)",
+      "Mudar o tema para vermelho",
+      "Filtro de visual",
+      "Indicador"
+     ],
+     "correta": 0,
+     "explica": "Regras aplicam cor por faixa de valor."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a medida de cor usada como 'Valor do campo':",
+     "codigo": "Cor Margem = IF( [% Margem] < 0.1, ___, \"#33C481\" )",
+     "opcoes": [
+      "\"#E5484D\"",
+      "RED",
+      "[Vermelho]",
+      "COLOR(255,0,0)"
+     ],
+     "correta": 0,
+     "explica": "A medida devolve o código da cor como texto."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Barras de dados dentro de uma coluna da tabela ajudam a comparar valores sem criar outro gráfico.",
+     "correta": true,
+     "explica": "É formatação condicional do tipo Barras de dados."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o tipo de formatação ao uso.",
+     "pares": [
+      [
+       "Escala de cores",
+       "Gradiente do menor ao maior"
+      ],
+      [
+       "Regras",
+       "Faixas fixas: abaixo de 0 é vermelho"
+      ],
+      [
+       "Valor do campo",
+       "Cor vinda de uma medida"
+      ],
+      [
+       "Ícones",
+       "Setas ou semáforo ao lado do número"
+      ]
+     ],
+     "explica": "Escolha pelo que a regra de negócio pede."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Por que guardar a regra de cor numa medida em vez de configurar cada visual?",
+     "opcoes": [
+      "A regra fica centralizada e igual em todos os visuais",
+      "Porque é obrigatório no Power BI",
+      "Deixa o arquivo menor",
+      "Para a cor mudar sozinha toda semana"
+     ],
+     "correta": 0,
+     "explica": "Uma mudança na medida atualiza todos os visuais que a usam."
+    }
+   ]
+  },
+  {
+   "id": "small-multiples",
+   "titulo": "Small multiples e visuais de KPI",
+   "resumo": "Um gráfico repetido por categoria",
+   "teoria": [
+    "Small multiples (múltiplos pequenos) repete o mesmo gráfico para cada valor de um campo: vendas por mês, um mini gráfico por região, todos na mesma escala.",
+    "Para indicadores, use o cartão (novo cartão aceita vários valores e imagem de referência) ou o visual KPI (valor, meta e tendência)."
+   ],
+   "exemplo": "Gráfico de linhas: Eixo = Mês · Valores = Faturamento · Small multiples = Região",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "escolher-grafico-correto"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Comparar a curva de vendas mensal de 6 regiões, cada uma no seu gráfico, na mesma escala. O que usar?",
+     "opcoes": [
+      "Small multiples com o campo Região",
+      "6 gráficos copiados à mão",
+      "Uma pizza por região",
+      "Uma tabela"
+     ],
+     "correta": 0,
+     "explica": "Small multiples cria os painéis automaticamente e com escala comum."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "No visual KPI você pode mostrar o valor atual, a meta e a tendência ao mesmo tempo.",
+     "correta": true,
+     "explica": "Ele colore conforme bate ou não a meta."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o visual ao melhor uso.",
+     "pares": [
+      [
+       "Cartão",
+       "Um número em destaque"
+      ],
+      [
+       "KPI",
+       "Valor contra meta com tendência"
+      ],
+      [
+       "Small multiples",
+       "Mesmo gráfico por categoria"
+      ],
+      [
+       "Cascata",
+       "Como um total se forma"
+      ]
+     ],
+     "explica": "Cada visual responde a um tipo de pergunta."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual a vantagem da escala comum nos small multiples?",
+     "opcoes": [
+      "Comparar as regiões entre si de forma justa",
+      "Deixar cada gráfico mais colorido",
+      "Esconder as regiões pequenas",
+      "Somar todas as regiões"
+     ],
+     "correta": 0,
+     "explica": "Com a mesma escala, tamanho visual = tamanho real."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Em que campo do gráfico você coloca 'Região' para repetir o gráfico por região?",
+     "dica": "Nome da área",
+     "respostas": [
+      "Small multiples",
+      "Pequenos múltiplos",
+      "Múltiplos pequenos"
+     ],
+     "explica": "É uma área própria do painel de campos."
+    }
+   ]
+  },
+  {
+   "id": "temas-acessibilidade",
+   "titulo": "Temas e acessibilidade",
+   "resumo": "Identidade visual e contraste",
+   "teoria": [
+    "Um tema (Exibir > Temas > Personalizar ou arquivo JSON) define cores, fontes e estilos de todos os visuais de uma vez: a identidade da empresa sem formatar visual por visual.",
+    "Acessibilidade: contraste suficiente, não depender só de cor (use rótulos e ícones), texto alternativo nos visuais e ordem de tabulação (Exibir > Painel de seleção)."
+   ],
+   "exemplo": "Exibir > Temas > Procurar temas  (TechSantos.json)",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "enriquecendo-relatorios"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "A empresa quer as cores da marca em todos os relatórios. Melhor caminho?",
+     "opcoes": [
+      "Criar um tema JSON e importar em cada relatório",
+      "Formatar cada visual manualmente",
+      "Usar imagens de fundo coloridas",
+      "Mudar as cores no Windows"
+     ],
+     "correta": 0,
+     "explica": "O tema aplica cores e fontes de uma vez e pode ser reutilizado."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Indicar 'abaixo da meta' só com a cor vermelha é suficiente para todos os usuários.",
+     "correta": false,
+     "explica": "Pessoas com daltonismo podem não distinguir; some ícone ou rótulo."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a prática de acessibilidade ao benefício.",
+     "pares": [
+      [
+       "Texto alternativo",
+       "Leitor de tela descreve o visual"
+      ],
+      [
+       "Ordem de tabulação",
+       "Navegação pelo teclado"
+      ],
+      [
+       "Contraste alto",
+       "Leitura em qualquer tela"
+      ],
+      [
+       "Rótulos de dados",
+       "Não depender só da cor"
+      ]
+     ],
+     "explica": "Relatório acessível serve mais gente."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde se define o texto alternativo de um visual?",
+     "opcoes": [
+      "Formatar visual > Geral > Texto alternativo",
+      "No Power Query",
+      "Nas configurações do tema",
+      "No serviço, em Permissões"
+     ],
+     "correta": 0,
+     "explica": "Cada visual tem seu campo de texto alternativo."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete: o arquivo de tema do Power BI é do formato ___.",
+     "codigo": "TechSantos.___",
+     "opcoes": [
+      "json",
+      "pbix",
+      "xlsx",
+      "css"
+     ],
+     "correta": 0,
+     "explica": "Temas são arquivos JSON."
+    }
+   ]
+  },
+  {
+   "id": "layout-mobile",
+   "titulo": "Layout para celular",
+   "resumo": "O mesmo relatório pensado para a tela pequena",
+   "teoria": [
+    "Exibir > Layout móvel abre uma tela de celular onde você arrasta os visuais do relatório e os redimensiona. O app do Power BI usa esse layout automaticamente.",
+    "No celular: poucos visuais, KPIs no topo, segmentações em lista suspensa e nada que dependa de passar o mouse."
+   ],
+   "exemplo": "Exibir > Layout móvel  →  arrastar KPIs para o topo",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "storytelling-hierarquia-visual"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O gestor abre o relatório no app do celular e tudo fica minúsculo. O que fazer?",
+     "opcoes": [
+      "Montar o Layout móvel da página no Desktop",
+      "Pedir para ele girar o celular",
+      "Diminuir as fontes",
+      "Criar um arquivo separado só para celular"
+     ],
+     "correta": 0,
+     "explica": "O layout móvel é parte do mesmo relatório."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Dicas de ferramenta que aparecem ao passar o mouse funcionam bem no celular.",
+     "correta": false,
+     "explica": "Não há mouse; prefira rótulos visíveis."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual tipo de segmentação ocupa menos espaço no celular?",
+     "opcoes": [
+      "Lista suspensa",
+      "Lista com 30 itens abertos",
+      "Blocos com 12 botões",
+      "Tabela"
+     ],
+     "correta": 0,
+     "explica": "Menu suspenso abre só quando o usuário toca."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a regra ao motivo.",
+     "pares": [
+      [
+       "KPIs no topo",
+       "É o que o gestor vê primeiro"
+      ],
+      [
+       "Poucos visuais",
+       "Tela pequena"
+      ],
+      [
+       "Rótulos visíveis",
+       "Sem mouse para dicas"
+      ],
+      [
+       "Lista suspensa",
+       "Economiza espaço"
+      ]
+     ],
+     "explica": "Desenhe para o dedo, não para o mouse."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Os visuais do layout móvel continuam filtrando e atualizando como no relatório principal.",
+     "correta": true,
+     "explica": "São os mesmos visuais, só reposicionados."
     }
    ]
   },
@@ -471,6 +1341,485 @@
    ]
   },
   {
+   "id": "segmentacoes",
+   "titulo": "Segmentações e filtros",
+   "resumo": "Tipos de slicer e níveis de filtro",
+   "teoria": [
+    "Segmentação pode ser lista, menu suspenso, botões (blocos), intervalo de datas ou entre valores numéricos. Ative 'Seleção única' ou 'Selecionar tudo' conforme a regra.",
+    "Filtros têm níveis: no visual, na página e em todas as páginas. Editar interações (Formatar > Editar interações) define se um visual filtra, realça ou ignora os outros."
+   ],
+   "exemplo": "Formatar > Editar interações > Nenhum (o cartão ignora a segmentação)",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "enriquecendo-relatorios"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o nível de filtro ao alcance.",
+     "pares": [
+      [
+       "Filtro no visual",
+       "Só aquele visual"
+      ],
+      [
+       "Filtro na página",
+       "Todos os visuais da página"
+      ],
+      [
+       "Filtro em todas as páginas",
+       "O relatório inteiro"
+      ],
+      [
+       "Segmentação sincronizada",
+       "Páginas escolhidas"
+      ]
+     ],
+     "explica": "Escolha o menor alcance que resolve."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O cartão 'Meta anual' não deve mudar quando o usuário escolhe um mês na segmentação. O que fazer?",
+     "opcoes": [
+      "Editar interações e marcar Nenhum entre a segmentação e o cartão",
+      "Excluir a segmentação",
+      "Duplicar a página",
+      "Usar um tema diferente"
+     ],
+     "correta": 0,
+     "explica": "Editar interações controla quem filtra quem."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Uma segmentação de datas pode ser exibida como intervalo com controle deslizante.",
+     "correta": true,
+     "explica": "Estilo 'Entre' para datas e números."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A segmentação de Ano deve permitir escolher só um ano por vez. Qual opção?",
+     "opcoes": [
+      "Ativar Seleção única",
+      "Ativar Selecionar tudo",
+      "Mudar para lista suspensa",
+      "Ocultar o cabeçalho"
+     ],
+     "correta": 0,
+     "explica": "Seleção única impede marcar vários anos."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete: para um visual realçar em vez de filtrar os outros, a interação é ___.",
+     "codigo": "Editar interações > ___",
+     "opcoes": [
+      "Realçar",
+      "Excluir",
+      "Ocultar",
+      "Fixar"
+     ],
+     "correta": 0,
+     "explica": "Realçar mantém o total e destaca a parte selecionada."
+    }
+   ]
+  },
+  {
+   "id": "drill-tooltip",
+   "titulo": "Drill through e dicas de ferramenta",
+   "resumo": "Detalhe sob demanda",
+   "teoria": [
+    "Drill through: uma página de detalhe (ex.: Cliente) que recebe o filtro do clique direito em outro visual. Coloque o campo em 'Detalhamento' da página de destino.",
+    "Página de dica de ferramenta: uma mini-página que aparece ao passar o mouse. Botões e navegador de páginas ajudam o usuário a se movimentar."
+   ],
+   "exemplo": "Página 'Detalhe do cliente' > Detalhamento: Clientes[Nome]",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "enriquecendo-relatorios"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O gestor quer clicar com o botão direito num cliente e abrir uma página só daquele cliente. O que configurar?",
+     "opcoes": [
+      "Drill through com Clientes[Nome] na página de detalhe",
+      "Uma segmentação por cliente em todas as páginas",
+      "Um indicador por cliente",
+      "Uma página por cliente"
+     ],
+     "correta": 0,
+     "explica": "Drill through leva o contexto do clique para a página de destino."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Uma página de dica de ferramenta pode mostrar um mini gráfico quando o usuário passa o mouse num visual.",
+     "correta": true,
+     "explica": "Configure a página como dica e o tamanho de dica."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o recurso ao uso.",
+     "pares": [
+      [
+       "Drill through",
+       "Ir para a página de detalhe filtrada"
+      ],
+      [
+       "Drill down",
+       "Descer de Ano para Mês no mesmo visual"
+      ],
+      [
+       "Dica de ferramenta",
+       "Mostrar informação extra no mouse"
+      ],
+      [
+       "Navegador de páginas",
+       "Botões para trocar de página"
+      ]
+     ],
+     "explica": "Cada recurso de navegação resolve uma necessidade."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde se coloca o campo que ativa o drill through?",
+     "opcoes": [
+      "No painel Detalhamento (Drill through) da página de destino",
+      "No eixo X do visual de origem",
+      "No filtro de relatório",
+      "No tema"
+     ],
+     "correta": 0,
+     "explica": "A página de destino declara por qual campo ela recebe o filtro."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Drill down e drill through são a mesma coisa.",
+     "correta": false,
+     "explica": "Down desce níveis no mesmo visual; through leva a outra página."
+    }
+   ]
+  },
+  {
+   "id": "indicadores",
+   "titulo": "Indicadores (bookmarks)",
+   "resumo": "Estados salvos, painel de seleção e botões",
+   "teoria": [
+    "Indicador guarda o estado da página: filtros, segmentações, visuais visíveis/ocultos e drill. No menu do indicador, escolha o que ele captura: Dados, Exibição e Página atual.",
+    "Com o Painel de seleção você mostra/oculta visuais; com botões (Ação = Indicador) troca entre estados, por exemplo 'ver gráfico' × 'ver tabela'. O Navegador de indicadores cria os botões sozinho."
+   ],
+   "exemplo": "Indicador 'Ver tabela': gráfico oculto, tabela visível · Botão > Ação: Indicador",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "enriquecendo-relatorios"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte o alternador 'gráfico × tabela' com indicadores.",
+     "pecas": [
+      "Colocar gráfico e tabela no mesmo lugar",
+      "Ocultar a tabela no Painel de seleção e salvar o indicador 'Gráfico'",
+      "Mostrar a tabela, ocultar o gráfico e salvar 'Tabela'",
+      "Criar botões com Ação = Indicador"
+     ],
+     "extras": [
+      "Excluir o gráfico"
+     ],
+     "explica": "Cada indicador guarda o que está visível; os botões chamam cada estado."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Desmarcar 'Dados' no indicador faz ele trocar os visuais visíveis sem mexer nos filtros que o usuário escolheu.",
+     "correta": true,
+     "explica": "Útil para alternadores que não devem resetar segmentações."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a opção do indicador ao que ela guarda.",
+     "pares": [
+      [
+       "Dados",
+       "Filtros e segmentações"
+      ],
+      [
+       "Exibição",
+       "Visuais visíveis ou ocultos"
+      ],
+      [
+       "Página atual",
+       "Qual página abrir"
+      ],
+      [
+       "Visuais selecionados",
+       "Aplicar só a alguns visuais"
+      ]
+     ],
+     "explica": "Ajuste o que cada indicador captura."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde você mostra e oculta visuais para montar os estados dos indicadores?",
+     "opcoes": [
+      "Painel de seleção (Exibir > Seleção)",
+      "Painel de filtros",
+      "Power Query",
+      "Configurações do tema"
+     ],
+     "correta": 0,
+     "explica": "O Painel de seleção controla visibilidade e ordem."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual recurso cria automaticamente um conjunto de botões, um para cada indicador?",
+     "dica": "Nome do recurso",
+     "respostas": [
+      "Navegador de indicadores",
+      "navegador de indicador",
+      "bookmark navigator"
+     ],
+     "explica": "Inserir > Botões > Navegador > Navegador de indicadores."
+    }
+   ]
+  },
+  {
+   "id": "parametros-campo",
+   "titulo": "Parâmetros de campo",
+   "resumo": "O usuário escolhe a medida ou a dimensão do gráfico",
+   "teoria": [
+    "Modelagem > Novo parâmetro > Campos cria uma tabela com as medidas ou colunas que você escolher e uma segmentação. O gráfico usa o parâmetro no eixo ou nos valores, e o usuário troca na segmentação.",
+    "Exemplo: um só gráfico que mostra Faturamento, Lucro ou Quantidade, ou que agrupa por Região, Categoria ou Vendedor. Por trás, a tabela usa NAMEOF( [Medida] )."
+   ],
+   "exemplo": "Parâmetro = { (\"Faturamento\", NAMEOF([Faturamento]), 0), (\"Lucro\", NAMEOF([Lucro]), 1) }",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "enriquecendo-relatorios"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O diretor quer um único gráfico em que ele escolhe ver Faturamento, Lucro ou Quantidade. O que usar?",
+     "opcoes": [
+      "Parâmetro de campo com as três medidas",
+      "Três páginas iguais",
+      "Indicadores com 3 gráficos",
+      "Uma medida com IF por mês"
+     ],
+     "correta": 0,
+     "explica": "O parâmetro de campo troca a medida do visual pela segmentação."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a função usada na tabela do parâmetro de campo:",
+     "codigo": "(\"Lucro\", ___([Lucro]), 1)",
+     "opcoes": [
+      "NAMEOF",
+      "VALUE",
+      "SELECTEDVALUE",
+      "RELATED"
+     ],
+     "correta": 0,
+     "explica": "NAMEOF guarda a referência ao campo."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Parâmetros de campo também podem trocar a dimensão do eixo (Região, Categoria, Vendedor).",
+     "correta": true,
+     "explica": "Funciona com colunas e com medidas."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o tipo de parâmetro ao uso.",
+     "pares": [
+      [
+       "Parâmetro de campo",
+       "Trocar a medida ou a dimensão do visual"
+      ],
+      [
+       "Parâmetro numérico",
+       "Simular um valor, como % de desconto"
+      ],
+      [
+       "Parâmetro do Power Query",
+       "Mudar o servidor ou caminho da fonte"
+      ],
+      [
+       "Segmentação comum",
+       "Filtrar os dados por um valor"
+      ]
+     ],
+     "explica": "Nomes parecidos, funções diferentes."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Onde se cria o parâmetro de campo?",
+     "opcoes": [
+      "Modelagem > Novo parâmetro > Campos",
+      "Power Query > Gerenciar parâmetros",
+      "Exibir > Indicadores",
+      "Formatar visual > Geral"
+     ],
+     "correta": 0,
+     "explica": "Ele cria a tabela e, se quiser, a segmentação."
+    }
+   ]
+  },
+  {
+   "id": "parametro-numerico",
+   "titulo": "Parâmetro numérico (e se?)",
+   "resumo": "Simular cenários com um controle deslizante",
+   "teoria": [
+    "Modelagem > Novo parâmetro > Intervalo numérico cria uma tabela com GENERATESERIES, uma segmentação deslizante e a medida 'Valor' com SELECTEDVALUE.",
+    "Use o valor escolhido nas medidas: Faturamento simulado = [Faturamento] * (1 + [Aumento Valor]). Ótimo para simular preço, desconto ou meta."
+   ],
+   "exemplo": "Aumento = GENERATESERIES( 0, 0.3, 0.01 )\nAumento Valor = SELECTEDVALUE( Aumento[Aumento], 0 )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "explorando-dados"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a medida que lê o valor escolhido no controle deslizante:",
+     "codigo": "Aumento Valor = ___( Aumento[Aumento], 0 )",
+     "opcoes": [
+      "SELECTEDVALUE",
+      "SUM",
+      "VALUES",
+      "ALL"
+     ],
+     "correta": 0,
+     "explica": "SELECTEDVALUE devolve o valor selecionado (ou o padrão, 0)."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Monte a medida de faturamento simulado com o aumento escolhido.",
+     "pecas": [
+      "Faturamento Simulado =",
+      "[Faturamento] *",
+      "( 1 + [Aumento Valor] )"
+     ],
+     "extras": [
+      "SELECTEDVALUE( [Faturamento] )"
+     ],
+     "explica": "Multiplica pelo fator 1 + aumento."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "GENERATESERIES(0, 0.3, 0.01) cria valores de 0% a 30% de 1 em 1 ponto.",
+     "correta": true,
+     "explica": "Início, fim e incremento."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual pergunta de negócio o parâmetro numérico responde bem?",
+     "opcoes": [
+      "E se aumentarmos o preço em 5%, quanto fatura?",
+      "Quem é o maior cliente?",
+      "Qual a venda de ontem?",
+      "Quantos produtos existem?"
+     ],
+     "correta": 0,
+     "explica": "É uma ferramenta de simulação (what-if)."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual função DAX gera a sequência de valores do parâmetro numérico?",
+     "dica": "Nome da função",
+     "respostas": [
+      "GENERATESERIES",
+      "GENERATESERIES()"
+     ],
+     "explica": "GENERATESERIES(início, fim, incremento)."
+    }
+   ]
+  },
+  {
+   "id": "analise-estatistica",
+   "titulo": "Análise no próprio visual",
+   "resumo": "Linhas de referência, tendência, previsão e Top N",
+   "teoria": [
+    "O painel Análise do visual adiciona linha de média, mediana, constante (meta), tendência e previsão, sem criar medidas.",
+    "Filtro Top N mostra só os N maiores por uma medida (ex.: 10 clientes que mais compram). Dispersão revela relação entre duas medidas e outliers."
+   ],
+   "exemplo": "Visual > Análise > Linha média  ·  Filtro: Top 10 por Faturamento",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "explorando-dados"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "Mostrar só os 10 clientes que mais faturam num gráfico de barras. O que usar?",
+     "opcoes": [
+      "Filtro do visual tipo Top N = 10 por Faturamento",
+      "Classificar e apagar o resto",
+      "Uma medida com SUM e IF",
+      "Segmentação de clientes"
+     ],
+     "correta": 0,
+     "explica": "Top N filtra dinamicamente pelo valor da medida."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "A linha de previsão pode ser adicionada a um gráfico de linhas com eixo de data contínuo.",
+     "correta": true,
+     "explica": "Fica no painel Análise."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o objetivo ao recurso do painel Análise.",
+     "pares": [
+      [
+       "Comparar com a meta fixa",
+       "Linha constante"
+      ],
+      [
+       "Ver se está acima do normal",
+       "Linha de média"
+      ],
+      [
+       "Projetar os próximos meses",
+       "Previsão"
+      ],
+      [
+       "Ver a direção geral",
+       "Linha de tendência"
+      ]
+     ],
+     "explica": "O painel Análise resolve muita coisa sem DAX."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você quer ver se clientes que compram mais vezes também gastam mais por pedido. Qual visual?",
+     "opcoes": [
+      "Dispersão (frequência × ticket médio)",
+      "Pizza",
+      "Cartão",
+      "Velocímetro"
+     ],
+     "correta": 0,
+     "explica": "Dispersão mostra relação entre duas medidas."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete: para destacar pontos fora do padrão na dispersão, procure os ___.",
+     "codigo": "Pontos muito distantes do grupo são ___.",
+     "opcoes": [
+      "outliers",
+      "drills",
+      "tooltips",
+      "bookmarks"
+     ],
+     "correta": 0,
+     "explica": "Outliers merecem investigação."
+    }
+   ]
+  },
+  {
    "id": "publicacao",
    "titulo": "Publicar e governar",
    "resumo": "Workspaces, apps, gateway e RLS",
@@ -546,9 +1895,354 @@
      "explica": "Validação, nomenclatura, atualização e permissão evitam retrabalho e erro na frente do cliente."
     }
    ]
+  },
+  {
+   "id": "dashboards",
+   "titulo": "Dashboards e alertas",
+   "resumo": "Fixar visuais, alertas de dados e Q&A",
+   "teoria": [
+    "No serviço, um dashboard é uma tela de uma página com blocos fixados de vários relatórios. Clique no alfinete do visual para fixar.",
+    "Em blocos de cartão, KPI ou medidor dá para criar alertas: o Power BI avisa por e-mail quando o valor passa de um limite. Q&A responde perguntas em linguagem natural sobre o modelo."
+   ],
+   "exemplo": "Fixar visual (alfinete) > Dashboard 'Diretoria' · Bloco > Gerenciar alertas",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "criar-dashboards"
+   },
+   "exercicios": [
+    {
+     "tipo": "vf",
+     "afirmacao": "Dashboard e relatório são a mesma coisa no serviço do Power BI.",
+     "correta": false,
+     "explica": "Dashboard é uma tela de blocos fixados; relatório tem páginas interativas."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "O diretor quer receber e-mail quando o estoque ficar abaixo de 100 unidades. O que configurar?",
+     "opcoes": [
+      "Alerta de dados num bloco de cartão fixado no dashboard",
+      "Assinatura diária do relatório",
+      "Uma segmentação de estoque",
+      "Um indicador"
+     ],
+     "correta": 0,
+     "explica": "Alertas funcionam em blocos de cartão, KPI e medidor."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o recurso ao que ele faz.",
+     "pares": [
+      [
+       "Alfinete",
+       "Fixar o visual num dashboard"
+      ],
+      [
+       "Alerta",
+       "Avisar quando passar de um limite"
+      ],
+      [
+       "Q&A",
+       "Perguntar em linguagem natural"
+      ],
+      [
+       "Assinatura",
+       "Receber o relatório por e-mail"
+      ]
+     ],
+     "explica": "Recursos do serviço complementam o relatório."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Um dashboard pode reunir blocos de:",
+     "opcoes": [
+      "Vários relatórios diferentes",
+      "Apenas um relatório",
+      "Apenas arquivos Excel",
+      "Apenas visuais de mapa"
+     ],
+     "correta": 0,
+     "explica": "Essa é a vantagem do dashboard: visão consolidada."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Como se chama o recurso de perguntar 'faturamento por região em 2026' e receber um visual?",
+     "dica": "Nome do recurso",
+     "respostas": [
+      "Q&A",
+      "QA",
+      "Q and A",
+      "perguntas e respostas"
+     ],
+     "explica": "Q&A usa linguagem natural sobre o modelo."
+    }
+   ]
+  },
+  {
+   "id": "atualizacao",
+   "titulo": "Atualização e manutenção",
+   "resumo": "Agendamento, credenciais, gateway e incremental",
+   "teoria": [
+    "No serviço, em Configurações do modelo semântico, defina credenciais da fonte e a atualização agendada (até 8×/dia no Pro). Fontes locais precisam de gateway online.",
+    "Atualização incremental recarrega só o período recente (ex.: últimos 10 dias) e mantém o histórico: essencial para tabelas grandes. Acompanhe o histórico de atualização e configure e-mail de falha."
+   ],
+   "exemplo": "Modelo semântico > Configurações > Atualização agendada: 06:00 e 12:00",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "implantar-manter"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "A atualização falhou com 'credenciais inválidas'. Onde corrigir?",
+     "opcoes": [
+      "Configurações do modelo semântico > Credenciais da fonte de dados",
+      "No tema do relatório",
+      "No Power Query Desktop, só",
+      "Na segmentação"
+     ],
+     "correta": 0,
+     "explica": "A credencial usada pelo serviço é configurada no próprio serviço."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "A tabela de vendas tem 50 milhões de linhas e só os últimos dias mudam. Atualização incremental é indicada.",
+     "correta": true,
+     "explica": "Recarrega só a janela recente."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Coloque em ordem a publicação de um relatório com fonte local.",
+     "pecas": [
+      "Publicar o .pbix no workspace",
+      "Mapear a fonte no gateway",
+      "Configurar credenciais",
+      "Agendar a atualização"
+     ],
+     "extras": [
+      "Exportar para PDF"
+     ],
+     "explica": "Sem gateway e credencial, o agendamento falha."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o problema à causa provável.",
+     "pares": [
+      [
+       "Gateway offline",
+       "Fonte local não atualiza"
+      ],
+      [
+       "Senha trocada",
+       "Erro de credencial"
+      ],
+      [
+       "Tabela enorme",
+       "Atualização demorada"
+      ],
+      [
+       "Agendamento desligado",
+       "Dados parados há dias"
+      ]
+     ],
+     "explica": "O histórico de atualização mostra o erro exato."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Quem deve ser avisado quando a atualização falha?",
+     "opcoes": [
+      "O responsável pelo modelo, via notificação de falha por e-mail",
+      "Ninguém, o serviço tenta de novo para sempre",
+      "Todos os leitores",
+      "O suporte da Microsoft"
+     ],
+     "correta": 0,
+     "explica": "Configure a notificação de falha nas configurações."
+    }
+   ]
+  },
+  {
+   "id": "rls",
+   "titulo": "Segurança em nível de linha",
+   "resumo": "Cada pessoa vê só o que pode",
+   "teoria": [
+    "RLS estática: função 'Sul' com o filtro [Regiao] = \"Sul\". RLS dinâmica: uma tabela de usuários (e-mail, região) e o filtro [Email] = USERPRINCIPALNAME() — uma função atende todo mundo.",
+    "Teste com 'Exibir como função' no Desktop e atribua os membros no serviço (Segurança do modelo semântico). Quem é Admin/Membro/Colaborador do workspace NÃO é filtrado pela RLS."
+   ],
+   "exemplo": "Usuarios[Email] = USERPRINCIPALNAME()",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "implantar-manter"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o filtro da RLS dinâmica:",
+     "codigo": "Usuarios[Email] = ___",
+     "opcoes": [
+      "USERPRINCIPALNAME()",
+      "TODAY()",
+      "SELECTEDVALUE()",
+      "ALL()"
+     ],
+     "correta": 0,
+     "explica": "USERPRINCIPALNAME devolve o e-mail de quem está logado."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "A RLS filtra também quem é Membro do workspace.",
+     "correta": false,
+     "explica": "Admin, Membro e Colaborador veem tudo; RLS vale para Visualizadores e quem acessa por App/compartilhamento."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como testar a RLS antes de publicar?",
+     "opcoes": [
+      "Modelagem > Exibir como função, no Desktop",
+      "Publicar e pedir para cada gerente conferir",
+      "Criar uma página por região",
+      "Ocultar a coluna Região"
+     ],
+     "correta": 0,
+     "explica": "Exibir como função simula o filtro."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Há 40 gerentes, cada um com sua região. Qual abordagem escala melhor?",
+     "opcoes": [
+      "RLS dinâmica com tabela de usuários e USERPRINCIPALNAME",
+      "40 funções estáticas",
+      "40 relatórios",
+      "Filtro de página que o gerente escolhe"
+     ],
+     "correta": 0,
+     "explica": "Uma função dinâmica atende todos; manutenção é só na tabela."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o termo à definição.",
+     "pares": [
+      [
+       "Função",
+       "Conjunto de regras de filtro"
+      ],
+      [
+       "Membro da função",
+       "Usuário atribuído no serviço"
+      ],
+      [
+       "RLS estática",
+       "Valor fixo no filtro"
+      ],
+      [
+       "RLS dinâmica",
+       "Filtro pelo usuário logado"
+      ]
+     ],
+     "explica": "Defina no Desktop, atribua no serviço."
+    }
+   ]
+  },
+  {
+   "id": "checklist-publicacao",
+   "titulo": "Checklist de publicação",
+   "resumo": "Entregar como profissional",
+   "teoria": [
+    "Antes de entregar: números conferidos com a fonte, nomes e formatos revisados, páginas e visuais com títulos claros, filtros padrão limpos, atualização agendada testada, RLS testada, acessos certos e documentação curta (o que é cada medida).",
+    "Depois de publicar: acompanhe uso (relatório de uso do workspace), falhas de atualização e pedidos de melhoria."
+   ],
+   "exemplo": "✔ Números conferidos ✔ Atualização ✔ RLS ✔ Acesso ✔ Documentação",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "checklist-publicacao-profissional"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Coloque o fluxo de entrega em ordem.",
+     "pecas": [
+      "Conferir os números com a fonte",
+      "Revisar nomes, formatos e títulos",
+      "Publicar e configurar atualização",
+      "Dar acesso e treinar os usuários"
+     ],
+     "extras": [
+      "Apagar o arquivo .pbix"
+     ],
+     "explica": "Qualidade antes de publicar; acesso e treino depois."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Deixar um filtro esquecido de 'Março' ligado ao salvar pode fazer o usuário achar que os números estão errados.",
+     "correta": true,
+     "explica": "Revise filtros e segmentações antes de publicar."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como saber se o relatório está sendo usado depois da entrega?",
+     "opcoes": [
+      "Relatório de métricas de uso no workspace",
+      "Perguntando uma vez por ano",
+      "Pelo tamanho do arquivo",
+      "Pela cor do tema"
+     ],
+     "correta": 0,
+     "explica": "Métricas de uso mostram acessos por página e usuário."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o item do checklist ao risco que ele evita.",
+     "pares": [
+      [
+       "Conferir com a fonte",
+       "Número errado na reunião"
+      ],
+      [
+       "Testar a RLS",
+       "Gerente vendo outra região"
+      ],
+      [
+       "Agendar atualização",
+       "Dados desatualizados"
+      ],
+      [
+       "Documentar medidas",
+       "Cada um calcular de um jeito"
+      ]
+     ],
+     "explica": "Cada item protege a credibilidade do relatório."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual documento mínimo ajuda quem vai manter o relatório?",
+     "opcoes": [
+      "Lista de medidas com a regra de cada uma e as fontes",
+      "O histórico de cores usadas",
+      "Prints de todas as páginas",
+      "Nenhum, o .pbix basta"
+     ],
+     "correta": 0,
+     "explica": "Documentação curta evita dependência de uma pessoa só."
+    }
+   ]
   }
  ],
  "nivelamento": [
+  {
+   "tipo": "escolha",
+   "pergunta": "O que deve ser definido antes de construir o relatório?",
+   "opcoes": [
+    "Objetivo, público, fontes e indicadores",
+    "As cores e a fonte do texto",
+    "O número de páginas",
+    "Os ícones de cada botão"
+   ],
+   "correta": 0,
+   "no": "checklist-projeto"
+  },
   {
    "tipo": "escolha",
    "pergunta": "No esquema estrela, o que fica no centro?",
@@ -563,6 +2257,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Para análise no Power BI, as dimensões devem ser preferencialmente:",
+   "opcoes": [
+    "Desnormalizadas",
+    "Normalizadas em várias tabelas",
+    "Ligadas em cadeia",
+    "Sem relacionamento"
+   ],
+   "correta": 0,
+   "no": "normalizacao"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "O que é a granularidade de uma tabela?",
    "opcoes": [
     "O nível de detalhe que cada linha representa",
@@ -572,6 +2278,24 @@
    ],
    "correta": 0,
    "no": "relacionamentos"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Somar um valor do cabeçalho do pedido numa tabela de itens pode duplicar o total.",
+   "correta": true,
+   "no": "granularidade"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função DAX gera uma tabela com uma linha por dia entre duas datas?",
+   "opcoes": [
+    "CALENDAR",
+    "DATEDIFF",
+    "TODAY",
+    "EOMONTH"
+   ],
+   "correta": 0,
+   "no": "calendario"
   },
   {
    "tipo": "escolha",
@@ -587,6 +2311,18 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "O que fazer quando o total do relatório não bate com a fonte?",
+   "opcoes": [
+    "Investigar a causa antes de publicar",
+    "Publicar e corrigir depois",
+    "Ajustar a medida com um valor fixo",
+    "Esconder o total"
+   ],
+   "correta": 0,
+   "no": "checklist-qualidade"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Qual modo de armazenamento costuma ser o mais rápido nos visuais?",
    "opcoes": [
     "Import",
@@ -596,6 +2332,12 @@
    ],
    "correta": 0,
    "no": "desempenho"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Chaves de relacionamento devem ficar ocultas para quem cria relatórios.",
+   "correta": true,
+   "no": "modelo-profissional"
   },
   {
    "tipo": "escolha",
@@ -611,6 +2353,54 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Em que ordem as pessoas costumam ler uma página de relatório?",
+   "opcoes": [
+    "Em Z, começando no canto superior esquerdo",
+    "De baixo para cima",
+    "Do centro para fora",
+    "Da direita para a esquerda"
+   ],
+   "correta": 0,
+   "no": "storytelling"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual tipo de formatação condicional usa uma medida que devolve o código da cor?",
+   "opcoes": [
+    "Valor do campo",
+    "Escala de cores",
+    "Ícones",
+    "Barras de dados"
+   ],
+   "correta": 0,
+   "no": "formatacao-visual"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual recurso repete o mesmo gráfico para cada categoria?",
+   "opcoes": [
+    "Small multiples",
+    "Drill through",
+    "Indicador",
+    "Dica de ferramenta"
+   ],
+   "correta": 0,
+   "no": "small-multiples"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Um tema JSON aplica as mesmas cores e fontes em todo o relatório.",
+   "correta": true,
+   "no": "temas-acessibilidade"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "O layout móvel é configurado no próprio relatório, em Exibir > Layout móvel.",
+   "correta": true,
+   "no": "layout-mobile"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "Qual recurso faz uma segmentação filtrar várias páginas?",
    "opcoes": [
     "Sincronizar segmentações",
@@ -623,6 +2413,72 @@
   },
   {
    "tipo": "escolha",
+   "pergunta": "Qual recurso define se um visual filtra, realça ou ignora os outros?",
+   "opcoes": [
+    "Editar interações",
+    "Indicadores",
+    "Temas",
+    "Drill through"
+   ],
+   "correta": 0,
+   "no": "segmentacoes"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Drill through leva o usuário para outra página já filtrada pelo item clicado.",
+   "correta": true,
+   "no": "drill-tooltip"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "O que um indicador (bookmark) guarda?",
+   "opcoes": [
+    "O estado da página: filtros, visuais visíveis e página",
+    "Uma cópia do arquivo .pbix",
+    "A senha da fonte de dados",
+    "O histórico de atualização"
+   ],
+   "correta": 0,
+   "no": "indicadores"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual recurso deixa o usuário trocar a medida exibida num gráfico?",
+   "opcoes": [
+    "Parâmetro de campo",
+    "Indicador",
+    "Drill through",
+    "Tema"
+   ],
+   "correta": 0,
+   "no": "parametros-campo"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual função lê o valor escolhido num parâmetro numérico?",
+   "opcoes": [
+    "SELECTEDVALUE",
+    "COUNTROWS",
+    "RELATED",
+    "FILTER"
+   ],
+   "correta": 0,
+   "no": "parametro-numerico"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual recurso mostra só os N maiores itens por uma medida?",
+   "opcoes": [
+    "Filtro Top N",
+    "Linha constante",
+    "Drill through",
+    "Indicador"
+   ],
+   "correta": 0,
+   "no": "analise-estatistica"
+  },
+  {
+   "tipo": "escolha",
    "pergunta": "O que permite que um relatório publicado atualize dados de um servidor local?",
    "opcoes": [
     "Gateway de dados",
@@ -632,6 +2488,43 @@
    ],
    "correta": 0,
    "no": "publicacao"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Em qual tipo de bloco é possível configurar alerta de dados?",
+   "opcoes": [
+    "Cartão, KPI ou medidor",
+    "Tabela",
+    "Mapa",
+    "Imagem"
+   ],
+   "correta": 0,
+   "no": "dashboards"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Fontes de dados locais precisam de um gateway para atualizar no serviço.",
+   "correta": true,
+   "no": "atualizacao"
+  },
+  {
+   "tipo": "lacuna",
+   "pergunta": "Complete a função usada na RLS dinâmica:",
+   "codigo": "[Email] = ___",
+   "opcoes": [
+    "USERPRINCIPALNAME()",
+    "NOW()",
+    "USERNAME2()",
+    "EMAIL()"
+   ],
+   "correta": 0,
+   "no": "rls"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Conferir os números com a fonte é um passo do checklist de publicação.",
+   "correta": true,
+   "no": "checklist-publicacao"
   }
  ]
 }

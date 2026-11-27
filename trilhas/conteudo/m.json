@@ -90,6 +90,88 @@
    ]
   },
   {
+   "id": "listas-registros",
+   "titulo": "Listas, registros e each",
+   "resumo": "{ }, [ ] e a função each _",
+   "teoria": [
+    "Na M, { } é lista (ex.: {1, 2, 3} ou {\"SP\", \"RJ\"}), [ ] é registro (ex.: [Nome = \"Ana\", Idade = 30]) e tabela é um conjunto de registros. Uma coluna de uma linha é acessada como [Valor].",
+    "each é atalho para uma função de uma linha: each [Valor] > 1000 é o mesmo que (_) => _[Valor] > 1000. List.Sum, List.Max e List.Distinct trabalham sobre listas."
+   ],
+   "exemplo": "Table.SelectRows( Fonte, each [Valor] > 1000 )\nList.Sum( Fonte[Valor] )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "intro-power-query"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a sintaxe ao tipo de valor da M.",
+     "pares": [
+      [
+       "{1, 2, 3}",
+       "Lista"
+      ],
+      [
+       "[Nome = \"Ana\"]",
+       "Registro"
+      ],
+      [
+       "Fonte[Valor]",
+       "Coluna como lista"
+      ],
+      [
+       "each [Valor] * 2",
+       "Função de uma linha"
+      ]
+     ],
+     "explica": "Lista, registro e tabela são os blocos da linguagem M."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para somar a coluna Valor da tabela Fonte:",
+     "codigo": "Total = ___( Fonte[Valor] )",
+     "opcoes": [
+      "List.Sum",
+      "Table.Sum",
+      "SUM",
+      "Sum.List"
+     ],
+     "correta": 0,
+     "explica": "Fonte[Valor] devolve a coluna como lista; List.Sum soma."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "each [Valor] > 1000 é um atalho para (_) => _[Valor] > 1000.",
+     "correta": true,
+     "explica": "each cria uma função de um parâmetro chamado _."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Filtre as linhas com valor acima de 1000.",
+     "pecas": [
+      "= Table.SelectRows( Fonte,",
+      "each [Valor] > 1000 )"
+     ],
+     "extras": [
+      "WHERE [Valor] > 1000"
+     ],
+     "explica": "Table.SelectRows recebe a tabela e a condição por linha."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Que símbolo delimita uma LISTA na linguagem M?",
+     "dica": "Os dois símbolos",
+     "respostas": [
+      "{ }",
+      "{}",
+      "chaves"
+     ],
+     "explica": "Chaves: {1, 2, 3}."
+    }
+   ]
+  },
+  {
    "id": "tipos-fontes",
    "titulo": "Tipos e fontes",
    "resumo": "Tipos de dados e consulta de pasta",
@@ -164,6 +246,81 @@
      ],
      "correta": 0,
      "explica": "O conector Pasta do SharePoint lista e combina os arquivos do site."
+    }
+   ]
+  },
+  {
+   "id": "importar",
+   "titulo": "Importar do Excel",
+   "resumo": "Tabela, intervalo, cabeçalhos e navegação",
+   "teoria": [
+    "Ao conectar um Excel, prefira Tabelas do Excel (nomeadas) a intervalos soltos: elas crescem sem quebrar a consulta. O Navegador mostra planilhas e tabelas.",
+    "Etapas comuns na sequência: Promover cabeçalhos (Table.PromoteHeaders), remover linhas do topo, alterar tipos. Cuidado: 'Usar a primeira linha como cabeçalho' duas vezes come uma linha de dados."
+   ],
+   "exemplo": "Fonte = Excel.Workbook( File.Contents(\"C:\\\\Dados\\\\vendas.xlsx\"), true )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "importar-excel"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "A planilha de origem ganha linhas todo mês. Qual objeto do Excel conectar?",
+     "opcoes": [
+      "Uma Tabela do Excel nomeada (tbVendas)",
+      "O intervalo fixo A1:F500",
+      "Uma imagem da planilha",
+      "O gráfico da planilha"
+     ],
+     "correta": 0,
+     "explica": "Tabela cresce sozinha; intervalo fixo corta as linhas novas."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a etapa que transforma a primeira linha em cabeçalho:",
+     "codigo": "= Table.___( Fonte, [PromoteAllScalars = true] )",
+     "opcoes": [
+      "PromoteHeaders",
+      "FirstRow",
+      "Headers",
+      "UseHeader"
+     ],
+     "correta": 0,
+     "explica": "Table.PromoteHeaders."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "O relatório vem com 3 linhas de título antes do cabeçalho. 'Remover linhas superiores (3)' resolve antes de promover cabeçalhos.",
+     "correta": true,
+     "explica": "Remova o lixo do topo e depois promova."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Ordene as etapas de importação de um Excel com título no topo.",
+     "pecas": [
+      "Fonte (Excel.Workbook)",
+      "Navegar até a planilha",
+      "Remover as linhas superiores",
+      "Promover cabeçalhos",
+      "Alterar tipos"
+     ],
+     "extras": [
+      "Mesclar consultas"
+     ],
+     "explica": "Ordem típica de uma importação limpa."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual função lê o conteúdo do arquivo Excel?",
+     "opcoes": [
+      "Excel.Workbook( File.Contents(...) )",
+      "Excel.Open(...)",
+      "Csv.Document(...)",
+      "Web.Contents(...)"
+     ],
+     "correta": 0,
+     "explica": "File.Contents lê os bytes e Excel.Workbook interpreta."
     }
    ]
   },
@@ -243,6 +400,90 @@
      ],
      "correta": 0,
      "explica": "A lista de ordenação tem pares {coluna, ordem}, por isso as chaves duplas."
+    }
+   ]
+  },
+  {
+   "id": "preencher",
+   "titulo": "Preencher e substituir",
+   "resumo": "Preencher para baixo, substituir valores e limpar linhas",
+   "teoria": [
+    "Relatórios exportados costumam ter o vendedor só na primeira linha do grupo. Preencher > Para baixo (Table.FillDown) repete o valor nas linhas vazias de baixo.",
+    "Substituir valores (Table.ReplaceValue) troca textos como 'N/D' por null. Remover linhas > Remover linhas em branco limpa o resto."
+   ],
+   "exemplo": "Table.FillDown( Fonte, {\"Vendedor\"} )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "preenchimento-colunas"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O vendedor aparece só na primeira linha de cada bloco e o resto está vazio. O que fazer?",
+     "opcoes": [
+      "Preencher > Para baixo na coluna Vendedor",
+      "Remover linhas em branco",
+      "Agrupar por vendedor",
+      "Dividir coluna"
+     ],
+     "correta": 0,
+     "explica": "Fill down repete o último valor não vazio."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a etapa:",
+     "codigo": "= Table.___( Fonte, {\"Vendedor\"} )",
+     "opcoes": [
+      "FillDown",
+      "FillUp",
+      "ReplaceValue",
+      "Fill"
+     ],
+     "correta": 0,
+     "explica": "FillDown preenche de cima para baixo."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Preencher para baixo funciona com células vazias (null), mas não com texto vazio \"\".",
+     "correta": true,
+     "explica": "Converta \"\" em null antes, com Substituir valores."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Troque 'N/D' por null na coluna Valor.",
+     "pecas": [
+      "= Table.ReplaceValue( Fonte,",
+      "\"N/D\", null,",
+      "Replacer.ReplaceValue, {\"Valor\"} )"
+     ],
+     "extras": [
+      "Text.Replace(\"N/D\")"
+     ],
+     "explica": "Table.ReplaceValue(tabela, antigo, novo, substituidor, colunas)."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o problema à transformação.",
+     "pares": [
+      [
+       "Grupo só na 1ª linha",
+       "Preencher para baixo"
+      ],
+      [
+       "'N/D' no meio dos números",
+       "Substituir valores"
+      ],
+      [
+       "Linhas totalmente vazias",
+       "Remover linhas em branco"
+      ],
+      [
+       "Título acima do cabeçalho",
+       "Remover linhas superiores"
+      ]
+     ],
+     "explica": "Cada sujeira tem sua ferramenta."
     }
    ]
   },
@@ -406,6 +647,89 @@
    ]
   },
   {
+   "id": "dividir-linhas",
+   "titulo": "Dividir em linhas e coluna de exemplo",
+   "resumo": "Uma célula com vários itens vira várias linhas",
+   "teoria": [
+    "Quando a célula tem 'Excel; Power BI; Python', Dividir coluna por delimitador > Avançado > Dividir em Linhas cria uma linha por item, mantendo as outras colunas.",
+    "Coluna de Exemplo: você digita o resultado em uma ou duas linhas e o Power Query deduz a fórmula (ex.: extrair o domínio do e-mail). Confira a fórmula gerada."
+   ],
+   "exemplo": "Dividir coluna > Por delimitador \";\" > Avançado: Linhas",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "dividir-linhas"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna Cursos tem 'Excel; Python' na mesma célula e você precisa de uma linha por curso. O que usar?",
+     "opcoes": [
+      "Dividir coluna por delimitador, opção dividir em Linhas",
+      "Dividir em Colunas",
+      "Mesclar colunas",
+      "Agrupar por"
+     ],
+     "correta": 0,
+     "explica": "Em linhas, cada item ganha sua própria linha."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "A Coluna de Exemplo escreve a fórmula M a partir dos exemplos que você digita.",
+     "correta": true,
+     "explica": "Confira a fórmula no topo antes de aceitar."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Mesclar Colunas Nome e Sobrenome com espaço gera qual resultado?",
+     "opcoes": [
+      "'Ana Souza' numa coluna nova",
+      "Duas colunas novas",
+      "Uma linha para cada nome",
+      "Erro de tipo"
+     ],
+     "correta": 0,
+     "explica": "Mesclar junta colunas com o separador escolhido."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o resultado à transformação.",
+     "pares": [
+      [
+       "Uma linha por item da célula",
+       "Dividir em linhas"
+      ],
+      [
+       "Uma coluna por parte",
+       "Dividir em colunas"
+      ],
+      [
+       "Juntar Nome e Sobrenome",
+       "Mesclar colunas"
+      ],
+      [
+       "Fórmula deduzida de exemplos",
+       "Coluna de exemplo"
+      ]
+     ],
+     "explica": "Escolha pelo formato que você precisa."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete: para separar 'SP;RJ;MG' em linhas, o delimitador é ___.",
+     "codigo": "Splitter.SplitTextByDelimiter( \"___\" )",
+     "opcoes": [
+      ";",
+      ",",
+      "-",
+      "|"
+     ],
+     "correta": 0,
+     "explica": "O delimitador é o caractere que separa os itens."
+    }
+   ]
+  },
+  {
    "id": "if",
    "titulo": "if then else",
    "resumo": "Condições nas colunas",
@@ -483,6 +807,90 @@
      ],
      "correta": 0,
      "explica": "try tenta a conta; se der erro, usa o valor do otherwise."
+    }
+   ]
+  },
+  {
+   "id": "if-and",
+   "titulo": "Condições compostas",
+   "resumo": "and, or, else if e tratamento de null",
+   "teoria": [
+    "Combine condições com and e or (em minúsculas na M): if [Valor] > 1000 and [Região] = \"Sul\" then \"Sul grande\" else \"Outros\". Faixas usam else if encadeado.",
+    "Cuidado com null: null > 1000 dá null e o if cai no else. Teste antes com [Valor] = null ou use ?? (coalesce): ([Valor] ?? 0)."
+   ],
+   "exemplo": "if [Valor] >= 5000 then \"A\" else if [Valor] >= 1000 then \"B\" else \"C\"",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "formula-if-and"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Classifique em A (>= 5000), B (>= 1000) ou C.",
+     "pecas": [
+      "each if [Valor] >= 5000 then \"A\"",
+      "else if [Valor] >= 1000 then \"B\"",
+      "else \"C\""
+     ],
+     "extras": [
+      "ELSEIF \"B\""
+     ],
+     "explica": "A M usa else if encadeado; não existe ELSEIF."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a condição composta:",
+     "codigo": "if [Valor] > 1000 ___ [Região] = \"Sul\" then \"Sim\" else \"Não\"",
+     "opcoes": [
+      "and",
+      "&&",
+      "AND",
+      "+"
+     ],
+     "correta": 0,
+     "explica": "Operadores lógicos da M são em minúsculas: and, or, not."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Na M, if [Valor] > 1000 then ... funciona sem o else.",
+     "correta": false,
+     "explica": "O else é obrigatório na M."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Como tratar Valor vazio como zero dentro da expressão?",
+     "opcoes": [
+      "( [Valor] ?? 0 )",
+      "IFNULL( [Valor], 0 )",
+      "[Valor] || 0",
+      "ISBLANK( [Valor] )"
+     ],
+     "correta": 0,
+     "explica": "?? devolve o valor da direita quando o da esquerda é null."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o operador da M ao significado.",
+     "pares": [
+      [
+       "and",
+       "E"
+      ],
+      [
+       "or",
+       "OU"
+      ],
+      [
+       "not",
+       "NÃO"
+      ],
+      [
+       "??",
+       "Se null, use outro valor"
+      ]
+     ],
+     "explica": "Tudo em minúsculas, diferente do DAX."
     }
    ]
   },
@@ -645,6 +1053,89 @@
    ]
   },
   {
+   "id": "acrescentar",
+   "titulo": "Acrescentar consultas",
+   "resumo": "Empilhar tabelas com o mesmo layout",
+   "teoria": [
+    "Acrescentar (Table.Combine) empilha tabelas: Vendas 2025 + Vendas 2026 viram uma só. As colunas são casadas pelo NOME; coluna que só existe em uma fica null na outra.",
+    "Mesclar junta lado a lado (como PROCV); acrescentar empilha uma embaixo da outra. Para muitos arquivos iguais, prefira a consulta de Pasta."
+   ],
+   "exemplo": "= Table.Combine( { Vendas2025, Vendas2026 } )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "acrescentar-consultas-1"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para empilhar as duas tabelas:",
+     "codigo": "= Table.___( { Vendas2025, Vendas2026 } )",
+     "opcoes": [
+      "Combine",
+      "Join",
+      "Merge",
+      "Append"
+     ],
+     "correta": 0,
+     "explica": "Table.Combine recebe uma lista de tabelas."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a operação ao resultado.",
+     "pares": [
+      [
+       "Acrescentar",
+       "Uma tabela embaixo da outra"
+      ],
+      [
+       "Mesclar",
+       "Colunas de outra tabela ao lado"
+      ],
+      [
+       "Consulta de pasta",
+       "Todos os arquivos de um diretório"
+      ],
+      [
+       "Agrupar por",
+       "Totais por categoria"
+      ]
+     ],
+     "explica": "Acrescentar empilha; mesclar junta lado a lado."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Ao acrescentar, as colunas são casadas pela posição, não pelo nome.",
+     "correta": false,
+     "explica": "São casadas pelo nome; renomeie para padronizar antes."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Na tabela de 2026 a coluna se chama 'Valor Total' e na de 2025 'Valor'. O que acontece ao acrescentar?",
+     "opcoes": [
+      "Surgem duas colunas, cada uma com null na metade das linhas",
+      "O Power Query junta automaticamente",
+      "Dá erro e para",
+      "A coluna de 2026 é descartada"
+     ],
+     "correta": 0,
+     "explica": "Padronize os nomes antes de acrescentar."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Você recebe 24 arquivos mensais iguais numa pasta. O que é mais prático?",
+     "opcoes": [
+      "Consulta de Pasta (combinar arquivos)",
+      "Acrescentar 24 consultas manualmente",
+      "Copiar e colar no Excel",
+      "Mesclar as 24"
+     ],
+     "correta": 0,
+     "explica": "A Pasta combina todos e pega os novos ao atualizar."
+    }
+   ]
+  },
+  {
    "id": "mesclar",
    "titulo": "Mesclar e acrescentar",
    "resumo": "O PROCV do Power Query",
@@ -724,6 +1215,337 @@
      "explica": "Inner = só o que existe nas duas. LeftAnti traz o contrário: as vendas sem produto."
     }
    ]
+  },
+  {
+   "id": "tipos-juncao",
+   "titulo": "Tipos de junção",
+   "resumo": "Externa esquerda, interna, anti e expandir",
+   "teoria": [
+    "Mesclar = PROCV turbinado. Tipo de junção: Externa esquerda (todas as linhas da primeira, com o que achar na segunda), Interna (só o que casa nas duas), Anti esquerda (só o que NÃO tem par: ótimo para achar órfãos).",
+    "Depois de mesclar, a coluna nova é uma tabela: Expandir escolhe as colunas que você quer trazer. Desmarque 'Usar nome da coluna original como prefixo' para nomes limpos."
+   ],
+   "exemplo": "Table.NestedJoin( Vendas, {\"Cod\"}, Produtos, {\"Cod\"}, \"Prod\", JoinKind.LeftOuter )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "mesclar-consultas"
+   },
+   "exercicios": [
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o tipo de junção ao resultado.",
+     "pares": [
+      [
+       "Externa esquerda",
+       "Todas da primeira + o que casar"
+      ],
+      [
+       "Interna",
+       "Só as que casam nas duas"
+      ],
+      [
+       "Anti esquerda",
+       "Só as da primeira sem par"
+      ],
+      [
+       "Externa completa",
+       "Todas das duas tabelas"
+      ]
+     ],
+     "explica": "O tipo de junção define quais linhas sobram."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Quais vendas têm código de produto que NÃO existe no cadastro?",
+     "opcoes": [
+      "Mesclar Vendas com Produtos usando Anti esquerda",
+      "Junção interna",
+      "Acrescentar as tabelas",
+      "Agrupar por código"
+     ],
+     "correta": 0,
+     "explica": "Anti esquerda devolve só as linhas sem correspondência."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete o tipo de junção que mantém todas as vendas:",
+     "codigo": "Table.NestedJoin( Vendas, {\"Cod\"}, Produtos, {\"Cod\"}, \"Prod\", JoinKind.___ )",
+     "opcoes": [
+      "LeftOuter",
+      "Inner",
+      "LeftAnti",
+      "FullOuter"
+     ],
+     "correta": 0,
+     "explica": "LeftOuter = externa esquerda."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Depois de mesclar, é preciso expandir a coluna nova para trazer os campos da segunda tabela.",
+     "correta": true,
+     "explica": "A coluna mesclada contém uma tabela aninhada."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Mesclar pelo código, mas a contagem de linhas de Vendas aumentou. Por quê?",
+     "opcoes": [
+      "O código está duplicado em Produtos",
+      "Faltou expandir",
+      "Junção anti",
+      "Tipo de dado texto"
+     ],
+     "correta": 0,
+     "explica": "Chave repetida na segunda tabela multiplica linhas."
+    }
+   ]
+  },
+  {
+   "id": "erros-m",
+   "titulo": "Erros na M",
+   "resumo": "try ... otherwise, substituir e remover erros",
+   "teoria": [
+    "Erro de célula (ex.: texto convertido em número) não derruba a consulta, mas falha ao carregar ou vira vazio. Veja com Qualidade da coluna e Manter erros para investigar.",
+    "try expressão otherwise valor devolve um valor alternativo quando dá erro: try Number.From([Valor]) otherwise null. Substituir erros e Remover erros fazem o mesmo pela interface."
+   ],
+   "exemplo": "each try Number.From( [Valor] ) otherwise null",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "boas-praticas-power-query"
+   },
+   "exercicios": [
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete para devolver null quando a conversão falhar:",
+     "codigo": "each try Number.From( [Valor] ) ___ null",
+     "opcoes": [
+      "otherwise",
+      "else",
+      "catch",
+      "or"
+     ],
+     "correta": 0,
+     "explica": "try ... otherwise é o tratamento de erro da M."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Remover erros sem investigar pode esconder linhas importantes (ex.: vendas com valor digitado errado).",
+     "correta": true,
+     "explica": "Use Manter erros para ver quais são antes de decidir."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a ação ao efeito.",
+     "pares": [
+      [
+       "Manter erros",
+       "Ver só as linhas com erro"
+      ],
+      [
+       "Remover erros",
+       "Excluir as linhas com erro"
+      ],
+      [
+       "Substituir erros",
+       "Trocar o erro por um valor"
+      ],
+      [
+       "try ... otherwise",
+       "Tratar o erro na fórmula"
+      ]
+     ],
+     "explica": "Investigue antes, trate depois."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "A coluna Valor tem 'R$ 1.200,50' como texto. Qual o melhor caminho?",
+     "opcoes": [
+      "Remover 'R$ ' e o ponto, trocar a vírgula e então mudar o tipo com a localidade certa",
+      "Mudar o tipo direto e remover os erros",
+      "Deixar como texto",
+      "Dividir a coluna por vírgula"
+     ],
+     "correta": 0,
+     "explica": "Ou use Alterar tipo > Usando localidade (Português Brasil)."
+    },
+    {
+     "tipo": "digitar",
+     "pergunta": "Qual palavra da M completa 'try ... ___ valor' para tratar o erro?",
+     "dica": "Uma palavra em inglês",
+     "respostas": [
+      "otherwise"
+     ],
+     "explica": "try Number.From([x]) otherwise 0."
+    }
+   ]
+  },
+  {
+   "id": "parametros-funcoes",
+   "titulo": "Parâmetros e funções personalizadas",
+   "resumo": "Mudar a fonte sem editar o código",
+   "teoria": [
+    "Parâmetros (Gerenciar parâmetros) guardam valores como caminho da pasta, servidor ou data inicial. Troque o parâmetro e todas as consultas que o usam se ajustam: ideal para mudar de ambiente.",
+    "Função personalizada: (Arquivo as binary) => ... ou (valor as number) => valor * 1.1. A consulta de Pasta usa uma função gerada para tratar cada arquivo igual."
+   ],
+   "exemplo": "fxImposto = (valor as number) as number => valor * 1.1\n= Table.AddColumn( Fonte, \"ComImposto\", each fxImposto( [Valor] ) )",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "consulta-pasta"
+   },
+   "exercicios": [
+    {
+     "tipo": "escolha",
+     "pergunta": "O caminho da pasta muda do seu computador para o servidor da empresa. Como evitar editar 10 consultas?",
+     "opcoes": [
+      "Criar um parâmetro CaminhoPasta e usar nas consultas",
+      "Editar o código de cada consulta",
+      "Copiar os arquivos para o C:",
+      "Duplicar o relatório"
+     ],
+     "correta": 0,
+     "explica": "Um parâmetro centraliza o valor."
+    },
+    {
+     "tipo": "lacuna",
+     "pergunta": "Complete a função personalizada:",
+     "codigo": "fxImposto = (valor as number) ___ valor * 1.1",
+     "opcoes": [
+      "=>",
+      "->",
+      "=",
+      "then"
+     ],
+     "correta": 0,
+     "explica": "A seta => separa parâmetros do corpo da função."
+    },
+    {
+     "tipo": "ordenar",
+     "cenario": "Use a função para criar a coluna com imposto.",
+     "pecas": [
+      "= Table.AddColumn( Fonte, \"ComImposto\",",
+      "each fxImposto( [Valor] ) )"
+     ],
+     "extras": [
+      "each [Valor] => fxImposto"
+     ],
+     "explica": "Chame a função dentro do each, passando a coluna."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "A consulta de Pasta cria uma função que aplica as mesmas etapas em cada arquivo.",
+     "correta": true,
+     "explica": "A consulta 'Transformar arquivo de exemplo' vira a função."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue o recurso ao uso.",
+     "pares": [
+      [
+       "Parâmetro",
+       "Valor reutilizado (caminho, servidor)"
+      ],
+      [
+       "Função personalizada",
+       "Lógica com entradas"
+      ],
+      [
+       "Invocar função",
+       "Aplicar a função numa coluna"
+      ],
+      [
+       "Arquivo de exemplo",
+       "Modelo de transformação da Pasta"
+      ]
+     ],
+     "explica": "Reaproveitamento na M."
+    }
+   ]
+  },
+  {
+   "id": "boas-praticas-m",
+   "titulo": "Boas práticas no Power Query",
+   "resumo": "Etapas limpas, rápidas e fáceis de manter",
+   "teoria": [
+    "Nomeie as etapas (FiltrouAnoAtual, não 'Linhas Filtradas1'), remova colunas e filtre linhas cedo, defina tipos uma vez, e prefira etapas que dobram na fonte (filtrar e remover colunas em bancos SQL).",
+    "Referência cria uma consulta que depende da outra (muda junto); Duplicar copia as etapas (fica independente). Desabilite o carregamento de consultas intermediárias."
+   ],
+   "exemplo": "Fonte → Remover colunas → Filtrar → Tipos → Mesclar → Agrupar",
+   "video": {
+    "curso": "power-bi",
+    "curso_nome": "Power BI",
+    "licao": "boas-praticas-power-query"
+   },
+   "exercicios": [
+    {
+     "tipo": "ordenar",
+     "cenario": "Ordene as etapas para a consulta ficar mais rápida.",
+     "pecas": [
+      "Fonte",
+      "Remover colunas desnecessárias",
+      "Filtrar as linhas",
+      "Alterar tipos",
+      "Mesclar com Produtos"
+     ],
+     "extras": [
+      "Carregar tudo e filtrar no relatório"
+     ],
+     "explica": "Menos dados cedo = menos trabalho em todas as etapas seguintes."
+    },
+    {
+     "tipo": "pares",
+     "pergunta": "Ligue a opção ao comportamento.",
+     "pares": [
+      [
+       "Referência",
+       "Nova consulta que depende da original"
+      ],
+      [
+       "Duplicar",
+       "Cópia independente das etapas"
+      ],
+      [
+       "Desabilitar carga",
+       "Consulta usada só como intermediária"
+      ],
+      [
+       "Renomear etapa",
+       "Código fácil de entender"
+      ]
+     ],
+     "explica": "Escolha certa evita retrabalho."
+    },
+    {
+     "tipo": "vf",
+     "afirmacao": "Consultas intermediárias (ex.: Produtos usada só para mesclar) precisam ser carregadas no modelo.",
+     "correta": false,
+     "explica": "Desabilite a carga para não pesar o modelo."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Qual nome de etapa ajuda mais quem for manter a consulta?",
+     "opcoes": [
+      "FiltrouApenasPedidosFaturados",
+      "Linhas Filtradas3",
+      "Etapa1",
+      "Personalização Adicionada"
+     ],
+     "correta": 0,
+     "explica": "Nome que diz o que a etapa faz."
+    },
+    {
+     "tipo": "escolha",
+     "pergunta": "Por que filtrar cedo numa fonte SQL ajuda?",
+     "opcoes": [
+      "A etapa pode dobrar e o banco devolve menos linhas",
+      "Deixa o tema mais leve",
+      "Cria relacionamentos",
+      "Não ajuda em nada"
+     ],
+     "correta": 0,
+     "explica": "Com dobra de consultas, o filtro vira WHERE no banco."
+    }
+   ]
   }
  ],
  "nivelamento": [
@@ -740,6 +1562,25 @@
    "correta": 0
   },
   {
+   "tipo": "pares",
+   "pergunta": "Ligue a sintaxe ao tipo.",
+   "pares": [
+    [
+     "{ }",
+     "Lista"
+    ],
+    [
+     "[ ]",
+     "Registro"
+    ],
+    [
+     "each",
+     "Função"
+    ]
+   ],
+   "no": "listas-registros"
+  },
+  {
    "tipo": "escolha",
    "pergunta": "Qual conector junta todos os arquivos de mesmo layout de um diretório?",
    "opcoes": [
@@ -752,6 +1593,18 @@
    "no": "tipos-fontes"
   },
   {
+   "tipo": "escolha",
+   "pergunta": "Qual objeto do Excel é melhor conectar quando a base cresce?",
+   "opcoes": [
+    "Tabela nomeada",
+    "Intervalo fixo",
+    "Gráfico",
+    "Comentário"
+   ],
+   "correta": 0,
+   "no": "importar"
+  },
+  {
    "no": "filtrar",
    "tipo": "escolha",
    "pergunta": "Qual etapa mantém só as vendas acima de 1000?",
@@ -762,6 +1615,18 @@
     "Table.SelectRows(each [Valor] > 1000, Fonte)"
    ],
    "correta": 0
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual transformação repete o valor de cima nas células vazias abaixo?",
+   "opcoes": [
+    "Preencher para baixo",
+    "Dividir coluna",
+    "Agrupar por",
+    "Pivot"
+   ],
+   "correta": 0,
+   "no": "preencher"
   },
   {
    "no": "colunas",
@@ -788,6 +1653,12 @@
    "no": "texto"
   },
   {
+   "tipo": "vf",
+   "afirmacao": "Dividir coluna também pode gerar linhas em vez de colunas.",
+   "correta": true,
+   "no": "dividir-linhas"
+  },
+  {
    "no": "if",
    "tipo": "escolha",
    "pergunta": "Qual expressão está correta em M?",
@@ -798,6 +1669,12 @@
     "each if [Valor] > 1000: \"Grande\" else: \"Normal\""
    ],
    "correta": 0
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Na linguagem M o else é obrigatório no if.",
+   "correta": true,
+   "no": "if-and"
   },
   {
    "no": "agrupar",
@@ -824,6 +1701,18 @@
    "no": "pivot-unpivot"
   },
   {
+   "tipo": "escolha",
+   "pergunta": "Qual operação empilha duas tabelas com o mesmo layout?",
+   "opcoes": [
+    "Acrescentar",
+    "Mesclar",
+    "Pivot",
+    "Dividir coluna"
+   ],
+   "correta": 0,
+   "no": "acrescentar"
+  },
+  {
    "no": "mesclar",
    "tipo": "escolha",
    "pergunta": "Qual função faz o Mesclar consultas?",
@@ -834,6 +1723,49 @@
     "Table.Append"
    ],
    "correta": 0
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual junção mostra só as linhas da primeira tabela sem correspondência na segunda?",
+   "opcoes": [
+    "Anti esquerda",
+    "Interna",
+    "Externa esquerda",
+    "Externa completa"
+   ],
+   "correta": 0,
+   "no": "tipos-juncao"
+  },
+  {
+   "tipo": "lacuna",
+   "pergunta": "Complete:",
+   "codigo": "try Number.From( [Valor] ) ___ 0",
+   "opcoes": [
+    "otherwise",
+    "except",
+    "else",
+    "default"
+   ],
+   "correta": 0,
+   "no": "erros-m"
+  },
+  {
+   "tipo": "escolha",
+   "pergunta": "Qual recurso permite trocar o servidor da fonte em um lugar só?",
+   "opcoes": [
+    "Parâmetro",
+    "Pivot",
+    "Mesclar",
+    "Agrupar por"
+   ],
+   "correta": 0,
+   "no": "parametros-funcoes"
+  },
+  {
+   "tipo": "vf",
+   "afirmacao": "Remover colunas desnecessárias logo no começo deixa a consulta mais rápida.",
+   "correta": true,
+   "no": "boas-praticas-m"
   }
  ],
  "curso": "power-bi"

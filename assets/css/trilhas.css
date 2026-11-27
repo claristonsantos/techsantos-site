@@ -131,6 +131,24 @@
 .tr-fim h1 { margin: .4rem 0; }
 .tr-fim p { color: var(--ink-soft); }
 
+/* tipos de exercício: lacuna, V/F, pares, digitar */
+.tr-lacuna { display: inline-block; min-width: 3ch; padding: 0 .35rem; border-bottom: 2px dashed #E8A33D; color: #E8A33D; }
+.tr-lacuna.cheia { border-bottom-style: solid; color: #FFD58A; }
+.tr-lacuna.certa { color: #7ED956; border-color: #7ED956; }
+.tr-lacuna.errada { color: #FF8A8E; border-color: #FF8A8E; text-decoration: line-through; }
+.tr-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+.tr-peca.sel { border-color: var(--cor); background: color-mix(in srgb, var(--cor) 14%, var(--surface)); }
+.tr-vf { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-top: 1rem; }
+.tr-vf .tr-opcao { text-align: center; font-weight: 700; padding: 1.1rem .6rem; }
+.tr-pares { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.tr-pares > div { display: grid; gap: .5rem; align-content: start; }
+.tr-par { width: 100%; font-family: 'Plex Sans', sans-serif; font-size: .85rem; border-width: 2px 2px 4px; }
+.tr-pares-res { margin: .4rem 0 0; padding-left: 1.1rem; }
+.tr-digitar { width: 100%; padding: .85rem 1rem; border: 2px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: 1rem 'Plex Mono', ui-monospace, monospace; }
+.tr-digitar:focus { outline: none; border-color: var(--cor); }
+.tr-digitar.certa { border-color: var(--green); background: var(--green-soft); }
+.tr-digitar.errada { border-color: #E5484D; }
+
 /* parte do curso completo (depois do limite grátis) */
 .tr-no.premium .tr-no-circ { border-style: dashed; border-color: var(--cor); color: var(--cor); background: var(--surface); font-size: 1.2rem; }
 .tr-no.premium .tr-no-txt em { color: var(--cor); }
